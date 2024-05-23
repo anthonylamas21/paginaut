@@ -1,49 +1,90 @@
-<router-outlet >
-<meta charset="utf-8">
-<div class="container mx-auto">
-  <header class="bg-white shadow">
-    <nav class="bg-green-700 shadow-md">
-      <div class="container mx-auto px-4">
-        <div class="flex items-center justify-between py-4">
-          <div class="flex items-center">
-
-            <a href="https://www.utdelacosta.edu.mx/">
-              <img src="./Bienvenidos\_files/logo-ut.png" alt="Universidad Tecnológica de la Costa" class="h-8">
-            </a>
-          </div>
-          <div class="hidden lg:flex">
-            <ul class="flex space-x-4">
-              <li><a  routerLink="/conocenos" class="text-white hover:text-gray-800">¡CONÓCENOS!<br><span class="text-sm">FILOSOFÍA</span></a></li>
-              <li><a  class="text-white hover:text-gray-800">PLAN<br><span class="text-sm">CARRERAS</span></a></li>
-              <li><a href="https://www.utdelacosta.edu.mx/recorrido\_virtual" class="text-white hover:text-gray-800">RECORRIDO<br><span class="text-sm">¡VIRTUAL!</span></a></li>
-              <li><a href="http://siest.utdelacosta.edu.mx/dexter" class="text-white hover:text-gray-800">SIEST<br><span class="text-sm">EXTERNO</span></a></li>
-              <li><a href="https://www.utdelacosta.edu.mx/index.php/sala" class="text-white hover:text-gray-800">SALA <br><span class="text-sm">DE LECTURA</span></a></li>
-              <li><a href="https://www.utdelacosta.edu.mx/index.php/docentes" class="text-white hover:text-gray-800">NUESTROS<br><span class="text-sm">DOCENTES</span></a></li>
-              <li><a href="https://www.utdelacosta.edu.mx/index.php/oferta/all" class="text-white hover:text-gray-800">BOLSA <br><span class="text-sm">DE TRABAJO</span></a></li>
-              <li><a href="https://www.utdelacosta.edu.mx/transparencia" class="text-white hover:text-gray-800">TRANSPARENCIA <br><span class="text-sm">PORTAL</span></a></li>
-            </ul>
+<router-outlet>
+  <meta charset="utf-8">
+  <div class="container mx-auto">
+    <header class="bg-white shadow">
+      <nav class="navbar">
+        <div class="container mx-auto px-4">
+          <div class="flex items-center justify-between py-4">
+            <div class="flex items-center">
+              <a routerLink="/">
+                <img src="../assets/image/logo-ut.png" alt="Universidad Tecnológica de la Costa" class="img-responsive">
+              </a>
+            </div>
+            <div class="hidden lg:flex">
+              <ul class="flex space-x-4">
+                <li class="text-center">
+                  <a routerLink="/conocenos" class="inline-block text-white hover:text-gray-800">
+                    <span class="font-bold">¡CONÓCENOS!</span><br>
+                    <span class="text-sm">FILOSOFÍA</span>
+                  </a>
+                </li>
+                <li class="text-center">
+                  <a routerLink="" class="inline-block text-white hover:text-gray-800">
+                    <span class="font-bold">PLAN</span><br>
+                    <span class="text-sm">CARRERAS</span>
+                  </a>
+                </li>
+                <li class="text-center">
+                  <a routerLink="" class="inline-block text-white hover:text-gray-800">
+                    <span class="font-bold">RECORRIDO</span><br>
+                    <span class="text-sm">¡VIRTUAL!</span>
+                  </a>
+                </li>
+                <li class="text-center">
+                  <a routerLink="" class="inline-block text-white hover:text-gray-800">
+                    <span class="font-bold">SIEST</span><br>
+                    <span class="text-sm">EXTERNO</span>
+                  </a>
+                </li>
+                <li class="text-center">
+                  <a routerLink="" class="inline-block text-white hover:text-gray-800">
+                    <span class="font-bold">SALA</span><br>
+                    <span class="text-sm">DE LECTURA</span>
+                  </a>
+                </li>
+                <li class="text-center">
+                  <a routerLink="" class="inline-block text-white hover:text-gray-800">
+                    <span class="font-bold">NUESTROS</span><br>
+                    <span class="text-sm">DOCENTES</span>
+                  </a>
+                </li>
+                <li class="text-center">
+                  <a routerLink="/bolsadetrabajo" class="inline-block text-white hover:text-gray-800">
+                    <span class="font-bold">BOLSA</span><br>
+                    <span class="text-sm">DE TRABAJO</span>
+                  </a>
+                </li>
+                <li class="text-center">
+                  <a routerLink="" class="inline-block text-white hover:text-gray-800">
+                    <span class="font-bold">TRANSPARENCIA</span><br>
+                    <span class="text-sm">PORTAL</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="lg:hidden">
+              <button class="navbar-burger flex items-center px-3 py-2 border rounded text-white border-white hover:text-gray-800 hover:border-gray-800">
+                <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <title>Menu</title>
+                  <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="lg:hidden" >
-        <ul class="px-4 py-2">
-          <!-- Aquí puedes agregar los elementos del menú móvil -->
-        </ul>
-      </div>
-    </nav>
-  </header>
-
-  <main class="mt-6">
-    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-      <div class="px-4 py-6 sm:px-0">
-        <h1 class="text-3xl font-bold mb-4">Bienvenido a mi aplicación Angular</h1>
-        <p class="text-lg text-gray-700">Esta es una plantilla básica que utiliza Tailwind CSS para dar estilo a los componentes.</p>
-      </div>
-    </div>
-  </main>
-
-
-</div>
-
-
-<router-outlet />
+        <div class="navbar-menu hidden lg:hidden">
+          <div class="px-2 pt-2 pb-3 space-y-1">
+            <a routerLink="/conocenos" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-gray-800 hover:bg-gray-50">¡CONÓCENOS!</a>
+            <a routerLink="" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-gray-800 hover:bg-gray-50">PLAN</a>
+            <a routerLink="" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-gray-800 hover:bg-gray-50">RECORRIDO</a>
+            <a routerLink="" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-gray-800 hover:bg-gray-50">SIEST</a>
+            <a routerLink="" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-gray-800 hover:bg-gray-50">SALA</a>
+            <a routerLink="" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-gray-800 hover:bg-gray-50">NUESTROS</a>
+            <a routerLink="/bolsadetrabajo" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-gray-800 hover:bg-gray-50">BOLSA</a>
+            <a routerLink="" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-gray-800 hover:bg-gray-50">TRANSPARENCIA</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+  </div>
+  <router-outlet />
