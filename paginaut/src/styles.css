@@ -39,3 +39,7 @@
     display: block;
     padding: 10px 15px;
 }
+
+.logo{
+    align-items: left;
+}
