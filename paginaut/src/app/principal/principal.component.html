@@ -1,49 +1,94 @@
-<meta charset="utf-8">
-<div class="container mx-auto">
-  <header class="bg-white shadow">
-    <nav class="bg-green-700 shadow-md">
-      <div class="container mx-auto px-4">
-        <div class="flex items-center justify-between py-4">
-          <div class="flex items-center">
-            <a href="https://www.utdelacosta.edu.mx/">
-              <img src="./Bienvenidos\_files/logo-ut.png" alt="Universidad Tecnológica de la Costa" class="h-8">
-            </a>
-          </div>
-          <div class="hidden lg:flex">
-            <ul class="flex space-x-4">
-              <li><a  routerLink="/bolsadetrabajo" class="text-white hover:text-gray-800">¡CONÓCENOS!<br><span class="text-sm">FILOSOFÍA</span></a></li>
-              <li><a href="https://www.utdelacosta.edu.mx/index.php/career" class="text-white hover:text-gray-800">PLAN<br><span class="text-sm">CARRERAS</span></a></li>
-              <li><a href="https://www.utdelacosta.edu.mx/recorrido\_virtual" class="text-white hover:text-gray-800">RECORRIDO<br><span class="text-sm">¡VIRTUAL!</span></a></li>
-              <li><a href="http://siest.utdelacosta.edu.mx/dexter" class="text-white hover:text-gray-800">SIEST<br><span class="text-sm">EXTERNO</span></a></li>
-              <li><a href="https://www.utdelacosta.edu.mx/index.php/sala" class="text-white hover:text-gray-800">SALA <br><span class="text-sm">DE LECTURA</span></a></li>
-              <li><a href="https://www.utdelacosta.edu.mx/index.php/docentes" class="text-white hover:text-gray-800">NUESTROS<br><span class="text-sm">DOCENTES</span></a></li>
-              <li><a href="https://www.utdelacosta.edu.mx/index.php/oferta/all" class="text-white hover:text-gray-800">BOLSA <br><span class="text-sm">DE TRABAJO</span></a></li>
-              <li><a href="https://www.utdelacosta.edu.mx/transparencia" class="text-white hover:text-gray-800">TRANSPARENCIA <br><span class="text-sm">PORTAL</span></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="lg:hidden" >
-        <ul class="px-4 py-2">
-          <!-- Aquí puedes agregar los elementos del menú móvil -->
-        </ul>
-      </div>
-    </nav>
-  </header>
-
-  <main class="mt-6">
-    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-      <div class="px-4 py-6 sm:px-0">
-        <h1 class="text-3xl font-bold mb-4">Bienvenido a mi aplicación Angular</h1>
-        <p class="text-lg text-gray-700">Esta es una plantilla básica que utiliza Tailwind CSS para dar estilo a los componentes.</p>
+<!-- Slider -->
+<div data-hs-carousel='{
+  "loadingClasses": "opacity-0",
+  "isAutoPlay": true
+}' class="relative">
+<div class="hs-carousel relative overflow-hidden w-full h-155 bg-white rounded-lg">
+  <div class="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700 opacity-0">
+    <div class="hs-carousel-slide">
+      <div class="flex justify-center h-full bg-gray-100 p-6">
+        <span class="self-center text-4xl text-gray-800 transition duration-700">
+          <img src="../../assets/image/carousel/Carousel4.webp" alt="webp">
+        </span>
       </div>
     </div>
-  </main>
-
-  <footer class="bg-white shadow mt-6">
-    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-      <p class="text-center text-gray-500">&copy; 2023 Mi Aplicación. Todos los derechos reservados.</p>
+    <div class="hs-carousel-slide">
+      <div class="flex justify-center h-full bg-gray-200 p-6">
+        <span class="self-center text-4xl text-gray-800 transition duration-700">
+          <img src="../../assets/image/carousel/Carousel2.webp" alt="Img">
+        </span>
+      </div>
     </div>
-  </footer>
+    <div class="hs-carousel-slide">
+      <div class="flex justify-center h-full bg-gray-300 p-6">
+        <span class="self-center text-4xl text-gray-800 transition duration-700">
+          <img src="../../assets/image/carousel/Carousel3.webp" alt="Img">
+        </span>
+      </div>
+    </div>
+
+    <div class="hs-carousel-slide">
+      <div class="flex justify-center h-full bg-gray-300 p-6">
+        <span class="self-center text-4xl text-gray-800 transition duration-700">
+          <img src="../../assets/image/carousel/Carousel4.webp" alt="Img">
+        </span>
+      </div>
+    </div>
+
+    <div class="hs-carousel-slide">
+      <div class="flex justify-center h-full bg-gray-300 p-6">
+        <span class="self-center text-4xl text-gray-800 transition duration-700">
+          <img src="../../assets/image/carousel/Carousel5.webp" alt="Img">
+        </span>
+      </div>
+    </div>
+
+    <div class="hs-carousel-slide">
+      <div class="flex justify-center h-full bg-gray-300 p-6">
+        <span class="self-center text-4xl text-gray-800 transition duration-700">
+          <img src="../../assets/image/carousel/Carousel6.webp" alt="Img">
+        </span>
+      </div>
+    </div>
+
+    <div class="hs-carousel-slide">
+      <div class="flex justify-center h-full bg-gray-300 p-6">
+        <span class="self-center text-4xl text-gray-800 transition duration-700">
+          <img src="../../assets/image/carousel/carousel1.webp" alt="Img">
+        </span>
+      </div>
+    </div>
+
+  </div>
+  
 </div>
+
+<button type="button" class="hs-carousel-prev hs-carousel:disabled:opacity-50 disabled:pointer-events-none absolute inset-y-0 start-0 inline-flex justify-center items-center w-[46px] h-full text-gray-800 hover:bg-gray-800/10 rounded-s-lg">
+  <span class="text-2xl" aria-hidden="true">
+    <svg class="flex-shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m15 18-6-6 6-6"></path>
+    </svg>
+  </span>
+  <span class="sr-only">Previous</span>
+</button>
+<button type="button" class="hs-carousel-next hs-carousel:disabled:opacity-50 disabled:pointer-events-none absolute inset-y-0 end-0 inline-flex justify-center items-center w-[46px] h-full text-gray-800 hover:bg-gray-800/10 rounded-e-lg">
+  <span class="sr-only">Next</span>
+  <span class="text-2xl" aria-hidden="true">
+    <svg class="flex-shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m9 18 6-6-6-6"></path>
+    </svg>
+  </span>
+</button>
+
+<div class="hs-carousel-pagination flex justify-center absolute bottom-3 start-0 end-0 space-x-2">
+  <span class="hs-carousel-active:bg-green-700 hs-carousel-active:border-green-700 size-3 border border-gray-400 rounded-full cursor-pointer"></span>
+  <span class="hs-carousel-active:bg-green-700 hs-carousel-active:border-green-700 size-3 border border-gray-400 rounded-full cursor-pointer"></span>
+  <span class="hs-carousel-active:bg-green-700 hs-carousel-active:border-green-700 size-3 border border-gray-400 rounded-full cursor-pointer"></span>
+  <span class="hs-carousel-active:bg-green-700 hs-carousel-active:border-green-700 size-3 border border-gray-400 rounded-full cursor-pointer"></span>
+  <span class="hs-carousel-active:bg-green-700 hs-carousel-active:border-green-700 size-3 border border-gray-400 rounded-full cursor-pointer"></span>
+  <span class="hs-carousel-active:bg-green-700 hs-carousel-active:border-green-700 size-3 border border-gray-400 rounded-full cursor-pointer"></span>
+  <span class="hs-carousel-active:bg-green-700 hs-carousel-active:border-green-700 size-3 border border-gray-400 rounded-full cursor-pointer"></span>
+</div>
+</div>
+<!-- End Slider -->
 
