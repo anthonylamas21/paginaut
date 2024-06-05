@@ -7,6 +7,9 @@ module.exports = {
     extend: {
       height: {
         '155': '37rem', // Clase del carousel
+      },
+      fontFamily:{
+        poppins: ['poppins', 'sans-serif']
       }
     },
   },
