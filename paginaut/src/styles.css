@@ -145,19 +145,28 @@ tr > .p-element svg{
 
 .example-2 .icon-content a[data-social="tiktok"] .filled,
 .example-2 .icon-content a[data-social="tiktok"] ~ .tooltip {
-  background-color: gray;
+  background: linear-gradient(135deg, 
+  #25F3ef, 
+  #fd3359);
 }
 .example-2 .icon-content a[data-social="youtube"] .filled,
 .example-2 .icon-content a[data-social="youtube"] ~ .tooltip {
-  background-color: red;
+  background: linear-gradient(45deg, 
+                              #FF0000, /* Rojo */
+                              #FF6347); /* Tomate */
 }
 .example-2 .icon-content a[data-social="instagram"] .filled,
 .example-2 .icon-content a[data-social="instagram"] ~ .tooltip {
-  background-color: #ea4cbd;
+  background: linear-gradient(45deg, 
+  #833ab4, 
+  #fd1d1d, 
+  #fcb045);
 }
 .example-2 .icon-content a[data-social="facebook"] .filled,
 .example-2 .icon-content a[data-social="facebook"] ~ .tooltip {
-  background-color: #0088cc;
+  background: linear-gradient(45deg, 
+                              #096ae2, /* Azul más oscuro */
+                              #1eaffe); /* Azul característico de Facebook */
 }
 
 
@@ -230,8 +239,10 @@ tr > .p-element svg{
 }
 .example-1 .icon-content a[data-social="Whatsapp"] .filled,
 .example-1 .icon-content a[data-social="Whatsapp"] ~ .tooltip {
-  background-color: #1db954;
-}
+  background: linear-gradient(45deg, 
+                              #25D366, /* Verde de WhatsApp */
+                              #128C7E); /* Verde más oscuro */
+                            }
 
 
 
