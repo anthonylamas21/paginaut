@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "paginaut": {
+    "prueba": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/paginaut",
+            "outputPath": "dist/prueba",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -35,14 +35,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css"
             ],
             "scripts": [
               "node_modules/preline/preline.js"
-
             ]
-            
-
           },
           "configurations": {
             "production": {
@@ -72,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "paginaut:build:production"
+              "buildTarget": "prueba:build:production"
             },
             "development": {
-              "buildTarget": "paginaut:build:development"
+              "buildTarget": "prueba:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "paginaut:build"
+            "buildTarget": "prueba:build"
           }
         },
         "test": {
@@ -99,11 +98,11 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/purple-green.css",
               "src/styles.css"
             ],
             "scripts": [
               "node_modules/preline/preline.js"
-
             ]
           }
         }
