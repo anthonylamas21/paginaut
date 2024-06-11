@@ -11,11 +11,17 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
+import { PrincipalComponent } from './principal/principal.component';
+import { CarrerasComponent } from './carreras/carreras.component';
+import { InstalacionesComponent } from './instalaciones/instalaciones.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PrincipalComponent,
+    CarrerasComponent,
+    InstalacionesComponent
   ],
   imports: [
     BrowserModule,

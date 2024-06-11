@@ -286,3 +286,17 @@ tr>.p-element svg {
   border-color: #EFF6FF;
   color: black;
 }
+
+#portada-imagen {
+    height: 100vh;
+    background: #000;
+    position: relative;
+}
+
+#portada-imagen>img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    cursor: default;
+    position: absolute;
+}
