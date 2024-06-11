@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Table,TableModule } from 'primeng/table';
 import Swal from 'sweetalert2';
@@ -84,7 +84,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  activarSweetAlert() {
+  funcion1() {
     
     const Toast = Swal.mixin({
       toast: true,
@@ -102,13 +102,91 @@ export class AppComponent implements OnInit {
       icon: "success",
       title: "Signed in successfully"
     });
+
+    
   }
+funcion2(){
+  const Toast2 = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    iconColor: "#FD9B63",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    }
+  });
+  Toast2.fire({
+    icon: "warning",
+    title: "Signed in successfully"
+  });
+}
+
+funcion3(){
+  const Toast3 = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    iconColor: "#EF4444",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    }
+  });
+  Toast3.fire({
+    icon: "error",
+    title: "Signed in successfully"
+  });
+}    
+  
+  funcion4(){
+    const Toast4 = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      iconColor: "#3ABEF9",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+    Toast4.fire({
+      icon: "info",
+      title: "Signed in successfully"
+    });
+  }
+  funcion5(){
+    const Toast5 = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      iconColor: "#5A72A0",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+    Toast5.fire({
+      icon: "question",
+      title: "Signed in successfully"
+    });
+  }
+
 
   activarSweetAlertSure(){
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
       icon: "warning",
+      iconColor: "#FD9B63",
       showCancelButton: true,
       confirmButtonColor: "#EF4444",
       cancelButtonColor: "#E5E7EB",
@@ -137,6 +215,25 @@ export class AppComponent implements OnInit {
         });
       }
     });
+  }
+
+  scrollToSection(sectionId: string): void {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    console.log("se mira");
+  }
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    const button = document.getElementById('scrollTopButton');
+    const inicioSection = document.getElementById('inicio');
+    if (inicioSection) {
+      const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
+
+      if (window.scrollY > inicioSectionBottom) {
+        button?.classList.remove('hidden');
+      } else {
+        button?.classList.add('hidden');
+      }
+    }
   }
 
 }
