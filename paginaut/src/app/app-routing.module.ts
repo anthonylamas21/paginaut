@@ -2,12 +2,28 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PrincipalComponent } from './principal/principal.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: '', redirectTo: '/principal', pathMatch: 'full' }, // Ruta por defecto
+  { path: 'principal', component: PrincipalComponent }, 
+
+  //Rutas 
+  {path: 'principal', component: PrincipalComponent },
+
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {
-  
- }
+export class AppRoutingModule { }
+ 
+
+
+
+
+
+
+
+
+
+
