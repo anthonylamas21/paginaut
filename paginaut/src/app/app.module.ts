@@ -1,30 +1,37 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { ConocenosComponent } from './conocenos/conocenos.component';
-import { PlanComponent } from './plan/plan.component';
-import { SalalecturaComponent } from './salalectura/salalectura.component';
-import { BolsadetrabajoComponent } from './bolsadetrabajo/bolsadetrabajo.component';
-import { TransparenciaComponent } from './transparencia/transparencia.component';
-import { PrincipalComponent } from './principal/principal.component';
+
+import { TableModule } from 'primeng/table';
+import { InputTextModule } from 'primeng/inputtext';
+import { TagModule } from 'primeng/tag';
+import { ButtonModule } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
+
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ConocenosComponent,
-    PlanComponent,
-    SalalecturaComponent,
-    BolsadetrabajoComponent,
-    TransparenciaComponent,
-    PrincipalComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    FormsModule,
+    TableModule,
+    InputTextModule,
+    TagModule,
+    ButtonModule,
+    FormsModule,
+    DropdownModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+
 })
 export class AppModule { }
