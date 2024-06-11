@@ -14,6 +14,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { PrincipalComponent } from './principal/principal.component';
 import { CarrerasComponent } from './carreras/carreras.component';
 import { InstalacionesComponent } from './instalaciones/instalaciones.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { ComponentesComponent } from './componentes/componentes.component';
 
 
 @NgModule({
@@ -21,7 +23,9 @@ import { InstalacionesComponent } from './instalaciones/instalaciones.component'
     AppComponent,
     PrincipalComponent,
     CarrerasComponent,
-    InstalacionesComponent
+    InstalacionesComponent,
+    NavbarComponent,
+    ComponentesComponent
   ],
   imports: [
     BrowserModule,
