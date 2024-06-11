@@ -1,11 +1,11 @@
 
 <!-- ========== HEADER ========== -->
-<header
+<header 
 class=" fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full text-sm py-3 md:py-0 bg-[#043D3D]">
 <nav class="max-w-full w-full" aria-label="Global">
   <div class="relative lg:flex md:items-center md:justify-between">
     <div class="flex items-center justify-between">
-      <img src="../assets/img/logo-ut.png" alt="">
+      <img src="./assets/img/logo-ut.png" alt="">
       <div class="md:hidden">
         <button type="button"
           class="hs-collapse-toggle flex justify-center items-center size-9 text-sm font-semibold rounded-lg border border-gray-200 text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
@@ -54,7 +54,7 @@ class=" fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowra
               <div class="md:grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <!-- Dropdown Contenido para conocenos -->
                 <div class="flex flex-col mx-1 md:mx-0">
-                  <a class="group flex gap-x-5 hover:bg-gray-100 rounded-lg p-4" href="#">
+                  <a class="group flex gap-x-5 hover:bg-[#EFF7FB] rounded-lg p-4" href="#">
                     <svg class="flex-shrink-0 size-5 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                       viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                       stroke-linejoin="round">
@@ -68,7 +68,7 @@ class=" fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowra
                     </div>
                   </a>
 
-                  <a class="group flex gap-x-5 hover:bg-gray-100 rounded-lg p-4" href="#">
+                  <a class="group flex gap-x-5 hover:bg-[#EFF7FB] rounded-lg p-4" href="#">
                     <svg class="flex-shrink-0 size-5 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                       viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                       stroke-linejoin="round">
@@ -319,7 +319,7 @@ class=" fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowra
 
                   <a class="group mt-2 p-3 flex gap-x-5 items-center rounded-xl hover:bg-gray-100" href="#">
                     <img class="size-32 rounded-lg"
-                      src="https://images.unsplash.com/photo-1580894740602-81b0f43f50e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=320&h=320&q=80"
+                      src="https://img.freepik.com/fotos-premium/fondos-pantalla-iphone-que-son-color-rosa-azul_876023-834.jpg?w=360"
                       alt="Image Description">
                     <div class="grow">
                       <p class="text-sm text-gray-800">
@@ -408,7 +408,7 @@ class=" fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowra
 
                   <a class="group mt-2 p-3 flex gap-x-5 items-center rounded-xl hover:bg-gray-100" href="#">
                     <img class="size-32 rounded-lg"
-                      src="https://images.unsplash.com/photo-1580894740602-81b0f43f50e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=320&h=320&q=80"
+                      src="https://img.freepik.com/fotos-premium/fondos-pantalla-iphone-que-son-color-rosa-azul_876023-834.jpg?w=360"
                       alt="Image Description">
                     <div class="grow">
                       <p class="text-sm text-gray-800">
@@ -496,7 +496,7 @@ class=" fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowra
 
                   <a class="group mt-2 p-3 flex gap-x-5 items-center rounded-xl hover:bg-gray-100" href="#">
                     <img class="size-32 rounded-lg"
-                      src="https://images.unsplash.com/photo-1580894740602-81b0f43f50e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=320&h=320&q=80"
+                      src="https://img.freepik.com/fotos-premium/fondos-pantalla-iphone-que-son-color-rosa-azul_876023-834.jpg?w=360"
                       alt="Image Description">
                     <div class="grow">
                       <p class="text-sm text-gray-800">
@@ -521,8 +521,8 @@ class=" fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowra
           <!-- Add more dropdowns as needed -->
 
           <!-- Simple links -->
-          <a class="font-medium text-white hover:text-gray-400 md:px-3 md:py-6" href="#">SIEST</a>
-          <a class="font-medium text-white hover:text-gray-400 md:px-3 md:py-6" href="#">Controlador de Documentos</a>
+          <a class="font-medium text-white text-base hover:text-gray-400 md:px-3 md:py-6" href="#">SIEST</a>
+          <a class="font-medium text-white text-base hover:text-gray-400 md:px-3 md:py-6 uppercase" href="#">Controlador de Documentos</a>
         </div>
       </div>
     </div>
@@ -530,9 +530,20 @@ class=" fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowra
 </nav>
 </header>
 
-<!-- ========== END HEADER ========== -->
+
+
+<!-- ================================================= END HEADER =================================================== -->
+
+
+
+
+<p id="inicio"></p>
+<button id="scrollTopButton" (click)="scrollToSection('inicio')" class="hidden fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+  <i class="fa-solid fa-chevron-up"></i>
+</button>
+
 <br><br><br>
-<ol class="flex items-center whitespace-nowrap mt-4 m-4">
+<ol class="flex items-center whitespace-nowrap m-4">
   <li class="inline-flex items-center">
     <a class="flex items-center text-sm text-gray-500 hover:text-[#003C3D] focus:outline-none focus:text-[#003C3D] " href="#">
       Inicio
@@ -575,22 +586,62 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#EDEDED] text-white 
   Botón 4
 </button>
 <br><br>
-  <input type="text" class="block w-auto border-2 border-[#EDEDED] rounded-md py-2 pl-7 pr-7 text-gray-900" placeholder="Texto">
-  <input type="number" class="block w-auto border-2 border-[#EDEDED] rounded-md py-2 pl-7 pr-7 text-gray-900" placeholder="Numero">
-  <textarea rows="3" class="w-auto rounded-md border-2 border-[#EDEDED] p-[10px] text-black focus:outline-none focus:ring-2 focus:ring-black mb-[10px]"></textarea>
-  <input type="file" class="block w-auto border-2 border-[#EDEDED] rounded-md py-2 pl-7 pr-7 text-gray-900">
-<select name="" class="w-80 rounded-md border-2 border-[#EDEDED] py-2 pl-7 pr-7 text-gray-900">
-  <option value="">Selecciona una opción</option>
-  <option value="">Opcion 1</option>
-  <option value="">Opcion 2</option>
-  <option value="">Opcion 3</option>
+
+<div>
+  <input type="text" class="block w-auto border-2 border-[#E5E7EB] rounded-md py-2 pl-7 pr-7 text-gray-900 focus:border-[#04847C] focus:ring-[#04847C]" placeholder="Texto"><br>
+  <input type="number" class="block w-auto border-2 border-[#E5E7EB] rounded-md py-2 pl-7 pr-7 text-gray-900 focus:border-[#04847C] focus:ring-[#04847C]" placeholder="Numero"><br>
+  <textarea rows="3" class="w-auto rounded-md border-2 border-[#E5E7EB] p-[10px] text-black focus:border-[#04847C] focus:ring-[#04847C] mb-[10px]" placeholder="Descripción"></textarea>
+</div>
+<br>
+  
+  <div>
+    <label class="text-black text-base">Adjuntar una imagen:</label><br>
+        <div class="max-w-sm">
+            <label class="block">
+              <span class="sr-only">Choose profile photo</span>
+              <input type="file" class="block w-full rounded-md text-sm text-gray-500
+                file:me-4 file:py-2 file:px-4
+                file:rounded-lg file:border-0
+                file:text-sm file:font-semibold
+                file:bg-[#04847C] file:text-white
+                border-2 border-[#E5E7EB]
+                py-1 px-1
+                hover:file:bg-[#04847C]
+                hover:opacity-80
+                file:disabled:opacity-50 file:disabled:pointer-events-none
+              ">
+            </label>
+  </div>
+<br>
+<select class="py-3 px-4 pe-9 block border-2 border-[#E5E7EB] rounded-lg text-sm focus:border-[#04847C] focus:ring-[#04847C] disabled:opacity-50 disabled:pointer-events-none">
+  <option selected="">Open this select menu</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
 </select>
 <br>
-  <input type="checkbox" class="size-5" checked>
-  <input type="checkbox" class="size-5">
+
+<!--CHECKBOX-->
+<div class="flex m-3">
+  <input type="checkbox" class="size-5 shrink-0 mt-0.5 border-gray-200 rounded text--[#04847C] focus:ring-[#04847C] disabled:opacity-50 disabled:pointer-events-none">
+  <label class="text-sm text-black ms-3">Default checkbox</label>
+</div>
+
+<div class="flex m-3">
+  <input type="checkbox" class="size-5 shrink-0 mt-0.5 border-gray-200 rounded text--[#04847C] focus:ring-[#04847C] disabled:opacity-50 disabled:pointer-events-none" checked="">
+  <label  class="text-sm text-black ms-3">Checked checkbox</label>
+</div>
+
 <br>
-  <input type="radio" name="radio1" class="size-5" checked>
-<input type="radio" name="radio1" class="size-5"> 
+<div class="flex m-3">
+  <input type="radio" name="hs-default-radio" class="shrink-0 mt-0.5 size-5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+  <label  class="text-sm text-black ms-2">Default radio</label>
+</div>
+
+<div class="flex m-3">
+  <input type="radio" name="hs-default-radio" class="shrink-0 mt-0.5 size-5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" checked="">
+  <label class="text-sm text-black ms-2">Checked radio</label>
+</div>
 <br>
 <h1 class="text-black text-4xl">Hola mundo 4xl</h1>
 <h2 class="text-black text-3xl">Hola mundo 3xl</h2>
@@ -689,7 +740,20 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#EDEDED] text-white 
         
             <div class="col-span-2 md:col-span-1">
               <label class="text-black text-base">Adjuntar una imagen:</label><br>
-              <input type="file" class="block w-full border-2 border-[#EDEDED] rounded-md py-2 pl-3 pr-3 text-gray-900">
+              <label class="block">
+                <span class="sr-only">Choose profile photo</span>
+                <input type="file" class="block w-full text-sm text-gray-500
+                  file:me-4 file:py-2 file:px-4
+                  file:rounded-lg file:border-0
+                  file:text-sm file:font-semibold
+                  file:bg-[#04847C] file:text-white
+                  border-2 border-[#E5E7EB]
+                  py-1 px-1
+                  hover:file:bg-[#04847C]
+                  hover:opacity-80
+                  file:disabled:opacity-50 file:disabled:pointer-events-none
+                ">
+              </label>
             </div>
             
             <div class="col-span-2 md:col-span-1">
@@ -792,310 +856,137 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#EDEDED] text-white 
 </div>
 <!--FIN MODAL-->
 <hr>
+
 <br><br><br>
+
+
+
 
 <!--CARDS-->
 <h4 class="text-xl">CARDS CON IMAGEN</h4>
-<div class="flex flex-wrap justify-center mx-auto items-center">
-  <div class="max-w-sm rounded-[10px] overflow-hidden shadow-lg bg-white m-4 p-4">
-    <img class="w-full rounded-[10px]" src="https://placehold.co/400x200" alt="Imagen de ejemplo">
-    <div class="px-6 py-4">
-        <div class="font-bold text-xl mb-2 font-medium">Título de la tarjeta</div>
-        <p class="text-gray-700 text-base font-extralight">
-            Aquí va una breve descripción de la tarjeta. Este texto es un ejemplo de cómo se verá el contenido dentro de la tarjeta.
-        </p>
-    </div>
-    <div class="flex justify-between px-6 pt-4 pb-2">
-        <button class="bg-[#04847C]	 w-full text-white hover:opacity-80 transition-opacity duration-300 text-white py-2 px-4 rounded-[10px]">
-            Editar
-        </button>
-    </div>
-</div>
-  
 
-  <div class="max-w-sm rounded-[10px] overflow-hidden shadow-lg bg-white m-4 p-4">
-      <img class="w-full rounded-[10px]" src="https://placehold.co/400x200" alt="Imagen de ejemplo">
-      <div class="px-6 py-4">
-          <div class="font-bold text-xl mb-2 font-medium">Título de la tarjeta</div>
-          <p class="text-gray-700 text-base font-extralight">
-              Aquí va una breve descripción de la tarjeta. Este texto es un ejemplo de cómo se verá el contenido dentro de la tarjeta.
-          </p>
-      </div>
-      <div class="flex justify-between px-6 pt-4 pb-2">
-          <button class="bg-[#04847C]	 w-[calc(50%-10px)] text-white hover:opacity-80 transition-opacity duration-300 text-white py-2 px-4 rounded-[10px]">
-              Editar
-          </button>
-          <button class="bg-[#47B0A4] w-[calc(50%-10px)] text-white hover:opacity-80 transition-opacity duration-300 text-white py-2 px-4 rounded-[10px]">
-              Ver
-          </button>
-      </div>
+<div class="flex flex-wrap justify-center">
+
+
+<div class="w-3/12 flex flex-col bg-white border shadow-sm rounded-xl m-4 p-4">
+  <img class="w-full h-auto rounded-t-xl" src="https://images.unsplash.com/photo-1680868543815-b8666dba60f7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2532&q=80" alt="Image Description">
+  <div class="p-4 md:p-5">
+    <h3 class="text-lg text-black">
+      Card title
+    </h3>
+    <p class="mt-1 text-gray-500">
+      Some quick example text to build on the card title and make up the bulk of the card's content.
+    </p>
+    <a class="mt-2 w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-[#04847C] text-white hover:bg-[#04847C] hover:opacity-80 disabled:opacity-50 disabled:pointer-events-none" href="#">
+      Actualizar
+    </a>
   </div>
-
-  <div class="max-w-sm rounded-[10px] overflow-hidden shadow-lg bg-white m-4 p-4">
-    <img class="w-full rounded-[10px]" src="https://placehold.co/400x200" alt="Imagen de ejemplo">
-    <div class="px-6 py-4">
-        <div class="font-bold text-xl mb-2 font-medium">Título de la tarjeta</div>
-        <p class="text-gray-700 text-base font-extralight">
-            Aquí va una breve descripción de la tarjeta. Este texto es un ejemplo de cómo se verá el contenido dentro de la tarjeta.
-        </p>
-    </div>
-    <div class="flex justify-between px-6 pt-4 pb-2">
-        <button class="bg-[#04847C]	 w-[calc(33.33%-12px)] text-white hover:opacity-80 transition-opacity duration-300 text-white py-2 px-4 rounded-[10px]">
-            Editar
-        </button>
-        <button class="bg-[#47B0A4] w-[calc(33.33%-12px)] text-white hover:opacity-80 transition-opacity duration-300 text-white py-2 px-4 rounded-[10px]">
-            Ver
-        </button>
-        <button class="bg-danger-color w-[calc(33.33%-12px)] text-white hover:opacity-80 transition-opacity duration-300 text-white py-2 px-4 rounded-[10px]">
-            Eliminar
-        </button>
-    </div>
 </div>
-
-
-  <!-- Agrega más tarjetas aquí según sea necesario -->
+<div class="w-3/12 flex flex-col bg-white border shadow-sm rounded-xl m-4 p-4">
+  <img class="w-full h-auto rounded-t-xl" src="https://images.unsplash.com/photo-1680868543815-b8666dba60f7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2532&q=80" alt="Image Description">
+  <div class="p-4 md:p-5">
+    <h3 class="text-lg text-black">
+      Card title
+    </h3>
+    <p class="mt-1 text-gray-500">
+      Some quick example text to build on the card title and make up the bulk of the card's content.
+    </p>
+    <div class="flex space-x-4 mt-2 justify-center">
+      <a class="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-[#04847C] text-white hover:bg-[#04847C] hover:opacity-80 disabled:opacity-50 disabled:pointer-events-none" href="#">
+          Actualizar
+      </a>
+      <a class="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-[#EF4444] text-white hover:bg-[#EF4444] hover:opacity-80 disabled:opacity-50 disabled:pointer-events-none" href="#">
+          Eliminar
+      </a>
+  </div>
+  </div>
+</div>
+<div class="w-3/12 flex flex-col bg-white border shadow-sm rounded-xl m-4 p-4">
+  <img class="w-full h-auto rounded-t-xl" src="https://images.unsplash.com/photo-1680868543815-b8666dba60f7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2532&q=80" alt="Image Description">
+  <div class="p-4 md:p-5">
+    <h3 class="text-lg text-black">
+      Card title
+    </h3>
+    <p class="mt-1 text-gray-500">
+      Some quick example text to build on the card title and make up the bulk of the card's content.
+    </p>
+    <div class="grid grid-cols-3 gap-4 mt-2">
+      <a class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-[#04847C] text-white hover:bg-[#04847C] hover:opacity-80 disabled:opacity-50 disabled:pointer-events-none" href="#">
+          Actualizar
+      </a>
+      <a class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-[#EF4444] text-white hover:bg-[#EF4444] hover:opacity-80 disabled:opacity-50 disabled:pointer-events-none" href="#">
+          Eliminar
+      </a>
+      <a class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-[#47B0A4] text-white hover:bg-[#47B0A4] hover:opacity-80 disabled:opacity-50 disabled:pointer-events-none" href="#">
+          Ver
+      </a>
+  </div>
+  </div>
+</div>
 </div>
 
 <h4 class="text-xl">CARDS SIN IMAGEN</h4>
 <div class="flex flex-wrap justify-center">
-  <div class="max-w-sm rounded-[10px] overflow-hidden shadow-lg bg-white m-4 p-4">
-      
-      <div class="px-6 py-4">
-          <div class="font-bold text-xl mb-2 font-medium">Título de la tarjeta</div>
-          <p class="text-gray-700 text-base font-extralight">
-              Aquí va una breve descripción de la tarjeta. Este texto es un ejemplo de cómo se verá el contenido dentro de la tarjeta.
-          </p>
-      </div>
-      <div class="flex justify-between px-6 pt-4 pb-2">
-        <div class="hidden md:inline-block w-full">
-          <button class="bg-[#04847C] text-white hover:opacity-80 transition-opacity duration-300 py-2 px-4 rounded-[10px] w-full">
-            Editar
-          </button>
-        </div>
-        <div class="md:hidden">
-          <i class="fas fa-edit text-[#04847C] fa-lg hover:opacity-80 transition-opacity duration-300" title="Editar"></i>
-        </div>
-      </div>
-  </div>
-
-  <div class="max-w-sm rounded-[10px] overflow-hidden shadow-lg bg-white m-4 p-4">
-  <div class="px-6 py-4">
-    <div class="font-bold text-xl mb-2 font-medium">Título de la tarjeta</div>
-    <p class="text-gray-700 text-base font-extralight">
-      Aquí va una breve descripción de la tarjeta. Este texto es un ejemplo de cómo se verá el contenido dentro de la tarjeta.
-    </p>
-  </div>
-  <div class="flex justify-between px-6 pt-4 pb-2">
-    <div class="hidden md:inline-block w-1/2 mr-2">
-      <button class="bg-[#04847C] text-white hover:opacity-80 transition-opacity duration-300 py-2 px-4 rounded-[10px] w-full">
-        Editar
-      </button>
-    </div>
-    <div class="md:hidden">
-      <i class="fas fa-edit text-[#04847C] fa-lg hover:opacity-80 transition-opacity duration-300" title="Editar"></i>
-    </div>
-    <div class="hidden md:inline-block w-1/2 ml-2">
-      <button class="bg-[#47B0A4] text-white hover:opacity-80 transition-opacity duration-300 py-2 px-4 rounded-[10px] w-full">
-        Ver
-      </button>
-    </div>
-    <div class="md:hidden">
-      <i class="fas fa-eye text-[#47B0A4] fa-lg hover:opacity-80 transition-opacity duration-300" title="Ver"></i>
+  <div class="w-3/12 flex flex-col bg-white border shadow-sm rounded-xl m-4 p-4">
+    <div class="p-4 md:p-5">
+      <h3 class="text-lg text-black">
+        Card title
+      </h3>
+      <p class="mt-1 text-gray-500">
+        Some quick example text to build on the card title and make up the bulk of the card's content.
+      </p>
+      <a class="mt-2 w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-[#04847C] text-white hover:bg-[#04847C] hover:opacity-80 disabled:opacity-50 disabled:pointer-events-none" href="#">
+        Actualizar
+      </a>
     </div>
   </div>
-</div>
-
-<div class="max-w-sm rounded-[10px] overflow-hidden shadow-lg bg-white m-4 p-4">
-  <div class="px-6 py-4">
-    <div class="font-bold text-xl mb-2 font-medium">Título de la tarjeta</div>
-    <p class="text-gray-700 text-base font-extralight">
-      Aquí va una breve descripción de la tarjeta. Este texto es un ejemplo de cómo se verá el contenido dentro de la tarjeta.
-    </p>
-  </div>
-  <div class="flex justify-between px-6 pt-4 pb-2">
-    <div class="w-1/3">
-      <div class="hidden md:inline-block">
-        <button class="bg-[#04847C] text-white hover:opacity-80 transition-opacity duration-300 py-2 px-4 rounded-[10px] w-full">
-          Editar
-        </button>
-      </div>
-      <div class="md:hidden">
-        <i class="fas fa-edit text-[#04847C] fa-lg hover:opacity-80 transition-opacity duration-300" title="Editar"></i>
-      </div>
+  <div class="w-3/12 flex flex-col bg-white border shadow-sm rounded-xl m-4 p-4">
+    <div class="p-4 md:p-5">
+      <h3 class="text-lg text-black">
+        Card title
+      </h3>
+      <p class="mt-1 text-gray-500">
+        Some quick example text to build on the card title and make up the bulk of the card's content.
+      </p>
+      <div class="flex space-x-4 mt-2 justify-center">
+        <a class="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-[#04847C] text-white hover:bg-[#04847C] hover:opacity-80 disabled:opacity-50 disabled:pointer-events-none" href="#">
+            Actualizar
+        </a>
+        <a class="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-[#EF4444] text-white hover:bg-[#EF4444] hover:opacity-80 disabled:opacity-50 disabled:pointer-events-none" href="#">
+            Eliminar
+        </a>
     </div>
-    <div class="w-1/3 mr-2 ml-2">
-      <div class="hidden md:inline-block">
-        <button class="bg-[#47B0A4] text-white hover:opacity-80 transition-opacity duration-300 py-2 px-4 rounded-[10px] w-full">
-          Ver
-        </button>
-      </div>
-      <div class="md:hidden">
-        <i class="fas fa-eye text-[#47B0A4] fa-lg hover:opacity-80 transition-opacity duration-300" title="Ver"></i>
-      </div>
-    </div>
-    <div class="w-1/3">
-      <div class="hidden md:inline-block">
-        <button class="bg-danger-color text-white hover:opacity-80 transition-opacity duration-300 py-2 px-4 rounded-[10px] w-full">
-          Eliminar
-        </button>
-      </div>
-      <div class="md:hidden">
-        <i class="fas fa-trash text-danger-color fa-lg hover:opacity-80 transition-opacity duration-300" title="Eliminar"></i>
-      </div>
     </div>
   </div>
-</div>
-
+  <div class="w-3/12 flex flex-col bg-white border shadow-sm rounded-xl m-4 p-4">
+    <div class="p-4 md:p-5">
+      <h3 class="text-lg text-black">
+        Card title
+      </h3>
+      <p class="mt-1 text-gray-500">
+        Some quick example text to build on the card title and make up the bulk of the card's content.
+      </p>
+      <div class="grid grid-cols-3 gap-4 mt-2">
+        <a class="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-[#04847C] text-white hover:bg-[#04847C] hover:opacity-80 disabled:opacity-50 disabled:pointer-events-none" href="#">
+            Actualizar
+        </a>
+        <a class="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-[#EF4444] text-white hover:bg-[#EF4444] hover:opacity-80 disabled:opacity-50 disabled:pointer-events-none" href="#">
+            Eliminar
+        </a>
+        <a class="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-[#47B0A4] text-white hover:bg-[#47B0A4] hover:opacity-80 disabled:opacity-50 disabled:pointer-events-none" href="#">
+            Ver
+        </a>
+    </div>
+    </div>
+  </div>
 </div>
 
 <!--FIN CARDS-->
 <br><br>
 
 <!--TABLAS-->
-<div class="overflow-x-auto m-4">
-  <table class="table-auto min-w-full divide-y text-center">
-      <thead class="bg-[#04847C]">
-          <tr class="">
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider text-center">
-                  ID
-              </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider text-center">
-                  Nombre
-              </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider text-center">
-                  Correo electrónico
-              </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider text-center">
-                Editar
-            </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider text-center">
-                Eliminar
-            </th>
-          </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-200 bg-neutral-100">
-          <tr>
-              <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">1</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">John Doe</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">johnexample.com</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <button class="bg-[#04847C] text-white hover:opacity-80 transition-opacity duration-300 py-2 px-4 rounded-[10px] sm:w-auto md:max-w-[100px]">
-                  <span class="md:inline-block hidden">Editar</span>
-                  <i class="fas fa-edit md:hidden"></i>
-                </button>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <button class="bg-danger-color text-white hover:opacity-80 transition-opacity duration-300 py-2 px-4 rounded-[10px] sm:w-auto md:max-w-[100px]">
-                  <span class="md:inline-block hidden">Eliminar</span>
-                  <i class="fas fa-trash md:hidden"></i>
-                </button>
-              </td>
-          </tr>
-          <tr>
-            <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">1</div>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">John Doe</div>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">johnexample.com</div>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              <button class="bg-[#FFFFFF] text-[#04847C] hover:opacity-80 transition-opacity duration-300 py-2 px-4 rounded-[10px] sm:w-auto md:max-w-[100px]">
-                <span class="md:inline-block hidden">Editar</span>
-                <i class="fas fa-edit md:hidden text-[#04847C]"></i>
-              </button>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              <button class="bg-[#FFFFFF] text-danger-color hover:opacity-80 transition-opacity duration-300 py-2 px-4 rounded-[10px] sm:w-auto md:max-w-[100px]">
-                <span class="md:inline-block hidden">Eliminar</span>
-                <i class="fas fa-trash md:hidden text-danger-color"></i>
-              </button>
-            </td>
-        </tr>
-        <tr>
-          <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900">1</div>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900">John Doe</div>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900">johnexample.com</div>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap">
-            <button class="bg-[#FFFFFF] text-[#04847C] hover:opacity-80 transition-opacity duration-300 py-2 px-4 rounded-[10px] sm:w-auto md:max-w-[100px]">
-              <i class="fas fa-edit text-[#04847C]"></i>
-            </button>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap">
-            <button class="bg-[#FFFFFF] text-danger-color hover:opacity-80 transition-opacity duration-300 py-2 px-4 rounded-[10px] sm:w-auto md:max-w-[100px]">
-              <i class="fas fa-trash text-danger-color"></i>
-            </button>
-          </td>
-      </tr>
-          <tr>
-            <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">1</div>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">John Doe</div>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">johnexample.com</div>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              <div class="hidden md:inline-block">
-                <button class="bg-[#04847C] text-white hover:opacity-80 transition-opacity duration-300 py-2 px-4 rounded-[10px] sm:w-auto">
-                  Actualizar
-                </button>
-              </div>
-              <div class="md:hidden ">
-                <i class="fas fa-edit text-[#04847C] fa-lg hover:opacity-80 transition-opacity duration-300" title="Editar"></i>
-              </div>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              <div class="hidden md:inline-block">
-                <button class="bg-danger-color text-white hover:opacity-80 transition-opacity duration-300 py-2 px-4 rounded-[10px] sm:w-auto">
-                  Eliminar
-                </button>
-              </div>
-              <div class="md:hidden ">
-                <i class="fas fa-trash text-danger-color fa-lg hover:opacity-80 transition-opacity duration-300" title="Editar"></i>
-              </div>
-            </td>
-        </tr>
-          <tr>
-              <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">2</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">Jane Doe</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">janeexample.com</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <i class="fas fa-edit text-[#04847C] fa-lg hover:opacity-80 transition-opacity duration-300" title="Aguayooo porque me repruebas"></i>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <i class="fas fa-trash text-danger-color fa-lg hover:opacity-80 transition-opacity duration-300"></i>
-              </td>
-          </tr>
-          <!-- Agrega más filas según sea necesario -->
-      </tbody>
-  </table>  
-</div>
 
-<br><br><br>
-<div class="rounded-lg border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default   sm:px-7.5 xl:pb-1 my-2">
+<div class="rounded-lg border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default sm:px-7.5 xl:pb-1 my-2">
   <div class="max-w-full ">
     <div class="border-b border-gray-200">
       <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
@@ -1192,12 +1083,12 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#EDEDED] text-white 
 
                   </ng-template>
                   <ng-template pTemplate="body" let-registro>
-                    <tr class="divide-x  divide-gray-200">
-                      <td class="px-3 py-2 text-sm text-gray-800">{{registro.nombre}}</td>
-                      <td class="px-3 py-2 text-sm text-gray-800">{{registro.edad}}</td>
-                      <td class="px-3 py-2 text-sm text-gray-800">{{registro.direccion}}</td>
-                      <td class="px-3 py-2 text-sm text-gray-800">
-                        <div class="flex items-center space-x-3.5">
+                    <tr class="divide-x  divide-gray-200 bg-neutral-100">
+                      <td class="px-3 py-2 text-sm text-black">{{registro.nombre}}</td>
+                      <td class="px-3 py-2 text-sm text-center text-black">{{registro.edad}}</td>
+                      <td class="px-3 py-2 text-sm text-black">{{registro.direccion}}</td>
+                      <td class="px-3 py-2 text-sm text-black">
+                        <div class="flex items-center  space-x-3.5">
 
                           <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)"
                             class="hover:text-primary">
@@ -1206,7 +1097,7 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#EDEDED] text-white 
                             <div
                               class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                               <div
-                                class="hs-tooltip-toggle max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
 
                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                 <!-- Popover Content -->
@@ -1244,9 +1135,9 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#EDEDED] text-white 
                             <!-- User -->
                             <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                               <div
-                                class="hs-tooltip-toggle max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
 
-                                <i class="fas fa-edit    "></i>
+                                <i class="fas fa-edit "></i>
                                 <!-- Popover Content -->
                                 <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible
                                   hidden opacity-0
@@ -1283,7 +1174,7 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#EDEDED] text-white 
                             <!-- User -->
                             <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                               <div
-                                class="hs-tooltip-toggle max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
 
                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                 <!-- Popover Content -->
@@ -1320,7 +1211,7 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#EDEDED] text-white 
                             <!-- User -->
                             <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                               <div
-                                class="hs-tooltip-toggle max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
 
                                 <i class="fa-solid fa-arrow-rotate-left"></i>
                                 <!-- Popover Content -->
@@ -1432,19 +1323,19 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#EDEDED] text-white 
 <i class="m-2 text-[#003C3D] fa-solid fa-download"></i>
 <i class="m-2 text-[#47B0A4] fa-solid fa-rotate-right fa-flip-horizontal"></i>
 <i class="m-2 p-2 bg-[#000] text-[#fff] fa-solid fa-arrow-left"></i>
-<i class="m-2 p-2 bg-[#fff] text-[#000] fa-solid fa-arrow-left"></i>
+<i class="m-2 p-2 fa-solid fa-chevron-up text-[#FFFFFF] bg-[#000]"></i>
 
 <br><br><br>
 
-<div class="border-b border-gray-200 dark:border-neutral-700">
+<div class="border-b border-gray-200">
   <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
-    <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-blue-600 hs-tab-active:text-blue-600 py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:text-blue-500 active" id="tabs-with-underline-item-1" data-hs-tab="#tabs-with-underline-1" aria-controls="tabs-with-underline-1" role="tab">
+    <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none active" id="tabs-with-underline-item-1" data-hs-tab="#tabs-with-underline-1" aria-controls="tabs-with-underline-1" role="tab">
       Tab 1
     </button>
-    <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-blue-600 hs-tab-active:text-blue-600 py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:text-blue-500" id="tabs-with-underline-item-2" data-hs-tab="#tabs-with-underline-2" aria-controls="tabs-with-underline-2" role="tab">
+    <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none" id="tabs-with-underline-item-2" data-hs-tab="#tabs-with-underline-2" aria-controls="tabs-with-underline-2" role="tab">
       Tab 2
     </button>
-    <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-blue-600 hs-tab-active:text-blue-600 py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:text-blue-500" id="tabs-with-underline-item-3" data-hs-tab="#tabs-with-underline-3" aria-controls="tabs-with-underline-3" role="tab">
+    <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none" id="tabs-with-underline-item-3" data-hs-tab="#tabs-with-underline-3" aria-controls="tabs-with-underline-3" role="tab">
       Tab 3
     </button>
   </nav>
@@ -1452,28 +1343,64 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#EDEDED] text-white 
 
 <div class="mt-3">
   <div id="tabs-with-underline-1" role="tabpanel" aria-labelledby="tabs-with-underline-item-1">
-    <p class="text-gray-500 dark:text-neutral-400">
-      This is the <em class="font-semibold text-gray-800 dark:text-neutral-200">first</em> item's tab body.
+    <p class="text-black">
+      This is the <em class="font-semibold text-green-700">first</em> item's tab body.
     </p>
   </div>
   <div id="tabs-with-underline-2" class="hidden" role="tabpanel" aria-labelledby="tabs-with-underline-item-2">
-    <p class="text-gray-500 dark:text-neutral-400">
-      This is the <em class="font-semibold text-gray-800 dark:text-neutral-200">second</em> item's tab body.
+    <p class="text-black">
+      This is the <em class="font-semibold text-green-700">second</em> item's tab body.
     </p>
   </div>
   <div id="tabs-with-underline-3" class="hidden" role="tabpanel" aria-labelledby="tabs-with-underline-item-3">
-    <p class="text-gray-500 dark:text-neutral-400">
-      This is the <em class="font-semibold text-gray-800 dark:text-neutral-200">third</em> item's tab body.
+    <p class="text-black">
+      This is the <em class="font-semibold text-green-700">third</em> item's tab body.
     </p>
   </div>
 </div>
 
 <br><br><br>
 
-<div class="hs-accordion-group">
+<div class="flex m-3">
+  <div class="flex bg-gray-100 hover:bg-gray-200 rounded-full transition px-2 py-2">
+    <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
+      <button type="button" class="hs-tab-active:bg-[#04847C] hs-tab-active:text-white py-3 px-4 inline-flex items-center gap-x-2 bg-transparent text-sm text-gray-500 font-medium rounded-full hover:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none active" id="segment-item-1" data-hs-tab="#segment-1" aria-controls="segment-1" role="tab">
+        Tab 1
+      </button>
+      <button type="button" class="hs-tab-active:bg-[#04847C] hs-tab-active:text-white py-3 px-4 inline-flex items-center gap-x-2 bg-transparent text-sm text-gray-500 font-medium rounded-full hover:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none " id="segment-item-2" data-hs-tab="#segment-2" aria-controls="segment-2" role="tab">
+        Tab 2
+      </button>
+      <button type="button" class="hs-tab-active:bg-[#04847C] hs-tab-active:text-white py-3 px-4 inline-flex items-center gap-x-2 bg-transparent text-sm text-gray-500 font-medium rounded-full hover:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none " id="segment-item-3" data-hs-tab="#segment-3" aria-controls="segment-3" role="tab">
+        Tab 3
+      </button>
+    </nav>
+  </div>
+</div>
+
+<div class="mt-3">
+  <div id="segment-1" role="tabpanel" aria-labelledby="segment-item-1">
+    <p class="text-gray-500 dark:text-neutral-400">
+      This is the <em class="font-semibold text-gray-800">first</em> item's tab body.
+    </p>
+  </div>
+  <div id="segment-2" class="hidden" role="tabpanel" aria-labelledby="segment-item-2">
+    <p class="text-gray-500 dark:text-neutral-400">
+      This is the <em class="font-semibold text-gray-800">second</em> item's tab body.
+    </p>
+  </div>
+  <div id="segment-3" class="hidden" role="tabpanel" aria-labelledby="segment-item-3">
+    <p class="text-gray-500 dark:text-neutral-400">
+      This is the <em class="font-semibold text-gray-800">third</em> item's tab body.
+    </p>
+  </div>
+</div>
+
+<br><br><br>
+
+<div class="hs-accordion-group m-3">
   <div class="hs-accordion active" id="hs-basic-with-title-and-arrow-stretched-heading-one">
-    <button class="hs-accordion-toggle hs-accordion-active:text-[#008779] py-3 inline-flex items-center justify-between gap-x-3 w-full font-semibold text-start text-gray-800 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none" aria-controls="hs-basic-with-title-and-arrow-stretched-collapse-one">
-      Accordion #1
+    <button class="hs-accordion-toggle hs-accordion-active:text-[#008779] py-3 inline-flex items-center justify-between gap-x-3 w-full font-semibold text-start text-[#04847C] hover:text-[#04847C] hover:opacity-80 rounded-lg disabled:opacity-50 disabled:pointer-events-none" aria-controls="hs-basic-with-title-and-arrow-stretched-collapse-one">
+      Sección #1
       <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="m6 9 6 6 6-6"></path>
       </svg>
@@ -1482,15 +1409,15 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#EDEDED] text-white 
       </svg>
     </button>
     <div id="hs-basic-with-title-and-arrow-stretched-collapse-one" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-basic-with-title-and-arrow-stretched-heading-one">
-      <p class="text-gray-800">
+      <p class="text-black">
         <em>This is the third item's accordion body.</em> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions.
       </p>
     </div>
   </div>
 
   <div class="hs-accordion" id="hs-basic-with-title-and-arrow-stretched-heading-two">
-    <button class="hs-accordion-toggle hs-accordion-active:text-[#008779] py-3 inline-flex items-center justify-between gap-x-3 w-full font-semibold text-start text-gray-800 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none" aria-controls="hs-basic-with-title-and-arrow-stretched-collapse-two">
-      Accordion #2
+    <button class="hs-accordion-toggle hs-accordion-active:text-[#008779] py-3 inline-flex items-center justify-between gap-x-3 w-full font-semibold text-start text-[#04847C] hover:text-[#04847C] hover:opacity-80 rounded-lg disabled:opacity-50 disabled:pointer-events-none" aria-controls="hs-basic-with-title-and-arrow-stretched-collapse-two">
+      Sección #2
       <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="m6 9 6 6 6-6"></path>
       </svg>
@@ -1499,15 +1426,15 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#EDEDED] text-white 
       </svg>
     </button>
     <div id="hs-basic-with-title-and-arrow-stretched-collapse-two" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-basic-with-title-and-arrow-stretched-heading-two">
-      <p class="text-gray-800">
+      <p class="text-black">
         <em>This is the third item's accordion body.</em> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions.
       </p>
     </div>
   </div>
 
   <div class="hs-accordion" id="hs-basic-with-title-and-arrow-stretched-heading-three">
-    <button class="hs-accordion-toggle hs-accordion-active:text-[#008779] py-3 inline-flex items-center justify-between gap-x-3 w-full font-semibold text-start text-gray-800 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none" aria-controls="hs-basic-with-title-and-arrow-stretched-collapse-three">
-      Accordion #3
+    <button class="hs-accordion-toggle hs-accordion-active:text-[#008779] py-3 inline-flex items-center justify-between gap-x-3 w-full font-semibold text-start text-[#04847C] hover:text-[#04847C] hover:opacity-80 rounded-lg disabled:opacity-50 disabled:pointer-events-none" aria-controls="hs-basic-with-title-and-arrow-stretched-collapse-three">
+      Sección #3
       <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="m6 9 6 6 6-6"></path>
       </svg>
@@ -1516,7 +1443,7 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#EDEDED] text-white 
       </svg>
     </button>
     <div id="hs-basic-with-title-and-arrow-stretched-collapse-three" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-basic-with-title-and-arrow-stretched-heading-three">
-      <p class="text-gray-800">
+      <p class="text-black">
         <em>This is the third item's accordion body.</em> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions.
       </p>
     </div>
@@ -1525,9 +1452,26 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#EDEDED] text-white 
 
 <br><br><br>
 <button
-class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#E5E7EB] text-white py-3 px-3 rounded-xl font-bold uppercase hover:opacity-90 transition-opacity duration-300" (click)="activarSweetAlert()">
-<span class="relative">Registro</span>
+class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#E5E7EB] text-white py-3 px-3 rounded-xl font-bold uppercase hover:opacity-90 transition-opacity duration-300" (click)="funcion1()">
+<span class="relative">Success</span>
 </button>
+<button
+class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#E5E7EB] text-white py-3 px-3 rounded-xl font-bold uppercase hover:opacity-90 transition-opacity duration-300" (click)="funcion2()">
+<span class="relative">Warning</span>
+</button>
+<button
+class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#E5E7EB] text-white py-3 px-3 rounded-xl font-bold uppercase hover:opacity-90 transition-opacity duration-300" (click)="funcion3()">
+<span class="relative">Error</span>
+</button>
+<button
+class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#E5E7EB] text-white py-3 px-3 rounded-xl font-bold uppercase hover:opacity-90 transition-opacity duration-300" (click)="funcion4()">
+<span class="relative">Info</span>
+</button>
+<button
+class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#E5E7EB] text-white py-3 px-3 rounded-xl font-bold uppercase hover:opacity-90 transition-opacity duration-300" (click)="funcion5()">
+<span class="relative">Question</span>
+</button>
+<br>
 <button
 class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#E5E7EB] text-white py-3 px-3 rounded-xl font-bold uppercase hover:opacity-90 transition-opacity duration-300" (click)="activarSweetAlertSure()">
 <span class="relative">Are you sure?</span>
@@ -1558,7 +1502,7 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#E5E7EB] text-white 
     <span class="size-12 block bg-gray-200 rounded-full"></span>
   </div>
 
-  <div class="ms-4 mt-2 w-full ">
+  <div class="ms-4 mt-2 w-80">
     <p class="h-4 bg-gray-200 rounded-full" style="width: 40%;"></p>
 
     <ul class="mt-5 space-y-3">
@@ -1571,10 +1515,6 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#E5E7EB] text-white 
 </div>
 <br><br>
 <div class="flex animate-pulse m-4">
-  <div class="flex-shrink-0">
-    <span class="size-12 block bg-gray-200 rounded-full"></span>
-  </div>
-
   <div class="ms-4 mt-2 w-3/12">
     <p class="h-4 bg-gray-200 rounded-full" style="width: 40%;"></p>
 
@@ -1667,14 +1607,14 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#E5E7EB] text-white 
           <input type="text" formControlName="name" class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-4 pr-10 text-gray-900 placeholder-gray-500" placeholder="Texto">
           <i class="fa-solid fa-question absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" title="Ingresa solo tu nombre"></i>
           <div *ngIf="myForm.get('name')?.invalid && (myForm.get('name')?.dirty || myForm.get('name')?.touched)">
-            <div *ngIf="myForm.get('name')?.errors?.['required']" class="text-danger-color">Este campo es requerido</div>
+            <div *ngIf="myForm.get('name')?.errors?.['required']" class="text-danger-color">Por favor, ingresa solo texto en este campo.</div>
           </div>
         </div>
       </div>
       <div class="col-span-1">
         <label class="text-black text-base">Ingresa tu edad:</label><br>
         <div class="relative">
-          <input type="number" formControlName="age" class="border-2 border-[#E5E7EB] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" placeholder="Número">
+          <input type="number" formControlName="age" class="border-2 border-[#E5E7EB] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900 " placeholder="Número">
           <i class="fa-solid fa-question absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" title="Ingresa tu edad actual"></i>
           <div *ngIf="myForm.get('age')?.invalid && (myForm.get('age')?.dirty || myForm.get('age')?.touched)">
             <div *ngIf="myForm.get('age')?.errors?.['required']" class="text-danger-color">Este campo es requerido</div>
@@ -1691,7 +1631,22 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#E5E7EB] text-white 
       </div>
       <div class="col-span-2 md:col-span-1">
         <label class="text-black text-base">Adjuntar una imagen:</label><br>
-        <input type="file" formControlName="file" class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900">
+        <div class="max-w-sm">
+            <label class="block">
+              <span class="sr-only">Choose profile photo</span>
+              <input type="file" class="block w-full text-sm text-gray-500
+                file:me-4 file:py-2 file:px-4
+                file:rounded-lg file:border-0
+                file:text-sm file:font-semibold
+                file:bg-[#04847C] file:text-white
+                border-2 border-[#E5E7EB]
+                py-1 px-1
+                hover:file:bg-[#04847C]
+                hover:opacity-80
+                file:disabled:opacity-50 file:disabled:pointer-events-none
+              ">
+            </label>
+        </div>
         <div *ngIf="myForm.get('file')?.invalid && (myForm.get('file')?.dirty || myForm.get('file')?.touched)">
           <div *ngIf="myForm.get('file')?.errors?.['required']" class="text-danger-color">Este campo es requerido</div>
         </div>
@@ -1714,9 +1669,11 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#E5E7EB] text-white 
       </div>
     </div>
     <br>
-    <button class="btn-default w-auto m-2 bg-[#003C3D] border-2 border-[#E5E7EB] text-white py-3 px-3 rounded-xl hover:opacity-90 transition-opacity duration-300" [disabled]="myForm.invalid">
-      <span class="relative">Guardar</span>
-    </button>
+    <div class="flex justify-end">
+      <button class="btn-default w-auto m-2 bg-[#003C3D] border-2 border-[#E5E7EB] text-white py-3 px-3 rounded-xl hover:opacity-90 transition-opacity duration-300" [disabled]="myForm.invalid">
+        <span class="relative">Guardar</span>
+      </button>
+    </div>
   </form>
 </div>
 
@@ -1832,5 +1789,3 @@ class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#E5E7EB] text-white 
     </div>
 
   </footer>
-
-  
