@@ -16,62 +16,70 @@ También incluye declaraciones personalizadas de @font-face para las fuentes 'te
 @layer tailwind-base, primeng, tailwind-utilities;
 
 @layer tailwind-base {
-    @tailwind base;
+  @tailwind base;
 }
 
 @layer tailwind-utilities {
-    @tailwind components;
-    @tailwind utilities;
+  @tailwind components;
+  @tailwind utilities;
 }
 
 input[type="checkbox"] {
-    accent-color: #04847C !important; 
+  accent-color: #04847C !important;
 }
+
 input[type="radio"] {
-    accent-color: #04847C !important; 
+  accent-color: #04847C !important;
 }
 
 
 
-.hs-tooltip-toggle > .fas.fa-edit{
-  color: #3b82f6 !important; /* Blue 500 */
+.hs-tooltip-toggle>.fas.fa-edit {
+  color: #3b82f6 !important;
+  /* Blue 500 */
 }
 
-.hs-tooltip-toggle > .fas.fa-edit:hover{
-  color: #2563eb !important; /* Blue 600 */
-}
-
-
-.hs-tooltip-toggle > .fa.fa-trash{
-  color: #ef4444 !important; /* Red 500 */
-}
-
-.hs-tooltip-toggle > .fa.fa-trash:hover{
-  color: #dc2626 !important; /* Red 600 */
-}
-
-.hs-tooltip-toggle > .fa-solid.fa-arrow-rotate-left{
-  color: #22c55e !important; /* Green 500 */
-}
-
-.hs-tooltip-toggle > .fa-solid.fa-arrow-rotate-left:hover{
-  color: #16a34a !important; /* Green 600 */
-
+.hs-tooltip-toggle>.fas.fa-edit:hover {
+  color: #2563eb !important;
+  /* Blue 600 */
 }
 
 
-.hs-tooltip-toggle > .fa.fa-eye{
+.hs-tooltip-toggle>.fa.fa-trash {
+  color: #ef4444 !important;
+  /* Red 500 */
+}
+
+.hs-tooltip-toggle>.fa.fa-trash:hover {
+  color: #dc2626 !important;
+  /* Red 600 */
+}
+
+.hs-tooltip-toggle>.fa-solid.fa-arrow-rotate-left {
+  color: #22c55e !important;
+  /* Green 500 */
+}
+
+.hs-tooltip-toggle>.fa-solid.fa-arrow-rotate-left:hover {
+  color: #16a34a !important;
+  /* Green 600 */
+
+}
+
+
+.hs-tooltip-toggle>.fa.fa-eye {
   color: #008779 !important;
 }
 
-.hs-tooltip-toggle > .fa.fa-eye:hover{
-  color: #003C3D!important; /* Green 600 */
+.hs-tooltip-toggle>.fa.fa-eye:hover {
+  color: #003C3D !important;
+  /* Green 600 */
 
 }
 
 
-tr > .p-element svg{
-  color: white  !important;
+tr>.p-element svg {
+  color: white !important;
 }
 
 
@@ -82,10 +90,12 @@ tr > .p-element svg{
   gap: 10px;
   align-items: center;
 }
+
 .example-2 .icon-content {
   margin: 0 10px;
   position: relative;
 }
+
 .example-2 .icon-content .tooltip {
   position: absolute;
   top: -10px;
@@ -99,11 +109,13 @@ tr > .p-element svg{
   font-size: 14px;
   transition: all 0.3s ease;
 }
+
 .example-2 .icon-content:hover .tooltip {
   opacity: 1;
   visibility: visible;
   top: 6px;
 }
+
 .example-2 .icon-content a {
   position: relative;
   overflow: hidden;
@@ -117,18 +129,22 @@ tr > .p-element svg{
   background-color: #ffff;
   transition: all 0.3s ease-in-out;
 }
+
 .example-2 .icon-content a:hover {
   box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 50%);
 }
+
 .example-2 .icon-content a svg {
   position: relative;
   z-index: 1;
   width: 30px;
   height: 30px;
 }
+
 .example-2 .icon-content a:hover {
   color: white;
 }
+
 .example-2 .icon-content a .filled {
   position: absolute;
   top: auto;
@@ -139,34 +155,42 @@ tr > .p-element svg{
   background-color: #000;
   transition: all 0.3s ease-in-out;
 }
+
 .example-2 .icon-content a:hover .filled {
   height: 100%;
 }
 
 .example-2 .icon-content a[data-social="tiktok"] .filled,
-.example-2 .icon-content a[data-social="tiktok"] ~ .tooltip {
-  background: linear-gradient(135deg, 
-  #25F3ef, 
-  #fd3359);
+.example-2 .icon-content a[data-social="tiktok"]~.tooltip {
+  background: linear-gradient(135deg,
+      #25F3ef,
+      #fd3359);
 }
+
 .example-2 .icon-content a[data-social="youtube"] .filled,
-.example-2 .icon-content a[data-social="youtube"] ~ .tooltip {
-  background: linear-gradient(45deg, 
-                              #FF0000, /* Rojo */
-                              #FF6347); /* Tomate */
+.example-2 .icon-content a[data-social="youtube"]~.tooltip {
+  background: linear-gradient(45deg,
+      #FF0000,
+      /* Rojo */
+      #FF6347);
+  /* Tomate */
 }
+
 .example-2 .icon-content a[data-social="instagram"] .filled,
-.example-2 .icon-content a[data-social="instagram"] ~ .tooltip {
-  background: linear-gradient(45deg, 
-  #833ab4, 
-  #fd1d1d, 
-  #fcb045);
+.example-2 .icon-content a[data-social="instagram"]~.tooltip {
+  background: linear-gradient(45deg,
+      #833ab4,
+      #fd1d1d,
+      #fcb045);
 }
+
 .example-2 .icon-content a[data-social="facebook"] .filled,
-.example-2 .icon-content a[data-social="facebook"] ~ .tooltip {
-  background: linear-gradient(45deg, 
-                              #096ae2, /* Azul más oscuro */
-                              #1eaffe); /* Azul característico de Facebook */
+.example-2 .icon-content a[data-social="facebook"]~.tooltip {
+  background: linear-gradient(45deg,
+      #096ae2,
+      /* Azul más oscuro */
+      #1eaffe);
+  /* Azul característico de Facebook */
 }
 
 
@@ -177,10 +201,12 @@ tr > .p-element svg{
   gap: 10px;
   align-items: center;
 }
+
 .example-1 .icon-content {
   margin: 0 10px;
   position: relative;
 }
+
 .example-1 .icon-content .tooltip {
   position: absolute;
   top: -10px;
@@ -194,11 +220,13 @@ tr > .p-element svg{
   font-size: 14px;
   transition: all 0.3s ease;
 }
+
 .example-1 .icon-content:hover .tooltip {
   opacity: 1;
   visibility: visible;
   top: 6px;
 }
+
 .example-1 .icon-content a {
   position: relative;
   overflow: hidden;
@@ -212,18 +240,22 @@ tr > .p-element svg{
   background-color: #ffff;
   transition: all 0.3s ease-in-out;
 }
+
 .example-1 .icon-content a:hover {
   box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 50%);
 }
+
 .example-1 .icon-content a svg {
   position: relative;
   z-index: 1;
   width: 30px;
   height: 30px;
 }
+
 .example-1 .icon-content a:hover {
   color: white;
 }
+
 .example-1 .icon-content a .filled {
   position: absolute;
   top: auto;
@@ -234,15 +266,23 @@ tr > .p-element svg{
   background-color: #000;
   transition: all 0.3s ease-in-out;
 }
+
 .example-1 .icon-content a:hover .filled {
   height: 100%;
 }
+
 .example-1 .icon-content a[data-social="Whatsapp"] .filled,
-.example-1 .icon-content a[data-social="Whatsapp"] ~ .tooltip {
-  background: linear-gradient(45deg, 
-                              #25D366, /* Verde de WhatsApp */
-                              #128C7E); /* Verde más oscuro */
-                            }
+.example-1 .icon-content a[data-social="Whatsapp"]~.tooltip {
+  background: linear-gradient(45deg,
+      #25D366,
+      /* Verde de WhatsApp */
+      #128C7E);
+  /* Verde más oscuro */
+}
 
 
-
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background: #47b0a4;
+  border-color: #EFF6FF;
+  color: black;
+}
