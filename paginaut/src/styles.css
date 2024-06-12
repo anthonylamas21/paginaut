@@ -7,10 +7,6 @@
 @import "primeng/resources/primeng.min.css";
 @import "primeicons/primeicons.css";
 
-/*
-Este archivo CSS se utiliza para aplicar estilos globales y importar otros archivos de estilos.
-También incluye declaraciones personalizadas de @font-face para las fuentes 'texto' y 'titulo'.
-*/
 
 
 @layer tailwind-base, primeng, tailwind-utilities;
@@ -82,7 +78,7 @@ tr>.p-element svg {
   color: white !important;
 }
 
-
+/* INICIO DISEÑO DE ICONOS PERSISTENTES */
 .example-2 {
   display: flex;
   flex-direction: column;
@@ -162,26 +158,25 @@ tr>.p-element svg {
 
 .example-2 .icon-content a[data-social="tiktok"] .filled,
 .example-2 .icon-content a[data-social="tiktok"]~.tooltip {
-  background: linear-gradient(135deg,
-      #25F3ef,
-      #fd3359);
+  background: black;
 }
 
 .example-2 .icon-content a[data-social="youtube"] .filled,
 .example-2 .icon-content a[data-social="youtube"]~.tooltip {
-  background: linear-gradient(45deg,
-      #FF0000,
-      /* Rojo */
-      #FF6347);
-  /* Tomate */
+  background:      #FF0808;
 }
 
 .example-2 .icon-content a[data-social="instagram"] .filled,
 .example-2 .icon-content a[data-social="instagram"]~.tooltip {
   background: linear-gradient(45deg,
-      #833ab4,
-      #fd1d1d,
-      #fcb045);
+    #FFCB00,
+    #FE5C00,
+    #FF0055,   
+    #FF00C3,
+    #7B04FF
+    
+      );
+
 }
 
 .example-2 .icon-content a[data-social="facebook"] .filled,
@@ -193,7 +188,7 @@ tr>.p-element svg {
   /* Azul característico de Facebook */
 }
 
-
+/* ICONOS PERSISTENTES WHATS*/
 .example-1 {
   display: flex;
   flex-direction: column;
@@ -279,10 +274,22 @@ tr>.p-element svg {
       #128C7E);
   /* Verde más oscuro */
 }
+/* FIN DE ICONOS PERSISTENTES */
 
 
+/* Diseño Selector numero de pagina en tablas con filtrados */
 .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
   background: #47b0a4;
   border-color: #EFF6FF;
   color: black;
+}
+
+
+/* Iconos cambio a blanco */
+svg {
+  transition: fill 0.3s ease; /* Transición suave para el cambio de color */
+}
+/* Cambio de color del SVG cuando el cursor está sobre el li */
+li:hover svg {
+  fill: white;
 }
