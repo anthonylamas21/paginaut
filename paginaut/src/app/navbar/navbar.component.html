@@ -1,8 +1,8 @@
-<!-- ================================================= INICIO HEADER =================================================== -->
 
-<header 
-class=" fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full text-sm py-3 md:py-0 bg-[#043D3D]">
-<nav class="max-w-full w-full" aria-label="Global">
+<!-- ========== HEADER ========== -->
+<header id="navbarAccion" 
+class=" fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full text-sm py-3 md:py-0 bg-transparent">
+<nav  class="max-w-full w-full" aria-label="Global">
   <div class="relative lg:flex md:items-center md:justify-between">
     <div class="flex items-center justify-between">
       <img src="./assets/img/logo-ut.png" alt="">
@@ -27,9 +27,7 @@ class=" fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowra
         </button>
       </div>
     </div>
-
-
-    
+ 
     <div id="navbar-collapse-with-animation"
       class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block">
       <div
@@ -529,4 +527,11 @@ class=" fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowra
   </div>
 </nav>
 </header>
+
 <!-- ================================================= END HEADER =================================================== -->
+<p id="inicio"></p>
+
+
+<button id="scrollTopButton" (click)="scrollToSection('inicio')" class="hidden fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+  <i class="fa-solid fa-chevron-up"></i>
+</button>
