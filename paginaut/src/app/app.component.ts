@@ -219,19 +219,25 @@ funcion3(){
 
   scrollToSection(sectionId: string): void {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-    console.log("se mira");
   }
+  
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     const button = document.getElementById('scrollTopButton');
+    const nabvar = document.getElementById('navbarAccion');
     const inicioSection = document.getElementById('inicio');
-    if (inicioSection) {
+  
+    if (inicioSection && nabvar) {
       const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
-
+  
       if (window.scrollY > inicioSectionBottom) {
         button?.classList.remove('hidden');
+        nabvar.classList.remove('bg-transparent', 'transition-colors', 'duration-500');
+        nabvar.classList.add('bg-[#043D3D]', 'transition-colors', 'duration-500');
       } else {
         button?.classList.add('hidden');
+        nabvar.classList.remove('bg-[#043D3D]', 'transition-colors', 'duration-500');
+        nabvar.classList.add('bg-transparent', 'transition-colors', 'duration-500');
       }
     }
   }
