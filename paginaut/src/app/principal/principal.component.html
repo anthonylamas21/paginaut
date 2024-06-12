@@ -1,10 +1,47 @@
 <app-navbar></app-navbar>
 
-<div id="portada-imagen">
-    <img src="../../assets/img/utprincipal.jpeg">
-  </div>
+<p id="inicio"></p>
 
+<img class="w-full" src="../../assets/img/universidad.jpg" alt="...">
+
+<button id="scrollTopButton" (click)="scrollToSection('inicio')"
+  class="hidden fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+  <i class="fa-solid fa-chevron-up"></i>
+</button>
 <div>
-<h1>Universidad Tecnológica de la Región Norte de Guerrero</h1>
 
-</div>
+  <div class="container-eventos">
+    <div class="container mx-auto p-4">
+      <h2 class="text-2xl font-bold text-gray-800 uppercase mb-4">Eventos Más Recientes</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+        <!-- Primer div superior -->
+        <div class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow-lg">
+          <img src="../../assets/img/evento1.jpg" alt="Noticia del día" class="w-full h-48 object-cover rounded-t-lg">
+          <div class="p-4">
+            <h3 class="text-xl font-semibold text-gray-800">Noticia del día</h3>
+            <p class="text-gray-600">Conferencia sobre la drogadicción en Poliforum</p>
+          </div>
+        </div>
+        <!-- Tres divs abajo -->
+        <div class="col-span-1 lg:col-span-1 bg-white rounded-lg shadow-lg">
+          <img src="../../assets/img/evento2.jpg" alt="Noticia de la semana" class="w-full h-32 object-cover rounded-t-lg">
+          <div class="p-4">
+            <h3 class="text-lg font-semibold text-gray-800">Noticia de la semana</h3>
+          </div>
+        </div>
+        <div class="col-span-1 lg:col-span-1 bg-white rounded-lg shadow-lg">
+          <img src="../../assets/img/evento3.jpg" alt="Noticia de la semana" class="w-full h-32 object-cover rounded-t-lg">
+          <div class="p-4">
+            <h3 class="text-lg font-semibold text-gray-800">Noticia de la semana</h3>
+          </div>
+        </div>
+        <div class="col-span-1 lg:col-span-1 bg-white rounded-lg shadow-lg">
+          <img src="../../assets/img/evento4.jpg" alt="Noticia de la semana" class="w-full h-32 object-cover rounded-t-lg">
+          <div class="p-4">
+            <h3 class="text-lg font-semibold text-gray-800">Noticia de la semana</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    </div>
