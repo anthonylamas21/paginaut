@@ -1,19 +1,20 @@
-<div class="py-6">
-  <div class="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-4xl border border-gray-300">
-    <div class="w-full lg:w-1/2 bg-cover" style="background-image: url('../../assets/image/logo.jpg'); margin: 10px; border: 1px solid gray; border-radius: 10px;">
-      <!-- Imagen que se muestra solo en dispositivos móviles y tabletas -->
-      <img class="block lg:hidden w-full h-auto object-cover rounded-lg" src="../../assets/image/logo.jpg" alt="Image Description" />
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden mx-4 max-w-sm lg:max-w-4xl border border-gray-300">
+    <!-- dispositivos grandes -->
+    <div class="hidden lg:block w-2/3 bg-cover">
+      <img class="w-full h-auto object-cover" src="./assets/image/logo.jpg" alt="Image Description" />
     </div>
-
-    <div class="w-full p-8 lg:w-1/2">
-      <div class="mt-4 flex items-center lg:justify-between">
-        <span class="border-b border-primary-color w-1/6"></span>
+    <div class="w-full p-8 lg:w-2/3">
+      <div class="mt-4 flex items-center justify-center lg:justify-between">
+        
+          <!-- dispositivos móviles -->
+        <img class="block lg:hidden w-1/4 h-1/4 object-cover rounded-full mr-2" src="./assets/image/logo.jpg" alt="Image Description" />
+        <span class="border-b border-primary-color w-1/6 hidden lg:block"></span>
         <div class="flex items-center mx-4">
-          <h1 class="text-2xl text-center text-gray-500 uppercase">Iniciar Sesión</h1>
+          <h1 class="text-2xl text-center text-black uppercase">Iniciar Sesión</h1>
         </div>
-        <span class="border-b border-primary-color w-1/6"></span>
+        <span class="border-b border-primary-color w-1/6 hidden lg:block"></span>
       </div>
-
       <div class="mt-4">
         <div class="max-w-sm">
           <label for="input-email" class="block text-sm font-medium mb-2">Correo Electrónico</label>
@@ -25,7 +26,6 @@
           />
         </div>
       </div>
-
       <div class="mt-4">
         <div class="max-w-sm">
           <label class="block text-sm mb-2">Contraseña</label>
@@ -64,12 +64,13 @@
         </div>
       </div>
       <div class="mt-8">
-        <button class="bg-primary-color text-black font-bold py-2 px-4 w-full rounded hover:bg-primary-color-90">
-          Iniciar Sesión
+        <button class="bg-primary-color text-white font-bold py-2 px-4 w-full rounded hover:bg-primary-color-90">
+          Acceder
         </button>
       </div>
       <div class="mt-4 flex items-center justify-between">
         <span class="border-b border-primary-color w-1/5"></span>
+        <a href=""><span class="text-primary-color hover:opacity-90">Olvidé mi contraseña</span></a>
         <span class="border-b border-primary-color w-1/5"></span>
       </div>
     </div>
