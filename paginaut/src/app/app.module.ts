@@ -11,11 +11,23 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
+import { PrincipalComponent } from './principal/principal.component';
+import { CarrerasComponent } from './carreras/carreras.component';
+import { InstalacionesComponent } from './instalaciones/instalaciones.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { ComponentesComponent } from './componentes/componentes.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PrincipalComponent,
+    CarrerasComponent,
+    InstalacionesComponent,
+    NavbarComponent,
+    ComponentesComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
