@@ -16,6 +16,7 @@ import { CarrerasComponent } from './carreras/carreras.component';
 import { InstalacionesComponent } from './instalaciones/instalaciones.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ComponentesComponent } from './componentes/componentes.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ComponentesComponent } from './componentes/componentes.component';
     CarrerasComponent,
     InstalacionesComponent,
     NavbarComponent,
-    ComponentesComponent
+    ComponentesComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

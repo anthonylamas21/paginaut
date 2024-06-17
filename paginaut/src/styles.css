@@ -92,23 +92,11 @@ tr>.p-element svg {
 }
 
 .example-2 .icon-content {
-  margin: 0 10px;
+  margin: 0 1px;
   position: relative;
 }
 
-.example-2 .icon-content .tooltip {
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(50%);
-  color: #fff;
-  padding: 6px 10px;
-  border-radius: 15px;
-  opacity: 0;
-  visibility: hidden;
-  font-size: 14px;
-  transition: all 0.3s ease;
-}
+
 
 .example-2 .icon-content:hover .tooltip {
   opacity: 1;
@@ -160,28 +148,28 @@ tr>.p-element svg {
   height: 100%;
 }
 
+
 .example-2 .icon-content a[data-social="tiktok"] .filled,
 .example-2 .icon-content a[data-social="tiktok"]~.tooltip {
-  background: linear-gradient(135deg,
-      #25F3ef,
-      #fd3359);
+  background: black;
 }
 
 .example-2 .icon-content a[data-social="youtube"] .filled,
 .example-2 .icon-content a[data-social="youtube"]~.tooltip {
-  background: linear-gradient(45deg,
-      #FF0000,
-      /* Rojo */
-      #FF6347);
-  /* Tomate */
+  background:      #FF0808;
 }
 
 .example-2 .icon-content a[data-social="instagram"] .filled,
 .example-2 .icon-content a[data-social="instagram"]~.tooltip {
   background: linear-gradient(45deg,
-      #833ab4,
-      #fd1d1d,
-      #fcb045);
+    #FFCB00,
+    #FE5C00,
+    #FF0055,   
+    #FF00C3,
+    #7B04FF
+    
+      );
+
 }
 
 .example-2 .icon-content a[data-social="facebook"] .filled,
@@ -193,7 +181,6 @@ tr>.p-element svg {
   /* Azul característico de Facebook */
 }
 
-
 .example-1 {
   display: flex;
   flex-direction: column;
@@ -203,23 +190,11 @@ tr>.p-element svg {
 }
 
 .example-1 .icon-content {
-  margin: 0 10px;
+  margin: 0 1px;
   position: relative;
 }
 
-.example-1 .icon-content .tooltip {
-  position: absolute;
-  top: -10px;
-  right: 200%;
-  transform: translateX(50%);
-  color: #fff;
-  padding: 6px 10px;
-  border-radius: 15px;
-  opacity: 0;
-  visibility: hidden;
-  font-size: 14px;
-  transition: all 0.3s ease;
-}
+
 
 .example-1 .icon-content:hover .tooltip {
   opacity: 1;
@@ -300,6 +275,9 @@ tr>.p-element svg {
     cursor: default;
     position: absolute;
 }
+.date-container {
+  height: 100%;
+}
 
 .container-eventos {
   width: 100%;
@@ -308,3 +286,22 @@ tr>.p-element svg {
   margin-right: auto;
   margin-left: auto;
 }
+
+
+/* Diseño Selector numero de pagina en tablas con filtrados */
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background: #47b0a4;
+  border-color: #EFF6FF;
+  color: black;
+}
+
+
+/* Iconos cambio a blanco */
+svg {
+  transition: fill 0.3s ease; /* Transición suave para el cambio de color */
+}
+/* Cambio de color del SVG cuando el cursor está sobre el li */
+li:hover svg {
+  fill: white;
+}
+
