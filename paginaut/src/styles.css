@@ -305,3 +305,12 @@ li:hover svg {
   fill: white;
 }
 
+/* Estilos para el menú desplegable */
+.hs-dropdown-menu {
+  @apply shadow-lg rounded-md;
+}
+
+/* Estilos para los enlaces del menú desplegable */
+.hs-dropdown-menu a {
+  @apply transition-colors duration-300;
+}
