@@ -18,6 +18,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ComponentesComponent } from './componentes/componentes.component';
 import { FooterComponent } from './footer/footer.component';
 import { UnidadesAcademicasComponent } from './unidades-academicas/unidades-academicas.component';
+import { BecasComponent } from './becas/becas.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { UnidadesAcademicasComponent } from './unidades-academicas/unidades-acad
     NavbarComponent,
     ComponentesComponent,
     FooterComponent,
-    UnidadesAcademicasComponent
+    UnidadesAcademicasComponent,
+    BecasComponent
   ],
   imports: [
     BrowserModule,

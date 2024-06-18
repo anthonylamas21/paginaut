@@ -1,11 +1,11 @@
 import { Component, HostListener } from '@angular/core';
 
 @Component({
-  selector: 'app-carreras',
-  templateUrl: './carreras.component.html',
-  styleUrl: './carreras.component.css'
+  selector: 'app-becas',
+  templateUrl: './becas.component.html',
+  styleUrl: './becas.component.css'
 })
-export class CarrerasComponent {
+export class BecasComponent {
 
   ngOnInit(): void {
     this.setNavbarColor();
