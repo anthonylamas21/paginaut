@@ -16,6 +16,7 @@
   
   <div  class="fixed bottom-4 left-1">
     <ul class="example-2">
+      
     <!--Icono Persistente de Instagrama-->
       <li class="icon-content">
         <a
@@ -113,20 +114,7 @@
 
   
   <script>
-    window.addEventListener('scroll', function() {
-      const navbar = document.getElementById('navbar');
-      if (window.scrollY > 0) {
-        navbar.classList.add('bg-opacity-100', 'shadow-md');
-        navbar.classList.remove('bg-opacity-0', 'shadow-inner');
-        navbar.classList.remove('text-black');
-        navbar.classList.add('text-white');
-      } else {
-        navbar.classList.add('bg-opacity-0', 'shadow-inner');
-        navbar.classList.remove('bg-opacity-100', 'shadow-md');
-        navbar.classList.remove('text-white');
-        navbar.classList.add('text-black');
-      }
-    });
+   
 
     const openBtn = document.querySelector('#open-btn');
 

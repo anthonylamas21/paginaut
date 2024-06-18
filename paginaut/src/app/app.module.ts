@@ -17,6 +17,7 @@ import { InstalacionesComponent } from './instalaciones/instalaciones.component'
 import { NavbarComponent } from './navbar/navbar.component';
 import { ComponentesComponent } from './componentes/componentes.component';
 import { FooterComponent } from './footer/footer.component';
+import { UnidadesAcademicasComponent } from './unidades-academicas/unidades-academicas.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { FooterComponent } from './footer/footer.component';
     InstalacionesComponent,
     NavbarComponent,
     ComponentesComponent,
-    FooterComponent
+    FooterComponent,
+    UnidadesAcademicasComponent
   ],
   imports: [
     BrowserModule,
