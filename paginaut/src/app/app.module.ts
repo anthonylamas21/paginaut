@@ -20,6 +20,7 @@ import { FooterComponent } from './footer/footer.component';
 import { UnidadesAcademicasComponent } from './unidades-academicas/unidades-academicas.component';
 import { BecasComponent } from './becas/becas.component';
 import { TalleresComponent } from './talleres/talleres.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { TalleresComponent } from './talleres/talleres.component';
     FooterComponent,
     UnidadesAcademicasComponent,
     BecasComponent,
-    TalleresComponent
+    TalleresComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

@@ -7,6 +7,7 @@ import { CarrerasComponent } from './carreras/carreras.component';
 import { UnidadesAcademicasComponent } from './unidades-academicas/unidades-academicas.component';
 import { BecasComponent } from './becas/becas.component';
 import { TalleresComponent } from './talleres/talleres.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/principal', pathMatch: 'full' }, // Ruta por defecto
@@ -19,7 +20,8 @@ const routes: Routes = [
   {path: 'carreras', component:CarrerasComponent},
   {path: 'becas', component:BecasComponent},
   {path: 'unidades_academicas', component:UnidadesAcademicasComponent},
-  {path: 'lectura', component:TalleresComponent}
+  {path: 'lectura', component:TalleresComponent},
+  {path: 'login', component:LoginComponent}
 
 ];
 
