@@ -1,23 +1,18 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-unidades-academicas',
-  templateUrl: './unidades-academicas.component.html',
-  styleUrl: './unidades-academicas.component.css'
+  selector: 'app-eventos',
+  templateUrl: './eventos.component.html',
+  styleUrl: './eventos.component.css'
 })
-export class UnidadesAcademicasComponent implements OnInit {
-  isLoading = true;
-  
-  ngOnInit(): void {
-    // Simula la carga de datos con un retraso
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 5000); // Ajusta el tiempo según sea necesario
- 
-this.setNavbarColor();
- }
+export class EventosComponent implements OnInit {
+ isLoading = true;
 
+  ngOnInit(): void {
+this.setNavbarColor();
+  }
  
+
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     this.setNavbarColor();

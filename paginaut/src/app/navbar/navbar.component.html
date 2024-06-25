@@ -4,8 +4,10 @@
 class=" fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full text-sm py-3 md:py-0 bg-transparent">
 <nav  class="max-w-full w-full" aria-label="Global">
   <div class="relative lg:flex md:items-center md:justify-between">
-    <div class="flex items-center justify-between m-2">
-      <img src="./assets/img/logo-ut.png" alt="">
+    <div class="flex items-center justify-between" >
+      <a [routerLink]="['/principal']">
+        <img src="./assets/img/logo-ut.png" alt="Logo UT">
+      </a>
       <div class="md:hidden">
         <button type="button"
           class="hs-collapse-toggle flex justify-center items-center size-9 text-sm font-semibold rounded-lg border border-gray-200 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none text-white hover:text-black"

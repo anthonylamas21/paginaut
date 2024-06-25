@@ -18,10 +18,12 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ComponentesComponent } from './componentes/componentes.component';
 import { FooterComponent } from './footer/footer.component';
 import { UnidadesAcademicasComponent } from './unidades-academicas/unidades-academicas.component';
+import { EventosComponent } from './eventos/eventos.component';
 import { BecasComponent } from './becas/becas.component';
 import { TalleresComponent } from './talleres/talleres.component';
 import { LoginComponent } from './login/login.component';
 import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
+
 
 
 @NgModule({
@@ -34,6 +36,7 @@ import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
     ComponentesComponent,
     FooterComponent,
     UnidadesAcademicasComponent,
+    EventosComponent,
     BecasComponent,
     TalleresComponent,
     LoginComponent,
