@@ -10,7 +10,7 @@ import { TalleresComponent } from './talleres/talleres.component';
 import { LoginComponent } from './login/login.component';
 import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { EventosComponent } from './eventos/eventos.component';
-
+import { CalendarioComponent } from './calendario/calendario.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/principal', pathMatch: 'full' }, // Ruta por defecto
@@ -26,7 +26,8 @@ const routes: Routes = [
   {path: 'lectura', component:TalleresComponent},
   {path: 'login', component:LoginComponent},
   {path: 'info_carrera', component:InfoCarreraComponent},
-  {path: 'eventos', component:EventosComponent}
+  {path: 'eventos', component:EventosComponent},
+  {path: 'calendario', component:CalendarioComponent}
 ];
 
 @NgModule({

@@ -23,6 +23,7 @@ import { BecasComponent } from './becas/becas.component';
 import { TalleresComponent } from './talleres/talleres.component';
 import { LoginComponent } from './login/login.component';
 import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
+import { CalendarioComponent } from './calendario/calendario.component';
 
 
 
@@ -40,7 +41,8 @@ import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
     BecasComponent,
     TalleresComponent,
     LoginComponent,
-    InfoCarreraComponent
+    InfoCarreraComponent,
+    CalendarioComponent
   ],
   imports: [
     BrowserModule,
