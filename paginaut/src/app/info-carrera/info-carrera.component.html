@@ -1,0 +1,77 @@
+<app-navbar></app-navbar>
+<p id="inicio"></p>
+
+<button id="scrollTopButton" (click)="scrollToSection('inicio')" class="z-50 hidden fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+<ol class="flex items-center whitespace-nowrap ml-4 mt-24 mb-8">
+    <li class="inline-flex items-center">
+      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="#">
+        Home
+      </a>
+      <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6"></path>
+      </svg>
+    </li>
+    <li class="inline-flex items-center">
+      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="#">
+        Carreras
+        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </a>
+    </li>
+    <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
+      Ingeniería en desarrollo de software
+    </li>
+  </ol>
+
+  <div class="w-10/12 mx-auto"> <!--Inicio container-->
+  <div class="bg-[#043D3D]">
+    <h2 class="text-3xl font-poppins font-bold-700 text-white mb-4">Ingeniería en desarrollo y gestión de software</h2>
+  </div>
+
+  <h4 class="text-lg font-poppins font-bold text-black mt-8">Perfil profesional</h4>
+  <div class="grid grid-cols-3 gap-4 px-6 py-2">
+    <div class="w-full col-span-2">
+        <ul>
+            <li>>  Desarrollar aplicaciones WEB, móviles y videojuegos.</li>
+            <li>>  Desarrollar tecnología orientada al internet de las cosas.</li>
+            <li>>  Integrar seguridad informática en aplicaciones multiplataforma.</li>
+            <li>>  Implementar aplicaciones para wearables y pantallas inteligentes.</li>
+            <li>>  Establecer arquitecturas para el desarrollo de software.</li>
+            <li>>  Administrar Bases de Datos.</li>
+            <li>>  Gestionar el proceso de desarrollo de software.</li>
+        </ul>
+    </div>
+    <div class="w-full">
+        <img src=".\assets\img\galeria\mg4.jpg" alt="">
+    </div>
+</div>    
+
+<h4 class="text-lg font-poppins font-bold text-black mt-6">Ocupación profesional</h4>
+    <div class="grid grid-cols-3 gap-4 px-6 py-2">
+        <div class="w-full col-span-3">
+           <li> >  Desarrollador de aplicaciones web y móviles con servicios en la nube.</li>
+           <li> >  Programador independiente para empresas productoras de software.</li>
+           <li> >  Desarrollador de tecnología orientada a internet de las cosas.</li>
+           <li> >  Programador Full Stack.</li>
+           <li> >  Arquitecto de software como gestor en el proceso de desarrollo e implementación de sistemas de información.</li>
+           <li> >  Diseñador de interfaces gráficas basadas en UX.</li>
+           <li> >  Líder de proyectos de desarrollo de software.</li>
+           <li> >  Director de TI.</li>
+           <li> >  Jefe de sistemas.</li>
+           <li> >  Prestador de servicios de TI en el sector productivo.</li>
+           <li> >  Consultor integral orientado a soluciones de TI.</li>
+           <li> >  Tester de software.</li>
+           <li> >  Jefe de seguridad informática.</li>
+        </div>
+    </div>
+  
+
+</div><!--fin container-->
+
+<!--Inicio componente Footer-->
+<app-footer></app-footer>
+<!--Fin Footer-->
