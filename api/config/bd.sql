@@ -1,6 +1,5 @@
 -- Crear tablas
 
-
 CREATE TABLE Rol (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
@@ -14,7 +13,6 @@ CREATE TABLE Departamento (
     activo BOOLEAN DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 
 CREATE TABLE Usuario (
     id SERIAL PRIMARY KEY,
@@ -45,13 +43,11 @@ CREATE TABLE Carrera (
     nombre_carrera VARCHAR(100) NOT NULL,
     perfil_profesional TEXT,
     ocupacion_profesional TEXT,
-    imagen_carrera VARCHAR(255), 
     direccion_id INT,  -- Cambié el nombre de la columna a "direccion_id"
     activo BOOLEAN DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (direccion_id) REFERENCES Direccion(id)  -- Añadí la restricción de clave externa
 );
-
 
 CREATE TABLE Cuatrimestre (
     id SERIAL PRIMARY KEY,
@@ -71,14 +67,26 @@ CREATE TABLE Asignatura (
     FOREIGN KEY (cuatrimestre_id) REFERENCES Cuatrimestre(id)
 );
 
---ya veremos 
-CREATE TABLE Archivo (
+-- Crear tabla general para imágenes
+CREATE TABLE Imagenes (
+    id SERIAL PRIMARY KEY,
+    titulo VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    ruta_imagen VARCHAR(255) NOT NULL,
+    seccion VARCHAR(50) NOT NULL, -- Identifica a qué sección pertenece la imagen (carrera, evento, taller, etc.)
+    asociado_id INT, -- ID del registro en la tabla correspondiente
+    principal BOOLEAN DEFAULT FALSE, -- Indica si la imagen es principal
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Crear tabla general para archivos
+CREATE TABLE Archivos (
     id SERIAL PRIMARY KEY,
     nombre_archivo VARCHAR(255) NOT NULL,
     ruta_archivo VARCHAR(255) NOT NULL,
     tipo_archivo VARCHAR(50) NOT NULL, 
-    seccion VARCHAR(100) NOT NULL,
-    activo BOOLEAN DEFAULT TRUE,
+    seccion VARCHAR(50) NOT NULL, -- Identifica a qué sección pertenece el archivo (asignatura, evento, calendario, etc.)
+    asociado_id INT, -- ID del registro en la tabla correspondiente
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -86,38 +94,52 @@ CREATE TABLE Evento (
     id SERIAL PRIMARY KEY,
     titulo VARCHAR(50) NOT NULL,
     informacion_evento TEXT NOT NULL,
+    tipo VARCHAR(10) NOT NULL CHECK (tipo IN ('evento', 'noticia')),
     activo BOOLEAN DEFAULT TRUE,
-    fecha_inicio TIMESTAMP NOT NULL,
-    fecha_fin TIMESTAMP NOT NULL,
-    hora_inicio TIME NOT NULL,
-    hora_fin TIME NOT NULL,
+    lugar_evento VARCHAR(50) NOT NULL,
+    fecha_inicio TIMESTAMP,
+    fecha_fin TIMESTAMP,
+    hora_inicio TIME,
+    hora_fin TIME,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CHECK (
+        (tipo = 'evento' AND fecha_inicio IS NOT NULL AND fecha_fin IS NOT NULL AND hora_inicio IS NOT NULL AND hora_fin IS NOT NULL) OR
+        (tipo = 'noticia' AND fecha_inicio IS NULL AND fecha_fin IS NULL AND hora_inicio IS NULL AND hora_fin IS NULL)
+    )
+);
+
+CREATE TABLE Calendario (
+    id SERIAL PRIMARY KEY,
+    titulo VARCHAR(50) NOT NULL,
+    archivo VARCHAR(100) NOT NULL,
+    activo BOOLEAN DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-CREATE TABLE ImagenEvento (
-    id SERIAL PRIMARY KEY,
-    evento_id INT NOT NULL,
-    ruta_imagen VARCHAR(255) NOT NULL,
-    FOREIGN KEY (evento_id) REFERENCES Evento(id)
-);
-
-CREATE TABLE GaleriaImagen (
-    id SERIAL PRIMARY KEY,
-    tipo VARCHAR(50) NOT NULL, -- 'Carrera' o 'Universidad'
-    asociado_id INT, -- ID de la carrera o NULL para la universidad
-    ruta_imagen VARCHAR(255) NOT NULL,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (asociado_id) REFERENCES Carrera(id) ON DELETE CASCADE -- Restricción de clave externa para la carrera
-);
-
 
 CREATE TABLE BolsaDeTrabajo (
     id SERIAL PRIMARY KEY,
+    titulo_trabajo VARCHAR(50) NOT NULL,
     informacion_oferta TEXT NOT NULL,
     correo_empresa VARCHAR(100),
+    tipo VARCHAR(50) NOT NULL, -- 'EMPRESA' o 'PROFESORES'
     telefono_empresa VARCHAR(20),
     activo BOOLEAN DEFAULT TRUE,
+    id_direccion INT,
+    FOREIGN KEY (id_direccion) references Direccion(id),
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Taller (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    descripcion VARCHAR(50) NOT NULL,
+    competencia VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Beca (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    descripcion VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE Historial (
@@ -129,7 +151,6 @@ CREATE TABLE Historial (
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     hora TIME NOT NULL DEFAULT CURRENT_TIME
 );
-
 
 -- Función y trigger para la tabla Usuario
 CREATE OR REPLACE FUNCTION log_modificacion_usuario()
@@ -351,54 +372,108 @@ CREATE TRIGGER trigger_direccion
 AFTER INSERT OR UPDATE OR DELETE ON Direccion
 FOR EACH ROW EXECUTE FUNCTION log_modificacion_direccion();
 
--- Función y trigger para la tabla ImagenEvento
-CREATE OR REPLACE FUNCTION log_modificacion_imagenevento()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF (TG_OP = 'INSERT') THEN
-        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
-        VALUES ('ImagenEvento', 'INSERT', NEW.id, row_to_json(NEW)::jsonb);
-    ELSIF (TG_OP = 'UPDATE') THEN
-        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
-        VALUES ('ImagenEvento', 'UPDATE', OLD.id, row_to_json(OLD)::jsonb);
-    ELSIF (TG_OP = 'DELETE') THEN
-        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
-        VALUES ('ImagenEvento', 'DELETE', OLD.id, row_to_json(OLD)::jsonb);
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_imagenevento
-AFTER INSERT OR UPDATE OR DELETE ON ImagenEvento
-FOR EACH ROW EXECUTE FUNCTION log_modificacion_imagenevento();
-
--- Función y trigger para la tabla GaleriaImagen
-CREATE OR REPLACE FUNCTION log_modificacion_galeriaimagen()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF (TG_OP = 'INSERT') THEN
-        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
-        VALUES ('GaleriaImagen', 'INSERT', NEW.id, row_to_json(NEW)::jsonb);
-    ELSIF (TG_OP = 'UPDATE') THEN
-        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
-        VALUES ('GaleriaImagen', 'UPDATE', OLD.id, row_to_json(OLD)::jsonb);
-    ELSIF (TG_OP = 'DELETE') THEN
-        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
-        VALUES ('GaleriaImagen', 'DELETE', OLD.id, row_to_json(OLD)::jsonb);
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_galeriaimagen
-AFTER INSERT OR UPDATE OR DELETE ON GaleriaImagen
-FOR EACH ROW EXECUTE FUNCTION log_modificacion_galeriaimagen();
-
-
-
 -- Crear índices
 CREATE INDEX idx_usuario_correo ON Usuario (correo);
 CREATE INDEX idx_carrera_nombre ON Carrera (nombre_carrera);
 CREATE INDEX idx_evento_fecha ON Evento (fecha_inicio);
 CREATE INDEX idx_bolsadetrabajo_fecha_creacion ON BolsaDeTrabajo (fecha_creacion);
+
+-- Triggers y funciones para manejar inserciones en tablas específicas y guardar en tablas generales
+
+-- Trigger y función para insertar imágenes de carrera en la tabla general de imágenes
+CREATE OR REPLACE FUNCTION insertar_imagen_carrera()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal)
+    VALUES (NEW.nombre_carrera, NEW.perfil_profesional, NEW.imagen_carrera, 'Carrera', NEW.id, FALSE);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_insertar_imagen_carrera
+AFTER INSERT OR UPDATE ON Carrera
+FOR EACH ROW EXECUTE FUNCTION insertar_imagen_carrera();
+
+-- Trigger y función para insertar imágenes de evento en la tabla general de imágenes
+CREATE OR REPLACE FUNCTION insertar_imagen_evento()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal)
+    VALUES (NEW.titulo, NEW.informacion_evento, NEW.imagen_evento, 'Evento', NEW.id, FALSE);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_insertar_imagen_evento
+AFTER INSERT OR UPDATE ON Evento
+FOR EACH ROW EXECUTE FUNCTION insertar_imagen_evento();
+
+-- Trigger y función para insertar imágenes de taller en la tabla general de imágenes
+CREATE OR REPLACE FUNCTION insertar_imagen_taller()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal)
+    VALUES (NEW.nombre, NEW.descripcion, NEW.imagen_taller, 'Taller', NEW.id, FALSE);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_insertar_imagen_taller
+AFTER INSERT OR UPDATE ON Taller
+FOR EACH ROW EXECUTE FUNCTION insertar_imagen_taller();
+
+-- Trigger y función para insertar archivos de asignatura en la tabla general de archivos
+CREATE OR REPLACE FUNCTION insertar_archivo_asignatura()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO Archivos (nombre_archivo, ruta_archivo, tipo_archivo, seccion, asociado_id)
+    VALUES (NEW.nombre, NEW.ruta_archivo, NEW.tipo_archivo, 'Asignatura', NEW.id);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_insertar_archivo_asignatura
+AFTER INSERT OR UPDATE ON Asignatura
+FOR EACH ROW EXECUTE FUNCTION insertar_archivo_asignatura();
+
+-- Trigger y función para insertar archivos de evento en la tabla general de archivos
+CREATE OR REPLACE FUNCTION insertar_archivo_evento()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO Archivos (nombre_archivo, ruta_archivo, tipo_archivo, seccion, asociado_id)
+    VALUES (NEW.nombre_archivo, NEW.ruta_archivo, NEW.tipo_archivo, 'Evento', NEW.evento_id);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_insertar_archivo_evento
+AFTER INSERT OR UPDATE ON ArchivoEvento
+FOR EACH ROW EXECUTE FUNCTION insertar_archivo_evento();
+
+-- Trigger y función para insertar archivos de bolsa de trabajo en la tabla general de archivos
+CREATE OR REPLACE FUNCTION insertar_archivo_bolsadetrabajo()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO Archivos (nombre_archivo, ruta_archivo, tipo_archivo, seccion, asociado_id)
+    VALUES (NEW.nombre_archivo, NEW.ruta_archivo, NEW.tipo_archivo, 'BolsaDeTrabajo', NEW.bolsa_id);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_insertar_archivo_bolsadetrabajo
+AFTER INSERT OR UPDATE ON ArchivoBolsaTrabajo
+FOR EACH ROW EXECUTE FUNCTION insertar_archivo_bolsadetrabajo();
+
+-- Trigger y función para insertar archivos de beca en la tabla general de archivos
+CREATE OR REPLACE FUNCTION insertar_archivo_beca()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO Archivos (nombre_archivo, ruta_archivo, tipo_archivo, seccion, asociado_id)
+    VALUES (NEW.nombre_archivo, NEW.ruta_archivo, NEW.tipo_archivo, 'Beca', NEW.archivo_id);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_insertar_archivo_beca
+AFTER INSERT OR UPDATE ON ArchivoBeca
+FOR EACH ROW EXECUTE FUNCTION insertar_archivo_beca();

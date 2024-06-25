@@ -8,6 +8,7 @@ class Asignatura {
     public $cuatrimestre_id;
     public $activo;
     public $fecha_creacion;
+    public $archivo_asociado;
 
     public function __construct($db) {
         $this->conn = $db;
@@ -31,6 +32,9 @@ class Asignatura {
 
         if ($stmt->execute()) {
             $this->id = $this->conn->lastInsertId();
+            if (!empty($this->archivo_asociado)) {
+                $this->saveArchivoAsignatura();
+            }
             return true;
         }
         return false;
@@ -60,6 +64,7 @@ class Asignatura {
             $this->cuatrimestre_id = $row['cuatrimestre_id'];
             $this->activo = $row['activo'];
             $this->fecha_creacion = $row['fecha_creacion'];
+            $this->archivo_asociado = $this->getArchivoAsignatura();
             return true;
         }
         return false;
@@ -87,6 +92,9 @@ class Asignatura {
         $stmt->bindParam(":id", $this->id);
 
         if ($stmt->execute()) {
+            if (!empty($this->archivo_asociado)) {
+                $this->saveArchivoAsignatura();
+            }
             return true;
         }
         return false;
@@ -104,6 +112,37 @@ class Asignatura {
             return true;
         }
         return false;
+    }
+
+    // Guardar archivo asociado a la asignatura
+    private function saveArchivoAsignatura() {
+        $query = "INSERT INTO Archivos (nombre_archivo, ruta_archivo, tipo_archivo, seccion, asociado_id)
+                  VALUES (:nombre_archivo, :ruta_archivo, :tipo_archivo, 'Asignatura', :asociado_id)
+                  ON CONFLICT (seccion, asociado_id) DO UPDATE
+                  SET nombre_archivo = EXCLUDED.nombre_archivo, ruta_archivo = EXCLUDED.ruta_archivo, tipo_archivo = EXCLUDED.tipo_archivo";
+        $stmt = $this->conn->prepare($query);
+
+        $nombre_archivo = htmlspecialchars(strip_tags($this->archivo_asociado['nombre_archivo']));
+        $ruta_archivo = htmlspecialchars(strip_tags($this->archivo_asociado['ruta_archivo']));
+        $tipo_archivo = htmlspecialchars(strip_tags($this->archivo_asociado['tipo_archivo']));
+        $asociado_id = $this->id;
+
+        $stmt->bindParam(":nombre_archivo", $nombre_archivo);
+        $stmt->bindParam(":ruta_archivo", $ruta_archivo);
+        $stmt->bindParam(":tipo_archivo", $tipo_archivo);
+        $stmt->bindParam(":asociado_id", $asociado_id);
+
+        $stmt->execute();
+    }
+
+    // Obtener archivo asociado a la asignatura
+    public function getArchivoAsignatura() {
+        $query = "SELECT nombre_archivo, ruta_archivo, tipo_archivo FROM Archivos WHERE seccion = 'Asignatura' AND asociado_id = :asociado_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":asociado_id", $this->id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ? $row : null;
     }
 }
 ?>

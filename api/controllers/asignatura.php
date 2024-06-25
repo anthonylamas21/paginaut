@@ -16,14 +16,31 @@ $db = $database->getConnection();
 $asignatura = new Asignatura($db);
 
 $request_method = $_SERVER["REQUEST_METHOD"];
-$data = json_decode(file_get_contents("php://input"));
 
 switch($request_method) {
     case 'POST':
-        if (!empty($data->nombre) && !empty($data->cuatrimestre_id)) {
-            $asignatura->nombre = $data->nombre;
-            $asignatura->cuatrimestre_id = $data->cuatrimestre_id;
-            $asignatura->activo = $data->activo ?? true;
+        if (!empty($_POST['nombre']) && !empty($_POST['cuatrimestre_id'])) {
+            $asignatura->nombre = $_POST['nombre'];
+            $asignatura->cuatrimestre_id = $_POST['cuatrimestre_id'];
+            $asignatura->activo = $_POST['activo'] ?? true;
+
+            if (isset($_FILES['archivo_asociado'])) {
+                $target_dir = "../uploads/asignaturas/";
+                $target_file = $target_dir . uniqid() . "_" . basename($_FILES["archivo_asociado"]["name"]);
+                $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+                if (move_uploaded_file($_FILES["archivo_asociado"]["tmp_name"], $target_file)) {
+                    $asignatura->archivo_asociado = array(
+                        'nombre_archivo' => basename($_FILES["archivo_asociado"]["name"]),
+                        'ruta_archivo' => $target_file,
+                        'tipo_archivo' => $fileType
+                    );
+                } else {
+                    http_response_code(503);
+                    echo json_encode(array("message" => "No se pudo cargar el archivo."));
+                    exit;
+                }
+            }
 
             if ($asignatura->create()) {
                 http_response_code(201);
@@ -60,7 +77,8 @@ switch($request_method) {
                         "nombre" => $nombre,
                         "cuatrimestre_id" => $cuatrimestre_id,
                         "activo" => $activo,
-                        "fecha_creacion" => $fecha_creacion
+                        "fecha_creacion" => $fecha_creacion,
+                        "archivo_asociado" => $asignatura->getArchivoAsignatura($id)
                     );
                     array_push($asignaturas_arr, $asignatura_item);
                 }
@@ -73,11 +91,29 @@ switch($request_method) {
         break;
 
     case 'PUT':
-        if (!empty($data->id)) {
-            $asignatura->id = $data->id;
-            $asignatura->nombre = $data->nombre;
-            $asignatura->cuatrimestre_id = $data->cuatrimestre_id;
-            $asignatura->activo = $data->activo ?? true;
+        if (!empty($_POST['id'])) {
+            $asignatura->id = $_POST['id'];
+            $asignatura->nombre = $_POST['nombre'];
+            $asignatura->cuatrimestre_id = $_POST['cuatrimestre_id'];
+            $asignatura->activo = $_POST['activo'] ?? true;
+
+            if (isset($_FILES['archivo_asociado'])) {
+                $target_dir = "../uploads/asignaturas/";
+                $target_file = $target_dir . uniqid() . "_" . basename($_FILES["archivo_asociado"]["name"]);
+                $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+                if (move_uploaded_file($_FILES["archivo_asociado"]["tmp_name"], $target_file)) {
+                    $asignatura->archivo_asociado = array(
+                        'nombre_archivo' => basename($_FILES["archivo_asociado"]["name"]),
+                        'ruta_archivo' => $target_file,
+                        'tipo_archivo' => $fileType
+                    );
+                } else {
+                    http_response_code(503);
+                    echo json_encode(array("message" => "No se pudo cargar el archivo."));
+                    exit;
+                }
+            }
 
             if ($asignatura->update()) {
                 http_response_code(200);

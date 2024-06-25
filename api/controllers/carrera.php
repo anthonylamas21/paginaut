@@ -20,18 +20,12 @@ $data = json_decode(file_get_contents("php://input"));
 
 switch($request_method) {
     case 'POST':
-        if (
-            !empty($data->nombre_carrera) &&
-            !empty($data->perfil_profesional) &&
-            !empty($data->ocupacion_profesional) &&
-            !empty($data->direccion_id)
-        ) {
+        if (!empty($data->nombre_carrera) && !empty($data->direccion_id)) {
             $carrera->nombre_carrera = $data->nombre_carrera;
             $carrera->perfil_profesional = $data->perfil_profesional;
             $carrera->ocupacion_profesional = $data->ocupacion_profesional;
-            $carrera->imagen_carrera = $data->imagen_carrera ?? null;
+            $carrera->imagen_carrera = $data->imagen_carrera;
             $carrera->direccion_id = $data->direccion_id;
-            $carrera->activo = $data->activo ?? true;
 
             if ($carrera->create()) {
                 http_response_code(201);
@@ -56,7 +50,7 @@ switch($request_method) {
                 echo json_encode(array("message" => "Carrera no encontrada."));
             }
         } else {
-            $stmt = $carrera->readAll();
+            $stmt = $carrera->read();
             $num = $stmt->rowCount();
 
             if ($num > 0) {
@@ -68,15 +62,14 @@ switch($request_method) {
                         "nombre_carrera" => $nombre_carrera,
                         "perfil_profesional" => $perfil_profesional,
                         "ocupacion_profesional" => $ocupacion_profesional,
-                        "imagen_carrera" => $imagen_carrera,
+                        "imagen_carrera" => $carrera->getImagenCarrera(),
                         "direccion_id" => $direccion_id,
-                        "nombre_direccion" => $nombre_direccion,
                         "activo" => $activo,
                         "fecha_creacion" => $fecha_creacion
                     );
                     array_push($carreras_arr, $carrera_item);
                 }
-                echo json_encode($carreras_arr);
+                echo json_encode(array("records" => $carreras_arr));
             } else {
                 http_response_code(404);
                 echo json_encode(array("message" => "No se encontraron carreras."));
@@ -90,9 +83,9 @@ switch($request_method) {
             $carrera->nombre_carrera = $data->nombre_carrera;
             $carrera->perfil_profesional = $data->perfil_profesional;
             $carrera->ocupacion_profesional = $data->ocupacion_profesional;
-            $carrera->imagen_carrera = $data->imagen_carrera ?? null;
+            $carrera->imagen_carrera = $data->imagen_carrera;
             $carrera->direccion_id = $data->direccion_id;
-            $carrera->activo = $data->activo ?? true;
+            $carrera->activo = $data->activo;
 
             if ($carrera->update()) {
                 http_response_code(200);
