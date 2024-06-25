@@ -22,6 +22,8 @@ import { BecasComponent } from './becas/becas.component';
 import { TalleresComponent } from './talleres/talleres.component';
 import { LoginComponent } from './login/login.component';
 import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
+import { PrincipalAdminComponent } from './Admin/principal-admin/principal-admin.component';
+import { DepartamentosComponent } from './Admin/departamentos/departamentos.component';
 
 
 @NgModule({
@@ -37,7 +39,9 @@ import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
     BecasComponent,
     TalleresComponent,
     LoginComponent,
-    InfoCarreraComponent
+    InfoCarreraComponent,
+    PrincipalAdminComponent,
+    DepartamentosComponent
   ],
   imports: [
     BrowserModule,
