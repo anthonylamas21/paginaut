@@ -1,0 +1,103 @@
+<!--Componente Navbar-->
+<app-navbar></app-navbar>
+<p id="inicio"></p>
+<!--Fin Navbar-->
+
+<!--Boton de desplacamiento -->
+<button id="scrollTopButton" (click)="scrollToSection('inicio')"
+  class="hidden fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+  <i class="fa-solid fa-chevron-up"></i>
+</button>
+<!--Fin Boton de desplacamiento-->
+
+<div class="container mx-auto mt-20">
+    <div class="container sm p-4 bg-white rounded-lg shadow-lg">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+          
+          <!-- Primer div superior -->
+          <div class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow-lg relative">
+            <img src="../../assets/img/evento1.jpg" alt="Noticia del día" class="w-full h-80 object-cover rounded-t-lg">
+            <div class="absolute inset-0 flex items-center">
+
+              <h3 class="text-2xl font-poppins font-bold text-white">Conferencia sobre la drogadiccion
+                en Poliforum</h3>
+            </div>
+            <div class="absolute inset-0 flex items-end ">
+                <h3 class="text-2xl font-poppins font-bold text-white">Auditorio de Vinculacion</h3>
+            </div>
+            <div class="absolute inset-0 flex items-stretch">
+                <h3 class="text-2xl font-poppins font-bold text-white">25/06/2024</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="grid grid-cols-2 gap-4 mt-8">
+        <div>
+        <p>La Universidad Tecnológica de la Costa se complace en invitar a estudiantes, profesores y la comunidad en general a un evento especial enfocado en la prevención y concientización del abuso. Este evento tiene como objetivo educar y sensibilizar sobre los diferentes tipos de abuso, sus señales de advertencia, y cómo prevenirlos. A través de charlas informativas, talleres interactivos y mesas redondas con expertos en el tema, se proporcionará a los asistentes herramientas y recursos esenciales para identificar y combatir el abuso en todas sus formas.
+        </p>    
+        </div>
+        <div>
+        <p>El evento tiene como objetivo educar y sensibilizar sobre los diferentes tipos de abuso, sus señales de advertencia, y cómo prevenirlos. A través de charlas informativas, talleres interactivos y mesas redondas con expertos en el tema.
+        </p>
+        </div>
+    </div>
+
+              <!-- Primer div superior -->
+              <div class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow-lg relative mt-8">
+                <img src="../../assets/img/evento4.jpg" alt="Noticia del día" class="w-full h-60 object-cover rounded-t-lg">
+                <div class="absolute inset-0 flex items-center">
+    
+                  <h3 class="text-2xl font-poppins font-bold text-white">Imagen del Tema</h3>
+                </div>
+            </div>
+            <div class="max-w-2xl mx-auto mt-5">
+                
+                <div class="grid grid-cols-2 gap-8 sm:gap-12 md:gap-16">
+                  <a href="ruta/Convocatoria_estudiantil.pdf" download class="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                    <svg class="w-16 h-16 text-red-600" fill="currentColor" viewBox="0 0 384 512">
+                      <path d="M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 62.9-21.9-12.7-9.6-24.9-23.4-34.5-40.8zM86.1 428.1c0 .8 13.2-5.4 34.9-40.2-6.7 6.3-29.1 24.5-34.9 40.2zM248 160h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V24C0 10.7 10.7 0 24 0h200v136c0 13.2 10.8 24 24 24zm-8 171.8c-20-12.2-33.3-29-42.7-53.8 4.5-18.5 11.6-46.6 6.2-64.2-4.7-29.4-42.4-26.5-47.8-6.8-5 18.3-.4 44.1 8.1 77-11.6 27.6-28.7 64.6-40.8 85.8-.1 0-.1.1-.2.1-27.1 13.9-73.6 44.5-54.5 68 5.6 6.9 16 10 21.5 10 17.9 0 35.7-18 61.1-61.8 25.8-8.5 54.1-19.1 79-23.2 21.7 11.8 47.1 19.5 64 19.5 29.2 0 31.2-32 19.7-43.4-13.9-13.6-54.3-9.7-73.6-7.2zM377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-74.1 255.3c4.1-2.7-2.5-11.9-42.8-9 37.1 15.8 42.8 9 42.8 9z"/>
+                    </svg>
+                    <span class="mt-2 text-sm font-medium">Convocatoria_estudiantil.pdf</span>
+                  </a>
+                  
+                  <a href="ruta/Resultados_examen_ceneval.xlsx" download class="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                    <svg class="w-16 h-16 text-green-600" fill="currentColor" viewBox="0 0 384 512">
+                      <path d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm60.1 106.5L224 336l60.1 93.5c5.1 8-.6 18.5-10.1 18.5h-34.9c-4.4 0-8.5-2.4-10.6-6.3C208.9 405.5 192 373 192 373c-6.4 14.8-10 20-36.6 68.8-2.1 3.9-6.1 6.3-10.5 6.3H110c-9.5 0-15.2-10.5-10.1-18.5l60.3-93.5-60.3-93.5c-5.2-8 .6-18.5 10.1-18.5h34.8c4.4 0 8.5 2.4 10.6 6.3 26.1 48.8 20 33.6 36.6 68.5 0 0 6.1-11.7 36.6-68.5 2.1-3.9 6.2-6.3 10.6-6.3H274c9.5-.1 15.2 10.4 10.1 18.4zM384 121.9v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"/>
+                    </svg>
+                    <span class="mt-2 text-sm font-medium">Resultados_examen_ceneval.xlsx</span>
+                  </a>
+                  
+                  <a href="ruta/Convocatoria_beca_campus.docx" download class="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                    <svg class="w-16 h-16 text-blue-600" fill="currentColor" viewBox="0 0 384 512">
+                      <path d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm57.1 120H208c-6.6 0-12-5.4-12-12v-6.2c0-6.6 5.4-12 12-12h73.1c6.6 0 12 5.4 12 12v6.2c0 6.6-5.4 12-12 12zm-20 64H208c-6.6 0-12-5.4-12-12v-6.2c0-6.6 5.4-12 12-12h53.1c6.6 0 12 5.4 12 12v6.2c0 6.6-5.4 12-12 12zm66 80H208c-6.6 0-12-5.4-12-12v-6.2c0-6.6 5.4-12 12-12h119.1c6.6 0 12 5.4 12 12v6.2c0 6.6-5.4 12-12 12zM384 121.9v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"/>
+                    </svg>
+                    <span class="mt-2 text-sm font-medium">Convocatoria_beca_campus.docx</span>
+                  </a>
+                  
+                  <a href="ruta/Cronograma_estudiantil.jpg" download class="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                    <svg class="w-16 h-16 text-gray-600" fill="currentColor" viewBox="0 0 384 512">
+                      <path d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48zm32-48h224V288l-23.5-23.5c-4.7-4.7-12.3-4.7-17 0L176 352l-39.5-39.5c-4.7-4.7-12.3-4.7-17 0L80 352v64zm48-240c-26.5 0-48 21.5-48 48s21.5 48 48 48 48-21.5 48-48-21.5-48-48-48z"/>
+                    </svg>
+                    <span class="mt-2 text-sm font-medium">Cronograma_estudiantil.jpg</span>
+                  </a>
+                </div>
+              </div>
+
+                <!-- Código previo para la imagen y los iconos -->
+              
+                <div class="mt-8 pt-6 border-t border-gray-300">
+                  <p class="text-base text-gray-600 text-center">
+                    Toda la información, recursos y eventos anunciados en este sitio web son de uso exclusivo para la comunidad de la universidad. Todos los materiales, incluidos textos, imágenes, y cualquier otro contenido, están protegidos por las leyes de propiedad intelectual y son propiedad de la universidad.
+                  </p>
+                </div>
+</div>
+
+
+
+
+  <!--Fin Eventos-->
+
+<!--Inicio componente Footer-->
+<app-footer></app-footer>
+<!--Fin Footer-->
