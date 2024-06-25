@@ -248,11 +248,7 @@ tr>.p-element svg {
 
 .example-1 .icon-content a[data-social="Whatsapp"] .filled,
 .example-1 .icon-content a[data-social="Whatsapp"]~.tooltip {
-  background: linear-gradient(45deg,
-      #25D366,
-      /* Verde de WhatsApp */
-      #128C7E);
-  /* Verde más oscuro */
+  background: #27D045;
 }
 
 
