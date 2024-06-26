@@ -6,7 +6,7 @@ import { ComponentesComponent } from './componentes/componentes.component';
 import { CarrerasComponent } from './carreras/carreras.component';
 import { UnidadesAcademicasComponent } from './unidades-academicas/unidades-academicas.component';
 import { BecasComponent } from './becas/becas.component';
-import { TalleresComponent } from './talleres/talleres.component';
+import { TalleresComponent } from './horaprensa/lectura/talleres.component';
 import { LoginComponent } from './login/login.component';
 import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { EventosComponent } from './eventos/eventos.component';

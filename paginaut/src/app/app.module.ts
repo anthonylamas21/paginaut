@@ -20,7 +20,7 @@ import { FooterComponent } from './footer/footer.component';
 import { UnidadesAcademicasComponent } from './unidades-academicas/unidades-academicas.component';
 import { EventosComponent } from './eventos/eventos.component';
 import { BecasComponent } from './becas/becas.component';
-import { TalleresComponent } from './talleres/talleres.component';
+import { TalleresComponent } from './horaprensa/lectura/talleres.component';
 import { LoginComponent } from './login/login.component';
 import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { CalendarioComponent } from './calendario/calendario.component';
