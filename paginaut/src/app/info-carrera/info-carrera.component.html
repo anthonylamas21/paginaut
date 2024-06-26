@@ -91,53 +91,61 @@
             <div class="border rounded-lg overflow-hidden my-2">
               <p-table #dt [value]="items">
                 <ng-template pTemplate="header">
-                  <tr class="divide-x  divide-gray-200  bg-table-header-color rounded-lg">
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                      pSortableColumn="nombre">
-                      <div class="flex">
+                  <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
+                    <th [attr.colSpan]="items.length" scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
+                      >
+                      <div class="flex justify-center">
+                        Mapa cuatrimestral
+                      </div>
+                    </th>
+                  </tr>
+                  <tr class="divide-x  divide-gray-200 bg-table-header-color rounded-lg">
+                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
+                      >
+                      <div class="flex justify-center">
                         1°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      pSortableColumn="edad">
-                      <div class="flex text-white">
+                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
+                      >
+                      <div class="flex justify-center">
                         2°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      pSortableColumn="direccion">
-                      <div class="flex">
+                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
+                      >
+                      <div class="flex justify-center">
                         3°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      pSortableColumn="direccion">
-                      <div class="flex">
+                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
+                      >
+                      <div class="flex justify-center">
                         4°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      pSortableColumn="direccion">
-                      <div class="flex">
+                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
+                    >
+                      <div class="flex justify-center">
                         5°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color ">
-                      <div class="flex">
+                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
+                   >
+                      <div class="flex justify-center">
                         6°
                       </div>
                     </th>
                   </tr>
-
                 </ng-template>
-                <ng-template pTemplate="body">
-                  <tr class="divide-x  divide-gray-200 bg-neutral-100">
-                    <td class="px-3 py-2 text-sm text-black"></td>
-                    <td class="px-3 py-2 text-sm text-center text-black"></td>
-                    <td class="px-3 py-2 text-sm text-black"></td>
-                    <td class="px-3 py-2 text-sm text-black"></td>
-                    <td class="px-3 py-2 text-sm text-black"></td>
-                    <td class="px-3 py-2 text-sm text-black"></td>
+                <ng-template pTemplate="body" let-registro let-index="rowIndex">
+                  <tr class="divide-x divide-gray-200 bg-neutral-100 ">
+                    <td data-hs-overlay="#hs-slide-down-animation-modal" (mouseover)="onMouseOver('uno', registro.uno)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.uno}}</td>
+                    <td (mouseover)="onMouseOver('dos', registro.dos)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.dos}}</td>
+                    <td (mouseover)="onMouseOver('tres', registro.tres)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.tres}}</td>
+                    <td (mouseover)="onMouseOver('cuatro', registro.cuatro)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.cuatro}}</td>
+                    <td (mouseover)="onMouseOver('cinco', registro.cinco)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.cinco}}</td>
+                    <td *ngIf="index === 0" [attr.rowSpan]="items.length" (mouseover)="onMouseOver('seis', registro.seis)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.seis}}</td>
                   </tr>
                 </ng-template>
               </p-table>
@@ -153,53 +161,55 @@
             <div class="border rounded-lg overflow-hidden my-2">
               <p-table #dt [value]="items">
                 <ng-template pTemplate="header">
+                  <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
+                    <th [attr.colSpan]="items.length" scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
+                      >
+                      <div class="flex justify-center">
+                        Mapa cuatrimestral
+                      </div>
+                    </th>
+                  </tr>
                   <tr class="divide-x  divide-gray-200  bg-table-header-color rounded-lg">
                     <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                      pSortableColumn="nombre">
-                      <div class="flex">
-                        1°
+                      >
+                      <div class="flex justify-center">
+                        7°
                       </div>
                     </th>
                     <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      pSortableColumn="edad">
-                      <div class="flex text-white">
-                        2°
+                     >
+                      <div class="flex justify-center">
+                        8°
                       </div>
                     </th>
                     <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      pSortableColumn="direccion">
-                      <div class="flex">
-                        3°
+                      >
+                      <div class="flex justify-center">
+                        9°
                       </div>
                     </th>
                     <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      pSortableColumn="direccion">
-                      <div class="flex">
-                        4°
+                      >
+                      <div class="flex justify-center">
+                        10°
                       </div>
                     </th>
                     <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      pSortableColumn="direccion">
-                      <div class="flex">
-                        5°
-                      </div>
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color ">
-                      <div class="flex">
-                        6°
+                      >
+                      <div class="flex justify-center">
+                        11°
                       </div>
                     </th>
                   </tr>
 
                 </ng-template>
-                <ng-template pTemplate="body" let-registro>
+                <ng-template pTemplate="body" let-registro let-index="rowIndex">
                   <tr class="divide-x  divide-gray-200 bg-neutral-100">
-                    <td class="px-3 py-2 text-sm text-black"></td>
-                    <td class="px-3 py-2 text-sm text-center text-black"></td>
-                    <td class="px-3 py-2 text-sm text-black"></td>
-                    <td class="px-3 py-2 text-sm text-black"></td>
-                    <td class="px-3 py-2 text-sm text-black"></td>
-                    <td class="px-3 py-2 text-sm text-black"></td>
+                    <td (mouseover)="onMouseOver('siete', registro.siete)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.siete}}</td>
+                    <td (mouseover)="onMouseOver('ocho', registro.ocho)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.ocho}}</td>
+                    <td (mouseover)="onMouseOver('nueve', registro.nueve)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.nueve}}</td>
+                    <td (mouseover)="onMouseOver('diez', registro.diez)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.diez}}</td>
+                    <td (mouseover)="onMouseOver('once', registro.once)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black" *ngIf="index === 0" [attr.rowSpan]="items.length">{{registro.once}}</td>
                   </tr>
                 </ng-template>
               </p-table>
