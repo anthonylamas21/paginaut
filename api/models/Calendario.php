@@ -1,11 +1,11 @@
 <?php
-class Direccion {
+class Calendario {
     private $conn;
-    private $table_name = "Direccion";
+    private $table_name = "Calendario";
 
     public $id;
-    public $abreviatura;
-    public $nombre;
+    public $titulo;
+    public $archivo_id;
     public $activo;
     public $fecha_creacion;
 
@@ -15,17 +15,17 @@ class Direccion {
 
     function create() {
         $query = "INSERT INTO " . $this->table_name . " 
-                    (abreviatura, nombre, activo)
+                    (titulo, archivo_id, activo)
                   VALUES
-                    (:abreviatura, :nombre, :activo)";
+                    (:titulo, :archivo_id, :activo)";
         $stmt = $this->conn->prepare($query);
 
-        $this->abreviatura = htmlspecialchars(strip_tags($this->abreviatura));
-        $this->nombre = htmlspecialchars(strip_tags($this->nombre));
+        $this->titulo = htmlspecialchars(strip_tags($this->titulo));
+        $this->archivo_id = htmlspecialchars(strip_tags($this->archivo_id));
         $this->activo = true; // Establecer $this->activo a true
 
-        $stmt->bindParam(":abreviatura", $this->abreviatura);
-        $stmt->bindParam(":nombre", $this->nombre);
+        $stmt->bindParam(":titulo", $this->titulo);
+        $stmt->bindParam(":archivo_id", $this->archivo_id);
         $stmt->bindParam(":activo", $this->activo);
 
         if ($stmt->execute()) {
@@ -37,7 +37,7 @@ class Direccion {
 
     function read() {
         $query = "SELECT
-                    id, abreviatura, nombre, activo, fecha_creacion
+                    id, titulo, archivo_id, activo, fecha_creacion
                   FROM
                     " . $this->table_name . "
                   ORDER BY
@@ -49,7 +49,7 @@ class Direccion {
 
     function readOne() {
         $query = "SELECT
-                    id, abreviatura, nombre, activo, fecha_creacion
+                    id, titulo, archivo_id, activo, fecha_creacion
                   FROM
                     " . $this->table_name . "
                   WHERE
@@ -62,8 +62,8 @@ class Direccion {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($row) {
-            $this->abreviatura = $row['abreviatura'];
-            $this->nombre = $row['nombre'];
+            $this->titulo = $row['titulo'];
+            $this->archivo_id = $row['archivo_id'];
             $this->activo = $row['activo'];
             $this->fecha_creacion = $row['fecha_creacion'];
             return true;
@@ -75,24 +75,22 @@ class Direccion {
     function update() {
         $query = "UPDATE " . $this->table_name . "
                   SET
-                    abreviatura = :abreviatura,
-                    nombre = :nombre,
+                    titulo = :titulo,
+                    archivo_id = :archivo_id,
                     activo = :activo
                   WHERE
                     id = :id";
         $stmt = $this->conn->prepare($query);
 
         $this->id = htmlspecialchars(strip_tags($this->id));
-        $this->abreviatura = htmlspecialchars(strip_tags($this->abreviatura));
-        $this->nombre = htmlspecialchars(strip_tags($this->nombre));
-
-        // Convertir el campo 'activo' a tipo de dato booleano
-        $this->activo = filter_var($this->activo, FILTER_VALIDATE_BOOLEAN);
+        $this->titulo = htmlspecialchars(strip_tags($this->titulo));
+        $this->archivo_id = htmlspecialchars(strip_tags($this->archivo_id));
+        $this->activo = htmlspecialchars(strip_tags($this->activo));
 
         $stmt->bindParam(":id", $this->id);
-        $stmt->bindParam(":abreviatura", $this->abreviatura);
-        $stmt->bindParam(":nombre", $this->nombre);
-        $stmt->bindParam(":activo", $this->activo, PDO::PARAM_BOOL); // Asegurar que se trate como un booleano
+        $stmt->bindParam(":titulo", $this->titulo);
+        $stmt->bindParam(":archivo_id", $this->archivo_id);
+        $stmt->bindParam(":activo", $this->activo);
 
         if ($stmt->execute()) {
             return true;

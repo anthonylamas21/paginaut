@@ -12,64 +12,102 @@ include_once $root . '/models/Direccion.php';
 
 $database = new Database();
 $db = $database->getConnection();
+
 $direccion = new Direccion($db);
 
-// Determinar qué operación se está solicitando
-$method = $_SERVER['REQUEST_METHOD'];
+$request_method = $_SERVER["REQUEST_METHOD"];
+$data = json_decode(file_get_contents("php://input"));
 
-switch ($method) {
+switch($request_method) {
     case 'POST':
-        // Crear una nueva dirección
-        $data = json_decode(file_get_contents("php://input"));
-
-        // Verificar si se proporcionaron todos los datos requeridos
-        if (!empty($data->nombre)) {
+        if (!empty($data->abreviatura) && !empty($data->nombre)) {
+            $direccion->abreviatura = $data->abreviatura;
             $direccion->nombre = $data->nombre;
-            $direccion->activo = isset($data->activo) ? $data->activo : true;
 
             if ($direccion->create()) {
                 http_response_code(201);
-                echo json_encode(array("message" => "Direccion creada correctamente."));
+                echo json_encode(array("message" => "Dirección creada correctamente.", "id" => $direccion->id));
             } else {
                 http_response_code(503);
-                echo json_encode(array("message" => "No se pudo crear la direccion."));
+                echo json_encode(array("message" => "No se pudo crear la dirección."));
             }
         } else {
             http_response_code(400);
-            echo json_encode(array("message" => "Unable to create direccion. Data is incomplete."));
+            echo json_encode(array("message" => "No se pudo crear la dirección. Datos incompletos."));
         }
         break;
 
     case 'GET':
-        // Leer todas las direcciones
-        $stmt = $direccion->read();
-        $num = $stmt->rowCount();
-
-        if ($num > 0) {
-            $direcciones_arr = array();
-            $direcciones_arr["direcciones"] = array();
-
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                extract($row);
-                $direccion_item = array(
-                    "id" => $id,
-                    "nombre" => $nombre,
-                    "activo" => $activo,
-                    "fecha_creacion" => $fecha_creacion
-                );
-                array_push($direcciones_arr["direcciones"], $direccion_item);
+        if (isset($_GET['id'])) {
+            $direccion->id = $_GET['id'];
+            if ($direccion->readOne()) {
+                echo json_encode($direccion);
+            } else {
+                http_response_code(404);
+                echo json_encode(array("message" => "Dirección no encontrada."));
             }
-
-            http_response_code(200);
-            echo json_encode($direcciones_arr);
         } else {
-            http_response_code(404);
-            echo json_encode(array("message" => "No se encontraron direcciones."));
+            $stmt = $direccion->read();
+            $num = $stmt->rowCount();
+
+            if ($num > 0) {
+                $direcciones_arr = array();
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    extract($row);
+                    $direccion_item = array(
+                        "id" => $id,
+                        "abreviatura" => $abreviatura,
+                        "nombre" => $nombre,
+                        "activo" => $activo,
+                        "fecha_creacion" => $fecha_creacion
+                    );
+                    array_push($direcciones_arr, $direccion_item);
+                }
+                echo json_encode(array("records" => $direcciones_arr));
+            } else {
+                http_response_code(404);
+                echo json_encode(array("message" => "No se encontraron direcciones."));
+            }
+        }
+        break;
+
+    case 'PUT':
+        if (!empty($data->id)) {
+            $direccion->id = $data->id;
+            $direccion->abreviatura = $data->abreviatura;
+            $direccion->nombre = $data->nombre;
+            $direccion->activo = $data->activo;
+
+            if ($direccion->update()) {
+                http_response_code(200);
+                echo json_encode(array("message" => "Dirección actualizada correctamente."));
+            } else {
+                http_response_code(503);
+                echo json_encode(array("message" => "No se pudo actualizar la dirección."));
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(array("message" => "No se pudo actualizar la dirección. Datos incompletos."));
+        }
+        break;
+
+    case 'DELETE':
+        if (isset($_GET['id'])) {
+            $direccion->id = $_GET['id'];
+            if ($direccion->delete()) {
+                http_response_code(200);
+                echo json_encode(array("message" => "Dirección eliminada correctamente."));
+            } else {
+                http_response_code(503);
+                echo json_encode(array("message" => "No se pudo eliminar la dirección."));
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(array("message" => "No se proporcionó el ID de la dirección."));
         }
         break;
 
     default:
-        // Método no permitido
         http_response_code(405);
         echo json_encode(array("message" => "Método no permitido."));
         break;
