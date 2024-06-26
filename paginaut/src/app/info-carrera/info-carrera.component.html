@@ -7,15 +7,15 @@
 
 <ol class="flex items-center whitespace-nowrap ml-4 mt-24 mb-8">
     <li class="inline-flex items-center">
-      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="#">
-        Home
+      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/principal">
+        Inicio
       </a>
       <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="m9 18 6-6-6-6"></path>
       </svg>
     </li>
     <li class="inline-flex items-center">
-      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="#">
+      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/carreras">
         Carreras
         <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="m9 18 6-6-6-6"></path>
@@ -64,7 +64,7 @@
       </ul>
     </div>
     <div class="w-full mt-10">
-      <img src=".\assets\img\evento4.jpg" class="max-w-auto" alt="">
+      <img src=".\assets\img\evento4.jpg" class="max-w-auto bg-cover rounded-lg" alt="">
     </div>
   </div>  
 
@@ -74,10 +74,10 @@
   </div>  
   
   <div class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-    <div class="w-full">
-      <img src=".\assets\img\evento4.jpg" class="max-w-auto" alt="">
-    </div>
     <div class="w-full mt-10">
+      <img src=".\assets\img\evento4.jpg" class="max-w-auto bg-cover rounded-lg" alt="">
+    </div>
+    <div class="w-full">
       <h4 class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg">Perfil profesional</h4>
       <ul>
         <li>> Desarrollar aplicaciones WEB, móviles y videojuegos.</li>
@@ -135,36 +135,37 @@
                 <ng-template pTemplate="header">
                   <tr class="divide-x  divide-gray-200  bg-table-header-color rounded-lg">
                     <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                      pSortableColumn="nombre">
+                      >
                       <div class="flex">
                         1°
                       </div>
                     </th>
                     <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      pSortableColumn="edad">
+                      >
                       <div class="flex text-white">
                         2°
                       </div>
                     </th>
                     <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      pSortableColumn="direccion">
+                      >
                       <div class="flex">
                         3°
                       </div>
                     </th>
                     <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      pSortableColumn="direccion">
+                      >
                       <div class="flex">
                         4°
                       </div>
                     </th>
                     <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      pSortableColumn="direccion">
+                    >
                       <div class="flex">
                         5°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color ">
+                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
+                   >
                       <div class="flex">
                         6°
                       </div>
@@ -172,14 +173,14 @@
                   </tr>
 
                 </ng-template>
-                <ng-template pTemplate="body">
-                  <tr class="divide-x  divide-gray-200 bg-neutral-100">
-                    <td class="px-3 py-2 text-sm text-black"></td>
-                    <td class="px-3 py-2 text-sm text-center text-black"></td>
-                    <td class="px-3 py-2 text-sm text-black"></td>
-                    <td class="px-3 py-2 text-sm text-black"></td>
-                    <td class="px-3 py-2 text-sm text-black"></td>
-                    <td class="px-3 py-2 text-sm text-black"></td>
+                <ng-template pTemplate="body" let-registro let-index="rowIndex">
+                  <tr class="divide-x divide-gray-200 bg-neutral-100 ">
+                    <td (mouseover)="onMouseOver('uno', registro.uno)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.uno}}</td>
+                    <td (mouseover)="onMouseOver('dos', registro.dos)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.dos}}</td>
+                    <td (mouseover)="onMouseOver('tres', registro.tres)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.tres}}</td>
+                    <td (mouseover)="onMouseOver('cuatro', registro.cuatro)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.cuatro}}</td>
+                    <td (mouseover)="onMouseOver('cinco', registro.cinco)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.cinco}}</td>
+                    <td *ngIf="index === 0" [attr.rowSpan]="items.length" (mouseover)="onMouseOver('seis', registro.seis)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.seis}}</td>
                   </tr>
                 </ng-template>
               </p-table>
@@ -197,51 +198,45 @@
                 <ng-template pTemplate="header">
                   <tr class="divide-x  divide-gray-200  bg-table-header-color rounded-lg">
                     <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                      pSortableColumn="nombre">
+                      >
                       <div class="flex">
-                        1°
+                        7°
                       </div>
                     </th>
                     <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      pSortableColumn="edad">
+                     >
                       <div class="flex text-white">
-                        2°
+                        8°
                       </div>
                     </th>
                     <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      pSortableColumn="direccion">
+                      >
                       <div class="flex">
-                        3°
+                        9°
                       </div>
                     </th>
                     <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      pSortableColumn="direccion">
+                      >
                       <div class="flex">
-                        4°
+                        10°
                       </div>
                     </th>
                     <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      pSortableColumn="direccion">
+                      >
                       <div class="flex">
-                        5°
-                      </div>
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color ">
-                      <div class="flex">
-                        6°
+                        11°
                       </div>
                     </th>
                   </tr>
 
                 </ng-template>
-                <ng-template pTemplate="body" let-registro>
+                <ng-template pTemplate="body" let-registro let-index="rowIndex">
                   <tr class="divide-x  divide-gray-200 bg-neutral-100">
-                    <td class="px-3 py-2 text-sm text-black"></td>
-                    <td class="px-3 py-2 text-sm text-center text-black"></td>
-                    <td class="px-3 py-2 text-sm text-black"></td>
-                    <td class="px-3 py-2 text-sm text-black"></td>
-                    <td class="px-3 py-2 text-sm text-black"></td>
-                    <td class="px-3 py-2 text-sm text-black"></td>
+                    <td (mouseover)="onMouseOver('siete', registro.siete)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.siete}}</td>
+                    <td (mouseover)="onMouseOver('ocho', registro.ocho)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.ocho}}</td>
+                    <td (mouseover)="onMouseOver('nueve', registro.nueve)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.nueve}}</td>
+                    <td (mouseover)="onMouseOver('diez', registro.diez)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.diez}}</td>
+                    <td (mouseover)="onMouseOver('once', registro.once)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black" *ngIf="index === 0" [attr.rowSpan]="items.length">{{registro.once}}</td>
                   </tr>
                 </ng-template>
               </p-table>
