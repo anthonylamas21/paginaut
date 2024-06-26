@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { EventosComponent } from './eventos/eventos.component';
 import { CalendarioComponent } from './calendario/calendario.component';
+import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component'; // Importa el nuevo componente
 
 const routes: Routes = [
   { path: '', redirectTo: '/principal', pathMatch: 'full' }, // Ruta por defecto
@@ -20,30 +21,19 @@ const routes: Routes = [
   {path: 'principal', component: PrincipalComponent },
   {path: 'navbar', component: NavbarComponent },
   {path: 'componentes', component: ComponentesComponent},
-  {path: 'carreras', component:CarrerasComponent},
-  {path: 'becas', component:BecasComponent},
-  {path: 'unidades_academicas', component:UnidadesAcademicasComponent},
-  {path: 'lectura', component:TalleresComponent},
-  {path: 'login', component:LoginComponent},
-  {path: 'info_carrera', component:InfoCarreraComponent},
-  {path: 'eventos', component:EventosComponent},
-  {path: 'calendario', component:CalendarioComponent}
+  {path: 'carreras', component: CarrerasComponent},
+  {path: 'becas', component: BecasComponent},
+  {path: 'unidades_academicas', component: UnidadesAcademicasComponent},
+  {path: 'lectura', component: TalleresComponent},
+  {path: 'login', component: LoginComponent},
+  {path: 'info_carrera', component: InfoCarreraComponent},
+  {path: 'eventos', component: EventosComponent},
+  {path: 'calendario', component: CalendarioComponent},
+  {path: 'registrar-evento', component: RegistrarEventoComponent} // Nueva ruta para registrar evento
 ];
 
 @NgModule({
-  
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
- 
-
-
-
-
-
-
-
-
-
-

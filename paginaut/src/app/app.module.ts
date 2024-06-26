@@ -1,16 +1,20 @@
-import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 
+// PrimeNG Modules
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
+
+// Components
+import { AppComponent } from './app.component';
 import { PrincipalComponent } from './principal/principal.component';
 import { CarrerasComponent } from './carreras/carreras.component';
 import { InstalacionesComponent } from './instalaciones/instalaciones.component';
@@ -25,8 +29,7 @@ import { LoginComponent } from './login/login.component';
 import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { CalendarioComponent } from './calendario/calendario.component';
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
-
-
+import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component';
 
 @NgModule({
   declarations: [
@@ -44,23 +47,23 @@ import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin
     LoginComponent,
     InfoCarreraComponent,
     CalendarioComponent,
-    PrincipalAdminComponent
+    PrincipalAdminComponent,
+    RegistrarEventoComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    HttpClientModule,
     TableModule,
     InputTextModule,
     TagModule,
     ButtonModule,
-    FormsModule,
     DropdownModule
   ],
   providers: [],
-  bootstrap: [AppComponent],
-
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
