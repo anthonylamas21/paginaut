@@ -24,6 +24,7 @@ import { TalleresComponent } from './talleres/talleres.component';
 import { LoginComponent } from './login/login.component';
 import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { CalendarioComponent } from './calendario/calendario.component';
+import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
 
 
 
@@ -42,7 +43,8 @@ import { CalendarioComponent } from './calendario/calendario.component';
     TalleresComponent,
     LoginComponent,
     InfoCarreraComponent,
-    CalendarioComponent
+    CalendarioComponent,
+    PrincipalAdminComponent
   ],
   imports: [
     BrowserModule,
