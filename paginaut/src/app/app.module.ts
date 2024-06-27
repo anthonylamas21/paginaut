@@ -13,7 +13,6 @@ import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { PrincipalComponent } from './principal/principal.component';
 import { CarrerasComponent } from './carreras/carreras.component';
-import { InstalacionesComponent } from './instalaciones/instalaciones.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ComponentesComponent } from './componentes/componentes.component';
 import { FooterComponent } from './footer/footer.component';
@@ -25,6 +24,11 @@ import { LoginComponent } from './login/login.component';
 import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { CalendarioComponent } from './calendario/calendario.component';
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
+import { CursosComponent } from './cursos/cursos.component';
+import { InfoCursoComponent } from './info-curso/info-curso.component';
+import { InfoUnidadesComponent } from './info-unidades/info-unidades.component';
+import { FilosofiaComponent } from './filosofia/filosofia.component';
+import { AdmisionComponent } from './admision/admision.component';
 
 
 
@@ -33,7 +37,6 @@ import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin
     AppComponent,
     PrincipalComponent,
     CarrerasComponent,
-    InstalacionesComponent,
     NavbarComponent,
     ComponentesComponent,
     FooterComponent,
@@ -44,7 +47,12 @@ import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin
     LoginComponent,
     InfoCarreraComponent,
     CalendarioComponent,
-    PrincipalAdminComponent
+    PrincipalAdminComponent,
+    CursosComponent,
+    InfoCursoComponent,
+    InfoUnidadesComponent,
+    FilosofiaComponent,
+    AdmisionComponent
   ],
   imports: [
     BrowserModule,
