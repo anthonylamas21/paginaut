@@ -18,6 +18,7 @@ import { FilosofiaComponent } from './filosofia/filosofia.component';
 import { AdmisionComponent } from './admision/admision.component';
 import { InfoBolsaComponent } from './info-bolsa/info-bolsa.component';
 import { InfoEnfermeriaComponent } from './info-enfermeria/info-enfermeria.component';
+import { UbicacionComponent } from './ubicacion/ubicacion.component';
 
 
 
@@ -43,7 +44,8 @@ const routes: Routes = [
   {path: 'filosofia', component: FilosofiaComponent},
   {path: 'admision', component: AdmisionComponent},
   {path: 'info_bolsa', component: InfoBolsaComponent},
-  {path: 'info_enfermeria', component: InfoEnfermeriaComponent}
+  {path: 'info_enfermeria', component: InfoEnfermeriaComponent},
+  {path: 'ubicacion', component: UbicacionComponent},
 ];
 
 @NgModule({

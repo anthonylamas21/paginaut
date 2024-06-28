@@ -31,6 +31,7 @@ import { FilosofiaComponent } from './filosofia/filosofia.component';
 import { AdmisionComponent } from './admision/admision.component';
 import { InfoBolsaComponent } from './info-bolsa/info-bolsa.component';
 import { InfoEnfermeriaComponent } from './info-enfermeria/info-enfermeria.component';
+import { UbicacionComponent } from './ubicacion/ubicacion.component';
 
 
 
@@ -56,7 +57,8 @@ import { InfoEnfermeriaComponent } from './info-enfermeria/info-enfermeria.compo
     FilosofiaComponent,
     AdmisionComponent,
     InfoBolsaComponent,
-    InfoEnfermeriaComponent
+    InfoEnfermeriaComponent,
+    UbicacionComponent
   ],
   imports: [
     BrowserModule,
