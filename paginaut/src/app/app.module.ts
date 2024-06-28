@@ -25,6 +25,7 @@ import { LoginComponent } from './login/login.component';
 import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { CalendarioComponent } from './calendario/calendario.component';
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
+import { InfoBecaComponent } from './info-beca/info-beca.component';
 
 
 
@@ -40,11 +41,12 @@ import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin
     UnidadesAcademicasComponent,
     EventosComponent,
     BecasComponent,
-    TalleresComponent,
     LoginComponent,
     InfoCarreraComponent,
     CalendarioComponent,
-    PrincipalAdminComponent
+    PrincipalAdminComponent,
+    InfoBecaComponent,
+    TalleresComponent
   ],
   imports: [
     BrowserModule,
