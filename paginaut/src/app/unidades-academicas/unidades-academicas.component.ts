@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Renderer2, ViewChild, ElementRef, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-unidades-academicas',
@@ -8,14 +8,17 @@ import { Component, HostListener, OnInit } from '@angular/core';
 export class UnidadesAcademicasComponent implements OnInit {
   isLoading = true;
   
+  constructor(private renderer: Renderer2) {}
+
   ngOnInit(): void {
-    // Simula la carga de datos con un retraso
-    setTimeout(() => {
+    this.setNavbarColor();
+  }
+
+  ngAfterViewInit(): void {
+    this.renderer.listen('window', 'load', () => {
       this.isLoading = false;
-    }, 5000); // Ajusta el tiempo según sea necesario
- 
-this.setNavbarColor();
- }
+    });
+  }
 
  
   @HostListener('window:scroll', [])
