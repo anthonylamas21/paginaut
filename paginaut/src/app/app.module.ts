@@ -29,6 +29,7 @@ import { InfoCursoComponent } from './info-curso/info-curso.component';
 import { InfoUnidadesComponent } from './info-unidades/info-unidades.component';
 import { FilosofiaComponent } from './filosofia/filosofia.component';
 import { AdmisionComponent } from './admision/admision.component';
+import { InfoBolsaComponent } from './info-bolsa/info-bolsa.component';
 
 
 
@@ -52,7 +53,8 @@ import { AdmisionComponent } from './admision/admision.component';
     InfoCursoComponent,
     InfoUnidadesComponent,
     FilosofiaComponent,
-    AdmisionComponent
+    AdmisionComponent,
+    InfoBolsaComponent
   ],
   imports: [
     BrowserModule,
