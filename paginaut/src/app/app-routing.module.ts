@@ -11,39 +11,29 @@ import { LoginComponent } from './login/login.component';
 import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { EventosComponent } from './eventos/eventos.component';
 import { CalendarioComponent } from './calendario/calendario.component';
+import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/principal', pathMatch: 'full' }, // Ruta por defecto
-  { path: 'principal', component: PrincipalComponent }, 
+  { path: 'principal', component: PrincipalComponent },
 
-  //Rutas 
-  {path: 'principal', component: PrincipalComponent },
-  {path: 'navbar', component: NavbarComponent },
-  {path: 'componentes', component: ComponentesComponent},
-  {path: 'carreras', component:CarrerasComponent},
-  {path: 'becas', component:BecasComponent},
-  {path: 'unidades_academicas', component:UnidadesAcademicasComponent},
-  {path: 'lectura', component:TalleresComponent},
-  {path: 'login', component:LoginComponent},
-  {path: 'info_carrera', component:InfoCarreraComponent},
-  {path: 'eventos', component:EventosComponent},
-  {path: 'calendario', component:CalendarioComponent}
+  //Rutas
+  { path: 'principal', component: PrincipalComponent },
+  { path: 'navbar', component: NavbarComponent },
+  { path: 'componentes', component: ComponentesComponent },
+  { path: 'carreras', component: CarrerasComponent },
+  { path: 'becas', component: BecasComponent },
+  { path: 'unidades_academicas', component: UnidadesAcademicasComponent },
+  { path: 'lectura', component: TalleresComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'info_carrera', component: InfoCarreraComponent },
+  { path: 'eventos', component: EventosComponent },
+  { path: 'agregar-direccion', component: AgregarDireccionComponent },
+  { path: 'calendario', component: CalendarioComponent },
 ];
 
 @NgModule({
-  
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
- 
-
-
-
-
-
-
-
-
-
-
+export class AppRoutingModule {}

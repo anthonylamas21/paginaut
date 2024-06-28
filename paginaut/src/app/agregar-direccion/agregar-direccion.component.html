@@ -1,0 +1,74 @@
+<div class="container">
+    <h2>Agregar Nueva Dirección</h2>
+  
+    <form [formGroup]="direccionForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="abreviatura">Abreviatura:</label>
+        <input
+          type="text"
+          id="abreviatura"
+          formControlName="abreviatura"
+          class="form-control"
+          maxlength="10"
+        />
+        <div
+          *ngIf="
+            direccionForm.get('abreviatura')?.invalid &&
+            (direccionForm.get('abreviatura')?.dirty ||
+              direccionForm.get('abreviatura')?.touched)
+          "
+          class="alert alert-danger"
+        >
+          <div *ngIf="direccionForm.get('abreviatura')?.errors?.['required']">
+            La abreviatura es requerida.
+          </div>
+          <div *ngIf="direccionForm.get('abreviatura')?.errors?.['maxlength']">
+            La abreviatura no puede tener más de 10 caracteres.
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input
+          type="text"
+          id="nombre"
+          formControlName="nombre"
+          class="form-control"
+          maxlength="100"
+        />
+        <div
+          *ngIf="
+            direccionForm.get('nombre')?.invalid &&
+            (direccionForm.get('nombre')?.dirty ||
+              direccionForm.get('nombre')?.touched)
+          "
+          class="alert alert-danger"
+        >
+          <div *ngIf="direccionForm.get('nombre')?.errors?.['required']">
+            El nombre es requerido.
+          </div>
+          <div *ngIf="direccionForm.get('nombre')?.errors?.['maxlength']">
+            El nombre no puede tener más de 100 caracteres.
+          </div>
+        </div>
+      </div>
+  
+      <button
+        type="submit"
+        [disabled]="direccionForm.invalid"
+        class="btn btn-primary"
+      >
+        Agregar Dirección
+      </button>
+    </form>
+  
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+      {{ errorMessage }}
+    </div>
+  
+    <div *ngIf="successMessage" class="alert alert-success mt-3">
+      {{ successMessage }}
+    </div>
+  </div>
+  
