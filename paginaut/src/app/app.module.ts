@@ -26,8 +26,7 @@ import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { CalendarioComponent } from './calendario/calendario.component';
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
 import { InfoBecaComponent } from './info-beca/info-beca.component';
-
-
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -50,6 +49,7 @@ import { InfoBecaComponent } from './info-beca/info-beca.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
