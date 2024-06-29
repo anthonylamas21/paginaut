@@ -12,6 +12,8 @@ import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { EventosComponent } from './eventos/eventos.component';
 import { CalendarioComponent } from './calendario/calendario.component';
 import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component'; // Importa el nuevo componente
+import { TallerComponent } from './taller/taller.component';
+import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/principal', pathMatch: 'full' }, // Ruta por defecto
@@ -29,6 +31,8 @@ const routes: Routes = [
   {path: 'info_carrera', component: InfoCarreraComponent},
   {path: 'eventos', component: EventosComponent},
   {path: 'calendario', component: CalendarioComponent},
+  {path: 'taller', component: TallerComponent},
+  {path: 'direccion', component: AgregarDireccionComponent},
   {path: 'registrar-evento', component: RegistrarEventoComponent} // Nueva ruta para registrar evento
 ];
 

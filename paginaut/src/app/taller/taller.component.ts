@@ -1,0 +1,112 @@
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TallerService } from '../taller.service';
+
+@Component({
+  selector: 'app-taller',
+  templateUrl: './taller.component.html',
+  styleUrls: ['./taller.component.css']
+})
+export class TallerComponent implements OnInit, AfterViewInit {
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+
+  tallerForm: FormGroup;
+  imagen: File | null = null;
+  formSubmitted = false;
+  responseMessage = '';
+  isLoading = false;
+
+  constructor(
+    private fb: FormBuilder,
+    private tallerService: TallerService
+  ) {
+    this.tallerForm = this.fb.group({
+      nombre: ['', [Validators.required, Validators.maxLength(50)]],
+      descripcion: ['', [Validators.required, Validators.maxLength(50)]],
+      competencia: ['', [Validators.required, Validators.maxLength(50)]],
+    });
+  }
+
+  ngOnInit(): void {}
+
+  ngAfterViewInit(): void {
+    // Asegúrate de que el elemento existe antes de agregar el event listener
+    if (this.fileInput && this.fileInput.nativeElement) {
+      this.fileInput.nativeElement.addEventListener('change', this.onFileChange.bind(this));
+    } else {
+      console.error('fileInput is null or undefined');
+    }
+  }
+
+  onFileChange(event: Event): void {
+    const element = event.target as HTMLInputElement;
+    const fileList: FileList | null = element.files;
+    if (fileList && fileList.length > 0) {
+      this.imagen = fileList[0];
+      console.log('Archivo seleccionado:', this.imagen.name);
+    }
+  }
+
+  onSubmit(): void {
+    this.formSubmitted = true;
+    this.responseMessage = '';
+    if (this.tallerForm.valid) {
+      this.isLoading = true;
+      const formData = new FormData();
+      Object.keys(this.tallerForm.value).forEach(key => {
+        formData.append(key, this.tallerForm.get(key)?.value);
+      });
+
+      if (this.imagen) {
+        formData.append('imagen', this.imagen, this.imagen.name);
+      }
+
+      this.tallerService.registrarTaller(formData).subscribe({
+        next: (response) => {
+          console.log('Respuesta del servidor:', response);
+          if (response && response.id) {
+            this.responseMessage = `Taller creado con éxito. ID: ${response.id}`;
+          } else {
+            this.responseMessage = 'Taller creado, pero no se recibió un ID.';
+          }
+          this.resetForm();
+        },
+        error: (error) => {
+          console.error('Error al crear el taller', error);
+          this.responseMessage = `Error al crear el taller: ${error.message}`;
+        },
+        complete: () => {
+          this.isLoading = false;
+        }
+      });
+    } else {
+      console.log('Formulario inválido', this.tallerForm);
+      this.responseMessage = 'Por favor, complete todos los campos requeridos correctamente.';
+    }
+  }
+
+  resetForm(): void {
+    this.formSubmitted = false;
+    this.tallerForm.reset();
+    this.imagen = null;
+    if (this.fileInput && this.fileInput.nativeElement) {
+      this.fileInput.nativeElement.value = '';
+    }
+  }
+
+  isFieldInvalid(fieldName: string): boolean {
+    const field = this.tallerForm.get(fieldName);
+    return !!(field && (field.invalid && (field.dirty || field.touched || this.formSubmitted)));
+  }
+
+  getErrorMessage(fieldName: string): string {
+    const field = this.tallerForm.get(fieldName);
+    if (field?.errors?.['required']) {
+      return 'Este campo es requerido.';
+    }
+    if (field?.errors?.['maxlength']) {
+      return `El máximo de caracteres permitidos es ${field.errors['maxlength'].requiredLength}.`;
+    }
+    return '';
+  }
+}

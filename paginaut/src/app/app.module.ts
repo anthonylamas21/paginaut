@@ -30,6 +30,8 @@ import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { CalendarioComponent } from './calendario/calendario.component';
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
 import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component';
+import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
+import { TallerComponent } from './taller/taller.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.co
     InfoCarreraComponent,
     CalendarioComponent,
     PrincipalAdminComponent,
-    RegistrarEventoComponent
+    RegistrarEventoComponent,
+    AgregarDireccionComponent,
+    TallerComponent
   ],
   imports: [
     BrowserModule,
