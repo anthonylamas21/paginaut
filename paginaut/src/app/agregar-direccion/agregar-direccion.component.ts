@@ -16,6 +16,7 @@ export class AgregarDireccionComponent implements OnInit {
   filteredDirecciones: Direccion[] = [];
   papeleraDirecciones: Direccion[] = [];
   currentDireccionId?: number;
+  currentDireccion?: Direccion;
   currentTab: 'active' | 'inactive' = 'active';
 
   constructor(
@@ -34,9 +35,10 @@ export class AgregarDireccionComponent implements OnInit {
 
   onSubmit() {
     if (this.direccionForm.valid) {
-      const direccionData: Direccion = this.direccionForm.value;
+      const direccionData: Direccion = { ...this.direccionForm.value };
       if (this.currentDireccionId) {
         direccionData.id = this.currentDireccionId;
+        direccionData.activo = this.currentDireccion?.activo ?? true;
         this.direccionService.actualizarDireccion(direccionData).subscribe({
           next: (response) => {
             console.log('Dirección actualizada con éxito', response);
@@ -76,11 +78,13 @@ export class AgregarDireccionComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
     this.currentDireccionId = undefined;
+    this.currentDireccion = undefined;
   }
 
   openModal(direccion?: Direccion) {
     if (direccion) {
       this.currentDireccionId = direccion.id;
+      this.currentDireccion = direccion;
       this.direccionForm.patchValue(direccion);
     } else {
       this.resetForm();
@@ -97,6 +101,7 @@ export class AgregarDireccionComponent implements OnInit {
       next: (response: any) => {
         this.direcciones = response.records;
         this.filterDirecciones();
+        this.initializeTooltips();
       },
       error: (error) => {
         console.error('Error al cargar las direcciones', error);
@@ -122,6 +127,7 @@ export class AgregarDireccionComponent implements OnInit {
             ? 'Dirección activada correctamente'
             : 'Dirección enviada a la papelera correctamente';
           this.loadDirecciones();
+          this.initializeTooltips();
         },
         error: (error) => {
           console.error('Error al actualizar la dirección', error);
@@ -137,6 +143,7 @@ export class AgregarDireccionComponent implements OnInit {
         console.log('Dirección eliminada con éxito', response);
         this.successMessage = 'Dirección eliminada correctamente';
         this.loadDirecciones(); // Vuelve a cargar las direcciones después de eliminar
+        this.initializeTooltips();
       },
       error: (error) => {
         console.error('Error al eliminar la dirección', error);
@@ -184,5 +191,78 @@ export class AgregarDireccionComponent implements OnInit {
   switchTab(tab: 'active' | 'inactive') {
     this.currentTab = tab;
     this.filterDirecciones();
+    this.initializeTooltips();
+  }
+
+  initializeTooltips() {
+    setTimeout(() => {
+      const tooltips = document.querySelectorAll('.hs-tooltip');
+      tooltips.forEach((tooltip) => {
+        const trigger = tooltip as HTMLElement;
+        trigger.addEventListener('mouseenter', () => this.mostrar(trigger));
+        trigger.addEventListener('mouseleave', () => this.mostrar(trigger));
+      });
+    }, 0);
+  }
+
+  // Tooltip Methods
+  mostrar(elemento: any): void {
+    // Verifica si el elemento recibido es un botón
+    if (elemento.tagName.toLowerCase() === 'button') {
+      const tooltipElement = elemento.querySelector('.hs-tooltip');
+      if (tooltipElement) {
+        const tooltipContent = tooltipElement.querySelector(
+          '.hs-tooltip-content'
+        );
+        if (tooltipContent) {
+          tooltipContent.classList.toggle('hidden');
+          tooltipContent.classList.toggle('invisible');
+          tooltipContent.classList.toggle('visible');
+          // Ajustar la posición del tooltip
+          TooltipManager.adjustTooltipPosition(elemento, tooltipContent);
+        }
+      }
+    }
+  }
+}
+
+class TooltipManager {
+  static adjustTooltipPosition(
+    button: HTMLElement,
+    tooltip: HTMLElement
+  ): void {
+    // Obtener dimensiones del botón y del tooltip
+    const buttonRect = button.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
+
+    // Obtener dimensiones de la ventana
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    // Calcular la posición preferida del tooltip
+    const preferredLeft =
+      buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
+    const preferredTop = buttonRect.top - tooltipRect.height - 10; // Espacio entre el botón y el tooltip
+
+    // Ajustar la posición si se sale de la pantalla hacia la izquierda
+    let left = Math.max(preferredLeft, 0);
+
+    // Ajustar la posición si se sale de la pantalla hacia arriba
+    let top = Math.max(preferredTop, 0);
+
+    // Ajustar la posición si el tooltip se sale de la pantalla hacia la derecha
+    if (left + tooltipRect.width > windowWidth) {
+      left = windowWidth - tooltipRect.width;
+    }
+
+    // Ajustar la posición si el tooltip se sale de la pantalla hacia abajo
+    if (top + tooltipRect.height > windowHeight) {
+      top = windowHeight - tooltipRect.height;
+    }
+
+    // Aplicar posición al tooltip
+    tooltip.style.position = 'fixed';
+    tooltip.style.top = `${top}px`;
+    tooltip.style.left = `${left}px`;
   }
 }

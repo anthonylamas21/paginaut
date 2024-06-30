@@ -1,6 +1,4 @@
 <div class="container">
-  <h2>Agregar Nueva Dirección</h2>
-
   <!-- Modal -->
   <div
     [ngClass]="{ 'hs-overlay-open': isModalOpen, 'hs-overlay': !isModalOpen }"
@@ -296,15 +294,100 @@
                           <div class="flex items-center space-x-3.5">
                             <button
                               (click)="openModal(direccion)"
-                              class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-[#04847C] text-white hover:opacity-80 transition-opacity duration-300"
+                              (mouseenter)="mostrar($event.target)"
+                              (mouseleave)="mostrar($event.target)"
+                              class="hover:text-primary"
                             >
-                              <i class="fas fa-edit"></i>
+                              <!-- User -->
+                              <div
+                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                              >
+                                <div
+                                  class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                >
+                                  <i class="fas fa-edit"></i>
+                                  <!-- Popover Content -->
+                                  <div
+                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                    role="tooltip"
+                                  >
+                                    <!-- Header -->
+                                    <div
+                                      class="py-3 px-4 border-b border-gray-200"
+                                    >
+                                      <div class="flex items-center gap-x-3">
+                                        <div class="grow">
+                                          <h4
+                                            class="font-semibold text-gray-800"
+                                          >
+                                            Editar
+                                          </h4>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div
+                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                        >
+                                          Actualizar la información del registro
+                                          actual.
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                  <!-- End Popover Content -->
+                                </div>
+                              </div>
                             </button>
                             <button
                               (click)="confirmDeleteDireccion(direccion.id)"
-                              class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-[#EF4444] text-white hover:opacity-80 transition-opacity duration-300"
+                              (mouseenter)="mostrar($event.target)"
+                              (mouseleave)="mostrar($event.target)"
+                              class="hover:text-primary"
                             >
-                              <i class="fa fa-trash"></i>
+                              <!-- User -->
+                              <div
+                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                              >
+                                <div
+                                  class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                >
+                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                  <!-- Popover Content -->
+                                  <div
+                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                    role="tooltip"
+                                  >
+                                    <!-- Header -->
+                                    <div
+                                      class="py-3 px-4 border-b border-gray-200"
+                                    >
+                                      <div class="flex items-center gap-x-3">
+                                        <div class="grow">
+                                          <h4
+                                            class="font-semibold text-gray-800"
+                                          >
+                                            Eliminar
+                                          </h4>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div
+                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                        >
+                                          Eliminar el registro indica
+                                          desaparecer la información relacionada
+                                          a este registro.
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                  <!-- End Popover Content -->
+                                </div>
+                              </div>
                             </button>
                           </div>
                         </td>
@@ -403,15 +486,104 @@
                             <div class="flex items-center space-x-3.5">
                               <button
                                 (click)="activateDireccion(direccion.id)"
-                                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-[#04847C] text-white hover:opacity-80 transition-opacity duration-300"
+                                (mouseenter)="mostrar($event.target)"
+                                (mouseleave)="mostrar($event.target)"
+                                class="hover:text-primary"
                               >
-                                <i class="fas fa-check"></i>
+                                <!-- User -->
+                                <div
+                                  class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                                >
+                                  <div
+                                    class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                  >
+                                    <i class="fas fa-check"></i>
+                                    <!-- Popover Content -->
+                                    <div
+                                      class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                      role="tooltip"
+                                    >
+                                      <!-- Header -->
+                                      <div
+                                        class="py-3 px-4 border-b border-gray-200"
+                                      >
+                                        <div class="flex items-center gap-x-3">
+                                          <div class="grow">
+                                            <h4
+                                              class="font-semibold text-gray-800"
+                                            >
+                                              Reactivar
+                                            </h4>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div
+                                            class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                          >
+                                            Volver a activar el registro
+                                            regresando con este toda la
+                                            información relacionada.
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                    <!-- End Popover Content -->
+                                  </div>
+                                </div>
                               </button>
                               <button
                                 (click)="deleteDireccion(direccion.id)"
-                                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-[#EF4444] text-white hover:opacity-80 transition-opacity duration-300"
+                                (mouseenter)="mostrar($event.target)"
+                                (mouseleave)="mostrar($event.target)"
+                                class="hover:text-primary"
                               >
-                                <i class="fa fa-trash"></i>
+                                <!-- User -->
+                                <div
+                                  class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                                >
+                                  <div
+                                    class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                  >
+                                    <i
+                                      class="fa fa-trash"
+                                      aria-hidden="true"
+                                    ></i>
+                                    <!-- Popover Content -->
+                                    <div
+                                      class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                      role="tooltip"
+                                    >
+                                      <!-- Header -->
+                                      <div
+                                        class="py-3 px-4 border-b border-gray-200"
+                                      >
+                                        <div class="flex items-center gap-x-3">
+                                          <div class="grow">
+                                            <h4
+                                              class="font-semibold text-gray-800"
+                                            >
+                                              Eliminar
+                                            </h4>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div
+                                            class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                          >
+                                            Eliminar el registro indica
+                                            desaparecer la información
+                                            relacionada a este registro.
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                    <!-- End Popover Content -->
+                                  </div>
+                                </div>
                               </button>
                             </div>
                           </td>
