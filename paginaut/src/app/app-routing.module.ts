@@ -17,27 +17,27 @@ import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion
 
 const routes: Routes = [
   { path: '', redirectTo: '/principal', pathMatch: 'full' }, // Ruta por defecto
-  { path: 'principal', component: PrincipalComponent }, 
+  { path: 'principal', component: PrincipalComponent },
 
-  //Rutas 
-  {path: 'principal', component: PrincipalComponent },
-  {path: 'navbar', component: NavbarComponent },
-  {path: 'componentes', component: ComponentesComponent},
-  {path: 'carreras', component: CarrerasComponent},
-  {path: 'becas', component: BecasComponent},
-  {path: 'unidades_academicas', component: UnidadesAcademicasComponent},
-  {path: 'lectura', component: TalleresComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'info_carrera', component: InfoCarreraComponent},
-  {path: 'eventos', component: EventosComponent},
-  {path: 'calendario', component: CalendarioComponent},
-  {path: 'taller', component: TallerComponent},
-  {path: 'direccion', component: AgregarDireccionComponent},
-  {path: 'registrar-evento', component: RegistrarEventoComponent} // Nueva ruta para registrar evento
+  //Rutas
+  { path: 'principal', component: PrincipalComponent },
+  { path: 'navbar', component: NavbarComponent },
+  { path: 'componentes', component: ComponentesComponent },
+  { path: 'carreras', component: CarrerasComponent },
+  { path: 'becas', component: BecasComponent },
+  { path: 'unidades_academicas', component: UnidadesAcademicasComponent },
+  { path: 'lectura', component: TalleresComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'info_carrera', component: InfoCarreraComponent },
+  { path: 'eventos', component: EventosComponent },
+  { path: 'calendario', component: CalendarioComponent },
+  { path: 'taller', component: TallerComponent },
+  { path: 'direccion', component: AgregarDireccionComponent },
+  { path: 'registrar-evento', component: RegistrarEventoComponent }, // Nueva ruta para registrar evento
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

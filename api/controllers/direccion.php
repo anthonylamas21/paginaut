@@ -23,13 +23,14 @@ $direccion = new Direccion($db);
 
 $request_method = $_SERVER["REQUEST_METHOD"];
 
-switch($request_method) {
+switch ($request_method) {
     case 'POST':
         $data = json_decode(file_get_contents("php://input"));
-        
+
         if (!empty($data->abreviatura) && !empty($data->nombre)) {
             $direccion->abreviatura = $data->abreviatura;
             $direccion->nombre = $data->nombre;
+            $direccion->activo = $data->activo ?? true;
 
             if ($direccion->create()) {
                 http_response_code(201);
@@ -120,4 +121,3 @@ switch($request_method) {
         echo json_encode(array("message" => "Método no permitido."));
         break;
 }
-?>
