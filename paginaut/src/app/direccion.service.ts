@@ -45,7 +45,7 @@ export class DireccionService {
 
   eliminarDireccion(id: number): Observable<any> {
     return this.http
-      .put<any>(`${this.apiUrl}`, { id, activo: false })
+      .delete<any>(`${this.apiUrl}?id=${id}`)
       .pipe(catchError(this.handleError));
   }
 

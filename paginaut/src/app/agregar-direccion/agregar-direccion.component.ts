@@ -25,6 +25,7 @@ export class AgregarDireccionComponent implements OnInit {
     this.direccionForm = this.fb.group({
       abreviatura: ['', [Validators.required, Validators.maxLength(10)]],
       nombre: ['', [Validators.required, Validators.maxLength(100)]],
+      activo: [true], // Añadir el campo activo en el formulario
     });
   }
 
