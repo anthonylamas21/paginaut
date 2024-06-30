@@ -27,6 +27,7 @@ import { CalendarioComponent } from './calendario/calendario.component';
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
 import { InfoBecaComponent } from './info-beca/info-beca.component';
 import { HttpClientModule } from '@angular/common/http';
+import { RedesSocialesComponent } from './redes-sociales/redes-sociales.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { HttpClientModule } from '@angular/common/http';
     CalendarioComponent,
     PrincipalAdminComponent,
     InfoBecaComponent,
-    TalleresComponent
+    TalleresComponent,
+    RedesSocialesComponent
   ],
   imports: [
     BrowserModule,
