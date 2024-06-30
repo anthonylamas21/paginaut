@@ -25,41 +25,41 @@ switch($request_method) {
             $taller->descripcion = $_POST['descripcion'];
             $taller->competencia = $_POST['competencia'];
 
-            // Manejar la carga de la imagen
-            if (!empty($_FILES['imagen']['tmp_name'])) {
+            // Manejar la carga de la imagen principal
+            if (!empty($_FILES['imagen_principal']['tmp_name'])) {
                 $target_dir = "../uploads/taller/";
-
-                // Verificar si la carpeta existe, si no, crearla
                 if (!file_exists($target_dir)) {
                     mkdir($target_dir, 0777, true);
                 }
-
-                $target_file = $target_dir . uniqid() . "_" . basename($_FILES["imagen"]["name"]);
+                $target_file = $target_dir . uniqid() . "_" . basename($_FILES["imagen_principal"]["name"]);
                 $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-                // Mover la imagen a la carpeta de destino
-                if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file)) {
+                if (move_uploaded_file($_FILES["imagen_principal"]["tmp_name"], $target_file)) {
                     $taller->imagen = $target_file;
+                } else {
+                    http_response_code(503);
+                    echo json_encode(array("message" => "No se pudo cargar la imagen principal."));
+                    exit;
+                }
+            }
 
-                    if ($taller->create()) {
-                        http_response_code(201);
-                        echo json_encode(array("message" => "Taller creado correctamente.", "id" => $taller->id));
-                    } else {
-                        http_response_code(503);
-                        echo json_encode(array("message" => "No se pudo crear el taller."));
+            // Crear taller y guardar la imagen principal
+            if ($taller->create()) {
+                // Manejar la carga de imágenes generales
+                if (!empty($_FILES['imagenes_generales']['tmp_name'])) {
+                    foreach ($_FILES['imagenes_generales']['tmp_name'] as $key => $tmp_name) {
+                        $target_file = $target_dir . uniqid() . "_" . basename($_FILES["imagenes_generales"]["name"][$key]);
+                        if (move_uploaded_file($tmp_name, $target_file)) {
+                            $taller->saveImagenGeneral($target_file);
+                        }
                     }
-                } else {
-                    http_response_code(503);
-                    echo json_encode(array("message" => "No se pudo cargar la imagen."));
                 }
+
+                http_response_code(201);
+                echo json_encode(array("message" => "Taller creado correctamente.", "id" => $taller->id));
             } else {
-                if ($taller->create()) {
-                    http_response_code(201);
-                    echo json_encode(array("message" => "Taller creado correctamente.", "id" => $taller->id));
-                } else {
-                    http_response_code(503);
-                    echo json_encode(array("message" => "No se pudo crear el taller."));
-                }
+                http_response_code(503);
+                echo json_encode(array("message" => "No se pudo crear el taller."));
             }
         } else {
             http_response_code(400);

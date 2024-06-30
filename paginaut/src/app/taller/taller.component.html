@@ -1,55 +1,42 @@
 <div class="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
-    <h2 class="text-2xl font-bold mb-6">Crear Taller y Agregar Imagen</h2>
-    <form [formGroup]="tallerForm" (ngSubmit)="onSubmit()" class="space-y-4">
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Nombre:</label>
-        <input
-          type="text"
-          formControlName="nombre"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-        <div *ngIf="isFieldInvalid('nombre')" class="text-red-600 text-sm">
-          {{ getErrorMessage('nombre') }}
-        </div>
+  <h2 class="text-2xl font-bold mb-6">Crear Taller y Agregar Imágenes</h2>
+  <form [formGroup]="tallerForm" (ngSubmit)="onSubmit()" class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Nombre:</label>
+      <input type="text" formControlName="nombre" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <div *ngIf="isFieldInvalid('nombre')" class="text-red-600 text-sm">
+        {{ getErrorMessage('nombre') }}
       </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Descripción:</label>
-        <input
-          type="text"
-          formControlName="descripcion"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-        <div *ngIf="isFieldInvalid('descripcion')" class="text-red-600 text-sm">
-          {{ getErrorMessage('descripcion') }}
-        </div>
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Competencia:</label>
-        <input
-          type="text"
-          formControlName="competencia"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-        <div *ngIf="isFieldInvalid('competencia')" class="text-red-600 text-sm">
-          {{ getErrorMessage('competencia') }}
-        </div>
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Imagen:</label>
-        <input
-          #fileInput
-          type="file"
-          (change)="onFileChange($event)"
-          accept="image/*"
-          class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-      </div>
-      <div>
-        <button
-          type="submit"
-          [disabled]="isLoading"
-          class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50">
-          {{ isLoading ? 'Creando...' : 'Crear Taller y Agregar Imagen' }}
-        </button>
-      </div>
-    </form>
-    <div *ngIf="responseMessage" class="mt-4 p-4 rounded-md" [ngClass]="{'bg-green-100 text-green-700': !responseMessage.includes('Error'), 'bg-red-100 text-red-700': responseMessage.includes('Error')}">
-      {{ responseMessage }}
     </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Descripción:</label>
+      <input type="text" formControlName="descripcion" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <div *ngIf="isFieldInvalid('descripcion')" class="text-red-600 text-sm">
+        {{ getErrorMessage('descripcion') }}
+      </div>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Competencia:</label>
+      <input type="text" formControlName="competencia" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <div *ngIf="isFieldInvalid('competencia')" class="text-red-600 text-sm">
+        {{ getErrorMessage('competencia') }}
+      </div>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Imagen Principal:</label>
+      <input type="file" #fileInputPrincipal (change)="onFileChangePrincipal($event)" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Imágenes Generales:</label>
+      <input type="file" #fileInputGenerales multiple (change)="onFileChangeGenerales($event)" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+    </div>
+    <div>
+      <button type="submit" [disabled]="isLoading" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50">
+        {{ isLoading ? 'Creando...' : 'Crear Taller y Agregar Imágenes' }}
+      </button>
+    </div>
+  </form>
+  <div *ngIf="responseMessage" class="mt-4 p-4 rounded-md" [ngClass]="{'bg-green-100 text-green-700': !responseMessage.includes('Error'), 'bg-red-100 text-red-700': responseMessage.includes('Error')}">
+    {{ responseMessage }}
   </div>
+</div>

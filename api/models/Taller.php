@@ -42,17 +42,35 @@ class Taller {
         $query = "INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal)
                   VALUES (:titulo, :descripcion, :ruta_imagen, 'Taller', :asociado_id, TRUE)";
         $stmt = $this->conn->prepare($query);
-    
+
         $titulo = $this->nombre;
         $descripcion = $this->descripcion;
         $ruta_imagen = htmlspecialchars(strip_tags($this->imagen));
         $asociado_id = $this->id;   
-    
+
         $stmt->bindParam(":titulo", $titulo);
         $stmt->bindParam(":descripcion", $descripcion);
         $stmt->bindParam(":ruta_imagen", $ruta_imagen);
         $stmt->bindParam(":asociado_id", $asociado_id);
-    
+
+        $stmt->execute();
+    }
+
+    // Guardar imágenes generales asociadas al taller
+    public function saveImagenGeneral($ruta_imagen) {
+        $query = "INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal)
+                  VALUES (:titulo, :descripcion, :ruta_imagen, 'Taller', :asociado_id, FALSE)";
+        $stmt = $this->conn->prepare($query);
+
+        $titulo = $this->nombre;
+        $descripcion = $this->descripcion;
+        $asociado_id = $this->id;   
+
+        $stmt->bindParam(":titulo", $titulo);
+        $stmt->bindParam(":descripcion", $descripcion);
+        $stmt->bindParam(":ruta_imagen", $ruta_imagen);
+        $stmt->bindParam(":asociado_id", $asociado_id);
+
         $stmt->execute();
     }
     private function updateImagenTaller($imagen_id) {
@@ -86,7 +104,7 @@ class Taller {
 
     // Leer un taller por ID
     function readOne() {
-        $query = "SELECT id, nombre, descripcion, competencia FROM " . $this->table_name . " WHERE id = ? LIMIT 0,1";
+        $query = "SELECT id, nombre, descripcion, competencia FROM " . $this->table_name . " WHERE id = ? ";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $this->id);
         $stmt->execute();
