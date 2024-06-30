@@ -23,7 +23,6 @@ import { TalleresComponent } from './talleres/talleres.component';
 import { LoginComponent } from './login/login.component';
 import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { CalendarioComponent } from './calendario/calendario.component';
-import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
 import { CursosComponent } from './cursos/cursos.component';
 import { InfoCursoComponent } from './info-curso/info-curso.component';
 import { InfoUnidadesComponent } from './info-unidades/info-unidades.component';
@@ -34,6 +33,13 @@ import { InfoEnfermeriaComponent } from './info-enfermeria/info-enfermeria.compo
 import { UbicacionComponent } from './ubicacion/ubicacion.component';
 import { PsicologiaComponent } from './psicologia/psicologia.component';
 import { CorreoComponent } from './correo/correo.component';
+
+//Rutas de administrator
+import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
+import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
+import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.component';
+import { CursosAdminComponent } from './admin/cursos-admin/cursos-admin.component';
+
 
 
 
@@ -63,7 +69,10 @@ import { CorreoComponent } from './correo/correo.component';
     InfoEnfermeriaComponent,
     UbicacionComponent,
     PsicologiaComponent,
-    CorreoComponent
+    CorreoComponent,
+    NavbarAdminComponent,
+    CarrerasAdminComponent,
+    CursosAdminComponent
   ],
   imports: [
     BrowserModule,

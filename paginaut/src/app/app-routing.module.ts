@@ -22,6 +22,13 @@ import { UbicacionComponent } from './ubicacion/ubicacion.component';
 import { PsicologiaComponent } from './psicologia/psicologia.component';
 import { CorreoComponent } from './correo/correo.component';
 
+//Rutas Administrator
+import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
+import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
+import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.component';
+import { CursosAdminComponent } from './admin/cursos-admin/cursos-admin.component';
+
+
 
 
 
@@ -51,6 +58,12 @@ const routes: Routes = [
   {path: 'ubicacion', component: UbicacionComponent},
   {path: 'psicologia', component: PsicologiaComponent},
   {path: 'correo', component: CorreoComponent},
+
+  //Rutas Adminstrador
+  {path: 'admin/navbar_admin', component: NavbarAdminComponent},
+  {path: 'admin/principal_admin', component: PrincipalAdminComponent},
+  {path: 'admin/carreras_admin', component: CarrerasAdminComponent},
+  {path: 'admin/cursos_admin', component:CursosAdminComponent}
 ];
 
 @NgModule({

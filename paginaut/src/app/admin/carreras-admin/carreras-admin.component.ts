@@ -1,11 +1,11 @@
-import { Component, HostListener } from '@angular/core';
+import { Component,HostListener } from '@angular/core';
 
 @Component({
-  selector: 'app-principal-admin',
-  templateUrl: './principal-admin.component.html',
-  styleUrl: './principal-admin.component.css'
+  selector: 'app-carreras-admin',
+  templateUrl: './carreras-admin.component.html',
+  styleUrl: './carreras-admin.component.css'
 })
-export class PrincipalAdminComponent {
+export class CarrerasAdminComponent {
   ngOnInit(): void {
     this.setNavbarColor();
   }

@@ -3,18 +3,12 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Table,TableModule } from 'primeng/table';
 import Swal from 'sweetalert2';
 
-interface Item {
-  nombre: string;
-  edad: string;
-  direccion: string;
-}
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  selector: 'app-navbar-admin',
+  templateUrl: './navbar-admin.component.html',
+  styleUrl: './navbar-admin.component.css'
 })
-export class NavbarComponent  implements OnInit {
-
+export class NavbarAdminComponent {
   myForm: FormGroup;
   selectedCustomers: any;
   constructor() {
@@ -27,7 +21,7 @@ export class NavbarComponent  implements OnInit {
       radios: new FormControl('', [Validators.required])
     });
   }
- 
+
 
 
   ngOnInit() {
@@ -79,6 +73,4 @@ class TooltipManager {
       tooltip.style.top = `${top}px`;
       tooltip.style.left = `${left}px`;
   }
-
-
 }
