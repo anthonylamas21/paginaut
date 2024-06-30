@@ -25,7 +25,6 @@ export class AgregarDireccionComponent implements OnInit {
     this.direccionForm = this.fb.group({
       abreviatura: ['', [Validators.required, Validators.maxLength(10)]],
       nombre: ['', [Validators.required, Validators.maxLength(100)]],
-      activo: [true], // Añadir el campo activo en el formulario
     });
   }
 
@@ -101,6 +100,7 @@ export class AgregarDireccionComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al cargar las direcciones', error);
+        this.errorMessage = error.message;
       },
     });
   }
@@ -136,7 +136,7 @@ export class AgregarDireccionComponent implements OnInit {
       next: (response) => {
         console.log('Dirección eliminada con éxito', response);
         this.successMessage = 'Dirección eliminada correctamente';
-        this.loadDirecciones();
+        this.loadDirecciones(); // Vuelve a cargar las direcciones después de eliminar
       },
       error: (error) => {
         console.error('Error al eliminar la dirección', error);

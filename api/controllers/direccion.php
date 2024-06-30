@@ -73,8 +73,8 @@ switch ($request_method) {
                 }
                 echo json_encode(array("records" => $direcciones_arr));
             } else {
-                http_response_code(404);
-                echo json_encode(array("message" => "No se encontraron direcciones."));
+                http_response_code(200); // Cambiar el código de estado a 200
+                echo json_encode(array("records" => array())); // Retornar un arreglo vacío
             }
         }
         break;
