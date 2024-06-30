@@ -37,6 +37,45 @@ class Taller {
         return false;
     }
 
+    // Guardar imagen asociada al taller
+    private function saveImagenTaller() {
+        $query = "INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal)
+                  VALUES (:titulo, :descripcion, :ruta_imagen, 'Taller', :asociado_id, TRUE)";
+        $stmt = $this->conn->prepare($query);
+    
+        $titulo = $this->nombre;
+        $descripcion = $this->descripcion;
+        $ruta_imagen = htmlspecialchars(strip_tags($this->imagen));
+        $asociado_id = $this->id;   
+    
+        $stmt->bindParam(":titulo", $titulo);
+        $stmt->bindParam(":descripcion", $descripcion);
+        $stmt->bindParam(":ruta_imagen", $ruta_imagen);
+        $stmt->bindParam(":asociado_id", $asociado_id);
+    
+        $stmt->execute();
+    }
+    private function updateImagenTaller($imagen_id) {
+        $query = "UPDATE Imagenes SET titulo = :titulo, descripcion = :descripcion, ruta_imagen = :ruta_imagen 
+                  WHERE id = :imagen_id AND seccion = 'Taller' AND asociado_id = :asociado_id";
+        $stmt = $this->conn->prepare($query);
+    
+        $titulo = $this->nombre;
+        $descripcion = $this->descripcion;
+        $ruta_imagen = htmlspecialchars(strip_tags($this->imagen));
+        $asociado_id = $this->id;   
+    
+        $stmt->bindParam(":titulo", $titulo);
+        $stmt->bindParam(":descripcion", $descripcion);
+        $stmt->bindParam(":ruta_imagen", $ruta_imagen);
+        $stmt->bindParam(":asociado_id", $asociado_id);
+        $stmt->bindParam(":imagen_id", $imagen_id);
+    
+        $stmt->execute();
+    }
+    
+    
+
     // Leer todos los talleres
     function read() {
         $query = "SELECT id, nombre, descripcion, competencia FROM " . $this->table_name . " ORDER BY id DESC";
@@ -104,27 +143,6 @@ class Taller {
             return true;
         }
         return false;
-    }
-
-    // Guardar imagen asociada al taller
-    private function saveImagenTaller() {
-        $query = "INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal)
-                  VALUES (:titulo, :descripcion, :ruta_imagen, 'Taller', :asociado_id, TRUE)
-                  ON CONFLICT (seccion, asociado_id) DO UPDATE
-                  SET ruta_imagen = EXCLUDED.ruta_imagen";
-        $stmt = $this->conn->prepare($query);
-
-        $titulo = $this->nombre;
-        $descripcion = $this->descripcion;
-        $ruta_imagen = htmlspecialchars(strip_tags($this->imagen));
-        $asociado_id = $this->id;   
-
-        $stmt->bindParam(":titulo", $titulo);
-        $stmt->bindParam(":descripcion", $descripcion);
-        $stmt->bindParam(":ruta_imagen", $ruta_imagen);
-        $stmt->bindParam(":asociado_id", $asociado_id);
-
-        $stmt->execute();
     }
 
     // Obtener imagen asociada al taller

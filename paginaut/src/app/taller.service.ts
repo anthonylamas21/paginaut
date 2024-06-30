@@ -3,23 +3,71 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 
+export interface Taller {
+  id?: number;
+  nombre: string;
+  descripcion: string;
+  competencia: string;
+  imagen?: File | string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class TallerService {
-  private apiUrl = 'http://localhost/paginaut/api/taller.php'; // Asegúrate de que esta URL sea correcta
+  private apiUrl = 'http://localhost/paginaut/api/taller.php'; // Adjust this URL to match your setup
 
   constructor(private http: HttpClient) { }
 
-  registrarTaller(formData: FormData): Observable<any> {
+  crearTaller(taller: Taller, imagenPrincipal?: File, imagenesGenerales?: File[]): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('nombre', taller.nombre);
+    formData.append('descripcion', taller.descripcion);
+    formData.append('competencia', taller.competencia);
+
+    if (imagenPrincipal) {
+      formData.append('imagen_principal', imagenPrincipal);
+    }
+
+    if (imagenesGenerales && imagenesGenerales.length > 0) {
+      imagenesGenerales.forEach((imagen, index) => {
+        formData.append(`imagenes_generales[${index}]`, imagen);
+      });
+    }
+
+    return this.http.post<any>(this.apiUrl, formData);
+  }
+
+
+  obtenerTalleres(): Observable<Taller[]> {
+    return this.http.get<Taller[]>(this.apiUrl).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  obtenerTaller(id: number): Observable<Taller> {
+    return this.http.get<Taller>(`${this.apiUrl}?id=${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  actualizarTaller(taller: Taller, imagen?: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('id', taller.id!.toString());
+    formData.append('nombre', taller.nombre);
+    formData.append('descripcion', taller.descripcion);
+    formData.append('competencia', taller.competencia);
+    if (imagen) {
+      formData.append('imagen', imagen, imagen.name);
+    }
+
     return this.http.post(this.apiUrl, formData).pipe(
-      tap(response => console.log('Respuesta completa del servidor:', response)),
-      map(response => {
-        if (response === null) {
-          throw new Error('La respuesta del servidor es nula');
-        }
-        return response;
-      }),
+      catchError(this.handleError)
+    );
+  }
+
+  eliminarTaller(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}?id=${id}`).pipe(
       catchError(this.handleError)
     );
   }

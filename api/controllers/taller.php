@@ -20,14 +20,20 @@ $data = json_decode(file_get_contents("php://input"));
 
 switch($request_method) {
     case 'POST':
-        if (!empty($data->nombre) && !empty($data->descripcion) && !empty($data->competencia)) {
-            $taller->nombre = $data->nombre;
-            $taller->descripcion = $data->descripcion;
-            $taller->competencia = $data->competencia;
+        if (!empty($_POST['nombre']) && !empty($_POST['descripcion']) && !empty($_POST['competencia'])) {
+            $taller->nombre = $_POST['nombre'];
+            $taller->descripcion = $_POST['descripcion'];
+            $taller->competencia = $_POST['competencia'];
 
             // Manejar la carga de la imagen
-            if (!empty($_FILES['imagen'])) {
+            if (!empty($_FILES['imagen']['tmp_name'])) {
                 $target_dir = "../uploads/taller/";
+
+                // Verificar si la carpeta existe, si no, crearla
+                if (!file_exists($target_dir)) {
+                    mkdir($target_dir, 0777, true);
+                }
+
                 $target_file = $target_dir . uniqid() . "_" . basename($_FILES["imagen"]["name"]);
                 $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TallerService } from '../taller.service';
+import { TallerService, Taller } from '../taller.service';
 
 @Component({
   selector: 'app-taller',
@@ -30,7 +30,6 @@ export class TallerComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    // Asegúrate de que el elemento existe antes de agregar el event listener
     if (this.fileInput && this.fileInput.nativeElement) {
       this.fileInput.nativeElement.addEventListener('change', this.onFileChange.bind(this));
     } else {
@@ -52,17 +51,15 @@ export class TallerComponent implements OnInit, AfterViewInit {
     this.responseMessage = '';
     if (this.tallerForm.valid) {
       this.isLoading = true;
-      const formData = new FormData();
-      Object.keys(this.tallerForm.value).forEach(key => {
-        formData.append(key, this.tallerForm.get(key)?.value);
-      });
+      const taller: Taller = {
+        nombre: this.tallerForm.get('nombre')?.value,
+        descripcion: this.tallerForm.get('descripcion')?.value,
+        competencia: this.tallerForm.get('competencia')?.value
+      };
 
-      if (this.imagen) {
-        formData.append('imagen', this.imagen, this.imagen.name);
-      }
-
-      this.tallerService.registrarTaller(formData).subscribe({
-        next: (response) => {
+      // Cambia esta línea
+      this.tallerService.crearTaller(taller, this.imagen || undefined).subscribe({
+        next: (response: any) => {
           console.log('Respuesta del servidor:', response);
           if (response && response.id) {
             this.responseMessage = `Taller creado con éxito. ID: ${response.id}`;
@@ -71,7 +68,7 @@ export class TallerComponent implements OnInit, AfterViewInit {
           }
           this.resetForm();
         },
-        error: (error) => {
+        error: (error: Error) => {
           console.error('Error al crear el taller', error);
           this.responseMessage = `Error al crear el taller: ${error.message}`;
         },
@@ -84,7 +81,6 @@ export class TallerComponent implements OnInit, AfterViewInit {
       this.responseMessage = 'Por favor, complete todos los campos requeridos correctamente.';
     }
   }
-
   resetForm(): void {
     this.formSubmitted = false;
     this.tallerForm.reset();
