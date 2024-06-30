@@ -1,4 +1,7 @@
-import { Component,HostListener } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Table,TableModule } from 'primeng/table';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-carreras-admin',
