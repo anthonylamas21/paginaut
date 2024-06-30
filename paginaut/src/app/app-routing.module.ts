@@ -27,6 +27,7 @@ import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.componen
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
 import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.component';
 import { CursosAdminComponent } from './admin/cursos-admin/cursos-admin.component';
+import { DireccionesAdminComponent } from './admin/direcciones-admin/direcciones-admin.component';
 
 
 
@@ -63,7 +64,9 @@ const routes: Routes = [
   {path: 'admin/navbar_admin', component: NavbarAdminComponent},
   {path: 'admin/principal_admin', component: PrincipalAdminComponent},
   {path: 'admin/carreras_admin', component: CarrerasAdminComponent},
-  {path: 'admin/cursos_admin', component:CursosAdminComponent}
+  {path: 'admin/cursos_admin', component:CursosAdminComponent},
+  {path: 'admin/direcciones_admin', component: DireccionesAdminComponent},
+  
 ];
 
 @NgModule({

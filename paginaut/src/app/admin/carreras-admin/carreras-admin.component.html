@@ -3,9 +3,41 @@
 <p id="inicio"></p>
 <!--Fin Navbar-->
 
+
+<div class="bg-[#043D3D] rounded-lg mt-20 ">
+  <h2 class=" text-center text-3xl font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4">Carreras</h2>
+</div>
+
+<ol class="flex items-center whitespace-nowrap ml-4 mb-8">
+  <li class="inline-flex items-center">
+    <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/admin/direcciones_admin">
+      Direcciones
+    </a>
+    <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m9 18 6-6-6-6"></path>
+    </svg>
+  </li>
+  <li class="inline-flex items-center">
+    <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/admin/carreras_admin">
+      Carreras
+      <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6"></path>
+      </svg>
+    </a>
+  </li>
+  <li class="inline-flex items-center">
+    <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/admin/info_carrera_admin">
+      Ingenieria en desarrollo de software
+      <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6"></path>
+      </svg>
+    </a>
+  </li>
+</ol>
+
 <!--TABLAS-->
 
-<div class="rounded-lg border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default sm:px-7.5 xl:pb-1 my-2 mt-20">
+<div class="rounded-lg border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default sm:px-7.5 xl:pb-1 my-2 mt-5">
     <div class="max-w-full ">
       <div class="border-b border-gray-200">
         <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
@@ -38,7 +70,7 @@
                         <path d="m21 21-4.3-4.3"></path>
                       </svg>
                     </div>
-                    <input (input)="filterGlobal($event)"
+                    <input 
                       class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]"
                       type="text" placeholder="Ingresa tu busqueda" value="" data-hs-combo-box-input="">
                   </div>
@@ -60,7 +92,7 @@
                 <button routerLink="/new-trimestre" type="button"
                   class="py-3 my-2  px-4 inline-flex button-secondary items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-color text-white hover:bg-primary-color-90 disabled:opacity-50 disabled:pointer-events-none">
                   <i class="fa fa-plus" aria-hidden="true"></i>
-                  Registrar trimestre
+                  Registrar carrera
                 </button>
               </div>
             </div>
@@ -69,28 +101,13 @@
             <div class="-m-1.5 overflow-x-auto">
               <div class="p-1.5 min-w-full inline-block align-middle">
                 <div class="border rounded-lg overflow-hidden my-2">
-                  <p-table #dt [value]="items" [paginator]="true" [rows]="5"
-                    currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
-                    [showCurrentPageReport]="true" [globalFilterFields]="['nombre', 'edad', 'direccion']"
-                    [tableStyleClass]="'min-w-full divide-y'" [resizableColumns]="true">
+                  <p-table>
                     <ng-template pTemplate="header">
                       <tr class="divide-x  divide-gray-200  bg-table-header-color rounded-lg">
                         <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
                           pSortableColumn="nombre">
                           <div class="flex">
-                            Nombre <p-sortIcon  field="nombre"></p-sortIcon>
-                          </div>
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                          pSortableColumn="edad">
-                          <div class="flex text-white">
-                            Edad <p-sortIcon field="edad"></p-sortIcon>
-                          </div>
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                          pSortableColumn="direccion">
-                          <div class="flex">
-                            Dirección <p-sortIcon field="direccion"></p-sortIcon>
+                            Carrera <p-sortIcon  field="nombre"></p-sortIcon>
                           </div>
                         </th>
                         <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color ">
@@ -101,15 +118,14 @@
                       </tr>
   
                     </ng-template>
-                    <ng-template pTemplate="body" let-registro>
+                    <ng-template pTemplate="body">
                       <tr class="divide-x  divide-gray-200 bg-neutral-100">
-                        <td class="px-3 py-2 text-sm text-black">{{registro.nombre}}</td>
-                        <td class="px-3 py-2 text-sm text-center text-black">{{registro.edad}}</td>
-                        <td class="px-3 py-2 text-sm text-black">{{registro.direccion}}</td>
+                        <td class="px-3 py-2 text-sm text-black">Ingenieria en desarrollo de software multiplataforma</td>
+                        <td class="px-3 py-2 text-sm text-black">Area de sistemas</td>
                         <td class="px-3 py-2 text-sm text-black">
                           <div class="flex items-center  space-x-3.5">
   
-                            <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)"
+                            <button 
                               class="hover:text-primary">
   
                               <!-- User -->
@@ -138,7 +154,7 @@
                                     <ul class="py-3 px-4 space-y-1">
                                       <li>
                                         <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
-                                          Información detallada del registro {{registro.nombre}}
+                                          Información detallada del registro
                                         </div>
                                       </li>
                                     </ul>
@@ -149,7 +165,7 @@
                               </div>
                             </button>
                             <button
-                              (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)"
+                             
                             class="hover:text-primary">
                               <!-- User -->
                               <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
@@ -187,7 +203,7 @@
                               </div>
                             </button>
                             <button
-                              (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)"
+                              
                             class="hover:text-primary">
   
                               <!-- User -->
@@ -224,7 +240,7 @@
                               </div>
                             </button>
                             <button
-                              (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)"
+                             
                             class="hover:text-primary">
   
                               <!-- User -->

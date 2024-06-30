@@ -39,6 +39,7 @@ import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.componen
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
 import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.component';
 import { CursosAdminComponent } from './admin/cursos-admin/cursos-admin.component';
+import { DireccionesAdminComponent } from './admin/direcciones-admin/direcciones-admin.component';
 
 
 
@@ -72,7 +73,8 @@ import { CursosAdminComponent } from './admin/cursos-admin/cursos-admin.componen
     CorreoComponent,
     NavbarAdminComponent,
     CarrerasAdminComponent,
-    CursosAdminComponent
+    CursosAdminComponent,
+    DireccionesAdminComponent
   ],
   imports: [
     BrowserModule,

@@ -1,11 +1,11 @@
 import { Component, HostListener } from '@angular/core';
 
 @Component({
-  selector: 'app-cursos-admin',
-  templateUrl: './cursos-admin.component.html',
-  styleUrl: './cursos-admin.component.css'
+  selector: 'app-direcciones-admin',
+  templateUrl: './direcciones-admin.component.html',
+  styleUrl: './direcciones-admin.component.css'
 })
-export class CursosAdminComponent {
+export class DireccionesAdminComponent {
   ngOnInit(): void {
     this.setNavbarColor();
   }
@@ -37,4 +37,5 @@ export class CursosAdminComponent {
   scrollToSection(sectionId: string): void {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
+
 }
