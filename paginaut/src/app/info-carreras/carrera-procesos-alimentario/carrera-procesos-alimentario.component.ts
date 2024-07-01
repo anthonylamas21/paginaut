@@ -15,14 +15,12 @@ interface Item {
   diez: string;
   once: string;
 } 
-
 @Component({
-  selector: 'app-info-carrera',
-  templateUrl: './info-carrera.component.html',
-  styleUrl: './info-carrera.component.css'
+  selector: 'app-carrera-procesos-alimentario',
+  templateUrl: './carrera-procesos-alimentario.component.html',
+  styleUrl: './carrera-procesos-alimentario.component.css'
 })
-export class InfoCarreraComponent {
-
+export class CarreraProcesosAlimentarioComponent {
   ngOnInit(): void {
     this.setNavbarColor();
   }
@@ -58,14 +56,27 @@ export class InfoCarreraComponent {
   @ViewChild('dt') dt: Table | undefined;
 
   items: Item[] = [
-    {uno: 'Algebra lineal',  dos: 'Funciones matemáticas',  tres: 'Calculo diferencial',  cuatro: 'Estandares y metricas para el desarrollo de software',  cinco: 'Aplicaciones de IoT',  seis: 'Estadia',  siete: 'Matematicas para ingenieria I',  ocho: 'Matemáticas para ingenieria II',  nueve: 'Administracion de proyectos de TI',  diez: 'Gestion del proceso de desarrollo de software',  once: 'Estadia'},
-    {uno: 'Desarrollo de habilidades del pensamiento lógico',  dos: 'Metodologías y modelado de desarrollo de software',  tres: 'Probabilidad y estadística',  cuatro: 'Principios de IoT',  cinco: 'Desarrollo móvil multiplataforma',  seis: 'Estadia',  siete: 'Metodologías para el desarrollo de proyectos',  ocho: 'Administración de bases de datos',  nueve: 'Extracción de conocimiento en bases de datos',  diez: 'Aplicaciones WEB progresivas',  once: 'Estadia'},
-    {uno: 'Fundamentos de TI',  dos: 'Interconexión de redes',  tres: 'Sistemas Operativos',  cuatro: 'Diseño de Apps',  cinco: 'Integradora II',  seis: 'Estadia',  siete: 'Arquitecturas de software',  ocho: 'Desarrollo Web profesional',  nueve: 'Desarrollo WEB Integral',  diez: 'Integradora',  once: 'Estadia'},
-    {uno: 'Fundamentos de redes',  dos: 'Programación Orientada a Objetos',  tres: 'Integradora I',  cuatro: 'Estructuras de datos Aplicadas',  cinco: 'Aplicaciones Web para I4.0',  seis: 'Estadia',  siete: 'Experiencia de usuario',  ocho: 'Seguridad en el desarrollo de aplicaciones',  nueve: 'Desarrollo para dispositivos inteligentes',  diez: 'Desarrollo móvil integral',  once: 'Estadia'},
-    {uno: 'Metodología de la programación',  dos: 'Introducción al diseño digital',  tres: 'Aplicaciones Web',  cuatro: 'Aplicaciones Web orientadas a servicios',  cinco: 'Bases de datos para cómputo en la nube',  seis: 'Estadia',  siete: 'Seguridad informática',  ocho: 'Inglés VII',  nueve: 'Inglés VIII',  diez: 'Optativa II: Creación de Videojuegos',  once: 'Estadia'},
-    {uno: 'Expresión oral y escrita I',  dos: 'Base de datos para aplicaciones',  tres: 'Bases de datos para aplicaciones',  cuatro: 'Evaluación y mejora para el desarrollo de software',  cinco: 'Expresión oral y escrita II',  seis: 'Estadia',  siete: 'Inglés VI',  ocho: 'Planeación y Organización del trabajo',  nueve: 'Dirección de Equipos de Alto Rendimiento',  diez: 'Inglés IX',  once: 'Estadia'},
-    {uno: 'Inglés I',  dos: 'Inglés II',  tres: 'Inglés III',  cuatro: 'Inglés IV',  cinco: 'Inglés V',  seis: 'Estadia',  siete: 'Administración del tiempo',  ocho: '',  nueve: '',  diez: 'Negociación empresarial',  once: 'Estadia'},
-    {uno: 'Formación Sociocultural I',  dos: 'Formación Sociocultural II',  tres: 'Formación Sociocultural III',  cuatro: 'Formación Sociocultural IV', cinco: '',  seis: 'Estadia',  siete: '',  ocho: '',  nueve: '',  diez: '',  once: 'Estadia'}
+
+    {uno: 'Algebra Lineal', dos: 'Funciones Matemáticas', tres: 'Cálculo Diferencial', cuatro: 'Cálculo Integral', cinco: 'Diseños Experimentales', seis: 'Estadia', siete: 'Matemáticas para Ingeniería I', ocho: 'Matemáticas para Ingeniería II', nueve: 'Operaciones Unitarias II', diez: 'Ingeniería Genética', once: 'Estadia'},
+
+    {uno: 'Química Básica', dos: 'Química Orgánica', tres: 'Química Analítica', cuatro: 'Probabilidad y Estadística', cinco: 'Biorremediación', seis: 'Estadia', siete: 'Termodinámica', ocho: 'Bioestadística', nueve: 'Biología Molecular', diez: 'Ingeniería Económica', once: 'Estadia'},
+
+    {uno: 'Biología Agrícola', dos: 'Física', tres: 'Electricidad y Magnetismo', cuatro: 'Agricultura Sostenible', cinco: 'Extracción de Metabolitos', seis: 'Estadia', siete: 'Fisicoquímica', ocho: 'Operaciones Unitarias I', nueve: '', diez: '', once: 'Estadia'},
+
+    {uno: 'Informática', dos: 'Microbiología', tres: 'Genética Vegetal', cuatro: 'Propagación Vegetativa', cinco: 'Abonos Orgánicos', seis: 'Estadia', siete: 'Metodología de la Investigación', ocho: 'Administración de la Calidad', nueve: 'Conservación de Bioproductos', diez: 'Caracterización de Bioproductos', once: 'Estadia'},
+
+    {uno: 'Botánica Sistemática', dos: 'Bioquímica', tres: 'Agrobiotecnología', cuatro: 'Integradora I', cinco: 'Biofertilizantes', seis: 'Estadia', siete: 'Administración de la Producción Agrobiotecnológica', ocho: 'Inglés VII', nueve: 'Bioingeniería', diez: 'Integradora', once: 'Estadia'},
+
+    {uno: 'Fisiología Vegetal', dos: 'Biotecnología Vegetal', tres: 'Agrometeorología', cuatro: 'Ecología Microbiana', cinco: 'Control Biológico', seis: 'Estadia', siete: 'Inglés VI', ocho: 'Planeación y Organización del Trabajo', nueve: 'Inglés VIII', diez: 'Inglés IX', once: 'Estadia'},
+
+    {uno: 'Inglés I', dos: 'Edafología', tres: 'Herramientas de Planeación y Costos', cuatro: 'Fitopatología', cinco: 'Integradora II', seis: 'Estadia', siete: 'Administración del Tiempo', ocho: '', nueve: 'Dirección De Equipos De Alto Rendimiento', diez: 'Negociación Empresarial', once: 'Estadia'},
+
+    {uno: 'Expresión Oral y Escrita I', dos: 'Inglés II', tres: 'Inglés III', cuatro: 'Control de Plagas y Malezas', cinco: 'Inglés V', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'},
+
+    {uno: '', dos: 'Formación Sociocultural I', tres: 'Formación Sociocultural II', cuatro: 'Inglés IV', cinco: 'Expresión Oral Y Escrita II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'},
+
+    {uno: '', dos: '', tres: '', cuatro: 'Formación Sociocultural III	', cinco: 'Formación Sociocultural IV', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'},
+
 ];
 
 //INICIO TABLA CUATRIMESTRES

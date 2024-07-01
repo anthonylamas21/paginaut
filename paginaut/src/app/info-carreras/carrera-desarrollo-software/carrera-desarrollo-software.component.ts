@@ -15,14 +15,12 @@ interface Item {
   diez: string;
   once: string;
 } 
-
 @Component({
-  selector: 'app-info-carrera',
-  templateUrl: './info-carrera.component.html',
-  styleUrl: './info-carrera.component.css'
+  selector: 'app-carrera-desarrollo-software',
+  templateUrl: './carrera-desarrollo-software.component.html',
+  styleUrl: './carrera-desarrollo-software.component.css'
 })
-export class InfoCarreraComponent {
-
+export class CarreraDesarrolloSoftwareComponent {
   ngOnInit(): void {
     this.setNavbarColor();
   }

@@ -14,15 +14,13 @@ interface Item {
   nueve: string;
   diez: string;
   once: string;
-} 
-
+}
 @Component({
-  selector: 'app-info-carrera',
-  templateUrl: './info-carrera.component.html',
-  styleUrl: './info-carrera.component.css'
+  selector: 'app-carrera-administracion',
+  templateUrl: './carrera-administracion.component.html',
+  styleUrl: './carrera-administracion.component.css'
 })
-export class InfoCarreraComponent {
-
+export class CarreraAdministracionComponent {
   ngOnInit(): void {
     this.setNavbarColor();
   }
@@ -58,15 +56,25 @@ export class InfoCarreraComponent {
   @ViewChild('dt') dt: Table | undefined;
 
   items: Item[] = [
-    {uno: 'Algebra lineal',  dos: 'Funciones matemáticas',  tres: 'Calculo diferencial',  cuatro: 'Estandares y metricas para el desarrollo de software',  cinco: 'Aplicaciones de IoT',  seis: 'Estadia',  siete: 'Matematicas para ingenieria I',  ocho: 'Matemáticas para ingenieria II',  nueve: 'Administracion de proyectos de TI',  diez: 'Gestion del proceso de desarrollo de software',  once: 'Estadia'},
-    {uno: 'Desarrollo de habilidades del pensamiento lógico',  dos: 'Metodologías y modelado de desarrollo de software',  tres: 'Probabilidad y estadística',  cuatro: 'Principios de IoT',  cinco: 'Desarrollo móvil multiplataforma',  seis: 'Estadia',  siete: 'Metodologías para el desarrollo de proyectos',  ocho: 'Administración de bases de datos',  nueve: 'Extracción de conocimiento en bases de datos',  diez: 'Aplicaciones WEB progresivas',  once: 'Estadia'},
-    {uno: 'Fundamentos de TI',  dos: 'Interconexión de redes',  tres: 'Sistemas Operativos',  cuatro: 'Diseño de Apps',  cinco: 'Integradora II',  seis: 'Estadia',  siete: 'Arquitecturas de software',  ocho: 'Desarrollo Web profesional',  nueve: 'Desarrollo WEB Integral',  diez: 'Integradora',  once: 'Estadia'},
-    {uno: 'Fundamentos de redes',  dos: 'Programación Orientada a Objetos',  tres: 'Integradora I',  cuatro: 'Estructuras de datos Aplicadas',  cinco: 'Aplicaciones Web para I4.0',  seis: 'Estadia',  siete: 'Experiencia de usuario',  ocho: 'Seguridad en el desarrollo de aplicaciones',  nueve: 'Desarrollo para dispositivos inteligentes',  diez: 'Desarrollo móvil integral',  once: 'Estadia'},
-    {uno: 'Metodología de la programación',  dos: 'Introducción al diseño digital',  tres: 'Aplicaciones Web',  cuatro: 'Aplicaciones Web orientadas a servicios',  cinco: 'Bases de datos para cómputo en la nube',  seis: 'Estadia',  siete: 'Seguridad informática',  ocho: 'Inglés VII',  nueve: 'Inglés VIII',  diez: 'Optativa II: Creación de Videojuegos',  once: 'Estadia'},
-    {uno: 'Expresión oral y escrita I',  dos: 'Base de datos para aplicaciones',  tres: 'Bases de datos para aplicaciones',  cuatro: 'Evaluación y mejora para el desarrollo de software',  cinco: 'Expresión oral y escrita II',  seis: 'Estadia',  siete: 'Inglés VI',  ocho: 'Planeación y Organización del trabajo',  nueve: 'Dirección de Equipos de Alto Rendimiento',  diez: 'Inglés IX',  once: 'Estadia'},
-    {uno: 'Inglés I',  dos: 'Inglés II',  tres: 'Inglés III',  cuatro: 'Inglés IV',  cinco: 'Inglés V',  seis: 'Estadia',  siete: 'Administración del tiempo',  ocho: '',  nueve: '',  diez: 'Negociación empresarial',  once: 'Estadia'},
-    {uno: 'Formación Sociocultural I',  dos: 'Formación Sociocultural II',  tres: 'Formación Sociocultural III',  cuatro: 'Formación Sociocultural IV', cinco: '',  seis: 'Estadia',  siete: '',  ocho: '',  nueve: '',  diez: '',  once: 'Estadia'}
-];
+    {uno: 'Informática', dos: 'Matemáticas financieras', tres: 'Planeación estratégica', cuatro: 'Comportamiento organizacional', cinco: 'Comportamiento organizacional II', seis: 'Estadia', siete: 'Sociología Del Trabajo', ocho: 'Capacitación Del Capital Humano', nueve: 'Sistema De Gestión De La Calidad', diez: 'Auditoría De Calidad', once: 'Estadia'},
+
+    {uno: 'Matemáticas', dos: 'Estadística aplicada a la Administración', tres: 'Talento emprendedor', cuatro: 'Diseño y valuación de puestos', cinco: 'Desarrollo de capital humano', seis: 'Estadia', siete: 'Pedagogía Empresarial', ocho: 'Cultura Corporativa', nueve: 'Herramientas De Gestión Del Personal', diez: 'Consultoría En Capital Humano', once: 'Estadia'},
+
+    {uno: 'Administración de organizaciones', dos: 'Modelos de desarrollo organizacional', tres: 'Análisis e interpretación de estados financieros', cuatro: 'Sueldos y salarios I', cinco: 'Evaluación del desempeño', seis: 'Estadia', siete: 'Administración De Proyectos De Capital Humano', ocho: 'Inteligencia Emocional', nueve: 'Gestión Del Cambio Organizacional', diez: 'Responsabilidad Social Aplicada', once: 'Estadia'},
+
+    {uno: 'Mercadotecnia', dos: 'Metodología de la investigación', tres: 'Planeación financiera', cuatro: 'Previsión y seguridad social', cinco: 'Higiene y seguridad laboral', seis: 'Estadia', siete: 'Investigación Cualitativa', ocho: 'Inglés VII', nueve: 'Inglés VIII', diez: 'Integradora I', once: 'Estadia'},
+
+    {uno: 'Contabilidad básica', dos: 'Contabilidad intermedia', tres: 'Desarrollo sustentable', cuatro: 'Integración de capital humano', cinco: 'Integradora II', seis: 'Estadia', siete: 'Inglés VI', ocho: 'Planeación Y Organización Para El Trabajo', nueve: 'Dirección De Equipos De Alto Rendimiento', diez: 'Inglés IX', once: 'Estadia'},
+
+    {uno: 'Inglés I', dos: 'Fundamentos de economía', tres: 'Legislación organizacional', cuatro: 'Legislación laboral', cinco: 'Inglés V', seis: 'Estadia', siete: 'Administración Del Tiempo', ocho: '', nueve: '', diez: 'Negociación Empresarial', once: 'Estadia'},
+
+    {uno: 'Expresión oral y escrita I', dos: 'Inglés II', tres: 'Integradora I', cuatro: 'Inglés IV', cinco: 'Expresión oral y escrita II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'},
+
+    {uno: 'Formación sociocultural I', dos: 'Formación sociocultura II', tres: 'Inglés III', cuatro: 'Formación sociocultural IV', cinco: '', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'},
+
+    {uno: '', dos: '', tres: 'Formación sociocultural III', cuatro: '', cinco: '', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'}
+]
+;
 
 //INICIO TABLA CUATRIMESTRES
 onMouseOver(columna: string, valor: any) {

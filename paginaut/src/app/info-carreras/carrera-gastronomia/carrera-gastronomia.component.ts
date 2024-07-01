@@ -15,14 +15,12 @@ interface Item {
   diez: string;
   once: string;
 } 
-
 @Component({
-  selector: 'app-info-carrera',
-  templateUrl: './info-carrera.component.html',
-  styleUrl: './info-carrera.component.css'
+  selector: 'app-carrera-gastronomia',
+  templateUrl: './carrera-gastronomia.component.html',
+  styleUrl: './carrera-gastronomia.component.css'
 })
-export class InfoCarreraComponent {
-
+export class CarreraGastronomiaComponent {
   ngOnInit(): void {
     this.setNavbarColor();
   }
@@ -58,15 +56,23 @@ export class InfoCarreraComponent {
   @ViewChild('dt') dt: Table | undefined;
 
   items: Item[] = [
-    {uno: 'Algebra lineal',  dos: 'Funciones matemáticas',  tres: 'Calculo diferencial',  cuatro: 'Estandares y metricas para el desarrollo de software',  cinco: 'Aplicaciones de IoT',  seis: 'Estadia',  siete: 'Matematicas para ingenieria I',  ocho: 'Matemáticas para ingenieria II',  nueve: 'Administracion de proyectos de TI',  diez: 'Gestion del proceso de desarrollo de software',  once: 'Estadia'},
-    {uno: 'Desarrollo de habilidades del pensamiento lógico',  dos: 'Metodologías y modelado de desarrollo de software',  tres: 'Probabilidad y estadística',  cuatro: 'Principios de IoT',  cinco: 'Desarrollo móvil multiplataforma',  seis: 'Estadia',  siete: 'Metodologías para el desarrollo de proyectos',  ocho: 'Administración de bases de datos',  nueve: 'Extracción de conocimiento en bases de datos',  diez: 'Aplicaciones WEB progresivas',  once: 'Estadia'},
-    {uno: 'Fundamentos de TI',  dos: 'Interconexión de redes',  tres: 'Sistemas Operativos',  cuatro: 'Diseño de Apps',  cinco: 'Integradora II',  seis: 'Estadia',  siete: 'Arquitecturas de software',  ocho: 'Desarrollo Web profesional',  nueve: 'Desarrollo WEB Integral',  diez: 'Integradora',  once: 'Estadia'},
-    {uno: 'Fundamentos de redes',  dos: 'Programación Orientada a Objetos',  tres: 'Integradora I',  cuatro: 'Estructuras de datos Aplicadas',  cinco: 'Aplicaciones Web para I4.0',  seis: 'Estadia',  siete: 'Experiencia de usuario',  ocho: 'Seguridad en el desarrollo de aplicaciones',  nueve: 'Desarrollo para dispositivos inteligentes',  diez: 'Desarrollo móvil integral',  once: 'Estadia'},
-    {uno: 'Metodología de la programación',  dos: 'Introducción al diseño digital',  tres: 'Aplicaciones Web',  cuatro: 'Aplicaciones Web orientadas a servicios',  cinco: 'Bases de datos para cómputo en la nube',  seis: 'Estadia',  siete: 'Seguridad informática',  ocho: 'Inglés VII',  nueve: 'Inglés VIII',  diez: 'Optativa II: Creación de Videojuegos',  once: 'Estadia'},
-    {uno: 'Expresión oral y escrita I',  dos: 'Base de datos para aplicaciones',  tres: 'Bases de datos para aplicaciones',  cuatro: 'Evaluación y mejora para el desarrollo de software',  cinco: 'Expresión oral y escrita II',  seis: 'Estadia',  siete: 'Inglés VI',  ocho: 'Planeación y Organización del trabajo',  nueve: 'Dirección de Equipos de Alto Rendimiento',  diez: 'Inglés IX',  once: 'Estadia'},
-    {uno: 'Inglés I',  dos: 'Inglés II',  tres: 'Inglés III',  cuatro: 'Inglés IV',  cinco: 'Inglés V',  seis: 'Estadia',  siete: 'Administración del tiempo',  ocho: '',  nueve: '',  diez: 'Negociación empresarial',  once: 'Estadia'},
-    {uno: 'Formación Sociocultural I',  dos: 'Formación Sociocultural II',  tres: 'Formación Sociocultural III',  cuatro: 'Formación Sociocultural IV', cinco: '',  seis: 'Estadia',  siete: '',  ocho: '',  nueve: '',  diez: '',  once: 'Estadia'}
-];
+    {uno: 'Matemáticas Aplicadas a la Gastronomía', dos: 'Estadística Aplicada a la Gastronomía', tres: 'Costos y Presupuestos', cuatro: 'Mercadotecnia de Servicios Gastronómicos', cinco: 'Métodos y Técnicas De Investigación Aplicadas a la Gastronomía', seis: 'Estadia', siete: 'Cocina Mexicana I', ocho: 'Cocina Mexicana II', nueve: 'Contabilidad', diez: 'Análisis e Interpretación Financiera', once: 'Estadia'},
+
+    {uno: 'Informática', dos: 'Fundamentos de Nutrición', tres: 'Operación de Bar', cuatro: 'Fundamentos de Vitivinicultura', cinco: 'Evaluación de Servicios Gastronómicos', seis: 'Estadia', siete: 'Patrimonio Culinario de México', ocho: 'Cocina Europea', nueve: 'Cocina Asiática', diez: 'Cocina Contemporánea', once: 'Estadia'},
+
+    {uno: 'Seguridad e Higiene en Alimentos', dos: 'Servicios de Alimentos y Bebidas', tres: 'Estandarización de Platillos', cuatro: 'Administración de Alimentos y Bebidas', cinco: 'Conformación de Menús', seis: 'Estadia', siete: 'Administración de Procesos Gastronómicos', ocho: 'Ingeniería de Menú', nueve: 'Conceptos Gastronómicos', diez: 'Gestión de la Calidad en Establecimientos de Alimentos y Bebidas', once: 'Estadia'},
+
+    {uno: 'Introducción a la Gastronomía', dos: 'Métodos y Técnicas Culinarias', tres: 'Gestión de Compras y Almacén', cuatro: 'Repostería', cinco: 'Logística de Eventos', seis: 'Estadia', siete: 'Bebidas Destiladas Mexicanas', ocho: 'Inglés VII', nueve: 'Mixología', diez: 'Desarrollo de Negocios Gastronómicos', once: 'Estadia'},
+
+    {uno: 'Bases Culinarias', dos: 'Panadería', tres: 'Pastelería', cuatro: 'Integradora I', cinco: 'Integradora II', seis: 'Estadia', siete: 'Inglés VI', ocho: 'Planeación y Organización del Trabajo', nueve: 'Inglés VIII', diez: 'Integradora', once: 'Estadia'},
+
+    {uno: 'Inglés I', dos: 'Inglés II', tres: 'Inglés III', cuatro: 'Inglés IV', cinco: 'Inglés V', seis: 'Estadia', siete: 'Administración del tiempo', ocho: 'Dirección de Equipos de Alto Rendimiento', nueve: 'Inglés IX', diez: 'Negociación Empresarial', once: 'Estadia'},
+
+    {uno: 'Expresión Oral Y Escrita I', dos: 'Formación Sociocultural II', tres: 'Formación Sociocultural III', cuatro: 'Francés I', cinco: 'Francés II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'},
+
+    {uno: 'Formación Sociocultural I', dos: '', tres: '', cuatro: 'Formación Sociocultural IV', cinco: 'Expresión Oral Y Escrita II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'}
+]
+;
 
 //INICIO TABLA CUATRIMESTRES
 onMouseOver(columna: string, valor: any) {

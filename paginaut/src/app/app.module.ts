@@ -41,6 +41,29 @@ import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.co
 import { CursosAdminComponent } from './admin/cursos-admin/cursos-admin.component';
 import { DireccionesAdminComponent } from './admin/direcciones-admin/direcciones-admin.component';
 
+//Info Carreras
+import { CarreraAgrobiotecnologiaComponent } from './info-carreras/carrera-agrobiotecnologia/carrera-agrobiotecnologia.component';
+import { CarreraProcesosAlimentarioComponent } from './info-carreras/carrera-procesos-alimentario/carrera-procesos-alimentario.component';
+import { CarreraAcuiculturaComponent } from './info-carreras/carrera-acuicultura/carrera-acuicultura.component';
+import { CarreraTurismoComponent } from './info-carreras/carrera-turismo/carrera-turismo.component';
+import { CarreraAdministracionComponent } from './info-carreras/carrera-administracion/carrera-administracion.component';
+import { CarreraMercadotecniaComponent } from './info-carreras/carrera-mercadotecnia/carrera-mercadotecnia.component';
+import { CarreraGastronomiaComponent } from './info-carreras/carrera-gastronomia/carrera-gastronomia.component';
+import { CarreraContaduriaComponent } from './info-carreras/carrera-contaduria/carrera-contaduria.component';
+import { CarreraDesarrolloSoftwareComponent } from './info-carreras/carrera-desarrollo-software/carrera-desarrollo-software.component';
+
+
+//Info Horas Recreativas
+import { FutbolComponent } from './info-horas-recreativas/futbol/futbol.component';
+import { BeisbolComponent } from './info-horas-recreativas/beisbol/beisbol.component';
+import { BasquetbolComponent } from './info-horas-recreativas/basquetbol/basquetbol.component';
+import { VoleibolComponent } from './info-horas-recreativas/voleibol/voleibol.component';
+import { ActivacionFisicaComponent } from './info-horas-recreativas/activacion-fisica/activacion-fisica.component';
+import { DibujoComponent } from './info-horas-recreativas/dibujo/dibujo.component';
+import { DanzaComponent } from './info-horas-recreativas/danza/danza.component';
+import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.component';
+import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
+
 
 
 
@@ -74,7 +97,25 @@ import { DireccionesAdminComponent } from './admin/direcciones-admin/direcciones
     NavbarAdminComponent,
     CarrerasAdminComponent,
     CursosAdminComponent,
-    DireccionesAdminComponent
+    DireccionesAdminComponent,
+    CarreraAgrobiotecnologiaComponent,
+    CarreraProcesosAlimentarioComponent,
+    CarreraAcuiculturaComponent,
+    CarreraTurismoComponent,
+    CarreraAdministracionComponent,
+    CarreraMercadotecniaComponent,
+    CarreraGastronomiaComponent,
+    CarreraContaduriaComponent,
+    CarreraDesarrolloSoftwareComponent,
+    FutbolComponent,
+    BeisbolComponent,
+    BasquetbolComponent,
+    VoleibolComponent,
+    ActivacionFisicaComponent,
+    DibujoComponent,
+    DanzaComponent,
+    LecturaComponent,
+    AjedrezComponent
   ],
   imports: [
     BrowserModule,

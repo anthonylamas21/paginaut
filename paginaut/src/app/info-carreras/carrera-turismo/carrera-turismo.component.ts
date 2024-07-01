@@ -15,14 +15,12 @@ interface Item {
   diez: string;
   once: string;
 } 
-
 @Component({
-  selector: 'app-info-carrera',
-  templateUrl: './info-carrera.component.html',
-  styleUrl: './info-carrera.component.css'
+  selector: 'app-carrera-turismo',
+  templateUrl: './carrera-turismo.component.html',
+  styleUrl: './carrera-turismo.component.css'
 })
-export class InfoCarreraComponent {
-
+export class CarreraTurismoComponent {
   ngOnInit(): void {
     this.setNavbarColor();
   }
@@ -58,14 +56,21 @@ export class InfoCarreraComponent {
   @ViewChild('dt') dt: Table | undefined;
 
   items: Item[] = [
-    {uno: 'Algebra lineal',  dos: 'Funciones matemáticas',  tres: 'Calculo diferencial',  cuatro: 'Estandares y metricas para el desarrollo de software',  cinco: 'Aplicaciones de IoT',  seis: 'Estadia',  siete: 'Matematicas para ingenieria I',  ocho: 'Matemáticas para ingenieria II',  nueve: 'Administracion de proyectos de TI',  diez: 'Gestion del proceso de desarrollo de software',  once: 'Estadia'},
-    {uno: 'Desarrollo de habilidades del pensamiento lógico',  dos: 'Metodologías y modelado de desarrollo de software',  tres: 'Probabilidad y estadística',  cuatro: 'Principios de IoT',  cinco: 'Desarrollo móvil multiplataforma',  seis: 'Estadia',  siete: 'Metodologías para el desarrollo de proyectos',  ocho: 'Administración de bases de datos',  nueve: 'Extracción de conocimiento en bases de datos',  diez: 'Aplicaciones WEB progresivas',  once: 'Estadia'},
-    {uno: 'Fundamentos de TI',  dos: 'Interconexión de redes',  tres: 'Sistemas Operativos',  cuatro: 'Diseño de Apps',  cinco: 'Integradora II',  seis: 'Estadia',  siete: 'Arquitecturas de software',  ocho: 'Desarrollo Web profesional',  nueve: 'Desarrollo WEB Integral',  diez: 'Integradora',  once: 'Estadia'},
-    {uno: 'Fundamentos de redes',  dos: 'Programación Orientada a Objetos',  tres: 'Integradora I',  cuatro: 'Estructuras de datos Aplicadas',  cinco: 'Aplicaciones Web para I4.0',  seis: 'Estadia',  siete: 'Experiencia de usuario',  ocho: 'Seguridad en el desarrollo de aplicaciones',  nueve: 'Desarrollo para dispositivos inteligentes',  diez: 'Desarrollo móvil integral',  once: 'Estadia'},
-    {uno: 'Metodología de la programación',  dos: 'Introducción al diseño digital',  tres: 'Aplicaciones Web',  cuatro: 'Aplicaciones Web orientadas a servicios',  cinco: 'Bases de datos para cómputo en la nube',  seis: 'Estadia',  siete: 'Seguridad informática',  ocho: 'Inglés VII',  nueve: 'Inglés VIII',  diez: 'Optativa II: Creación de Videojuegos',  once: 'Estadia'},
-    {uno: 'Expresión oral y escrita I',  dos: 'Base de datos para aplicaciones',  tres: 'Bases de datos para aplicaciones',  cuatro: 'Evaluación y mejora para el desarrollo de software',  cinco: 'Expresión oral y escrita II',  seis: 'Estadia',  siete: 'Inglés VI',  ocho: 'Planeación y Organización del trabajo',  nueve: 'Dirección de Equipos de Alto Rendimiento',  diez: 'Inglés IX',  once: 'Estadia'},
-    {uno: 'Inglés I',  dos: 'Inglés II',  tres: 'Inglés III',  cuatro: 'Inglés IV',  cinco: 'Inglés V',  seis: 'Estadia',  siete: 'Administración del tiempo',  ocho: '',  nueve: '',  diez: 'Negociación empresarial',  once: 'Estadia'},
-    {uno: 'Formación Sociocultural I',  dos: 'Formación Sociocultural II',  tres: 'Formación Sociocultural III',  cuatro: 'Formación Sociocultural IV', cinco: '',  seis: 'Estadia',  siete: '',  ocho: '',  nueve: '',  diez: '',  once: 'Estadia'}
+    {uno: 'Matemáticas I', dos: 'Estadística', tres: 'Métodos y técnicas de investigación', cuatro: 'Cadenas de valor de productos y servicios turísticos', cinco: 'Diseño de experiencias turísticas', seis: 'Estadia', siete: 'Economía Para El Turismo', ocho: 'Finanzas Para El Turismo', nueve: 'Desarrollo De Proyectos Para El Turismo I', diez: 'Desarrollo De Proyectos Para El Turismo II', once: 'Estadia'},
+
+    {uno: 'Informática I', dos: 'Sustentabilidad en el Turismo', tres: 'Servicios de viaje', cuatro: 'Patrimonio y desarrollo turístico regional', cinco: 'Investigación aplicada al turismo', seis: 'Estadia', siete: 'Análisis E Interpretación De Información Para El Sector Turístico', ocho: 'Gestión Y Planificación Turística', nueve: 'Innovación Y Turismo Responsable', diez: 'Instrumentos Para El Desarrollo Sustentable', once: 'Estadia'},
+
+    {uno: 'Introducción Al Turismo', dos: 'Servicios de Turismo cultural y de naturaleza', tres: 'Capital humano', cuatro: 'Turismo de naturaleza', cinco: 'Cultura y desarrollo turístico', seis: 'Estadia', siete: 'Calidad Y Responsabilidad Social', ocho: 'Control Administrativo En El Turismo', nueve: 'Mercadotecnia Estratégica', diez: 'Destinos Turísticos Inteligentes', once: 'Estadia'},
+
+    {uno: 'Patrimonio natural y cultural', dos: 'Servicios de hospedaje y alimentos y bebidas', tres: 'Operaciones contables y financieras', cuatro: 'Capacitación y talento humano', cinco: 'Comercialización y herramientas digitales', seis: 'Estadia', siete: 'Desarrollo Del Capital Humano En La Organización', ocho: 'Inglés VII', nueve: 'Inglés VIII', diez: 'Integradora', once: 'Estadia'},
+
+    {uno: 'Administración', dos: 'Gestión de la calidad', tres: 'Mercadotecnia de productos y servicios turísticos', cuatro: 'Animación sociocultural', cinco: 'Integradora II', seis: 'Estadia', siete: 'Inglés VI', ocho: 'Planeación y organización para el trabajo', nueve: 'Dirección De Equipos De Alto Rendimiento', diez: 'Inglés IX', once: 'Estadia'},
+
+    {uno: 'Inglés I', dos: 'Inglés II', tres: 'Integradora I', cuatro: 'Inglés IV', cinco: 'Inglés V', seis: 'Estadia', siete: 'Administración Del Tiempo', ocho: '', nueve: '', diez: 'Negociación Empresarial', once: 'Estadia'},
+
+    {uno: 'Expresión Oral Y Escrita I', dos: 'Formación Sociocultural II', tres: 'Inglés III', cuatro: 'Francés I', cinco: 'Francés II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'},
+
+    {uno: 'Formación Sociocultural I', dos: '', tres: 'Formación Sociocultural III', cuatro: 'Formación Sociocultural IV', cinco: 'Expresión Oral Y Escrita II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'}
 ];
 
 //INICIO TABLA CUATRIMESTRES

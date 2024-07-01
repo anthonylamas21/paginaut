@@ -14,15 +14,13 @@ interface Item {
   nueve: string;
   diez: string;
   once: string;
-} 
-
+}
 @Component({
-  selector: 'app-info-carrera',
-  templateUrl: './info-carrera.component.html',
-  styleUrl: './info-carrera.component.css'
+  selector: 'app-carrera-acuicultura',
+  templateUrl: './carrera-acuicultura.component.html',
+  styleUrl: './carrera-acuicultura.component.css'
 })
-export class InfoCarreraComponent {
-
+export class CarreraAcuiculturaComponent {
   ngOnInit(): void {
     this.setNavbarColor();
   }
@@ -58,15 +56,22 @@ export class InfoCarreraComponent {
   @ViewChild('dt') dt: Table | undefined;
 
   items: Item[] = [
-    {uno: 'Algebra lineal',  dos: 'Funciones matemáticas',  tres: 'Calculo diferencial',  cuatro: 'Estandares y metricas para el desarrollo de software',  cinco: 'Aplicaciones de IoT',  seis: 'Estadia',  siete: 'Matematicas para ingenieria I',  ocho: 'Matemáticas para ingenieria II',  nueve: 'Administracion de proyectos de TI',  diez: 'Gestion del proceso de desarrollo de software',  once: 'Estadia'},
-    {uno: 'Desarrollo de habilidades del pensamiento lógico',  dos: 'Metodologías y modelado de desarrollo de software',  tres: 'Probabilidad y estadística',  cuatro: 'Principios de IoT',  cinco: 'Desarrollo móvil multiplataforma',  seis: 'Estadia',  siete: 'Metodologías para el desarrollo de proyectos',  ocho: 'Administración de bases de datos',  nueve: 'Extracción de conocimiento en bases de datos',  diez: 'Aplicaciones WEB progresivas',  once: 'Estadia'},
-    {uno: 'Fundamentos de TI',  dos: 'Interconexión de redes',  tres: 'Sistemas Operativos',  cuatro: 'Diseño de Apps',  cinco: 'Integradora II',  seis: 'Estadia',  siete: 'Arquitecturas de software',  ocho: 'Desarrollo Web profesional',  nueve: 'Desarrollo WEB Integral',  diez: 'Integradora',  once: 'Estadia'},
-    {uno: 'Fundamentos de redes',  dos: 'Programación Orientada a Objetos',  tres: 'Integradora I',  cuatro: 'Estructuras de datos Aplicadas',  cinco: 'Aplicaciones Web para I4.0',  seis: 'Estadia',  siete: 'Experiencia de usuario',  ocho: 'Seguridad en el desarrollo de aplicaciones',  nueve: 'Desarrollo para dispositivos inteligentes',  diez: 'Desarrollo móvil integral',  once: 'Estadia'},
-    {uno: 'Metodología de la programación',  dos: 'Introducción al diseño digital',  tres: 'Aplicaciones Web',  cuatro: 'Aplicaciones Web orientadas a servicios',  cinco: 'Bases de datos para cómputo en la nube',  seis: 'Estadia',  siete: 'Seguridad informática',  ocho: 'Inglés VII',  nueve: 'Inglés VIII',  diez: 'Optativa II: Creación de Videojuegos',  once: 'Estadia'},
-    {uno: 'Expresión oral y escrita I',  dos: 'Base de datos para aplicaciones',  tres: 'Bases de datos para aplicaciones',  cuatro: 'Evaluación y mejora para el desarrollo de software',  cinco: 'Expresión oral y escrita II',  seis: 'Estadia',  siete: 'Inglés VI',  ocho: 'Planeación y Organización del trabajo',  nueve: 'Dirección de Equipos de Alto Rendimiento',  diez: 'Inglés IX',  once: 'Estadia'},
-    {uno: 'Inglés I',  dos: 'Inglés II',  tres: 'Inglés III',  cuatro: 'Inglés IV',  cinco: 'Inglés V',  seis: 'Estadia',  siete: 'Administración del tiempo',  ocho: '',  nueve: '',  diez: 'Negociación empresarial',  once: 'Estadia'},
-    {uno: 'Formación Sociocultural I',  dos: 'Formación Sociocultural II',  tres: 'Formación Sociocultural III',  cuatro: 'Formación Sociocultural IV', cinco: '',  seis: 'Estadia',  siete: '',  ocho: '',  nueve: '',  diez: '',  once: 'Estadia'}
-];
+    {uno: 'Matemáticas', dos: 'Bioestadística', tres: 'Ecología', cuatro: 'Evaluación Del Entorno', cinco: 'Evaluación Socioeconómica', seis: 'Estadia', siete: 'Geometría Analítica', ocho: 'Cálculo diferencial e integral', nueve: 'Métodos estadísticos', diez: 'Diseño e infraestructura Acuícola con software CAD', once: 'Estadia'},
+
+    {uno: 'Informática', dos: 'Introducción A La Ecología', tres: 'Sanidad Acuícola', cuatro: 'Mercadotecnia Para Proyectos Acuícolas', cinco: 'Cultivo De Anfibios Y Reptiles', seis: 'Estadia', siete: 'Química aplicada a la Acuicultura', ocho: 'Física e hidráulica', nueve: 'Fisiología Acuícola', diez: 'Extensionismo Acuícola', once: 'Estadia'},
+
+    {uno: 'Calidad Del Agua', dos: 'Administración', tres: 'Moluscos', cuatro: 'Cultivos Crustáceos', cinco: 'Cultivo De Peces', seis: 'Estadia', siete: 'Manejo de calidad del agua', ocho: 'Genética de la reproducción acuícola', nueve: 'Producción Acuícola', diez: 'Nutrición y Alimentación acuícola II', once: 'Estadia'},
+
+    {uno: 'Sistemas Acuícolas', dos: 'Inocuidad Acuícola', tres: 'Metodología De La Investigación', cuatro: 'Contabilidad', cinco: 'Evaluación Financiera', seis: 'Estadia', siete: 'Tecnología Acuícolas I', ocho: 'Tecnologías Acuícolas II', nueve: 'Nutrición y Alimentación Acuícola I', diez: 'Integradora', once: 'Estadia'},
+
+    {uno: 'Inglés I', dos: 'Cultivos De Organismos Auxiliares', tres: 'Inglés III', cuatro: 'Inglés IV', cinco: 'Integradora II', seis: 'Estadia', siete: 'Inglés VI', ocho: 'Inglés VII', nueve: 'Inglés VIII', diez: 'Inglés IX', once: 'Estadia'},
+
+    {uno: 'Expresión Oral Y Escrita I', dos: 'Integradora I', tres: 'Formación Sociocultural III', cuatro: 'Formación Sociocultural IV', cinco: 'Expresión Oral Y Escrita II', seis: 'Estadia', siete: 'Administración del tiempo', ocho: 'Planeación y Organización del trabajo', nueve: 'Dirección de equipos de alto rendimiento', diez: 'Negociación empresarial', once: 'Estadia'},
+
+    {uno: 'Formación Sociocultural I', dos: 'Inglés II', tres: '', cuatro: '', cinco: 'Expresión', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'},
+
+    {uno: '',  dos: 'Formación Sociocultural II',  tres: '',  cuatro: '', cinco: '',  seis: 'Estadia',  siete: '',  ocho: '',  nueve: '',  diez: '',  once: 'Estadia'}
+    ];
 
 //INICIO TABLA CUATRIMESTRES
 onMouseOver(columna: string, valor: any) {

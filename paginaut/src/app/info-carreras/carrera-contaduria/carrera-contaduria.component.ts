@@ -15,14 +15,12 @@ interface Item {
   diez: string;
   once: string;
 } 
-
 @Component({
-  selector: 'app-info-carrera',
-  templateUrl: './info-carrera.component.html',
-  styleUrl: './info-carrera.component.css'
+  selector: 'app-carrera-contaduria',
+  templateUrl: './carrera-contaduria.component.html',
+  styleUrl: './carrera-contaduria.component.css'
 })
-export class InfoCarreraComponent {
-
+export class CarreraContaduriaComponent {
   ngOnInit(): void {
     this.setNavbarColor();
   }
@@ -58,15 +56,28 @@ export class InfoCarreraComponent {
   @ViewChild('dt') dt: Table | undefined;
 
   items: Item[] = [
-    {uno: 'Algebra lineal',  dos: 'Funciones matemáticas',  tres: 'Calculo diferencial',  cuatro: 'Estandares y metricas para el desarrollo de software',  cinco: 'Aplicaciones de IoT',  seis: 'Estadia',  siete: 'Matematicas para ingenieria I',  ocho: 'Matemáticas para ingenieria II',  nueve: 'Administracion de proyectos de TI',  diez: 'Gestion del proceso de desarrollo de software',  once: 'Estadia'},
-    {uno: 'Desarrollo de habilidades del pensamiento lógico',  dos: 'Metodologías y modelado de desarrollo de software',  tres: 'Probabilidad y estadística',  cuatro: 'Principios de IoT',  cinco: 'Desarrollo móvil multiplataforma',  seis: 'Estadia',  siete: 'Metodologías para el desarrollo de proyectos',  ocho: 'Administración de bases de datos',  nueve: 'Extracción de conocimiento en bases de datos',  diez: 'Aplicaciones WEB progresivas',  once: 'Estadia'},
-    {uno: 'Fundamentos de TI',  dos: 'Interconexión de redes',  tres: 'Sistemas Operativos',  cuatro: 'Diseño de Apps',  cinco: 'Integradora II',  seis: 'Estadia',  siete: 'Arquitecturas de software',  ocho: 'Desarrollo Web profesional',  nueve: 'Desarrollo WEB Integral',  diez: 'Integradora',  once: 'Estadia'},
-    {uno: 'Fundamentos de redes',  dos: 'Programación Orientada a Objetos',  tres: 'Integradora I',  cuatro: 'Estructuras de datos Aplicadas',  cinco: 'Aplicaciones Web para I4.0',  seis: 'Estadia',  siete: 'Experiencia de usuario',  ocho: 'Seguridad en el desarrollo de aplicaciones',  nueve: 'Desarrollo para dispositivos inteligentes',  diez: 'Desarrollo móvil integral',  once: 'Estadia'},
-    {uno: 'Metodología de la programación',  dos: 'Introducción al diseño digital',  tres: 'Aplicaciones Web',  cuatro: 'Aplicaciones Web orientadas a servicios',  cinco: 'Bases de datos para cómputo en la nube',  seis: 'Estadia',  siete: 'Seguridad informática',  ocho: 'Inglés VII',  nueve: 'Inglés VIII',  diez: 'Optativa II: Creación de Videojuegos',  once: 'Estadia'},
-    {uno: 'Expresión oral y escrita I',  dos: 'Base de datos para aplicaciones',  tres: 'Bases de datos para aplicaciones',  cuatro: 'Evaluación y mejora para el desarrollo de software',  cinco: 'Expresión oral y escrita II',  seis: 'Estadia',  siete: 'Inglés VI',  ocho: 'Planeación y Organización del trabajo',  nueve: 'Dirección de Equipos de Alto Rendimiento',  diez: 'Inglés IX',  once: 'Estadia'},
-    {uno: 'Inglés I',  dos: 'Inglés II',  tres: 'Inglés III',  cuatro: 'Inglés IV',  cinco: 'Inglés V',  seis: 'Estadia',  siete: 'Administración del tiempo',  ocho: '',  nueve: '',  diez: 'Negociación empresarial',  once: 'Estadia'},
-    {uno: 'Formación Sociocultural I',  dos: 'Formación Sociocultural II',  tres: 'Formación Sociocultural III',  cuatro: 'Formación Sociocultural IV', cinco: '',  seis: 'Estadia',  siete: '',  ocho: '',  nueve: '',  diez: '',  once: 'Estadia'}
-];
+    {uno: 'Matemáticas', dos: 'Estadística', tres: 'Matemáticas Financieras', cuatro: 'Fundamentos de Auditoría', cinco: 'Auditoría Financiera', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: ''},
+
+    {uno: 'Informática I', dos: 'Informática II', tres: 'Contabilidad de Sociedades', cuatro: 'Contabilidad de Costos I', cinco: 'Contabilidad de Costos II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: ''},
+
+    {uno: 'Derecho Civil', dos: 'Derecho Mercantil', tres: 'Contabilidad Superior', cuatro: 'Administración Financiera', cinco: 'Contribuciones de Personas Físicas', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: ''},
+
+    {uno: 'Contabilidad Básica', dos: 'Contabilidad Intermedia', tres: 'Introducción al Derecho Fiscal', cuatro: 'Calidad', cinco: 'Sueldos y Salarios', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: ''},
+
+    {uno: 'Fundamentos de Administración', dos: 'Derecho Laboral', tres: 'Análisis e Interpretación de Estados Financieros', cuatro: 'Contribuciones de Personas Morales', cinco: 'Integradora II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: ''},
+
+    {uno: 'Inglés I', dos: 'Economía', tres: 'Presupuestos', cuatro: 'Comercio Exterior', cinco: 'Inglés V', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: ''},
+
+    {uno: 'Expresión Oral y Escrita I', dos: 'Inglés II', tres: 'Integradora I', cuatro: 'Evaluación Financiera de Proyectos', cinco: 'Expresión Oral y Escrita II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: ''},
+
+
+
+    {uno: 'Formación Sociocultural I', dos: 'Formación Sociocultural II', tres: 'Inglés III', cuatro: 'Inglés IV', cinco: '', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: ''},
+
+    {uno: '', dos: '', tres: 'Formación Sociocultural III', cuatro: 'Evaluación Financiera de Proyectos', cinco: '', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: ''},
+]
+
+;
 
 //INICIO TABLA CUATRIMESTRES
 onMouseOver(columna: string, valor: any) {
