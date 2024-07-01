@@ -1,5 +1,5 @@
 import { AppComponent } from './app.component';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -28,6 +28,8 @@ import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin
 import { InfoBecaComponent } from './info-beca/info-beca.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RedesSocialesComponent } from './redes-sociales/redes-sociales.component';
+import { NgxMasonryModule } from 'ngx-masonry';
+import { GaleriaComponent } from './galeria/galeria.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,8 @@ import { RedesSocialesComponent } from './redes-sociales/redes-sociales.componen
     PrincipalAdminComponent,
     InfoBecaComponent,
     TalleresComponent,
-    RedesSocialesComponent
+    RedesSocialesComponent,
+    GaleriaComponent
   ],
   imports: [
     BrowserModule,
@@ -61,8 +64,10 @@ import { RedesSocialesComponent } from './redes-sociales/redes-sociales.componen
     TagModule,
     ButtonModule,
     FormsModule,
-    DropdownModule
+    DropdownModule,
+    NgxMasonryModule 
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent],
 
