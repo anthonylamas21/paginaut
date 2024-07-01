@@ -73,6 +73,20 @@ class Taller {
 
         $stmt->execute();
     }
+
+    // Obtener todas las imágenes generales asociadas al taller
+    public function getImagenesGenerales() {
+        $query = "SELECT ruta_imagen FROM Imagenes WHERE seccion = 'Taller' AND asociado_id = :asociado_id AND principal = FALSE";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":asociado_id", $this->id);
+        $stmt->execute();
+        $imagenes = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $imagenes[] = $row['ruta_imagen'];
+        }
+        return $imagenes;
+    }
+
     private function updateImagenTaller($imagen_id) {
         $query = "UPDATE Imagenes SET titulo = :titulo, descripcion = :descripcion, ruta_imagen = :ruta_imagen 
                   WHERE id = :imagen_id AND seccion = 'Taller' AND asociado_id = :asociado_id";
@@ -91,17 +105,25 @@ class Taller {
     
         $stmt->execute();
     }
-    
-    
 
     // Leer todos los talleres
     function read() {
         $query = "SELECT id, nombre, descripcion, competencia FROM " . $this->table_name . " ORDER BY id DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-        return $stmt;
+    
+        $talleres_arr = array();
+    
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $this->id = $row['id'];
+            $row['imagen'] = $this->getImagenTaller();
+            $row['imagenesGenerales'] = $this->getImagenesGenerales();
+            array_push($talleres_arr, $row);
+        }
+    
+        return $talleres_arr;
     }
-
+    
     // Leer un taller por ID
     function readOne() {
         $query = "SELECT id, nombre, descripcion, competencia FROM " . $this->table_name . " WHERE id = ? ";
@@ -121,7 +143,7 @@ class Taller {
     }
 
     // Actualizar taller
-    function update() {
+    function update($nuevaImagenPrincipal = null, $nuevasImagenesGenerales = [], $imagenesGeneralesAEliminar = []) {
         $query = "UPDATE " . $this->table_name . " SET 
                   nombre = :nombre, 
                   descripcion = :descripcion, 
@@ -142,10 +164,56 @@ class Taller {
         $stmt->bindParam(":competencia", $this->competencia);
 
         if ($stmt->execute()) {
-            $this->saveImagenTaller();
+            // Actualizar imagen principal si se proporciona una nueva
+            if ($nuevaImagenPrincipal) {
+                $this->updateImagenPrincipal($nuevaImagenPrincipal);
+            }
+
+            // Agregar nuevas imágenes generales
+            foreach ($nuevasImagenesGenerales as $nuevaImagen) {
+                $this->saveImagenGeneral($nuevaImagen);
+            }
+
+            // Eliminar imágenes generales
+            foreach ($imagenesGeneralesAEliminar as $imagenAEliminar) {
+                $this->deleteImagenGeneral($imagenAEliminar);
+            }
+
             return true;
         }
         return false;
+    }
+
+    // Actualizar imagen principal
+    private function updateImagenPrincipal($nuevaRutaImagen) {
+        $query = "UPDATE Imagenes SET ruta_imagen = :ruta_imagen 
+                  WHERE seccion = 'Taller' AND asociado_id = :asociado_id AND principal = TRUE";
+        $stmt = $this->conn->prepare($query);
+
+        $ruta_imagen = htmlspecialchars(strip_tags($nuevaRutaImagen));
+
+        $stmt->bindParam(":ruta_imagen", $ruta_imagen);
+        $stmt->bindParam(":asociado_id", $this->id);
+
+        $stmt->execute();
+    }
+
+    // Eliminar una imagen general específica
+    private function deleteImagenGeneral($rutaImagen) {
+        $query = "DELETE FROM Imagenes WHERE seccion = 'Taller' AND asociado_id = :asociado_id AND ruta_imagen = :ruta_imagen AND principal = FALSE";
+        $stmt = $this->conn->prepare($query);
+
+        $rutaImagen = htmlspecialchars(strip_tags($rutaImagen));
+
+        $stmt->bindParam(":asociado_id", $this->id);
+        $stmt->bindParam(":ruta_imagen", $rutaImagen);
+
+        $stmt->execute();
+
+        // Eliminar el archivo físico
+        if (file_exists($rutaImagen)) {
+            unlink($rutaImagen);
+        }
     }
 
     // Eliminar taller

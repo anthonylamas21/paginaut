@@ -14,6 +14,13 @@ CREATE TABLE Departamento (
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE Instalaciones(
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    activo BOOLEAN DEFAULT TRUE,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE Usuario (
     id SERIAL PRIMARY KEY,
     correo VARCHAR(100) NOT NULL UNIQUE,
@@ -73,7 +80,7 @@ CREATE TABLE Imagenes (
     titulo VARCHAR(100) NOT NULL,
     descripcion TEXT,
     ruta_imagen VARCHAR(255) NOT NULL,
-    seccion VARCHAR(50) NOT NULL, -- Identifica a qué sección pertenece la imagen (carrera, evento, taller, etc.)
+    seccion VARCHAR(50) NOT NULL, -- Identifica a qué sección pertenece la imagen (carrera, evento, taller,Instalaciones etc.)
     asociado_id INT, -- ID del registro en la tabla correspondiente
     principal BOOLEAN DEFAULT FALSE, -- Indica si la imagen es principal
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -240,27 +247,28 @@ CREATE TRIGGER trigger_asignatura
 AFTER INSERT OR UPDATE OR DELETE ON Asignatura
 FOR EACH ROW EXECUTE FUNCTION log_modificacion_asignatura();
 
--- Función y trigger para la tabla Archivo
+-- Función y trigger para la tabla Archivos
 CREATE OR REPLACE FUNCTION log_modificacion_archivo()
 RETURNS TRIGGER AS $$
 BEGIN
     IF (TG_OP = 'INSERT') THEN
         INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
-        VALUES ('Archivo', 'INSERT', NEW.id, row_to_json(NEW)::jsonb);
+        VALUES ('Archivos', 'INSERT', NEW.id, row_to_json(NEW)::jsonb);
     ELSIF (TG_OP = 'UPDATE') THEN
         INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
-        VALUES ('Archivo', 'UPDATE', OLD.id, row_to_json(OLD)::jsonb);
+        VALUES ('Archivos', 'UPDATE', OLD.id, row_to_json(OLD)::jsonb);
     ELSIF (TG_OP = 'DELETE') THEN
         INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
-        VALUES ('Archivo', 'DELETE', OLD.id, row_to_json(OLD)::jsonb);
+        VALUES ('Archivos', 'DELETE', OLD.id, row_to_json(OLD)::jsonb);
     END IF;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trigger_archivo
-AFTER INSERT OR UPDATE OR DELETE ON Archivo
+AFTER INSERT OR UPDATE OR DELETE ON Archivos
 FOR EACH ROW EXECUTE FUNCTION log_modificacion_archivo();
+
 
 -- Función y trigger para la tabla Evento
 CREATE OR REPLACE FUNCTION log_modificacion_evento()
@@ -378,102 +386,3 @@ CREATE INDEX idx_carrera_nombre ON Carrera (nombre_carrera);
 CREATE INDEX idx_evento_fecha ON Evento (fecha_inicio);
 CREATE INDEX idx_bolsadetrabajo_fecha_creacion ON BolsaDeTrabajo (fecha_creacion);
 
--- Triggers y funciones para manejar inserciones en tablas específicas y guardar en tablas generales
-
--- Trigger y función para insertar imágenes de carrera en la tabla general de imágenes
-CREATE OR REPLACE FUNCTION insertar_imagen_carrera()
-RETURNS TRIGGER AS $$
-BEGIN
-    INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal)
-    VALUES (NEW.nombre_carrera, NEW.perfil_profesional, NEW.imagen_carrera, 'Carrera', NEW.id, FALSE);
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_insertar_imagen_carrera
-AFTER INSERT OR UPDATE ON Carrera
-FOR EACH ROW EXECUTE FUNCTION insertar_imagen_carrera();
-
--- Trigger y función para insertar imágenes de evento en la tabla general de imágenes
-CREATE OR REPLACE FUNCTION insertar_imagen_evento()
-RETURNS TRIGGER AS $$
-BEGIN
-    INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal)
-    VALUES (NEW.titulo, NEW.informacion_evento, NEW.imagen_evento, 'Evento', NEW.id, FALSE);
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_insertar_imagen_evento
-AFTER INSERT OR UPDATE ON Evento
-FOR EACH ROW EXECUTE FUNCTION insertar_imagen_evento();
-
--- Trigger y función para insertar imágenes de taller en la tabla general de imágenes
-CREATE OR REPLACE FUNCTION insertar_imagen_taller()
-RETURNS TRIGGER AS $$
-BEGIN
-    INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal)
-    VALUES (NEW.nombre, NEW.descripcion, NEW.imagen_taller, 'Taller', NEW.id, FALSE);
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_insertar_imagen_taller
-AFTER INSERT OR UPDATE ON Taller
-FOR EACH ROW EXECUTE FUNCTION insertar_imagen_taller();
-
--- Trigger y función para insertar archivos de asignatura en la tabla general de archivos
-CREATE OR REPLACE FUNCTION insertar_archivo_asignatura()
-RETURNS TRIGGER AS $$
-BEGIN
-    INSERT INTO Archivos (nombre_archivo, ruta_archivo, tipo_archivo, seccion, asociado_id)
-    VALUES (NEW.nombre, NEW.ruta_archivo, NEW.tipo_archivo, 'Asignatura', NEW.id);
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_insertar_archivo_asignatura
-AFTER INSERT OR UPDATE ON Asignatura
-FOR EACH ROW EXECUTE FUNCTION insertar_archivo_asignatura();
-
--- Trigger y función para insertar archivos de evento en la tabla general de archivos
-CREATE OR REPLACE FUNCTION insertar_archivo_evento()
-RETURNS TRIGGER AS $$
-BEGIN
-    INSERT INTO Archivos (nombre_archivo, ruta_archivo, tipo_archivo, seccion, asociado_id)
-    VALUES (NEW.nombre_archivo, NEW.ruta_archivo, NEW.tipo_archivo, 'Evento', NEW.evento_id);
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_insertar_archivo_evento
-AFTER INSERT OR UPDATE ON ArchivoEvento
-FOR EACH ROW EXECUTE FUNCTION insertar_archivo_evento();
-
--- Trigger y función para insertar archivos de bolsa de trabajo en la tabla general de archivos
-CREATE OR REPLACE FUNCTION insertar_archivo_bolsadetrabajo()
-RETURNS TRIGGER AS $$
-BEGIN
-    INSERT INTO Archivos (nombre_archivo, ruta_archivo, tipo_archivo, seccion, asociado_id)
-    VALUES (NEW.nombre_archivo, NEW.ruta_archivo, NEW.tipo_archivo, 'BolsaDeTrabajo', NEW.bolsa_id);
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_insertar_archivo_bolsadetrabajo
-AFTER INSERT OR UPDATE ON ArchivoBolsaTrabajo
-FOR EACH ROW EXECUTE FUNCTION insertar_archivo_bolsadetrabajo();
-
--- Trigger y función para insertar archivos de beca en la tabla general de archivos
-CREATE OR REPLACE FUNCTION insertar_archivo_beca()
-RETURNS TRIGGER AS $$
-BEGIN
-    INSERT INTO Archivos (nombre_archivo, ruta_archivo, tipo_archivo, seccion, asociado_id)
-    VALUES (NEW.nombre_archivo, NEW.ruta_archivo, NEW.tipo_archivo, 'Beca', NEW.archivo_id);
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_insertar_archivo_beca
-AFTER INSERT OR UPDATE ON ArchivoBeca
-FOR EACH ROW EXECUTE FUNCTION insertar_archivo_beca();
