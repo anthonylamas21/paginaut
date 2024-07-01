@@ -14,12 +14,10 @@ import { CalendarioComponent } from './calendario/calendario.component';
 import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component'; // Importa el nuevo componente
 import { TallerComponent } from './taller/taller.component';
 import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
+import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/principal', pathMatch: 'full' }, // Ruta por defecto
-  { path: 'principal', component: PrincipalComponent },
-
-  //Rutas
+  { path: '', redirectTo: '/principal', pathMatch: 'full' },
   { path: 'principal', component: PrincipalComponent },
   { path: 'navbar', component: NavbarComponent },
   { path: 'componentes', component: ComponentesComponent },
@@ -33,7 +31,8 @@ const routes: Routes = [
   { path: 'calendario', component: CalendarioComponent },
   { path: 'taller', component: TallerComponent },
   { path: 'direccion', component: AgregarDireccionComponent },
-  { path: 'registrar-evento', component: RegistrarEventoComponent }, // Nueva ruta para registrar evento
+  { path: 'registrar-evento', component: RegistrarEventoComponent },
+  { path: 'admin/carreras', component: CarrerasAdminComponent }, // Nueva ruta para administrar carreras
 ];
 
 @NgModule({

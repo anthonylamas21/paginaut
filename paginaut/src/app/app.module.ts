@@ -54,7 +54,7 @@ import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.co
     RegistrarEventoComponent,
     AgregarDireccionComponent,
     TallerComponent,
-    CarrerasAdminComponent
+    CarrerasAdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,9 +67,9 @@ import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.co
     InputTextModule,
     TagModule,
     ButtonModule,
-    DropdownModule
+    DropdownModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

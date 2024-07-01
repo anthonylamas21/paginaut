@@ -1,4 +1,6 @@
 <div class="container">
+  <h2>Administrar Carreras</h2>
+
   <!-- Modal -->
   <div
     [ngClass]="{ 'hs-overlay-open': isModalOpen, 'hs-overlay': !isModalOpen }"
@@ -12,7 +14,7 @@
       >
         <div class="flex justify-between items-center py-3 px-4 border-b">
           <h3 class="font-bold text-black font-medium-500">
-            {{ currentDireccionId ? "Editar Dirección" : "Nueva Dirección" }}
+            {{ currentCarreraId ? "Editar Carrera" : "Nueva Carrera" }}
           </h3>
           <button
             type="button"
@@ -38,73 +40,148 @@
           </button>
         </div>
         <div class="p-4 overflow-y-auto">
-          <form [formGroup]="direccionForm" (ngSubmit)="onSubmit()">
+          <form [formGroup]="carreraForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
-              <label for="abreviatura">Abreviatura:</label>
+              <label for="nombre_carrera">Nombre de la Carrera:</label>
               <input
                 type="text"
-                id="abreviatura"
-                formControlName="abreviatura"
-                class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900"
-                maxlength="10"
-              />
-              <div
-                *ngIf="
-                  direccionForm.get('abreviatura')?.invalid &&
-                  (direccionForm.get('abreviatura')?.dirty ||
-                    direccionForm.get('abreviatura')?.touched)
-                "
-                class="alert alert-danger"
-              >
-                <div
-                  *ngIf="direccionForm.get('abreviatura')?.errors?.['required']"
-                >
-                  La abreviatura es requerida.
-                </div>
-                <div
-                  *ngIf="direccionForm.get('abreviatura')?.errors?.['maxlength']"
-                >
-                  La abreviatura no puede tener más de 10 caracteres.
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="nombre">Nombre:</label>
-              <input
-                type="text"
-                id="nombre"
-                formControlName="nombre"
+                id="nombre_carrera"
+                formControlName="nombre_carrera"
                 class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900"
                 maxlength="100"
               />
               <div
                 *ngIf="
-                  direccionForm.get('nombre')?.invalid &&
-                  (direccionForm.get('nombre')?.dirty ||
-                    direccionForm.get('nombre')?.touched)
+                  carreraForm.get('nombre_carrera')?.invalid &&
+                  (carreraForm.get('nombre_carrera')?.dirty ||
+                    carreraForm.get('nombre_carrera')?.touched)
                 "
                 class="alert alert-danger"
               >
-                <div *ngIf="direccionForm.get('nombre')?.errors?.['required']">
-                  El nombre es requerido.
+                <div
+                  *ngIf="
+                    carreraForm.get('nombre_carrera')?.errors?.['required']
+                  "
+                >
+                  El nombre de la carrera es requerido.
                 </div>
-                <div *ngIf="direccionForm.get('nombre')?.errors?.['maxlength']">
-                  El nombre no puede tener más de 100 caracteres.
+                <div
+                  *ngIf="
+                    carreraForm.get('nombre_carrera')?.errors?.['maxlength']
+                  "
+                >
+                  El nombre de la carrera no puede tener más de 100 caracteres.
                 </div>
               </div>
+            </div>
+
+            <div class="form-group">
+              <label for="perfil_profesional">Perfil Profesional:</label>
+              <textarea
+                id="perfil_profesional"
+                formControlName="perfil_profesional"
+                class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900"
+                maxlength="1000"
+              ></textarea>
+              <div
+                *ngIf="
+                  carreraForm.get('perfil_profesional')?.invalid &&
+                  (carreraForm.get('perfil_profesional')?.dirty ||
+                    carreraForm.get('perfil_profesional')?.touched)
+                "
+                class="alert alert-danger"
+              >
+                <div
+                  *ngIf="
+                    carreraForm.get('perfil_profesional')?.errors?.['maxlength']
+                  "
+                >
+                  El perfil profesional no puede tener más de 1000 caracteres.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="ocupacion_profesional">Ocupación Profesional:</label>
+              <textarea
+                id="ocupacion_profesional"
+                formControlName="ocupacion_profesional"
+                class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900"
+                maxlength="1000"
+              ></textarea>
+              <div
+                *ngIf="
+                  carreraForm.get('ocupacion_profesional')?.invalid &&
+                  (carreraForm.get('ocupacion_profesional')?.dirty ||
+                    carreraForm.get('ocupacion_profesional')?.touched)
+                "
+                class="alert alert-danger"
+              >
+                <div
+                  *ngIf="
+                    carreraForm.get('ocupacion_profesional')?.errors?.[
+                      'maxlength'
+                    ]
+                  "
+                >
+                  La ocupación profesional no puede tener más de 1000
+                  caracteres.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="direccion_id">ID de la Dirección:</label>
+              <input
+                type="number"
+                id="direccion_id"
+                formControlName="direccion_id"
+                class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900"
+              />
+              <div
+                *ngIf="
+                  carreraForm.get('direccion_id')?.invalid &&
+                  (carreraForm.get('direccion_id')?.dirty ||
+                    carreraForm.get('direccion_id')?.touched)
+                "
+                class="alert alert-danger"
+              >
+                <div
+                  *ngIf="carreraForm.get('direccion_id')?.errors?.['required']"
+                >
+                  El ID de la dirección es requerido.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="activo">Activo:</label>
+              <input
+                type="checkbox"
+                id="activo"
+                formControlName="activo"
+                class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="imagen_principal">Imagen Principal:</label>
+              <input
+                type="file"
+                id="imagen_principal"
+                (change)="onFileSelected($event)"
+                class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900"
+              />
             </div>
 
             <div class="modal-footer">
               <button
                 type="submit"
-                [disabled]="direccionForm.invalid"
+                [disabled]="carreraForm.invalid"
                 class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-gray-200 bg-[#04847C] text-white hover:opacity-80 transition-opacity duration-300 disabled:pointer-events-none font-medium"
               >
                 {{
-                  currentDireccionId
-                    ? "Actualizar Dirección"
-                    : "Agregar Dirección"
+                  currentCarreraId ? "Actualizar Carrera" : "Agregar Carrera"
                 }}
               </button>
               <button
@@ -214,7 +291,7 @@
                   (click)="openModal()"
                 >
                   <i class="fa fa-plus" aria-hidden="true"></i>
-                  Registrar Dirección
+                  Registrar Carrera
                 </button>
               </div>
             </div>
@@ -225,14 +302,15 @@
                 <div class="border rounded-lg overflow-hidden my-2">
                   <p-table
                     #dt
-                    [value]="filteredDirecciones"
+                    [value]="filteredCarreras"
                     [paginator]="true"
                     [rows]="5"
                     currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
                     [showCurrentPageReport]="true"
                     [globalFilterFields]="[
-                      'abreviatura',
-                      'nombre',
+                      'nombre_carrera',
+                      'perfil_profesional',
+                      'ocupacion_profesional',
                       'fecha_creacion'
                     ]"
                     [tableStyleClass]="'min-w-full divide-y'"
@@ -245,30 +323,33 @@
                         <th
                           scope="col"
                           class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                          pSortableColumn="abreviatura"
+                          pSortableColumn="nombre_carrera"
                         >
                           <div class="flex">
-                            Abreviatura
-                            <p-sortIcon field="abreviatura"></p-sortIcon>
+                            Nombre de la Carrera
+                            <p-sortIcon field="nombre_carrera"></p-sortIcon>
                           </div>
                         </th>
                         <th
                           scope="col"
                           class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                          pSortableColumn="nombre"
+                          pSortableColumn="perfil_profesional"
                         >
                           <div class="flex">
-                            Nombre <p-sortIcon field="nombre"></p-sortIcon>
+                            Perfil Profesional
+                            <p-sortIcon field="perfil_profesional"></p-sortIcon>
                           </div>
                         </th>
                         <th
                           scope="col"
                           class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                          pSortableColumn="fecha_creacion"
+                          pSortableColumn="ocupacion_profesional"
                         >
                           <div class="flex">
-                            Fecha de Creación
-                            <p-sortIcon field="fecha_creacion"></p-sortIcon>
+                            Ocupación Profesional
+                            <p-sortIcon
+                              field="ocupacion_profesional"
+                            ></p-sortIcon>
                           </div>
                         </th>
                         <th
@@ -279,115 +360,30 @@
                         </th>
                       </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-direccion>
+                    <ng-template pTemplate="body" let-carrera>
                       <tr class="divide-x divide-gray-200 bg-neutral-100">
                         <td class="px-3 py-2 text-sm text-black">
-                          {{ direccion.abreviatura }}
+                          {{ carrera.nombre_carrera }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
-                          {{ direccion.nombre }}
+                          {{ carrera.perfil_profesional }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
-                          {{ direccion.fecha_creacion }}
+                          {{ carrera.ocupacion_profesional }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
                           <div class="flex items-center space-x-3.5">
                             <button
-                              (click)="openModal(direccion)"
-                              (mouseenter)="mostrar($event.target)"
-                              (mouseleave)="mostrar($event.target)"
-                              class="hover:text-primary"
+                              (click)="openModal(carrera)"
+                              class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-[#04847C] text-white hover:opacity-80 transition-opacity duration-300"
                             >
-                              <!-- User -->
-                              <div
-                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
-                              >
-                                <div
-                                  class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
-                                >
-                                  <i class="fas fa-edit"></i>
-                                  <!-- Popover Content -->
-                                  <div
-                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
-                                    role="tooltip"
-                                  >
-                                    <!-- Header -->
-                                    <div
-                                      class="py-3 px-4 border-b border-gray-200"
-                                    >
-                                      <div class="flex items-center gap-x-3">
-                                        <div class="grow">
-                                          <h4
-                                            class="font-semibold text-gray-800"
-                                          >
-                                            Editar
-                                          </h4>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <ul class="py-3 px-4 space-y-1">
-                                      <li>
-                                        <div
-                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
-                                        >
-                                          Actualizar la información del registro
-                                          actual.
-                                        </div>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                  <!-- End Popover Content -->
-                                </div>
-                              </div>
+                              <i class="fas fa-edit"></i>
                             </button>
                             <button
-                              (click)="confirmDeleteDireccion(direccion.id)"
-                              (mouseenter)="mostrar($event.target)"
-                              (mouseleave)="mostrar($event.target)"
-                              class="hover:text-primary"
+                              (click)="confirmDeleteCarrera(carrera.id)"
+                              class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-[#EF4444] text-white hover:opacity-80 transition-opacity duration-300"
                             >
-                              <!-- User -->
-                              <div
-                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
-                              >
-                                <div
-                                  class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
-                                >
-                                  <i class="fa fa-trash" aria-hidden="true"></i>
-                                  <!-- Popover Content -->
-                                  <div
-                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
-                                    role="tooltip"
-                                  >
-                                    <!-- Header -->
-                                    <div
-                                      class="py-3 px-4 border-b border-gray-200"
-                                    >
-                                      <div class="flex items-center gap-x-3">
-                                        <div class="grow">
-                                          <h4
-                                            class="font-semibold text-gray-800"
-                                          >
-                                            Eliminar
-                                          </h4>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <ul class="py-3 px-4 space-y-1">
-                                      <li>
-                                        <div
-                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
-                                        >
-                                          Eliminar el registro indica
-                                          desaparecer la información relacionada
-                                          a este registro.
-                                        </div>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                  <!-- End Popover Content -->
-                                </div>
-                              </div>
+                              <i class="fa fa-trash"></i>
                             </button>
                           </div>
                         </td>
@@ -417,14 +413,15 @@
                   <div class="border rounded-lg overflow-hidden my-2">
                     <p-table
                       #dt
-                      [value]="papeleraDirecciones"
+                      [value]="papeleraCarreras"
                       [paginator]="true"
                       [rows]="5"
                       currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
                       [showCurrentPageReport]="true"
                       [globalFilterFields]="[
-                        'abreviatura',
-                        'nombre',
+                        'nombre_carrera',
+                        'perfil_profesional',
+                        'ocupacion_profesional',
                         'fecha_creacion'
                       ]"
                       [tableStyleClass]="'min-w-full divide-y'"
@@ -437,30 +434,35 @@
                           <th
                             scope="col"
                             class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                            pSortableColumn="abreviatura"
+                            pSortableColumn="nombre_carrera"
                           >
                             <div class="flex">
-                              Abreviatura
-                              <p-sortIcon field="abreviatura"></p-sortIcon>
+                              Nombre de la Carrera
+                              <p-sortIcon field="nombre_carrera"></p-sortIcon>
                             </div>
                           </th>
                           <th
                             scope="col"
                             class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                            pSortableColumn="nombre"
+                            pSortableColumn="perfil_profesional"
                           >
                             <div class="flex">
-                              Nombre <p-sortIcon field="nombre"></p-sortIcon>
+                              Perfil Profesional
+                              <p-sortIcon
+                                field="perfil_profesional"
+                              ></p-sortIcon>
                             </div>
                           </th>
                           <th
                             scope="col"
                             class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                            pSortableColumn="fecha_creacion"
+                            pSortableColumn="ocupacion_profesional"
                           >
                             <div class="flex">
-                              Fecha de Creación
-                              <p-sortIcon field="fecha_creacion"></p-sortIcon>
+                              Ocupación Profesional
+                              <p-sortIcon
+                                field="ocupacion_profesional"
+                              ></p-sortIcon>
                             </div>
                           </th>
                           <th
@@ -471,119 +473,30 @@
                           </th>
                         </tr>
                       </ng-template>
-                      <ng-template pTemplate="body" let-direccion>
+                      <ng-template pTemplate="body" let-carrera>
                         <tr class="divide-x divide-gray-200 bg-neutral-100">
                           <td class="px-3 py-2 text-sm text-black">
-                            {{ direccion.abreviatura }}
+                            {{ carrera.nombre_carrera }}
                           </td>
                           <td class="px-3 py-2 text-sm text-black">
-                            {{ direccion.nombre }}
+                            {{ carrera.perfil_profesional }}
                           </td>
                           <td class="px-3 py-2 text-sm text-black">
-                            {{ direccion.fecha_creacion }}
+                            {{ carrera.ocupacion_profesional }}
                           </td>
                           <td class="px-3 py-2 text-sm text-black">
                             <div class="flex items-center space-x-3.5">
                               <button
-                                (click)="activateDireccion(direccion.id)"
-                                (mouseenter)="mostrar($event.target)"
-                                (mouseleave)="mostrar($event.target)"
-                                class="hover:text-primary"
+                                (click)="activateCarrera(carrera.id)"
+                                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-[#04847C] text-white hover:opacity-80 transition-opacity duration-300"
                               >
-                                <!-- User -->
-                                <div
-                                  class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
-                                >
-                                  <div
-                                    class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
-                                  >
-                                    <i class="fas fa-check"></i>
-                                    <!-- Popover Content -->
-                                    <div
-                                      class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
-                                      role="tooltip"
-                                    >
-                                      <!-- Header -->
-                                      <div
-                                        class="py-3 px-4 border-b border-gray-200"
-                                      >
-                                        <div class="flex items-center gap-x-3">
-                                          <div class="grow">
-                                            <h4
-                                              class="font-semibold text-gray-800"
-                                            >
-                                              Reactivar
-                                            </h4>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <ul class="py-3 px-4 space-y-1">
-                                        <li>
-                                          <div
-                                            class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
-                                          >
-                                            Volver a activar el registro
-                                            regresando con este toda la
-                                            información relacionada.
-                                          </div>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                    <!-- End Popover Content -->
-                                  </div>
-                                </div>
+                                <i class="fas fa-check"></i>
                               </button>
                               <button
-                                (click)="deleteDireccion(direccion.id)"
-                                (mouseenter)="mostrar($event.target)"
-                                (mouseleave)="mostrar($event.target)"
-                                class="hover:text-primary"
+                                (click)="deleteCarrera(carrera.id)"
+                                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-[#EF4444] text-white hover:opacity-80 transition-opacity duration-300"
                               >
-                                <!-- User -->
-                                <div
-                                  class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
-                                >
-                                  <div
-                                    class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
-                                  >
-                                    <i
-                                      class="fa fa-trash"
-                                      aria-hidden="true"
-                                    ></i>
-                                    <!-- Popover Content -->
-                                    <div
-                                      class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
-                                      role="tooltip"
-                                    >
-                                      <!-- Header -->
-                                      <div
-                                        class="py-3 px-4 border-b border-gray-200"
-                                      >
-                                        <div class="flex items-center gap-x-3">
-                                          <div class="grow">
-                                            <h4
-                                              class="font-semibold text-gray-800"
-                                            >
-                                              Eliminar
-                                            </h4>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <ul class="py-3 px-4 space-y-1">
-                                        <li>
-                                          <div
-                                            class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
-                                          >
-                                            Eliminar el registro indica
-                                            desaparecer la información
-                                            relacionada a este registro.
-                                          </div>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                    <!-- End Popover Content -->
-                                  </div>
-                                </div>
+                                <i class="fa fa-trash"></i>
                               </button>
                             </div>
                           </td>

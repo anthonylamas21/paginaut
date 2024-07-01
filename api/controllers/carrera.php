@@ -5,38 +5,62 @@ header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-$root = dirname(__DIR__);  // Obtiene el directorio raíz del proyecto
-
-include_once $root . '/config/database.php';
-include_once $root . '/models/Carrera.php';
+include_once '../config/database.php';
+include_once '../models/Carrera.php';
+include_once '../models/Imagenes.php';
 
 $database = new Database();
 $db = $database->getConnection();
 
 $carrera = new Carrera($db);
+$imagenes = new Imagenes($db);
 
 $request_method = $_SERVER["REQUEST_METHOD"];
-$data = json_decode(file_get_contents("php://input"));
 
-switch($request_method) {
+switch ($request_method) {
     case 'POST':
-        if (!empty($data->nombre_carrera) && !empty($data->direccion_id)) {
-            $carrera->nombre_carrera = $data->nombre_carrera;
-            $carrera->perfil_profesional = $data->perfil_profesional;
-            $carrera->ocupacion_profesional = $data->ocupacion_profesional;
-            $carrera->imagen_carrera = $data->imagen_carrera;
-            $carrera->direccion_id = $data->direccion_id;
-
-            if ($carrera->create()) {
-                http_response_code(201);
-                echo json_encode(array("message" => "Carrera creada correctamente.", "id" => $carrera->id));
-            } else {
-                http_response_code(503);
-                echo json_encode(array("message" => "No se pudo crear la carrera."));
+        if (!empty($_POST['accion']) && $_POST['accion'] == 'uploadImage') {
+            if (isset($_FILES['file'])) {
+                $filename = basename($_FILES['file']['name']);
+                $filepath = '../uploads/' . $filename;
+                if (move_uploaded_file($_FILES['file']['tmp_name'], $filepath)) {
+                    echo json_encode(array("message" => "Imagen subida correctamente.", "ruta" => $filepath));
+                } else {
+                    echo json_encode(array("message" => "Error al subir la imagen."));
+                }
             }
         } else {
-            http_response_code(400);
-            echo json_encode(array("message" => "No se pudo crear la carrera. Datos incompletos."));
+            $data = json_decode(file_get_contents("php://input"));
+
+            if (!empty($data->nombre_carrera)) {
+                $carrera->nombre_carrera = $data->nombre_carrera;
+                $carrera->perfil_profesional = $data->perfil_profesional;
+                $carrera->ocupacion_profesional = $data->ocupacion_profesional;
+                $carrera->direccion_id = $data->direccion_id;
+                $carrera->activo = $data->activo ?? true;
+
+                if ($carrera->create()) {
+                    if (!empty($data->imagenes)) {
+                        foreach ($data->imagenes as $img) {
+                            $imagenes->titulo = $img->titulo;
+                            $imagenes->descripcion = $img->descripcion;
+                            $imagenes->ruta_imagen = $img->ruta_imagen;
+                            $imagenes->seccion = 'carrera';
+                            $imagenes->asociado_id = $carrera->id;
+                            $imagenes->principal = $img->principal ?? false;
+                            $imagenes->create();
+                        }
+                    }
+                    http_response_code(201);
+                    echo json_encode(array("message" => "Carrera creada correctamente.", "id" => $carrera->id));
+                } else {
+                    http_response_code(503);
+                    echo json_encode(array("message" => "No se pudo crear la carrera."));
+                }
+            } else {
+                http_response_code(400);
+                echo json_encode(array("message" => "Datos incompletos."));
+            }
         }
         break;
 
@@ -62,7 +86,6 @@ switch($request_method) {
                         "nombre_carrera" => $nombre_carrera,
                         "perfil_profesional" => $perfil_profesional,
                         "ocupacion_profesional" => $ocupacion_profesional,
-                        "imagen_carrera" => $carrera->getImagenCarrera(),
                         "direccion_id" => $direccion_id,
                         "activo" => $activo,
                         "fecha_creacion" => $fecha_creacion
@@ -71,23 +94,35 @@ switch($request_method) {
                 }
                 echo json_encode(array("records" => $carreras_arr));
             } else {
-                http_response_code(404);
-                echo json_encode(array("message" => "No se encontraron carreras."));
+                http_response_code(200);
+                echo json_encode(array("records" => array()));
             }
         }
         break;
 
     case 'PUT':
+        $data = json_decode(file_get_contents("php://input"));
+
         if (!empty($data->id)) {
             $carrera->id = $data->id;
             $carrera->nombre_carrera = $data->nombre_carrera;
             $carrera->perfil_profesional = $data->perfil_profesional;
             $carrera->ocupacion_profesional = $data->ocupacion_profesional;
-            $carrera->imagen_carrera = $data->imagen_carrera;
             $carrera->direccion_id = $data->direccion_id;
             $carrera->activo = $data->activo;
 
             if ($carrera->update()) {
+                if (!empty($data->imagenes)) {
+                    foreach ($data->imagenes as $img) {
+                        $imagenes->titulo = $img->titulo;
+                        $imagenes->descripcion = $img->descripcion;
+                        $imagenes->ruta_imagen = $img->ruta_imagen;
+                        $imagenes->seccion = 'carrera';
+                        $imagenes->asociado_id = $carrera->id;
+                        $imagenes->principal = $img->principal ?? false;
+                        $imagenes->create();
+                    }
+                }
                 http_response_code(200);
                 echo json_encode(array("message" => "Carrera actualizada correctamente."));
             } else {
@@ -96,7 +131,7 @@ switch($request_method) {
             }
         } else {
             http_response_code(400);
-            echo json_encode(array("message" => "No se pudo actualizar la carrera. Datos incompletos."));
+            echo json_encode(array("message" => "Datos incompletos."));
         }
         break;
 
@@ -112,7 +147,7 @@ switch($request_method) {
             }
         } else {
             http_response_code(400);
-            echo json_encode(array("message" => "No se proporcionó el ID de la carrera."));
+            echo json_encode(array("message" => "ID de la carrera no proporcionado."));
         }
         break;
 
@@ -121,4 +156,3 @@ switch($request_method) {
         echo json_encode(array("message" => "Método no permitido."));
         break;
 }
-?>
