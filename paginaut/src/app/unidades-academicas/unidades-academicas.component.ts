@@ -20,7 +20,6 @@ export class UnidadesAcademicasComponent implements OnInit {
     });
   }
 
- 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     this.setNavbarColor();

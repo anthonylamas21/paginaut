@@ -1,4 +1,4 @@
-import { Component, HostListener, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild, Renderer2 } from '@angular/core';
 import { Table } from 'primeng/table';
 
 
@@ -23,8 +23,18 @@ interface Item {
 })
 export class InfoCarreraComponent {
 
+  isLoading = true;
+
+constructor(private renderer: Renderer2){}
+
   ngOnInit(): void {
     this.setNavbarColor();
+  }
+
+  ngAfterViewInit(): void {
+    this.renderer.listen('window', 'load', () => {
+        this.isLoading = false;      
+    });
   }
 
   @HostListener('window:scroll', [])
