@@ -7,6 +7,13 @@ CREATE TABLE Rol (
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE token_sesion (
+    id SERIAL PRIMARY KEY,
+    correo INT NOT NULL UNIQUE,
+    token INT NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE Departamento (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -101,7 +108,6 @@ CREATE TABLE Evento (
     id SERIAL PRIMARY KEY,
     titulo VARCHAR(50) NOT NULL,
     informacion_evento TEXT NOT NULL,
-    tipo VARCHAR(10) NOT NULL CHECK (tipo IN ('evento', 'noticia')),
     activo BOOLEAN DEFAULT TRUE,
     lugar_evento VARCHAR(50) NOT NULL,
     fecha_inicio TIMESTAMP,
@@ -109,16 +115,25 @@ CREATE TABLE Evento (
     hora_inicio TIME,
     hora_fin TIME,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CHECK (
-        (tipo = 'evento' AND fecha_inicio IS NOT NULL AND fecha_fin IS NOT NULL AND hora_inicio IS NOT NULL AND hora_fin IS NOT NULL) OR
-        (tipo = 'noticia' AND fecha_inicio IS NULL AND fecha_fin IS NULL AND hora_inicio IS NULL AND hora_fin IS NULL)
-    )
 );
+
+CREATE TABLE Noticia (
+    id SERIAL PRIMARY KEY,
+    titulo VARCHAR(50) NOT NULL,
+    resumen TEXT,
+    informacion_noticia TEXT NOT NULL,
+    activo BOOLEAN DEFAULT TRUE,
+    lugar_noticia VARCHAR(50) NOT NULL,
+    autor VARCHAR(50),
+    fecha_publicacion DATE DEFAULT CURRENT_DATE NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 
 CREATE TABLE Calendario (
     id SERIAL PRIMARY KEY,
     titulo VARCHAR(50) NOT NULL,
-    archivo VARCHAR(100) NOT NULL,
+    archivo VARCHAR(10000) NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -146,6 +161,7 @@ CREATE TABLE Taller (
 CREATE TABLE Beca (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
+    archivo VARCHAR(10000) NOT NULL,
     descripcion VARCHAR(100) NOT NULL
 );
 
