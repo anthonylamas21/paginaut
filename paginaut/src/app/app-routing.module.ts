@@ -89,7 +89,7 @@ const routes: Routes = [
   {path: 'correo', component: CorreoComponent},
   {path: 'acerca_de', component: AcercaDeComponent},
   {path: 'info_becas', component:InfoBecaComponent},
-  {path: 'galeria', component:GaleriaComponent}
+  {path: 'galeria', component:GaleriaComponent},
 
   //Rutas Adminstrador
   {path: 'admin/navbar_admin', component: NavbarAdminComponent},
