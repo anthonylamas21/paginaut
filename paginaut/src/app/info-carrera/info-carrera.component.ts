@@ -33,7 +33,9 @@ constructor(private renderer: Renderer2){}
 
   ngAfterViewInit(): void {
     this.renderer.listen('window', 'load', () => {
-        this.isLoading = false;      
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 5000);           
     });
   }
 
