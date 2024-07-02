@@ -21,6 +21,8 @@ import { InfoEnfermeriaComponent } from './info-enfermeria/info-enfermeria.compo
 import { UbicacionComponent } from './ubicacion/ubicacion.component';
 import { PsicologiaComponent } from './psicologia/psicologia.component';
 import { CorreoComponent } from './correo/correo.component';
+import { AcercaDeComponent } from './acerca-de/acerca-de.component';
+
 
 //Rutas Administrator
 import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
@@ -84,6 +86,8 @@ const routes: Routes = [
   {path: 'ubicacion', component: UbicacionComponent},
   {path: 'psicologia', component: PsicologiaComponent},
   {path: 'correo', component: CorreoComponent},
+  {path: 'acerca_de', component: AcercaDeComponent},
+
 
   //Rutas Adminstrador
   {path: 'admin/navbar_admin', component: NavbarAdminComponent},
@@ -113,6 +117,7 @@ const routes: Routes = [
   {path: 'info_horas_recreativas/danza', component: DanzaComponent},
   {path: 'info_horas_recreativas/lectura', component: LecturaComponent},
   {path: 'info_horas_recreativas/ajedrez', component: AjedrezComponent}
+
 
   
   

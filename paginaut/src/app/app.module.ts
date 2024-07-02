@@ -63,6 +63,7 @@ import { DibujoComponent } from './info-horas-recreativas/dibujo/dibujo.componen
 import { DanzaComponent } from './info-horas-recreativas/danza/danza.component';
 import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.component';
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
+import { AcercaDeComponent } from './acerca-de/acerca-de.component';
 
 
 
@@ -115,7 +116,8 @@ import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.compo
     DibujoComponent,
     DanzaComponent,
     LecturaComponent,
-    AjedrezComponent
+    AjedrezComponent,
+    AcercaDeComponent
   ],
   imports: [
     BrowserModule,
