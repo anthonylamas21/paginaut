@@ -14,7 +14,7 @@ interface Item {
   nueve: string;
   diez: string;
   once: string;
-}
+} 
 
 @Component({
   selector: 'app-info-carrera',
