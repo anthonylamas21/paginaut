@@ -1,13 +1,21 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{html,ts}',
-  './node_modules/preline/preline.js',
+    './node_modules/preline/preline.js',
   ],
-  
+
   theme: {
-    
+
     extend: {
-      
+      screens: {
+        'xs': '480px',
+        'sm': '640px',
+        'md': '768px',
+        'mdx': '990px', 
+        'lg': '1024px',
+        'xl': '1280px',
+        '2xl': '1536px',
+      },
       colors: {
         'primary-color': '#003C3D',
         'primary-color-50': '#003C3D',
@@ -20,26 +28,26 @@ module.exports = {
         'secondary-color': '#008779',
         'secondary-color-90': '#008779e6',
         'danger-color': '#EF4444',
+      },
+      height: {
+        '155': '37rem',
+      },
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+      },
     },
-    height: {
-      '155': '37rem', 
+    container: {
+      center: true,
+      padding: '1rem',
+      screens: {
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
+      },
     },
-    fontFamily: {
-      poppins: ['Poppins', 'sans-serif'],
-    },
-  },
-  container: {
-    center: true, // Centrar el contenedor horizontalmente
-    padding: '1rem', // Establecer un relleno de 2rem (32px)
-    screens: {
-      sm: '640px', // Ancho mínimo para pantallas pequeñas
-      md: '768px', // Ancho mínimo para pantallas medianas
-      lg: '1024px', // Ancho mínimo para pantallas grandes
-      xl: '1280px', // Ancho mínimo para pantallas extra grandes
-    },
-  },
 
-},
+  },
   plugins: [
     require('preline/plugin'),
   ],

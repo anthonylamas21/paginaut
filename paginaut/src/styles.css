@@ -42,3 +42,24 @@ input[type="radio"] {
 .hs-dropdown-menu a {
   @apply transition-colors duration-300;
 }
+
+@media (max-width: 767px) {
+  .img-container img {
+    height: auto;
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .img-container img {
+    height: 200px;
+    width: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .img-container img {
+    height: auto;
+    width: 100%;
+  }
+}
