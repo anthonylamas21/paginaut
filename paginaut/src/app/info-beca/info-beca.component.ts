@@ -1,29 +1,19 @@
-import { Component, OnInit, AfterViewInit, Renderer2, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
-  selector: 'app-unidades-academicas',
-  templateUrl: './unidades-academicas.component.html',
-  styleUrl: './unidades-academicas.component.css'
+  selector: 'app-info-beca',
+  templateUrl: './info-beca.component.html',
+  styleUrl: './info-beca.component.css'
 })
-export class UnidadesAcademicasComponent implements OnInit {
-  isLoading = true;
-  
-  constructor(private renderer: Renderer2) {}
+export class InfoBecaComponent {
 
   ngOnInit(): void {
     this.setNavbarColor();
   }
 
-  ngAfterViewInit(): void {
-    this.renderer.listen('window', 'load', () => {
-      this.isLoading = false;
-    });
-  }
-
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     this.setNavbarColor();
-    
   }
 
   private setNavbarColor(): void {
@@ -48,5 +38,5 @@ export class UnidadesAcademicasComponent implements OnInit {
   scrollToSection(sectionId: string): void {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
-  
+
 }
