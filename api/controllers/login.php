@@ -20,14 +20,23 @@ $data = json_decode(file_get_contents("php://input"));
 if (
     !empty($data->correo) &&
     !empty($data->contrasena)
+
 ) {
     $usuario->correo = $data->correo;
     $usuario->contrasena = $data->contrasena;
 
+    $usuarioLogeado = $usuario->correo;
+
     if ($usuario->login($usuario->correo, $usuario->contrasena)) {
+
+        $token = bin2hex(random_bytes(32)); // Genera 64 caracteres hexadecimales
+        $token_encriptado = password_hash($token, PASSWORD_DEFAULT);// Encriptar token
+        $token_insertado = $usuario->create_token_sesion($usuario->correo, $token_encriptado);// Insertar token en la base de datos
+
         http_response_code(200);
         echo json_encode(array(
-            "message" => "Inicio de sesión exitoso",
+            "message" => "Inicio de sesión exitoso de " . $usuarioLogeado,
+            "token" => $token_encriptado,
             "usuario" => array(
                 "id" => $usuario->id,
                 "correo" => $usuario->correo,
@@ -41,7 +50,7 @@ if (
         ));
     } else {
         http_response_code(401);
-        echo json_encode(array("message" => "Credenciales inválidas"));
+        echo json_encode(array("message" => "Credenciales incorrectas"));
     }
 } else {
     http_response_code(400);
