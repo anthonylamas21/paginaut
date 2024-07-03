@@ -57,10 +57,8 @@ import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-c
     RegistrarEventoComponent,
     AgregarDireccionComponent,
     TallerComponent,
-
     CarrerasAdminComponent,
-    AgregarCalendarioComponent
-
+    AgregarCalendarioComponent,
   ],
   imports: [
     BrowserModule,
