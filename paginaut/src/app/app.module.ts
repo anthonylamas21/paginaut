@@ -32,6 +32,8 @@ import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin
 import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component';
 import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
 import { TallerComponent } from './taller/taller.component';
+import { NoticiaComponent } from './admin/noticia/noticia.component';
+import { EventoComponent } from './admin/evento/evento.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { TallerComponent } from './taller/taller.component';
     PrincipalAdminComponent,
     RegistrarEventoComponent,
     AgregarDireccionComponent,
-    TallerComponent
+    TallerComponent,
+    NoticiaComponent,
+    EventoComponent
   ],
   imports: [
     BrowserModule,

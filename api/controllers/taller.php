@@ -20,50 +20,48 @@ $data = json_decode(file_get_contents("php://input"));
 
 switch($request_method) {
     case 'POST':
-        if (!empty($_POST['nombre']) && !empty($_POST['descripcion']) && !empty($_POST['competencia'])) {
-            $taller->nombre = $_POST['nombre'];
-            $taller->descripcion = $_POST['descripcion'];
-            $taller->competencia = $_POST['competencia'];
-
-            // Manejar la carga de la imagen principal
-            if (!empty($_FILES['imagen_principal']['tmp_name'])) {
-                $target_dir = "../uploads/taller/";
-                if (!file_exists($target_dir)) {
-                    mkdir($target_dir, 0777, true);
+        if (isset($_GET['id'])) {
+            // Es una actualización
+            $noticia->id = $_GET['id'];
+            if ($noticia->readOne()) {
+                // Actualizar los campos de la noticia con los nuevos datos
+                $noticia->titulo = $_POST['titulo'] ?? $noticia->titulo;
+                $noticia->resumen = $_POST['resumen'] ?? $noticia->resumen;
+                $noticia->informacion_noticia = $_POST['informacion_noticia'] ?? $noticia->informacion_noticia;
+                $noticia->activo = isset($_POST['activo']) ? filter_var($_POST['activo'], FILTER_VALIDATE_BOOLEAN) : $noticia->activo;
+                $noticia->lugar_noticia = $_POST['lugar_noticia'] ?? $noticia->lugar_noticia;
+                $noticia->autor = $_POST['autor'] ?? $noticia->autor;
+                $noticia->fecha_publicacion = $_POST['fecha_publicacion'] ?? $noticia->fecha_publicacion;
+    
+                // Manejar la actualización de la imagen principal
+                if (isset($_FILES['imagen_principal']) && $_FILES['imagen_principal']['error'] === UPLOAD_ERR_OK) {
+                    $noticia->updateImagenPrincipal($_FILES['imagen_principal']);
                 }
-                $target_file = $target_dir . uniqid() . "_" . basename($_FILES["imagen_principal"]["name"]);
-                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-                if (move_uploaded_file($_FILES["imagen_principal"]["tmp_name"], $target_file)) {
-                    $taller->imagen = $target_file;
+    
+                // Manejar la actualización de imágenes generales
+                if (isset($_FILES['imagenes_generales'])) {
+                    $noticia->updateImagenesGenerales($_FILES['imagenes_generales']);
+                }
+    
+                if ($noticia->update()) {
+                    http_response_code(200);
+                    echo json_encode(array(
+                        "message" => "Noticia actualizada correctamente.",
+                        "noticia" => $noticia
+                    ));
                 } else {
                     http_response_code(503);
-                    echo json_encode(array("message" => "No se pudo cargar la imagen principal."));
-                    exit;
+                    echo json_encode(array(
+                        "message" => "No se pudo actualizar la noticia.",
+                        "error" => error_get_last()
+                    ));
                 }
-            }
-
-            // Crear taller y guardar la imagen principal
-            if ($taller->create()) {
-                // Manejar la carga de imágenes generales
-                if (!empty($_FILES['imagenes_generales']['tmp_name'])) {
-                    foreach ($_FILES['imagenes_generales']['tmp_name'] as $key => $tmp_name) {
-                        $target_file = $target_dir . uniqid() . "_" . basename($_FILES["imagenes_generales"]["name"][$key]);
-                        if (move_uploaded_file($tmp_name, $target_file)) {
-                            $taller->saveImagenGeneral($target_file);
-                        }
-                    }
-                }
-
-                http_response_code(201);
-                echo json_encode(array("message" => "Taller creado correctamente.", "id" => $taller->id));
             } else {
-                http_response_code(503);
-                echo json_encode(array("message" => "No se pudo crear el taller."));
+                http_response_code(404);
+                echo json_encode(array("message" => "Noticia no encontrada."));
             }
         } else {
-            http_response_code(400);
-            echo json_encode(array("message" => "No se pudo crear el taller. Datos incompletos."));
+            // Es una creación (código existente para crear nueva noticia)
         }
         break;
 

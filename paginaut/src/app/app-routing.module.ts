@@ -14,6 +14,7 @@ import { CalendarioComponent } from './calendario/calendario.component';
 import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component'; // Importa el nuevo componente
 import { TallerComponent } from './taller/taller.component';
 import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
+import { NoticiaComponent } from './admin/noticia/noticia.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/principal', pathMatch: 'full' }, // Ruta por defecto
@@ -33,6 +34,7 @@ const routes: Routes = [
   {path: 'calendario', component: CalendarioComponent},
   {path: 'taller', component: TallerComponent},
   {path: 'direccion', component: AgregarDireccionComponent},
+  {path: 'noticia', component: NoticiaComponent},
   {path: 'registrar-evento', component: RegistrarEventoComponent} // Nueva ruta para registrar evento
 ];
 
