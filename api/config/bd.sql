@@ -90,6 +90,7 @@ CREATE TABLE Imagenes (
     seccion VARCHAR(50) NOT NULL, -- Identifica a qué sección pertenece la imagen (carrera, evento, taller,Instalaciones etc.)
     asociado_id INT, -- ID del registro en la tabla correspondiente
     principal BOOLEAN DEFAULT FALSE, -- Indica si la imagen es principal
+    activo BOOLEAN DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -101,6 +102,7 @@ CREATE TABLE Archivos (
     tipo_archivo VARCHAR(50) NOT NULL, 
     seccion VARCHAR(50) NOT NULL, -- Identifica a qué sección pertenece el archivo (asignatura, evento, calendario, etc.)
     asociado_id INT, -- ID del registro en la tabla correspondiente
+    activo BOOLEAN DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -155,14 +157,17 @@ CREATE TABLE Taller (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     descripcion VARCHAR(50) NOT NULL,
-    competencia VARCHAR(50) NOT NULL
+    competencia VARCHAR(50) NOT NULL,
+    activo BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE Beca (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     archivo VARCHAR(10000) NOT NULL,
-    descripcion VARCHAR(100) NOT NULL
+    descripcion VARCHAR(100) NOT NULL,
+    activo BOOLEAN DEFAULT TRUE,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Historial (
