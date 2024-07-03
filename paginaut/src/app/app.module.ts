@@ -32,6 +32,7 @@ import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin
 import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component';
 import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
 import { TallerComponent } from './taller/taller.component';
+import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-calendario.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { TallerComponent } from './taller/taller.component';
     PrincipalAdminComponent,
     RegistrarEventoComponent,
     AgregarDireccionComponent,
-    TallerComponent
+    TallerComponent,
+    AgregarCalendarioComponent
   ],
   imports: [
     BrowserModule,
