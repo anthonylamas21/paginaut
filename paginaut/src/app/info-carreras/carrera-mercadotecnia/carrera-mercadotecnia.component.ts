@@ -15,6 +15,10 @@ interface Item {
   diez: string;
   once: string;
 } 
+interface Image {
+  url: string;
+  alt: string;
+}
 @Component({
   selector: 'app-carrera-mercadotecnia',
   templateUrl: './carrera-mercadotecnia.component.html',
@@ -25,6 +29,24 @@ export class CarreraMercadotecniaComponent {
   
   constructor(private renderer: Renderer2) {}
 
+  images: Image[] = [
+    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 2' },
+    // más imágenes aquí
+  ];
+
+  selectedImage: Image = { url: '', alt: '' };
+
+  openModal(image: Image): void {
+    if (image) {
+      this.selectedImage = image;
+      const modal = document.getElementById('hs-vertically-centered-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('pointer-events-auto');
+      }
+    }
+  }
   ngAfterViewInit(): void {
     this.renderer.listen('window', 'load', () => {
       setInterval(() => {

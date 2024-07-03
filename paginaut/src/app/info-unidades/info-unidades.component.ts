@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 
+
 @Component({
   selector: 'app-info-unidades',
   templateUrl: './info-unidades.component.html',
@@ -8,14 +9,44 @@ import { Component, HostListener } from '@angular/core';
 export class InfoUnidadesComponent {
   isLoading = true;
   
+  images = [
+    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 1', date: new Date('2023-07-01') },
+    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 1', date: new Date('2021-07-03') },
+    { url: './assets/img/galeria/mg3.jpg', alt: 'Image 1', date: new Date('2024-07-05') },
+    { url: './assets/img/galeria/mg3.jpg', alt: 'Image 1', date: new Date('2024-07-05') },
+    { url: './assets/img/galeria/mg4.jpg', alt: 'Image 1', date: new Date('2023-07-12') },
+    { url: './assets/img/galeria/mg5.jpg', alt: 'Image 1', date: new Date('2023-07-01') },
+    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 1', date: new Date('2023-07-01') },
+    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 2', date: new Date('2023-08-01') },
+    // más imágenes aquí
+  ];
+
+  groupedImages: { [key: string]: any[] } = {};
+
   ngOnInit(): void {
-    // Simula la carga de datos con un retraso
+    this.groupImagesByMonth();
     setTimeout(() => {
       this.isLoading = false;
-    }, 5000); // Ajusta el tiempo según sea necesario
- 
-this.setNavbarColor();
- }
+    }, 5000);
+
+    this.setNavbarColor();
+  }
+
+  groupImagesByMonth(): void {
+    this.images.forEach(image => {
+      const month = image.date.toLocaleString('default', { month: 'long', year: 'numeric' });
+      if (!this.groupedImages[month]) {
+        this.groupedImages[month] = [];
+      }
+      this.groupedImages[month].push(image);
+    });
+  }
+
+  sortByMonth = (a: { key: string }, b: { key: string }): number => {
+    const dateA = new Date(a.key);
+    const dateB = new Date(b.key);
+    return dateB.getTime() - dateA.getTime();
+  };
 
  
   @HostListener('window:scroll', [])

@@ -15,6 +15,12 @@ interface Item {
   diez: string;
   once: string;
 }
+
+interface Image {
+  url: string;
+  alt: string;
+}
+
 @Component({
   selector: 'app-carrera-acuicultura',
   templateUrl: './carrera-acuicultura.component.html',
@@ -25,6 +31,25 @@ export class CarreraAcuiculturaComponent {
   isLoading = true;
   
   constructor(private renderer: Renderer2) {}
+
+  images: Image[] = [
+    { url: './assets/img/galeria/dica/acuicultura_1.JPG', alt: 'Image 1' },
+    { url: './assets/img/galeria/dica/acuicultura_2.JPG', alt: 'Image 2' },
+    // más imágenes aquí
+  ];
+
+  selectedImage: Image = { url: '', alt: '' };
+
+  openModal(image: Image): void {
+    if (image) {
+      this.selectedImage = image;
+      const modal = document.getElementById('hs-vertically-centered-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('pointer-events-auto');
+      }
+    }
+  }  
 
   ngOnInit(): void {
     this.setNavbarColor();
