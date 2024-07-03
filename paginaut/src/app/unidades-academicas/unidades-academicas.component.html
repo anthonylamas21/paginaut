@@ -3,7 +3,7 @@
 <!--Fin Navbar-->
 
 <button id="scrollTopButton" (click)="scrollToSection('inicio')"
-    class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+    class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
     <i class="fa-solid fa-chevron-up"></i>
 </button>
 
@@ -38,12 +38,10 @@
 <!--Contenedor de Cards Unidades Academicas -->
 <div class="container mt-2">
 
-  <div class="bg-[#043D3D] w-full">
-
-    <h3 class="text-2xl font-poppins font-bold text-white">
-      Instalaciones Academicas
-    </h3>
+  <div *ngIf="isLoading" class="bg-[#043D3D] rounded-lg animate-pulse">
+    <div class="h-8 bg-gray-200 rounded mt-6 mb-4"></div>
   </div>
+
 
    <div *ngIf="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
     <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
@@ -63,22 +61,13 @@
     </div>
   </div>
 
-  <div *ngIf="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-    <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
-      <ul class="space-y-3">
-        <li class="w-full h-60 bg-gray-300 rounded-lg"></li>
-      </ul>
-    </div>
-    <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
-      <ul class="space-y-3">
-        <li class="w-full h-60 bg-gray-300 rounded-lg"></li>
-      </ul>
-    </div>
-    <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
-      <ul class="space-y-3">
-        <li class="w-full h-60 bg-gray-300 rounded-lg"></li>
-      </ul>
-    </div>
+  <div *ngIf="isLoading" class="bg-[#043D3D] rounded-lg animate-pulse">
+    <div class="h-8 bg-gray-200 rounded mt-6 mb-4"></div>
+  </div>
+
+  <div *ngIf="!isLoading" class="bg-[#043D3D] w-full rounded-lg">
+    <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
+      Instalaciones Académicas</h2>
   </div>
 
   <div *ngIf="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
@@ -98,14 +87,16 @@
       </ul>
     </div>
   </div>
+
+  
 
 <!--INFORMACION DE LAS CARDS UNA VEZ CARGADAS-->
 
   <div *ngIf="!isLoading" id="cardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
 
-    <a href="/info_unidades"><div class="bg-white rounded-lg shadow-lg p-4 relative">
+    <a href="/info_unidades"><div class="bg-white rounded-lg p-4 relative">
       <img src="../../assets/img/unidadesacademicas8.jpg" alt="Card Image"
-        class="w-full h-full object-cover rounded-lg">
+        class="w-full h-full object-cover rounded-lg shadow-lg">
       
       <div class="absolute inset-0 flex items-center justify-center">
         <h3 class="text-2xl font-poppins font-bold text-white">
@@ -113,9 +104,9 @@
         </h3>
       </div>
     </div></a>
-    <div class="bg-white rounded-lg shadow-lg p-4 relative">
+    <div class="bg-white rounded-lg p-4 relative">
       <img src="../../assets/img/unidadesacademicas1.jpg" alt="Card Image"
-        class="w-full h-full object-cover rounded-lg">
+        class="w-full h-full object-cover rounded-lg shadow-lg">
         
       <div class="absolute inset-1 flex items-center justify-center w-full">
         <h3 class="text-2xl font-poppins font-bold text-white">
@@ -123,9 +114,9 @@
         </h3>
       </div>
     </div>
-    <div class="bg-white rounded-lg shadow-lg p-4 relative">
+    <div class="bg-white rounded-lg p-4 relative">
       <img src="../../assets/img/unidadesacademicas3.jpg" alt="Card Image"
-        class="w-full h-full object-cover rounded-lg">
+        class="w-full h-full object-cover rounded-lg shadow-lg">
         
       <div class="absolute inset-1 flex items-center justify-center w-full">
         <h3 class="text-2xl font-poppins font-bold text-white">
@@ -137,16 +128,15 @@
   </div>
   
   
-  <div class="bg-[#043D3D] w-full mt-5">
-    <h3 class="text-2xl text-center font-poppins font-bold text-white">
-      Areas Academicas
-    </h3>
+  <div *ngIf="!isLoading" class="bg-[#043D3D] w-full rounded-lg">
+    <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
+      Áreas Académicas</h2>
   </div>
     <div *ngIf="!isLoading" id="cardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
       
-      <div class=" justify-center rounded-lg shadow-lg p-4 relative">
+      <div class=" justify-center rounded-lg p-4 relative">
         <img src="../../assets/img/unidadesacademicas3.jpg" alt="Card Image"
-          class="w-full h-full object-cover rounded-t-lg">
+          class="w-full h-full object-cover rounded-lg shadow-lg">
         <div class="absolute inset-1 flex items-center justify-center w-full">
           <h3 class="text-2xl text-center font-poppins font-bold text-white">
             Desarrollo y gestion de software
@@ -154,9 +144,9 @@
         </div>
       </div>
 
-      <div class=" justify-center rounded-lg shadow-lg p-4 relative">
+      <div class=" justify-center rounded-lg p-4 relative">
         <img src="../../assets/img/unidadesacademicas3.jpg" alt="Card Image"
-          class="w-full h-full object-cover rounded-t-lg">
+          class="w-full h-full object-cover rounded-lg shadow-lg">
         <div class="absolute inset-1 flex items-center justify-center w-full">
           <h3 class="text-2xl font-poppins font-bold text-white">
             Turismo
@@ -164,9 +154,9 @@
         </div>
       </div>
 
-      <div class=" justify-center rounded-lg shadow-lg p-4 relative">
+      <div class=" justify-center rounded-lg p-4 relative">
         <img src="../../assets/img/unidadesacademicas3.jpg" alt="Card Image"
-          class="w-full h-full object-cover rounded-t-lg">
+          class="w-full h-full object-cover rounded-lg shadow-lg">
         <div class="absolute inset-1 flex items-center justify-center w-full">
           <h3 class="text-2xl font-poppins font-bold text-white">
             administracíon
@@ -178,9 +168,9 @@
         
     <div *ngIf="!isLoading" id="cardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
       
-      <div class=" justify-center rounded-lg shadow-lg p-4 relative">
+      <div class=" justify-center rounded-lg p-4 relative">
         <img src="../../assets/img/unidadesacademicas3.jpg" alt="Card Image"
-          class="w-full h-full object-cover rounded-t-lg">
+          class="w-full h-full object-cover rounded-lg shadow-lg">
         <div class="absolute inset-1 flex items-center justify-center w-full">
           <h3 class="text-2xl font-poppins font-bold text-white">
             Mercadotecnia
@@ -188,9 +178,9 @@
         </div>
       </div>
 
-      <div class=" justify-center rounded-lg shadow-lg p-4 relative">
+      <div class=" justify-center rounded-lg p-4 relative">
         <img src="../../assets/img/unidadesacademicas3.jpg" alt="Card Image"
-          class="w-full h-full object-cover rounded-t-lg">
+          class="w-full h-full object-cover rounded-lg shadow-lg">
         <div class="absolute inset-1 flex items-center justify-center w-full">
           <h3 class="text-2xl font-poppins font-bold text-white">
             Gastronomia
@@ -198,9 +188,9 @@
         </div>
       </div>
 
-      <div class=" justify-center rounded-lg shadow-lg p-4 relative">
+      <div class=" justify-center rounded-lg p-4 relative">
         <img src="../../assets/img/unidadesacademicas3.jpg" alt="Card Image"
-          class="w-full h-full object-cover rounded-t-lg">
+          class="w-full h-full object-cover rounded-lg shadow-lg">
         <div class="absolute inset-1 flex items-center justify-center w-full">
           <h3 class="text-2xl font-poppins font-bold text-white">
             Contaduria
@@ -211,9 +201,9 @@
     </div>
     <div *ngIf="!isLoading" id="cardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
       
-      <div class=" justify-center rounded-lg shadow-lg p-4 relative">
+      <div class=" justify-center rounded-lg p-4 relative">
         <img src="../../assets/img/unidadesacademicas3.jpg" alt="Card Image"
-          class="w-full h-full object-cover rounded-t-lg">
+          class="w-full h-full object-cover rounded-lg shadow-lg">
         <div class="absolute inset-1 flex items-center justify-center w-full">
           <h3 class="text-2xl font-poppins font-bold text-white">
             Agrobiotecnologia
@@ -221,9 +211,9 @@
         </div>
       </div>
 
-      <div class=" justify-center rounded-lg shadow-lg p-4 relative">
+      <div class=" justify-center rounded-lg p-4 relative">
         <img src="../../assets/img/unidadesacademicas3.jpg" alt="Card Image"
-          class="w-full h-full object-cover rounded-t-lg">
+          class="w-full h-full object-cover rounded-lg shadow-lg">
         <div class="absolute inset-1 flex items-center justify-center w-full">
           <h3 class="text-2xl font-poppins font-bold text-white">
             Procesos Alimentarios
@@ -231,9 +221,9 @@
         </div>
       </div>
 
-      <div class=" justify-center rounded-lg shadow-lg p-4 relative">
+      <div class=" justify-center rounded-lg p-4 relative">
         <img src="../../assets/img/unidadesacademicas3.jpg" alt="Card Image"
-          class="w-full h-full object-cover rounded-t-lg">
+          class="w-full h-full object-cover rounded-lg shadow-lg">
         <div class="absolute inset-1 flex items-center justify-center w-full">
           <h3 class="text-2xl font-poppins font-bold text-white">
             Acuicultura

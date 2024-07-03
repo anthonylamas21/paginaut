@@ -1,4 +1,4 @@
-import { Component, HostListener, ViewChild } from '@angular/core';
+import { Component, HostListener, Renderer2, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 
 
@@ -21,6 +21,18 @@ interface Item {
   styleUrl: './carrera-turismo.component.css'
 })
 export class CarreraTurismoComponent {
+  isLoading = true;
+  
+  constructor(private renderer: Renderer2) {}
+
+  ngAfterViewInit(): void {
+    this.renderer.listen('window', 'load', () => {
+      setInterval(() => {
+        this.isLoading = false
+      }, 3000);  
+      
+    });
+  }
   ngOnInit(): void {
     this.setNavbarColor();
   }
