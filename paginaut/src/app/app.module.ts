@@ -34,6 +34,8 @@ import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion
 import { TallerComponent } from './taller/taller.component';
 import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.component';
 import { CarreraService } from './admin/carreras.service';
+import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-calendario.component';
+
 
 @NgModule({
   declarations: [
@@ -55,7 +57,10 @@ import { CarreraService } from './admin/carreras.service';
     RegistrarEventoComponent,
     AgregarDireccionComponent,
     TallerComponent,
+
     CarrerasAdminComponent,
+    AgregarCalendarioComponent
+
   ],
   imports: [
     BrowserModule,
