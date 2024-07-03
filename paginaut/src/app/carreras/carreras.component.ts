@@ -16,10 +16,8 @@ export class CarrerasComponent {
 
   ngAfterViewInit(): void {
     this.renderer.listen('window', 'load', () => {
-      setInterval(() => {
        this.isLoading = false;
-      }, 5000);  
-            
+
     });
   }
 

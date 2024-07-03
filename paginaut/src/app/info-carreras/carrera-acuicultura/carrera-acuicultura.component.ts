@@ -1,4 +1,4 @@
-import { Component, HostListener, ViewChild } from '@angular/core';
+import { Component, HostListener, Renderer2, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 
 
@@ -21,10 +21,25 @@ interface Item {
   styleUrl: './carrera-acuicultura.component.css'
 })
 export class CarreraAcuiculturaComponent {
+
+  isLoading = true;
+  
+  constructor(private renderer: Renderer2) {}
+
   ngOnInit(): void {
     this.setNavbarColor();
   }
 
+  ngAfterViewInit(): void {
+    this.renderer.listen('window', 'load', () => {
+      setInterval(() => {
+        this.isLoading = false
+      }, 3000);  
+      
+    });
+  }
+
+  
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     this.setNavbarColor();
