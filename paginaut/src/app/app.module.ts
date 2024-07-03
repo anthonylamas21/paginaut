@@ -33,9 +33,7 @@ import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.co
 import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
 import { TallerComponent } from './taller/taller.component';
 import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.component';
-import { CarreraService } from './admin/carreras.service';
 import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-calendario.component';
-
 
 @NgModule({
   declarations: [
@@ -73,7 +71,6 @@ import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-c
     ButtonModule,
     DropdownModule,
   ],
-  providers: [CarreraService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

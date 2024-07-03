@@ -16,8 +16,8 @@ export class AgregarCalendarioComponent implements OnInit {
   filteredCalendarios: Calendario[] = [];
   papeleraCalendarios: Calendario[] = [];
   currentCalendarioId?: number;
+  currentCalendario?: Calendario;
   currentTab: 'active' | 'inactive' = 'active';
-  archivoError: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -33,22 +33,13 @@ export class AgregarCalendarioComponent implements OnInit {
     this.loadCalendarios();
   }
 
-  onFileChange(event: any) {
-    const file = event.target.files[0];
-    if (file && file.type === 'application/pdf') {
-      this.calendarioForm.patchValue({ archivo: file });
-      this.archivoError = false;
-    } else {
-      this.calendarioForm.patchValue({ archivo: null });
-      this.archivoError = true;
-    }
-  }
-
   onSubmit() {
     if (this.calendarioForm.valid) {
       const formData = new FormData();
-      formData.append('titulo', this.calendarioForm.get('titulo')!.value);
-      formData.append('archivo', this.calendarioForm.get('archivo')!.value);
+      formData.append('titulo', this.calendarioForm.get('titulo')?.value);
+      if (this.calendarioForm.get('archivo')?.value) {
+        formData.append('archivo', this.calendarioForm.get('archivo')?.value);
+      }
 
       if (this.currentCalendarioId) {
         formData.append('id', this.currentCalendarioId.toString());
@@ -90,13 +81,14 @@ export class AgregarCalendarioComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
     this.currentCalendarioId = undefined;
-    this.archivoError = false;
+    this.currentCalendario = undefined;
   }
 
   openModal(calendario?: Calendario) {
     if (calendario) {
       this.currentCalendarioId = calendario.id;
-      this.calendarioForm.patchValue({ titulo: calendario.titulo });
+      this.currentCalendario = calendario;
+      this.calendarioForm.patchValue(calendario);
     } else {
       this.resetForm();
     }
@@ -115,6 +107,7 @@ export class AgregarCalendarioComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al cargar los calendarios', error);
+        this.errorMessage = error.message;
       },
     });
   }
@@ -128,13 +121,8 @@ export class AgregarCalendarioComponent implements OnInit {
   changeCalendarioStatus(id: number, status: boolean) {
     const calendarioToUpdate = this.calendarios.find((c) => c.id === id);
     if (calendarioToUpdate) {
-      const formData = new FormData();
-      formData.append('id', calendarioToUpdate.id!.toString());
-      formData.append('titulo', calendarioToUpdate.titulo);
-      formData.append('archivo', new Blob()); // Add a dummy file or existing file reference
-      formData.append('activo', status.toString());
-
-      this.calendarioService.actualizarCalendario(formData).subscribe({
+      calendarioToUpdate.activo = status;
+      this.calendarioService.actualizarCalendario(this.createFormData(calendarioToUpdate)).subscribe({
         next: (response) => {
           console.log('Calendario actualizado con éxito', response);
           this.successMessage = status
@@ -201,5 +189,23 @@ export class AgregarCalendarioComponent implements OnInit {
   switchTab(tab: 'active' | 'inactive') {
     this.currentTab = tab;
     this.filterCalendarios();
+  }
+
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.calendarioForm.patchValue({
+        archivo: file,
+      });
+    }
+  }
+
+  createFormData(calendario: Calendario): FormData {
+    const formData = new FormData();
+    formData.append('id', calendario.id!.toString());
+    formData.append('titulo', calendario.titulo);
+    formData.append('archivo', calendario.archivo);
+    formData.append('activo', calendario.activo ? 'true' : 'false');
+    return formData;
   }
 }

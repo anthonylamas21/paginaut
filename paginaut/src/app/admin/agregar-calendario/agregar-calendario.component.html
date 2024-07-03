@@ -1,4 +1,6 @@
 <div class="container">
+  <h2>Agregar Nuevo Calendario</h2>
+
   <!-- Modal -->
   <div
     [ngClass]="{ 'hs-overlay-open': isModalOpen, 'hs-overlay': !isModalOpen }"
@@ -77,19 +79,15 @@
               />
               <div
                 *ngIf="
-                  (calendarioForm.get('archivo')?.invalid &&
-                    (calendarioForm.get('archivo')?.dirty ||
-                      calendarioForm.get('archivo')?.touched)) ||
-                  archivoError
+                  calendarioForm.get('archivo')?.invalid &&
+                  (calendarioForm.get('archivo')?.dirty ||
+                    calendarioForm.get('archivo')?.touched)
                 "
                 class="alert alert-danger"
               >
-                <div
-                  *ngIf="calendarioForm.get('archivo')?.errors?.['required']"
-                >
+                <div *ngIf="calendarioForm.get('archivo')?.errors?.['required']">
                   El archivo es requerido.
                 </div>
-                <div *ngIf="archivoError">El archivo debe ser un PDF.</div>
               </div>
             </div>
 
@@ -228,7 +226,10 @@
                     [rows]="5"
                     currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
                     [showCurrentPageReport]="true"
-                    [globalFilterFields]="['titulo', 'fecha_creacion']"
+                    [globalFilterFields]="[
+                      'titulo',
+                      'fecha_creacion'
+                    ]"
                     [tableStyleClass]="'min-w-full divide-y'"
                     [resizableColumns]="true"
                   >
@@ -319,7 +320,10 @@
                       [rows]="5"
                       currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
                       [showCurrentPageReport]="true"
-                      [globalFilterFields]="['titulo', 'fecha_creacion']"
+                      [globalFilterFields]="[
+                        'titulo',
+                        'fecha_creacion'
+                      ]"
                       [tableStyleClass]="'min-w-full divide-y'"
                       [resizableColumns]="true"
                     >

@@ -6,7 +6,7 @@ import { catchError } from 'rxjs/operators';
 export interface Calendario {
   id?: number;
   titulo: string;
-  archivo: File | null;
+  archivo: string;
   activo?: boolean;
   fecha_creacion?: string;
 }
@@ -19,9 +19,9 @@ export class CalendarioService {
 
   constructor(private http: HttpClient) {}
 
-  agregarCalendario(calendario: FormData): Observable<any> {
+  agregarCalendario(formData: FormData): Observable<any> {
     return this.http
-      .post<any>(this.apiUrl, calendario)
+      .post<any>(this.apiUrl, formData)
       .pipe(catchError(this.handleError));
   }
 
@@ -37,9 +37,9 @@ export class CalendarioService {
       .pipe(catchError(this.handleError));
   }
 
-  actualizarCalendario(calendario: FormData): Observable<any> {
+  actualizarCalendario(formData: FormData): Observable<any> {
     return this.http
-      .put<any>(this.apiUrl, calendario)
+      .post<any>(this.apiUrl, formData)
       .pipe(catchError(this.handleError));
   }
 
@@ -54,9 +54,7 @@ export class CalendarioService {
     if (error.error instanceof ErrorEvent) {
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      errorMessage = `Código de error ${error.status}, mensaje: ${
-        error.error.message || error.statusText
-      }`;
+      errorMessage = `Código de error ${error.status}, mensaje: ${error.error.message || error.statusText}`;
     }
     console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
