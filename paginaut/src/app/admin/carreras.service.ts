@@ -6,30 +6,17 @@ import { catchError } from 'rxjs/operators';
 export interface Carrera {
   id?: number;
   nombre_carrera: string;
-  perfil_profesional?: string;
-  ocupacion_profesional?: string;
-  direccion_id?: number;
+  perfil_profesional: string[];
+  ocupacion_profesional: string[];
   activo?: boolean;
-  fecha_creacion?: string;
-  imagenes?: Imagen[];
-}
-
-export interface Imagen {
-  id?: number;
-  titulo: string;
-  descripcion?: string;
-  ruta_imagen: string;
-  seccion: string;
-  asociado_id: number;
-  principal?: boolean;
   fecha_creacion?: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
-export class CarrerasService {
-  private apiUrl = 'http://localhost/paginaut/api/carrera.php';
+export class CarreraService {
+  private apiUrl = 'http://localhost/paginaut/api/carrera.php'; // Ajusta esta URL según tu configuración
 
   constructor(private http: HttpClient) {}
 
@@ -53,27 +40,23 @@ export class CarrerasService {
 
   actualizarCarrera(carrera: Carrera): Observable<any> {
     return this.http
-      .put<any>(this.apiUrl, carrera)
+      .put<any>(`${this.apiUrl}`, carrera)
       .pipe(catchError(this.handleError));
   }
 
   eliminarCarrera(id: number): Observable<any> {
     return this.http
-      .delete<any>(`${this.apiUrl}?id=${id}`)
-      .pipe(catchError(this.handleError));
-  }
-
-  subirImagen(formData: FormData): Observable<any> {
-    return this.http
-      .post<any>(`${this.apiUrl}?accion=uploadImage`, formData)
+      .put<any>(`${this.apiUrl}`, { id, activo: false })
       .pipe(catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Un error desconocido ha ocurrido';
     if (error.error instanceof ErrorEvent) {
+      // Error del lado del cliente
       errorMessage = `Error: ${error.error.message}`;
     } else {
+      // El backend retornó un código de error
       errorMessage = `Código de error ${error.status}, mensaje: ${
         error.error.message || error.statusText
       }`;

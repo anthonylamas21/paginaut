@@ -33,6 +33,7 @@ import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.co
 import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
 import { TallerComponent } from './taller/taller.component';
 import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.component';
+import { CarreraService } from './admin/carreras.service';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,7 @@ import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.co
     ButtonModule,
     DropdownModule,
   ],
-  providers: [],
+  providers: [CarreraService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CarrerasService, Carrera, Imagen } from '../carreras.service';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { CarreraService, Carrera } from '../carreras.service';
 
 @Component({
   selector: 'app-carreras-admin',
   templateUrl: './carreras-admin.component.html',
-  styleUrls: ['./carreras-admin.component.css'],
+  styleUrls: ['./carreras-admin.component.css']
 })
 export class CarrerasAdminComponent implements OnInit {
   carreraForm: FormGroup;
@@ -17,19 +17,24 @@ export class CarrerasAdminComponent implements OnInit {
   papeleraCarreras: Carrera[] = [];
   currentCarreraId?: number;
   currentTab: 'active' | 'inactive' = 'active';
-  selectedImage: File | null = null;
 
   constructor(
     private fb: FormBuilder,
-    private carrerasService: CarrerasService
+    private carreraService: CarreraService
   ) {
     this.carreraForm = this.fb.group({
       nombre_carrera: ['', [Validators.required, Validators.maxLength(100)]],
-      perfil_profesional: ['', Validators.maxLength(1000)],
-      ocupacion_profesional: ['', Validators.maxLength(1000)],
-      direccion_id: ['', Validators.required],
-      activo: [true],
+      perfil_profesional: this.fb.array([]),
+      ocupacion_profesional: this.fb.array([])
     });
+  }
+
+  get perfilProfesional(): FormArray {
+    return this.carreraForm.get('perfil_profesional') as FormArray;
+  }
+
+  get ocupacionProfesional(): FormArray {
+    return this.carreraForm.get('ocupacion_profesional') as FormArray;
   }
 
   ngOnInit() {
@@ -39,35 +44,33 @@ export class CarrerasAdminComponent implements OnInit {
   onSubmit() {
     if (this.carreraForm.valid) {
       const carreraData: Carrera = this.carreraForm.value;
+      carreraData.perfil_profesional = this.perfilProfesional.value;
+      carreraData.ocupacion_profesional = this.ocupacionProfesional.value;
+
       if (this.currentCarreraId) {
         carreraData.id = this.currentCarreraId;
-        this.carrerasService.actualizarCarrera(carreraData).subscribe({
-          next: (response) => {
-            console.log('Carrera actualizada con éxito', response);
+        this.carreraService.actualizarCarrera(carreraData).subscribe({
+          next: (response: any) => {
             this.successMessage = 'Carrera actualizada correctamente';
             this.loadCarreras();
             this.resetForm();
             this.closeModal();
           },
-          error: (error) => {
-            console.error('Error al actualizar la carrera', error);
+          error: (error: any) => {
             this.errorMessage = error.message;
-          },
+          }
         });
       } else {
-        carreraData.activo = true; // Set activo to true by default for new carreras
-        this.carrerasService.agregarCarrera(carreraData).subscribe({
-          next: (response) => {
-            console.log('Carrera agregada con éxito', response);
+        this.carreraService.agregarCarrera(carreraData).subscribe({
+          next: (response: any) => {
             this.successMessage = 'Carrera agregada correctamente';
             this.loadCarreras();
             this.resetForm();
             this.closeModal();
           },
-          error: (error) => {
-            console.error('Error al agregar la carrera', error);
+          error: (error: any) => {
             this.errorMessage = error.message;
-          },
+          }
         });
       }
     } else {
@@ -77,16 +80,19 @@ export class CarrerasAdminComponent implements OnInit {
 
   resetForm() {
     this.carreraForm.reset();
+    this.perfilProfesional.clear();
+    this.ocupacionProfesional.clear();
     this.errorMessage = '';
     this.successMessage = '';
     this.currentCarreraId = undefined;
-    this.selectedImage = null;
   }
 
   openModal(carrera?: Carrera) {
     if (carrera) {
       this.currentCarreraId = carrera.id;
       this.carreraForm.patchValue(carrera);
+      this.setFormArray('perfil_profesional', carrera.perfil_profesional);
+      this.setFormArray('ocupacion_profesional', carrera.ocupacion_profesional);
     } else {
       this.resetForm();
     }
@@ -98,14 +104,14 @@ export class CarrerasAdminComponent implements OnInit {
   }
 
   loadCarreras() {
-    this.carrerasService.obtenerCarreras().subscribe({
+    this.carreraService.obtenerCarreras().subscribe({
       next: (response: any) => {
         this.carreras = response.records;
         this.filterCarreras();
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error al cargar las carreras', error);
-      },
+      }
     });
   }
 
@@ -119,33 +125,29 @@ export class CarrerasAdminComponent implements OnInit {
     const carreraToUpdate = this.carreras.find((c) => c.id === id);
     if (carreraToUpdate) {
       carreraToUpdate.activo = status;
-      this.carrerasService.actualizarCarrera(carreraToUpdate).subscribe({
-        next: (response) => {
-          console.log('Carrera actualizada con éxito', response);
+      this.carreraService.actualizarCarrera(carreraToUpdate).subscribe({
+        next: (response: any) => {
           this.successMessage = status
             ? 'Carrera activada correctamente'
             : 'Carrera enviada a la papelera correctamente';
           this.loadCarreras();
         },
-        error: (error) => {
-          console.error('Error al actualizar la carrera', error);
+        error: (error: any) => {
           this.errorMessage = error.message;
-        },
+        }
       });
     }
   }
 
   deleteCarrera(id: number) {
-    this.carrerasService.eliminarCarrera(id).subscribe({
-      next: (response) => {
-        console.log('Carrera eliminada con éxito', response);
+    this.carreraService.eliminarCarrera(id).subscribe({
+      next: (response: any) => {
         this.successMessage = 'Carrera eliminada correctamente';
         this.loadCarreras();
       },
-      error: (error) => {
-        console.error('Error al eliminar la carrera', error);
+      error: (error: any) => {
         this.errorMessage = error.message;
-      },
+      }
     });
   }
 
@@ -154,8 +156,12 @@ export class CarrerasAdminComponent implements OnInit {
   }
 
   filterCarreras() {
-    this.filteredCarreras = this.carreras.filter((carrera) => carrera.activo);
-    this.papeleraCarreras = this.carreras.filter((carrera) => !carrera.activo);
+    this.filteredCarreras = this.carreras.filter(
+      (carrera) => carrera.activo
+    );
+    this.papeleraCarreras = this.carreras.filter(
+      (carrera) => !carrera.activo
+    );
   }
 
   filterGlobal(event: Event) {
@@ -165,16 +171,28 @@ export class CarrerasAdminComponent implements OnInit {
         (carrera) =>
           carrera.activo &&
           (carrera.nombre_carrera.toLowerCase().includes(value) ||
-            carrera.perfil_profesional?.toLowerCase().includes(value) ||
-            carrera.ocupacion_profesional?.toLowerCase().includes(value))
+            (carrera.perfil_profesional &&
+              carrera.perfil_profesional.some((item) =>
+                item.toLowerCase().includes(value)
+              )) ||
+            (carrera.ocupacion_profesional &&
+              carrera.ocupacion_profesional.some((item) =>
+                item.toLowerCase().includes(value)
+              )))
       );
     } else {
       this.papeleraCarreras = this.carreras.filter(
         (carrera) =>
           !carrera.activo &&
           (carrera.nombre_carrera.toLowerCase().includes(value) ||
-            carrera.perfil_profesional?.toLowerCase().includes(value) ||
-            carrera.ocupacion_profesional?.toLowerCase().includes(value))
+            (carrera.perfil_profesional &&
+              carrera.perfil_profesional.some((item) =>
+                item.toLowerCase().includes(value)
+              )) ||
+            (carrera.ocupacion_profesional &&
+              carrera.ocupacion_profesional.some((item) =>
+                item.toLowerCase().includes(value)
+              )))
       );
     }
   }
@@ -184,26 +202,28 @@ export class CarrerasAdminComponent implements OnInit {
     this.filterCarreras();
   }
 
-  onFileSelected(event: any) {
-    this.selectedImage = event.target.files[0] as File;
+  addPerfilProfesional() {
+    this.perfilProfesional.push(this.fb.control(''));
   }
 
-  uploadImage() {
-    if (this.selectedImage) {
-      const formData = new FormData();
-      formData.append('file', this.selectedImage);
-      formData.append('accion', 'uploadImage');
+  removePerfilProfesional(index: number) {
+    this.perfilProfesional.removeAt(index);
+  }
 
-      this.carrerasService.subirImagen(formData).subscribe({
-        next: (response) => {
-          console.log('Imagen subida con éxito', response);
-          this.successMessage = 'Imagen subida correctamente';
-          this.selectedImage = null;
-        },
-        error: (error) => {
-          console.error('Error al subir la imagen', error);
-          this.errorMessage = error.message;
-        },
+  addOcupacionProfesional() {
+    this.ocupacionProfesional.push(this.fb.control(''));
+  }
+
+  removeOcupacionProfesional(index: number) {
+    this.ocupacionProfesional.removeAt(index);
+  }
+
+  private setFormArray(arrayName: string, values: string[]) {
+    const formArray = this.carreraForm.get(arrayName) as FormArray;
+    formArray.clear();
+    if (values) {
+      values.forEach((value) => {
+        formArray.push(this.fb.control(value));
       });
     }
   }
