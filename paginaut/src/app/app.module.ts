@@ -1,5 +1,5 @@
 import { AppComponent } from './app.component';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -37,6 +37,11 @@ import { CorreoComponent } from './correo/correo.component';
 //Rutas de administrator
 import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
+import { InfoBecaComponent } from './info-beca/info-beca.component';
+import { HttpClientModule } from '@angular/common/http';
+import { RedesSocialesComponent } from './redes-sociales/redes-sociales.component';
+import { NgxMasonryModule } from 'ngx-masonry';
+import { GaleriaComponent } from './galeria/galeria.component';
 import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.component';
 import { CursosAdminComponent } from './admin/cursos-admin/cursos-admin.component';
 import { DireccionesAdminComponent } from './admin/direcciones-admin/direcciones-admin.component';
@@ -85,7 +90,6 @@ import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.co
     UnidadesAcademicasComponent,
     EventosComponent,
     BecasComponent,
-    TalleresComponent,
     LoginComponent,
     InfoCarreraComponent,
     CalendarioComponent,
@@ -123,14 +127,14 @@ import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.co
     LecturaComponent,
     AjedrezComponent,
     AcercaDeComponent,
-    EventosAdminComponent,
-    BecasAdminComponent,
-    CalendarioAdminComponent,
-    GaleriaAdminComponent,
-    UsuariosAdminComponent
+    InfoBecaComponent,
+    TalleresComponent,
+    RedesSocialesComponent,
+    GaleriaComponent,
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
@@ -140,8 +144,10 @@ import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.co
     TagModule,
     ButtonModule,
     FormsModule,
-    DropdownModule
+    DropdownModule,
+    NgxMasonryModule 
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent],
 

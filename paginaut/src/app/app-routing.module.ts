@@ -22,7 +22,8 @@ import { UbicacionComponent } from './ubicacion/ubicacion.component';
 import { PsicologiaComponent } from './psicologia/psicologia.component';
 import { CorreoComponent } from './correo/correo.component';
 import { AcercaDeComponent } from './acerca-de/acerca-de.component';
-
+import { InfoBecaComponent } from './info-beca/info-beca.component';
+import { GaleriaComponent } from './galeria/galeria.component';
 
 //Rutas Administrator
 import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
@@ -91,8 +92,8 @@ const routes: Routes = [
   {path: 'psicologia', component: PsicologiaComponent},
   {path: 'correo', component: CorreoComponent},
   {path: 'acerca_de', component: AcercaDeComponent},
-  
-
+  {path: 'info_becas', component:InfoBecaComponent},
+  {path: 'galeria', component:GaleriaComponent},
 
   //Rutas Adminstrador
   {path: 'admin/navbar_admin', component: NavbarAdminComponent},
@@ -129,7 +130,6 @@ const routes: Routes = [
   {path: 'info_horas_recreativas/ajedrez', component: AjedrezComponent}
 
 
-  
   
 ];
 
