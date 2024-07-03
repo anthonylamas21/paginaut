@@ -31,6 +31,10 @@ import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin
 import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.component';
 import { CursosAdminComponent } from './admin/cursos-admin/cursos-admin.component';
 import { DireccionesAdminComponent } from './admin/direcciones-admin/direcciones-admin.component';
+import { BecasAdminComponent } from './admin/becas-admin/becas-admin.component';
+import { CalendarioAdminComponent } from './admin/calendario-admin/calendario-admin.component';
+import { GaleriaAdminComponent } from './admin/galeria-admin/galeria-admin.component';
+import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.component';
 
 
 //Info Carreras
@@ -97,6 +101,11 @@ const routes: Routes = [
   {path: 'admin/carreras_admin', component: CarrerasAdminComponent},
   {path: 'admin/cursos_admin', component:CursosAdminComponent},
   {path: 'admin/direcciones_admin', component: DireccionesAdminComponent},
+  {path: 'admin/becas_admin', component:BecasAdminComponent},
+  {path: 'admin/calendario_admin', component: CalendarioAdminComponent},
+  {path: 'admin/galeria_admin', component: GaleriaAdminComponent},
+  {path: 'admin/usuarios_admin', component: UsuariosAdminComponent},
+  
  
   //Info Carreras
   {path: 'info_carreras/agrobiotecnologia', component: CarreraAgrobiotecnologiaComponent},
