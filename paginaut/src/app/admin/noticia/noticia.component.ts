@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NoticiaService, Noticia } from '../../noticia.service';
 
+interface NoticiaTemporal extends Noticia {
+  imagenesGeneralesOriginales?: string[];
+  imagenPrincipalOriginal?: string;
+}
+
 @Component({
   selector: 'app-noticia',
   templateUrl: './noticia.component.html',
@@ -23,6 +28,8 @@ export class NoticiaComponent implements OnInit {
   modalTitle = '';
   currentImageIndex = 0;
   allImages: string[] = [];
+  imagenesParaEliminar: string[] = [];
+  noticiaTemporal: NoticiaTemporal | null = null;
 
   constructor(
     private noticiaService: NoticiaService,
@@ -73,11 +80,14 @@ export class NoticiaComponent implements OnInit {
     this.isModalOpen = true;
     if (noticia) {
       this.currentNoticiaId = noticia.id!;
+      
       this.noticiaForm.patchValue(noticia);
+
       this.imagenPrincipalPreview = noticia.imagen_principal || null;
-      this.imagenesGeneralesActuales = noticia.imagenes_generales || [];
+      this.imagenesGeneralesActuales = [...noticia.imagenes_generales || []];
     } else {
       this.currentNoticiaId = null;
+      this.noticiaTemporal = null;
       this.noticiaForm.reset({ activo: true });
       this.imagenPrincipalPreview = null;
       this.imagenesGeneralesActuales = [];
@@ -86,11 +96,22 @@ export class NoticiaComponent implements OnInit {
   }
 
   closeModal(): void {
+    if (this.noticiaTemporal) {
+      // Restaurar los valores originales
+      const noticiaOriginal = this.noticias.find(n => n.id === this.currentNoticiaId);
+      if (noticiaOriginal) {
+        noticiaOriginal.imagen_principal = this.noticiaTemporal.imagenPrincipalOriginal;
+        noticiaOriginal.imagenes_generales = this.noticiaTemporal.imagenesGeneralesOriginales;
+      }
+    }
+    
     this.isModalOpen = false;
     this.noticiaForm.reset();
     this.currentNoticiaId = null;
+    this.noticiaTemporal = null;
     this.imagenPrincipalPreview = null;
     this.imagenesGeneralesActuales = [];
+    this.imagenesParaEliminar = [];
     this.clearFileInputs();
   }
 
@@ -114,31 +135,40 @@ export class NoticiaComponent implements OnInit {
         imagen_principal: this.imagenPrincipalPreview as string,
         imagenes_generales: this.imagenesGeneralesActuales
       };
-  
+
       const imagenPrincipalInput = document.getElementById('imagenPrincipal') as HTMLInputElement;
       const imagenPrincipal = imagenPrincipalInput.files?.[0];
       const imagenesGeneralesInput = document.getElementById('imagenesGenerales') as HTMLInputElement;
       const imagenesGenerales = imagenesGeneralesInput.files;
-  
+
       if (this.currentNoticiaId) {
-        this.noticiaService.actualizarNoticia(
-          noticiaData,
-          imagenPrincipal,
-          imagenesGenerales ? Array.from(imagenesGenerales) : undefined
-        ).subscribe({
-          next: (response) => {
+        // Primero, elimina las imágenes marcadas
+        const deletePromises: Promise<any>[] = this.imagenesParaEliminar.map(ruta => 
+          this.noticiaService.eliminarImagenGeneral(this.currentNoticiaId!, ruta).toPromise()
+        );
+
+        Promise.all(deletePromises)
+          .then(() => {
+            // Luego, actualiza la noticia
+            return this.noticiaService.actualizarNoticia(
+              noticiaData,
+              imagenPrincipal,
+              imagenesGenerales ? Array.from(imagenesGenerales) : undefined
+            ).toPromise();
+          })
+          .then(() => {
             this.responseMessage = 'Noticia actualizada con éxito';
             this.closeModal();
             this.loadNoticias();
-          },
-          error: (error) => {
+          })
+          .catch(error => {
             console.error('Error al actualizar la noticia:', error);
             this.responseMessage = 'Error al actualizar la noticia: ' + (error.error?.message || error.message);
-          },
-          complete: () => {
+          })
+          .finally(() => {
             this.isLoading = false;
-          }
-        });
+            this.imagenesParaEliminar = [];
+          });
       } else {
         this.noticiaService.crearNoticia(
           noticiaData,
@@ -247,19 +277,11 @@ export class NoticiaComponent implements OnInit {
   removeImagenGeneral(index: number): void {
     const imagenParaEliminar = this.imagenesGeneralesActuales[index];
     if (this.currentNoticiaId && imagenParaEliminar.startsWith(this.baseImageUrl)) {
-        const relativePath = imagenParaEliminar.replace(this.baseImageUrl, '');
-        this.noticiaService.eliminarImagenGeneral(this.currentNoticiaId, relativePath).subscribe({
-            next: () => {
-                this.imagenesGeneralesActuales.splice(index, 1);
-            },
-            error: (error) => {
-                console.error('Error al eliminar la imagen:', error);
-            }
-        });
-    } else {
-        this.imagenesGeneralesActuales.splice(index, 1);
+      const relativePath = imagenParaEliminar.replace(this.baseImageUrl, '');
+      this.imagenesParaEliminar.push(relativePath);
     }
-}
+    this.imagenesGeneralesActuales.splice(index, 1);
+  }
 
   openImageModal(noticia: Noticia, type: 'principal' | 'generales'): void {
     this.isImageModalOpen = true;
@@ -316,6 +338,7 @@ export class NoticiaComponent implements OnInit {
     }
     return '';
   }
+
   private updateNoticiasArray(noticia: Noticia): void {
     const index = this.noticias.findIndex(n => n.id === noticia.id);
     if (index !== -1) {

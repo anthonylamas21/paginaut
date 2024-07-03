@@ -75,6 +75,7 @@ export class EventoService {
 
     if (imagenPrincipal) {
       formData.append('imagen_principal', imagenPrincipal, imagenPrincipal.name);
+      console.log('Imagen Principal añadida al FormData:', imagenPrincipal.name);
     }
 
     if (imagenesGenerales && imagenesGenerales.length > 0) {
@@ -88,6 +89,10 @@ export class EventoService {
         formData.append(`archivos[]`, archivo, archivo.name);
       });
     }
+    console.log('Contenido del FormData:');
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
 
     return this.http.post(`${this.apiUrl}?id=${evento.id}`, formData);
   }

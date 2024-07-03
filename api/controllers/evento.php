@@ -16,7 +16,6 @@ $db = $database->getConnection();
 $evento = new Evento($db);
 
 $request_method = $_SERVER["REQUEST_METHOD"];
-$data = json_decode(file_get_contents("php://input"));
 
 switch($request_method) {
     case 'POST':
@@ -41,6 +40,8 @@ switch($request_method) {
             $evento->fecha_fin = $_POST['fecha_fin'];
             $evento->hora_inicio = $_POST['hora_inicio'];
             $evento->hora_fin = $_POST['hora_fin'];
+            error_log("Datos recibidos en POST: " . print_r($_POST, true));
+            error_log("Archivos recibidos: " . print_r($_FILES, true));
     
             // Crear o actualizar evento
             if ($isUpdate) {
@@ -48,11 +49,18 @@ switch($request_method) {
             } else {
                 $result = $evento->create();
             }
-    
+            
             if ($result) {
                 // Procesar imágenes y archivos después de crear/actualizar el evento
-                $evento->updateImagenesGenerales($_FILES['imagenes_generales'] ?? null);
-                $evento->updateArchivos($_FILES['archivos'] ?? null);
+                if (!empty($_FILES['imagen_principal'])) {
+                    $evento->updateImagenPrincipal($_FILES['imagen_principal']);
+                }
+                if (!empty($_FILES['imagenes_generales']['name'][0])) {
+                    $evento->updateImagenesGenerales($_FILES['imagenes_generales']);
+                }
+                if (!empty($_FILES['archivos']['name'][0])) {
+                    $evento->updateArchivos($_FILES['archivos']);
+                }
     
                 http_response_code($isUpdate ? 200 : 201);
                 echo json_encode(array(
@@ -83,7 +91,6 @@ switch($request_method) {
                     "fecha_fin" => $evento->fecha_fin,
                     "hora_inicio" => $evento->hora_inicio,
                     "hora_fin" => $evento->hora_fin,
-                    "fecha_creacion" => $evento->fecha_creacion,
                     "imagen_principal" => $evento->imagen_principal,
                     "imagenes_generales" => $evento->getImagenesGenerales(),
                     "archivos" => $evento->getArchivos()
@@ -125,7 +132,8 @@ switch($request_method) {
                 }
             }
         } else {
-            // código de actualización existente
+            http_response_code(400);
+            echo json_encode(array("message" => "No se proporcionó el ID del evento o la acción."));
         }
         break;
 
@@ -186,6 +194,11 @@ switch($request_method) {
             http_response_code(400);
             echo json_encode(array("message" => "No se proporcionó el ID del evento, la ruta de la imagen o la ruta del archivo."));
         }
+        break;
+
+    default:
+        http_response_code(405);
+        echo json_encode(array("message" => "Método no permitido."));
         break;
 }
 ?>

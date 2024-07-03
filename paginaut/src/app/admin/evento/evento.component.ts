@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EventoService, Evento } from '../../evento.service';
 
+interface EventoTemporal extends Evento {
+  imagenesGeneralesOriginales?: string[];
+  archivosOriginales?: any[];
+  imagenPrincipalOriginal?: string;
+}
+
 @Component({
   selector: 'app-evento',
   templateUrl: './evento.component.html',
@@ -21,9 +27,13 @@ export class EventoComponent implements OnInit {
   imagenesGeneralesActuales: string[] = [];
   archivosActuales: any[] = [];
   isImageModalOpen = false;
+  isArchivoModalOpen = false;
   modalTitle = '';
   currentImageIndex = 0;
   allImages: string[] = [];
+  imagenesParaEliminar: string[] = [];
+  archivosParaEliminar: string[] = [];
+  eventoTemporal: EventoTemporal | null = null;
 
   constructor(
     private eventoService: EventoService,
@@ -76,12 +86,25 @@ export class EventoComponent implements OnInit {
     this.isModalOpen = true;
     if (evento) {
       this.currentEventoId = evento.id!;
-      this.eventoForm.patchValue(evento);
+
+      
+      
+      // Formatear las fechas
+      const fechaInicio = evento.fecha_inicio ? this.formatDate(new Date(evento.fecha_inicio)) : '';
+      const fechaFin = evento.fecha_fin ? this.formatDate(new Date(evento.fecha_fin)) : '';
+
+      this.eventoForm.patchValue({
+        ...evento,
+        fecha_inicio: fechaInicio,
+        fecha_fin: fechaFin
+      });
+
       this.imagenPrincipalPreview = evento.imagen_principal || null;
-      this.imagenesGeneralesActuales = evento.imagenes_generales || [];
-      this.archivosActuales = evento.archivos || [];
+      this.imagenesGeneralesActuales = [...evento.imagenes_generales || []];
+      this.archivosActuales = [...evento.archivos || []];
     } else {
       this.currentEventoId = null;
+      this.eventoTemporal = null;
       this.eventoForm.reset({ activo: true });
       this.imagenPrincipalPreview = null;
       this.imagenesGeneralesActuales = [];
@@ -90,13 +113,41 @@ export class EventoComponent implements OnInit {
     this.clearFileInputs();
   }
 
+  // Método auxiliar para formatear fechas
+  private formatDate(date: Date): string {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+  }
+
   closeModal(): void {
+    if (this.eventoTemporal) {
+      // Restaurar los valores originales
+      const eventoOriginal = this.eventos.find(e => e.id === this.currentEventoId);
+      if (eventoOriginal) {
+        eventoOriginal.imagen_principal = this.eventoTemporal.imagenPrincipalOriginal;
+        eventoOriginal.imagenes_generales = this.eventoTemporal.imagenesGeneralesOriginales;
+        eventoOriginal.archivos = this.eventoTemporal.archivosOriginales;
+      }
+    }
+    
     this.isModalOpen = false;
     this.eventoForm.reset();
     this.currentEventoId = null;
+    this.eventoTemporal = null;
     this.imagenPrincipalPreview = null;
     this.imagenesGeneralesActuales = [];
     this.archivosActuales = [];
+    this.imagenesParaEliminar = [];
+    this.archivosParaEliminar = [];
     this.clearFileInputs();
   }
 
@@ -114,6 +165,7 @@ export class EventoComponent implements OnInit {
       archivosInput.value = '';
     }
   }
+  
 
   onSubmit(): void {
     if (this.eventoForm.valid) {
@@ -134,50 +186,67 @@ export class EventoComponent implements OnInit {
       const archivos = archivosInput.files;
   
       if (this.currentEventoId) {
-        this.eventoService.actualizarEvento(
-          eventoData,
-          imagenPrincipal,
-          imagenesGenerales ? Array.from(imagenesGenerales) : undefined,
-          archivos ? Array.from(archivos) : undefined
-        ).subscribe({
-          next: (response) => {
+        // Primero, elimina las imágenes y archivos marcados
+        const deletePromises: Promise<any>[] = [
+          ...this.imagenesParaEliminar.map(ruta => 
+            this.eventoService.eliminarImagenGeneral(this.currentEventoId!, ruta).toPromise()
+          ),
+          ...this.archivosParaEliminar.map(ruta => 
+            this.eventoService.eliminarArchivo(this.currentEventoId!, ruta).toPromise()
+          )
+        ];
+  
+        Promise.all(deletePromises)
+          .then(() => {
+            // Luego, actualiza el evento
+            return this.eventoService.actualizarEvento(
+              eventoData,
+              imagenPrincipal,
+              imagenesGenerales ? Array.from(imagenesGenerales) : undefined,
+              archivos ? Array.from(archivos) : undefined
+            ).toPromise();
+          })
+          .then(() => {
             this.responseMessage = 'Evento actualizado con éxito';
             this.closeModal();
             this.loadEventos();
-          },
-          error: (error) => {
+          })
+          .catch(error => {
             console.error('Error al actualizar el evento:', error);
             this.responseMessage = 'Error al actualizar el evento: ' + (error.error?.message || error.message);
-          },
-          complete: () => {
+          })
+          .finally(() => {
             this.isLoading = false;
-          }
-        });
+            // Limpia los arrays de elementos para eliminar
+            this.imagenesParaEliminar = [];
+            this.archivosParaEliminar = [];
+          });
       } else {
-        this.eventoService.crearEvento(
-          eventoData,
-          imagenPrincipal,
-          imagenesGenerales ? Array.from(imagenesGenerales) : undefined,
-          archivos ? Array.from(archivos) : undefined
-        ).subscribe({
-          next: (response) => {
-            this.responseMessage = 'Evento creado con éxito';
-            this.closeModal();
-            this.loadEventos();
-          },
-          error: (error) => {
-            console.error('Error al crear el evento:', error);
-            this.responseMessage = 'Error al crear el evento: ' + (error.error?.message || error.message);
-          },
-          complete: () => {
-            this.isLoading = false;
-          }
-        });
-      }
+            this.eventoService.crearEvento(
+                eventoData,
+                imagenPrincipal,
+                imagenesGenerales ? Array.from(imagenesGenerales) : undefined,
+                archivos ? Array.from(archivos) : undefined
+            ).subscribe({
+                next: (response) => {
+                    this.responseMessage = 'Evento creado con éxito';
+                    this.closeModal();
+                    this.loadEventos();
+                },
+                error: (error) => {
+                    console.error('Error al crear el evento:', error);
+                    this.responseMessage = 'Error al crear el evento: ' + (error.error?.message || error.message);
+                },
+                complete: () => {
+                    this.isLoading = false;
+                }
+            });
+        }
     } else {
-      this.responseMessage = 'Por favor, complete todos los campos requeridos correctamente.';
+        this.responseMessage = 'Por favor, complete todos los campos requeridos correctamente.';
     }
-  }
+}
+
 
   confirmDeleteEvento(id: number): void {
     if (confirm('¿Estás seguro de que quieres eliminar este evento?')) {
@@ -270,34 +339,18 @@ export class EventoComponent implements OnInit {
     const imagenParaEliminar = this.imagenesGeneralesActuales[index];
     if (this.currentEventoId && imagenParaEliminar.startsWith(this.baseImageUrl)) {
       const relativePath = imagenParaEliminar.replace(this.baseImageUrl, '');
-      this.eventoService.eliminarImagenGeneral(this.currentEventoId, relativePath).subscribe({
-        next: () => {
-          this.imagenesGeneralesActuales.splice(index, 1);
-        },
-        error: (error) => {
-          console.error('Error al eliminar la imagen:', error);
-        }
-      });
-    } else {
-      this.imagenesGeneralesActuales.splice(index, 1);
+      this.imagenesParaEliminar.push(relativePath);
     }
+    this.imagenesGeneralesActuales.splice(index, 1);
   }
-
+  
   removeArchivo(index: number): void {
     const archivoParaEliminar = this.archivosActuales[index];
-    if (this.currentEventoId && archivoParaEliminar.ruta_archivo && archivoParaEliminar.ruta_archivo.startsWith(this.baseImageUrl)) {
+    if (this.currentEventoId && archivoParaEliminar.ruta_archivo) {
       const relativePath = archivoParaEliminar.ruta_archivo.replace(this.baseImageUrl, '');
-      this.eventoService.eliminarArchivo(this.currentEventoId, relativePath).subscribe({
-        next: () => {
-          this.archivosActuales.splice(index, 1);
-        },
-        error: (error) => {
-          console.error('Error al eliminar el archivo:', error);
-        }
-      });
-    } else {
-      this.archivosActuales.splice(index, 1);
+      this.archivosParaEliminar.push(relativePath);
     }
+    this.archivosActuales.splice(index, 1);
   }
 
   openImageModal(evento: Evento, type: 'principal' | 'generales'): void {
@@ -314,6 +367,15 @@ export class EventoComponent implements OnInit {
 
   closeImageModal(): void {
     this.isImageModalOpen = false;
+  }
+
+  openArchivoModal(evento: Evento): void {
+    this.isArchivoModalOpen = true;
+    this.archivosActuales = evento.archivos || [];
+  }
+
+  closeArchivoModal(): void {
+    this.isArchivoModalOpen = false;
   }
 
   getCurrentImage(): string {
