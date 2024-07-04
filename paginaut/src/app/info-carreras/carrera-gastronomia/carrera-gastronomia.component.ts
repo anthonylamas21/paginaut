@@ -31,8 +31,13 @@ export class CarreraGastronomiaComponent {
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/gastro/gastro2.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/gastro/gastro3.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/gastro/gastro4.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/gastro/gastro5.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/gastro/gastro6.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/gastro/gastro7.jpg', alt: 'Image 1' },
+
     // más imágenes aquí
   ];
 
@@ -51,9 +56,9 @@ export class CarreraGastronomiaComponent {
   
   ngAfterViewInit(): void {
     this.renderer.listen('window', 'load', () => {
-      setInterval(() => {
+      
         this.isLoading = false
-      }, 3000);  
+      
       
     });
   }
