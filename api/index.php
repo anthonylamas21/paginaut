@@ -66,6 +66,8 @@ switch ($request_method) {
         } elseif (strpos($request_uri, '/api/status') !== false) {
         } elseif (strpos($request_uri, '/api/noticia') !== false) {
             include_once 'controllers/noticia.php';
+        } elseif (strpos($request_uri, '/api/instalacion') !== false) {
+            include_once 'controllers/instalacion.php';
         }elseif (strpos($request_uri, '/api/status') !== false) {
             // Nueva ruta para verificar el estado de la API
             header('Content-Type: application/json');

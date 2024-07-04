@@ -1,11 +1,39 @@
 import { Component, HostListener } from '@angular/core';
 
+interface Image {
+  url: string;
+  alt: string;
+}
+
 @Component({
   selector: 'app-activacion-fisica',
   templateUrl: './activacion-fisica.component.html',
   styleUrl: './activacion-fisica.component.css'
 })
 export class ActivacionFisicaComponent {
+
+  images: Image[] = [
+    { url: 'https://placehold.co/600x400', alt: 'Image 1' },
+    { url: 'https://placehold.co/600x400', alt: 'Image 1' },
+    { url: 'https://placehold.co/600x400', alt: 'Image 1' },
+    { url: 'https://placehold.co/600x400', alt: 'Image 1' },
+    { url: 'https://placehold.co/600x400', alt: 'Image 1' },
+    // más imágenes aquí
+  ];
+
+  selectedImage: Image = { url: '', alt: '' };
+
+  openModal(image: Image): void {
+    if (image) {
+      this.selectedImage = image;
+      const modal = document.getElementById('hs-vertically-centered-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('pointer-events-auto');
+      }
+    }
+  }
+
   ngOnInit(): void {
     this.setNavbarColor();
   }

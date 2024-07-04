@@ -90,6 +90,7 @@ import { GaleriaAdminComponent } from './admin/galeria-admin/galeria-admin.compo
 import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.component';
 import { NoticiasComponent } from './noticias/noticias.component';
 import { NoticiaComponent } from './admin/noticia/noticia.component';
+import { InstalacionComponent } from './admin/instalacion/instalacion.component';
 
 
 
@@ -168,6 +169,7 @@ import { NoticiaComponent } from './admin/noticia/noticia.component';
     EventoComponent,
     NoticiasComponent,
     NoticiaComponent,
+    InstalacionComponent,
   ],
   imports: [
     BrowserModule,

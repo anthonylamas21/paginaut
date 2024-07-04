@@ -1,10 +1,39 @@
 import { Component, HostListener } from '@angular/core';
+
+interface Image {
+  url: string;
+  alt: string;
+}
+
 @Component({
   selector: 'app-futbol',
   templateUrl: './futbol.component.html',
   styleUrl: './futbol.component.css'
 })
 export class FutbolComponent {
+
+  images: Image[] = [
+    { url: './assets/img/galeria/extras/futbol/futbol1.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/futbol/futbol2.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/futbol/futbol3.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/futbol/futbol4.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/futbol/futbol5.jpg', alt: 'Image 1' },
+
+    // más imágenes aquí
+  ];
+
+  selectedImage: Image = { url: '', alt: '' };
+
+  openModal(image: Image): void {
+    if (image) {
+      this.selectedImage = image;
+      const modal = document.getElementById('hs-vertically-centered-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('pointer-events-auto');
+      }
+    }
+  }
   ngOnInit(): void {
     this.setNavbarColor();
   }
