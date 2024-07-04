@@ -7,8 +7,8 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 $root = dirname(__DIR__);  // Obtiene el directorio raíz del proyecto
 
-require_once 'config/database.php';
-require_once 'models/Calendario.php';
+require_once $root . '/config/database.php';
+require_once $root . '/models/Calendario.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -17,47 +17,60 @@ $calendario = new Calendario($db);
 
 $request_method = $_SERVER["REQUEST_METHOD"];
 
-switch($request_method) {
+switch ($request_method) {
     case 'POST':
-        if (!empty($_POST['titulo']) && !empty($_FILES['archivo'])) {
+        if (isset($_POST['id'])) {
+            $calendario->id = $_POST['id'];
             $calendario->titulo = $_POST['titulo'];
+            $calendario->activo = $_POST['activo'] === 'true' ? true : false;
 
-            // Manejar la carga del archivo PDF
-            $target_dir = "../uploads/calendario/";
-            if (!file_exists($target_dir)) {
-                mkdir($target_dir, 0777, true);
-            }
-            $target_file = $target_dir . uniqid() . "_" . basename($_FILES["archivo"]["name"]);
-            $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-            if (move_uploaded_file($_FILES["archivo"]["tmp_name"], $target_file)) {
-                $calendario->archivo = $target_file;
-
-                if (isset($_POST['id'])) {
-                    $calendario->id = $_POST['id'];
-                    if ($calendario->update()) {
-                        http_response_code(200);
-                        echo json_encode(array("message" => "Calendario actualizado correctamente."));
-                    } else {
-                        http_response_code(503);
-                        echo json_encode(array("message" => "No se pudo actualizar el calendario."));
-                    }
-                } else {
-                    if ($calendario->create()) {
-                        http_response_code(201);
-                        echo json_encode(array("message" => "Calendario creado correctamente.", "id" => $calendario->id));
-                    } else {
-                        http_response_code(503);
-                        echo json_encode(array("message" => "No se pudo crear el calendario."));
-                    }
+            if (!empty($_FILES['archivo']['tmp_name'])) {
+                $target_dir = "../uploads/calendario/";
+                if (!file_exists($target_dir)) {
+                    mkdir($target_dir, 0777, true);
+                }
+                $target_file = $target_dir . uniqid() . "_" . basename($_FILES["archivo"]["name"]);
+                if (move_uploaded_file($_FILES["archivo"]["tmp_name"], $target_file)) {
+                    $calendario->archivo = $target_file;
                 }
             } else {
+                $calendario->archivo = $_POST['archivo'];
+            }
+
+            if ($calendario->update()) {
+                http_response_code(200);
+                echo json_encode(array("message" => "Calendario actualizado correctamente."));
+            } else {
                 http_response_code(503);
-                echo json_encode(array("message" => "No se pudo cargar el archivo."));
+                echo json_encode(array("message" => "No se pudo actualizar el calendario."));
             }
         } else {
-            http_response_code(400);
-            echo json_encode(array("message" => "No se pudo crear el calendario. Datos incompletos."));
+            if (!empty($_POST['titulo'])) {
+                $calendario->titulo = $_POST['titulo'];
+                $calendario->activo = true;
+
+                if (!empty($_FILES['archivo']['tmp_name'])) {
+                    $target_dir = "../uploads/calendario/";
+                    if (!file_exists($target_dir)) {
+                        mkdir($target_dir, 0777, true);
+                    }
+                    $target_file = $target_dir . uniqid() . "_" . basename($_FILES["archivo"]["name"]);
+                    if (move_uploaded_file($_FILES["archivo"]["tmp_name"], $target_file)) {
+                        $calendario->archivo = $target_file;
+                    }
+                }
+
+                if ($calendario->create()) {
+                    http_response_code(201);
+                    echo json_encode(array("message" => "Calendario creado correctamente.", "id" => $calendario->id));
+                } else {
+                    http_response_code(503);
+                    echo json_encode(array("message" => "No se pudo crear el calendario."));
+                }
+            } else {
+                http_response_code(400);
+                echo json_encode(array("message" => "No se pudo crear el calendario. Datos incompletos."));
+            }
         }
         break;
 
@@ -116,4 +129,3 @@ switch($request_method) {
         echo json_encode(array("message" => "Método no permitido."));
         break;
 }
-?>

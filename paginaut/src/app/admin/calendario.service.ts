@@ -19,9 +19,9 @@ export class CalendarioService {
 
   constructor(private http: HttpClient) {}
 
-  agregarCalendario(formData: FormData): Observable<any> {
+  agregarCalendario(calendario: FormData): Observable<any> {
     return this.http
-      .post<any>(this.apiUrl, formData)
+      .post<any>(this.apiUrl, calendario)
       .pipe(catchError(this.handleError));
   }
 
@@ -31,15 +31,9 @@ export class CalendarioService {
       .pipe(catchError(this.handleError));
   }
 
-  obtenerCalendario(id: number): Observable<Calendario> {
+  actualizarCalendario(calendario: FormData): Observable<any> {
     return this.http
-      .get<Calendario>(`${this.apiUrl}?id=${id}`)
-      .pipe(catchError(this.handleError));
-  }
-
-  actualizarCalendario(formData: FormData): Observable<any> {
-    return this.http
-      .post<any>(this.apiUrl, formData)
+      .post<any>(this.apiUrl, calendario)
       .pipe(catchError(this.handleError));
   }
 
@@ -54,7 +48,9 @@ export class CalendarioService {
     if (error.error instanceof ErrorEvent) {
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      errorMessage = `Código de error ${error.status}, mensaje: ${error.error.message || error.statusText}`;
+      errorMessage = `Código de error ${error.status}, mensaje: ${
+        error.error.message || error.statusText
+      }`;
     }
     console.error(errorMessage);
     return throwError(() => new Error(errorMessage));

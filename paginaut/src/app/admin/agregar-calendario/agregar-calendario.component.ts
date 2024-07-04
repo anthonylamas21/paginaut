@@ -16,7 +16,7 @@ export class AgregarCalendarioComponent implements OnInit {
   filteredCalendarios: Calendario[] = [];
   papeleraCalendarios: Calendario[] = [];
   currentCalendarioId?: number;
-  currentCalendario?: Calendario;
+  archivo?: File;
   currentTab: 'active' | 'inactive' = 'active';
 
   constructor(
@@ -35,10 +35,12 @@ export class AgregarCalendarioComponent implements OnInit {
 
   onSubmit() {
     if (this.calendarioForm.valid) {
+      const calendarioData: Calendario = this.calendarioForm.value;
       const formData = new FormData();
-      formData.append('titulo', this.calendarioForm.get('titulo')?.value);
-      if (this.calendarioForm.get('archivo')?.value) {
-        formData.append('archivo', this.calendarioForm.get('archivo')?.value);
+      formData.append('titulo', calendarioData.titulo);
+
+      if (this.archivo) {
+        formData.append('archivo', this.archivo);
       }
 
       if (this.currentCalendarioId) {
@@ -81,13 +83,12 @@ export class AgregarCalendarioComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
     this.currentCalendarioId = undefined;
-    this.currentCalendario = undefined;
+    this.archivo = undefined;
   }
 
   openModal(calendario?: Calendario) {
     if (calendario) {
       this.currentCalendarioId = calendario.id;
-      this.currentCalendario = calendario;
       this.calendarioForm.patchValue(calendario);
     } else {
       this.resetForm();
@@ -107,7 +108,6 @@ export class AgregarCalendarioComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al cargar los calendarios', error);
-        this.errorMessage = error.message;
       },
     });
   }
@@ -121,8 +121,15 @@ export class AgregarCalendarioComponent implements OnInit {
   changeCalendarioStatus(id: number, status: boolean) {
     const calendarioToUpdate = this.calendarios.find((c) => c.id === id);
     if (calendarioToUpdate) {
-      calendarioToUpdate.activo = status;
-      this.calendarioService.actualizarCalendario(this.createFormData(calendarioToUpdate)).subscribe({
+      const formData = new FormData();
+      formData.append('id', calendarioToUpdate.id?.toString() ?? '');
+      formData.append('titulo', calendarioToUpdate.titulo ?? '');
+      if (calendarioToUpdate.archivo) {
+        formData.append('archivo', calendarioToUpdate.archivo);
+      }
+      formData.append('activo', status.toString());
+
+      this.calendarioService.actualizarCalendario(formData).subscribe({
         next: (response) => {
           console.log('Calendario actualizado con éxito', response);
           this.successMessage = status
@@ -191,21 +198,10 @@ export class AgregarCalendarioComponent implements OnInit {
     this.filterCalendarios();
   }
 
-  onFileChange(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.calendarioForm.patchValue({
-        archivo: file,
-      });
+  onFileChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.archivo = input.files[0];
     }
-  }
-
-  createFormData(calendario: Calendario): FormData {
-    const formData = new FormData();
-    formData.append('id', calendario.id!.toString());
-    formData.append('titulo', calendario.titulo);
-    formData.append('archivo', calendario.archivo);
-    formData.append('activo', calendario.activo ? 'true' : 'false');
-    return formData;
   }
 }
