@@ -12,41 +12,42 @@ export interface Direccion {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DireccionService {
-  private apiUrl = 'http://localhost/paginaut/api/direccion.php';  // Ajusta esta URL según tu configuración
+  private apiUrl = 'http://localhost/paginaut/api/direccion.php'; // Ajusta esta URL según tu configuración
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   agregarDireccion(direccion: Direccion): Observable<any> {
-    return this.http.post<any>(this.apiUrl, direccion).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+      .post<any>(this.apiUrl, direccion)
+      .pipe(catchError(this.handleError));
   }
 
   obtenerDirecciones(): Observable<Direccion[]> {
-    return this.http.get<Direccion[]>(this.apiUrl).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+      .get<Direccion[]>(this.apiUrl)
+      .pipe(catchError(this.handleError));
   }
 
   obtenerDireccion(id: number): Observable<Direccion> {
-    return this.http.get<Direccion>(`${this.apiUrl}?id=${id}`).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+      .get<Direccion>(`${this.apiUrl}?id=${id}`)
+      .pipe(catchError(this.handleError));
   }
 
   actualizarDireccion(direccion: Direccion): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}`, direccion).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+      .put<any>(`${this.apiUrl}`, direccion)
+      .pipe(catchError(this.handleError));
   }
 
   eliminarDireccion(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}?id=${id}`).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+      .delete<any>(`${this.apiUrl}?id=${id}`)
+      .pipe(catchError(this.handleError));
+
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -56,10 +57,14 @@ export class DireccionService {
       errorMessage = `Error: ${error.error.message}`;
     } else {
       // El backend retornó un código de error
-      errorMessage = `Código de error ${error.status}, ` +
-                     `mensaje: ${error.error.message || error.statusText}`;
+      errorMessage = `Código de error ${error.status}, mensaje: ${
+        error.error.message || error.statusText
+      }`;
+
     }
     console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
+
+}
 }

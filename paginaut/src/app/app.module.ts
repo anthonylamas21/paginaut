@@ -1,16 +1,22 @@
-import { AppComponent } from './app.component';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { NgxMasonryModule } from 'ngx-masonry';
 
-import { AppRoutingModule } from './app-routing.module';
-
+// PrimeNG Modules
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
+
+// Routing Module
+import { AppRoutingModule } from './app-routing.module';
+
+// Components
+import { AppComponent } from './app.component';
 import { PrincipalComponent } from './principal/principal.component';
 import { CarrerasComponent } from './carreras/carreras.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -33,20 +39,28 @@ import { InfoEnfermeriaComponent } from './info-enfermeria/info-enfermeria.compo
 import { UbicacionComponent } from './ubicacion/ubicacion.component';
 import { PsicologiaComponent } from './psicologia/psicologia.component';
 import { CorreoComponent } from './correo/correo.component';
+import { AcercaDeComponent } from './acerca-de/acerca-de.component';
+import { InfoBecaComponent } from './info-beca/info-beca.component';
+import { GaleriaComponent } from './galeria/galeria.component';
+import { RedesSocialesComponent } from './redes-sociales/redes-sociales.component';
 
-//Rutas de administrator
+// Rutas de administrador
 import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
-import { InfoBecaComponent } from './info-beca/info-beca.component';
-import { HttpClientModule } from '@angular/common/http';
-import { RedesSocialesComponent } from './redes-sociales/redes-sociales.component';
-import { NgxMasonryModule } from 'ngx-masonry';
-import { GaleriaComponent } from './galeria/galeria.component';
+import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component';
+import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
+import { TallerComponent } from './taller/taller.component';
 import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.component';
+import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-calendario.component';
+import { AgregarBecaComponent } from './admin/agregar-beca/agregar-beca.component';
 import { CursosAdminComponent } from './admin/cursos-admin/cursos-admin.component';
 import { DireccionesAdminComponent } from './admin/direcciones-admin/direcciones-admin.component';
+import { BecasAdminComponent } from './admin/becas-admin/becas-admin.component';
+import { CalendarioAdminComponent } from './admin/calendario-admin/calendario-admin.component';
+import { GaleriaAdminComponent } from './admin/galeria-admin/galeria-admin.component';
+import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.component';
 
-//Info Carreras
+// Info Carreras
 import { CarreraAgrobiotecnologiaComponent } from './info-carreras/carrera-agrobiotecnologia/carrera-agrobiotecnologia.component';
 import { CarreraProcesosAlimentarioComponent } from './info-carreras/carrera-procesos-alimentario/carrera-procesos-alimentario.component';
 import { CarreraAcuiculturaComponent } from './info-carreras/carrera-acuicultura/carrera-acuicultura.component';
@@ -57,8 +71,7 @@ import { CarreraGastronomiaComponent } from './info-carreras/carrera-gastronomia
 import { CarreraContaduriaComponent } from './info-carreras/carrera-contaduria/carrera-contaduria.component';
 import { CarreraDesarrolloSoftwareComponent } from './info-carreras/carrera-desarrollo-software/carrera-desarrollo-software.component';
 
-
-//Info Horas Recreativas
+// Info Horas Recreativas
 import { FutbolComponent } from './info-horas-recreativas/futbol/futbol.component';
 import { BeisbolComponent } from './info-horas-recreativas/beisbol/beisbol.component';
 import { BasquetbolComponent } from './info-horas-recreativas/basquetbol/basquetbol.component';
@@ -95,7 +108,6 @@ import { NoticiaComponent } from './admin/noticia/noticia.component';
     LoginComponent,
     InfoCarreraComponent,
     CalendarioComponent,
-    PrincipalAdminComponent,
     CursosComponent,
     InfoCursoComponent,
     InfoUnidadesComponent,
@@ -106,10 +118,26 @@ import { NoticiaComponent } from './admin/noticia/noticia.component';
     UbicacionComponent,
     PsicologiaComponent,
     CorreoComponent,
+    AcercaDeComponent,
+    InfoBecaComponent,
+    GaleriaComponent,
+    RedesSocialesComponent,
+    // Rutas de administrador
     NavbarAdminComponent,
+    PrincipalAdminComponent,
+    RegistrarEventoComponent,
+    AgregarDireccionComponent,
+    TallerComponent,
     CarrerasAdminComponent,
+    AgregarCalendarioComponent,
+    AgregarBecaComponent,
     CursosAdminComponent,
     DireccionesAdminComponent,
+    BecasAdminComponent,
+    CalendarioAdminComponent,
+    GaleriaAdminComponent,
+    UsuariosAdminComponent,
+    // Info Carreras
     CarreraAgrobiotecnologiaComponent,
     CarreraProcesosAlimentarioComponent,
     CarreraAcuiculturaComponent,
@@ -119,6 +147,7 @@ import { NoticiaComponent } from './admin/noticia/noticia.component';
     CarreraGastronomiaComponent,
     CarreraContaduriaComponent,
     CarreraDesarrolloSoftwareComponent,
+    // Info Horas Recreativas
     FutbolComponent,
     BeisbolComponent,
     BasquetbolComponent,
@@ -139,22 +168,20 @@ import { NoticiaComponent } from './admin/noticia/noticia.component';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
+    HttpClientModule,
+    AppRoutingModule,
     TableModule,
     InputTextModule,
     TagModule,
     ButtonModule,
-    FormsModule,
     DropdownModule,
-    NgxMasonryModule 
+    NgxMasonryModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent],
-
 })
-export class AppModule { }
+export class AppModule {}

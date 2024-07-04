@@ -1,78 +1,77 @@
-<div class="container">
-  <h2>Crear Taller y Agregar Imágenes</h2>
-
-  <div [ngClass]="{ 'hidden': !isModalOpen }" class="hs-overlay-backdrop-open:bg-gray-900/50 size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-auto">
-    <div class="hs-overlay-content mt-7 opacity-100 transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
-      <div class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
-        <div class="flex justify-between items-center py-3 px-4 border-b">
-          <h3 class="font-bold text-black font-medium-500">{{ currentTallerId ? "Editar Taller" : "Nuevo Taller" }}</h3>
-          <button type="button" class="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-200 hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none" (click)="closeModal()">
-            <span class="sr-only">Cerrar</span>
-            <svg class="flex-shrink-0 size-4 text-gray-800" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 6 6 18"></path>
-              <path d="m6 6 12 12"></path>
-            </svg>
-          </button>
-        </div>
-        <div class="p-4 overflow-y-auto">
-          <form [formGroup]="tallerForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-              <label for="nombre">Nombre:</label>
-              <input type="text" id="nombre" formControlName="nombre" class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
-              <div *ngIf="isFieldInvalid('nombre')" class="alert alert-danger">{{ getErrorMessage('nombre') }}</div>
-            </div>
-
-            <div class="form-group">
-              <label for="descripcion">Descripción:</label>
-              <input type="text" id="descripcion" formControlName="descripcion" class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
-              <div *ngIf="isFieldInvalid('descripcion')" class="alert alert-danger">{{ getErrorMessage('descripcion') }}</div>
-            </div>
-
-            <div class="form-group">
-              <label for="competencia">Competencia:</label>
-              <input type="text" id="competencia" formControlName="competencia" class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
-              <div *ngIf="isFieldInvalid('competencia')" class="alert alert-danger">{{ getErrorMessage('competencia') }}</div>
-            </div>
-
-            <div class="form-group">
-              <label for="imagenPrincipal">Imagen Principal:</label>
-              <input type="file" #fileInputPrincipal (change)="onFileChangePrincipal($event)" accept="image/*" class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900" />
-              <img *ngIf="imagenPrincipalPreview" [src]="imagenPrincipalPreview" alt="Preview" class="mt-2 max-w-full h-auto">
-            </div>
-
-            <div class="form-group">
-              <label for="imagenesGenerales">Imágenes Generales:</label>
-              <input type="file" #fileInputGenerales multiple (change)="onFileChangeGenerales($event)" accept="image/*" class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900" />
-
-              <!-- Preview de imágenes generales actuales -->
-              <div class="mt-2 flex flex-wrap">
-                <div *ngFor="let img of imagenesGeneralesActuales; let i = index" class="relative m-1">
-                  <img [src]="img" alt="Imagen General" class="w-20 h-20 object-cover">
-                  <button type="button" (click)="removeImagenGeneral(i)" class="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1">
-                    X
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div class="modal-footer">
-              <button type="submit" [disabled]="tallerForm.invalid || isLoading" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-gray-200 bg-[#04847C] text-white hover:opacity-80 transition-opacity duration-300 disabled:pointer-events-none font-medium">
-                {{ isLoading ? 'Procesando...' : (currentTallerId ? 'Actualizar' : 'Agregar Taller') }}
-              </button>
-              <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-gray-200 bg-gray-200 text-black hover:opacity-70 transition-opacity duration-300 font-medium" (click)="closeModal()">
-                Cancelar
-              </button>
-            </div>
-          </form>
+<div class="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
+  <h2 class="text-2xl font-bold mb-6">Crear Taller y Agregar Imagen</h2>
+  <form [formGroup]="tallerForm" (ngSubmit)="onSubmit()" class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Nombre:</label>
+      <input 
+        type="text" 
+        formControlName="nombre" 
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <div *ngIf="isFieldInvalid('nombre')" class="text-red-600 text-sm">
+        {{ getErrorMessage('nombre') }}
+      </div>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Descripción:</label>
+      <input 
+        type="text" 
+        formControlName="descripcion" 
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <div *ngIf="isFieldInvalid('descripcion')" class="text-red-600 text-sm">
+        {{ getErrorMessage('descripcion') }}
+      </div>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Competencia:</label>
+      <input 
+        type="text" 
+        formControlName="competencia" 
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <div *ngIf="isFieldInvalid('competencia')" class="text-red-600 text-sm">
+        {{ getErrorMessage('competencia') }}
+      </div>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Imagen Principal:</label>
+      <input 
+        #fileInputPrincipal
+        type="file" 
+        (change)="onFileChangePrincipal($event)"
+        accept="image/*"
+        class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+      <img *ngIf="imagenPrincipalPreview" [src]="imagenPrincipalPreview" alt="Preview" class="mt-2 max-w-full h-auto">
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Imágenes Generales:</label>
+      <input 
+        #fileInputGenerales
+        type="file" 
+        multiple
+        (change)="onFileChangeGenerales($event)"
+        accept="image/*"
+        class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+      <div class="mt-2 flex flex-wrap">
+        <div *ngFor="let img of imagenesGeneralesActuales; let i = index" class="relative m-1">
+          <img [src]="img" alt="Imagen General" class="w-20 h-20 object-cover">
+          <button type="button" (click)="removeImagenGeneral(i)" class="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1">X</button>
         </div>
       </div>
     </div>
-  </div>
-
+    <div>
+      <button 
+        type="submit" 
+        [disabled]="isLoading"
+        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50">
+        {{ isLoading ? 'Procesando...' : (currentTallerId ? 'Actualizar' : 'Agregar Taller') }}
+      </button>
+    </div>
+  </form>
   <div *ngIf="responseMessage" class="mt-4 p-4 rounded-md" [ngClass]="{'bg-green-100 text-green-700': !responseMessage.includes('Error'), 'bg-red-100 text-red-700': responseMessage.includes('Error')}">
     {{ responseMessage }}
   </div>
+</div>
 
+<div class="container mt-8">
   <div class="rounded-lg border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default sm:px-7.5 xl:pb-1 my-2">
     <div class="max-w-full">
       <div class="border-b border-gray-200">
@@ -91,19 +90,15 @@
           <div class="flex flex-wrap items-center">
             <div class="flex flex-col lg:w-7/12 sm:w-12/12 md:w-7/12 w-full">
               <div class="w-full">
-                <!-- SearchBox -->
                 <div class="relative w-full">
-                  <div class="relative w-full">
-                    <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5 w-full">
-                      <svg class="flex-shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <path d="m21 21-4.3-4.3"></path>
-                      </svg>
-                    </div>
-                    <input (input)="filterGlobal($event)" class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]" type="text" placeholder="Ingresa tu búsqueda" value="" data-hs-combo-box-input="" />
+                  <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5 w-full">
+                    <svg class="flex-shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <path d="m21 21-4.3-4.3"></path>
+                    </svg>
                   </div>
+                  <input (input)="filterGlobal($event)" class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]" type="text" placeholder="Ingresa tu búsqueda" value="" data-hs-combo-box-input="" />
                 </div>
-                <!-- End SearchBox -->
               </div>
             </div>
             <div class="flex flex-col lg:w-5/12 sm:w-12/12 md:w-5/12 text-right w-full">
@@ -166,11 +161,10 @@
                           <button (click)="openImageModal(taller, 'principal')" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-300 mr-2">
                             Ver imagen principal
                           </button>
-
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
                           <button (click)="openImageModal(taller, 'generales')" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-500 text-white hover:bg-green-600 transition-colors duration-300">
-                          Ver imágenes generales
+                            Ver imágenes generales
                           </button>
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
@@ -274,8 +268,6 @@
           </div>
         </div>
 
-
-<!-- Image Modal -->
 <div *ngIf="isImageModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
   <div class="bg-white p-4 rounded-lg max-w-3xl w-full">
     <div class="flex justify-between items-center mb-4">
