@@ -76,13 +76,12 @@ export class BecasComponent implements OnInit {
 
       if (window.scrollY > inicioSectionBottom) {
         button?.classList.remove('hidden');
-        navbar.classList.remove('bg-transparent', 'transition-colors', 'duration-500');
-        navbar.classList.add('bg-[#043D3D]', 'transition-colors', 'duration-500');
       } else {
         button?.classList.add('hidden');
-        navbar.classList.remove('bg-[#043D3D]', 'transition-colors', 'duration-500');
-        navbar.classList.add('bg-transparent', 'transition-colors', 'duration-500');
       }
+      
+      navbar.classList.remove('bg-transparent');
+      navbar.classList.add('bg-[#043D3D]');
     }
   }
 
