@@ -58,10 +58,7 @@ import { DibujoComponent } from './info-horas-recreativas/dibujo/dibujo.componen
 import { DanzaComponent } from './info-horas-recreativas/danza/danza.component';
 import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.component';
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
-
-
-
-
+import { EventoComponent } from './admin/evento/evento.component';
 
 
 
@@ -105,6 +102,7 @@ const routes: Routes = [
   {path: 'admin/calendario_admin', component: CalendarioAdminComponent},
   {path: 'admin/galeria_admin', component: GaleriaAdminComponent},
   {path: 'admin/usuarios_admin', component: UsuariosAdminComponent},
+  {path: 'admin/evento', component: EventoComponent},
   
  
   //Info Carreras

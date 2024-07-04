@@ -69,12 +69,12 @@ import { DanzaComponent } from './info-horas-recreativas/danza/danza.component';
 import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.component';
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
 import { AcercaDeComponent } from './acerca-de/acerca-de.component';
+import { EventoComponent } from './admin/evento/evento.component';
 import { EventosAdminComponent } from './admin/eventos-admin/eventos-admin.component'; //Pendiende de ruta
 import { BecasAdminComponent } from './admin/becas-admin/becas-admin.component';
 import { CalendarioAdminComponent } from './admin/calendario-admin/calendario-admin.component';
 import { GaleriaAdminComponent } from './admin/galeria-admin/galeria-admin.component';
 import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.component';
-
 
 
 
@@ -131,6 +131,7 @@ import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.co
     TalleresComponent,
     RedesSocialesComponent,
     GaleriaComponent,
+    EventoComponent,
   ],
   imports: [
     BrowserModule,
