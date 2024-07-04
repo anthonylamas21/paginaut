@@ -1,6 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { FormGroup,  FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
 import { CarreraService, Carrera } from '../carreras.service';
+
+import { Table,TableModule } from 'primeng/table';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-carreras-admin',
@@ -18,6 +23,12 @@ export class CarrerasAdminComponent implements OnInit {
   currentCarreraId?: number;
   currentTab: 'active' | 'inactive' = 'active';
 
+    @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    this.setNavbarColor();
+  }
+
+  
   constructor(
     private fb: FormBuilder,
     private carreraService: CarreraService
@@ -37,9 +48,13 @@ export class CarrerasAdminComponent implements OnInit {
     return this.carreraForm.get('ocupacion_profesional') as FormArray;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadCarreras();
+     this.setNavbarColor();
+
   }
+  
+
 
   onSubmit() {
     if (this.carreraForm.valid) {
@@ -227,4 +242,32 @@ export class CarrerasAdminComponent implements OnInit {
       });
     }
   }
+  
+  private setNavbarColor(): void {
+    const button = document.getElementById('scrollTopButton');
+    const nabvar = document.getElementById('navbarAccion');
+    const inicioSection = document.getElementById('inicio');
+
+    if (inicioSection && nabvar) {
+      const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
+
+      if (window.scrollY > inicioSectionBottom) {
+        button?.classList.remove('hidden');
+      } else {
+        button?.classList.add('hidden');
+      }
+      
+      nabvar.classList.remove('bg-transparent');
+      nabvar.classList.add('bg-[#043D3D]');
+    }
+  }
+  
+  scrollToSection(sectionId: string): void {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  
 }
+
+}
+

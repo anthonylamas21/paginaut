@@ -33,274 +33,6 @@ input[type="radio"] {
 }
 
 
-
-.hs-tooltip-toggle>.fas.fa-edit {
-  color: #3b82f6 !important;
-  /* Blue 500 */
-}
-
-.hs-tooltip-toggle>.fas.fa-edit:hover {
-  color: #2563eb !important;
-  /* Blue 600 */
-}
-
-
-.hs-tooltip-toggle>.fa.fa-trash {
-  color: #ef4444 !important;
-  /* Red 500 */
-}
-
-.hs-tooltip-toggle>.fa.fa-trash:hover {
-  color: #dc2626 !important;
-  /* Red 600 */
-}
-
-.hs-tooltip-toggle>.fa-solid.fa-arrow-rotate-left {
-  color: #22c55e !important;
-  /* Green 500 */
-}
-
-.hs-tooltip-toggle>.fa-solid.fa-arrow-rotate-left:hover {
-  color: #16a34a !important;
-  /* Green 600 */
-
-}
-
-
-.hs-tooltip-toggle>.fa.fa-eye {
-  color: #008779 !important;
-}
-
-.hs-tooltip-toggle>.fa.fa-eye:hover {
-  color: #003C3D !important;
-  /* Green 600 */
-
-}
-
-
-tr>.p-element svg {
-  color: white !important;
-}
-
-
-.example-2 {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 10px;
-  align-items: center;
-}
-
-.example-2 .icon-content {
-  margin: 0 1px;
-  position: relative;
-}
-
-
-
-.example-2 .icon-content:hover .tooltip {
-  opacity: 1;
-  visibility: visible;
-  top: 6px;
-}
-
-.example-2 .icon-content a {
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 20%;
-  color: #4d4d4d;
-  background-color: #ffff;
-  transition: all 0.3s ease-in-out;
-}
-
-.example-2 .icon-content a:hover {
-  box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 50%);
-}
-
-.example-2 .icon-content a svg {
-  position: relative;
-  z-index: 1;
-  width: 30px;
-  height: 30px;
-}
-
-.example-2 .icon-content a:hover {
-  color: white;
-}
-
-.example-2 .icon-content a .filled {
-  position: absolute;
-  top: auto;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 0;
-  background-color: #000;
-  transition: all 0.3s ease-in-out;
-}
-
-.example-2 .icon-content a:hover .filled {
-  height: 100%;
-}
-
-
-.example-2 .icon-content a[data-social="tiktok"] .filled,
-.example-2 .icon-content a[data-social="tiktok"]~.tooltip {
-  background: black;
-}
-
-.example-2 .icon-content a[data-social="youtube"] .filled,
-.example-2 .icon-content a[data-social="youtube"]~.tooltip {
-  background:      #FF0808;
-}
-
-.example-2 .icon-content a[data-social="instagram"] .filled,
-.example-2 .icon-content a[data-social="instagram"]~.tooltip {
-  background: linear-gradient(45deg,
-    #FFCB00,
-    #FE5C00,
-    #FF0055,   
-    #FF00C3,
-    #7B04FF
-    
-      );
-
-}
-
-.example-2 .icon-content a[data-social="facebook"] .filled,
-.example-2 .icon-content a[data-social="facebook"]~.tooltip {
-  background: linear-gradient(45deg,
-      #096ae2,
-      /* Azul más oscuro */
-      #1eaffe);
-  /* Azul característico de Facebook */
-}
-
-.example-1 {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 10px;
-  align-items: center;
-}
-
-.example-1 .icon-content {
-  margin: 0 1px;
-  position: relative;
-}
-
-
-
-.example-1 .icon-content:hover .tooltip {
-  opacity: 1;
-  visibility: visible;
-  top: 6px;
-}
-
-.example-1 .icon-content a {
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 20%;
-  color: #4d4d4d;
-  background-color: #ffff;
-  transition: all 0.3s ease-in-out;
-}
-
-.example-1 .icon-content a:hover {
-  box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 50%);
-}
-
-.example-1 .icon-content a svg {
-  position: relative;
-  z-index: 1;
-  width: 30px;
-  height: 30px;
-}
-
-.example-1 .icon-content a:hover {
-  color: white;
-}
-
-.example-1 .icon-content a .filled {
-  position: absolute;
-  top: auto;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 0;
-  background-color: #000;
-  transition: all 0.3s ease-in-out;
-}
-
-.example-1 .icon-content a:hover .filled {
-  height: 100%;
-}
-
-.example-1 .icon-content a[data-social="Whatsapp"] .filled,
-.example-1 .icon-content a[data-social="Whatsapp"]~.tooltip {
-  background: #27D045;
-}
-
-
-.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
-  background: #47b0a4;
-  border-color: #EFF6FF;
-  color: black;
-}
-
-#portada-imagen {
-    height: 100vh;
-    background: #000;
-    position: relative;
-}
-
-#portada-imagen>img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    cursor: default;
-    position: absolute;
-}
-.date-container {
-  height: 100%;
-}
-
-.container-eventos {
-  width: 100%;
-  padding-right: 8rem;
-  padding-left: 8rem;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-
-/* Diseño Selector numero de pagina en tablas con filtrados */
-.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
-  background: #47b0a4;
-  border-color: #EFF6FF;
-  color: black;
-}
-
-
-/* Iconos cambio a blanco */
-svg {
-  transition: fill 0.3s ease; /* Transición suave para el cambio de color */
-}
-/* Cambio de color del SVG cuando el cursor está sobre el li */
-li:hover svg {
-  fill: white;
-}
-
 /* Estilos para el menú desplegable */
 .hs-dropdown-menu {
   @apply shadow-lg rounded-md;
@@ -309,4 +41,25 @@ li:hover svg {
 /* Estilos para los enlaces del menú desplegable */
 .hs-dropdown-menu a {
   @apply transition-colors duration-300;
+}
+
+@media (max-width: 767px) {
+  .img-container img {
+    height: auto;
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .img-container img {
+    height: 200px;
+    width: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .img-container img {
+    height: auto;
+    width: 100%;
+  }
 }

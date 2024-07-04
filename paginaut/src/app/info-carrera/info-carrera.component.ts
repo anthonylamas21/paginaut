@@ -1,12 +1,20 @@
-import { Component, HostListener, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild, Renderer2 } from '@angular/core';
 import { Table } from 'primeng/table';
 
 
 interface Item {
-  nombre: string;
-  edad: string;
-  direccion: string;
-}
+  uno: string;
+  dos: string;
+  tres: string;
+  cuatro: string;
+  cinco: string;
+  seis: string;
+  siete: string;
+  ocho: string;
+  nueve: string;
+  diez: string;
+  once: string;
+} 
 
 @Component({
   selector: 'app-info-carrera',
@@ -15,8 +23,20 @@ interface Item {
 })
 export class InfoCarreraComponent {
 
+  isLoading = true;
+
+constructor(private renderer: Renderer2){}
+
   ngOnInit(): void {
     this.setNavbarColor();
+  }
+
+  ngAfterViewInit(): void {
+    this.renderer.listen('window', 'load', () => {
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 5000);           
+    });
   }
 
   @HostListener('window:scroll', [])
@@ -50,23 +70,26 @@ export class InfoCarreraComponent {
   @ViewChild('dt') dt: Table | undefined;
 
   items: Item[] = [
-    { nombre: 'Juan Pérez', edad: '28', direccion: 'Calle Falsa 123, Ciudad A' },
-    { nombre: 'María Gómez', edad: '34', direccion: 'Avenida Siempre Viva 456, Ciudad B' },
-    { nombre: 'Carlos Sánchez', edad: '45', direccion: 'Boulevard de los Sueños Rotos 789, Ciudad C' },
-    { nombre: 'Laura Martínez', edad: '23', direccion: 'Calle del Sol 101, Ciudad D' },
-    { nombre: 'Pedro Jiménez', edad: '52', direccion: 'Avenida de la Luna 202, Ciudad E' },
-    { nombre: 'Ana Rodríguez', edad: '29', direccion: 'Calle Estrella 303, Ciudad F' },
-    { nombre: 'Luis Fernández', edad: '38', direccion: 'Avenida de las Flores 404, Ciudad G' },
-    { nombre: 'Marta López', edad: '41', direccion: 'Calle del Río 505, Ciudad H' },
-    { nombre: 'Jorge García', edad: '33', direccion: 'Boulevard del Mar 606, Ciudad I' },
-    { nombre: 'Lucía Díaz', edad: '26', direccion: 'Avenida del Bosque 707, Ciudad J' },
-    { nombre: 'Raúl Hernández', edad: '49', direccion: 'Calle de la Montaña 808, Ciudad K' },
-    { nombre: 'Sofía Torres', edad: '31', direccion: 'Boulevard del Valle 909, Ciudad L' },
-    { nombre: 'Andrés Castro', edad: '22', direccion: 'Calle de las Rosas 111, Ciudad M' },
-    { nombre: 'Patricia Morales', edad: '27', direccion: 'Avenida de los Pinos 222, Ciudad N' },
-    { nombre: 'Gabriel Romero', edad: '36', direccion: 'Calle de los Álamos 333, Ciudad O' }
+    {uno: 'Algebra lineal',  dos: 'Funciones matemáticas',  tres: 'Calculo diferencial',  cuatro: 'Estandares y metricas para el desarrollo de software',  cinco: 'Aplicaciones de IoT',  seis: 'Estadia',  siete: 'Matematicas para ingenieria I',  ocho: 'Matemáticas para ingenieria II',  nueve: 'Administracion de proyectos de TI',  diez: 'Gestion del proceso de desarrollo de software',  once: 'Estadia'},
+    {uno: 'Desarrollo de habilidades del pensamiento lógico',  dos: 'Metodologías y modelado de desarrollo de software',  tres: 'Probabilidad y estadística',  cuatro: 'Principios de IoT',  cinco: 'Desarrollo móvil multiplataforma',  seis: 'Estadia',  siete: 'Metodologías para el desarrollo de proyectos',  ocho: 'Administración de bases de datos',  nueve: 'Extracción de conocimiento en bases de datos',  diez: 'Aplicaciones WEB progresivas',  once: 'Estadia'},
+    {uno: 'Fundamentos de TI',  dos: 'Interconexión de redes',  tres: 'Sistemas Operativos',  cuatro: 'Diseño de Apps',  cinco: 'Integradora II',  seis: 'Estadia',  siete: 'Arquitecturas de software',  ocho: 'Desarrollo Web profesional',  nueve: 'Desarrollo WEB Integral',  diez: 'Integradora',  once: 'Estadia'},
+    {uno: 'Fundamentos de redes',  dos: 'Programación Orientada a Objetos',  tres: 'Integradora I',  cuatro: 'Estructuras de datos Aplicadas',  cinco: 'Aplicaciones Web para I4.0',  seis: 'Estadia',  siete: 'Experiencia de usuario',  ocho: 'Seguridad en el desarrollo de aplicaciones',  nueve: 'Desarrollo para dispositivos inteligentes',  diez: 'Desarrollo móvil integral',  once: 'Estadia'},
+    {uno: 'Metodología de la programación',  dos: 'Introducción al diseño digital',  tres: 'Aplicaciones Web',  cuatro: 'Aplicaciones Web orientadas a servicios',  cinco: 'Bases de datos para cómputo en la nube',  seis: 'Estadia',  siete: 'Seguridad informática',  ocho: 'Inglés VII',  nueve: 'Inglés VIII',  diez: 'Optativa II: Creación de Videojuegos',  once: 'Estadia'},
+    {uno: 'Expresión oral y escrita I',  dos: 'Base de datos para aplicaciones',  tres: 'Bases de datos para aplicaciones',  cuatro: 'Evaluación y mejora para el desarrollo de software',  cinco: 'Expresión oral y escrita II',  seis: 'Estadia',  siete: 'Inglés VI',  ocho: 'Planeación y Organización del trabajo',  nueve: 'Dirección de Equipos de Alto Rendimiento',  diez: 'Inglés IX',  once: 'Estadia'},
+    {uno: 'Inglés I',  dos: 'Inglés II',  tres: 'Inglés III',  cuatro: 'Inglés IV',  cinco: 'Inglés V',  seis: 'Estadia',  siete: 'Administración del tiempo',  ocho: '',  nueve: '',  diez: 'Negociación empresarial',  once: 'Estadia'},
+    {uno: 'Formación Sociocultural I',  dos: 'Formación Sociocultural II',  tres: 'Formación Sociocultural III',  cuatro: 'Formación Sociocultural IV', cinco: '',  seis: 'Estadia',  siete: '',  ocho: '',  nueve: '',  diez: '',  once: 'Estadia'}
 ];
 
+//INICIO TABLA CUATRIMESTRES
+onMouseOver(columna: string, valor: any) {
+  if(valor == ""){
+    console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
+  }else{
+    console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
+  }
+}
+
+//FIN TABLA CUATRIMESTRES
 
   filterGlobal(event: Event) {
     const input = event.target as HTMLInputElement;
