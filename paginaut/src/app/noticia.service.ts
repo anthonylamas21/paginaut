@@ -94,6 +94,9 @@ activarNoticia(id: number): Observable<any> {
   return this.http.put(`${this.apiUrl}?id=${id}&accion=activar`, {});
 }
 
+obtenerNoticia(id: number): Observable<Noticia> {
+  return this.http.get<Noticia>(`${this.apiUrl}?id=${id}`);
+}
 
 
 }
