@@ -25,10 +25,8 @@ export class CalendarioService {
       .pipe(catchError(this.handleError));
   }
 
-  getCalendarios(): Observable<Calendario[]> {
-    return this.http
-      .get<Calendario[]>(this.apiUrl)
-      .pipe(catchError(this.handleError));
+  getCalendarios(): Observable<any> {
+    return this.http.get<any>(this.apiUrl).pipe(catchError(this.handleError));
   }
 
   updateCalendario(calendario: FormData): Observable<any> {
