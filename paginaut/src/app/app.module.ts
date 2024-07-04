@@ -39,10 +39,11 @@ import { InfoEnfermeriaComponent } from './info-enfermeria/info-enfermeria.compo
 import { UbicacionComponent } from './ubicacion/ubicacion.component';
 import { PsicologiaComponent } from './psicologia/psicologia.component';
 import { CorreoComponent } from './correo/correo.component';
-import { AcercaDeComponent } from './acerca-de/acerca-de.component';
 import { InfoBecaComponent } from './info-beca/info-beca.component';
 import { GaleriaComponent } from './galeria/galeria.component';
 import { RedesSocialesComponent } from './redes-sociales/redes-sociales.component';
+
+
 
 // Rutas de administrador
 import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
@@ -55,10 +56,7 @@ import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-c
 import { AgregarBecaComponent } from './admin/agregar-beca/agregar-beca.component';
 import { CursosAdminComponent } from './admin/cursos-admin/cursos-admin.component';
 import { DireccionesAdminComponent } from './admin/direcciones-admin/direcciones-admin.component';
-import { BecasAdminComponent } from './admin/becas-admin/becas-admin.component';
-import { CalendarioAdminComponent } from './admin/calendario-admin/calendario-admin.component';
-import { GaleriaAdminComponent } from './admin/galeria-admin/galeria-admin.component';
-import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.component';
+
 
 // Info Carreras
 import { CarreraAgrobiotecnologiaComponent } from './info-carreras/carrera-agrobiotecnologia/carrera-agrobiotecnologia.component';
@@ -83,7 +81,7 @@ import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.compo
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
 import { AcercaDeComponent } from './acerca-de/acerca-de.component';
 import { EventoComponent } from './admin/evento/evento.component';
-import { EventosAdminComponent } from './admin/eventos-admin/eventos-admin.component'; //Pendiende de ruta
+import { EventosAdminComponent } from './admin/eventos-admin/eventos-admin.component'; 
 import { BecasAdminComponent } from './admin/becas-admin/becas-admin.component';
 import { CalendarioAdminComponent } from './admin/calendario-admin/calendario-admin.component';
 import { GaleriaAdminComponent } from './admin/galeria-admin/galeria-admin.component';
@@ -121,6 +119,9 @@ import { NoticiaComponent } from './admin/noticia/noticia.component';
     AcercaDeComponent,
     InfoBecaComponent,
     GaleriaComponent,
+    CarrerasAdminComponent,
+    AgregarCalendarioComponent,
+    AgregarBecaComponent,
     RedesSocialesComponent,
     // Rutas de administrador
     NavbarAdminComponent,

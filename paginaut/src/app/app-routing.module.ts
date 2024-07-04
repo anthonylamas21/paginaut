@@ -34,6 +34,7 @@ import { EventoComponent } from './admin/evento/evento.component';
 import { NoticiaComponent } from './admin/noticia/noticia.component';
 import { NoticiasComponent } from './noticias/noticias.component';
 
+
 // Rutas Administrador
 import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
@@ -100,6 +101,11 @@ const routes: Routes = [
   { path: 'evento/:id', component: EventosComponent },
   { path: 'noticia/:id', component: NoticiasComponent },
 
+  { path: 'registrar-evento', component: RegistrarEventoComponent },
+  { path: 'admin/carreras', component: CarrerasAdminComponent }, // Nueva ruta para administrar carreras
+  { path: 'agregar-calendario', component: AgregarCalendarioComponent },
+  { path: 'agregar-beca', component: AgregarBecaComponent },
+
   // Rutas Administrador
   { path: 'admin/navbar_admin', component: NavbarAdminComponent },
   { path: 'admin/principal_admin', component: PrincipalAdminComponent },
@@ -112,6 +118,8 @@ const routes: Routes = [
   { path: 'admin/usuarios_admin', component: UsuariosAdminComponent },
   { path: 'admin/evento', component: EventoComponent },
   { path: 'admin/noticia', component: NoticiaComponent },
+  { path: 'admin/agregar-calendario', component: AgregarCalendarioComponent },
+
 
   // Info Carreras
   { path: 'info_carreras/agrobiotecnologia', component: CarreraAgrobiotecnologiaComponent },
