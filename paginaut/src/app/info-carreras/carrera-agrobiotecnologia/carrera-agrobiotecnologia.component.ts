@@ -32,8 +32,28 @@ export class CarreraAgrobiotecnologiaComponent {
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/agro/agro1.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/agro/agro2.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/agro/agro3.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/agro/agro4.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/agro/agro5.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/agro/agro6.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/agro/agro7.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/agro/agro8.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/agro/agro9.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/agro/agro10.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/agro/agro11.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/agro/agro12.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/agro/agro13.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/agro/agro14.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/agro/agro15.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/agro/agro16.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/agro/agro17.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/agro/agro18.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/agro/agro19.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/agro/agro20.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/agro/agro21.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/agro/agro22.jpg', alt: 'Image 2' },
     // más imágenes aquí
   ];
 
