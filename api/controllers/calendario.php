@@ -5,10 +5,16 @@ header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-$root = dirname(__DIR__);  // Obtiene el directorio raíz del proyecto
+// Configuración de errores y logging
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+error_reporting(E_ALL);
+ini_set('error_log', 'C:/xampp/htdocs/paginaut/api/logs/php-error.log');
 
-require_once $root . '/config/database.php';
-require_once $root . '/models/Calendario.php';
+$root = dirname(__DIR__, 2);  // Obtiene el directorio raíz del proyecto
+
+require_once $root . '/api/config/database.php';
+require_once $root . '/api/models/Calendario.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -19,46 +25,15 @@ $request_method = $_SERVER["REQUEST_METHOD"];
 
 switch ($request_method) {
     case 'POST':
-        if (isset($_POST['id'])) {
-            $calendario->id = $_POST['id'];
-            $calendario->titulo = $_POST['titulo'];
-            $calendario->activo = $_POST['activo'] === 'true' ? true : false;
+        if (isset($_FILES['archivo'])) {
+            $file_name = basename($_FILES['archivo']['name']);
+            $target_dir = $root . '/uploads/calendario/';
+            $target_file = $target_dir . $file_name;
 
-            if (!empty($_FILES['archivo']['tmp_name'])) {
-                $target_dir = "../uploads/calendario/";
-                if (!file_exists($target_dir)) {
-                    mkdir($target_dir, 0777, true);
-                }
-                $target_file = $target_dir . uniqid() . "_" . basename($_FILES["archivo"]["name"]);
-                if (move_uploaded_file($_FILES["archivo"]["tmp_name"], $target_file)) {
-                    $calendario->archivo = $target_file;
-                }
-            } else {
-                $calendario->archivo = $_POST['archivo'];
-            }
-
-            if ($calendario->update()) {
-                http_response_code(200);
-                echo json_encode(array("message" => "Calendario actualizado correctamente."));
-            } else {
-                http_response_code(503);
-                echo json_encode(array("message" => "No se pudo actualizar el calendario."));
-            }
-        } else {
-            if (!empty($_POST['titulo'])) {
+            if (move_uploaded_file($_FILES['archivo']['tmp_name'], $target_file)) {
                 $calendario->titulo = $_POST['titulo'];
-                $calendario->activo = true;
-
-                if (!empty($_FILES['archivo']['tmp_name'])) {
-                    $target_dir = "../uploads/calendario/";
-                    if (!file_exists($target_dir)) {
-                        mkdir($target_dir, 0777, true);
-                    }
-                    $target_file = $target_dir . uniqid() . "_" . basename($_FILES["archivo"]["name"]);
-                    if (move_uploaded_file($_FILES["archivo"]["tmp_name"], $target_file)) {
-                        $calendario->archivo = $target_file;
-                    }
-                }
+                $calendario->archivo = '/uploads/calendario/' . $file_name; // Guardar la ruta completa
+                $calendario->activo = isset($_POST['activo']) ? $_POST['activo'] : true;
 
                 if ($calendario->create()) {
                     http_response_code(201);
@@ -69,8 +44,11 @@ switch ($request_method) {
                 }
             } else {
                 http_response_code(400);
-                echo json_encode(array("message" => "No se pudo crear el calendario. Datos incompletos."));
+                echo json_encode(array("message" => "No se pudo subir el archivo."));
             }
+        } else {
+            http_response_code(400);
+            echo json_encode(array("message" => "Datos incompletos."));
         }
         break;
 
@@ -102,11 +80,49 @@ switch ($request_method) {
                 }
                 echo json_encode(array("records" => $calendarios_arr));
             } else {
-                http_response_code(404);
-                echo json_encode(array("message" => "No se encontraron calendarios."));
+                http_response_code(200); // Cambiar el código de estado a 200
+                echo json_encode(array("records" => array())); // Retornar un arreglo vacío
             }
         }
         break;
+
+    case 'PUT':
+        parse_str(file_get_contents("php://input"), $_PUT);
+        if (isset($_PUT['id'])) {
+            $calendario->id = $_PUT['id'];
+            $calendario->titulo = $_PUT['titulo'];
+            $calendario->activo = isset($_PUT['activo']) ? $_PUT['activo'] : true;
+
+            if (isset($_FILES['archivo']) && $_FILES['archivo']['name']) {
+                $file_name = basename($_FILES['archivo']['name']);
+                $target_dir = $root . '/uploads/calendario/';
+                $target_file = $target_dir . $file_name;
+
+                if (move_uploaded_file($_FILES['archivo']['tmp_name'], $target_file)) {
+                    $calendario->archivo = '/uploads/calendario/' . $file_name; // Guardar la ruta completa
+                } else {
+                    http_response_code(400);
+                    echo json_encode(array("message" => "No se pudo subir el archivo."));
+                    exit;
+                }
+            } else {
+                $calendario->archivo = $_PUT['archivo'];
+            }
+
+            if ($calendario->update()) {
+                http_response_code(200);
+                echo json_encode(array("message" => "Calendario actualizado correctamente."));
+            } else {
+                http_response_code(503);
+                echo json_encode(array("message" => "No se pudo actualizar el calendario."));
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(array("message" => "Datos incompletos."));
+        }
+        break;
+
+
 
     case 'DELETE':
         if (isset($_GET['id'])) {

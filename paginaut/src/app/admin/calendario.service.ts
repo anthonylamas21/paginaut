@@ -15,29 +15,36 @@ export interface Calendario {
   providedIn: 'root',
 })
 export class CalendarioService {
-  private apiUrl = 'http://localhost/paginaut/api/calendario.php';
+  private apiUrl = 'http://localhost/paginaut/api/calendario.php'; // Ajusta esta URL según tu configuración
 
   constructor(private http: HttpClient) {}
 
-  agregarCalendario(calendario: FormData): Observable<any> {
+  addCalendario(calendario: FormData): Observable<any> {
     return this.http
       .post<any>(this.apiUrl, calendario)
       .pipe(catchError(this.handleError));
   }
 
-  obtenerCalendarios(): Observable<Calendario[]> {
+  getCalendarios(): Observable<Calendario[]> {
     return this.http
       .get<Calendario[]>(this.apiUrl)
       .pipe(catchError(this.handleError));
   }
 
-  actualizarCalendario(calendario: FormData): Observable<any> {
+  updateCalendario(calendario: FormData): Observable<any> {
     return this.http
-      .post<any>(this.apiUrl, calendario)
+      .post<any>(`${this.apiUrl}`, calendario)
       .pipe(catchError(this.handleError));
   }
 
-  eliminarCalendario(id: number): Observable<any> {
+  updateCalendarioStatus(id: number, status: boolean): Observable<any> {
+    const body = { id, status };
+    return this.http
+      .put<any>(`${this.apiUrl}/status`, body)
+      .pipe(catchError(this.handleError));
+  }
+
+  deleteCalendario(id: number): Observable<any> {
     return this.http
       .delete<any>(`${this.apiUrl}?id=${id}`)
       .pipe(catchError(this.handleError));
@@ -46,8 +53,10 @@ export class CalendarioService {
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Un error desconocido ha ocurrido';
     if (error.error instanceof ErrorEvent) {
+      // Error del lado del cliente
       errorMessage = `Error: ${error.error.message}`;
     } else {
+      // El backend retornó un código de error
       errorMessage = `Código de error ${error.status}, mensaje: ${
         error.error.message || error.statusText
       }`;
