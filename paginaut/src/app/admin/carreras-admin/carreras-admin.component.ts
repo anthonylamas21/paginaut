@@ -269,5 +269,5 @@ export class CarrerasAdminComponent implements OnInit {
   
 }
 
-}
+
 

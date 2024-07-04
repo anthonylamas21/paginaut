@@ -85,11 +85,13 @@ import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.compo
 @NgModule({
   declarations: [
     AppComponent,
+    TallerComponent,
     PrincipalComponent,
     CarrerasComponent,
     NavbarComponent,
     ComponentesComponent,
     FooterComponent,
+    TalleresComponent,
     UnidadesAcademicasComponent,
     EventosComponent,
     BecasComponent,
