@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TallerService, Taller, TallerResponse } from '../taller.service';
 import { Observable } from 'rxjs';
@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   templateUrl: './taller.component.html',
   styleUrls: ['./taller.component.css']
 })
-export class TallerComponent implements OnInit {
+export class TallerComponent implements OnInit, AfterViewInit {
   @ViewChild('fileInputPrincipal') fileInputPrincipal!: ElementRef<HTMLInputElement>;
   @ViewChild('fileInputGenerales') fileInputGenerales!: ElementRef<HTMLInputElement>;
 
@@ -47,6 +47,15 @@ export class TallerComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadTalleres();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.fileInputPrincipal) {
+      this.fileInputPrincipal.nativeElement.addEventListener('change', this.onFileChangePrincipal.bind(this));
+    }
+    if (this.fileInputGenerales) {
+      this.fileInputGenerales.nativeElement.addEventListener('change', this.onFileChangeGenerales.bind(this));
+    }
   }
 
   openModal(taller?: Taller): void {
@@ -113,7 +122,6 @@ export class TallerComponent implements OnInit {
       let observable: Observable<any>;
 
       if (this.currentTallerId) {
-        // Actualizar taller existente
         observable = this.tallerService.actualizarTaller(
           tallerData,
           this.imagenPrincipal,
@@ -121,7 +129,6 @@ export class TallerComponent implements OnInit {
           this.imagenesGeneralesActuales
         );
       } else {
-        // Crear nuevo taller
         observable = this.tallerService.crearTaller(
           tallerData,
           this.imagenPrincipal,
@@ -266,6 +273,7 @@ export class TallerComponent implements OnInit {
     this.currentTab = tab;
     this.filterTalleres();
   }
+
   openImageModal(taller: Taller, tipo: 'principal' | 'generales'): void {
     this.selectedTaller = taller;
     this.isImageModalOpen = true;
@@ -279,7 +287,6 @@ export class TallerComponent implements OnInit {
       this.modalTitle = 'Imágenes Generales';
     }
 
-    // Filtramos cualquier valor undefined o null del array
     this.allImages = this.allImages.filter(img => img != null);
   }
 

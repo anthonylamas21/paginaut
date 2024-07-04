@@ -56,8 +56,14 @@ switch ($request_method) {
             include_once 'controllers/recover_password.php';
         } elseif (strpos($request_uri, '/api/reset_password') !== false) { // Agregamos esta condición para manejar las solicitudes relacionadas con las direcciones
             include_once 'controllers/reset_password.php';
-        }elseif (strpos($request_uri, '/api/talleres') !== false) {
+
+        } elseif (strpos($request_uri, '/api/talleres') !== false) {
             include_once 'controllers/taller.php';
+        } elseif (strpos($request_uri, '/api/calendario') !== false) {
+            include_once 'controllers/calendario.php';
+        } elseif (strpos($request_uri, '/api/beca') !== false) {
+            include_once 'controllers/beca.php';
+        } elseif (strpos($request_uri, '/api/status') !== false) {
         } elseif (strpos($request_uri, '/api/noticia') !== false) {
             include_once 'controllers/noticia.php';
         } elseif (strpos($request_uri, '/api/instalacion') !== false) {
@@ -70,12 +76,10 @@ switch ($request_method) {
             header("HTTP/1.0 404 Not Found");
             echo json_encode(array("message" => "Endpoint not found."));
         }
-        
-        
+
         break;
     default:
         header("HTTP/1.0 405 Method Not Allowed");
         echo json_encode(array("message" => "Method not allowed."));
         break;
 }
-?>

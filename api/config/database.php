@@ -1,12 +1,14 @@
 <?php
-class Database {
+class Database
+{
     private $host = "localhost";
     private $db_name = "UTC";
     private $username = "postgres";
-    private $password = "Alexis14";
+    private $password = "1802";
     public $conn;
 
-    public function getConnection() {
+    public function getConnection()
+    {
         $this->conn = null;
         try {
             $this->conn = new PDO("pgsql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
@@ -16,4 +18,3 @@ class Database {
         return $this->conn;
     }
 }
-?>
