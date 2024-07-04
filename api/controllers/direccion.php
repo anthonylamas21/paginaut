@@ -5,10 +5,16 @@ header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-$root = dirname(__DIR__);  // Obtiene el directorio raíz del proyecto
+// Configuración de errores y logging
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+error_reporting(E_ALL);
+ini_set('error_log', 'C:/xampp/htdocs/paginaut/api/logs/php-error.log');
 
-include_once $root . '/config/database.php';
-include_once $root . '/models/Direccion.php';
+$root = dirname(__DIR__, 2);  // Obtiene el directorio raíz del proyecto
+
+require_once $root . '/api/config/database.php';
+require_once $root . '/api/models/Direccion.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -16,13 +22,15 @@ $db = $database->getConnection();
 $direccion = new Direccion($db);
 
 $request_method = $_SERVER["REQUEST_METHOD"];
-$data = json_decode(file_get_contents("php://input"));
 
-switch($request_method) {
+switch ($request_method) {
     case 'POST':
+        $data = json_decode(file_get_contents("php://input"));
+
         if (!empty($data->abreviatura) && !empty($data->nombre)) {
             $direccion->abreviatura = $data->abreviatura;
             $direccion->nombre = $data->nombre;
+            $direccion->activo = $data->activo ?? true;
 
             if ($direccion->create()) {
                 http_response_code(201);
@@ -65,13 +73,14 @@ switch($request_method) {
                 }
                 echo json_encode(array("records" => $direcciones_arr));
             } else {
-                http_response_code(404);
-                echo json_encode(array("message" => "No se encontraron direcciones."));
+                http_response_code(200); // Cambiar el código de estado a 200
+                echo json_encode(array("records" => array())); // Retornar un arreglo vacío
             }
         }
         break;
 
     case 'PUT':
+        $data = json_decode(file_get_contents("php://input"));
         if (!empty($data->id)) {
             $direccion->id = $data->id;
             $direccion->abreviatura = $data->abreviatura;
@@ -112,4 +121,3 @@ switch($request_method) {
         echo json_encode(array("message" => "Método no permitido."));
         break;
 }
-?>

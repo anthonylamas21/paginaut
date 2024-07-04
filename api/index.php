@@ -44,8 +44,8 @@ switch ($request_method) {
             include_once 'controllers/evento.php';
         } elseif (strpos($request_uri, '/api/imagenevento') !== false) { // Agregamos esta condición para manejar las solicitudes relacionadas con las direcciones
             include_once 'controllers/imagenevento.php';
-        } elseif (strpos($request_uri, '/api/galeriaImagen') !== false) { // Agregamos esta condición para manejar las solicitudes relacionadas con las direcciones
-            include_once 'controllers/galeriaImagen.php';
+        } elseif (strpos($request_uri, '/api/taller') !== false) { // Agregamos esta condición para manejar las solicitudes relacionadas con las direcciones
+            include_once 'controllers/taller.php';
         } elseif (strpos($request_uri, '/api/bolsa_de_trabajo') !== false) { // Agregamos esta condición para manejar las solicitudes relacionadas con las direcciones
             include_once 'controllers/bolsa_de_trabajo.php';
         } elseif (strpos($request_uri, '/api/login') !== false) { // Agregamos esta condición para manejar las solicitudes relacionadas con las direcciones
@@ -56,12 +56,25 @@ switch ($request_method) {
             include_once 'controllers/recover_password.php';
         } elseif (strpos($request_uri, '/api/reset_password') !== false) { // Agregamos esta condición para manejar las solicitudes relacionadas con las direcciones
             include_once 'controllers/reset_password.php';
+        } elseif (strpos($request_uri, '/api/talleres') !== false) {
+            include_once 'controllers/taller.php';
+        } elseif (strpos($request_uri, '/api/calendario') !== false) {
+            include_once 'controllers/calendario.php';
+        } elseif (strpos($request_uri, '/api/beca') !== false) {
+            include_once 'controllers/beca.php';
+        } elseif (strpos($request_uri, '/api/status') !== false) {
+            // Nueva ruta para verificar el estado de la API
+            header('Content-Type: application/json');
+            echo json_encode(array("message" => "API is working."));
+        } else {
+            header("HTTP/1.0 404 Not Found");
+            echo json_encode(array("message" => "Endpoint not found."));
         }
-        
+
+
         break;
     default:
         header("HTTP/1.0 405 Method Not Allowed");
         echo json_encode(array("message" => "Method not allowed."));
         break;
 }
-?>

@@ -1,0 +1,105 @@
+<div class="container mx-auto p-6 bg-white shadow-md rounded-lg">
+    <h2 class="text-2xl font-bold mb-6">Registro de Evento</h2>
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="titulo" class="block text-sm font-medium text-gray-700">Título</label>
+          <input type="text" id="titulo" formControlName="titulo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+        </div>
+        <div>
+          <label for="tipo" class="block text-sm font-medium text-gray-700">Tipo</label>
+          <select id="tipo" formControlName="tipo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <option value="evento">Evento</option>
+            <option value="noticia">Noticia</option>
+          </select>
+        </div>
+        <div class="col-span-full">
+          <label for="informacion_evento" class="block text-sm font-medium text-gray-700">Información del Evento</label>
+          <textarea id="informacion_evento" formControlName="informacion_evento" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+        </div>
+        <div>
+          <label for="lugar_evento" class="block text-sm font-medium text-gray-700">Lugar del Evento</label>
+          <input type="text" id="lugar_evento" formControlName="lugar_evento" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+        </div>
+        <div>
+          <label for="fecha_inicio" class="block text-sm font-medium text-gray-700">Fecha de Inicio</label>
+          <input type="date" id="fecha_inicio" formControlName="fecha_inicio" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+        </div>
+        <div>
+          <label for="fecha_fin" class="block text-sm font-medium text-gray-700">Fecha de Fin</label>
+          <input type="date" id="fecha_fin" formControlName="fecha_fin" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+        </div>
+        <div>
+          <label for="hora_inicio" class="block text-sm font-medium text-gray-700">Hora de Inicio</label>
+          <input type="time" id="hora_inicio" formControlName="hora_inicio" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+        </div>
+        <div>
+          <label for="hora_fin" class="block text-sm font-medium text-gray-700">Hora de Fin</label>
+          <input type="time" id="hora_fin" formControlName="hora_fin" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+        </div>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Imagen Principal</label>
+        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+          <div class="space-y-1 text-center">
+            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+              <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <div class="flex text-sm text-gray-600">
+              <label for="imagen_principal" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                <span>Subir imagen</span>
+                <input id="imagen_principal" name="imagen_principal" type="file" accept="image/*" (change)="onImageSelected($event, 'principal')" class="sr-only">
+              </label>
+              <p class="pl-1">o arrastrar y soltar</p>
+            </div>
+            <p class="text-xs text-gray-500">PNG, JPG, GIF hasta 10MB</p>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Imágenes Adicionales</label>
+        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+          <div class="space-y-1 text-center">
+            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+              <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <div class="flex text-sm text-gray-600">
+              <label for="imagenes_adicionales" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                <span>Subir imágenes</span>
+                <input id="imagenes_adicionales" name="imagenes_adicionales" type="file" accept="image/*" multiple (change)="onImageSelected($event, 'adicionales')" class="sr-only">
+              </label>
+              <p class="pl-1">o arrastrar y soltar</p>
+            </div>
+            <p class="text-xs text-gray-500">PNG, JPG, GIF hasta 10MB</p>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Archivos Adjuntos</label>
+        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+          <div class="space-y-1 text-center">
+            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+              <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <div class="flex text-sm text-gray-600">
+              <label for="archivos" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                <span>Subir archivos</span>
+                <input id="archivos" name="archivos" type="file" multiple (change)="onFileSelected($event)" class="sr-only">
+              </label>
+              <p class="pl-1">o arrastrar y soltar</p>
+            </div>
+            <p class="text-xs text-gray-500">PDF, DOC, XLS hasta 10MB</p>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Registrar Evento
+        </button>
+      </div>
+    </form>
+  </div>

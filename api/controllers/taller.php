@@ -7,8 +7,8 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 $root = dirname(__DIR__);  // Obtiene el directorio raíz del proyecto
 
-include_once $root . '/config/database.php';
-include_once $root . '/models/Taller.php';
+require_once 'config/database.php';
+require_once 'models/Taller.php';
 
 $database = new Database();
 $db = $database->getConnection();

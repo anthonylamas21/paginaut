@@ -5,10 +5,15 @@ header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-$root = dirname(__DIR__);  // Obtiene el directorio raíz del proyecto
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+error_reporting(E_ALL);
+ini_set('error_log', 'C:/xampp/htdocs/paginaut/api/logs/php-error.log');
 
-include_once $root . '/config/database.php';
-include_once $root . '/models/Carrera.php';
+$root = dirname(__DIR__, 2);
+
+require_once $root . '/api/config/database.php';
+require_once $root . '/api/models/Carrera.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -16,16 +21,17 @@ $db = $database->getConnection();
 $carrera = new Carrera($db);
 
 $request_method = $_SERVER["REQUEST_METHOD"];
-$data = json_decode(file_get_contents("php://input"));
 
-switch($request_method) {
+switch ($request_method) {
     case 'POST':
+        $data = json_decode(file_get_contents("php://input"));
+
         if (!empty($data->nombre_carrera) && !empty($data->direccion_id)) {
             $carrera->nombre_carrera = $data->nombre_carrera;
-            $carrera->perfil_profesional = $data->perfil_profesional;
-            $carrera->ocupacion_profesional = $data->ocupacion_profesional;
-            $carrera->imagen_carrera = $data->imagen_carrera;
+            $carrera->perfil_profesional = $data->perfil_profesional ?? '';
+            $carrera->ocupacion_profesional = $data->ocupacion_profesional ?? '';
             $carrera->direccion_id = $data->direccion_id;
+            $carrera->activo = $data->activo ?? true;
 
             if ($carrera->create()) {
                 http_response_code(201);
@@ -62,7 +68,6 @@ switch($request_method) {
                         "nombre_carrera" => $nombre_carrera,
                         "perfil_profesional" => $perfil_profesional,
                         "ocupacion_profesional" => $ocupacion_profesional,
-                        "imagen_carrera" => $carrera->getImagenCarrera(),
                         "direccion_id" => $direccion_id,
                         "activo" => $activo,
                         "fecha_creacion" => $fecha_creacion
@@ -71,19 +76,19 @@ switch($request_method) {
                 }
                 echo json_encode(array("records" => $carreras_arr));
             } else {
-                http_response_code(404);
-                echo json_encode(array("message" => "No se encontraron carreras."));
+                http_response_code(200);
+                echo json_encode(array("records" => array()));
             }
         }
         break;
 
     case 'PUT':
+        $data = json_decode(file_get_contents("php://input"));
         if (!empty($data->id)) {
             $carrera->id = $data->id;
             $carrera->nombre_carrera = $data->nombre_carrera;
-            $carrera->perfil_profesional = $data->perfil_profesional;
-            $carrera->ocupacion_profesional = $data->ocupacion_profesional;
-            $carrera->imagen_carrera = $data->imagen_carrera;
+            $carrera->perfil_profesional = $data->perfil_profesional ?? '';
+            $carrera->ocupacion_profesional = $data->ocupacion_profesional ?? '';
             $carrera->direccion_id = $data->direccion_id;
             $carrera->activo = $data->activo;
 
@@ -121,4 +126,3 @@ switch($request_method) {
         echo json_encode(array("message" => "Método no permitido."));
         break;
 }
-?>
