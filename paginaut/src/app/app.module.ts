@@ -96,11 +96,13 @@ import { TallerComponent } from './taller/taller.component';
 @NgModule({
   declarations: [
     AppComponent,
+    TallerComponent,
     PrincipalComponent,
     CarrerasComponent,
     NavbarComponent,
     ComponentesComponent,
     FooterComponent,
+    TalleresComponent,
     UnidadesAcademicasComponent,
     EventosComponent,
     BecasComponent,
