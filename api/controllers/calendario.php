@@ -27,13 +27,13 @@ switch ($request_method) {
     case 'POST':
         // Verificar si es una actualización o una creación
         $isUpdate = isset($_POST['id']);
-    
+
         // Manejar el archivo si se proporciona uno
         if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] == 0) {
             $file_name = basename($_FILES['archivo']['name']);
             $target_dir = $root . '/uploads/calendario/';
             $target_file = $target_dir . $file_name;
-    
+
             if (move_uploaded_file($_FILES['archivo']['tmp_name'], $target_file)) {
                 $calendario->archivo = '/uploads/calendario/' . $file_name; // Guardar la ruta completa
             } else {
@@ -57,11 +57,11 @@ switch ($request_method) {
             echo json_encode(array("message" => "Se requiere un archivo para crear un nuevo calendario."));
             break;
         }
-    
+
         // Asignar valores comunes
         $calendario->titulo = $_POST['titulo'];
         $calendario->activo = isset($_POST['activo']) ? $_POST['activo'] : true;
-    
+
         if ($isUpdate) {
             // Actualización
             $calendario->id = $_POST['id'];
@@ -118,44 +118,25 @@ switch ($request_method) {
         }
         break;
 
-        case 'PUT':
-            // Obtener los datos del cuerpo de la solicitud
-            $data = json_decode(file_get_contents("php://input"));
-            
-            if (isset($data->id)) {
-                $calendario->id = $data->id;
-                $calendario->titulo = $data->titulo;
-                $calendario->activo = $data->activo;
-        
-                // Manejar el archivo si se proporciona uno nuevo
-                if (isset($_FILES['archivo'])) {
-                    $file_name = basename($_FILES['archivo']['name']);
-                    $target_dir = "../uploads/calendario/";
-                    $target_file = $target_dir . $file_name;
-                    
-                    if (move_uploaded_file($_FILES['archivo']['tmp_name'], $target_file)) {
-                        $calendario->archivo = "uploads/calendario/" . $file_name;
-                    } else {
-                        http_response_code(400);
-                        echo json_encode(array("message" => "No se pudo subir el archivo."));
-                        exit;
-                    }
-                }
-        
-                if ($calendario->update()) {
-                    http_response_code(200);
-                    echo json_encode(array("message" => "Calendario actualizado correctamente."));
-                } else {
-                    http_response_code(503);
-                    echo json_encode(array("message" => "No se pudo actualizar el calendario."));
-                }
+    case 'PUT':
+        $data = json_decode(file_get_contents("php://input"));
+
+        if (isset($data->id) && isset($data->activo)) {
+            $calendario->id = $data->id;
+            $calendario->activo = filter_var($data->activo, FILTER_VALIDATE_BOOLEAN);
+
+            if ($calendario->updateStatus()) {
+                http_response_code(200);
+                echo json_encode(array("message" => "Estado del calendario actualizado correctamente."));
             } else {
-                http_response_code(400);
-                echo json_encode(array("message" => "Datos incompletos."));
+                http_response_code(503);
+                echo json_encode(array("message" => "No se pudo actualizar el estado del calendario."));
             }
-            break;
-
-
+        } else {
+            http_response_code(400);
+            echo json_encode(array("message" => "Datos incompletos."));
+        }
+        break;
 
     case 'DELETE':
         if (isset($_GET['id'])) {

@@ -43,11 +43,12 @@ class Calendario
     return $stmt;
   }
 
-  function readOne() {
+  function readOne()
+  {
     $query = "SELECT id, titulo, archivo, activo, fecha_creacion 
               FROM " . $this->table_name . " 
               WHERE id = ?
-              LIMIT 0,1";
+              LIMIT 1";
 
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(1, $this->id);
@@ -56,50 +57,68 @@ class Calendario
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($row) {
-        $this->titulo = $row['titulo'];
-        $this->archivo = $row['archivo'];
-        $this->activo = $row['activo'];
-        $this->fecha_creacion = $row['fecha_creacion'];
-        return true;
+      $this->titulo = $row['titulo'];
+      $this->archivo = $row['archivo'];
+      $this->activo = $row['activo'];
+      $this->fecha_creacion = $row['fecha_creacion'];
+      return true;
     }
 
     return false;
-}
+  }
   function update()
   {
-      // Primero, obtener el registro actual
-      $query = "SELECT archivo FROM " . $this->table_name . " WHERE id = ?";
-      $stmt = $this->conn->prepare($query);
-      $stmt->bindParam(1, $this->id);
-      $stmt->execute();
-      $row = $stmt->fetch(PDO::FETCH_ASSOC);
-      $archivoActual = $row['archivo'];
-  
-      // Ahora, actualizar el registro
-      $query = "UPDATE " . $this->table_name . " SET titulo = :titulo, archivo = :archivo, activo = :activo WHERE id = :id";
-      $stmt = $this->conn->prepare($query);
-  
-      $this->id = htmlspecialchars(strip_tags($this->id));
-      $this->titulo = htmlspecialchars(strip_tags($this->titulo));
-      $this->activo = htmlspecialchars(strip_tags($this->activo));
-  
-      // Si no se proporciona un nuevo archivo, mantener el archivo actual
-      if (empty($this->archivo)) {
-          $this->archivo = $archivoActual;
-      } else {
-          $this->archivo = htmlspecialchars(strip_tags($this->archivo));
-      }
-  
-      $stmt->bindParam(":id", $this->id);
-      $stmt->bindParam(":titulo", $this->titulo);
-      $stmt->bindParam(":archivo", $this->archivo);
-      $stmt->bindParam(":activo", $this->activo);
-  
-      if ($stmt->execute()) {
-          return true;
-      }
-  
-      return false;
+    // Primero, obtener el registro actual
+    $query = "SELECT archivo FROM " . $this->table_name . " WHERE id = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(1, $this->id);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $archivoActual = $row['archivo'];
+
+    // Ahora, actualizar el registro
+    $query = "UPDATE " . $this->table_name . " SET titulo = :titulo, archivo = :archivo, activo = :activo WHERE id = :id";
+    $stmt = $this->conn->prepare($query);
+
+    $this->id = htmlspecialchars(strip_tags($this->id));
+    $this->titulo = htmlspecialchars(strip_tags($this->titulo));
+    $this->activo = htmlspecialchars(strip_tags($this->activo));
+
+    // Si no se proporciona un nuevo archivo, mantener el archivo actual
+    if (empty($this->archivo)) {
+      $this->archivo = $archivoActual;
+    } else {
+      $this->archivo = htmlspecialchars(strip_tags($this->archivo));
+    }
+
+    $stmt->bindParam(":id", $this->id);
+    $stmt->bindParam(":titulo", $this->titulo);
+    $stmt->bindParam(":archivo", $this->archivo);
+    $stmt->bindParam(":activo", $this->activo);
+
+    if ($stmt->execute()) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function updateStatus()
+  {
+    $query = "UPDATE " . $this->table_name . " SET activo = :activo WHERE id = :id";
+    $stmt = $this->conn->prepare($query);
+
+    $this->id = htmlspecialchars(strip_tags($this->id));
+    $this->activo = filter_var($this->activo, FILTER_VALIDATE_BOOLEAN);
+
+    $stmt->bindParam(":id", $this->id);
+    $stmt->bindParam(":activo", $this->activo, PDO::PARAM_BOOL);
+
+    if ($stmt->execute()) {
+      return true;
+    }
+
+    return false;
   }
 
   function delete()

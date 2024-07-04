@@ -37,10 +37,10 @@ export class CalendarioService {
       .pipe(catchError(this.handleError));
   }
 
-  updateCalendarioStatus(id: number, status: boolean): Observable<any> {
-    const body = { id, status };
+  updateCalendarioStatus(id: number, activo: boolean): Observable<any> {
+    const body = { id, activo };
     return this.http
-      .put<any>(`${this.apiUrl}/status`, body)
+      .put<any>(this.apiUrl, body)
       .pipe(catchError(this.handleError));
   }
 
