@@ -1,7 +1,8 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Table,TableModule } from 'primeng/table';
 import Swal from 'sweetalert2';
+import { UsuarioService, Logout } from '../usuario.service';
 
 interface Item {
   nombre: string;
@@ -15,9 +16,13 @@ interface Item {
 })
 export class NavbarComponent  implements OnInit {
 
-  myForm: FormGroup;
+  myForm: FormGroup; 
+  LogoutForm: FormGroup;
   selectedCustomers: any;
-  constructor() {
+  token: string | null;
+ 
+
+  constructor(private formulario: FormBuilder, private srvUsuario: UsuarioService) {
     this.myForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
       age: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]+$/)]),
@@ -26,16 +31,49 @@ export class NavbarComponent  implements OnInit {
       checkboxes: new FormControl('', [Validators.required]),
       radios: new FormControl('', [Validators.required])
     });
+
+    this.LogoutForm = this.formulario.group({
+      token: [''],
+      token_cookie: ['']
+    });
+
+    this.token = localStorage.getItem('token');
+
+    this.token = localStorage.getItem('token');
   }
- 
+
 
 
   ngOnInit() {
-    // Inicializa Flasher
     
   }
 
+  onSubmitLogout() {
+    if (this.token) {
+      this.LogoutForm.patchValue({
+        token: this.token,
+      });
 
+      const formData: Logout = this.LogoutForm.value;
+      console.log(this.LogoutForm.value);
+
+      this.srvUsuario.CerrarSesion(formData).subscribe(
+        res => {
+          console.log(res);
+          console.log('Has cerrado sesión');
+          localStorage.removeItem('token');
+          this.token = null;
+          window.location.href = "/principal"
+        },
+        err => {
+          console.log('Error al cerrar sesión', err);
+        }
+      );
+
+    } else {
+      console.log('No hay token para cerrar sesión');
+    }
+  }
   
 
 

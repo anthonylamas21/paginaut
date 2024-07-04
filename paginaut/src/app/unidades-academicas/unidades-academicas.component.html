@@ -1,113 +1,150 @@
+<!--Componente Navbar-->
 <app-navbar></app-navbar>
 <p id="inicio"></p>
 <!--Fin Navbar-->
 
+<!--Boton de desplacamiento -->
 <button id="scrollTopButton" (click)="scrollToSection('inicio')"
-    class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
-    <i class="fa-solid fa-chevron-up"></i>
+  class="hidden fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+  <i class="fa-solid fa-chevron-up"></i>
 </button>
-
-<ol class="flex items-center whitespace-nowrap ml-4 mt-24 mb-8">
-    <li class="inline-flex items-center">
-        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] "
-            href="/principal">
-            Inicio
-        </a>
-        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg"
-            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="m9 18 6-6-6-6"></path>
-        </svg>
-    </li>
-    <li class="inline-flex items-center">
-        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] "
-            href="/becas">
-            UTC
-        </a>
-        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg"
-            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="m9 18 6-6-6-6"></path>
-        </svg>
-    </li>
-    <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
-        Unidades Académicas
-    </li>
-</ol>
+<!--Fin Boton de desplacamiento-->
 
 <!--Contenedor de Cards Unidades Academicas -->
-<div class="container mt-2">
-
-  <div *ngIf="isLoading" class="bg-[#043D3D] rounded-lg animate-pulse">
-    <div class="h-8 bg-gray-200 rounded mt-6 mb-4"></div>
+<div class="container mt-28">
+  <div class="container mb-4">
+    <ol class="flex items-center whitespace-nowrap">
+      <li class="inline-flex items-center">
+        <a class="flex items-center text-sm text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600" href="/principal">
+          Inicio
+        </a>
+        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </li>
+      <li class="inline-flex items-center">
+        <a class="flex items-center text-sm text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600" href="#">
+          UTC
+          <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6"></path>
+          </svg>
+        </a>
+      </li>
+      <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate" aria-current="page">
+        Unidades Academicas
+      </li>
+    </ol>
   </div>
 
+  <div class="bg-[#043D3D] w-full">
+    <h3 class="text-2xl font-poppins font-bold text-white">
+      Unidades Academicas
+    </h3>
+  </div>
 
    <div *ngIf="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
     <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
-      <ul class="space-y-3">
-        <li class="w-full h-60 bg-gray-300 rounded-lg"></li>
+      <p class="h-4 bg-gray-300 rounded-full" style="width: 40%;"></p>
+      <ul class="mt-5 space-y-3">
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
       </ul>
     </div>
     <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
-      <ul class="space-y-3">
-        <li class="w-full h-60 bg-gray-300 rounded-lg"></li>
+      <p class="h-4 bg-gray-300 rounded-full" style="width: 40%;"></p>
+      <ul class="mt-5 space-y-3">
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
       </ul>
     </div>
     <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
-      <ul class="space-y-3">
-        <li class="w-full h-60 bg-gray-300 rounded-lg"></li>
+      <p class="h-4 bg-gray-300 rounded-full" style="width: 40%;"></p>
+      <ul class="mt-5 space-y-3">
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
       </ul>
     </div>
-  </div>
-
-  <div *ngIf="isLoading" class="bg-[#043D3D] rounded-lg animate-pulse">
-    <div class="h-8 bg-gray-200 rounded mt-6 mb-4"></div>
-  </div>
-
-  <div *ngIf="!isLoading" class="bg-[#043D3D] w-full rounded-lg">
-    <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
-      Instalaciones Académicas</h2>
   </div>
 
   <div *ngIf="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
     <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
-      <ul class="space-y-3">
-        <li class="w-full h-60 bg-gray-300 rounded-lg"></li>
+      <p class="h-4 bg-gray-300 rounded-full" style="width: 40%;"></p>
+      <ul class="mt-5 space-y-3">
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
       </ul>
     </div>
     <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
-      <ul class="space-y-3">
-        <li class="w-full h-60 bg-gray-300 rounded-lg"></li>
+      <p class="h-4 bg-gray-300 rounded-full" style="width: 40%;"></p>
+      <ul class="mt-5 space-y-3">
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
       </ul>
     </div>
     <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
-      <ul class="space-y-3">
-        <li class="w-full h-60 bg-gray-300 rounded-lg"></li>
+      <p class="h-4 bg-gray-300 rounded-full" style="width: 40%;"></p>
+      <ul class="mt-5 space-y-3">
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
       </ul>
     </div>
   </div>
 
-  
-
-<!--INFORMACION DE LAS CARDS UNA VEZ CARGADAS-->
+  <div *ngIf="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+    <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
+      <p class="h-4 bg-gray-300 rounded-full" style="width: 40%;"></p>
+      <ul class="mt-5 space-y-3">
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+      </ul>
+    </div>
+    <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
+      <p class="h-4 bg-gray-300 rounded-full" style="width: 40%;"></p>
+      <ul class="mt-5 space-y-3">
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+      </ul>
+    </div>
+    <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
+      <p class="h-4 bg-gray-300 rounded-full" style="width: 40%;"></p>
+      <ul class="mt-5 space-y-3">
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+        <li class="w-full h-4 bg-gray-300 rounded-full"></li>
+      </ul>
+    </div>
+  </div>
 
   <div *ngIf="!isLoading" id="cardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-
-
-    <a href="/info_unidades"><div class="bg-white rounded-lg shadow-lg p-4 relative">
-      <img src="../../assets/img/galeria/rectoria.webp" alt="Card Image"
+    <div class="bg-white rounded-lg shadow-lg p-4 relative">
+      <img src="../../assets/img/unidadesacademicas8.jpg" alt="Card Image"
         class="w-full h-full object-cover rounded-t-lg">
       <div class="absolute inset-1 flex items-center justify-center w-full">
         <h3 class="text-2xl font-poppins font-bold text-white">
           Rectoria
         </h3>
       </div>
-    </div></a>
+    </div>
     <div class="bg-white rounded-lg shadow-lg p-4 relative">
-      <img src="../../assets/img/galeria/vinculacion.webp" alt="Card Image"
+      <img src="../../assets/img/unidadesacademicas1.jpg" alt="Card Image"
         class="w-full h-full object-cover rounded-t-lg">
-
       <div class="absolute inset-1 flex items-center justify-center w-full">
         <h3 class="text-2xl font-poppins font-bold text-white">
           Vinculacion
@@ -115,32 +152,76 @@
       </div>
     </div>
     <div class="bg-white rounded-lg shadow-lg p-4 relative">
-      <img src="../../assets/img/galeria/cafeteria.webp" alt="Card Image"
+      <img src="../../assets/img/unidadesacademicas3.jpg" alt="Card Image"
         class="w-full h-full object-cover rounded-t-lg">
       <div class="absolute inset-1 flex items-center justify-center w-full">
         <h3 class="text-2xl font-poppins font-bold text-white">
-          Cafeteria
+          Edificio de Ing. en sistemas
         </h3>
       </div>
     </div>
-
-
-    <div class="bg-white rounded-lg shadow-lg p-4 relative">
-      <img src="../../assets/img/galeria/biblioteca.webp" alt="Card Image"
-        class="w-full h-full object-cover rounded-t-lg">
-      <div class="absolute inset-1 flex items-center justify-center w-full">
-        <h3 class="text-2xl font-poppins font-bold text-white">
-          Biblioteca
-        </h3>
-
-      </div>
-    </div>
-
 
   </div>
-  
-</div>
+  <div *ngIf="!isLoading" id="cardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+    <div class="bg-white rounded-lg shadow-lg p-4 relative">
+      <img src="../../assets/img/unidadesacademicas6.jpg" alt="Card Image"
+        class="w-full h-full object-cover rounded-t-lg">
+      <div class="absolute inset-1 flex items-center justify-center w-full">
+        <h3 class="text-2xl font-poppins font-bold text-white">
+          Edificio de Gastronomia 
+        </h3>
+      </div>
+    </div>
+    <div class="bg-white rounded-lg shadow-lg p-4 relative">
+      <img src="../../assets/img/unidadesacademicas5.jpg" alt="Card Image"
+        class="w-full h-full object-cover rounded-t-lg">
+      <div class="absolute inset-4 flex items-center justify-center w-full">
+        <h3 class="text-2xl font-poppins font-bold text-white">
+        Edificio de Contaduria
+        </h3>
+      </div>
+    </div>
+    <div class="bg-white rounded-lg shadow-lg p-4 relative">
+      <img src="../../assets/img/unidadesacademicas7.jpg" alt="Card Image"
+        class="w-full h-full object-cover rounded-t-lg">
+      <div class="absolute inset-1 flex items-center justify-center w-full">
+        <h3 class="text-2xl font-poppins font-bold text-white">
+        Edificio de Turismo
+        </h3>
+      </div>
+    </div>
+  </div>
 
+    <div *ngIf="!isLoading" id="cardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+      <div class="bg-white rounded-lg shadow-lg p-4 relative">
+        <img src="../../assets/img/unidadesacademicas9.jpg" alt="Card Image"
+          class="w-full h-full object-cover rounded-t-lg">
+        <div class="absolute inset-1 flex items-center justify-center w-full">
+          <h3 class="text-2xl font-poppins font-bold text-white">
+          Edificio de Agropecuario
+          </h3>
+        </div>
+      </div>
+      <div class="bg-white rounded-lg shadow-lg p-4 relative">
+        <img src="../../assets/img/unidadesacademicas8.jpg" alt="Card Image"
+          class="w-full h-full object-cover rounded-t-lg">
+        <div class="absolute inset-1 flex items-center justify-center w-full">
+          <h3 class="text-2xl font-poppins font-bold text-white">
+          Edificio de Agropecuario
+          </h3>
+        </div>
+      </div>
+      <div class="bg-white rounded-lg shadow-lg p-4 relative">
+        <img src="../../assets/img/unidadesacademicas2.jpg" alt="Card Image"
+          class="w-full h-full object-cover rounded-t-lg">
+        <div class="absolute inset-1 flex items-center justify-center w-full">
+          <h3 class="text-2xl font-poppins font-bold text-white">
+          Edificio de Aquicultura
+          </h3>
+        </div>
+      </div>
+    </div>
+</div>
 
 <!--Inicio componente Footer-->
 <app-footer></app-footer>

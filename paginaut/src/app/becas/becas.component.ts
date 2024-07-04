@@ -1,4 +1,4 @@
-import { Component, HostListener, Renderer2 } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-becas',
@@ -7,23 +7,10 @@ import { Component, HostListener, Renderer2 } from '@angular/core';
 })
 export class BecasComponent {
 
-  
-  isLoading = true;
-
-constructor(private renderer: Renderer2){}
-
   ngOnInit(): void {
     this.setNavbarColor();
   }
 
-  ngAfterViewInit(): void {
-    this.renderer.listen('window', 'load', () => {
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 5000);
-            
-    });
-  }
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     this.setNavbarColor();
