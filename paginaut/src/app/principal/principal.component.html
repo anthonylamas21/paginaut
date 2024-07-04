@@ -12,172 +12,91 @@
   <i class="fa-solid fa-chevron-up"></i>
 </button>
 
+<br> 
 <br>
-<br>
-<div class="container mx-auto">
 <!--Contenedor Eventos-->
 <div class="container mx-auto bg-[#043D3D]">
-  <h2 class="text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-poppins py-1 px-2 sm:py-2 sm:px-3 md:py-3 md:px-4 font-bold-700 text-white uppercase mb-1 sm:mb-2 md:mb-3">    
-    Eventos Más Recientes</h2>
+  <h2 class="text-3xl text-white font-poppins font-bold-700  uppercase mb-4">Eventos Más Recientes</h2>
 </div>
 
 <div class="container mx-auto">
-  <div class="container p-4 bg-white rounded-lg shadow-lg">
+  <div class="container sm p-4 bg-white rounded-lg shadow-lg">
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
         
-        <!-- Primer div superior -->
-        <div class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow-lg relative">
-          <img src="../../assets/img/evento1.jpg" alt="Noticia del día" class="w-full h-48 object-cover rounded-t-lg">
-          <div class="absolute inset-0 flex items-center">
-            <h3 class="text-2xl sm:text-sm md:text font-poppins font-bold text-white">Conferencia sobre la drogadiccion
-              en Poliforum</h3>
-          </div>
-          <div class="p-4">
-            <p class="text-gray-600">Conferencia sobre la drogadicción en Poliforum</p>
-          </div>
+       <!-- Evento más reciente -->
+       <div *ngIf="eventosRecientes.length > 0" class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow-lg relative">
+        <img [src]="eventosRecientes[0].imagen_principal" [alt]="eventosRecientes[0].titulo" class="w-full h-48 object-cover rounded-t-lg">
+        <div class="absolute inset-0 flex items-center bg-black bg-opacity-50">
+          <h3 class="text-2xl font-poppins font-bold text-white p-4">{{ eventosRecientes[0].titulo }}</h3>
         </div>
-        
-        <!-- Tres divs abajo -->
+        <div class="p-4">
+          <p class="text-gray-600">{{ eventosRecientes[0].informacion_evento | slice:0:100 }}...</p>
+          <a [routerLink]="['/evento', eventosRecientes[0].id]" class="mt-2 inline-block text-blue-600 hover:underline">Leer más</a>
+        </div>
+      </div>
+      
+      <!-- Otros 4 eventos recientes -->
+      <ng-container *ngFor="let evento of eventosRecientes.slice(1, 5)">
         <div class="col-span-1 lg:col-span-1 bg-white rounded-lg border border-gray-200">
-          <img src="../../assets/img/evento2.jpg" alt="Eventos de la semana" class="w-full h-32 object-cover rounded-t-lg ">
+          <img [src]="evento.imagen_principal" [alt]="evento.titulo" class="w-full h-32 object-cover rounded-t-lg">
           <div class="p-4">
-            <h3 class="text-lg font-semibold text-gray-800">Eventos de la semana</h3>
+            <h3 class="text-lg font-semibold text-gray-800">{{ evento.titulo }}</h3>
+            <p class="text-sm text-gray-600">{{ evento.informacion_evento | slice:0:50 }}...</p>
+            <a [routerLink]="['/evento', evento.id]" class="mt-2 inline-block text-blue-600 hover:underline">Leer más</a>
           </div>
         </div>
-
-        <div class="col-span-1 lg:col-span-1 bg-white rounded-lg border border-gray-200">
-          <img src="../../assets/img/evento3.jpg" alt="Eventos de la semana" class="w-full h-32 object-cover rounded-t-lg">
-          <div class="p-4">
-            <h3 class="text-lg font-semibold text-gray-800">Eventos de la semana</h3>
-          </div>
-        </div>
-
-        <div class="col-span-1 lg:col-span-1 bg-white rounded-lg border border-gray-200">
-          <img src="../../assets/img/evento4.jpg" alt="Eventos de la semana" class="w-full h-32 object-cover rounded-t-lg">
-          <div class="p-4">
-            <h3 class="text-lg font-semibold text-gray-800">Eventos de la semana</h3>
-          </div>
-        </div>
-        <div class="col-span-1 lg:col-span-1 bg-white rounded-lg border border-gray-200">
-          <img src="../../assets/img/evento3.jpg" alt="Eventos de la semana" class="w-full h-32 object-cover rounded-t-lg">
-          <div class="p-4">
-            <h3 class="text-lg font-semibold text-gray-800">Eventos de la semana</h3>
-          </div>
-        </div>
-
-
+      </ng-container>
       </div>
     </div>
     </div>
 <!--Fin Eventos-->
-</div>
-
-
-<div class="container mx-auto mt-16">
-
-
+<br>
+<br>
 <!--Inicio Noticias-->
 <div class="container mx-auto mb-4 w-full bg-[#043D3D]">
-    <h2 class="text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-poppins py-1 px-2 sm:py-2 sm:px-3 md:py-3 md:px-4 font-bold text-white uppercase mb-1 sm:mb-2 md:mb-3">
-
-    Noticias</h2>
+  <h2 class="text-3xl text-white font-poppins font-bold-700 uppercase mb-4">Noticias</h2>
 </div>
 
-<!-- Contenedor principal -->
-<div class="container mx-auto min-h-screen max-w-screen-lg mb-24 px-4 sm:px-6 lg:px-8">
-  <!-- Noticia 1 -->
-  <div class="border rounded-lg shadow-lg overflow-hidden mb-8">
+<!-- Contenedor de noticias -->
+<div class="container max-w-screen-lg mb-8">
+  
+  <!-- Noticias dinámicas -->
+  <div *ngFor="let noticia of noticiasVisibles" class="border rounded-lg shadow-lg overflow-hidden mb-4">
     <div class="bg-white rounded-lg overflow-hidden">
-      
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div class="relative flex lg:col-span-1 img-container">
-          <div class="flex-1">
-            <img src="../../assets/img/evento1.jpg" alt="Universidad Tecnológica de la Costa" class="object-cover h-full w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-5">
+        <div class="relative flex lg:col-span-2">
+          <div class="flex-1 h-24">
+            <img [src]="noticia.imagen_principal" [alt]="noticia.titulo" class="object-contain">
           </div>
-          <div class="date-container bg-green-800 text-white flex flex-col items-center justify-center p-2 absolute bottom-0 right-0 lg:static">
-            <p class="text-4xl font-bold">12</p>
-            <p class="text-md">Junio</p>
+          <div class="date-container bg-green-800 text-white flex flex-col items-center justify-center p-2">
+            <p class="text-4xl font-bold">{{ noticia.fecha_publicacion | date:'dd' }}</p>
+            <p class="text-md">{{ noticia.fecha_publicacion | date:'MMMM' }}</p>
           </div>
         </div>
-        <div class="p-6 lg:col-span-2 flex flex-col justify-between">
+        <div class="p-2 lg:col-span-3 flex flex-col justify-between">
           <div>
-            <h3 class="text-2xl font-bold text-gray-800 mb-1">Titulo de la noticia</h3>
-            <p class="text-gray-600 mb-4 text-lg">Lorem Ipsum es simplemente el texto de relleno de las imprentas y
-              archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500.
-            </p>
+            <h3 class="text-xl font-bold text-gray-800 mb-1">{{ noticia.titulo }}</h3>
+            <p class="text-gray-600 mb-2 text-sm">{{ noticia.resumen }}</p>
           </div>
           <div class="flex items-center justify-end">
-            <a href="#" class="text-green-800 font-semibold text-lg">Leer más</a>
+            <a [routerLink]="['/noticia', noticia.id]" class="text-green-800 font-semibold text-sm">Leer más</a>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Noticia 2 -->
-  <div class="border rounded-lg shadow-lg overflow-hidden mb-8">
-    <div class="bg-white rounded-lg overflow-hidden">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div class="relative flex lg:col-span-1 img-container">
-          <div class="flex-1">
-            <img src="../../assets/img/evento1.jpg" alt="Universidad Tecnológica de la Costa" class="object-cover h-full w-full">
-          </div>
-          <div class="date-container bg-green-800 text-white flex flex-col items-center justify-center p-2 absolute bottom-0 right-0 lg:static">
-            <p class="text-4xl font-bold">12</p>
-            <p class="text-md">Junio</p>
-          </div>
-        </div>
-        <div class="p-6 lg:col-span-2 flex flex-col justify-between">
-          <div>
-            <h3 class="text-2xl font-bold text-gray-800 mb-1">Titulo de la noticia</h3>
-            <p class="text-gray-600 mb-4 text-lg">Lorem Ipsum es simplemente el texto de relleno de las imprentas y
-              archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500.
-            </p>
-          </div>
-          <div class="flex items-center justify-end">
-            <a href="#" class="text-green-800 font-semibold text-lg">Leer más</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Noticia 3 -->
-  <div class="border rounded-lg shadow-lg overflow-hidden mb-8">
-    <div class="bg-white rounded-lg overflow-hidden">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div class="relative flex lg:col-span-1 img-container">
-          <div class="flex-1">
-            <img src="../../assets/img/evento1.jpg" alt="Universidad Tecnológica de la Costa" class="object-cover h-full w-full">
-          </div>
-          <div class="date-container bg-green-800 text-white flex flex-col items-center justify-center p-2 absolute bottom-0 right-0 lg:static">
-            <p class="text-4xl font-bold">12</p>
-            <p class="text-md">Junio</p>
-          </div>
-        </div>
-        <div class="p-6 lg:col-span-2 flex flex-col justify-between">
-          <div>
-            <h3 class="text-2xl font-bold text-gray-800 mb-1">Titulo de la noticia</h3>
-            <p class="text-gray-600 mb-4 text-lg">Lorem Ipsum es simplemente el texto de relleno de las imprentas y
-              archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500.
-            </p>
-          </div>
-          <div class="flex items-center justify-end">
-            <a href="#" class="text-green-800 font-semibold text-lg">Leer más</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="border shadow-lg overflow-hidden mb-8 p-4 bg-gray-100 rounded-lg">
-    <a href="/eventos">
-      <p class="text-lg text-center">Mostrar más eventos <i class="fa-solid fa-angle-down"></i></p>
+  <!-- Botón Ver más -->
+  <div *ngIf="noticiasVisibles.length < noticias.length" class="border shadow-lg overflow-hidden mb-4 p-2 bg-gray-100 rounded-lg">
+    <a (click)="verMasNoticias()" class="cursor-pointer">
+      <p class="text-md text-center">Mostrar más noticias <i class="fa-solid fa-angle-down"></i></p>
     </a>
   </div>
-</div>
 
 </div>
-<!-- Inicio componente Footer -->
-<app-footer ></app-footer>
-<!-- Fin Footer -->
+<br>
+<!--FIN DE CONTENEDOR NOTICIAS-->
+
+<!--Inicio componente Footer-->
+<app-footer></app-footer>
+<!--Fin Footer-->

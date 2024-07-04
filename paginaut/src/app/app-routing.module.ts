@@ -59,7 +59,8 @@ import { DanzaComponent } from './info-horas-recreativas/danza/danza.component';
 import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.component';
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
 import { EventoComponent } from './admin/evento/evento.component';
-
+import { NoticiaComponent } from './admin/noticia/noticia.component';
+import { NoticiasComponent } from './noticias/noticias.component';
 
 
 const routes: Routes = [
@@ -103,6 +104,9 @@ const routes: Routes = [
   {path: 'admin/galeria_admin', component: GaleriaAdminComponent},
   {path: 'admin/usuarios_admin', component: UsuariosAdminComponent},
   {path: 'admin/evento', component: EventoComponent},
+  {path: 'admin/noticia', component: NoticiaComponent},
+  { path: 'evento/:id', component: EventosComponent },
+  { path: 'noticia/:id', component: NoticiasComponent },
   
  
   //Info Carreras
