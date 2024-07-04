@@ -15,6 +15,8 @@ import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.co
 import { TallerComponent } from './taller/taller.component';
 import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
 import { NoticiaComponent } from './admin/noticia/noticia.component';
+import { InstalacionComponent } from './admin/instalacion/instalacion.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/principal', pathMatch: 'full' }, // Ruta por defecto
@@ -35,7 +37,8 @@ const routes: Routes = [
   {path: 'taller', component: TallerComponent},
   {path: 'direccion', component: AgregarDireccionComponent},
   {path: 'noticia', component: NoticiaComponent},
-  {path: 'registrar-evento', component: RegistrarEventoComponent} // Nueva ruta para registrar evento
+  {path: 'registrar-evento', component: RegistrarEventoComponent}, // Nueva ruta para registrar evento
+  {path: 'instalacion', component: InstalacionComponent} // Ruta para instalación
 ];
 
 @NgModule({

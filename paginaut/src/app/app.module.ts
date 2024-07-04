@@ -34,6 +34,7 @@ import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion
 import { TallerComponent } from './taller/taller.component';
 import { NoticiaComponent } from './admin/noticia/noticia.component';
 import { EventoComponent } from './admin/evento/evento.component';
+import { InstalacionComponent } from './admin/instalacion/instalacion.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { EventoComponent } from './admin/evento/evento.component';
     AgregarDireccionComponent,
     TallerComponent,
     NoticiaComponent,
-    EventoComponent
+    EventoComponent,
+    InstalacionComponent
   ],
   imports: [
     BrowserModule,
