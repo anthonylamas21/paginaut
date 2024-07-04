@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Table,TableModule } from 'primeng/table';
 import Swal from 'sweetalert2';
+import { EventoService, Evento } from '../evento.service'; 
 
 @Component({
   selector: 'app-principal',
@@ -9,11 +10,34 @@ import Swal from 'sweetalert2';
   styleUrl: './principal.component.css'
 })
 
+
 export class PrincipalComponent implements OnInit {
+  eventosRecientes: Evento[] = [];
+  constructor(private eventoService: EventoService) {}
 
   ngOnInit() {
-    // Inicializa Flasher
-    
+    this.cargarEventosRecientes();
+  }
+
+  cargarEventosRecientes(): void {
+    this.eventoService.obtenerEventosRecientes().subscribe({
+      next: (eventos) => {
+        this.eventosRecientes = eventos.map(evento => ({
+          ...evento,
+          imagen_principal: this.getImageUrl(evento.imagen_principal || ''),
+          imagenes_generales: (evento.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
+        }));
+      },
+      error: (error) => console.error('Error al cargar eventos recientes:', error)
+    });
+  }
+
+  getImageUrl(relativePath: string): string {
+    const baseImageUrl = 'http://localhost/paginaut/';
+    if (relativePath && relativePath.startsWith('../')) {
+      return baseImageUrl + relativePath.substring(3);
+    }
+    return baseImageUrl + relativePath;
   }
   @HostListener('window:scroll', [])
   onWindowScroll(): void {

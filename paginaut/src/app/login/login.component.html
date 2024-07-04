@@ -1,86 +1,90 @@
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
-    <div class="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden mx-4 max-w-sm lg:max-w-4xl border border-gray-300">
-      <!-- dispositivos grandes -->
-      <div class="hidden lg:block w-2/3 bg-cover">
-        <img class="w-full h-auto object-cover" src="./assets/img/UTClogin.jpg" alt="Image Description" />
-      </div>
-      <div class="w-full p-8 lg:w-2/3">
-        <div class="mt-4 flex items-center justify-center lg:justify-between">
-          
-            <!-- dispositivos móviles -->
-          <img class="block lg:hidden w-1/4 h-1/4 object-cover rounded-full mr-2" src="./assets/img/UTClogin.jpg" alt="Image Description" />
-          <span class="border-b border-primary-color w-1/6 hidden lg:block"></span>
-          <div class="flex items-center mx-4">
-            <h1 class="text-2xl text-center text-black uppercase font-bold">Iniciar Sesión</h1>
-          </div>
-          <span class="border-b border-primary-color w-1/6 hidden lg:block"></span>
+  
+  <div class="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden mx-4 max-w-sm lg:max-w-4xl border border-gray-300">
+    <!-- dispositivos grandes -->
+    <div class="hidden lg:block w-2/3 bg-cover">
+      <img class="w-full h-auto object-cover" src="./assets/img/UTClogin.jpg" alt="Image Description" />
+    </div>
+    <div class="w-full p-8 lg:w-2/3">
+      <div class="mt-4 flex items-center justify-center lg:justify-between">
+        
+          <!-- dispositivos móviles -->
+        <img class="block lg:hidden w-1/4 h-1/4 object-cover rounded-full mr-2" src="./assets/img/UTClogin.jpg" alt="Image Description" />
+        <span class="border-b border-primary-color w-1/6 hidden lg:block"></span>
+        <div class="flex items-center mx-4">
+          <h1 class="text-2xl text-center text-black uppercase font-bold">Iniciar Sesión</h1>
         </div>
+        <span class="border-b border-primary-color w-1/6 hidden lg:block"></span>
+      </div>
 
-        <form [formGroup]="FormAccessLogin" (ngSubmit)="submitLogin()">
-        <div class="mt-4">
-          <div class="max-w-sm">
-            <label for="input-email" class="block text-sm font-medium mb-2">Correo Electrónico</label>
+      <form [formGroup]="LoginForm" (ngSubmit)="onSubmitLogin()">
+      <div class="mt-4">
+        <div class="max-w-sm">
+          <label for="input-email" class="block text-sm font-medium mb-2">Correo Electrónico</label>
+          <input
+            type="email"
+            id="input-email"
+            class="py-3 border px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-color focus:ring-primary-color disabled:opacity-50 disabled:pointer-events-none"
+            placeholder="al05-033-0321@utdelacosta.edu.mx"
+            formControlName="correo"
+          />
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="max-w-sm">
+          <label class="block text-sm mb-2">Contraseña</label>
+          <div class="relative">
+
             <input
-              type="email"
-              id="input-email"
+              id="hs-toggle-password"
+              type="password"
               class="py-3 border px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-color focus:ring-primary-color disabled:opacity-50 disabled:pointer-events-none"
-              placeholder="al05-033-0321@utdelacosta.edu.mx"
-              formControlName="email"
+
+              placeholder="Ingresa Contraseña"
+              formControlName="contrasena"
             />
-          </div>
-        </div>
-        <div class="mt-4">
-          <div class="max-w-sm">
-            <label class="block text-sm mb-2">Contraseña</label>
-            <div class="relative">
-              <input
-                id="hs-toggle-password"
-                type="password"
-                class="py-3 border px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-color focus:ring-primary-color disabled:opacity-50 disabled:pointer-events-none"
-                placeholder="Ingresa Contraseña"
-                formControlName="contrasenia"
-              />
-              <button
-                type="button"
-                data-hs-toggle-password='{"target": "#hs-toggle-password"}'
-                class="absolute top-0 end-0 p-3.5 rounded-e-md"
+            <button
+              type="button"
+              data-hs-toggle-password='{"target": "#hs-toggle-password"}'
+              class="absolute top-0 end-0 p-3.5 rounded-e-md"
+            >
+              <svg
+                class="flex-shrink-0 size-3.5 text-gray-400"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+
               >
-                <svg
-                  class="flex-shrink-0 size-3.5 text-gray-400"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path class="hs-password-active:hidden" d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
-                  <path class="hs-password-active:hidden" d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
-                  <path class="hs-password-active:hidden" d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
-                  <line class="hs-password-active:hidden" x1="2" x2="22" y1="2" y2="22"></line>
-                  <path class="hidden hs-password-active:block" d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
-                  <circle class="hidden hs-password-active:block" cx="12" cy="12" r="3"></circle>
-                </svg>
-              </button>
-            </div>
+                <path class="hs-password-active:hidden" d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+                <path class="hs-password-active:hidden" d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
+                <path class="hs-password-active:hidden" d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
+                <line class="hs-password-active:hidden" x1="2" x2="22" y1="2" y2="22"></line>
+                <path class="hidden hs-password-active:block" d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                <circle class="hidden hs-password-active:block" cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
           </div>
         </div>
-        <div class="mt-8">
-          <button type="submit" class="bg-primary-color text-white font-bold py-2 px-4 w-full rounded hover:bg-primary-color-90">
-            Acceder
-          </button>
-        </div>
-      </form>
 
 
-        <div class="mt-4 flex items-center justify-between">
-          <span class="border-b border-primary-color w-1/5"></span>
-          <a href=""><span>Olvidé mi contraseña</span></a>
-          <span class="border-b border-primary-color w-1/5"></span>
-        </div>
       </div>
+      <div class="mt-8">
+        <button class="bg-primary-color text-white font-bold py-2 px-4 w-full rounded hover:bg-primary-color-90">
+          Acceder
+        </button>
+      </div>
+    </form>
+      <div class="mt-4 flex items-center justify-between">
+        <span class="border-b border-primary-color w-1/5"></span>
+        <a href=""><span>Olvidé mi contraseña</span></a>
+        <span class="border-b border-primary-color w-1/5"></span>
+      </div>
+
     </div>
   </div>
-  
+</div>

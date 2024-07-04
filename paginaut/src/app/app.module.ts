@@ -1,16 +1,23 @@
+
+import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 
+// PrimeNG Modules
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
+
+// Components
+import { AppComponent } from './app.component';
 import { PrincipalComponent } from './principal/principal.component';
 import { CarrerasComponent } from './carreras/carreras.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -37,6 +44,11 @@ import { CorreoComponent } from './correo/correo.component';
 //Rutas de administrator
 import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
+import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component';
+import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
+import { TallerComponent } from './taller/taller.component';
+import { NoticiaComponent } from './admin/noticia/noticia.component';
+import { EventoComponent } from './admin/evento/evento.component';
 import { InfoBecaComponent } from './info-beca/info-beca.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RedesSocialesComponent } from './redes-sociales/redes-sociales.component';
@@ -79,6 +91,7 @@ import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.co
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -94,6 +107,14 @@ import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.co
     InfoCarreraComponent,
     CalendarioComponent,
     PrincipalAdminComponent,
+    RegistrarEventoComponent,
+    AgregarDireccionComponent,
+    TallerComponent,
+    NoticiaComponent,
+    EventoComponent,
+  ],
+  imports: [
+    BrowserModule,
     CursosComponent,
     InfoCursoComponent,
     InfoUnidadesComponent,
@@ -137,19 +158,20 @@ import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.co
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    HttpClientModule,
     TableModule,
     InputTextModule,
     TagModule,
     ButtonModule,
     FormsModule,
     DropdownModule,
-    NgxMasonryModule 
+    NgxMasonryModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
-  bootstrap: [AppComponent],
-
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

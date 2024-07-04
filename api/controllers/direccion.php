@@ -5,10 +5,16 @@ header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-$root = dirname(__DIR__);  // Obtiene el directorio raíz del proyecto
+// Configuración de errores y logging
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+error_reporting(E_ALL);
+ini_set('error_log', 'C:/xampp/htdocs/paginaut/api/logs/php-error.log');
 
-include_once $root . '/config/database.php';
-include_once $root . '/models/Direccion.php';
+$root = dirname(__DIR__, 2);  // Obtiene el directorio raíz del proyecto
+
+require_once $root . '/api/config/database.php';
+require_once $root . '/api/models/Direccion.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -16,10 +22,11 @@ $db = $database->getConnection();
 $direccion = new Direccion($db);
 
 $request_method = $_SERVER["REQUEST_METHOD"];
-$data = json_decode(file_get_contents("php://input"));
 
 switch($request_method) {
     case 'POST':
+        $data = json_decode(file_get_contents("php://input"));
+        
         if (!empty($data->abreviatura) && !empty($data->nombre)) {
             $direccion->abreviatura = $data->abreviatura;
             $direccion->nombre = $data->nombre;
@@ -72,6 +79,7 @@ switch($request_method) {
         break;
 
     case 'PUT':
+        $data = json_decode(file_get_contents("php://input"));
         if (!empty($data->id)) {
             $direccion->id = $data->id;
             $direccion->abreviatura = $data->abreviatura;

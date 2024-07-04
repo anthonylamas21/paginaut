@@ -2,6 +2,7 @@
 class Usuario {
     private $conn;
     private $table_name = "Usuario";
+    private $table_token = "token_sesion";
 
     public $id;
     public $correo;
@@ -12,6 +13,8 @@ class Usuario {
     public $fecha_expiracion_token;
     public $activo;
     public $fecha_creacion;
+
+    public $token;
 
     public function __construct($db) {
         $this->conn = $db;
@@ -29,7 +32,14 @@ class Usuario {
         $this->rol_id = htmlspecialchars(strip_tags($this->rol_id));
         $this->departamento_id = htmlspecialchars(strip_tags($this->departamento_id));
         $this->token_recuperacion = htmlspecialchars(strip_tags($this->token_recuperacion));
-        $this->fecha_expiracion_token = htmlspecialchars(strip_tags($this->fecha_expiracion_token));
+        
+        // Manejo de fecha_expiracion_token
+            if (empty($this->fecha_expiracion_token)) {
+                $this->fecha_expiracion_token = null;
+            } else {
+                $this->fecha_expiracion_token = date('Y-m-d H:i:s', strtotime($this->fecha_expiracion_token));
+            }
+            
         $this->activo = htmlspecialchars(strip_tags($this->activo));
 
         $stmt->bindParam(":correo", $this->correo);
@@ -143,11 +153,56 @@ class Usuario {
     
         return false;
     }
+
+    function create_token_sesion($correo, $token) {
+        $query = "INSERT INTO " . $this->table_token . " 
+                    (correo, token) 
+                  VALUES 
+                    (:correo, :token)";
+        $stmt = $this->conn->prepare($query);
+
+        $this->correo = htmlspecialchars(strip_tags($this->correo));
+        $this->token = htmlspecialchars(strip_tags($this->token));
+
+        $stmt->bindParam(":correo", $correo);
+        $stmt->bindParam(":token", $token);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    function VerifyTokenExist($token) {
+        $query = "SELECT * FROM " . $this->table_token . " WHERE token = :token";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":token", $token);
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    function delete_token_sesion($token) {
+        $query = "DELETE FROM " . $this->table_token . " WHERE token = :token";
+        $stmt = $this->conn->prepare($query);
+
+        $this->token = htmlspecialchars(strip_tags($this->token));
+        $stmt->bindParam(':token', $token);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
     function generateRecoveryToken() {
         $token = bin2hex(random_bytes(16));
         $this->token_recuperacion = $token;
         $this->fecha_expiracion_token = date('Y-m-d H:i:s', strtotime('+1 day')); // Token válido por 1 día
         return $token;
     }
+
 }
 ?>

@@ -11,6 +11,11 @@ import { LoginComponent } from './login/login.component';
 import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { EventosComponent } from './eventos/eventos.component';
 import { CalendarioComponent } from './calendario/calendario.component';
+import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component'; // Importa el nuevo componente
+import { TallerComponent } from './taller/taller.component';
+import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
+import { NoticiaComponent } from './admin/noticia/noticia.component';
+import { EventoComponent } from './admin/evento/evento.component';
 import { CursosComponent } from './cursos/cursos.component';
 import { InfoCursoComponent } from './info-curso/info-curso.component';
 import { InfoUnidadesComponent } from './info-unidades/info-unidades.component';
@@ -73,11 +78,28 @@ const routes: Routes = [
   {path: 'principal', component: PrincipalComponent },
   {path: 'navbar', component: NavbarComponent },
   {path: 'componentes', component: ComponentesComponent},
+  {path: 'carreras', component: CarrerasComponent},
+  {path: 'becas', component: BecasComponent},
+  {path: 'unidades_academicas', component: UnidadesAcademicasComponent},
+  {path: 'lectura', component: TalleresComponent},
+  {path: 'login', component: LoginComponent},
+  {path: 'info_carrera', component: InfoCarreraComponent},
+  {path: 'eventos', component: EventosComponent},
+  {path: 'calendario', component: CalendarioComponent},
+  {path: 'taller', component: TallerComponent},
+  {path: 'direccion', component: AgregarDireccionComponent},
+  {path: 'noticia', component: NoticiaComponent},
+  { path: 'evento/:id', component: EventosComponent },
+  {path: 'registrar-evento', component: EventoComponent},
   {path: 'carreras', component:CarrerasComponent},
   {path: 'becas', component:BecasComponent},
   {path: 'unidades_academicas', component:UnidadesAcademicasComponent},
   {path: 'lectura', component:TalleresComponent},
   {path: 'login', component:LoginComponent},
+  {path: 'direccion', component: AgregarDireccionComponent},
+  {path: 'noticia', component: NoticiaComponent},
+  { path: 'evento/:id', component: EventosComponent },
+  {path: 'registrar-evento', component: EventoComponent},
   {path: 'info_carrera', component:InfoCarreraComponent},
   {path: 'eventos', component:EventosComponent},
   {path: 'calendario', component:CalendarioComponent},
@@ -131,22 +153,11 @@ const routes: Routes = [
 
 
   
+
 ];
 
 @NgModule({
-  
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
- 
-
-
-
-
-
-
-
-
-
-
