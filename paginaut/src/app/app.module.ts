@@ -76,6 +76,8 @@ import { BecasAdminComponent } from './admin/becas-admin/becas-admin.component';
 import { CalendarioAdminComponent } from './admin/calendario-admin/calendario-admin.component';
 import { GaleriaAdminComponent } from './admin/galeria-admin/galeria-admin.component';
 import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.component';
+import { NoticiasComponent } from './noticias/noticias.component';
+import { NoticiaComponent } from './admin/noticia/noticia.component';
 
 
 
@@ -133,6 +135,8 @@ import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.co
     RedesSocialesComponent,
     GaleriaComponent,
     EventoComponent,
+    NoticiasComponent,
+    NoticiaComponent,
   ],
   imports: [
     BrowserModule,
