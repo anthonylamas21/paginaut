@@ -36,6 +36,7 @@ const routes: Routes = [
   {path: 'taller', component: TallerComponent},
   {path: 'direccion', component: AgregarDireccionComponent},
   {path: 'noticia', component: NoticiaComponent},
+  { path: 'evento/:id', component: EventosComponent },
   {path: 'registrar-evento', component: EventoComponent}// Nueva ruta para registrar evento
 ];
 

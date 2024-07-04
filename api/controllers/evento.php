@@ -96,6 +96,15 @@ switch($request_method) {
                     "archivos" => $evento->getArchivos()
                 );
                 echo json_encode($evento_arr);
+            }elseif (isset($_GET['recent'])) {
+                $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 5;
+                $eventos_arr = $evento->readRecent($limit);
+                if (!empty($eventos_arr)) {
+                    echo json_encode(array("records" => $eventos_arr));
+                } else {
+                    http_response_code(404);
+                    echo json_encode(array("message" => "No se encontraron eventos recientes."));
+                }
             } else {
                 http_response_code(404);
                 echo json_encode(array("message" => "Evento no encontrado."));

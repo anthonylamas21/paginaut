@@ -577,5 +577,27 @@ class Evento {
         $stmt->bindParam(":asociado_id", $this->id);
         $stmt->execute();
     }
+    public function readRecent($limit = 5) {
+        $query = "SELECT * FROM " . $this->table_name . " 
+                  WHERE activo = TRUE 
+                  ORDER BY fecha_inicio DESC 
+                  LIMIT :limit";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":limit", $limit, PDO::PARAM_INT);
+        $stmt->execute();
+    
+        $eventos_arr = array();
+    
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $this->id = $row['id'];
+            $row['imagen_principal'] = $this->getImagenPrincipal();
+            $row['imagenes_generales'] = $this->getImagenesGenerales();
+            $row['archivos'] = $this->getArchivos();
+            array_push($eventos_arr, $row);
+        }
+    
+        return $eventos_arr;
+    }
 }
 ?>

@@ -99,7 +99,7 @@ CREATE TABLE Archivos (
     id SERIAL PRIMARY KEY,
     nombre_archivo VARCHAR(255) NOT NULL,
     ruta_archivo VARCHAR(255) NOT NULL,
-    tipo_archivo VARCHAR(50) NOT NULL, 
+    tipo_archivo VARCHAR(255) NOT NULL, 
     seccion VARCHAR(50) NOT NULL, -- Identifica a qué sección pertenece el archivo (asignatura, evento, calendario, etc.)
     asociado_id INT, -- ID del registro en la tabla correspondiente
     activo BOOLEAN DEFAULT TRUE,
