@@ -31,8 +31,13 @@ export class CarreraProcesosAlimentarioComponent {
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/procesos_alimenticios/proces1.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/procesos_alimenticios/proces2.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/procesos_alimenticios/proces3.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/procesos_alimenticios/proces4.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/procesos_alimenticios/proces5.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/procesos_alimenticios/proces6.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/procesos_alimenticios/proces7.jpg', alt: 'Image 1' },
     // más imágenes aquí
   ];
 
@@ -48,14 +53,13 @@ export class CarreraProcesosAlimentarioComponent {
       }
     }
   }
+
   ngAfterViewInit(): void {
     this.renderer.listen('window', 'load', () => {
-      setInterval(() => {
-        this.isLoading = false
-      }, 3000);  
-      
+        this.isLoading = false       
     });
   }
+  
   ngOnInit(): void {
     this.setNavbarColor();
   }

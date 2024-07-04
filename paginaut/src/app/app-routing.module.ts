@@ -11,12 +11,12 @@ import { LoginComponent } from './login/login.component';
 import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { EventosComponent } from './eventos/eventos.component';
 import { CalendarioComponent } from './calendario/calendario.component';
-import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component'; // Importa el nuevo componente
+import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component';
 import { TallerComponent } from './taller/taller.component';
 import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
 import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.component';
 import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-calendario.component';
-import { AgregarBecaComponent } from './admin/agregar-beca/agregar-beca.component'; // Asegúrate de ajustar la ruta si es necesario
+import { AgregarBecaComponent } from './admin/agregar-beca/agregar-beca.component';
 import { CursosComponent } from './cursos/cursos.component';
 import { InfoCursoComponent } from './info-curso/info-curso.component';
 import { InfoUnidadesComponent } from './info-unidades/info-unidades.component';
@@ -30,6 +30,9 @@ import { CorreoComponent } from './correo/correo.component';
 import { AcercaDeComponent } from './acerca-de/acerca-de.component';
 import { InfoBecaComponent } from './info-beca/info-beca.component';
 import { GaleriaComponent } from './galeria/galeria.component';
+import { EventoComponent } from './admin/evento/evento.component';
+import { NoticiaComponent } from './admin/noticia/noticia.component';
+import { NoticiasComponent } from './noticias/noticias.component';
 
 // Rutas Administrador
 import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
@@ -94,6 +97,8 @@ const routes: Routes = [
   { path: 'acerca_de', component: AcercaDeComponent },
   { path: 'info_becas', component: InfoBecaComponent },
   { path: 'galeria', component: GaleriaComponent },
+  { path: 'evento/:id', component: EventosComponent },
+  { path: 'noticia/:id', component: NoticiasComponent },
 
   // Rutas Administrador
   { path: 'admin/navbar_admin', component: NavbarAdminComponent },
@@ -105,6 +110,8 @@ const routes: Routes = [
   { path: 'admin/calendario_admin', component: CalendarioAdminComponent },
   { path: 'admin/galeria_admin', component: GaleriaAdminComponent },
   { path: 'admin/usuarios_admin', component: UsuariosAdminComponent },
+  { path: 'admin/evento', component: EventoComponent },
+  { path: 'admin/noticia', component: NoticiaComponent },
 
   // Info Carreras
   { path: 'info_carreras/agrobiotecnologia', component: CarreraAgrobiotecnologiaComponent },
