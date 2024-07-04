@@ -113,6 +113,7 @@ const routes: Routes = [
   {path: 'admin/instalacion', component: InstalacionComponent},
   { path: 'evento/:id', component: EventosComponent },
   { path: 'noticia/:id', component: NoticiasComponent },
+  { path: 'info-beca/:id', component: InfoBecaComponent },
 
   { path: 'registrar-evento', component: RegistrarEventoComponent },
   { path: 'admin/carreras', component: CarrerasAdminComponent }, // Nueva ruta para administrar carreras
