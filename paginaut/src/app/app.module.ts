@@ -5,6 +5,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxMasonryModule } from 'ngx-masonry';
 
+
 // PrimeNG Modules
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
