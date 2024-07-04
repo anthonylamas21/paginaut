@@ -60,6 +60,8 @@ switch ($request_method) {
             include_once 'controllers/taller.php';
         } elseif (strpos($request_uri, '/api/calendario') !== false) {
             include_once 'controllers/calendario.php';
+        } elseif (strpos($request_uri, '/api/beca') !== false) {
+            include_once 'controllers/beca.php';
         } elseif (strpos($request_uri, '/api/status') !== false) {
             // Nueva ruta para verificar el estado de la API
             header('Content-Type: application/json');
