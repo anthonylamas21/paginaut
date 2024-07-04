@@ -107,7 +107,7 @@ CREATE TABLE Archivos (
 );
 
 CREATE TABLE Evento (
-    id SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY, 
     titulo VARCHAR(50) NOT NULL,
     informacion_evento TEXT NOT NULL,
     activo BOOLEAN DEFAULT TRUE,

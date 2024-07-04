@@ -41,7 +41,7 @@ export class NavbarComponent  implements OnInit {
 
     this.token = localStorage.getItem('token');
   }
-
+ 
 
 
   ngOnInit() {
