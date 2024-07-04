@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('token', res.token);
           this.creaciontoken = res.token;
           this.token = res.token;
-          window.location.href = "/principal"
+          window.location.href = "/admin/principal_admin"
         },
         err => {
           console.log('Error al iniciar sesión', err);

@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Table,TableModule } from 'primeng/table';
 import Swal from 'sweetalert2';
-import { UsuarioService, Logout } from '../usuario.service';
+import { UsuarioService, Usuario, Logout } from '../usuario.service';
 
 interface Item {
   nombre: string;
@@ -41,7 +41,7 @@ export class NavbarComponent  implements OnInit {
 
     this.token = localStorage.getItem('token');
   }
- 
+
 
 
   ngOnInit() {

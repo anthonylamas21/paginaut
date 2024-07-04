@@ -85,9 +85,10 @@ export class BecasComponent implements OnInit {
       }
     }
   }
-
   
   scrollToSection(sectionId: string): void {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
+
+
 }
