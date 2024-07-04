@@ -128,25 +128,32 @@ export class AgregarCalendarioComponent implements OnInit {
     });
   }
 
+  deleteCalendario(id: number) {
+    this.calendarioService.deleteCalendario(id).subscribe({
+      next: (response: any) => {
+        console.log('Calendario eliminado con éxito', response);
+        this.successMessage = 'Calendario eliminado correctamente';
+        this.loadCalendarios(); // Vuelve a cargar los calendarios después de eliminar
+      },
+      error: (error: any) => {
+        console.error('Error al eliminar el calendario', error);
+        this.errorMessage = error.message;
+      },
+    });
+  }
+
   moveToTrash(id: number) {
-    const calendarioToUpdate = this.calendarios.find((cal) => cal.id === id);
-    if (calendarioToUpdate) {
-      calendarioToUpdate.activo = false;
-      this.calendarioService
-        .updateCalendarioStatus(calendarioToUpdate.id!, false)
-        .subscribe({
-          next: (response: any) => {
-            console.log('Calendario movido a la papelera con éxito', response);
-            this.successMessage =
-              'Calendario movido a la papelera correctamente';
-            this.loadCalendarios();
-          },
-          error: (error: any) => {
-            console.error('Error al mover el calendario a la papelera', error);
-            this.errorMessage = error.message;
-          },
-        });
-    }
+    this.calendarioService.updateCalendarioStatus(id, false).subscribe({
+      next: (response: any) => {
+        console.log('Calendario movido a la papelera con éxito', response);
+        this.successMessage = 'Calendario movido a la papelera correctamente';
+        this.loadCalendarios(); // Vuelve a cargar los calendarios después de mover a la papelera
+      },
+      error: (error: any) => {
+        console.error('Error al mover el calendario a la papelera', error);
+        this.errorMessage = error.message;
+      },
+    });
   }
 
   activateCalendario(id: number) {
@@ -203,19 +210,5 @@ export class AgregarCalendarioComponent implements OnInit {
               calendario.fecha_creacion.includes(value)))
       );
     }
-  }
-
-  deleteCalendario(id: number) {
-    this.calendarioService.deleteCalendario(id).subscribe({
-      next: (response: any) => {
-        console.log('Calendario eliminado con éxito', response);
-        this.successMessage = 'Calendario eliminado correctamente';
-        this.loadCalendarios();
-      },
-      error: (error: any) => {
-        console.error('Error al eliminar el calendario', error);
-        this.errorMessage = error.message;
-      },
-    });
   }
 }

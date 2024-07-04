@@ -119,11 +119,12 @@ switch ($request_method) {
         break;
 
     case 'PUT':
+        // Obtener los datos del cuerpo de la solicitud
         $data = json_decode(file_get_contents("php://input"));
 
-        if (isset($data->id) && isset($data->activo)) {
+        if (isset($data->id)) {
             $calendario->id = $data->id;
-            $calendario->activo = filter_var($data->activo, FILTER_VALIDATE_BOOLEAN);
+            $calendario->activo = $data->activo;
 
             if ($calendario->updateStatus()) {
                 http_response_code(200);

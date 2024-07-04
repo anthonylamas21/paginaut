@@ -79,6 +79,7 @@
                 id="archivo"
                 (change)="onFileChange($event)"
                 class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900"
+                required
               />
               <div
                 *ngIf="
@@ -210,6 +211,7 @@
             >
               <div class="w-full">
                 <button
+                  *ngIf="calendarios.length === 0"
                   type="button"
                   class="py-3 my-2 px-4 inline-flex button-secondary items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-color text-white hover:bg-primary-color-90 disabled:opacity-50 disabled:pointer-events-none"
                   (click)="openModal()"

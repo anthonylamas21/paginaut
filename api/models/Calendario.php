@@ -45,11 +45,7 @@ class Calendario
 
   function readOne()
   {
-    $query = "SELECT id, titulo, archivo, activo, fecha_creacion 
-              FROM " . $this->table_name . " 
-              WHERE id = ?
-              LIMIT 1";
-
+    $query = "SELECT id, titulo, archivo, activo, fecha_creacion FROM " . $this->table_name . " WHERE id = ? LIMIT 1";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(1, $this->id);
     $stmt->execute();
@@ -66,6 +62,7 @@ class Calendario
 
     return false;
   }
+
   function update()
   {
     // Primero, obtener el registro actual
@@ -108,11 +105,9 @@ class Calendario
     $query = "UPDATE " . $this->table_name . " SET activo = :activo WHERE id = :id";
     $stmt = $this->conn->prepare($query);
 
-    $this->id = htmlspecialchars(strip_tags($this->id));
-    $this->activo = filter_var($this->activo, FILTER_VALIDATE_BOOLEAN);
-
-    $stmt->bindParam(":id", $this->id);
-    $stmt->bindParam(":activo", $this->activo, PDO::PARAM_BOOL);
+    // Bind params
+    $stmt->bindParam(':activo', $this->activo, PDO::PARAM_BOOL);
+    $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
 
     if ($stmt->execute()) {
       return true;
@@ -120,6 +115,7 @@ class Calendario
 
     return false;
   }
+
 
   function delete()
   {

@@ -34,6 +34,7 @@ import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion
 import { TallerComponent } from './taller/taller.component';
 import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.component';
 import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-calendario.component';
+import { AgregarBecaComponent } from './admin/agregar-beca/agregar-beca.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-c
     TallerComponent,
     CarrerasAdminComponent,
     AgregarCalendarioComponent,
+    AgregarBecaComponent,
   ],
   imports: [
     BrowserModule,
