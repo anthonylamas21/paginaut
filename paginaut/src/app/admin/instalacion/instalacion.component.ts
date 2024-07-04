@@ -23,6 +23,7 @@ export class InstalacionComponent implements OnInit {
   modalTitle = '';
   currentImageIndex = 0;
   allImages: string[] = [];
+  titulo?: string;
 
   constructor(
     private instalacionService: InstalacionService,
@@ -44,6 +45,7 @@ export class InstalacionComponent implements OnInit {
       next: (response) => {
         this.instalaciones = response.records.map(instalacion => ({
           ...instalacion,
+          titulo: instalacion.nombre,
           imagen_principal: this.getImageUrl(instalacion.imagen_principal || ''),
           imagenes_generales: (instalacion.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
         }));
@@ -208,10 +210,10 @@ export class InstalacionComponent implements OnInit {
   filterGlobal(event: any): void {
     const searchValue = event.target.value.toLowerCase();
     this.filteredInstalaciones = this.instalaciones.filter(instalacion => 
-      instalacion.nombre.toLowerCase().includes(searchValue) ||
+      (instalacion.nombre && instalacion.nombre.toLowerCase().includes(searchValue)) ||
       instalacion.fecha_publicacion.toLowerCase().includes(searchValue)
     );
-  }
+}
 
   onFileChangePrincipal(event: any): void {
     const file = event.target.files[0];
