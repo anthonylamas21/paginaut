@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NoticiaService, Noticia } from '../../noticia.service';
+import Swal from 'sweetalert2';
 
 interface NoticiaTemporal extends Noticia {
   imagenesGeneralesOriginales?: string[];
@@ -157,13 +158,13 @@ export class NoticiaComponent implements OnInit {
             ).toPromise();
           })
           .then(() => {
-            this.responseMessage = 'Noticia actualizada con éxito';
+            this.showToast('success', 'Noticia actualizada con éxito');
             this.closeModal();
             this.loadNoticias();
           })
           .catch(error => {
             console.error('Error al actualizar la noticia:', error);
-            this.responseMessage = 'Error al actualizar la noticia: ' + (error.error?.message || error.message);
+            this.showToast('error', 'Error al actualizar la noticia: ' + (error.error?.message || error.message));
           })
           .finally(() => {
             this.isLoading = false;
@@ -176,13 +177,13 @@ export class NoticiaComponent implements OnInit {
           imagenesGenerales ? Array.from(imagenesGenerales) : undefined
         ).subscribe({
           next: (response) => {
-            this.responseMessage = 'Noticia creada con éxito';
+            this.showToast('success', 'Noticia creada con éxito');
             this.closeModal();
             this.loadNoticias();
           },
           error: (error) => {
             console.error('Error al crear la noticia:', error);
-            this.responseMessage = 'Error al crear la noticia: ' + (error.error?.message || error.message);
+            this.showToast('error', 'Error al crear la noticia: ' + (error.error?.message || error.message));
           },
           complete: () => {
             this.isLoading = false;
@@ -190,53 +191,53 @@ export class NoticiaComponent implements OnInit {
         });
       }
     } else {
-      this.responseMessage = 'Por favor, complete todos los campos requeridos correctamente.';
+      this.showToast('warning', 'Por favor, complete todos los campos requeridos correctamente.');
     }
   }
 
   confirmDeleteNoticia(id: number): void {
-    if (confirm('¿Estás seguro de que quieres eliminar esta noticia?')) {
+    this.showConfirmDialog('¿Estás seguro de que quieres eliminar esta noticia?', 'Esta acción no se puede deshacer.', () => {
       this.noticiaService.eliminarNoticia(id).subscribe({
         next: () => {
-          this.responseMessage = 'Noticia eliminada con éxito';
+          this.showToast('success', 'La noticia ha sido eliminada.');
           this.loadNoticias();
         },
         error: (error) => {
-          this.responseMessage = 'Error al eliminar la noticia';
+          this.showToast('error', 'Error al eliminar la noticia: ' + (error.error?.message || error.message));
           console.error('Error:', error);
         }
       });
-    }
+    });
   }
 
   desactivarNoticia(id: number): void {
-    if (confirm('¿Estás seguro de que quieres desactivar esta noticia?')) {
+    this.showConfirmDialog('¿Estás seguro de que quieres desactivar esta noticia?', 'La noticia no será visible para los usuarios.', () => {
       this.noticiaService.desactivarNoticia(id).subscribe({
         next: () => {
-          this.responseMessage = 'Noticia desactivada con éxito';
+          this.showToast('success', 'La noticia ha sido desactivada.');
           this.loadNoticias();
         },
         error: (error) => {
-          this.responseMessage = 'Error al desactivar la noticia';
+          this.showToast('error', 'Error al desactivar la noticia: ' + (error.error?.message || error.message));
           console.error('Error:', error);
         }
       });
-    }
+    });
   }
 
   activarNoticia(id: number): void {
-    if (confirm('¿Estás seguro de que quieres activar esta noticia?')) {
+    this.showConfirmDialog('¿Estás seguro de que quieres activar esta noticia?', 'La noticia será visible para los usuarios.', () => {
       this.noticiaService.activarNoticia(id).subscribe({
         next: () => {
-          this.responseMessage = 'Noticia activada con éxito';
+          this.showToast('success', 'La noticia ha sido activada.');
           this.loadNoticias();
         },
         error: (error) => {
-          this.responseMessage = 'Error al activar la noticia';
+          this.showToast('error', 'Error al activar la noticia: ' + (error.error?.message || error.message));
           console.error('Error:', error);
         }
       });
-    }
+    });
   }
 
   filterGlobal(event: any): void {
@@ -359,4 +360,64 @@ export class NoticiaComponent implements OnInit {
       this.filterNoticias();
     }
   }
+
+  private showToast(icon: 'success' | 'warning' | 'error' | 'info' | 'question', title: string): void {
+    const iconColors = {
+      success: '#008779',
+      warning: '#FD9B63',
+      error: '#EF4444',
+      info: '#3ABEF9',
+      question: '#5A72A0'
+    };
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      iconColor: iconColors[icon],
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+
+    Toast.fire({
+      icon: icon,
+      title: title
+    });
+  }
+
+  private showConfirmDialog(title: string, text: string, onConfirm: () => void): void {
+    Swal.fire({
+      title: title,
+      text: text,
+      icon: 'warning',
+      iconColor: '#FD9B63',
+      showCancelButton: true,
+      confirmButtonColor: '#EF4444',
+      cancelButtonColor: '#E5E7EB',
+      confirmButtonText: 'Sí, continuar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+      focusCancel: true,
+      didOpen: () => {
+        const confirmButton = Swal.getConfirmButton();
+        if (confirmButton) {
+          confirmButton.style.color = 'white';
+        }
+        const cancelButton = Swal.getCancelButton();
+        if (cancelButton) {
+          cancelButton.style.color = 'black';
+        }
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        onConfirm();
+      }
+    });
+  }
+
+
 }

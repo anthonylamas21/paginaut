@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EventoService, Evento } from '../../evento.service';
+import Swal from 'sweetalert2';
 
 interface EventoTemporal extends Evento {
   imagenesGeneralesOriginales?: string[];
@@ -207,90 +208,101 @@ export class EventoComponent implements OnInit {
             ).toPromise();
           })
           .then(() => {
-            this.responseMessage = 'Evento actualizado con éxito';
+            this.showToast('success', 'Evento actualizado con éxito');
             this.closeModal();
             this.loadEventos();
           })
           .catch(error => {
             console.error('Error al actualizar el evento:', error);
-            this.responseMessage = 'Error al actualizar el evento: ' + (error.error?.message || error.message);
+            this.showToast('error', 'Error al actualizar el evento: ' + (error.error?.message || error.message));
           })
           .finally(() => {
             this.isLoading = false;
-            // Limpia los arrays de elementos para eliminar
             this.imagenesParaEliminar = [];
             this.archivosParaEliminar = [];
           });
       } else {
-            this.eventoService.crearEvento(
-                eventoData,
-                imagenPrincipal,
-                imagenesGenerales ? Array.from(imagenesGenerales) : undefined,
-                archivos ? Array.from(archivos) : undefined
-            ).subscribe({
-                next: (response) => {
-                    this.responseMessage = 'Evento creado con éxito';
-                    this.closeModal();
-                    this.loadEventos();
-                },
-                error: (error) => {
-                    console.error('Error al crear el evento:', error);
-                    this.responseMessage = 'Error al crear el evento: ' + (error.error?.message || error.message);
-                },
-                complete: () => {
-                    this.isLoading = false;
-                }
-            });
-        }
+        this.eventoService.crearEvento(
+          eventoData,
+          imagenPrincipal,
+          imagenesGenerales ? Array.from(imagenesGenerales) : undefined,
+          archivos ? Array.from(archivos) : undefined
+        ).subscribe({
+          next: (response) => {
+            this.showToast('success', 'Evento creado con éxito');
+            this.closeModal();
+            this.loadEventos();
+          },
+          error: (error) => {
+            console.error('Error al crear el evento:', error);
+            this.showToast('error', 'Error al crear el evento: ' + (error.error?.message || error.message));
+          },
+          complete: () => {
+            this.isLoading = false;
+          }
+        });
+      }
     } else {
-        this.responseMessage = 'Por favor, complete todos los campos requeridos correctamente.';
+      this.showToast('warning', 'Por favor, complete todos los campos requeridos correctamente.');
     }
-}
+  }
 
 
   confirmDeleteEvento(id: number): void {
-    if (confirm('¿Estás seguro de que quieres eliminar este evento?')) {
-      this.eventoService.eliminarEvento(id).subscribe({
-        next: () => {
-          this.responseMessage = 'Evento eliminado con éxito';
-          this.loadEventos();
-        },
-        error: (error) => {
-          this.responseMessage = 'Error al eliminar el evento';
-          console.error('Error:', error);
-        }
-      });
-    }
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres eliminar este evento? Esta acción no se puede deshacer.',
+      () => {
+        this.eventoService.eliminarEvento(id).subscribe({
+          next: () => {
+            this.showToast('success', 'Evento eliminado con éxito');
+            this.loadEventos();
+          },
+          error: (error) => {
+            this.showToast('error', 'Error al eliminar el evento: ' + (error.error?.message || error.message));
+            console.error('Error:', error);
+          }
+        });
+      }
+    );
   }
 
   desactivarEvento(id: number): void {
-    if (confirm('¿Estás seguro de que quieres desactivar este evento?')) {
-      this.eventoService.desactivarEvento(id).subscribe({
-        next: () => {
-          this.responseMessage = 'Evento desactivado con éxito';
-          this.loadEventos();
-        },
-        error: (error) => {
-          this.responseMessage = 'Error al desactivar el evento';
-          console.error('Error:', error);
-        }
-      });
-    }
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres desactivar este evento? No será visible para los usuarios.',
+      () => {
+        this.eventoService.desactivarEvento(id).subscribe({
+          next: () => {
+            this.showToast('success', 'Evento desactivado con éxito');
+            this.loadEventos();
+          },
+          error: (error) => {
+            this.showToast('error', 'Error al desactivar el evento: ' + (error.error?.message || error.message));
+            console.error('Error:', error);
+          }
+        });
+      }
+    );
   }
 
   activarEvento(id: number): void {
-    if (confirm('¿Estás seguro de que quieres activar este evento?')) {
-      this.eventoService.activarEvento(id).subscribe({
-        next: () => {
-          this.responseMessage = 'Evento activado con éxito';
-          this.loadEventos();
-        },
-        error: (error) => {
-          this.responseMessage = 'Error al activar el evento';
-          console.error('Error:', error);
-        }
-      });
-    }
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres activar este evento? Será visible para los usuarios.',
+      () => {
+        this.eventoService.activarEvento(id).subscribe({
+          next: () => {
+            this.showToast('success', 'Evento activado con éxito');
+            this.loadEventos();
+          },
+          error: (error) => {
+            this.showToast('error', 'Error al activar el evento: ' + (error.error?.message || error.message));
+            console.error('Error:', error);
+          }
+        });
+      }
+    );
   }
 
   filterGlobal(event: any): void {
@@ -437,5 +449,62 @@ export class EventoComponent implements OnInit {
       this.eventos[index].activo = status;
       this.filterEventos();
     }
+  }
+  private showToast(icon: 'success' | 'warning' | 'error' | 'info' | 'question', title: string): void {
+    const iconColors = {
+      success: '#008779',
+      warning: '#FD9B63',
+      error: '#EF4444',
+      info: '#3ABEF9',
+      question: '#5A72A0'
+    };
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      iconColor: iconColors[icon],
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+
+    Toast.fire({
+      icon: icon,
+      title: title
+    });
+  }
+
+  private showConfirmDialog(title: string, text: string, onConfirm: () => void): void {
+    Swal.fire({
+      title: title,
+      text: text,
+      icon: 'warning',
+      iconColor: '#FD9B63',
+      showCancelButton: true,
+      confirmButtonColor: '#EF4444',
+      cancelButtonColor: '#E5E7EB',
+      confirmButtonText: 'Sí, continuar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+      focusCancel: true,
+      didOpen: () => {
+        const confirmButton = Swal.getConfirmButton();
+        if (confirmButton) {
+          confirmButton.style.color = 'white';
+        }
+        const cancelButton = Swal.getCancelButton();
+        if (cancelButton) {
+          cancelButton.style.color = 'black';
+        }
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        onConfirm();
+      }
+    });
   }
 }

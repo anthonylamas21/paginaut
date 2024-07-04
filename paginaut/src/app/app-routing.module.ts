@@ -35,6 +35,7 @@ import { BecasAdminComponent } from './admin/becas-admin/becas-admin.component';
 import { CalendarioAdminComponent } from './admin/calendario-admin/calendario-admin.component';
 import { GaleriaAdminComponent } from './admin/galeria-admin/galeria-admin.component';
 import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.component';
+import { InstalacionComponent } from './admin/instalacion/instalacion.component';
 
 
 //Info Carreras
@@ -105,6 +106,7 @@ const routes: Routes = [
   {path: 'admin/usuarios_admin', component: UsuariosAdminComponent},
   {path: 'admin/evento', component: EventoComponent},
   {path: 'admin/noticia', component: NoticiaComponent},
+  {path: 'admin/instalacion', component: InstalacionComponent},
   { path: 'evento/:id', component: EventosComponent },
   { path: 'noticia/:id', component: NoticiasComponent },
   
