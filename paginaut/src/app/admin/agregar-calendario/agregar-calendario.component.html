@@ -10,11 +10,11 @@
   </h2>
 </div>
 
-
-
-
 <!-- Modal -->
-<div [ngClass]="{ 'hidden': !isModalOpen }" class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
+<div
+  [ngClass]="{ hidden: !isModalOpen }"
+  class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4"
+>
   <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
     <div
       class="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10"
@@ -111,7 +111,6 @@
             >
           </p>
         </div>
->>>>>>> 3ddd3c57a47c31f7bc478d1ca6e0eeac9462baf7
       </div>
     </form>
 
@@ -138,12 +137,14 @@
 </div>
 
 <!-- View Modal -->
-<div   [ngClass]="{
-  'hs-overlay-open': isViewModalOpen,
-  hidden: !isViewModalOpen,
-  'hs-overlay': true
-}" class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
-
+<div
+  [ngClass]="{
+    'hs-overlay-open': isViewModalOpen,
+    hidden: !isViewModalOpen,
+    'hs-overlay': true
+  }"
+  class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4"
+>
   <div
     class="hs-overlay-content mt-7 opacity-100 transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto"
   >
