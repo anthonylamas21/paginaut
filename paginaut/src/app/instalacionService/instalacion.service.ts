@@ -54,6 +54,11 @@ export class InstalacionService {
       catchError(this.handleError)
     );
   }
+  obtenerInstalacionPorId(id: number): Observable<Instalacion> {
+    return this.http.get<Instalacion>(`${this.apiUrl}?id=${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
 
   actualizarInstalacion(instalacion: Instalacion, imagenPrincipal?: File, imagenesGenerales?: File[]): Observable<any> {
     const formData: FormData = new FormData();

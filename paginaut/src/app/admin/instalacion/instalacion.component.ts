@@ -332,4 +332,6 @@ export class InstalacionComponent implements OnInit {
       this.filterInstalaciones();
     }
   }
+
+  
 }
