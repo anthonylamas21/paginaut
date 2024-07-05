@@ -171,12 +171,15 @@ const routes: Routes = [
   { path: 'noticia/:id', component: NoticiasComponent },
   { path: 'info-beca/:id', component: InfoBecaComponent },
   { path: 'info-unidades/:id', component: InfoUnidadesComponent },
-  { path: 'agenda-admin', component: AgendaAdminComponent },
+  { path: 'admin/agenda-admin', component: AgendaAdminComponent },
 
-  { path: 'registrar-evento', component: RegistrarEventoComponent },
+  { path: 'admin/registrar-evento', component: RegistrarEventoComponent },
   { path: 'admin/carreras', component: CarrerasAdminComponent }, // Nueva ruta para administrar carreras
-  { path: 'agregar-calendario', component: AgregarCalendarioComponent },
-  { path: 'agregar-beca', component: AgregarBecaComponent },
+  { path: 'admin/agregar-calendario', component: AgregarCalendarioComponent },
+  { path: 'admin/agregar-beca', component: AgregarBecaComponent },
+  { path: '**', component: NotFoundComponent}
+
+
 ];
 
 @NgModule({
