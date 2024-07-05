@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { BecaService, Beca } from '../admin/beca.service';
 
@@ -7,35 +7,44 @@ import { BecaService, Beca } from '../admin/beca.service';
   templateUrl: './becas.component.html',
   styleUrls: ['./becas.component.css']
 })
-export class BecasComponent implements OnInit {
+export class BecasComponent implements OnInit, AfterViewInit {
   isLoading = true;
   becas: Beca[] = [];
   error: string | null = null;
 
   constructor(
     private becaService: BecaService,
-    private router: Router
+    private router: Router,
+    private renderer: Renderer2,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.cargarBecas();
-    this.setNavbarColor();
+  }
+
+  ngAfterViewInit(): void {
+    // Asegurarse de que el navbar se coloree después de que la vista se haya inicializado
+    setTimeout(() => {
+      this.setNavbarColor();
+      this.cdRef.detectChanges();
+    }, 0);
   }
 
   cargarBecas(): void {
     this.becaService.getBecas().subscribe({
       next: (response) => {
         if (response && Array.isArray(response.records)) {
-                    this.becas = response.records.filter(beca => beca.activo); // Filtrar becas activas
+          this.becas = response.records.filter(beca => beca.activo);
         } else {
-                    console.error('La respuesta no tiene la estructura esperada:', response);
-                    this.error = 'La respuesta del servidor no tiene el formato esperado.';
+          console.error('La respuesta no tiene la estructura esperada:', response);
+          this.error = 'La respuesta del servidor no tiene el formato esperado.';
         }
         this.isLoading = false;
       },
       error: (error) => {
-                console.error('Error al cargar becas:', error);
-                this.error = 'No se pudieron cargar las becas. Por favor, intente más tarde.';
+        console.error('Error al cargar becas:', error);
+        this.error = 'No se pudieron cargar las becas. Por favor, intente más tarde.';
         this.isLoading = false;
       }
     });
@@ -46,8 +55,6 @@ export class BecasComponent implements OnInit {
       this.router.navigate(['/info-beca', id]);
     } else {
       console.error('ID de beca no disponible');
-      // Aquí puedes manejar el caso cuando el ID no está disponible,
-      // por ejemplo, mostrando un mensaje al usuario.
     }
   }
 
@@ -59,35 +66,28 @@ export class BecasComponent implements OnInit {
     return baseUrl + relativePath;
   }
 
-
-
-  @HostListener('window:scroll', [])
-  onWindowScroll(): void {
-    this.setNavbarColor();
-  }
-
   private setNavbarColor(): void {
-    const button = document.getElementById('scrollTopButton');
     const navbar = document.getElementById('navbarAccion');
-    const inicioSection = document.getElementById('inicio');
-
-    if (inicioSection && navbar) {
-      const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
-
-      if (window.scrollY > inicioSectionBottom) {
-        button?.classList.remove('hidden');
-      } else {
-        button?.classList.add('hidden');
-      }
-      
-      navbar.classList.remove('bg-transparent');
-      navbar.classList.add('bg-[#043D3D]');
+    if (navbar) {
+      this.renderer.removeClass(navbar, 'bg-transparent');
+      this.renderer.addClass(navbar, 'bg-[#043D3D]');
+      this.renderer.setStyle(navbar, 'position', 'fixed');
+      this.renderer.setStyle(navbar, 'top', '0');
+      this.renderer.setStyle(navbar, 'left', '0');
+      this.renderer.setStyle(navbar, 'right', '0');
+      this.renderer.setStyle(navbar, 'z-index', '1000');
+    }
+    
+    const button = document.getElementById('scrollTopButton');
+    if (button) {
+      this.renderer.addClass(button, 'hidden');
     }
   }
-  
+
   scrollToSection(sectionId: string): void {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
-
-
 }

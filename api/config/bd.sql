@@ -9,8 +9,8 @@ CREATE TABLE Rol (
 
 CREATE TABLE token_sesion (
     id SERIAL PRIMARY KEY,
-    correo INT NOT NULL UNIQUE,
-    token INT NOT NULL,
+    correo VARCHAR(50) NOT NULL UNIQUE,
+    token VARCHAR(255) NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
