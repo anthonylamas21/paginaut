@@ -1,6 +1,49 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { CalendarioService, Calendario } from '../calendario.service';
+import Swal from 'sweetalert2';
+
+class TooltipManager {
+  static adjustTooltipPosition(
+    button: HTMLElement,
+    tooltip: HTMLElement
+  ): void {
+    // Obtener dimensiones del botón y del tooltip
+    const buttonRect = button.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
+
+    // Obtener dimensiones de la ventana
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    // Calcular la posición preferida del tooltip
+    const preferredLeft =
+      buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
+    const preferredTop = buttonRect.top - tooltipRect.height - 10; // Espacio entre el botón y el tooltip
+
+    // Ajustar la posición si se sale de la pantalla hacia la izquierda
+    let left = Math.max(preferredLeft, 0);
+
+    // Ajustar la posición si se sale de la pantalla hacia arriba
+    let top = Math.max(preferredTop, 0);
+
+    // Ajustar la posición si el tooltip se sale de la pantalla hacia la derecha
+    if (left + tooltipRect.width > windowWidth) {
+      left = windowWidth - tooltipRect.width;
+    }
+
+    // Ajustar la posición si el tooltip se sale de la pantalla hacia abajo
+    if (top + tooltipRect.height > windowHeight) {
+      top = windowHeight - tooltipRect.height;
+    }
+
+    // Aplicar posición al tooltip
+    tooltip.style.position = 'fixed';
+    tooltip.style.top = `${top}px`;
+    tooltip.style.left = `${left}px`;
+  }
+}
 
 @Component({
   selector: 'app-agregar-calendario',
@@ -12,18 +55,23 @@ export class AgregarCalendarioComponent implements OnInit {
   errorMessage: string = '';
   successMessage: string = '';
   isModalOpen: boolean = false;
+  isViewModalOpen: boolean = false;
   calendarios: Calendario[] = [];
   filteredCalendarios: Calendario[] = [];
   papeleraCalendarios: Calendario[] = [];
   currentCalendarioId?: number;
   currentCalendario?: Calendario;
+  selectedCalendario?: Calendario;
   currentTab: 'active' | 'inactive' = 'active';
   fileToUpload: File | null = null;
   currentFileName: string = '';
+  hasActiveCalendario: boolean = false;
+  baseImageUrl = 'http://localhost/paginaut/';
 
   constructor(
     private fb: FormBuilder,
-    private calendarioService: CalendarioService
+    private calendarioService: CalendarioService,
+    public sanitizer: DomSanitizer
   ) {
     this.calendarioForm = this.fb.group({
       titulo: ['', [Validators.required, Validators.maxLength(50)]],
@@ -49,34 +97,33 @@ export class AgregarCalendarioComponent implements OnInit {
         formData.append('id', this.currentCalendarioId.toString());
         this.calendarioService.updateCalendario(formData).subscribe({
           next: (response: any) => {
-            console.log('Calendario actualizado con éxito', response);
-            this.successMessage = 'Calendario actualizado correctamente';
+            this.showToast('success', 'Calendario actualizado correctamente');
             this.loadCalendarios();
             this.resetForm();
             this.closeModal();
           },
           error: (error: any) => {
-            console.error('Error al actualizar el calendario', error);
-            this.errorMessage = error.message;
+            this.showToast('error', error.message);
           },
         });
       } else {
         this.calendarioService.addCalendario(formData).subscribe({
           next: (response: any) => {
-            console.log('Calendario agregado con éxito', response);
-            this.successMessage = 'Calendario agregado correctamente';
+            this.showToast('success', 'Calendario agregado correctamente');
             this.loadCalendarios();
             this.resetForm();
             this.closeModal();
           },
           error: (error: any) => {
-            console.error('Error al agregar el calendario', error);
-            this.errorMessage = error.message;
+            this.showToast('error', error.message);
           },
         });
       }
     } else {
-      this.errorMessage = 'Por favor, completa todos los campos requeridos.';
+      this.showToast(
+        'warning',
+        'Por favor, completa todos los campos requeridos.'
+      );
     }
   }
 
@@ -115,45 +162,65 @@ export class AgregarCalendarioComponent implements OnInit {
     this.isModalOpen = false;
   }
 
+  openViewModal(calendario: Calendario) {
+    this.selectedCalendario = calendario;
+    this.isViewModalOpen = true;
+  }
+
+  closeViewModal() {
+    this.isViewModalOpen = false;
+  }
+
   loadCalendarios() {
     this.calendarioService.getCalendarios().subscribe({
       next: (response: any) => {
         this.calendarios = response.records;
+        this.hasActiveCalendario = this.calendarios.some((cal) => cal.activo);
         this.filterCalendarios();
       },
       error: (error: any) => {
-        console.error('Error al cargar los calendarios', error);
-        this.errorMessage = error.message;
+        this.showToast('error', error.message);
       },
     });
   }
 
   deleteCalendario(id: number) {
-    this.calendarioService.deleteCalendario(id).subscribe({
-      next: (response: any) => {
-        console.log('Calendario eliminado con éxito', response);
-        this.successMessage = 'Calendario eliminado correctamente';
-        this.loadCalendarios(); // Vuelve a cargar los calendarios después de eliminar
-      },
-      error: (error: any) => {
-        console.error('Error al eliminar el calendario', error);
-        this.errorMessage = error.message;
-      },
-    });
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres eliminar este calendario? Esta acción no se puede deshacer.',
+      () => {
+        this.calendarioService.deleteCalendario(id).subscribe({
+          next: (response: any) => {
+            this.showToast('success', 'Calendario eliminado correctamente');
+            this.loadCalendarios();
+          },
+          error: (error: any) => {
+            this.showToast('error', error.message);
+          },
+        });
+      }
+    );
   }
 
   moveToTrash(id: number) {
-    this.calendarioService.updateCalendarioStatus(id, false).subscribe({
-      next: (response: any) => {
-        console.log('Calendario movido a la papelera con éxito', response);
-        this.successMessage = 'Calendario movido a la papelera correctamente';
-        this.loadCalendarios(); // Vuelve a cargar los calendarios después de mover a la papelera
-      },
-      error: (error: any) => {
-        console.error('Error al mover el calendario a la papelera', error);
-        this.errorMessage = error.message;
-      },
-    });
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres mover este calendario a la papelera?',
+      () => {
+        this.calendarioService.updateCalendarioStatus(id, false).subscribe({
+          next: (response: any) => {
+            this.showToast(
+              'success',
+              'Calendario movido a la papelera correctamente'
+            );
+            this.loadCalendarios();
+          },
+          error: (error: any) => {
+            this.showToast('error', error.message);
+          },
+        });
+      }
+    );
   }
 
   activateCalendario(id: number) {
@@ -166,13 +233,11 @@ export class AgregarCalendarioComponent implements OnInit {
       formData.append('activo', 'true');
       this.calendarioService.updateCalendario(formData).subscribe({
         next: (response: any) => {
-          console.log('Calendario activado con éxito', response);
-          this.successMessage = 'Calendario activado correctamente';
+          this.showToast('success', 'Calendario activado correctamente');
           this.loadCalendarios();
         },
         error: (error: any) => {
-          console.error('Error al activar el calendario', error);
-          this.errorMessage = error.message;
+          this.showToast('error', error.message);
         },
       });
     }
@@ -184,6 +249,7 @@ export class AgregarCalendarioComponent implements OnInit {
   }
 
   filterCalendarios() {
+    this.hasActiveCalendario = this.calendarios.some((cal) => cal.activo);
     if (this.currentTab === 'active') {
       this.filteredCalendarios = this.calendarios.filter((cal) => cal.activo);
     } else {
@@ -210,5 +276,71 @@ export class AgregarCalendarioComponent implements OnInit {
               calendario.fecha_creacion.includes(value)))
       );
     }
+  }
+
+  viewCalendario(calendario: Calendario) {
+    this.selectedCalendario = calendario;
+    this.isViewModalOpen = true;
+  }
+
+  mostrar(elemento: any): void {
+    if (elemento.tagName.toLowerCase() === 'button') {
+      const tooltipElement = elemento.querySelector('.hs-tooltip');
+      if (tooltipElement) {
+        tooltipElement.classList.toggle('show');
+        const tooltipContent = tooltipElement.querySelector(
+          '.hs-tooltip-content'
+        );
+        if (tooltipContent) {
+          tooltipContent.classList.toggle('hidden');
+          tooltipContent.classList.toggle('invisible');
+          tooltipContent.classList.toggle('visible');
+          TooltipManager.adjustTooltipPosition(elemento, tooltipContent);
+        }
+      }
+    }
+  }
+
+  private showToast(
+    icon: 'success' | 'warning' | 'error' | 'info' | 'question',
+    title: string
+  ): void {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
+
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+  }
+
+  private showConfirmDialog(
+    title: string,
+    text: string,
+    onConfirm: () => void
+  ): void {
+    Swal.fire({
+      title: title,
+      text: text,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, confirmar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        onConfirm();
+      }
+    });
   }
 }

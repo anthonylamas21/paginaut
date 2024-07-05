@@ -1,6 +1,48 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BecaService, Beca } from '../beca.service';
+import Swal from 'sweetalert2';
+
+class TooltipManager {
+  static adjustTooltipPosition(
+    button: HTMLElement,
+    tooltip: HTMLElement
+  ): void {
+    // Obtener dimensiones del botón y del tooltip
+    const buttonRect = button.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
+
+    // Obtener dimensiones de la ventana
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    // Calcular la posición preferida del tooltip
+    const preferredLeft =
+      buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
+    const preferredTop = buttonRect.top - tooltipRect.height - 10; // Espacio entre el botón y el tooltip
+
+    // Ajustar la posición si se sale de la pantalla hacia la izquierda
+    let left = Math.max(preferredLeft, 0);
+
+    // Ajustar la posición si se sale de la pantalla hacia arriba
+    let top = Math.max(preferredTop, 0);
+
+    // Ajustar la posición si el tooltip se sale de la pantalla hacia la derecha
+    if (left + tooltipRect.width > windowWidth) {
+      left = windowWidth - tooltipRect.width;
+    }
+
+    // Ajustar la posición si el tooltip se sale de la pantalla hacia abajo
+    if (top + tooltipRect.height > windowHeight) {
+      top = windowHeight - tooltipRect.height;
+    }
+
+    // Aplicar posición al tooltip
+    tooltip.style.position = 'fixed';
+    tooltip.style.top = `${top}px`;
+    tooltip.style.left = `${left}px`;
+  }
+}
 
 @Component({
   selector: 'app-agregar-beca',
@@ -129,44 +171,56 @@ export class AgregarBecaComponent implements OnInit {
   }
 
   moveToTrash(id: number) {
-    const becaToUpdate = this.becas.find((beca) => beca.id === id);
-    if (becaToUpdate) {
-      becaToUpdate.activo = false;
-      this.becaService.updateBecaStatus(becaToUpdate.id!, false).subscribe({
-        next: (response: any) => {
-          console.log('Beca movida a la papelera con éxito', response);
-          this.successMessage = 'Beca movida a la papelera correctamente';
-          this.loadBecas();
-        },
-        error: (error: any) => {
-          console.error('Error al mover la beca a la papelera', error);
-          this.errorMessage = error.message;
-        },
-      });
-    }
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres mover esta beca a la papelera? Esta acción no se puede deshacer.',
+      () => {
+        const becaToUpdate = this.becas.find((beca) => beca.id === id);
+        if (becaToUpdate) {
+          becaToUpdate.activo = false;
+          this.becaService.updateBecaStatus(becaToUpdate.id!, false).subscribe({
+            next: (response: any) => {
+              console.log('Beca movida a la papelera con éxito', response);
+              this.successMessage = 'Beca movida a la papelera correctamente';
+              this.loadBecas();
+            },
+            error: (error: any) => {
+              console.error('Error al mover la beca a la papelera', error);
+              this.errorMessage = error.message;
+            },
+          });
+        }
+      }
+    );
   }
 
   activateBeca(id: number) {
-    const becaToUpdate = this.becas.find((beca) => beca.id === id);
-    if (becaToUpdate) {
-      becaToUpdate.activo = true;
-      const formData: FormData = new FormData();
-      formData.append('id', becaToUpdate.id!.toString());
-      formData.append('nombre', becaToUpdate.nombre);
-      formData.append('descripcion', becaToUpdate.descripcion);
-      formData.append('activo', 'true');
-      this.becaService.updateBeca(formData).subscribe({
-        next: (response: any) => {
-          console.log('Beca activada con éxito', response);
-          this.successMessage = 'Beca activada correctamente';
-          this.loadBecas();
-        },
-        error: (error: any) => {
-          console.error('Error al activar la beca', error);
-          this.errorMessage = error.message;
-        },
-      });
-    }
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres activar esta beca? Será visible para los usuarios.',
+      () => {
+        const becaToUpdate = this.becas.find((beca) => beca.id === id);
+        if (becaToUpdate) {
+          becaToUpdate.activo = true;
+          const formData: FormData = new FormData();
+          formData.append('id', becaToUpdate.id!.toString());
+          formData.append('nombre', becaToUpdate.nombre);
+          formData.append('descripcion', becaToUpdate.descripcion);
+          formData.append('activo', 'true');
+          this.becaService.updateBeca(formData).subscribe({
+            next: (response: any) => {
+              console.log('Beca activada con éxito', response);
+              this.successMessage = 'Beca activada correctamente';
+              this.loadBecas();
+            },
+            error: (error: any) => {
+              console.error('Error al activar la beca', error);
+              this.errorMessage = error.message;
+            },
+          });
+        }
+      }
+    );
   }
 
   switchTab(tab: 'active' | 'inactive') {
@@ -202,16 +256,107 @@ export class AgregarBecaComponent implements OnInit {
   }
 
   deleteBeca(id: number) {
-    this.becaService.deleteBeca(id).subscribe({
-      next: (response: any) => {
-        console.log('Beca eliminada con éxito', response);
-        this.successMessage = 'Beca eliminada correctamente';
-        this.loadBecas();
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres eliminar esta beca? Esta acción no se puede deshacer.',
+      () => {
+        this.becaService.deleteBeca(id).subscribe({
+          next: (response: any) => {
+            console.log('Beca eliminada con éxito', response);
+            this.successMessage = 'Beca eliminada correctamente';
+            this.loadBecas();
+          },
+          error: (error: any) => {
+            console.error('Error al eliminar la beca', error);
+            this.errorMessage = error.message;
+          },
+        });
+      }
+    );
+  }
+
+  mostrar(elemento: any): void {
+    // Verifica si el elemento recibido es un botón
+    if (elemento.tagName.toLowerCase() === 'button') {
+      const tooltipElement = elemento.querySelector('.hs-tooltip');
+      if (tooltipElement) {
+        tooltipElement.classList.toggle('show');
+        const tooltipContent = tooltipElement.querySelector(
+          '.hs-tooltip-content'
+        );
+        if (tooltipContent) {
+          tooltipContent.classList.toggle('hidden');
+          tooltipContent.classList.toggle('invisible');
+          tooltipContent.classList.toggle('visible');
+          // Ajustar la posición del tooltip
+          TooltipManager.adjustTooltipPosition(elemento, tooltipContent);
+        }
+      }
+    }
+  }
+
+  private showToast(
+    icon: 'success' | 'warning' | 'error' | 'info' | 'question',
+    title: string
+  ): void {
+    const iconColors = {
+      success: '#008779',
+      warning: '#FD9B63',
+      error: '#EF4444',
+      info: '#3ABEF9',
+      question: '#5A72A0',
+    };
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      iconColor: iconColors[icon],
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
       },
-      error: (error: any) => {
-        console.error('Error al eliminar la beca', error);
-        this.errorMessage = error.message;
+    });
+
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+  }
+
+  private showConfirmDialog(
+    title: string,
+    text: string,
+    onConfirm: () => void
+  ): void {
+    Swal.fire({
+      title: title,
+      text: text,
+      icon: 'warning',
+      iconColor: '#FD9B63',
+      showCancelButton: true,
+      confirmButtonColor: '#EF4444',
+      cancelButtonColor: '#E5E7EB',
+      confirmButtonText: 'Sí, continuar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+      focusCancel: true,
+      didOpen: () => {
+        const confirmButton = Swal.getConfirmButton();
+        if (confirmButton) {
+          confirmButton.style.color = 'white';
+        }
+        const cancelButton = Swal.getCancelButton();
+        if (cancelButton) {
+          cancelButton.style.color = 'black';
+        }
       },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        onConfirm();
+      }
     });
   }
 }

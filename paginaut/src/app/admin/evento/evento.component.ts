@@ -53,7 +53,7 @@ interface EventoTemporal extends Evento {
 @Component({
   selector: 'app-evento',
   templateUrl: './evento.component.html',
-  styleUrls: ['./evento.component.css']
+  styleUrls: ['./evento.component.css'],
 })
 export class EventoComponent implements OnInit {
   eventos: Evento[] = [];
@@ -77,10 +77,7 @@ export class EventoComponent implements OnInit {
   archivosParaEliminar: string[] = [];
   eventoTemporal: EventoTemporal | null = null;
 
-  constructor(
-    private eventoService: EventoService,
-    private fb: FormBuilder
-  ) {
+  constructor(private eventoService: EventoService, private fb: FormBuilder) {
     this.eventoForm = this.fb.group({
       titulo: ['', [Validators.required, Validators.maxLength(50)]],
       informacion_evento: ['', Validators.required],
@@ -89,26 +86,28 @@ export class EventoComponent implements OnInit {
       fecha_inicio: ['', Validators.required],
       fecha_fin: ['', Validators.required],
       hora_inicio: ['', Validators.required],
-      hora_fin: ['', Validators.required]
+      hora_fin: ['', Validators.required],
     });
   }
 
   ngOnInit(): void {
     this.loadEventos();
   }
-  
+
   loadEventos(): void {
     this.eventoService.obtenerEventos().subscribe({
       next: (response) => {
-        this.eventos = response.records.map(evento => ({
+        this.eventos = response.records.map((evento) => ({
           ...evento,
           imagen_principal: this.getImageUrl(evento.imagen_principal || ''),
-          imagenes_generales: (evento.imagenes_generales || []).map((img: string) => this.getImageUrl(img)),
-          archivos: evento.archivos || []
+          imagenes_generales: (evento.imagenes_generales || []).map(
+            (img: string) => this.getImageUrl(img)
+          ),
+          archivos: evento.archivos || [],
         }));
         this.filterEventos();
       },
-      error: (error) => console.error('Error al cargar eventos:', error)
+      error: (error) => console.error('Error al cargar eventos:', error),
     });
   }
 
@@ -120,8 +119,12 @@ export class EventoComponent implements OnInit {
   }
 
   filterEventos(): void {
-    this.filteredEventos = this.eventos.filter(evento => evento.activo !== false);
-    this.papeleraEventos = this.eventos.filter(evento => evento.activo === false);
+    this.filteredEventos = this.eventos.filter(
+      (evento) => evento.activo !== false
+    );
+    this.papeleraEventos = this.eventos.filter(
+      (evento) => evento.activo === false
+    );
   }
 
   openModal(evento?: Evento): void {
@@ -129,21 +132,23 @@ export class EventoComponent implements OnInit {
     if (evento) {
       this.currentEventoId = evento.id!;
 
-      
-      
       // Formatear las fechas
-      const fechaInicio = evento.fecha_inicio ? this.formatDate(new Date(evento.fecha_inicio)) : '';
-      const fechaFin = evento.fecha_fin ? this.formatDate(new Date(evento.fecha_fin)) : '';
+      const fechaInicio = evento.fecha_inicio
+        ? this.formatDate(new Date(evento.fecha_inicio))
+        : '';
+      const fechaFin = evento.fecha_fin
+        ? this.formatDate(new Date(evento.fecha_fin))
+        : '';
 
       this.eventoForm.patchValue({
         ...evento,
         fecha_inicio: fechaInicio,
-        fecha_fin: fechaFin
+        fecha_fin: fechaFin,
       });
 
       this.imagenPrincipalPreview = evento.imagen_principal || null;
-      this.imagenesGeneralesActuales = [...evento.imagenes_generales || []];
-      this.archivosActuales = [...evento.archivos || []];
+      this.imagenesGeneralesActuales = [...(evento.imagenes_generales || [])];
+      this.archivosActuales = [...(evento.archivos || [])];
     } else {
       this.currentEventoId = null;
       this.eventoTemporal = null;
@@ -162,10 +167,8 @@ export class EventoComponent implements OnInit {
     let day = '' + d.getDate();
     const year = d.getFullYear();
 
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
 
     return [year, month, day].join('-');
   }
@@ -173,14 +176,18 @@ export class EventoComponent implements OnInit {
   closeModal(): void {
     if (this.eventoTemporal) {
       // Restaurar los valores originales
-      const eventoOriginal = this.eventos.find(e => e.id === this.currentEventoId);
+      const eventoOriginal = this.eventos.find(
+        (e) => e.id === this.currentEventoId
+      );
       if (eventoOriginal) {
-        eventoOriginal.imagen_principal = this.eventoTemporal.imagenPrincipalOriginal;
-        eventoOriginal.imagenes_generales = this.eventoTemporal.imagenesGeneralesOriginales;
+        eventoOriginal.imagen_principal =
+          this.eventoTemporal.imagenPrincipalOriginal;
+        eventoOriginal.imagenes_generales =
+          this.eventoTemporal.imagenesGeneralesOriginales;
         eventoOriginal.archivos = this.eventoTemporal.archivosOriginales;
       }
     }
-    
+
     this.isModalOpen = false;
     this.eventoForm.reset();
     this.currentEventoId = null;
@@ -194,9 +201,15 @@ export class EventoComponent implements OnInit {
   }
 
   clearFileInputs(): void {
-    const imagenPrincipalInput = document.getElementById('imagenPrincipal') as HTMLInputElement;
-    const imagenesGeneralesInput = document.getElementById('imagenesGenerales') as HTMLInputElement;
-    const archivosInput = document.getElementById('archivos') as HTMLInputElement;
+    const imagenPrincipalInput = document.getElementById(
+      'imagenPrincipal'
+    ) as HTMLInputElement;
+    const imagenesGeneralesInput = document.getElementById(
+      'imagenesGenerales'
+    ) as HTMLInputElement;
+    const archivosInput = document.getElementById(
+      'archivos'
+    ) as HTMLInputElement;
     if (imagenPrincipalInput) {
       imagenPrincipalInput.value = '';
     }
@@ -207,7 +220,6 @@ export class EventoComponent implements OnInit {
       archivosInput.value = '';
     }
   }
-  
 
   onSubmit(): void {
     if (this.eventoForm.valid) {
@@ -217,45 +229,61 @@ export class EventoComponent implements OnInit {
         id: this.currentEventoId,
         imagen_principal: this.imagenPrincipalPreview as string,
         imagenes_generales: this.imagenesGeneralesActuales,
-        archivos: this.archivosActuales
+        archivos: this.archivosActuales,
       };
-  
-      const imagenPrincipalInput = document.getElementById('imagenPrincipal') as HTMLInputElement;
+
+      const imagenPrincipalInput = document.getElementById(
+        'imagenPrincipal'
+      ) as HTMLInputElement;
       const imagenPrincipal = imagenPrincipalInput.files?.[0];
-      const imagenesGeneralesInput = document.getElementById('imagenesGenerales') as HTMLInputElement;
+      const imagenesGeneralesInput = document.getElementById(
+        'imagenesGenerales'
+      ) as HTMLInputElement;
       const imagenesGenerales = imagenesGeneralesInput.files;
-      const archivosInput = document.getElementById('archivos') as HTMLInputElement;
+      const archivosInput = document.getElementById(
+        'archivos'
+      ) as HTMLInputElement;
       const archivos = archivosInput.files;
-  
+
       if (this.currentEventoId) {
         // Primero, elimina las imágenes y archivos marcados
         const deletePromises: Promise<any>[] = [
-          ...this.imagenesParaEliminar.map(ruta => 
-            this.eventoService.eliminarImagenGeneral(this.currentEventoId!, ruta).toPromise()
+          ...this.imagenesParaEliminar.map((ruta) =>
+            this.eventoService
+              .eliminarImagenGeneral(this.currentEventoId!, ruta)
+              .toPromise()
           ),
-          ...this.archivosParaEliminar.map(ruta => 
-            this.eventoService.eliminarArchivo(this.currentEventoId!, ruta).toPromise()
-          )
+          ...this.archivosParaEliminar.map((ruta) =>
+            this.eventoService
+              .eliminarArchivo(this.currentEventoId!, ruta)
+              .toPromise()
+          ),
         ];
-  
+
         Promise.all(deletePromises)
           .then(() => {
             // Luego, actualiza el evento
-            return this.eventoService.actualizarEvento(
-              eventoData,
-              imagenPrincipal,
-              imagenesGenerales ? Array.from(imagenesGenerales) : undefined,
-              archivos ? Array.from(archivos) : undefined
-            ).toPromise();
+            return this.eventoService
+              .actualizarEvento(
+                eventoData,
+                imagenPrincipal,
+                imagenesGenerales ? Array.from(imagenesGenerales) : undefined,
+                archivos ? Array.from(archivos) : undefined
+              )
+              .toPromise();
           })
           .then(() => {
             this.showToast('success', 'Evento actualizado con éxito');
             this.closeModal();
             this.loadEventos();
           })
-          .catch(error => {
+          .catch((error) => {
             console.error('Error al actualizar el evento:', error);
-            this.showToast('error', 'Error al actualizar el evento: ' + (error.error?.message || error.message));
+            this.showToast(
+              'error',
+              'Error al actualizar el evento: ' +
+                (error.error?.message || error.message)
+            );
           })
           .finally(() => {
             this.isLoading = false;
@@ -263,31 +291,39 @@ export class EventoComponent implements OnInit {
             this.archivosParaEliminar = [];
           });
       } else {
-        this.eventoService.crearEvento(
-          eventoData,
-          imagenPrincipal,
-          imagenesGenerales ? Array.from(imagenesGenerales) : undefined,
-          archivos ? Array.from(archivos) : undefined
-        ).subscribe({
-          next: (response) => {
-            this.showToast('success', 'Evento creado con éxito');
-            this.closeModal();
-            this.loadEventos();
-          },
-          error: (error) => {
-            console.error('Error al crear el evento:', error);
-            this.showToast('error', 'Error al crear el evento: ' + (error.error?.message || error.message));
-          },
-          complete: () => {
-            this.isLoading = false;
-          }
-        });
+        this.eventoService
+          .crearEvento(
+            eventoData,
+            imagenPrincipal,
+            imagenesGenerales ? Array.from(imagenesGenerales) : undefined,
+            archivos ? Array.from(archivos) : undefined
+          )
+          .subscribe({
+            next: (response) => {
+              this.showToast('success', 'Evento creado con éxito');
+              this.closeModal();
+              this.loadEventos();
+            },
+            error: (error) => {
+              console.error('Error al crear el evento:', error);
+              this.showToast(
+                'error',
+                'Error al crear el evento: ' +
+                  (error.error?.message || error.message)
+              );
+            },
+            complete: () => {
+              this.isLoading = false;
+            },
+          });
       }
     } else {
-      this.showToast('warning', 'Por favor, complete todos los campos requeridos correctamente.');
+      this.showToast(
+        'warning',
+        'Por favor, complete todos los campos requeridos correctamente.'
+      );
     }
   }
-
 
   confirmDeleteEvento(id: number): void {
     this.showConfirmDialog(
@@ -300,9 +336,13 @@ export class EventoComponent implements OnInit {
             this.loadEventos();
           },
           error: (error) => {
-            this.showToast('error', 'Error al eliminar el evento: ' + (error.error?.message || error.message));
+            this.showToast(
+              'error',
+              'Error al eliminar el evento: ' +
+                (error.error?.message || error.message)
+            );
             console.error('Error:', error);
-          }
+          },
         });
       }
     );
@@ -319,9 +359,13 @@ export class EventoComponent implements OnInit {
             this.loadEventos();
           },
           error: (error) => {
-            this.showToast('error', 'Error al desactivar el evento: ' + (error.error?.message || error.message));
+            this.showToast(
+              'error',
+              'Error al desactivar el evento: ' +
+                (error.error?.message || error.message)
+            );
             console.error('Error:', error);
-          }
+          },
         });
       }
     );
@@ -338,9 +382,13 @@ export class EventoComponent implements OnInit {
             this.loadEventos();
           },
           error: (error) => {
-            this.showToast('error', 'Error al activar el evento: ' + (error.error?.message || error.message));
+            this.showToast(
+              'error',
+              'Error al activar el evento: ' +
+                (error.error?.message || error.message)
+            );
             console.error('Error:', error);
-          }
+          },
         });
       }
     );
@@ -348,10 +396,11 @@ export class EventoComponent implements OnInit {
 
   filterGlobal(event: any): void {
     const searchValue = event.target.value.toLowerCase();
-    this.filteredEventos = this.eventos.filter(evento => 
-      evento.titulo.toLowerCase().includes(searchValue) ||
-      evento.informacion_evento.toLowerCase().includes(searchValue) ||
-      evento.lugar_evento.toLowerCase().includes(searchValue)
+    this.filteredEventos = this.eventos.filter(
+      (evento) =>
+        evento.titulo.toLowerCase().includes(searchValue) ||
+        evento.informacion_evento.toLowerCase().includes(searchValue) ||
+        evento.lugar_evento.toLowerCase().includes(searchValue)
     );
   }
 
@@ -390,17 +439,23 @@ export class EventoComponent implements OnInit {
 
   removeImagenGeneral(index: number): void {
     const imagenParaEliminar = this.imagenesGeneralesActuales[index];
-    if (this.currentEventoId && imagenParaEliminar.startsWith(this.baseImageUrl)) {
+    if (
+      this.currentEventoId &&
+      imagenParaEliminar.startsWith(this.baseImageUrl)
+    ) {
       const relativePath = imagenParaEliminar.replace(this.baseImageUrl, '');
       this.imagenesParaEliminar.push(relativePath);
     }
     this.imagenesGeneralesActuales.splice(index, 1);
   }
-  
+
   removeArchivo(index: number): void {
     const archivoParaEliminar = this.archivosActuales[index];
     if (this.currentEventoId && archivoParaEliminar.ruta_archivo) {
-      const relativePath = archivoParaEliminar.ruta_archivo.replace(this.baseImageUrl, '');
+      const relativePath = archivoParaEliminar.ruta_archivo.replace(
+        this.baseImageUrl,
+        ''
+      );
       this.archivosParaEliminar.push(relativePath);
     }
     this.archivosActuales.splice(index, 1);
@@ -436,11 +491,14 @@ export class EventoComponent implements OnInit {
   }
 
   nextImage(): void {
-    this.currentImageIndex = (this.currentImageIndex + 1) % this.allImages.length;
+    this.currentImageIndex =
+      (this.currentImageIndex + 1) % this.allImages.length;
   }
 
   prevImage(): void {
-    this.currentImageIndex = (this.currentImageIndex - 1 + this.allImages.length) % this.allImages.length;
+    this.currentImageIndex =
+      (this.currentImageIndex - 1 + this.allImages.length) %
+      this.allImages.length;
   }
 
   getTotalImagesCount(): number {
@@ -449,7 +507,9 @@ export class EventoComponent implements OnInit {
 
   switchTab(tab: 'active' | 'inactive'): void {
     if (tab === 'active') {
-      this.filteredEventos = this.eventos.filter(evento => evento.activo !== false);
+      this.filteredEventos = this.eventos.filter(
+        (evento) => evento.activo !== false
+      );
     } else {
       this.filteredEventos = this.papeleraEventos;
     }
@@ -457,7 +517,7 @@ export class EventoComponent implements OnInit {
 
   isFieldInvalid(fieldName: string): boolean {
     const field = this.eventoForm.get(fieldName);
-    return field ? (field.invalid && (field.dirty || field.touched)) : false;
+    return field ? field.invalid && (field.dirty || field.touched) : false;
   }
 
   getErrorMessage(fieldName: string): string {
@@ -472,7 +532,7 @@ export class EventoComponent implements OnInit {
   }
 
   private updateEventosArray(evento: Evento): void {
-    const index = this.eventos.findIndex(e => e.id === evento.id);
+    const index = this.eventos.findIndex((e) => e.id === evento.id);
     if (index !== -1) {
       this.eventos[index] = evento;
       this.filterEventos();
@@ -480,24 +540,27 @@ export class EventoComponent implements OnInit {
   }
 
   private removeEventoFromArray(id: number): void {
-    this.eventos = this.eventos.filter(e => e.id !== id);
+    this.eventos = this.eventos.filter((e) => e.id !== id);
     this.filterEventos();
   }
 
   private updateEventoStatus(id: number, status: boolean): void {
-    const index = this.eventos.findIndex(e => e.id === id);
+    const index = this.eventos.findIndex((e) => e.id === id);
     if (index !== -1) {
       this.eventos[index].activo = status;
       this.filterEventos();
     }
   }
-  private showToast(icon: 'success' | 'warning' | 'error' | 'info' | 'question', title: string): void {
+  private showToast(
+    icon: 'success' | 'warning' | 'error' | 'info' | 'question',
+    title: string
+  ): void {
     const iconColors = {
       success: '#008779',
       warning: '#FD9B63',
       error: '#EF4444',
       info: '#3ABEF9',
-      question: '#5A72A0'
+      question: '#5A72A0',
     };
 
     const Toast = Swal.mixin({
@@ -510,16 +573,20 @@ export class EventoComponent implements OnInit {
       didOpen: (toast) => {
         toast.onmouseenter = Swal.stopTimer;
         toast.onmouseleave = Swal.resumeTimer;
-      }
+      },
     });
 
     Toast.fire({
       icon: icon,
-      title: title
+      title: title,
     });
   }
 
-  private showConfirmDialog(title: string, text: string, onConfirm: () => void): void {
+  private showConfirmDialog(
+    title: string,
+    text: string,
+    onConfirm: () => void
+  ): void {
     Swal.fire({
       title: title,
       text: text,
@@ -541,7 +608,7 @@ export class EventoComponent implements OnInit {
         if (cancelButton) {
           cancelButton.style.color = 'black';
         }
-      }
+      },
     }).then((result) => {
       if (result.isConfirmed) {
         onConfirm();
