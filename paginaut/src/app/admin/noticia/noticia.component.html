@@ -488,36 +488,40 @@
       </div>
     </div>
   </div>
-
-  <!-- Modal para visualizar imágenes -->
-  <div *ngIf="isImageModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-    <div class="bg-white p-4 rounded-lg max-w-3xl w-full">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-bold">{{ modalTitle }}</h3>
-        <button (click)="closeImageModal()" class="text-gray-500 hover:text-gray-700">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
+<!-- Modal para visualizar imágenes -->
+<div *ngIf="isImageModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white p-4 rounded-lg max-w-3xl w-full">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-bold">{{ modalTitle }}</h3>
+      <button (click)="closeImageModal()" class="text-gray-500 hover:text-gray-700">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div *ngIf="allImages.length > 0; else noImages" class="relative">
+      <img [src]="getCurrentImage()" alt="Imagen de la noticia" class="w-full h-auto max-h-96 object-contain">
+      <button *ngIf="allImages.length > 1" (click)="prevImage()" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </button>
+      <button *ngIf="allImages.length > 1" (click)="nextImage()" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+    </div>
+    <ng-template #noImages>
+      <div class="text-center py-8">
+        <p class="text-gray-500">No hay imágenes disponibles para esta noticia.</p>
       </div>
-      <div class="relative">
-        <img [src]="getCurrentImage()" alt="Imagen de la noticia" class="w-full h-auto max-h-96 object-contain">
-        <button *ngIf="allImages.length > 1" (click)="prevImage()" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-          </svg>
-        </button>
-        <button *ngIf="allImages.length > 1" (click)="nextImage()" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-        </button>
-      </div>
-      <div class="mt-4 text-center">
-        <p *ngIf="allImages.length > 1">Imagen {{ currentImageIndex + 1 }} de {{ getTotalImagesCount() }}</p>
-      </div>
+    </ng-template>
+    <div class="mt-4 text-center">
+      <p *ngIf="allImages.length > 1">Imagen {{ currentImageIndex + 1 }} de {{ getTotalImagesCount() }}</p>
     </div>
   </div>
+</div>
 
 <!-- Modal para detalles de la noticia -->
 <div *ngIf="isDetailsModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -530,13 +534,20 @@
         </svg>
       </button>
     </div>
-    <div class="mt-4">
-      <h4 class="font-semibold">Resumen:</h4>
-      <p class="mt-2">{{ selectedNoticia?.resumen }}</p>
+    <div *ngIf="selectedNoticia; else noDetails">
+      <div class="mt-4">
+        <h4 class="font-semibold">Resumen:</h4>
+        <p class="mt-2">{{ selectedNoticia.resumen }}</p>
+      </div>
+      <div class="mt-4">
+        <h4 class="font-semibold">Información de la Noticia:</h4>
+        <p class="mt-2">{{ selectedNoticia.informacion_noticia }}</p>
+      </div>
     </div>
-    <div class="mt-4">
-      <h4 class="font-semibold">Información de la Noticia:</h4>
-      <p class="mt-2">{{ selectedNoticia?.informacion_noticia }}</p>
-    </div>
+    <ng-template #noDetails>
+      <div class="text-center py-8">
+        <p class="text-gray-500">No hay detalles disponibles para esta noticia.</p>
+      </div>
+    </ng-template>
   </div>
 </div>

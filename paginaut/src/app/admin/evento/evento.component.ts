@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { EventoService, Evento } from '../../evento.service';
 import Swal from 'sweetalert2';
 
@@ -76,23 +76,35 @@ export class EventoComponent implements OnInit {
   imagenesParaEliminar: string[] = [];
   archivosParaEliminar: string[] = [];
   eventoTemporal: EventoTemporal | null = null;
+  minDate: string;
+  minTimeInicio: string;
+  minTimeFin: string;
+  timeZone: string = 'America/Mazatlan';
+  
 
   constructor(private eventoService: EventoService, private fb: FormBuilder) {
+    this.minDate = this.getTodayDate();
+    this.minTimeInicio = this.getCurrentTime();
+    this.minTimeFin = this.minTimeInicio;
     this.eventoForm = this.fb.group({
       titulo: ['', [Validators.required, Validators.maxLength(50)]],
       informacion_evento: ['', Validators.required],
       activo: [true],
       lugar_evento: ['', [Validators.required, Validators.maxLength(50)]],
-      fecha_inicio: ['', Validators.required],
-      fecha_fin: ['', Validators.required],
-      hora_inicio: ['', Validators.required],
-      hora_fin: ['', Validators.required],
-    });
+      fecha_inicio: ['', [Validators.required]],
+      fecha_fin: ['', [Validators.required]],
+      hora_inicio: ['', [Validators.required]],
+      hora_fin: ['', [Validators.required]],
+    }, { validators: this.fechaHoraValidator() });
   }
+
 
   ngOnInit(): void {
     this.loadEventos();
+    this.setupDateTimeValidation();
   }
+
+
 
   loadEventos(): void {
     this.eventoService.obtenerEventos().subscribe({
@@ -160,18 +172,7 @@ export class EventoComponent implements OnInit {
     this.clearFileInputs();
   }
 
-  // Método auxiliar para formatear fechas
-  private formatDate(date: Date): string {
-    const d = new Date(date);
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
-    const year = d.getFullYear();
 
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [year, month, day].join('-');
-  }
 
   closeModal(): void {
     if (this.eventoTemporal) {
@@ -461,30 +462,8 @@ export class EventoComponent implements OnInit {
     this.archivosActuales.splice(index, 1);
   }
 
-  openImageModal(evento: Evento, type: 'principal' | 'generales'): void {
-    this.isImageModalOpen = true;
-    this.currentImageIndex = 0;
-    if (type === 'principal') {
-      this.modalTitle = 'Imagen Principal';
-      this.allImages = [evento.imagen_principal!];
-    } else {
-      this.modalTitle = 'Imágenes Generales';
-      this.allImages = evento.imagenes_generales || [];
-    }
-  }
 
-  closeImageModal(): void {
-    this.isImageModalOpen = false;
-  }
 
-  openArchivoModal(evento: Evento): void {
-    this.isArchivoModalOpen = true;
-    this.archivosActuales = evento.archivos || [];
-  }
-
-  closeArchivoModal(): void {
-    this.isArchivoModalOpen = false;
-  }
 
   getCurrentImage(): string {
     return this.allImages[this.currentImageIndex];
@@ -520,6 +499,61 @@ export class EventoComponent implements OnInit {
     return field ? field.invalid && (field.dirty || field.touched) : false;
   }
 
+  setupDateTimeValidation(): void {
+    const fechaInicioControl = this.eventoForm.get('fecha_inicio');
+    const fechaFinControl = this.eventoForm.get('fecha_fin');
+    const horaInicioControl = this.eventoForm.get('hora_inicio');
+    const horaFinControl = this.eventoForm.get('hora_fin');
+
+    fechaInicioControl?.valueChanges.subscribe(() => {
+      fechaFinControl?.updateValueAndValidity();
+      horaInicioControl?.updateValueAndValidity();
+      horaFinControl?.updateValueAndValidity();
+      this.updateMinTimeFin();
+    });
+
+    horaInicioControl?.valueChanges.subscribe(() => {
+      this.updateMinTimeFin();
+      horaFinControl?.updateValueAndValidity();
+    });
+  }
+
+  updateMinTimeFin(): void {
+    const fechaInicio = this.eventoForm.get('fecha_inicio')?.value;
+    const horaInicio = this.eventoForm.get('hora_inicio')?.value;
+    
+    if (fechaInicio && horaInicio) {
+      const fechaHoraInicio = new Date(`${fechaInicio}T${horaInicio}`);
+      if (this.isSameDay(fechaHoraInicio, this.getToday())) {
+        this.minTimeFin = horaInicio;
+      } else {
+        this.minTimeFin = '00:00';
+      }
+    } else {
+      this.minTimeFin = this.minTimeInicio;
+    }
+  }
+
+  fechaHoraValidator(): ValidatorFn {
+    return (group: AbstractControl): {[key: string]: any} | null => {
+      const fechaInicio = group.get('fecha_inicio')?.value;
+      const fechaFin = group.get('fecha_fin')?.value;
+      const horaInicio = group.get('hora_inicio')?.value;
+      const horaFin = group.get('hora_fin')?.value;
+
+      if (fechaInicio && fechaFin && horaInicio && horaFin) {
+        const fechaHoraInicio = new Date(`${fechaInicio}T${horaInicio}`);
+        const fechaHoraFin = new Date(`${fechaFin}T${horaFin}`);
+
+        if (fechaHoraFin <= fechaHoraInicio) {
+          return { 'fechaHoraInvalida': true };
+        }
+      }
+
+      return null;
+    };
+  }
+
   getErrorMessage(fieldName: string): string {
     const field = this.eventoForm.get(fieldName);
     if (field?.errors?.['required']) {
@@ -528,7 +562,43 @@ export class EventoComponent implements OnInit {
     if (field?.errors?.['maxlength']) {
       return `Máximo ${field.errors['maxlength'].requiredLength} caracteres.`;
     }
+    if (this.eventoForm.errors?.['fechaHoraInvalida']) {
+      return 'La fecha y hora de fin deben ser posteriores a la fecha y hora de inicio.';
+    }
     return '';
+  }
+
+  isDateDisabled = (date: Date): boolean => {
+    return date < this.getToday();
+  }
+
+  private getToday(): Date {
+    const now = new Date(new Date().toLocaleString('en-US', { timeZone: this.timeZone }));
+    now.setHours(0, 0, 0, 0);
+    return now;
+  }
+
+  private getTodayDate(): string {
+    return this.formatDate(this.getToday());
+  }
+
+  private getCurrentTime(): string {
+    const now = new Date(new Date().toLocaleString('en-US', { timeZone: this.timeZone }));
+    return this.formatTime(now);
+  }
+
+  private formatDate(date: Date): string {
+    return date.toISOString().split('T')[0];
+  }
+
+  private formatTime(date: Date): string {
+    return date.toTimeString().slice(0, 5);
+  }
+
+  private isSameDay(date1: Date, date2: Date): boolean {
+    return date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getDate() === date2.getDate();
   }
 
   private updateEventosArray(evento: Evento): void {
@@ -615,6 +685,9 @@ export class EventoComponent implements OnInit {
       }
     });
   }
+
+
+  
   mostrar(elemento: any): void {
     // Verifica si el elemento recibido es un botón
     if (elemento.tagName.toLowerCase() === 'button') {
@@ -633,5 +706,54 @@ export class EventoComponent implements OnInit {
         }
       }
     }
+  }
+  openImageModal(evento: Evento, type: 'principal' | 'generales'): void {
+    this.closeAllModals(); // Cierra todos los modales antes de abrir uno nuevo
+    this.isImageModalOpen = true;
+    this.currentImageIndex = 0;
+    if (type === 'principal') {
+      this.modalTitle = 'Imagen Principal';
+      this.allImages = evento.imagen_principal ? [evento.imagen_principal] : [];
+    } else {
+      this.modalTitle = 'Imágenes Generales';
+      this.allImages = evento.imagenes_generales || [];
+    }
+  }
+
+  openArchivoModal(evento: Evento): void {
+    this.closeAllModals(); // Cierra todos los modales antes de abrir uno nuevo
+    this.isArchivoModalOpen = true;
+    if (evento.archivos && evento.archivos.length > 0) {
+      this.archivosActuales = evento.archivos.map(archivo => ({
+        ...archivo,
+        ruta_archivo: this.getFileUrl(archivo.ruta_archivo)
+      }));
+    } else {
+      this.archivosActuales = [];
+    }
+  }
+
+  closeAllModals(): void {
+    this.isImageModalOpen = false;
+    this.isArchivoModalOpen = false;
+    this.archivosActuales = [];
+    this.allImages = [];
+  }
+
+  closeImageModal(): void {
+    this.isImageModalOpen = false;
+    this.allImages = [];
+  }
+
+  closeArchivoModal(): void {
+    this.isArchivoModalOpen = false;
+    this.archivosActuales = [];
+  }
+
+  getFileUrl(relativePath: string): string {
+    if (relativePath && relativePath.startsWith('../')) {
+      return this.baseImageUrl + relativePath.substring(3);
+    }
+    return this.baseImageUrl + relativePath;
   }
 }
