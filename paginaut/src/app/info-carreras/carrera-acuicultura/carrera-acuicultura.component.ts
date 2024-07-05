@@ -32,9 +32,9 @@ export class CarreraAcuiculturaComponent {
   
   constructor(private renderer: Renderer2) {}
 
-  images: Image[] = [
-    { url: './assets/img/galeria/acui/acui1.JPG', alt: 'Image 1' },
-    { url: './assets/img/galeria/acui/acui2.JPG', alt: 'Image 2' },
+  images: Image[] = [ 
+    { url: './assets/img/galeria/acui/acui1.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/acui2.jpg', alt: 'Image 2' },
     // más imágenes aquí
   ];
 

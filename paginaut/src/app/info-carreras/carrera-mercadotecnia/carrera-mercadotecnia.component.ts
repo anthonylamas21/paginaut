@@ -28,10 +28,14 @@ export class CarreraMercadotecniaComponent {
   isLoading = true;
   
   constructor(private renderer: Renderer2) {}
-
+ 
   images: Image[] = [
-    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/merca/merca1.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/merca/merca2.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/merca/merca3.jpg', alt: 'Image 3' },
+    { url: './assets/img/galeria/merca/merca4.jpg', alt: 'Image 4' },
+    { url: './assets/img/galeria/merca/merca5.jpg', alt: 'Image 5' },
+    { url: './assets/img/galeria/merca/merca6.jpg', alt: 'Image 6' },
     // más imágenes aquí
   ];
 
