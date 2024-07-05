@@ -30,27 +30,21 @@
       <h1 class="text-2xl font-bold mb-4">Voleibol</h1>
       
       <div class="mb-6">
-        <img src=".\assets\img\galeria\lectura.jpg" alt="Taller de Lectura" class="w-full h-96 rounded-lg shadow-md object-cover">
+        <img src="./assets/img/galeria/extras/voleibol/voleibol4.jpg" alt="Taller de Lectura" class="w-full h-96 rounded-lg shadow-md object-cover">
       </div>
       
       <p class="mb-6 border-l-4 border-black p-4 text-gray-800">
         ¡Bienvenidos a la Cancha de Voleibol de nuestra Universidad! Este espacio ha sido creado para incentivar la actividad física y el trabajo en equipo en un entorno divertido y enérgico. Aquí, tanto estudiantes como profesores y visitantes pueden participar en entrenamientos, partidos y torneos de voleibol, con el objetivo de mejorar sus habilidades, condición física y espíritu deportivo. Únete a nosotros y descubre cómo el voleibol puede fortalecer tu cuerpo, agudizar tu mente y fomentar un fuerte sentido de comunidad dentro de nuestra universidad.
       </p>
       
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div>
-          <img src=".\assets\img\galeria\mg2.jpg" alt="Lecture Image 1" class="w-full rounded-lg shadow-md object-cover">
-        </div>
-        <div>
-          <img src=".\assets\img\galeria\mg2.jpg" alt="Lecture Image 2" class="w-full rounded-lg shadow-md object-cover">
-        </div>
-        <div>
-          <img src=".\assets\img\galeria\mg2.jpg" alt="Lecture Image 3" class="w-full rounded-lg shadow-md object-cover">
-        </div>
-        <div>
-          <img src=".\assets\img\galeria\mg2.jpg" alt="Lecture Image 4" class="w-full rounded-lg shadow-md object-cover">
-        </div>
-      </div>
+      <div class="bg-[#043D3D] rounded-lg my-8">
+        <h2 class="text-xl font-poppins font-extralight py-2 px-2 text-white uppercase">Galería</h2>
+      </div>  
+            <ngx-masonry class="mx-auto">
+              <div ngxMasonryItem class="masonry-item p-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5" *ngFor="let image of images">
+                <img [src]="image.url" [alt]="image.alt" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out" data-hs-overlay="#hs-slide-down-animation-modal" (click)=" openModal(image)">
+              </div>
+            </ngx-masonry>
     </section>
   </div>
   </div>

@@ -1,6 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxMasonryModule } from 'ngx-masonry';
@@ -11,6 +12,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
+
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 // Routing Module
 import { AppRoutingModule } from './app-routing.module';
@@ -25,7 +28,6 @@ import { FooterComponent } from './footer/footer.component';
 import { UnidadesAcademicasComponent } from './unidades-academicas/unidades-academicas.component';
 import { EventosComponent } from './eventos/eventos.component';
 import { BecasComponent } from './becas/becas.component';
-import { TalleresComponent } from './talleres/talleres.component';
 import { LoginComponent } from './login/login.component';
 import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { CalendarioComponent } from './calendario/calendario.component';
@@ -43,22 +45,30 @@ import { AcercaDeComponent } from './acerca-de/acerca-de.component';
 import { InfoBecaComponent } from './info-beca/info-beca.component';
 import { GaleriaComponent } from './galeria/galeria.component';
 import { RedesSocialesComponent } from './redes-sociales/redes-sociales.component';
+import { TalleresComponent } from './talleres/talleres.component';
 
 // Rutas de administrador
 import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
 import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component';
 import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
-import { TallerComponent } from './taller/taller.component';
 import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.component';
-import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-calendario.component';
 import { AgregarBecaComponent } from './admin/agregar-beca/agregar-beca.component';
+import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-calendario.component';
 import { CursosAdminComponent } from './admin/cursos-admin/cursos-admin.component';
 import { DireccionesAdminComponent } from './admin/direcciones-admin/direcciones-admin.component';
 import { BecasAdminComponent } from './admin/becas-admin/becas-admin.component';
 import { CalendarioAdminComponent } from './admin/calendario-admin/calendario-admin.component';
 import { GaleriaAdminComponent } from './admin/galeria-admin/galeria-admin.component';
 import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.component';
+import { EventoComponent } from './admin/evento/evento.component';
+import { EventosAdminComponent } from './admin/eventos-admin/eventos-admin.component';
+import { NoticiasComponent } from './noticias/noticias.component';
+import { NoticiaComponent } from './admin/noticia/noticia.component';
+import { InstalacionComponent } from './admin/instalacion/instalacion.component';
+import { AgendaAdminComponent } from './admin/agenda-admin/agenda-admin.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { PiedraEstanqueComponent } from './piedra-estanque/piedra-estanque.component';
 
 // Info Carreras
 import { CarreraAgrobiotecnologiaComponent } from './info-carreras/carrera-agrobiotecnologia/carrera-agrobiotecnologia.component';
@@ -81,6 +91,7 @@ import { DibujoComponent } from './info-horas-recreativas/dibujo/dibujo.componen
 import { DanzaComponent } from './info-horas-recreativas/danza/danza.component';
 import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.component';
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
+import { TallerComponent } from './taller/taller.component';
 
 @NgModule({
   declarations: [
@@ -112,21 +123,30 @@ import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.compo
     InfoBecaComponent,
     GaleriaComponent,
     RedesSocialesComponent,
+    TalleresComponent,
+    TallerComponent,
     // Rutas de administrador
     NavbarAdminComponent,
     PrincipalAdminComponent,
     RegistrarEventoComponent,
     AgregarDireccionComponent,
-    TallerComponent,
     CarrerasAdminComponent,
-    AgregarCalendarioComponent,
     AgregarBecaComponent,
+    AgregarCalendarioComponent,
     CursosAdminComponent,
     DireccionesAdminComponent,
     BecasAdminComponent,
     CalendarioAdminComponent,
     GaleriaAdminComponent,
     UsuariosAdminComponent,
+    EventoComponent,
+    EventosAdminComponent,
+    NoticiasComponent,
+    NoticiaComponent,
+    InstalacionComponent,
+    AgendaAdminComponent,
+    NotFoundComponent,
+    PiedraEstanqueComponent,
     // Info Carreras
     CarreraAgrobiotecnologiaComponent,
     CarreraProcesosAlimentarioComponent,
@@ -146,7 +166,7 @@ import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.compo
     DibujoComponent,
     DanzaComponent,
     LecturaComponent,
-    AjedrezComponent
+    AjedrezComponent,
   ],
   imports: [
     BrowserModule,
@@ -160,7 +180,8 @@ import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.compo
     TagModule,
     ButtonModule,
     DropdownModule,
-    NgxMasonryModule
+    NgxMasonryModule,
+    FullCalendarModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],

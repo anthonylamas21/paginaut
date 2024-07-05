@@ -1,45 +1,69 @@
-import { Component, HostListener } from '@angular/core';
-
+import { Component, OnInit, HostListener } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { InstalacionService, Instalacion, InstalacionResponse } from '../instalacionService/instalacion.service';
 
 @Component({
   selector: 'app-info-unidades',
   templateUrl: './info-unidades.component.html',
-  styleUrl: './info-unidades.component.css'
+  styleUrls: ['./info-unidades.component.css']
 })
-export class InfoUnidadesComponent {
+export class InfoUnidadesComponent implements OnInit {
   isLoading = true;
-  
-  images = [
-    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 1', date: new Date('2023-07-01') },
-    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 1', date: new Date('2021-07-03') },
-    { url: './assets/img/galeria/mg3.jpg', alt: 'Image 1', date: new Date('2024-07-05') },
-    { url: './assets/img/galeria/mg3.jpg', alt: 'Image 1', date: new Date('2024-07-05') },
-    { url: './assets/img/galeria/mg4.jpg', alt: 'Image 1', date: new Date('2023-07-12') },
-    { url: './assets/img/galeria/mg5.jpg', alt: 'Image 1', date: new Date('2023-07-01') },
-    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 1', date: new Date('2023-07-01') },
-    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 2', date: new Date('2023-08-01') },
-    // más imágenes aquí
-  ];
-
+  instalacion: Instalacion | null = null;
   groupedImages: { [key: string]: any[] } = {};
+  selectedImage: { url: string, alt: string } | null = null;
+
+  constructor(
+    private route: ActivatedRoute,
+    private instalacionService: InstalacionService
+  ) {}
 
   ngOnInit(): void {
-    this.groupImagesByMonth();
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 5000);
-
     this.setNavbarColor();
+    this.cargarInstalacion();
+  }
+
+  cargarInstalacion(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.instalacionService.obtenerInstalacionPorId(+id).subscribe({
+        next: (instalacion: Instalacion) => {
+          this.instalacion = instalacion;
+          this.groupImagesByMonth();
+          this.isLoading = false;
+        },
+        error: (error: string) => {
+          console.error('Error al cargar la instalación:', error);
+          this.isLoading = false;
+        }
+      });
+    }
   }
 
   groupImagesByMonth(): void {
-    this.images.forEach(image => {
-      const month = image.date.toLocaleString('default', { month: 'long', year: 'numeric' });
-      if (!this.groupedImages[month]) {
-        this.groupedImages[month] = [];
-      }
-      this.groupedImages[month].push(image);
-    });
+    if (this.instalacion && this.instalacion.imagenes_generales) {
+      this.instalacion.imagenes_generales.forEach((imagen, index) => {
+        const date = this.instalacion?.fecha_publicacion 
+          ? new Date(this.instalacion.fecha_publicacion) 
+          : new Date(new Date().setDate(new Date().getDate() - index));
+
+        const month = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+        
+        if (!this.groupedImages[month]) {
+          this.groupedImages[month] = [];
+        }
+        
+        this.groupedImages[month].push({
+          url: this.getImageUrl(imagen),
+          alt: `Imagen ${index + 1} de ${this.instalacion?.nombre || 'la instalación'}`,
+          date: date
+        });
+      });
+    }
+  }
+
+  getImageUrl(path: string): string {
+    return `http://localhost/paginaut/${path}`;
   }
 
   sortByMonth = (a: { key: string }, b: { key: string }): number => {
@@ -57,10 +81,10 @@ export class InfoUnidadesComponent {
 
   private setNavbarColor(): void {
     const button = document.getElementById('scrollTopButton');
-    const nabvar = document.getElementById('navbarAccion');
+    const navbar = document.getElementById('navbarAccion');
     const inicioSection = document.getElementById('inicio');
 
-    if (inicioSection && nabvar) {
+    if (inicioSection && navbar) {
       const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
 
       if (window.scrollY > inicioSectionBottom) {
@@ -69,13 +93,22 @@ export class InfoUnidadesComponent {
         button?.classList.add('hidden');
       }
       
-      nabvar.classList.remove('bg-transparent');
-      nabvar.classList.add('bg-[#043D3D]');
+      navbar.classList.remove('bg-transparent');
+      navbar.classList.add('bg-[#043D3D]');
     }
   }
   
   scrollToSection(sectionId: string): void {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
+  openImageModal(image: { url: string, alt: string }): void {
+    this.selectedImage = image;
+  }
+
+  closeImageModal(): void {
+    this.selectedImage = null;
+  }
+  
+
   
 }

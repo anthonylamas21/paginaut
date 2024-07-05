@@ -11,6 +11,9 @@ export interface Beca {
   activo?: boolean;
   fecha_creacion?: string;
 }
+export interface BecaResponse {
+  records: Beca[];
+}
 
 @Injectable({
   providedIn: 'root',
@@ -26,9 +29,14 @@ export class BecaService {
       .pipe(catchError(this.handleError));
   }
 
-  getBecas(): Observable<Beca[]> {
+  getBecas(): Observable<BecaResponse> {
     return this.http
-      .get<Beca[]>(this.apiUrl)
+      .get<BecaResponse>(this.apiUrl)
+      .pipe(catchError(this.handleError));
+  }
+  getBecaById(id: number): Observable<Beca> {
+    return this.http
+      .get<Beca>(`${this.apiUrl}?id=${id}`)
       .pipe(catchError(this.handleError));
   }
 

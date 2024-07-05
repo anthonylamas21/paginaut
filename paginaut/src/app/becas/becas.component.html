@@ -1,7 +1,5 @@
-<!--Componente Navbar-->
 <app-navbar></app-navbar>
 <p id="inicio"></p>
-<!--Fin Navbar-->
 
 <button id="scrollTopButton" (click)="scrollToSection('inicio')"
   class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
@@ -10,249 +8,102 @@
 
 <ol class="flex items-center whitespace-nowrap ml-4 mt-24 mb-8">
     <li class="inline-flex items-center">
-      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/principal">
+      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]" href="/principal">
         Inicio
       </a>
       <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="m9 18 6-6-6-6"></path>
       </svg>
     </li>
-    <li class="inline-flex items-center">
-        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/becas">
-          Becas
-        </a>
-        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m9 18 6-6-6-6"></path>
-        </svg>
-      </li>
-      <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
-        Beca compañere
+    <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
+      Becas
     </li>
-  </ol>
+</ol>
 
 <div class="container mt-2">
-
   <div *ngIf="isLoading" class="bg-[#043D3D] rounded animate-pulse">
     <div class="h-8 bg-gray-300 rounded mt-6 mb-4"></div>
   </div>
-    <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg">
-        <h2 class="text-xl font-semibold font-poppins  py-2 px-2 font-bold-700 text-white uppercase mb-4">Becas</h2>
+  <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg">
+    <h2 class="text-xl font-semibold font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4">Becas</h2>
+  </div>
+
+  <div class="flex justify-center">
+    <div class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <!--Skeleton-->
+      <div *ngIf="isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 animate-pulse">
+        <div class="h-8 bg-gray-300 rounded mb-3"></div>
+        <div class="h-3 bg-gray-300 rounded mb-2"></div>
+        <div class="h-3 bg-gray-300 rounded mb-2"></div>
+        <div class="h-3 bg-gray-300 rounded mb-2"></div>
+        <div class="h-3 bg-gray-300 rounded mb-4"></div>
+        <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">
+          <div class="flex items-center justify-center">
+            <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
+            <span class="text-white">Cargando...</span>
+          </div>
+        </a>
+      </div>
+      <div *ngIf="isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 animate-pulse">
+        <div class="h-8 bg-gray-300 rounded mb-3"></div>
+        <div class="h-3 bg-gray-300 rounded mb-2"></div>
+        <div class="h-3 bg-gray-300 rounded mb-2"></div>
+        <div class="h-3 bg-gray-300 rounded mb-2"></div>
+        <div class="h-3 bg-gray-300 rounded mb-4"></div>
+        <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">
+          <div class="flex items-center justify-center">
+            <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
+            <span class="text-white">Cargando...</span>
+          </div>
+        </a>
+      </div>
+      <div *ngIf="isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 animate-pulse">
+        <div class="h-8 bg-gray-300 rounded mb-3"></div>
+        <div class="h-3 bg-gray-300 rounded mb-2"></div>
+        <div class="h-3 bg-gray-300 rounded mb-2"></div>
+        <div class="h-3 bg-gray-300 rounded mb-2"></div>
+        <div class="h-3 bg-gray-300 rounded mb-4"></div>
+        <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">
+          <div class="flex items-center justify-center">
+            <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
+            <span class="text-white">Cargando...</span>
+          </div>
+        </a>
+      </div>
+      
+      <!--Vista real-->
+      <ng-container *ngIf="!isLoading">
+        <ng-container *ngIf="becas && becas.length > 0; else noBecas">
+          <div *ngFor="let beca of becas" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5">
+            <p class="text-xl font-bold">{{ beca.nombre }}</p>
+            <p class="mt-2 text-black mb-4 hyphens-auto">
+              {{ beca.descripcion }}
+            </p>
+            <a (click)="verDetalleBeca(beca.id)" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto cursor-pointer">Ver más información 
+              <i class="fa-solid fa-eye"></i>
+            </a>
+          </div>
+        </ng-container>
+        
+        <ng-template #noBecas>
+          <div class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5">
+            <div *ngIf="isLoading" class="animate-pulse">
+              <div class="h-8 bg-gray-300 rounded mb-3"></div>
+              <div class="h-3 bg-gray-300 rounded mb-2"></div>
+              <div class="h-3 bg-gray-300 rounded mb-2"></div>
+              <div class="h-3 bg-gray-300 rounded mb-2"></div>
+            </div>
+            <ng-container *ngIf="!isLoading">
+              <p class="text-xl font-bold text-center">No hay becas disponibles</p>
+              <p class="mt-2 text-black mb-4 text-center">
+                En este momento no hay información sobre becas. Por favor, vuelve a consultar más tarde.
+              </p>
+            </ng-container>
+          </div>
+        </ng-template>
+      </ng-container>
     </div>
-
-    <div class="flex justify-center">
-        <div class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          <!--Skeleton-->
-          <div *ngIf="isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 animate-pulse">
-            <div class="h-8 bg-gray-300 rounded mb-3"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-4"></div>
-            <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">
-              <div class="flex items-center justify-center">
-                <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
-                <span class="text-white">Loading...</span>
-              </div>
-            </a>
-          </div>
-          
-          <!--Vista real-->
-          <div *ngIf="!isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5">
-            <p class="text-xl font-bold">Beca Compañero</p>
-            <p class="mt-2 text-black mb-4 hyphens-auto">
-                A toda la comunidad estudiantil a participar en el proceso de asignación de beneficiario a la beca compañero.
-            </p>
-            <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">Ver más información 
-              <i class="fa-solid fa-eye"></i>
-            </a>
-          </div>
-          
-          <!--Skeleton-->
-          <div *ngIf="isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 animate-pulse">
-            <div class="h-8 bg-gray-300 rounded mb-3"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-4"></div>
-            <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">
-              <div class="flex items-center justify-center">
-                <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
-                <span class="text-white">Loading...</span>
-              </div>
-            </a>
-          </div>
-          
-          <!--Vista real-->
-          <div *ngIf="!isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5">
-            <p class="text-xl font-bold">Beca Academica</p>
-            <p class="mt-2 text-black mb-4 hyphens-auto">
-                Estudiantes de la universidad interesados en obtener una beca académica.
-            </p>
-            <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">Ver más información 
-              <i class="fa-solid fa-eye"></i>
-            </a>
-          </div>
-          
-          <!--Skeleton-->
-          <div *ngIf="isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 animate-pulse">
-            <div class="h-8 bg-gray-300 rounded mb-3"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-4"></div>
-            <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">
-              <div class="flex items-center justify-center">
-                <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
-                <span class="text-white">Loading...</span>
-              </div>
-            </a>
-          </div>
-          
-          <!--Vista real-->
-          <div *ngIf="!isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5">
-            <p class="text-xl font-bold">Descuentos ENE-ABR 2024</p>
-            <p class="mt-2 text-black mb-4 hyphens-auto">
-                A todo el personal academico y administrativo interesado en obtener descuentos en el pago de colegiatura de cualquiera de los programas educativos de la universidad.
-            </p>
-            <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">Ver más información 
-              <i class="fa-solid fa-eye"></i>
-            </a>
-          </div>
-
-          <!--Skeleton-->
-          <div *ngIf="isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 animate-pulse">
-            <div class="h-8 bg-gray-300 rounded mb-3"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-4"></div>
-            <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">
-              <div class="flex items-center justify-center">
-                <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
-                <span class="text-white">Loading...</span>
-              </div>
-            </a>
-          </div>
-          
-          <!--Vista real-->
-          <div *ngIf="!isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5">
-            <p class="text-xl font-bold">Apoyo Transporte Escolar</p>
-            <p class="mt-2 text-black mb-4 hyphens-auto">
-                A los estudiantes de la universidad que radican en el municipio de Ruiz, Nayarit.
-            </p>
-            <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">Ver más información 
-              <i class="fa-solid fa-eye"></i>
-            </a>
-          </div>
-
-          <!--Skeleton-->
-          <div *ngIf="isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 animate-pulse">
-            <div class="h-8 bg-gray-300 rounded mb-3"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-4"></div>
-            <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">
-              <div class="flex items-center justify-center">
-                <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
-                <span class="text-white">Loading...</span>
-              </div>
-            </a>
-          </div>
-          
-          <!--Vista real-->
-          <div *ngIf="!isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5">
-            <p class="text-xl font-bold">Apoyo Escolar 2024</p>
-            <p class="mt-2 text-black mb-4 hyphens-auto">
-                A los estudiantes de la universidad que radican en el municipio de Ruiz, Nayarit.
-            </p>
-            <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">Ver más información 
-              <i class="fa-solid fa-eye"></i>
-            </a>
-          </div>
-
-          <!--Skeleton-->
-          <div *ngIf="isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 animate-pulse">
-            <div class="h-8 bg-gray-300 rounded mb-3"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-4"></div>
-            <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">
-              <div class="flex items-center justify-center">
-                <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
-                <span class="text-white">Loading...</span>
-              </div>
-            </a>
-          </div>
-          
-          <!--Vista real-->
-          <div *ngIf="!isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5">
-            <p class="text-xl font-bold">Curso Intensivo Francés 2024</p>
-            <p class="mt-2 text-black mb-4 hyphens-auto">
-                A los estudiantes de la universidad interesados en inscribirse al curso intensivo de francés.
-            </p>
-            <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">Ver más información 
-              <i class="fa-solid fa-eye"></i>
-            </a>
-          </div>
-
-          <!--Skeleton-->
-          <div *ngIf="isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 animate-pulse">
-            <div class="h-8 bg-gray-300 rounded mb-3"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-4"></div>
-            <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">
-              <div class="flex items-center justify-center">
-                <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
-                <span class="text-white">Loading...</span>
-              </div>
-            </a>
-          </div>
-          
-          <!--Vista real-->
-          <div *ngIf="!isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5">
-            <p class="text-xl font-bold">Convocatoria Beca de Movilidad Nacional Sep-Dic 2024</p>
-            <p class="mt-2 text-black mb-4 hyphens-auto">
-                A los estudiantes del sistema escolarizado de todos los programas educativos interesados en estudiar un cuatrimestre en otra universidad tecnológica.
-            </p>
-            <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">Ver más información 
-              <i class="fa-solid fa-eye"></i>
-            </a>
-          </div>
-
-          <!--Skeleton-->
-          <div *ngIf="isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 animate-pulse">
-            <div class="h-8 bg-gray-300 rounded mb-3"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            <div class="h-3 bg-gray-300 rounded mb-4"></div>
-            <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">
-              <div class="flex items-center justify-center">
-                <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
-                <span class="text-white">Loading...</span>
-              </div>
-            </a>
-          </div>
-          
-          <!--Vista real-->
-          <div *ngIf="!isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5">
-            <p class="text-xl font-bold">Convocatoria Expociencias Nayarit Sep-Dic 2024</p>
-            <p class="mt-2 text-black mb-4 hyphens-auto">
-              A todos los estudiantes que estén inscritos en una Institución educativa del
-              Estado de Nayarit, interesados en el desarrollo, presentación de proyectos
-              científicos, tecnológicos y de innovación.
-            </p>
-            <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">Ver más información 
-              <i class="fa-solid fa-eye"></i>
-            </a>
-          </div>
-
-        </div>
-    </div>
+  </div>
 </div>
 
 <!--Inicio componente Footer-->

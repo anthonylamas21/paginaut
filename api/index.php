@@ -56,6 +56,8 @@ switch ($request_method) {
             include_once 'controllers/recover_password.php';
         } elseif (strpos($request_uri, '/api/reset_password') !== false) { // Agregamos esta condición para manejar las solicitudes relacionadas con las direcciones
             include_once 'controllers/reset_password.php';
+        } elseif (strpos($request_uri, '/api/logout') !== false) { // Agregamos esta condición para manejar las solicitudes relacionadas con las direcciones
+            include_once 'controllers/deleteToken.php';
         } elseif (strpos($request_uri, '/api/talleres') !== false) {
             include_once 'controllers/taller.php';
         } elseif (strpos($request_uri, '/api/calendario') !== false) {
@@ -63,6 +65,11 @@ switch ($request_method) {
         } elseif (strpos($request_uri, '/api/beca') !== false) {
             include_once 'controllers/beca.php';
         } elseif (strpos($request_uri, '/api/status') !== false) {
+        } elseif (strpos($request_uri, '/api/noticia') !== false) {
+            include_once 'controllers/noticia.php';
+        } elseif (strpos($request_uri, '/api/instalacion') !== false) {
+            include_once 'controllers/instalacion.php';
+        }elseif (strpos($request_uri, '/api/status') !== false) {
             // Nueva ruta para verificar el estado de la API
             header('Content-Type: application/json');
             echo json_encode(array("message" => "API is working."));
@@ -70,7 +77,6 @@ switch ($request_method) {
             header("HTTP/1.0 404 Not Found");
             echo json_encode(array("message" => "Endpoint not found."));
         }
-
 
         break;
     default:

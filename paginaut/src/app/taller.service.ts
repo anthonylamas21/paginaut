@@ -1,7 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
+
+export interface Taller {
+  id?: number;
+  nombre: string;
+  descripcion: string;
+  competencia: string;
+  imagen?: string;
+  imagenesGenerales?: string[];
+  activo: boolean;
+}
+
+export interface TallerResponse {
+  records: Taller[];
+}
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +23,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 export class TallerService {
   private apiUrl = 'http://localhost/paginaut/api/taller.php'; // Asegúrate de que esta URL sea correcta
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   registrarTaller(formData: FormData): Observable<any> {
     return this.http.post(this.apiUrl, formData).pipe(
@@ -20,6 +34,61 @@ export class TallerService {
         }
         return response;
       }),
+      catchError(this.handleError)
+    );
+  }
+
+  crearTaller(taller: Taller, imagenPrincipal?: File, imagenesGenerales?: File[]): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('nombre', taller.nombre);
+    formData.append('descripcion', taller.descripcion);
+    formData.append('competencia', taller.competencia);
+
+    if (imagenPrincipal) {
+      formData.append('imagen_principal', imagenPrincipal);
+    }
+
+    if (imagenesGenerales) {
+      imagenesGenerales.forEach((imagen, index) => {
+        formData.append(`imagenes_generales[${index}]`, imagen);
+      });
+    }
+
+    return this.http.post<any>(this.apiUrl, formData);
+  }
+
+  obtenerTalleres(): Observable<TallerResponse> {
+    return this.http.get<TallerResponse>(this.apiUrl);
+  }
+
+  actualizarTaller(taller: Taller, imagenPrincipal?: File, imagenesGenerales?: File[], imagenesGeneralesActuales?: string[]): Observable<any> {
+    const formData = new FormData();
+
+    formData.append('id', taller.id!.toString());
+    formData.append('nombre', taller.nombre);
+    formData.append('descripcion', taller.descripcion);
+    formData.append('competencia', taller.competencia);
+    formData.append('activo', taller.activo.toString());
+
+    if (imagenPrincipal) {
+      formData.append('imagen_principal', imagenPrincipal, imagenPrincipal.name);
+    }
+
+    if (imagenesGenerales && imagenesGenerales.length > 0) {
+      imagenesGenerales.forEach((imagen, index) => {
+        formData.append(`imagenes_generales[${index}]`, imagen, imagen.name);
+      });
+    }
+
+    if (imagenesGeneralesActuales) {
+      formData.append('imagenes_generales_actuales', JSON.stringify(imagenesGeneralesActuales));
+    }
+
+    return this.http.put(`${this.apiUrl}?id=${taller.id}`, formData);
+  }
+
+  eliminarTaller(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}?id=${id}`).pipe(
       catchError(this.handleError)
     );
   }

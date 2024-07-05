@@ -5,7 +5,7 @@ import { DireccionService, Direccion } from '../direccion.service';
 @Component({
   selector: 'app-agregar-direccion',
   templateUrl: './agregar-direccion.component.html',
-  styleUrls: ['./agregar-direccion.component.css'],
+  styleUrls: ['./agregar-direccion.component.css']
 })
 export class AgregarDireccionComponent implements OnInit {
   direccionForm: FormGroup;
@@ -25,6 +25,7 @@ export class AgregarDireccionComponent implements OnInit {
   ) {
     this.direccionForm = this.fb.group({
       abreviatura: ['', [Validators.required, Validators.maxLength(10)]],
+
       nombre: ['', [Validators.required, Validators.maxLength(100)]],
     });
   }

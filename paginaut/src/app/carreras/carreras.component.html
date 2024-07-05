@@ -16,7 +16,7 @@
           </a>
           <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="m9 18 6-6-6-6"></path>
-          </svg>
+          </svg> 
         </li>
         <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate" aria-current="page">
             Carreras
@@ -34,8 +34,7 @@
           Dirección en ciencias agropecuarias</h2>
     </div>
 
-
-    <div class="flex flex-wrap justify-center">
+    <div class="flex flex-wrap justify-center"> 
         <div *ngIf="isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 animate-pulse">
             <!-- Skeleton Loaders for the first set of cards -->
             <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-64 h-64 mx-auto relative"></div>
@@ -43,12 +42,12 @@
             <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-64 h-64 mx-auto relative"></div>
         </div>
         <div *ngIf="!isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative">
-                <div class="absolute top-0 left-0 m-2">
+            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
+                <div class="absolute top-0 left-0 m-2 z-10">
                     <span class="relative flex items-center text-white">Ingeniería en Agrobiotecnología</span>
                 </div>
-                <a href="info_carreras/agrobiotecnologia">
-                    <img class="w-full h-full rounded-lg" src="./assets/img/img-cards.png" alt="Image Description">
+                <a href="info_carreras/agrobiotecnologia" class="relative w-full h-full">
+                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/agrobiotecnologia.jpg" alt="Image Description">
                     <div class="absolute bottom-0 right-0 m-2">
                         <span class="relative flex items-center text-white">
                             <i class="fa-solid fa-arrow-right"></i>
@@ -56,12 +55,12 @@
                     </div>
                 </a>
             </div>
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative">
-                <div class="absolute top-0 left-0 m-2">
+            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
+                <div class="absolute top-0 left-0 m-2 z-10">
                     <span class="relative flex items-center text-white">Ingeniería en Procesos Alimentario</span>
                 </div>
-                <a href="info_carreras/procesos_alimentario">
-                    <img class="w-full h-full rounded-lg" src="./assets/img/img-cards.png" alt="Image Description">
+                <a href="info_carreras/procesos-alimentario" class="relative w-full h-full">
+                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/procesos-alimenticios.jpg" alt="Image Description">
                     <div class="absolute bottom-0 right-0 m-2">
                         <span class="relative flex items-center text-white">
                             <i class="fa-solid fa-arrow-right"></i>
@@ -69,12 +68,12 @@
                     </div>
                 </a>
             </div>
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative">
-                <div class="absolute top-0 left-0 m-2">
+            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
+                <div class="absolute top-0 left-0 m-2 z-10">
                     <span class="relative flex items-center text-white">Ingeniería en Acuicultura</span>
                 </div>
-                <a href="info_carreras/acuicultura">
-                    <img class="w-full h-full rounded-lg" src="./assets/img/img-cards.png" alt="Image Description">
+                <a href="info_carreras/acuicultura" class="relative w-full h-full">
+                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/acuicultura.jpg" alt="Image Description">
                     <div class="absolute bottom-0 right-0 m-2">
                         <span class="relative flex items-center text-white">
                             <i class="fa-solid fa-arrow-right"></i>
@@ -101,12 +100,12 @@
             <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-64 h-64 mx-auto relative"></div>
         </div>
         <div *ngIf="!isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative">
-                <div class="absolute top-0 left-0 m-2">
+            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
+                <div class="absolute top-0 left-0 m-2 z-10">
                     <span class="relative flex items-center text-white">Licenciatura en turismo</span>
                 </div>
-                <a href="info_carreras/turismo">
-                    <img class="w-full h-full rounded-lg" src="./assets/img/img-cards2.png" alt="Image Description">
+                <a href="info_carreras/turismo" class="relative w-full h-full">
+                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/turismo.jpg" alt="Image Description">
                     <div class="absolute bottom-0 right-0 m-2">
                         <span class="relative flex items-center text-white">
                             <i class="fa-solid fa-arrow-right"></i>
@@ -114,12 +113,12 @@
                     </div>
                 </a>
             </div>
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative">
-                <div class="absolute top-0 left-0 m-2">
+            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
+                <div class="absolute top-0 left-0 m-2 z-10">
                     <span class="relative flex items-center text-white">Licenciatura en administración</span>
                 </div>
-                <a href="info_carreras/administracion">
-                    <img class="w-full h-full rounded-lg" src="./assets/img/img-cards2.png" alt="Image Description">
+                <a href="info_carreras/administracion" class="relative w-full h-full">
+                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/mercadotecnia.jpg" alt="Image Description">
                     <div class="absolute bottom-0 right-0 m-2">
                         <span class="relative flex items-center text-white">
                             <i class="fa-solid fa-arrow-right"></i>
@@ -127,25 +126,25 @@
                     </div>
                 </a>
             </div>
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative">
-                <div class="absolute top-0 left-0 m-2">
-                    <span class="relative flex items-center text-white">Licenciatura en mercadotecnia</span>
+            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
+                <div class="absolute top-0 left-0 m-2 z-10">
+                  <span class="relative flex items-center text-white">Licenciatura en mercadotecnia</span>
                 </div>
-                <a href="info_carreras/mercadotecnia">
-                    <img class="w-full h-full rounded-lg" src="./assets/img/img-cards2.png" alt="Image Description">
-                    <div class="absolute bottom-0 right-0 m-2">
-                        <span class="relative flex items-center text-white">
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </span>
-                    </div>
+                <a href="info_carreras/mercadotecnia" class="relative w-full h-full">
+                  <img class="absolute inset-0 w-full h-full object-cover" src="./assets/img/fotos_por_carrera/administracion.jpg" alt="Image Description">
+                  <div class="absolute bottom-0 right-0 m-2 z-10">
+                    <span class="relative flex items-center text-white">
+                      <i class="fa-solid fa-arrow-right"></i>
+                    </span>
+                  </div>
                 </a>
-            </div>
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative">
-                <div class="absolute top-0 left-0 m-2">
+              </div>              
+            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
+                <div class="absolute top-0 left-0 m-2 z-10">
                     <span class="relative flex items-center text-white">Licenciatura en gastronomía</span>
                 </div>
-                <a href="info_carreras/gastronomia">
-                    <img class="w-full h-full rounded-lg" src="./assets/img/img-cards2.png" alt="Image Description">
+                <a href="info_carreras/gastronomia" class="relative w-full h-full">
+                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/gastronomia.jpg" alt="Image Description">
                     <div class="absolute bottom-0 right-0 m-2">
                         <span class="relative flex items-center text-white">
                             <i class="fa-solid fa-arrow-right"></i>
@@ -153,12 +152,12 @@
                     </div>
                 </a>
             </div>
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative">
-                <div class="absolute top-0 left-0 m-2">
+            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
+                <div class="absolute top-0 left-0 m-2 z-10">
                     <span class="relative flex items-center text-white">T.S.U. en contaduría</span>
                 </div>
-                <a href="info_carreras/contaduria">
-                    <img class="w-full h-full rounded-lg" src="./assets/img/img-cards2.png" alt="Image Description">
+                <a href="info_carreras/contaduria" class="relative w-full h-full">
+                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/contaduria.jpg" alt="Image Description">
                     <div class="absolute bottom-0 right-0 m-2">
                         <span class="relative flex items-center text-white">
                             <i class="fa-solid fa-arrow-right"></i>
@@ -185,12 +184,12 @@
             <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-64 h-64 mx-auto relative"></div>
         </div>
         <div *ngIf="!isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative">
-                <div class="absolute top-0 left-0 m-2">
+            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
+                <div class="absolute top-0 left-0 m-2 z-10">
                     <span class="relative flex items-center text-white">Ingeniería en desarrollo y gestión de software</span>
                 </div>
-                <a href="info_carreras/desarrollo_software">
-                    <img class="w-full h-full rounded-lg" src="./assets/img/img-cards3.png" alt="Image Description">
+                <a href="info_carreras/desarrollo-software" class="relative w-full h-full">
+                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/desarrollo-software.jpg" alt="Image Description">
                     <div class="absolute bottom-0 right-0 m-2">
                         <span class="relative flex items-center text-white">
                             <i class="fa-solid fa-arrow-right"></i>

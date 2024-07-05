@@ -1,9 +1,33 @@
 <!--Componente Navbar-->
-<app-navbar></app-navbar>
+<app-navbar class="min-h-screen"></app-navbar>
 <p id="inicio"></p>
 <!--Fin Navbar-->
 
-<div class="container h-screen max-w-screen-lg mb-10 mt-20"> <!-- Agregamos un margen inferior de 8 unidades -->
+<div class=" mt-4">
+  <ol class="flex items-center whitespace-nowrap ml-4 mt-24">
+      <li class="inline-flex items-center">
+        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="#">
+          Inicio
+        </a>
+        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </li>
+      <li class="inline-flex items-center">
+          <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="#">
+            UTC
+          </a>
+          <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6"></path>
+          </svg>
+        </li>
+      <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate" aria-current="page">
+          Bolsa de trabajo
+        </li>
+    </ol>
+</div>
+
+<div class="container h-screen max-w-screen-lg mb-10 "> <!-- Agregamos un margen inferior de 8 unidades -->
     <section class=" py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-5">

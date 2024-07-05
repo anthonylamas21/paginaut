@@ -30,6 +30,10 @@ import { CorreoComponent } from './correo/correo.component';
 import { AcercaDeComponent } from './acerca-de/acerca-de.component';
 import { InfoBecaComponent } from './info-beca/info-beca.component';
 import { GaleriaComponent } from './galeria/galeria.component';
+import { EventoComponent } from './admin/evento/evento.component';
+import { NoticiaComponent } from './admin/noticia/noticia.component';
+import { NoticiasComponent } from './noticias/noticias.component';
+import { PiedraEstanqueComponent } from './piedra-estanque/piedra-estanque.component';
 
 // Rutas Administrador
 import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
@@ -40,6 +44,7 @@ import { BecasAdminComponent } from './admin/becas-admin/becas-admin.component';
 import { CalendarioAdminComponent } from './admin/calendario-admin/calendario-admin.component';
 import { GaleriaAdminComponent } from './admin/galeria-admin/galeria-admin.component';
 import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.component';
+import { InstalacionComponent } from './admin/instalacion/instalacion.component';
 
 // Info Carreras
 import { CarreraAgrobiotecnologiaComponent } from './info-carreras/carrera-agrobiotecnologia/carrera-agrobiotecnologia.component';
@@ -62,12 +67,12 @@ import { DibujoComponent } from './info-horas-recreativas/dibujo/dibujo.componen
 import { DanzaComponent } from './info-horas-recreativas/danza/danza.component';
 import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.component';
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
+import { AgendaAdminComponent } from './admin/agenda-admin/agenda-admin.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/principal', pathMatch: 'full' }, // Ruta por defecto
+  { path: '', redirectTo: '/principal', pathMatch: 'full' },
   { path: 'principal', component: PrincipalComponent },
-
-  // Rutas
   { path: 'navbar', component: NavbarComponent },
   { path: 'componentes', component: ComponentesComponent },
   { path: 'carreras', component: CarrerasComponent },
@@ -80,7 +85,20 @@ const routes: Routes = [
   { path: 'calendario', component: CalendarioComponent },
   { path: 'taller', component: TallerComponent },
   { path: 'direccion', component: AgregarDireccionComponent },
-  { path: 'registrar-evento', component: RegistrarEventoComponent },
+  { path: 'piedra_estanque', component: PiedraEstanqueComponent },
+
+  //Rutas
+  { path: 'principal', component: PrincipalComponent },
+  { path: 'navbar', component: NavbarComponent },
+  { path: 'componentes', component: ComponentesComponent },
+  { path: 'carreras', component: CarrerasComponent },
+  { path: 'becas', component: BecasComponent },
+  { path: 'unidades_academicas', component: UnidadesAcademicasComponent },
+  { path: 'lectura', component: TalleresComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'info_carrera', component: InfoCarreraComponent },
+  { path: 'eventos', component: EventosComponent },
+  { path: 'calendario', component: CalendarioComponent },
   { path: 'cursos', component: CursosComponent },
   { path: 'info_curso', component: InfoCursoComponent },
   { path: 'info_unidades', component: InfoUnidadesComponent },
@@ -94,8 +112,49 @@ const routes: Routes = [
   { path: 'acerca_de', component: AcercaDeComponent },
   { path: 'info_becas', component: InfoBecaComponent },
   { path: 'galeria', component: GaleriaComponent },
+  { path: 'agenda-admin', component: AgendaAdminComponent },
 
-  // Rutas Administrador
+  // Info Carreras
+  {
+    path: 'info_carreras/agrobiotecnologia',
+    component: CarreraAgrobiotecnologiaComponent,
+  },
+  {
+    path: 'info_carreras/procesos-alimentario',
+    component: CarreraProcesosAlimentarioComponent,
+  },
+  { path: 'info_carreras/acuicultura', component: CarreraAcuiculturaComponent },
+  { path: 'info_carreras/turismo', component: CarreraTurismoComponent },
+  {
+    path: 'info_carreras/administracion',
+    component: CarreraAdministracionComponent,
+  },
+  {
+    path: 'info_carreras/mercadotecnia',
+    component: CarreraMercadotecniaComponent,
+  },
+  { path: 'info_carreras/gastronomia', component: CarreraGastronomiaComponent },
+  { path: 'info_carreras/contaduria', component: CarreraContaduriaComponent },
+  {
+    path: 'info_carreras/desarrollo-software',
+    component: CarreraDesarrolloSoftwareComponent,
+  },
+
+  // Info Horas Recreativas
+  { path: 'info_horas_recreativas/futbol', component: FutbolComponent },
+  { path: 'info_horas_recreativas/beisbol', component: BeisbolComponent },
+  { path: 'info_horas_recreativas/basquetbol', component: BasquetbolComponent },
+  { path: 'info_horas_recreativas/voleibol', component: VoleibolComponent },
+  {
+    path: 'info_horas_recreativas/activacion-fisica',
+    component: ActivacionFisicaComponent,
+  },
+  { path: 'info_horas_recreativas/dibujo', component: DibujoComponent },
+  { path: 'info_horas_recreativas/danza', component: DanzaComponent },
+  { path: 'info_horas_recreativas/lectura', component: LecturaComponent },
+  { path: 'info_horas_recreativas/ajedrez', component: AjedrezComponent },
+
+  //Rutas Adminstrador
   { path: 'admin/navbar_admin', component: NavbarAdminComponent },
   { path: 'admin/principal_admin', component: PrincipalAdminComponent },
   { path: 'admin/carreras_admin', component: CarrerasAdminComponent },
@@ -105,28 +164,22 @@ const routes: Routes = [
   { path: 'admin/calendario_admin', component: CalendarioAdminComponent },
   { path: 'admin/galeria_admin', component: GaleriaAdminComponent },
   { path: 'admin/usuarios_admin', component: UsuariosAdminComponent },
+  { path: 'admin/evento', component: EventoComponent },
+  { path: 'admin/noticia', component: NoticiaComponent },
+  { path: 'admin/instalacion', component: InstalacionComponent },
+  { path: 'evento/:id', component: EventosComponent },
+  { path: 'noticia/:id', component: NoticiasComponent },
+  { path: 'info-beca/:id', component: InfoBecaComponent },
+  { path: 'info-unidades/:id', component: InfoUnidadesComponent },
+  { path: 'admin/agenda-admin', component: AgendaAdminComponent },
 
-  // Info Carreras
-  { path: 'info_carreras/agrobiotecnologia', component: CarreraAgrobiotecnologiaComponent },
-  { path: 'info_carreras/procesos_alimentario', component: CarreraProcesosAlimentarioComponent },
-  { path: 'info_carreras/acuicultura', component: CarreraAcuiculturaComponent },
-  { path: 'info_carreras/turismo', component: CarreraTurismoComponent },
-  { path: 'info_carreras/administracion', component: CarreraAdministracionComponent },
-  { path: 'info_carreras/mercadotecnia', component: CarreraMercadotecniaComponent },
-  { path: 'info_carreras/gastronomia', component: CarreraGastronomiaComponent },
-  { path: 'info_carreras/contaduria', component: CarreraContaduriaComponent },
-  { path: 'info_carreras/desarrollo_software', component: CarreraDesarrolloSoftwareComponent },
+  { path: 'admin/registrar-evento', component: RegistrarEventoComponent },
+  { path: 'admin/carreras', component: CarrerasAdminComponent }, // Nueva ruta para administrar carreras
+  { path: 'admin/agregar-calendario', component: AgregarCalendarioComponent },
+  { path: 'admin/agregar-beca', component: AgregarBecaComponent },
+  { path: '**', component: NotFoundComponent}
 
-  // Info Horas Recreativas
-  { path: 'info_horas_recreativas/futbol', component: FutbolComponent },
-  { path: 'info_horas_recreativas/beisbol', component: BeisbolComponent },
-  { path: 'info_horas_recreativas/basquetbol', component: BasquetbolComponent },
-  { path: 'info_horas_recreativas/voleibol', component: VoleibolComponent },
-  { path: 'info_horas_recreativas/activacion_fisica', component: ActivacionFisicaComponent },
-  { path: 'info_horas_recreativas/dibujo', component: DibujoComponent },
-  { path: 'info_horas_recreativas/danza', component: DanzaComponent },
-  { path: 'info_horas_recreativas/lectura', component: LecturaComponent },
-  { path: 'info_horas_recreativas/ajedrez', component: AjedrezComponent }
+
 ];
 
 @NgModule({

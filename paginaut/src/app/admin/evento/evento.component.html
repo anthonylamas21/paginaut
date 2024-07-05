@@ -1,0 +1,610 @@
+<app-navbar-admin></app-navbar-admin>
+<p id="inicio"></p>
+<!--Fin Navbar-->
+
+<div class="bg-[#043D3D] rounded-lg mt-28 mb-5">
+  <h2
+    class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4"
+  >
+    Eventos
+  </h2>
+</div>
+
+  
+<!-- Modal para Editar/Registrar Evento -->
+<div [ngClass]="{ 'hidden': !isModalOpen }" class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+    <div class="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10">
+      <h3 class="text-xl font-bold text-gray-900">{{ currentEventoId ? "Editar Evento" : "Nuevo Evento" }}</h3>
+      <button type="button" class="text-gray-400 hover:text-gray-500" (click)="closeModal()">
+        <span class="sr-only">Cerrar</span>
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    
+    <form [formGroup]="eventoForm" (ngSubmit)="onSubmit()" class="p-4 space-y-4">
+      <div class="space-y-2">
+        <h4 class="font-medium text-gray-700">1. Información básica</h4>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label for="titulo" class="block text-sm font-medium text-gray-700">Título</label>
+            <input type="text" id="titulo" formControlName="titulo" class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" maxlength="50" />
+            <p *ngIf="isFieldInvalid('titulo')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('titulo') }}</p>
+          </div>
+          <div>
+            <label for="lugar_evento" class="block text-sm font-medium text-gray-700">Lugar del Evento</label>
+            <input type="text" id="lugar_evento" formControlName="lugar_evento" class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" maxlength="50" />
+            <p *ngIf="isFieldInvalid('lugar_evento')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('lugar_evento') }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <h4 class="font-medium text-gray-700">2. Detalles del evento</h4>
+        <div>
+          <label for="informacion_evento" class="block text-sm font-medium text-gray-700">Información del Evento</label>
+          <textarea id="informacion_evento" formControlName="informacion_evento" rows="4" class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"></textarea>
+          <p *ngIf="isFieldInvalid('informacion_evento')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('informacion_evento') }}</p>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <h4 class="font-medium text-gray-700">3. Fecha y hora</h4>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label for="fecha_inicio" class="block text-sm font-medium text-gray-700">Fecha de Inicio</label>
+            <input type="date" id="fecha_inicio" formControlName="fecha_inicio" 
+                   [min]="minDate" 
+                   [attr.max]="eventoForm.get('fecha_fin')?.value || null"
+                   class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" />
+            <p *ngIf="isFieldInvalid('fecha_inicio')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('fecha_inicio') }}</p>
+          </div>
+          <div>
+            <label for="fecha_fin" class="block text-sm font-medium text-gray-700">Fecha de Fin</label>
+            <input type="date" id="fecha_fin" formControlName="fecha_fin" 
+                   [min]="eventoForm.get('fecha_inicio')?.value || minDate"
+                   class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" />
+            <p *ngIf="isFieldInvalid('fecha_fin')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('fecha_fin') }}</p>
+          </div>
+          <div>
+            <label for="hora_inicio" class="block text-sm font-medium text-gray-700">Hora de Inicio</label>
+            <input type="time" id="hora_inicio" formControlName="hora_inicio" 
+                   [min]="eventoForm.get('fecha_inicio')?.value === minDate ? minTimeInicio : null"
+                   class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" />
+            <p *ngIf="isFieldInvalid('hora_inicio')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('hora_inicio') }}</p>
+          </div>
+          <div>
+            <label for="hora_fin" class="block text-sm font-medium text-gray-700">Hora de Fin</label>
+            <input type="time" id="hora_fin" formControlName="hora_fin" 
+                   [min]="minTimeFin"
+                   class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" />
+            <p *ngIf="isFieldInvalid('hora_fin')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('hora_fin') }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <h4 class="font-medium text-gray-700">4. Imágenes y archivos</h4>
+        <div>
+          <label for="imagenPrincipal" class="block text-sm font-medium text-gray-700">Imagen Principal</label>
+          <input type="file" id="imagenPrincipal" (change)="onFileChangePrincipal($event)" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
+          <img *ngIf="imagenPrincipalPreview" [src]="imagenPrincipalPreview" alt="Preview" class="mt-2 max-w-full h-auto rounded-lg">
+        </div>
+        <div>
+          <label for="imagenesGenerales" class="block text-sm font-medium text-gray-700">Imágenes Complementarias</label>
+          <input type="file" id="imagenesGenerales" multiple (change)="onFileChangeGenerales($event)" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
+          <div class="mt-2 grid grid-cols-4 gap-2">
+            <div *ngFor="let img of imagenesGeneralesActuales; let i = index" class="relative">
+              <img [src]="img" alt="Imagen General" class="w-full h-20 object-cover rounded-lg">
+              <button type="button" (click)="removeImagenGeneral(i)" class="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 text-xs">
+                X
+              </button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label for="archivos" class="block text-sm font-medium text-gray-700">Archivos</label>
+          <input type="file" id="archivos" multiple (change)="onFileChangeArchivos($event)" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
+          <ul class="mt-2 space-y-1">
+            <li *ngFor="let archivo of archivosActuales; let i = index" class="flex items-center justify-between p-2 bg-gray-50 rounded-md">
+              <a [href]="archivo.ruta_archivo" target="_blank" class="text-indigo-600 hover:text-indigo-900">{{ archivo.nombre_archivo }}</a>
+              <button type="button" (click)="removeArchivo(i)" class="text-red-500 hover:text-red-700">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </form>
+    
+    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse sticky bottom-0">
+      <button type="submit" [disabled]="eventoForm.invalid || isLoading" (click)="onSubmit()" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm">
+        {{ isLoading ? 'Procesando...' : (currentEventoId ? 'Actualizar' : 'Agregar Evento') }}
+      </button>
+      <button type="button" (click)="closeModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>
+  
+    <div *ngIf="responseMessage" class="mt-4 p-4 rounded-md" [ngClass]="{'bg-green-100 text-green-700': !responseMessage.includes('Error'), 'bg-red-100 text-red-700': responseMessage.includes('Error')}">
+      {{ responseMessage }}
+    </div>
+  
+    
+    <div class="rounded-lg border border-stroke bg-white px-5 pb-2.5 shadow-default sm:px-7.5 xl:pb-1 my-2">
+      <div class="flex flex-col text-right w-full">
+        <div class="w-full">
+          <a href="/agenda-admin" class="py-2 px-4 inline-flex button-secondary items-center gap-x-2 text-sm font-semibold rounded-b-lg border border-transparent bg-[#04847C] text-white hover:bg[#04847C] hover:opacity-80 disabled:opacity-50 disabled:pointer-events-none">
+            <i class="fa-solid fa-calendar-week"></i> Mostrar agenda
+          </a>
+        </div>
+      </div>
+      <div class="max-w-full">
+        <div class="border-b border-gray-200">
+          <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
+            <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none active" id="tabs-with-icons-item-1" data-hs-tab="#tabs-with-icons-1" aria-controls="tabs-with-icons-1" role="tab" (click)="switchTab('active')">
+              Todas
+            </button>
+            <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none" id="tabs-with-icons-item-2" data-hs-tab="#tabs-with-icons-2" aria-controls="tabs-with-icons-2" role="tab" (click)="switchTab('inactive')">
+              Papelera
+            </button>
+          </nav>
+        </div>
+  
+        <div class="mt-3">
+          <div id="tabs-with-icons-1" role="tabpanel" aria-labelledby="tabs-with-icons-item-1">
+            <div class="flex flex-wrap items-center">
+              <div class="flex flex-col lg:w-7/12 sm:w-12/12 md:w-7/12 w-full">
+                <div class="w-full">
+                  <!-- SearchBox -->
+                  <div class="relative w-full">
+                    <div class="relative w-full">
+                      <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5 w-full">
+                        <svg class="flex-shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="11" cy="11" r="8"></circle>
+                          <path d="m21 21-4.3-4.3"></path>
+                        </svg>
+                      </div>
+                      <input (input)="filterGlobal($event)" class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]" type="text" placeholder="Ingresa tu búsqueda" value="" data-hs-combo-box-input="" />
+                    </div>
+                  </div>
+                  <!-- End SearchBox -->
+                </div>
+              </div>
+              <div class="flex flex-col lg:w-5/12 sm:w-12/12 md:w-5/12 text-right w-full">
+                <div class="w-full">
+                  <button type="button" class="py-3 my-2 px-4 inline-flex button-secondary items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-color text-white hover:bg-primary-color-90 hover:opacity-90 disabled:opacity-50 disabled:pointer-events-none" (click)="openModal()">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    Registrar Evento
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-col mb-5">
+              <div class="-m-1.5 overflow-x-auto">
+                <div class="p-1.5 min-w-full inline-block align-middle">
+                  <div class="border rounded-lg overflow-hidden my-2">
+                    <p-table #dt [value]="filteredEventos" [paginator]="true" [rows]="5" 
+                             currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros" 
+                             [showCurrentPageReport]="true" 
+                             [globalFilterFields]="['titulo', 'informacion_evento', 'lugar_evento', 'fecha_inicio', 'fecha_fin', 'hora_inicio', 'hora_fin']" 
+                             [tableStyleClass]="'min-w-full divide-y'" 
+                             [resizableColumns]="true">
+                      <ng-template pTemplate="header">
+                        <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="titulo">
+                            <div class="flex">
+                              Título <p-sortIcon field="titulo"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="informacion_evento">
+                            <div class="flex">
+                              Información <p-sortIcon field="informacion_evento"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="activo">
+                            <div class="flex">
+                              Activo <p-sortIcon field="activo"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="lugar_evento">
+                            <div class="flex">
+                              Lugar <p-sortIcon field="lugar_evento"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_inicio">
+                            <div class="flex">
+                              Fecha de Inicio <p-sortIcon field="fecha_inicio"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_fin">
+                            <div class="flex">
+                              Fecha de Fin <p-sortIcon field="fecha_fin"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="hora_inicio">
+                            <div class="flex">
+                              Hora de Inicio <p-sortIcon field="hora_inicio"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="hora_fin">
+                            <div class="flex">
+                              Hora de Fin <p-sortIcon field="hora_fin"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
+                            <div class="flex">Acciones</div>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-evento>
+                        <tr class="divide-x divide-gray-200 bg-neutral-100">
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.titulo }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.informacion_evento | slice:0:50 }}{{ evento.informacion_evento.length > 50 ? '...' : '' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.activo ? 'Sí' : 'No' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.lugar_evento }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.fecha_inicio | date:'dd/MM/yyyy' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.fecha_fin | date:'dd/MM/yyyy' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.hora_inicio }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.hora_fin }}</td>
+                          <td class="px-3 py-2 text-sm text-black">
+                            <div class="flex items-center space-x-3.5">
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(evento, 'principal')" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-blue-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-image" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Imagen Principal</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Ver imagen principal
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(evento, 'generales')" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-green-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-images" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Imágenes Complementarias</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Ver imágenes complementarias
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openArchivoModal(evento)" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-yellow-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-file" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Archivos</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Ver archivos
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openModal(evento)" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fas fa-edit"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Editar</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Editar este evento
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button *ngIf="evento.activo" (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="desactivarEvento(evento.id!)" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-yellow-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-ban" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Desactivar</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Desactivar este evento
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="emptymessage">
+                        <tr>
+                          <td colspan="9">No se encontraron resultados.</td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="tabs-with-icons-2" class="hidden" role="tabpanel" aria-labelledby="tabs-with-icons-item-2">
+            <div class="flex flex-col mb-5">
+              <div class="-m-1.5 overflow-x-auto">
+                <div class="p-1.5 min-w-full inline-block align-middle">
+                  <div class="border rounded-lg overflow-hidden my-2">
+                    <p-table #dt [value]="papeleraEventos" [paginator]="true" [rows]="5" 
+                             currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros" 
+                             [showCurrentPageReport]="true" 
+                             [globalFilterFields]="['titulo', 'informacion_evento', 'lugar_evento', 'fecha_inicio', 'fecha_fin', 'hora_inicio', 'hora_fin']" 
+                             [tableStyleClass]="'min-w-full divide-y'" 
+                             [resizableColumns]="true">
+                      <ng-template pTemplate="header">
+                        <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="titulo">
+                            <div class="flex">
+                              Título <p-sortIcon field="titulo"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="informacion_evento">
+                            <div class="flex">
+                              Información <p-sortIcon field="informacion_evento"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="activo">
+                            <div class="flex">
+                              Activo <p-sortIcon field="activo"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="lugar_evento">
+                            <div class="flex">
+                              Lugar <p-sortIcon field="lugar_evento"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_inicio">
+                            <div class="flex">
+                              Fecha de Inicio <p-sortIcon field="fecha_inicio"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_fin">
+                            <div class="flex">
+                              Fecha de Fin <p-sortIcon field="fecha_fin"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="hora_inicio">
+                            <div class="flex">
+                              Hora de Inicio <p-sortIcon field="hora_inicio"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="hora_fin">
+                            <div class="flex">
+                              Hora de Fin <p-sortIcon field="hora_fin"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
+                            <div class="flex">Acciones</div>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-evento>
+                        <tr class="divide-x divide-gray-200 bg-neutral-100">
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.titulo }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.informacion_evento | slice:0:50 }}{{ evento.informacion_evento.length > 50 ? '...' : '' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.activo ? 'Sí' : 'No' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.lugar_evento }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.fecha_inicio | date:'dd/MM/yyyy' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.fecha_fin | date:'dd/MM/yyyy' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.hora_inicio }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.hora_fin }}</td>
+                          <td class="px-3 py-2 text-sm text-black">
+                            <div class="flex items-center space-x-3.5">
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(evento, 'principal')" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-blue-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-image" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Imagen Principal</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Ver imagen principal
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(evento, 'generales')" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-green-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-images" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Imágenes Generales</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Ver imágenes generales
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openArchivoModal(evento)" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-yellow-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-file" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Archivos</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Ver archivos
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button *ngIf="!evento.activo" (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="activarEvento(evento.id!)" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-green-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Activar</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Activar este evento
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="confirmDeleteEvento(evento.id!)" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Eliminar</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Eliminar permanentemente este evento
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="emptymessage">
+                        <tr>
+                          <td colspan="9">No se encontraron resultados.</td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-- Modal para visualizar imágenes -->
+<div *ngIf="isImageModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white p-4 rounded-lg max-w-3xl w-full">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-bold">{{ modalTitle }}</h3>
+      <button (click)="closeImageModal()" class="text-gray-500 hover:text-gray-700">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div *ngIf="allImages.length > 0; else noImages" class="relative">
+      <img [src]="getCurrentImage()" alt="Imagen del evento" class="w-full h-auto max-h-96 object-contain">
+      <button *ngIf="allImages.length > 1" (click)="prevImage()" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </button>
+      <button *ngIf="allImages.length > 1" (click)="nextImage()" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+    </div>
+    <ng-template #noImages>
+      <div class="text-center py-8">
+        <p class="text-gray-500">No hay imágenes disponibles para este evento.</p>
+      </div>
+    </ng-template>
+    <div class="mt-4 text-center">
+      <p *ngIf="allImages.length > 1">Imagen {{ currentImageIndex + 1 }} de {{ getTotalImagesCount() }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para visualizar archivos -->
+<div *ngIf="isArchivoModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white p-4 rounded-lg max-w-3xl w-full">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-bold">Archivos del Evento</h3>
+      <button (click)="closeArchivoModal()" class="text-gray-500 hover:text-gray-700">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="mt-4">
+      <div *ngIf="archivosActuales.length > 0; else noArchivos">
+        <div *ngFor="let archivo of archivosActuales; let i = index" class="relative m-1 flex items-center">
+          <a [href]="archivo.ruta_archivo" target="_blank" class="text-blue-500">{{ archivo.nombre_archivo }}</a>
+        </div>
+      </div>
+      <ng-template #noArchivos>
+        <div class="text-center py-8">
+          <p class="text-gray-500">No hay archivos disponibles para este evento.</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

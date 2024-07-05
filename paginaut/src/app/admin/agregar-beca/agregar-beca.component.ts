@@ -1,6 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { BecaService, Beca } from '../beca.service';
+import Swal from 'sweetalert2';
+
+class TooltipManager {
+  static adjustTooltipPosition(
+    button: HTMLElement,
+    tooltip: HTMLElement
+  ): void {
+    const buttonRect = button.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    const preferredLeft =
+      buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
+    const preferredTop = buttonRect.top - tooltipRect.height - 10;
+
+    let left = Math.max(preferredLeft, 0);
+    let top = Math.max(preferredTop, 0);
+
+    if (left + tooltipRect.width > windowWidth) {
+      left = windowWidth - tooltipRect.width;
+    }
+
+    if (top + tooltipRect.height > windowHeight) {
+      top = windowHeight - tooltipRect.height;
+    }
+
+    tooltip.style.position = 'fixed';
+    tooltip.style.top = `${top}px`;
+    tooltip.style.left = `${left}px`;
+  }
+}
 
 @Component({
   selector: 'app-agregar-beca',
@@ -8,30 +41,74 @@ import { BecaService, Beca } from '../beca.service';
   styleUrls: ['./agregar-beca.component.css'],
 })
 export class AgregarBecaComponent implements OnInit {
+  
   becaForm: FormGroup;
   errorMessage: string = '';
   successMessage: string = '';
   isModalOpen: boolean = false;
+  isViewModalOpen: boolean = false;
   becas: Beca[] = [];
   filteredBecas: Beca[] = [];
   papeleraBecas: Beca[] = [];
   currentBecaId?: number;
   currentBeca?: Beca;
+  selectedBeca?: Beca;
   currentTab: 'active' | 'inactive' = 'active';
   fileToUpload: File | null = null;
   currentFileName: string = '';
+  baseImageUrl = 'http://localhost/paginaut/';
 
-  constructor(private fb: FormBuilder, private becaService: BecaService) {
+  constructor(
+    private fb: FormBuilder,
+    private becaService: BecaService,
+    public sanitizer: DomSanitizer,
+    private renderer: Renderer2
+  ) {
     this.becaForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
       descripcion: ['', [Validators.required, Validators.maxLength(100)]],
       archivo: [''],
     });
   }
+  
 
-  ngOnInit() {
+
+
+  ngOnInit(): void {
     this.loadBecas();
+    this.setNavbarColor();
+
   }
+
+  
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    this.setNavbarColor();
+  }
+
+  scrollToSection(sectionId: string): void {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  private setNavbarColor(): void {
+    const button = document.getElementById('scrollTopButton');
+    const nabvar = document.getElementById('navbarAccion');
+    const inicioSection = document.getElementById('inicio');
+
+    if (inicioSection && nabvar) {
+      const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
+
+      if (window.scrollY > inicioSectionBottom) {
+        button?.classList.remove('hidden');
+      } else {
+        button?.classList.add('hidden');
+      }
+      
+      nabvar.classList.remove('bg-transparent');
+      nabvar.classList.add('bg-[#043D3D]');
+    }
+  }
+
 
   onSubmit() {
     if (this.becaForm.valid) {
@@ -48,41 +125,43 @@ export class AgregarBecaComponent implements OnInit {
         formData.append('id', this.currentBecaId.toString());
         this.becaService.updateBeca(formData).subscribe({
           next: (response: any) => {
-            console.log('Beca actualizada con éxito', response);
-            this.successMessage = 'Beca actualizada correctamente';
+            this.showToast('success', 'Beca actualizada correctamente');
             this.loadBecas();
             this.resetForm();
             this.closeModal();
           },
           error: (error: any) => {
-            console.error('Error al actualizar la beca', error);
-            this.errorMessage = error.message;
+            this.showToast('error', error.message);
           },
         });
       } else {
         this.becaService.addBeca(formData).subscribe({
           next: (response: any) => {
-            console.log('Beca agregada con éxito', response);
-            this.successMessage = 'Beca agregada correctamente';
+            this.showToast('success', 'Beca agregada correctamente');
             this.loadBecas();
             this.resetForm();
             this.closeModal();
           },
           error: (error: any) => {
-            console.error('Error al agregar la beca', error);
-            this.errorMessage = error.message;
+            this.showToast('error', error.message);
           },
         });
       }
     } else {
-      this.errorMessage = 'Por favor, completa todos los campos requeridos.';
+      this.showToast(
+        'warning',
+        'Por favor, completa todos los campos requeridos.'
+      );
     }
   }
 
   onFileChange(event: any) {
     const file = event.target.files[0];
-    if (file) {
+    if (file && file.type === 'application/pdf') {
       this.fileToUpload = file;
+    } else {
+      this.becaForm.get('archivo')?.setErrors({ invalidFileType: true });
+      this.fileToUpload = null;
     }
   }
 
@@ -115,6 +194,15 @@ export class AgregarBecaComponent implements OnInit {
     this.isModalOpen = false;
   }
 
+  openViewModal(beca: Beca) {
+    this.selectedBeca = beca;
+    this.isViewModalOpen = true;
+  }
+
+  closeViewModal() {
+    this.isViewModalOpen = false;
+  }
+
   loadBecas() {
     this.becaService.getBecas().subscribe({
       next: (response: any) => {
@@ -122,28 +210,48 @@ export class AgregarBecaComponent implements OnInit {
         this.filterBecas();
       },
       error: (error: any) => {
-        console.error('Error al cargar las becas', error);
-        this.errorMessage = error.message;
+        this.showToast('error', error.message);
       },
     });
   }
 
+  deleteBeca(id: number) {
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres eliminar esta beca? Esta acción no se puede deshacer.',
+      () => {
+        this.becaService.deleteBeca(id).subscribe({
+          next: (response: any) => {
+            this.showToast('success', 'Beca eliminada correctamente');
+            this.loadBecas();
+          },
+          error: (error: any) => {
+            this.showToast('error', error.message);
+          },
+        });
+      }
+    );
+  }
+
   moveToTrash(id: number) {
-    const becaToUpdate = this.becas.find((beca) => beca.id === id);
-    if (becaToUpdate) {
-      becaToUpdate.activo = false;
-      this.becaService.updateBecaStatus(becaToUpdate.id!, false).subscribe({
-        next: (response: any) => {
-          console.log('Beca movida a la papelera con éxito', response);
-          this.successMessage = 'Beca movida a la papelera correctamente';
-          this.loadBecas();
-        },
-        error: (error: any) => {
-          console.error('Error al mover la beca a la papelera', error);
-          this.errorMessage = error.message;
-        },
-      });
-    }
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres mover esta beca a la papelera?',
+      () => {
+        this.becaService.updateBecaStatus(id, false).subscribe({
+          next: (response: any) => {
+            this.showToast(
+              'success',
+              'Beca movida a la papelera correctamente'
+            );
+            this.loadBecas();
+          },
+          error: (error: any) => {
+            this.showToast('error', error.message);
+          },
+        });
+      }
+    );
   }
 
   activateBeca(id: number) {
@@ -157,13 +265,11 @@ export class AgregarBecaComponent implements OnInit {
       formData.append('activo', 'true');
       this.becaService.updateBeca(formData).subscribe({
         next: (response: any) => {
-          console.log('Beca activada con éxito', response);
-          this.successMessage = 'Beca activada correctamente';
+          this.showToast('success', 'Beca activada correctamente');
           this.loadBecas();
         },
         error: (error: any) => {
-          console.error('Error al activar la beca', error);
-          this.errorMessage = error.message;
+          this.showToast('error', error.message);
         },
       });
     }
@@ -201,17 +307,69 @@ export class AgregarBecaComponent implements OnInit {
     }
   }
 
-  deleteBeca(id: number) {
-    this.becaService.deleteBeca(id).subscribe({
-      next: (response: any) => {
-        console.log('Beca eliminada con éxito', response);
-        this.successMessage = 'Beca eliminada correctamente';
-        this.loadBecas();
+  viewBeca(beca: Beca) {
+    this.selectedBeca = beca;
+    this.isViewModalOpen = true;
+  }
+
+  mostrar(elemento: any): void {
+    if (elemento.tagName.toLowerCase() === 'button') {
+      const tooltipElement = elemento.querySelector('.hs-tooltip');
+      if (tooltipElement) {
+        tooltipElement.classList.toggle('show');
+        const tooltipContent = tooltipElement.querySelector(
+          '.hs-tooltip-content'
+        );
+        if (tooltipContent) {
+          tooltipContent.classList.toggle('hidden');
+          tooltipContent.classList.toggle('invisible');
+          tooltipContent.classList.toggle('visible');
+          TooltipManager.adjustTooltipPosition(elemento, tooltipContent);
+        }
+      }
+    }
+  }
+
+  private showToast(
+    icon: 'success' | 'warning' | 'error' | 'info' | 'question',
+    title: string
+  ): void {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
       },
-      error: (error: any) => {
-        console.error('Error al eliminar la beca', error);
-        this.errorMessage = error.message;
-      },
+    });
+
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+  }
+
+  private showConfirmDialog(
+    title: string,
+    text: string,
+    onConfirm: () => void
+  ): void {
+    Swal.fire({
+      title: title,
+      text: text,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, confirmar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        onConfirm();
+      }
     });
   }
 }

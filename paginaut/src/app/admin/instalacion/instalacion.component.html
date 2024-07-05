@@ -1,0 +1,431 @@
+<app-navbar-admin></app-navbar-admin>
+<p id="inicio"></p>
+<!--Fin Navbar-->
+
+<div class="bg-[#043D3D] rounded-lg mt-28 mb-5">
+  <h2
+    class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4"
+  >
+    Galeria de Instalaciones
+  </h2>
+</div>
+  
+    <div [ngClass]="{ 'hidden': !isModalOpen }" class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
+      <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+        <div class="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10">
+          <h3 class="text-xl font-bold text-gray-900">{{ currentInstalacionId ? "Editar Instalación" : "Nueva Instalación" }}</h3>
+          <button type="button" class="text-gray-400 hover:text-gray-500" (click)="closeModal()">
+            <span class="sr-only">Cerrar</span>
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        
+        <form [formGroup]="instalacionForm" (ngSubmit)="onSubmit()" class="p-4 space-y-4">
+          <div class="space-y-4">
+            <div>
+              <label for="titulo" class="block text-sm font-medium text-gray-700">Título</label>
+              <input type="text" id="titulo" formControlName="titulo" 
+                     class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+                     placeholder="Título de la instalación" maxlength="50" />
+              <p *ngIf="isFieldInvalid('titulo')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('titulo') }}</p>
+            </div>
+            
+            <div>
+              <label for="imagenPrincipal" class="block text-sm font-medium text-gray-700">Imagen Principal</label>
+              <input type="file" id="imagenPrincipal" (change)="onFileChangePrincipal($event)" accept="image/*"
+                     class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
+              <img *ngIf="imagenPrincipalPreview" [src]="imagenPrincipalPreview" alt="Preview" class="mt-2 max-w-full h-auto rounded-lg">
+            </div>
+            
+            <div>
+              <label for="imagenesGenerales" class="block text-sm font-medium text-gray-700">Imágenes Generales</label>
+              <input type="file" id="imagenesGenerales" multiple (change)="onFileChangeGenerales($event)" accept="image/*"
+                     class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
+              <div class="mt-2 grid grid-cols-4 gap-2">
+                <div *ngFor="let img of imagenesGeneralesActuales; let i = index" class="relative">
+                  <img [src]="img" alt="Imagen General" class="w-full h-20 object-cover rounded-lg">
+                  <button type="button" (click)="removeImagenGeneral(i)" class="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 text-xs">
+                    X
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        
+        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          <button type="submit" [disabled]="instalacionForm.invalid || isLoading" (click)="onSubmit()" 
+                  class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm">
+            {{ isLoading ? 'Procesando...' : (currentInstalacionId ? 'Actualizar' : 'Agregar Instalación') }}
+          </button>
+          <button type="button" (click)="closeModal()" 
+                  class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <div *ngIf="responseMessage" class="mt-4 p-4 rounded-md" [ngClass]="{'bg-green-100 text-green-700': !responseMessage.includes('Error'), 'bg-red-100 text-red-700': responseMessage.includes('Error')}">
+      {{ responseMessage }}
+    </div>
+  
+    <div class="rounded-lg border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default sm:px-7.5 xl:pb-1 my-2">
+      <div class="max-w-full">
+        <div class="border-b border-gray-200">
+          <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
+            <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none active" id="tabs-with-icons-item-1" data-hs-tab="#tabs-with-icons-1" aria-controls="tabs-with-icons-1" role="tab" (click)="switchTab('active')">
+              Todas
+            </button>
+            <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none" id="tabs-with-icons-item-2" data-hs-tab="#tabs-with-icons-2" aria-controls="tabs-with-icons-2" role="tab" (click)="switchTab('inactive')">
+              Papelera
+            </button>
+          </nav>
+        </div>
+  
+        <div class="mt-3">
+          <div id="tabs-with-icons-1" role="tabpanel" aria-labelledby="tabs-with-icons-item-1">
+            <div class="flex flex-wrap items-center">
+              <div class="flex flex-col lg:w-7/12 sm:w-12/12 md:w-7/12 w-full">
+                <div class="w-full">
+                  <!-- SearchBox -->
+                  <div class="relative w-full">
+                    <div class="relative w-full">
+                      <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5 w-full">
+                        <svg class="flex-shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="11" cy="11" r="8"></circle>
+                          <path d="m21 21-4.3-4.3"></path>
+                        </svg>
+                      </div>
+                      <input (input)="filterGlobal($event)" class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]" type="text" placeholder="Ingresa tu búsqueda" />
+                    </div>
+                  </div>
+                  <!-- End SearchBox -->
+                </div>
+              </div>
+              <div class="flex flex-col lg:w-5/12 sm:w-12/12 md:w-5/12 text-right w-full">
+                <div class="w-full">
+                  <button type="button" class="py-3 my-2 px-4 inline-flex button-secondary items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-color text-white hover:bg-primary-color-90 disabled:opacity-50 disabled:pointer-events-none" (click)="openModal()">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    Registrar Instalación
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-col mb-5">
+              <div class="-m-1.5 overflow-x-auto">
+                <div class="p-1.5 min-w-full inline-block align-middle">
+                  <div class="border rounded-lg overflow-hidden my-2">
+                    <p-table #dt [value]="filteredInstalaciones" [paginator]="true" [rows]="5" 
+                             currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros" 
+                             [showCurrentPageReport]="true" 
+                             [globalFilterFields]="['nombre', 'fecha_creacion', 'activo']" 
+                             [tableStyleClass]="'min-w-full divide-y'" 
+                             [resizableColumns]="true">
+                      <ng-template pTemplate="header">
+                        <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="nombre">
+                            <div class="flex">
+                              Título <p-sortIcon field="nombre"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_creacion">
+                            <div class="flex">
+                              Fecha de Publicación <p-sortIcon field="fecha_creacion"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="activo">
+                            <div class="flex">
+                              Activo <p-sortIcon field="activo"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
+                            <div class="flex">Acciones</div>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-instalacion>
+                        <tr class="divide-x divide-gray-200 bg-neutral-100">
+                          <td class="px-3 py-2 text-sm text-black">{{ instalacion.nombre }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ instalacion.fecha_creacion | date:'dd/MM/yyyy' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ instalacion.activo ? 'Sí' : 'No' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">
+                            <div class="flex items-center space-x-3.5">
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(instalacion, 'principal')" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-blue-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-image" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Imagen Principal</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Ver imagen principal
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(instalacion, 'generales')" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-green-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-images" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Imágenes Complementarias</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Ver imágenes complementarias
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openModal(instalacion)" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fas fa-edit"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Editar</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Editar esta instalación
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button *ngIf="instalacion.activo" (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="desactivarInstalacion(instalacion.id!)" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-yellow-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-ban" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Desactivar</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Desactivar esta instalación
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button *ngIf="!instalacion.activo" (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="activarInstalacion(instalacion.id!)" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-green-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Activar</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Activar esta instalación
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="emptymessage">
+                        <tr>
+                          <td colspan="4">No se encontraron resultados.</td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="tabs-with-icons-2" class="hidden" role="tabpanel" aria-labelledby="tabs-with-icons-item-2">
+            <div class="flex flex-col mb-5">
+              <div class="-m-1.5 overflow-x-auto">
+                <div class="p-1.5 min-w-full inline-block align-middle">
+                  <div class="border rounded-lg overflow-hidden my-2">
+                    <p-table #dt [value]="papeleraInstalaciones" [paginator]="true" [rows]="5" 
+                             currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros" 
+                             [showCurrentPageReport]="true" 
+                             [globalFilterFields]="['nombre', 'fecha_creacion', 'activo']" 
+                             [tableStyleClass]="'min-w-full divide-y'" 
+                             [resizableColumns]="true">
+                      <ng-template pTemplate="header">
+                        <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="nombre">
+                            <div class="flex">
+                              Título <p-sortIcon field="nombre"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_creacion">
+                            <div class="flex">
+                              Fecha de Publicación <p-sortIcon field="fecha_creacion"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="activo">
+                            <div class="flex">
+                              Activo <p-sortIcon field="activo"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
+                            <div class="flex">Acciones</div>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-instalacion>
+                        <tr class="divide-x divide-gray-200 bg-neutral-100">
+                          <td class="px-3 py-2 text-sm text-black">{{ instalacion.nombre }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ instalacion.fecha_creacion | date:'dd/MM/yyyy' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ instalacion.activo ? 'Sí' : 'No' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">
+                            <div class="flex items-center space-x-3.5">
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(instalacion, 'principal')" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-blue-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-image" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Imagen Principal</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Ver imagen principal
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(instalacion, 'generales')" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-green-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-images" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Imágenes Complementarias</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Ver imágenes complementarias
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="activarInstalacion(instalacion.id!)" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-green-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Activar</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Activar esta instalación
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="confirmDeleteInstalacion(instalacion.id!)" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Eliminar</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Eliminar permanentemente esta instalación
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="emptymessage">
+                        <tr>
+                          <td colspan="4">No se encontraron resultados.</td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Modal para visualizar imágenes -->
+    <div *ngIf="isImageModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div class="bg-white p-4 rounded-lg max-w-3xl w-full">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-xl font-bold">{{ modalTitle }}</h3>
+          <button (click)="closeImageModal()" class="text-gray-500 hover:text-gray-700">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="relative">
+          <img [src]="getCurrentImage()" alt="Imagen de la instalación" class="w-full h-auto max-h-96 object-contain">
+          <button *ngIf="allImages.length > 1" (click)="prevImage()" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+          </button>
+          <button *ngIf="allImages.length > 1" (click)="nextImage()" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="mt-4 text-center">
+          <p *ngIf="allImages.length > 1">Imagen {{ currentImageIndex + 1 }} de {{ getTotalImagesCount() }}</p>
+        </div>
+      </div>
+    </div>
+
+  

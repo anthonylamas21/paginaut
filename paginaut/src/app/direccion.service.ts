@@ -47,6 +47,7 @@ export class DireccionService {
     return this.http
       .delete<any>(`${this.apiUrl}?id=${id}`)
       .pipe(catchError(this.handleError));
+
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -59,8 +60,11 @@ export class DireccionService {
       errorMessage = `Código de error ${error.status}, mensaje: ${
         error.error.message || error.statusText
       }`;
+
     }
     console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
+
 }
+
