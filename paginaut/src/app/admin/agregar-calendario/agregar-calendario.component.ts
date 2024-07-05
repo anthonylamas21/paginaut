@@ -9,36 +9,25 @@ class TooltipManager {
     button: HTMLElement,
     tooltip: HTMLElement
   ): void {
-    // Obtener dimensiones del botón y del tooltip
     const buttonRect = button.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
-
-    // Obtener dimensiones de la ventana
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
-
-    // Calcular la posición preferida del tooltip
     const preferredLeft =
       buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
-    const preferredTop = buttonRect.top - tooltipRect.height - 10; // Espacio entre el botón y el tooltip
+    const preferredTop = buttonRect.top - tooltipRect.height - 10;
 
-    // Ajustar la posición si se sale de la pantalla hacia la izquierda
     let left = Math.max(preferredLeft, 0);
-
-    // Ajustar la posición si se sale de la pantalla hacia arriba
     let top = Math.max(preferredTop, 0);
 
-    // Ajustar la posición si el tooltip se sale de la pantalla hacia la derecha
     if (left + tooltipRect.width > windowWidth) {
       left = windowWidth - tooltipRect.width;
     }
 
-    // Ajustar la posición si el tooltip se sale de la pantalla hacia abajo
     if (top + tooltipRect.height > windowHeight) {
       top = windowHeight - tooltipRect.height;
     }
 
-    // Aplicar posición al tooltip
     tooltip.style.position = 'fixed';
     tooltip.style.top = `${top}px`;
     tooltip.style.left = `${left}px`;
@@ -129,8 +118,18 @@ export class AgregarCalendarioComponent implements OnInit {
 
   onFileChange(event: any) {
     const file = event.target.files[0];
-    if (file) {
+    if (file && file.type === 'application/pdf') {
       this.fileToUpload = file;
+    } else {
+      this.calendarioForm.get('archivo')?.setErrors({ invalidFileType: true });
+      this.fileToUpload = null;
+    }
+  }
+
+  validateInput(event: KeyboardEvent) {
+    const allowedKeys = /^[a-zA-Z0-9\s]*$/;
+    if (!allowedKeys.test(event.key)) {
+      event.preventDefault();
     }
   }
 
@@ -342,5 +341,11 @@ export class AgregarCalendarioComponent implements OnInit {
         onConfirm();
       }
     });
+  }
+  updateTitulo() {
+    const anio = this.calendarioForm.get('anio')?.value;
+    if (anio) {
+      this.calendarioForm.patchValue({ titulo: `Calendario Escolar ${anio}` });
+    }
   }
 }

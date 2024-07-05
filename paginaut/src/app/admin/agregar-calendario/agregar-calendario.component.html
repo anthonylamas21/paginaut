@@ -6,7 +6,7 @@
   <h2
     class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4"
   >
-    Eventos
+    Calendario Escolar
   </h2>
 </div>
 
@@ -65,6 +65,7 @@
                 placeholder="Título"
                 maxlength="50"
                 required
+                (keypress)="validateInput($event)"
               />
               <div
                 *ngIf="
@@ -93,6 +94,7 @@
                 id="archivo"
                 (change)="onFileChange($event)"
                 class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+                accept=".pdf"
                 required
               />
               <div
@@ -107,6 +109,13 @@
                   *ngIf="calendarioForm.get('archivo')?.errors?.['required']"
                 >
                   El archivo es requerido.
+                </div>
+                <div
+                  *ngIf="
+                    calendarioForm.get('archivo')?.errors?.['invalidFileType']
+                  "
+                >
+                  Solo se permiten archivos PDF.
                 </div>
               </div>
             </div>
@@ -132,6 +141,52 @@
             </button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- View Modal -->
+<div
+  [ngClass]="{
+    'hs-overlay-open': isViewModalOpen,
+    hidden: !isViewModalOpen,
+    'hs-overlay': true
+  }"
+  class="hs-overlay-backdrop-open:bg-gray-900/50 size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-auto"
+>
+  <div
+    class="hs-overlay-content mt-7 opacity-100 transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto"
+  >
+    <div
+      class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto"
+    >
+      <div class="flex justify-between items-center py-3 px-4 border-b">
+        <h3 class="font-bold text-black font-medium-500">
+          Detalles del Calendario
+        </h3>
+        <button
+          type="button"
+          class="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-200 hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
+          (click)="closeViewModal()"
+        >
+          <span class="sr-only">Cerrar</span>
+          <svg
+            class="flex-shrink-0 size-4 text-gray-800"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
       </div>
       <div class="p-4 overflow-y-auto">
         <iframe
@@ -239,7 +294,7 @@
           >
             <div class="w-full">
               <button
-                *ngIf="filteredCalendarios.length === 0"
+                *ngIf="!hasActiveCalendario"
                 type="button"
                 class="py-3 my-2 px-4 inline-flex button-secondary items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-color text-white hover:bg-primary-color-90 disabled:opacity-50 disabled:pointer-events-none"
                 (click)="openModal()"
@@ -337,6 +392,44 @@
                                       >
                                         Actualizar la información del calendario
                                         actual.
+                                      </div>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </button>
+                          <button
+                            (mouseenter)="mostrar($event.target)"
+                            (mouseleave)="mostrar($event.target)"
+                            (click)="viewCalendario(calendario)"
+                            class="hover:text-primary"
+                          >
+                            <div
+                              class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                            >
+                              <div
+                                class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                              >
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                <div
+                                  class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                  role="tooltip"
+                                >
+                                  <div
+                                    class="py-3 px-4 border-b border-gray-200"
+                                  >
+                                    <h4 class="font-semibold text-gray-800">
+                                      Detalles
+                                    </h4>
+                                  </div>
+                                  <ul class="py-3 px-4 space-y-1">
+                                    <li>
+                                      <div
+                                        class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                      >
+                                        Información detallada del registro
+                                        {{ calendario.titulo }}
                                       </div>
                                     </li>
                                   </ul>
@@ -493,6 +586,44 @@
                                           Volver a activar el calendario
                                           regresando con este toda la
                                           información relacionada.
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                            <button
+                              (mouseenter)="mostrar($event.target)"
+                              (mouseleave)="mostrar($event.target)"
+                              (click)="viewCalendario(calendario)"
+                              class="hover:text-primary"
+                            >
+                              <div
+                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                              >
+                                <div
+                                  class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                >
+                                  <i class="fa fa-eye" aria-hidden="true"></i>
+                                  <div
+                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                    role="tooltip"
+                                  >
+                                    <div
+                                      class="py-3 px-4 border-b border-gray-200"
+                                    >
+                                      <h4 class="font-semibold text-gray-800">
+                                        Detalles
+                                      </h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div
+                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                        >
+                                          Información detallada del registro
+                                          {{ calendario.titulo }}
                                         </div>
                                       </li>
                                     </ul>

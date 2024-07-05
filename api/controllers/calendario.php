@@ -34,6 +34,11 @@ switch ($request_method) {
             $target_dir = $root . '/uploads/calendario/';
             $target_file = $target_dir . $file_name;
 
+            // Verificar si la carpeta de destino existe, si no, crearla
+            if (!is_dir($target_dir)) {
+                mkdir($target_dir, 0777, true);
+            }
+
             if (move_uploaded_file($_FILES['archivo']['tmp_name'], $target_file)) {
                 $calendario->archivo = '/uploads/calendario/' . $file_name; // Guardar la ruta completa
             } else {

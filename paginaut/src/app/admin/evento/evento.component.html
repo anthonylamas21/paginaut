@@ -1,6 +1,7 @@
 <app-navbar-admin></app-navbar-admin>
 <p id="inicio"></p>
 <!--Fin Navbar-->
+
 <div class="bg-[#043D3D] rounded-lg mt-28 mb-5">
   <h2
     class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4"
@@ -8,6 +9,7 @@
     Eventos
   </h2>
 </div>
+
   
     <!-- Modal para Editar/Registrar Evento -->
     <div [ngClass]="{ 'hidden': !isModalOpen }" class="hs-overlay-backdrop-open:bg-gray-900/50 size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-auto">
@@ -45,25 +47,34 @@
   
               <div class="form-group">
                 <label for="fecha_inicio">Fecha de Inicio:</label>
-                <input type="date" id="fecha_inicio" formControlName="fecha_inicio" class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900" />
+                <input type="date" id="fecha_inicio" formControlName="fecha_inicio" 
+                       [min]="minDate" 
+                       [attr.max]="eventoForm.get('fecha_fin')?.value || null"
+                       class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900" />
                 <div *ngIf="isFieldInvalid('fecha_inicio')" class="alert alert-danger">{{ getErrorMessage('fecha_inicio') }}</div>
               </div>
-  
+            
               <div class="form-group">
                 <label for="fecha_fin">Fecha de Fin:</label>
-                <input type="date" id="fecha_fin" formControlName="fecha_fin" class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900" />
+                <input type="date" id="fecha_fin" formControlName="fecha_fin" 
+                       [min]="eventoForm.get('fecha_inicio')?.value || minDate"
+                       class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900" />
                 <div *ngIf="isFieldInvalid('fecha_fin')" class="alert alert-danger">{{ getErrorMessage('fecha_fin') }}</div>
               </div>
-  
+            
               <div class="form-group">
                 <label for="hora_inicio">Hora de Inicio:</label>
-                <input type="time" id="hora_inicio" formControlName="hora_inicio" class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900" />
+                <input type="time" id="hora_inicio" formControlName="hora_inicio" 
+                       [min]="eventoForm.get('fecha_inicio')?.value === minDate ? minTimeInicio : null"
+                       class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900" />
                 <div *ngIf="isFieldInvalid('hora_inicio')" class="alert alert-danger">{{ getErrorMessage('hora_inicio') }}</div>
               </div>
-  
+            
               <div class="form-group">
                 <label for="hora_fin">Hora de Fin:</label>
-                <input type="time" id="hora_fin" formControlName="hora_fin" class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900" />
+                <input type="time" id="hora_fin" formControlName="hora_fin" 
+                       [min]="minTimeFin"
+                       class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900" />
                 <div *ngIf="isFieldInvalid('hora_fin')" class="alert alert-danger">{{ getErrorMessage('hora_fin') }}</div>
               </div>
   
@@ -74,7 +85,7 @@
               </div>
   
               <div class="form-group">
-                <label for="imagenesGenerales">Imágenes Generales:</label>
+                <label for="imagenesGenerales">Imágenes Complementarias:</label>
                 <input type="file" id="imagenesGenerales" multiple (change)="onFileChangeGenerales($event)" accept="image/*" class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900" />
   
                 <!-- Preview de imágenes generales actuales -->
@@ -531,54 +542,63 @@
         </div>
       </div>
     </div>
-  
-    <!-- Modal para visualizar imágenes -->
-    <div *ngIf="isImageModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div class="bg-white p-4 rounded-lg max-w-3xl w-full">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-xl font-bold">{{ modalTitle }}</h3>
-          <button (click)="closeImageModal()" class="text-gray-500 hover:text-gray-700">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-          </button>
-        </div>
-        <div class="relative">
-          <img [src]="getCurrentImage()" alt="Imagen del evento" class="w-full h-auto max-h-96 object-contain">
-          <button *ngIf="allImages.length > 1" (click)="prevImage()" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
-          </button>
-          <button *ngIf="allImages.length > 1" (click)="nextImage()" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-            </svg>
-          </button>
-        </div>
-        <div class="mt-4 text-center">
-          <p *ngIf="allImages.length > 1">Imagen {{ currentImageIndex + 1 }} de {{ getTotalImagesCount() }}</p>
-        </div>
+  <!-- Modal para visualizar imágenes -->
+<div *ngIf="isImageModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white p-4 rounded-lg max-w-3xl w-full">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-bold">{{ modalTitle }}</h3>
+      <button (click)="closeImageModal()" class="text-gray-500 hover:text-gray-700">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div *ngIf="allImages.length > 0; else noImages" class="relative">
+      <img [src]="getCurrentImage()" alt="Imagen del evento" class="w-full h-auto max-h-96 object-contain">
+      <button *ngIf="allImages.length > 1" (click)="prevImage()" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </button>
+      <button *ngIf="allImages.length > 1" (click)="nextImage()" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+    </div>
+    <ng-template #noImages>
+      <div class="text-center py-8">
+        <p class="text-gray-500">No hay imágenes disponibles para este evento.</p>
       </div>
-
-  
-    <!-- Modal para visualizar archivos -->
-    <div *ngIf="isArchivoModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div class="bg-white p-4 rounded-lg max-w-3xl w-full">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-xl font-bold">Archivos del Evento</h3>
-          <button (click)="closeArchivoModal()" class="text-gray-500 hover:text-gray-700">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-          </button>
-        </div>
-        <div class="mt-4">
-          <div *ngFor="let archivo of archivosActuales; let i = index" class="relative m-1 flex items-center">
-            <a [href]="archivo.ruta_archivo" target="_blank" class="text-blue-500">{{ archivo.nombre_archivo }}</a>
-          </div>
-        </div>
-      </div>
+    </ng-template>
+    <div class="mt-4 text-center">
+      <p *ngIf="allImages.length > 1">Imagen {{ currentImageIndex + 1 }} de {{ getTotalImagesCount() }}</p>
     </div>
   </div>
-  
+</div>
+
+<!-- Modal para visualizar archivos -->
+<div *ngIf="isArchivoModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white p-4 rounded-lg max-w-3xl w-full">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-bold">Archivos del Evento</h3>
+      <button (click)="closeArchivoModal()" class="text-gray-500 hover:text-gray-700">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="mt-4">
+      <div *ngIf="archivosActuales.length > 0; else noArchivos">
+        <div *ngFor="let archivo of archivosActuales; let i = index" class="relative m-1 flex items-center">
+          <a [href]="archivo.ruta_archivo" target="_blank" class="text-blue-500">{{ archivo.nombre_archivo }}</a>
+        </div>
+      </div>
+      <ng-template #noArchivos>
+        <div class="text-center py-8">
+          <p class="text-gray-500">No hay archivos disponibles para este evento.</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
