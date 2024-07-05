@@ -3,6 +3,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import esLocale from '@fullcalendar/core/locales/es';
 import * as FullCalendar from '@fullcalendar/core';
 import { EventoService, Evento } from '../../evento.service';
+import timeGridPlugin from '@fullcalendar/timegrid';
 
 @Component({
   selector: 'app-agenda-admin',
@@ -70,13 +71,13 @@ export class AgendaAdminComponent implements OnInit {
   }
 
   calendarOptions: FullCalendar.CalendarOptions = {
-    plugins: [dayGridPlugin],
+    plugins: [dayGridPlugin, timeGridPlugin],
     initialView: 'dayGridMonth',
     locale: esLocale,
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth'
+      right: 'dayGridMonth,timeGridWeek,timeGridDay'
     },
     events: [], // Se actualizará dinámicamente
     eventContent: this.renderEventContent,
@@ -101,32 +102,22 @@ export class AgendaAdminComponent implements OnInit {
   }
 
   updateCalendarEvents(): void {
-    const eventsByDay: { [key: string]: any[] } = {};
-    
     const calendarEvents = this.eventos.map(evento => {
-      const startDate = evento.fecha_inicio.split(' ')[0]; // Extrae solo la fecha
-      const EndDate = evento.fecha_fin.split(' ')[0];
+      const startDate = evento.fecha_inicio.split(' ')[0];
+      const endDate = evento.fecha_fin.split(' ')[0];
 
-      if (!eventsByDay[startDate]) {
-        eventsByDay[startDate] = [];
-      }
-      if (!eventsByDay[EndDate]) {
-        eventsByDay[EndDate] = [];
-      }
-      eventsByDay[startDate].push(evento);
-    
       return {
         title: evento.titulo,
         start: `${startDate}T${evento.hora_inicio}`,
-        end: `${evento.fecha_fin.split(' ')[0]}T${evento.hora_fin}`,
+        end: `${endDate}T${evento.hora_fin}`,
         extendedProps: {
           informacion: evento.informacion_evento,
           lugar: evento.lugar_evento,
-          fecha_inicio: startDate, // Asigna solo la fecha aquí
-          fecha_fin: EndDate,
+          fecha_inicio: startDate,
+          fecha_fin: endDate,
           hora_inicio: evento.hora_inicio,
           hora_fin: evento.hora_fin,
-          imagen_principal: this.baseImageUrl+evento.imagen_principal,
+          imagen_principal: this.baseImageUrl + evento.imagen_principal,
           imagenes_generales: evento.imagenes_generales
         }
       };
