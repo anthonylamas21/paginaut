@@ -10,15 +10,12 @@
   </h2>
 </div>
 
+
+
+
 <!-- Modal -->
-<div
-  [ngClass]="{
-    'hs-overlay-open': isModalOpen,
-    hidden: !isModalOpen,
-    'hs-overlay': true
-  }"
-  class="hs-overlay-backdrop-open:bg-gray-900/50 size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-auto"
->
+<div [ngClass]="{ 'hidden': !isModalOpen }" class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
+
   <div
     class="hs-overlay-content mt-7 opacity-100 transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto"
   >
@@ -147,14 +144,12 @@
 </div>
 
 <!-- View Modal -->
-<div
-  [ngClass]="{
-    'hs-overlay-open': isViewModalOpen,
-    hidden: !isViewModalOpen,
-    'hs-overlay': true
-  }"
-  class="hs-overlay-backdrop-open:bg-gray-900/50 size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-auto"
->
+<div   [ngClass]="{
+  'hs-overlay-open': isViewModalOpen,
+  hidden: !isViewModalOpen,
+  'hs-overlay': true
+}" class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
+
   <div
     class="hs-overlay-content mt-7 opacity-100 transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto"
   >
