@@ -13,6 +13,7 @@ class TooltipManager {
     const tooltipRect = tooltip.getBoundingClientRect();
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
+
     const preferredLeft =
       buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
     const preferredTop = buttonRect.top - tooltipRect.height - 10;
@@ -63,7 +64,8 @@ export class AgregarCalendarioComponent implements OnInit {
     public sanitizer: DomSanitizer
   ) {
     this.calendarioForm = this.fb.group({
-      titulo: ['', [Validators.required, Validators.maxLength(50)]],
+      anio: ['', [Validators.required, Validators.maxLength(4)]],
+      titulo: [{ value: '', disabled: true }],
       archivo: [''],
     });
   }
@@ -127,7 +129,7 @@ export class AgregarCalendarioComponent implements OnInit {
   }
 
   validateInput(event: KeyboardEvent) {
-    const allowedKeys = /^[a-zA-Z0-9\s]*$/;
+    const allowedKeys = /^[0-9]*$/;
     if (!allowedKeys.test(event.key)) {
       event.preventDefault();
     }
@@ -149,8 +151,9 @@ export class AgregarCalendarioComponent implements OnInit {
       this.currentCalendario = calendario;
       this.currentFileName = calendario.archivo;
       this.calendarioForm.patchValue({
-        titulo: calendario.titulo,
+        anio: calendario.titulo.replace('Calendario Escolar ', ''),
       });
+      this.updateTitulo();
     } else {
       this.resetForm();
     }
@@ -342,6 +345,7 @@ export class AgregarCalendarioComponent implements OnInit {
       }
     });
   }
+
   updateTitulo() {
     const anio = this.calendarioForm.get('anio')?.value;
     if (anio) {

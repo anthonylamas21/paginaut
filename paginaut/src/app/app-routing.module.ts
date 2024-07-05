@@ -177,9 +177,7 @@ const routes: Routes = [
   { path: 'admin/carreras', component: CarrerasAdminComponent }, // Nueva ruta para administrar carreras
   { path: 'admin/agregar-calendario', component: AgregarCalendarioComponent },
   { path: 'admin/agregar-beca', component: AgregarBecaComponent },
-  { path: '**', component: NotFoundComponent}
-
-
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({
