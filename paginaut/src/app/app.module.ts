@@ -6,7 +6,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxMasonryModule } from 'ngx-masonry';
 
-
 // PrimeNG Modules
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
@@ -47,8 +46,6 @@ import { InfoBecaComponent } from './info-beca/info-beca.component';
 import { GaleriaComponent } from './galeria/galeria.component';
 import { RedesSocialesComponent } from './redes-sociales/redes-sociales.component';
 
-
-
 // Rutas de administrador
 import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
@@ -56,11 +53,10 @@ import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.co
 import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
 import { TallerComponent } from './taller/taller.component';
 import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.component';
-import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-calendario.component';
 import { AgregarBecaComponent } from './admin/agregar-beca/agregar-beca.component';
+import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-calendario.component';
 import { CursosAdminComponent } from './admin/cursos-admin/cursos-admin.component';
 import { DireccionesAdminComponent } from './admin/direcciones-admin/direcciones-admin.component';
-
 
 // Info Carreras
 import { CarreraAgrobiotecnologiaComponent } from './info-carreras/carrera-agrobiotecnologia/carrera-agrobiotecnologia.component';
@@ -96,81 +92,77 @@ import { InstalacionComponent } from './admin/instalacion/instalacion.component'
 import { AgendaAdminComponent } from './admin/agenda-admin/agenda-admin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
-PrincipalComponent,
-CarrerasComponent,
-NoticiaComponent,
-NavbarComponent,
-ComponentesComponent,
-FooterComponent,
-UnidadesAcademicasComponent,
-EventosComponent,
-BecasComponent,
-LoginComponent,
-InfoCarreraComponent,
-CalendarioComponent,
-CursosComponent,
-InfoCursoComponent,
-InfoUnidadesComponent,
-FilosofiaComponent,
-AdmisionComponent,
-InfoBolsaComponent,
-InfoEnfermeriaComponent,
-UbicacionComponent,
-PsicologiaComponent,
-CorreoComponent,
-AcercaDeComponent,
-InfoBecaComponent,
-GaleriaComponent,
-CarrerasAdminComponent,
-AgregarCalendarioComponent,
-AgregarBecaComponent,
-RedesSocialesComponent,
-// Rutas de administrador
-NavbarAdminComponent,
-PrincipalAdminComponent,
-RegistrarEventoComponent,
-AgregarDireccionComponent,
-TallerComponent,
-CursosAdminComponent,
-DireccionesAdminComponent,
-BecasAdminComponent,
-CalendarioAdminComponent,
-GaleriaAdminComponent,
-UsuariosAdminComponent,
-// Info Carreras
-CarreraAgrobiotecnologiaComponent,
-CarreraProcesosAlimentarioComponent,
-CarreraAcuiculturaComponent,
-CarreraTurismoComponent,
-CarreraAdministracionComponent,
-CarreraMercadotecniaComponent,
-CarreraGastronomiaComponent,
-CarreraContaduriaComponent,
-CarreraDesarrolloSoftwareComponent,
-// Info Horas Recreativas
-FutbolComponent,
-BeisbolComponent,
-BasquetbolComponent,
-VoleibolComponent,
-ActivacionFisicaComponent,
-DibujoComponent,
-DanzaComponent,
-LecturaComponent,
-AjedrezComponent,
-TalleresComponent,
-EventoComponent,
-NoticiasComponent,
-NoticiaComponent,
-InstalacionComponent,
-AgendaAdminComponent,
-NotFoundComponent,
-
+    PrincipalComponent,
+    CarrerasComponent,
+    NoticiaComponent,
+    NavbarComponent,
+    ComponentesComponent,
+    FooterComponent,
+    UnidadesAcademicasComponent,
+    EventosComponent,
+    BecasComponent,
+    LoginComponent,
+    InfoCarreraComponent,
+    CalendarioComponent,
+    CursosComponent,
+    InfoCursoComponent,
+    InfoUnidadesComponent,
+    FilosofiaComponent,
+    AdmisionComponent,
+    InfoBolsaComponent,
+    InfoEnfermeriaComponent,
+    UbicacionComponent,
+    PsicologiaComponent,
+    CorreoComponent,
+    AcercaDeComponent,
+    InfoBecaComponent,
+    GaleriaComponent,
+    CarrerasAdminComponent,
+    AgregarCalendarioComponent,
+    AgregarBecaComponent,
+    RedesSocialesComponent,
+    // Rutas de administrador
+    NavbarAdminComponent,
+    PrincipalAdminComponent,
+    RegistrarEventoComponent,
+    AgregarDireccionComponent,
+    TallerComponent,
+    CursosAdminComponent,
+    DireccionesAdminComponent,
+    BecasAdminComponent,
+    CalendarioAdminComponent,
+    GaleriaAdminComponent,
+    UsuariosAdminComponent,
+    // Info Carreras
+    CarreraAgrobiotecnologiaComponent,
+    CarreraProcesosAlimentarioComponent,
+    CarreraAcuiculturaComponent,
+    CarreraTurismoComponent,
+    CarreraAdministracionComponent,
+    CarreraMercadotecniaComponent,
+    CarreraGastronomiaComponent,
+    CarreraContaduriaComponent,
+    CarreraDesarrolloSoftwareComponent,
+    // Info Horas Recreativas
+    FutbolComponent,
+    BeisbolComponent,
+    BasquetbolComponent,
+    VoleibolComponent,
+    ActivacionFisicaComponent,
+    DibujoComponent,
+    DanzaComponent,
+    LecturaComponent,
+    AjedrezComponent,
+    TalleresComponent,
+    EventoComponent,
+    NoticiasComponent,
+    NoticiaComponent,
+    InstalacionComponent,
+    AgendaAdminComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -185,7 +177,7 @@ NotFoundComponent,
     ButtonModule,
     DropdownModule,
     NgxMasonryModule,
-    FullCalendarModule
+    FullCalendarModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],

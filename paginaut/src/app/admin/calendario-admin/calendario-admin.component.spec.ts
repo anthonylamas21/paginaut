@@ -8,10 +8,9 @@ describe('CalendarioAdminComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CalendarioAdminComponent]
-    })
-    .compileComponents();
-    
+      declarations: [CalendarioAdminComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(CalendarioAdminComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
