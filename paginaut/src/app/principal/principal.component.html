@@ -18,19 +18,17 @@
 <div class="container mt-4">  
 <!--Contenedor Eventos-->
 <div class="container mx-auto bg-[#043D3D]">
-  <h2 class="text-3xl text-white font-poppins font-bold-700  uppercase mb-4">Eventos Más Recientes</h2>
+  <h2 class="text-3xl text-white font-poppins font-bold-700 uppercase mb-4">Eventos Más Recientes</h2>
 </div>
 
 <div class="container mx-auto">
   <div class="container sm p-4 bg-white rounded-lg shadow-lg">
-      <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        
-       <!-- Evento más reciente -->
-       <div *ngIf="eventosRecientes.length > 0" class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow-lg relative">
+    <div *ngIf="eventosRecientes.length > 0; else noEventos" class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+      
+      <!-- Evento más reciente -->
+      <div class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow-lg relative">
         <img [src]="eventosRecientes[0].imagen_principal" [alt]="eventosRecientes[0].titulo" class="w-full h-60 object-cover rounded-t-lg">
-        
-          <h3 class="text-2xl font-poppins font-bold text-white p-4">{{ eventosRecientes[0].titulo }}</h3>
-        
+        <h3 class="text-2xl font-poppins font-bold text-white p-4">{{ eventosRecientes[0].titulo }}</h3>
         <div class="p-4">
           <p class="text-gray-600">{{ eventosRecientes[0].informacion_evento | slice:0:100 }}...</p>
           <a [routerLink]="['/evento', eventosRecientes[0].id]" class="mt-2 inline-block text-blue-600 hover:underline">Leer más</a>
@@ -48,9 +46,16 @@
           </div>
         </div>
       </ng-container>
+    </div>
+
+    <!-- Mensaje cuando no hay eventos -->
+    <ng-template #noEventos>
+      <div class="p-4 bg-white rounded-lg border border-gray-200 text-center">
+        <p class="text-gray-600">No hay eventos recientes disponibles en este momento. Por favor, vuelve a consultar más tarde.</p>
       </div>
-    </div>
-    </div>
+    </ng-template>
+  </div>
+</div>
 <!--Fin Eventos-->
 <br>
 <br>
@@ -60,6 +65,10 @@
   <h2 class="text-3xl text-white font-poppins font-bold-700 uppercase mb-4">Noticias</h2>
 </div>
 
+<!-- Contenedor de noticias -->
+<div class="container max-w-screen-lg mb-8">
+  
+  <!-- Noticias dinámicas -->
 <!-- Contenedor de noticias -->
 <div class="container max-w-screen-lg mb-8">
   
@@ -89,6 +98,13 @@
     </div>
   </div>
 
+  <!-- Mensaje cuando no hay noticias -->
+  <div *ngIf="noticiasVisibles.length === 0" class="border rounded-lg shadow-lg overflow-hidden mb-4 p-4">
+    <p class="text-center text-gray-600">No hay noticias recientes disponibles en este momento. Por favor, vuelve a consultar más tarde.</p>
+  </div>
+
+</div>
+
   <!-- Botón Ver más -->
   <div *ngIf="noticiasVisibles.length < noticias.length" class="border shadow-lg overflow-hidden mb-4 p-2 bg-gray-100 rounded-lg">
     <a (click)="verMasNoticias()" class="cursor-pointer">
@@ -100,8 +116,18 @@
 
 <!--Contenedor Recorrido-->
 <div class="container mx-auto bg-[#043D3D]">
-  <h2 class="text-3xl text-white font-poppins font-bold-700 mt-8  uppercase mb-4">Recorrido Virtual</h2>
+  <h2 class="text-3xl text-white font-poppins font-bold-700 mt-8 uppercase mb-4">Recorrido Virtual</h2>
 </div>
+
+<div class="container mx-auto bg-white p-4 rounded-lg shadow-lg">
+  <div class="flex flex-col items-center">
+    <p class="text-gray-700 text-center mb-4">Explora nuestras instalaciones desde la comodidad de tu hogar con nuestro recorrido virtual interactivo.</p>
+    <a href="https://www.utdelacosta.edu.mx/recorrido_virtual/" target="_blank" rel="noopener noreferrer" class="bg-[#043D3D] hover:bg-[#032D2D] text-white font-bold py-2 px-4 rounded transition duration-300">
+      Ir a Recorrido Virtual
+    </a>
+  </div>
+</div>
+<!--Fin Recorrido-->
 
 <div class="container mb-16">
   <div class="w-full h-fit overflow-hidden">

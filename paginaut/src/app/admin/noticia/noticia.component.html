@@ -33,7 +33,7 @@
 
             <div class="form-group">
               <label for="resumen">Resumen:</label>
-              <textarea id="resumen" formControlName="resumen" class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="200"></textarea>
+              <textarea id="resumen" formControlName="resumen" class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="1000"></textarea>
               <div *ngIf="isFieldInvalid('resumen')" class="alert alert-danger">{{ getErrorMessage('resumen') }}</div>
             </div>
 
