@@ -346,4 +346,10 @@ export class AgregarCalendarioComponent implements OnInit {
       }
     });
   }
+  updateTitulo() {
+    const anio = this.calendarioForm.get('anio')?.value;
+    if (anio) {
+      this.calendarioForm.patchValue({ titulo: `Calendario Escolar ${anio}` });
+    }
+  }
 }
