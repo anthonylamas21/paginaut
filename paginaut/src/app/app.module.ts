@@ -94,6 +94,7 @@ import { NoticiasComponent } from './noticias/noticias.component';
 import { NoticiaComponent } from './admin/noticia/noticia.component';
 import { InstalacionComponent } from './admin/instalacion/instalacion.component';
 import { AgendaAdminComponent } from './admin/agenda-admin/agenda-admin.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 
@@ -167,6 +168,7 @@ NoticiasComponent,
 NoticiaComponent,
 InstalacionComponent,
 AgendaAdminComponent,
+NotFoundComponent,
 
   ],
   imports: [
