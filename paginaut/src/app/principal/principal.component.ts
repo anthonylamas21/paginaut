@@ -32,6 +32,7 @@ export class PrincipalComponent implements OnInit {
           imagen_principal: this.getImageUrl(evento.imagen_principal || ''),
           imagenes_generales: (evento.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
         }));
+        console.log(this.eventosRecientes)
       },
       error: (error) => console.error('Error al cargar eventos recientes:', error)
     });

@@ -116,7 +116,7 @@ CREATE TABLE Evento (
     fecha_fin TIMESTAMP,
     hora_inicio TIME,
     hora_fin TIME,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Noticia (
