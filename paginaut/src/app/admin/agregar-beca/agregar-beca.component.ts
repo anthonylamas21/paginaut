@@ -41,7 +41,6 @@ class TooltipManager {
   styleUrls: ['./agregar-beca.component.css'],
 })
 export class AgregarBecaComponent implements OnInit {
-  
   becaForm: FormGroup;
   errorMessage: string = '';
   successMessage: string = '';
@@ -70,17 +69,12 @@ export class AgregarBecaComponent implements OnInit {
       archivo: [''],
     });
   }
-  
-
-
 
   ngOnInit(): void {
     this.loadBecas();
     this.setNavbarColor();
-
   }
 
-  
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     this.setNavbarColor();
@@ -103,12 +97,11 @@ export class AgregarBecaComponent implements OnInit {
       } else {
         button?.classList.add('hidden');
       }
-      
+
       nabvar.classList.remove('bg-transparent');
       nabvar.classList.add('bg-[#043D3D]');
     }
   }
-
 
   onSubmit() {
     if (this.becaForm.valid) {
