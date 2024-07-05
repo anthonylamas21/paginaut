@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { BecaService, Beca } from '../beca.service';
 import Swal from 'sweetalert2';
 
@@ -12,6 +13,7 @@ class TooltipManager {
     const tooltipRect = tooltip.getBoundingClientRect();
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
+
     const preferredLeft =
       buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
     const preferredTop = buttonRect.top - tooltipRect.height - 10;
@@ -43,16 +45,23 @@ export class AgregarBecaComponent implements OnInit {
   errorMessage: string = '';
   successMessage: string = '';
   isModalOpen: boolean = false;
+  isViewModalOpen: boolean = false;
   becas: Beca[] = [];
   filteredBecas: Beca[] = [];
   papeleraBecas: Beca[] = [];
   currentBecaId?: number;
   currentBeca?: Beca;
+  selectedBeca?: Beca;
   currentTab: 'active' | 'inactive' = 'active';
   fileToUpload: File | null = null;
   currentFileName: string = '';
+  baseImageUrl = 'http://localhost/paginaut/';
 
-  constructor(private fb: FormBuilder, private becaService: BecaService) {
+  constructor(
+    private fb: FormBuilder,
+    private becaService: BecaService,
+    public sanitizer: DomSanitizer
+  ) {
     this.becaForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
       descripcion: ['', [Validators.required, Validators.maxLength(100)]],
@@ -119,13 +128,6 @@ export class AgregarBecaComponent implements OnInit {
     }
   }
 
-  validateInput(event: KeyboardEvent) {
-    const allowedKeys = /^[a-zA-Z0-9\s]*$/;
-    if (!allowedKeys.test(event.key)) {
-      event.preventDefault();
-    }
-  }
-
   resetForm() {
     this.becaForm.reset();
     this.errorMessage = '';
@@ -155,6 +157,15 @@ export class AgregarBecaComponent implements OnInit {
     this.isModalOpen = false;
   }
 
+  openViewModal(beca: Beca) {
+    this.selectedBeca = beca;
+    this.isViewModalOpen = true;
+  }
+
+  closeViewModal() {
+    this.isViewModalOpen = false;
+  }
+
   loadBecas() {
     this.becaService.getBecas().subscribe({
       next: (response: any) => {
@@ -165,6 +176,24 @@ export class AgregarBecaComponent implements OnInit {
         this.showToast('error', error.message);
       },
     });
+  }
+
+  deleteBeca(id: number) {
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres eliminar esta beca? Esta acción no se puede deshacer.',
+      () => {
+        this.becaService.deleteBeca(id).subscribe({
+          next: (response: any) => {
+            this.showToast('success', 'Beca eliminada correctamente');
+            this.loadBecas();
+          },
+          error: (error: any) => {
+            this.showToast('error', error.message);
+          },
+        });
+      }
+    );
   }
 
   moveToTrash(id: number) {
@@ -241,22 +270,9 @@ export class AgregarBecaComponent implements OnInit {
     }
   }
 
-  deleteBeca(id: number) {
-    this.showConfirmDialog(
-      '¿Estás seguro?',
-      '¿Quieres eliminar esta beca? Esta acción no se puede deshacer.',
-      () => {
-        this.becaService.deleteBeca(id).subscribe({
-          next: (response: any) => {
-            this.showToast('success', 'Beca eliminada correctamente');
-            this.loadBecas();
-          },
-          error: (error: any) => {
-            this.showToast('error', error.message);
-          },
-        });
-      }
-    );
+  viewBeca(beca: Beca) {
+    this.selectedBeca = beca;
+    this.isViewModalOpen = true;
   }
 
   mostrar(elemento: any): void {

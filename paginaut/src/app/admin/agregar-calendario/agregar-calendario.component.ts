@@ -11,10 +11,8 @@ class TooltipManager {
   ): void {
     const buttonRect = button.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
-
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
-
     const preferredLeft =
       buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
     const preferredTop = buttonRect.top - tooltipRect.height - 10;
@@ -67,18 +65,11 @@ export class AgregarCalendarioComponent implements OnInit {
     this.calendarioForm = this.fb.group({
       titulo: ['', [Validators.required, Validators.maxLength(50)]],
       archivo: [''],
-      anio: [
-        '',
-        [Validators.required, Validators.minLength(4), Validators.maxLength(4)],
-      ],
     });
   }
 
   ngOnInit() {
     this.loadCalendarios();
-    this.calendarioForm.get('anio')?.valueChanges.subscribe(() => {
-      this.updateTitulo();
-    });
   }
 
   onSubmit() {
@@ -135,6 +126,13 @@ export class AgregarCalendarioComponent implements OnInit {
     }
   }
 
+  validateInput(event: KeyboardEvent) {
+    const allowedKeys = /^[a-zA-Z0-9\s]*$/;
+    if (!allowedKeys.test(event.key)) {
+      event.preventDefault();
+    }
+  }
+
   resetForm() {
     this.calendarioForm.reset();
     this.errorMessage = '';
@@ -152,7 +150,6 @@ export class AgregarCalendarioComponent implements OnInit {
       this.currentFileName = calendario.archivo;
       this.calendarioForm.patchValue({
         titulo: calendario.titulo,
-        anio: calendario.titulo.split(' ').pop(),
       });
     } else {
       this.resetForm();
@@ -345,18 +342,10 @@ export class AgregarCalendarioComponent implements OnInit {
       }
     });
   }
-
   updateTitulo() {
     const anio = this.calendarioForm.get('anio')?.value;
     if (anio) {
       this.calendarioForm.patchValue({ titulo: `Calendario Escolar ${anio}` });
-    }
-  }
-
-  onKeyDown(event: KeyboardEvent) {
-    const regex = /^[0-9]*$/;
-    if (!regex.test(event.key) && event.key !== 'Backspace') {
-      event.preventDefault();
     }
   }
 }
