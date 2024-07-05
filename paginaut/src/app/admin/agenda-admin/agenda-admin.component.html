@@ -8,7 +8,7 @@
     <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
       <div class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
         <div class="flex justify-between items-center py-3 px-4 border-b">
-          <h3 class="font-bold text-black font-medium-500">
+          <h3 class="font-bold text-xl text-black font-medium-500">
             Información del evento
           </h3>
           <button id="close-modal-button" type="button" class="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-200 hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-slide-down-animation-modal">
@@ -21,31 +21,18 @@
         </div>
         <div class="p-4 overflow-y-auto" *ngIf="selectedEvent">
             <span class="font-bold">Titulo del evento: </span><h4 class="text-black indent-8 mb-2">{{ selectedEvent.title }}</h4>
-          
+                    
           <span class="font-bold">Imagen principal: </span>
           <div class="flex justify-center border-dashed border-2 border-gray-200">
             <img [src]="selectedEvent.imagen_principal" class="w-1/2 h-auto" alt="Imagen del evento">
           </div>
 
-          
-          <p class="mt-1 text-black font-extralight mb-2">
-            <span class="font-bold">Descripción: </span>{{ selectedEvent.informacion_evento }}
-          </p>
-          <p class="mt-1 text-black font-extralight mb-2">
-            <span class="font-bold">Lugar: </span> {{ selectedEvent.lugar_evento }}
-          </p>
-          <p class="mt-1 text-black font-extralight mb-2">
-            <span class="font-bold">Fecha: </span> {{ selectedEvent.fecha_inicio }} - {{ selectedEvent.fecha_fin }}    
-          </p>
-          
-          <p class="mt-1 text-black font-extralight mb-2">
-            Hora de inicio: {{ selectedEvent.hora_inicio }}
-          </p>
-          <p class="mt-1 text-black font-extralight mb-2">
-            Hora de fin: {{ selectedEvent.hora_fin }}
-          </p>
+            <span class="font-bold">Descripción: </span> <h4 class="text-black indent-8 mb-2">{{ selectedEvent.informacion_evento }}</h4>
+            <span class="font-bold">Lugar: </span> <h4 class="text-black indent-8 mb-2">{{ selectedEvent.lugar_evento }}</h4> 
+            <span class="font-bold">Fecha inicio y fin: </span> <h4 class="text-black indent-8 mb-2">{{ selectedEvent.fecha_inicio }} - {{ selectedEvent.fecha_fin }}</h4>              
+            <span class="font-bold">Hora inicio y fin: </span> <h4 class="text-black indent-8 mb-2">{{ selectedEvent.hora_inicio }} - {{ selectedEvent.hora_fin }}</h4>  
+           
         </div>
       </div>
     </div>
   </div>
-  
