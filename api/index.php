@@ -56,7 +56,8 @@ switch ($request_method) {
             include_once 'controllers/recover_password.php';
         } elseif (strpos($request_uri, '/api/reset_password') !== false) { // Agregamos esta condición para manejar las solicitudes relacionadas con las direcciones
             include_once 'controllers/reset_password.php';
-
+        } elseif (strpos($request_uri, '/api/logout') !== false) { // Agregamos esta condición para manejar las solicitudes relacionadas con las direcciones
+            include_once 'controllers/deleteToken.php';
         } elseif (strpos($request_uri, '/api/talleres') !== false) {
             include_once 'controllers/taller.php';
         } elseif (strpos($request_uri, '/api/calendario') !== false) {

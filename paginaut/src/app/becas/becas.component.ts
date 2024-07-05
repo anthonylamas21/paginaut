@@ -84,9 +84,10 @@ export class BecasComponent implements OnInit {
       navbar.classList.add('bg-[#043D3D]');
     }
   }
-
   
   scrollToSection(sectionId: string): void {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
+
+
 }
