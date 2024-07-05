@@ -104,6 +104,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     AppComponent,
 PrincipalComponent,
 CarrerasComponent,
+NoticiaComponent,
 NavbarComponent,
 ComponentesComponent,
 FooterComponent,
