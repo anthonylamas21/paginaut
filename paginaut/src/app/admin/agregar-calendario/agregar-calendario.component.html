@@ -286,6 +286,7 @@
               <button
                 type="button"
                 class="py-3 my-2 px-4 inline-flex button-secondary items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-color text-white hover:bg-primary-color-90 disabled:opacity-50 disabled:pointer-events-none"
+                [disabled]="hasActiveCalendario"
                 (click)="openModal()"
               >
                 <i class="fa fa-plus" aria-hidden="true"></i>
