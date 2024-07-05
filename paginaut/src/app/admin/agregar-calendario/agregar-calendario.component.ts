@@ -129,8 +129,11 @@ export class AgregarCalendarioComponent implements OnInit {
 
   onFileChange(event: any) {
     const file = event.target.files[0];
-    if (file) {
+    if (file && file.type === 'application/pdf') {
       this.fileToUpload = file;
+    } else {
+      this.calendarioForm.get('archivo')?.setErrors({ invalidFileType: true });
+      this.fileToUpload = null;
     }
   }
 
