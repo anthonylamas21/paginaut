@@ -18,7 +18,7 @@ export class CarrerasComponent {
     this.renderer.listen('window', 'load', () => {
        this.isLoading = false;
 
-    });
+    }); 
   }
 
   @HostListener('window:scroll', [])

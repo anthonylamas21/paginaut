@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Renderer2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BecaService, Beca } from '../admin/beca.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -13,16 +13,50 @@ export class InfoBecaComponent implements OnInit {
   error: string | null = null;
   safeArchivoUrl: SafeResourceUrl | null = null;
   private baseUrl = 'http://localhost/paginaut/'; // Asegúrate de que esto coincida con la base de tu API
-
+isLoading = true;
   constructor(
+    private renderer: Renderer2,
     private route: ActivatedRoute,
     private becaService: BecaService,
     private sanitizer: DomSanitizer
-  ) {}
+    ) {}
+
+  ngAfterViewInit(): void {
+    this.renderer.listen('window', 'load', () => {
+       this.isLoading = false;
+    }); 
+  }
 
   ngOnInit(): void {
     this.setNavbarColor();
     this.cargarDetalleBeca();
+  }
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    this.setNavbarColor();
+  } 
+
+  private setNavbarColor(): void {
+    const button = document.getElementById('scrollTopButton');
+    const nabvar = document.getElementById('navbarAccion');
+    const inicioSection = document.getElementById('inicio');
+
+    if (inicioSection && nabvar) {
+      const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
+
+      if (window.scrollY > inicioSectionBottom) {
+        button?.classList.remove('hidden');
+      } else {
+        button?.classList.add('hidden');
+      }
+      
+      nabvar.classList.remove('bg-transparent');
+      nabvar.classList.add('bg-[#043D3D]');
+    }
+  }
+  
+  scrollToSection(sectionId: string): void {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
 
   cargarDetalleBeca(): void {
@@ -70,31 +104,5 @@ export class InfoBecaComponent implements OnInit {
     return this.beca?.archivo ? this.getFullUrl(this.beca.archivo) : null;
   }
 
-  @HostListener('window:scroll', [])
-  onWindowScroll(): void {
-    this.setNavbarColor();
-  }
-
-  private setNavbarColor(): void {
-    const button = document.getElementById('scrollTopButton');
-    const navbar = document.getElementById('navbarAccion');
-    const inicioSection = document.getElementById('inicio');
-
-    if (inicioSection && navbar) {
-      const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
-
-      if (window.scrollY > inicioSectionBottom) {
-        button?.classList.remove('hidden');
-      } else {
-        button?.classList.add('hidden');
-      }
-      
-      navbar.classList.remove('bg-transparent');
-      navbar.classList.add('bg-[#043D3D]');
-    }
-  }
-  
-  scrollToSection(sectionId: string): void {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-  }
+ 
 }

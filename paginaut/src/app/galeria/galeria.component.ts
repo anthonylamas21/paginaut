@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-galeria',
@@ -22,14 +22,24 @@ export class GaleriaComponent {
     // ... más imágenes ...
   ];
 
+  isLoading = true;
+  constructor(private renderer: Renderer2){}
+
   ngOnInit(): void {
     this.setNavbarColor();
+  }
+
+  ngAfterViewInit(): void {
+    this.renderer.listen('window', 'load', () => {
+       this.isLoading = false;
+
+    }); 
   }
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     this.setNavbarColor();
-  }
+  } 
 
   private setNavbarColor(): void {
     const button = document.getElementById('scrollTopButton');

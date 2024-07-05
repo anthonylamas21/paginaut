@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { BecaService, Beca } from '../beca.service';
@@ -41,6 +41,7 @@ class TooltipManager {
   styleUrls: ['./agregar-beca.component.css'],
 })
 export class AgregarBecaComponent implements OnInit {
+  
   becaForm: FormGroup;
   errorMessage: string = '';
   successMessage: string = '';
@@ -60,7 +61,8 @@ export class AgregarBecaComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private becaService: BecaService,
-    public sanitizer: DomSanitizer
+    public sanitizer: DomSanitizer,
+    private renderer: Renderer2
   ) {
     this.becaForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
@@ -68,10 +70,45 @@ export class AgregarBecaComponent implements OnInit {
       archivo: [''],
     });
   }
+  
 
-  ngOnInit() {
+
+
+  ngOnInit(): void {
     this.loadBecas();
+    this.setNavbarColor();
+
   }
+
+  
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    this.setNavbarColor();
+  }
+
+  scrollToSection(sectionId: string): void {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  private setNavbarColor(): void {
+    const button = document.getElementById('scrollTopButton');
+    const nabvar = document.getElementById('navbarAccion');
+    const inicioSection = document.getElementById('inicio');
+
+    if (inicioSection && nabvar) {
+      const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
+
+      if (window.scrollY > inicioSectionBottom) {
+        button?.classList.remove('hidden');
+      } else {
+        button?.classList.add('hidden');
+      }
+      
+      nabvar.classList.remove('bg-transparent');
+      nabvar.classList.add('bg-[#043D3D]');
+    }
+  }
+
 
   onSubmit() {
     if (this.becaForm.valid) {
