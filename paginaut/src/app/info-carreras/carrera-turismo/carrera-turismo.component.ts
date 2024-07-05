@@ -31,8 +31,17 @@ export class CarreraTurismoComponent {
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/turismo/turismo1.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/turismo/turismo2.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/turismo/turismo3.jpg', alt: 'Image 3' },
+    { url: './assets/img/galeria/turismo/turismo4.jpg', alt: 'Image 4' },
+    { url: './assets/img/galeria/turismo/turismo5.jpg', alt: 'Image 5' },
+    { url: './assets/img/galeria/turismo/turismo6.jpg', alt: 'Image 6' },
+    { url: './assets/img/galeria/turismo/turismo7.jpg', alt: 'Image 7' },
+    { url: './assets/img/galeria/turismo/turismo8.jpg', alt: 'Image 8' },
+    { url: './assets/img/galeria/turismo/turismo9.jpg', alt: 'Image 9' },
+    { url: './assets/img/galeria/turismo/turismo10.jpg', alt: 'Image 210' },
+
     // más imágenes aquí
   ];
 

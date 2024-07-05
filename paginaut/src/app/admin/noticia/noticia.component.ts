@@ -2,10 +2,51 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NoticiaService, Noticia } from '../../noticia.service';
 import Swal from 'sweetalert2';
+class TooltipManager {
+  static adjustTooltipPosition(
+    button: HTMLElement,
+    tooltip: HTMLElement
+  ): void {
+    // Obtener dimensiones del botón y del tooltip
+    const buttonRect = button.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
+
+    // Obtener dimensiones de la ventana
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    // Calcular la posición preferida del tooltip
+    const preferredLeft =
+      buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
+    const preferredTop = buttonRect.top - tooltipRect.height - 10; // Espacio entre el botón y el tooltip
+
+    // Ajustar la posición si se sale de la pantalla hacia la izquierda
+    let left = Math.max(preferredLeft, 0);
+
+    // Ajustar la posición si se sale de la pantalla hacia arriba
+    let top = Math.max(preferredTop, 0);
+
+    // Ajustar la posición si el tooltip se sale de la pantalla hacia la derecha
+    if (left + tooltipRect.width > windowWidth) {
+      left = windowWidth - tooltipRect.width;
+    }
+
+    // Ajustar la posición si el tooltip se sale de la pantalla hacia abajo
+    if (top + tooltipRect.height > windowHeight) {
+      top = windowHeight - tooltipRect.height;
+    }
+
+    // Aplicar posición al tooltip
+    tooltip.style.position = 'fixed';
+    tooltip.style.top = `${top}px`;
+    tooltip.style.left = `${left}px`;
+  }
+}
 
 interface NoticiaTemporal extends Noticia {
   imagenesGeneralesOriginales?: string[];
   imagenPrincipalOriginal?: string;
+  
 }
 
 @Component({
@@ -31,6 +72,8 @@ export class NoticiaComponent implements OnInit {
   allImages: string[] = [];
   imagenesParaEliminar: string[] = [];
   noticiaTemporal: NoticiaTemporal | null = null;
+  isDetailsModalOpen = false;
+  selectedNoticia: Noticia | null = null;
 
   constructor(
     private noticiaService: NoticiaService,
@@ -417,6 +460,36 @@ export class NoticiaComponent implements OnInit {
         onConfirm();
       }
     });
+  }
+
+  openDetailsModal(noticia: Noticia): void {
+    this.selectedNoticia = noticia;
+    this.isDetailsModalOpen = true;
+  }
+
+  closeDetailsModal(): void {
+    this.isDetailsModalOpen = false;
+    this.selectedNoticia = null;
+  }
+
+  mostrar(elemento: any): void {
+    // Verifica si el elemento recibido es un botón
+    if (elemento.tagName.toLowerCase() === 'button') {
+      const tooltipElement = elemento.querySelector('.hs-tooltip');
+      if (tooltipElement) {
+        tooltipElement.classList.toggle('show');
+        const tooltipContent = tooltipElement.querySelector(
+          '.hs-tooltip-content'
+        );
+        if (tooltipContent) {
+          tooltipContent.classList.toggle('hidden');
+          tooltipContent.classList.toggle('invisible');
+          tooltipContent.classList.toggle('visible');
+          // Ajustar la posición del tooltip
+          TooltipManager.adjustTooltipPosition(elemento, tooltipContent);
+        }
+      }
+    }
   }
 
 

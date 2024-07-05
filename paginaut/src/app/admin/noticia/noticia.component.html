@@ -1,10 +1,13 @@
 <app-navbar-admin></app-navbar-admin>
 <p id="inicio"></p>
 <!--Fin Navbar-->
-<br>
-<br>
-<div class="container">
-  <h2>Gestión de Noticias</h2>
+<div class="bg-[#043D3D] rounded-lg mt-28 mb-5">
+  <h2
+    class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4"
+  >
+    Noticias
+  </h2>
+</div>
 
   <!-- Modal para Editar/Registrar Noticia -->
   <div [ngClass]="{ 'hidden': !isModalOpen }" class="hs-overlay-backdrop-open:bg-gray-900/50 size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-auto">
@@ -65,7 +68,7 @@
             </div>
 
             <div class="form-group">
-              <label for="imagenesGenerales">Imágenes Generales:</label>
+              <label for="imagenesGenerales">Imágenes Complementarias:</label>
               <input type="file" id="imagenesGenerales" multiple (change)="onFileChangeGenerales($event)" accept="image/*" class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900" />
 
               <!-- Preview de imágenes generales actuales -->
@@ -140,219 +143,347 @@
             </div>
           </div>
           <div class="flex flex-col mb-5">
-              <div class="-m-1.5 overflow-x-auto">
-                <div class="p-1.5 min-w-full inline-block align-middle">
-                  <div class="border rounded-lg overflow-hidden my-2">
-                    <p-table #dt [value]="filteredNoticias" [paginator]="true" [rows]="5" 
-                             currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros" 
-                             [showCurrentPageReport]="true" 
-                             [globalFilterFields]="['titulo', 'resumen', 'informacion_noticia', 'lugar_noticia', 'autor', 'fecha_publicacion']" 
-                             [tableStyleClass]="'min-w-full divide-y'" 
-                             [resizableColumns]="true">
-                      <ng-template pTemplate="header">
-                        <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="titulo">
-                            <div class="flex">
-                              Título
-                              <p-sortIcon field="titulo"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="resumen">
-                            <div class="flex">
-                              Resumen
-                              <p-sortIcon field="resumen"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="informacion_noticia">
-                            <div class="flex">
-                              Información
-                              <p-sortIcon field="informacion_noticia"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="activo">
-                            <div class="flex">
-                              Activo
-                              <p-sortIcon field="activo"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="lugar_noticia">
-                            <div class="flex">
-                              Lugar
-                              <p-sortIcon field="lugar_noticia"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="autor">
-                            <div class="flex">
-                              Autor
-                              <p-sortIcon field="autor"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_publicacion">
-                            <div class="flex">
-                              Fecha de Publicación
-                              <p-sortIcon field="fecha_publicacion"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
-                            <div class="flex">Imagen Principal</div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
-                            <div class="flex">Imágenes Generales</div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
-                            <div class="flex">Acciones</div>
-                          </th>
-                        </tr>
-                      </ng-template>
-                      <ng-template pTemplate="body" let-noticia>
-                        <tr class="divide-x divide-gray-200 bg-neutral-100">
-                          <td class="px-3 py-2 text-sm text-black">{{ noticia.titulo }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ noticia.resumen | slice:0:50 }}{{ noticia.resumen.length > 50 ? '...' : '' }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ noticia.informacion_noticia | slice:0:50 }}{{ noticia.informacion_noticia.length > 50 ? '...' : '' }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ noticia.activo ? 'Sí' : 'No' }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ noticia.lugar_noticia }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ noticia.autor }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ noticia.fecha_publicacion | date:'dd/MM/yyyy' }}</td>
-                          <td class="px-3 py-2 text-sm text-black">
-                            <button (click)="openImageModal(noticia, 'principal')" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-300">
-                              Ver imagen principal
+            <div class="-m-1.5 overflow-x-auto">
+              <div class="p-1.5 min-w-full inline-block align-middle">
+                <div class="border rounded-lg overflow-hidden my-2">
+                  <p-table #dt [value]="filteredNoticias" [paginator]="true" [rows]="5"
+                    currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
+                    [showCurrentPageReport]="true"
+                    [globalFilterFields]="['titulo', 'resumen', 'informacion_noticia', 'lugar_noticia', 'autor', 'fecha_publicacion']"
+                    [tableStyleClass]="'min-w-full divide-y'" [resizableColumns]="true">
+                    <ng-template pTemplate="header">
+                      <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
+                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="titulo">
+                          <div class="flex">
+                            Título <p-sortIcon field="titulo"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="activo">
+                          <div class="flex">
+                            Activo <p-sortIcon field="activo"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="lugar_noticia">
+                          <div class="flex">
+                            Lugar <p-sortIcon field="lugar_noticia"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="autor">
+                          <div class="flex">
+                            Autor <p-sortIcon field="autor"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_publicacion">
+                          <div class="flex">
+                            Fecha de Publicación <p-sortIcon field="fecha_publicacion"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
+                          <div class="flex">
+                            Acciones
+                          </div>
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-noticia>
+                      <tr class="divide-x divide-gray-200 bg-neutral-100">
+                        <td class="px-3 py-2 text-sm text-black">{{noticia.titulo}}</td>
+                        <td class="px-3 py-2 text-sm text-black">{{noticia.activo ? 'Sí' : 'No'}}</td>
+                        <td class="px-3 py-2 text-sm text-black">{{noticia.lugar_noticia}}</td>
+                        <td class="px-3 py-2 text-sm text-black">{{noticia.autor}}</td>
+                        <td class="px-3 py-2 text-sm text-black">{{noticia.fecha_publicacion | date:'dd/MM/yyyy'}}</td>
+                        <td class="px-3 py-2 text-sm text-black">
+                          <div class="flex items-center space-x-3.5">
+                            <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openDetailsModal(noticia)" class="hover:text-primary">
+                              <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                <div class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  <i class="fa fa-eye" aria-hidden="true"></i>
+                                  <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                    <div class="py-3 px-4 border-b border-gray-200">
+                                      <h4 class="font-semibold text-gray-800">Detalles</h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                          Ver detalles de la noticia
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
                             </button>
-                          </td>
-                          <td class="px-3 py-2 text-sm text-black">
-                            <button (click)="openImageModal(noticia, 'generales')" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-500 text-white hover:bg-green-600 transition-colors duration-300">
-                              Ver imágenes generales
+                            <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(noticia, 'principal')" class="hover:text-primary">
+                              <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                <div class="text-blue-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  <i class="fa fa-image" aria-hidden="true"></i>
+                                  <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                    <div class="py-3 px-4 border-b border-gray-200">
+                                      <h4 class="font-semibold text-gray-800">Imagen Principal</h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                          Ver imagen principal
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
                             </button>
-                          </td>
-                          <td class="px-3 py-2 text-sm text-black">
-                            <div class="flex items-center space-x-3.5">
-                              <button (click)="openModal(noticia)" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-[#04847C] text-white hover:opacity-80 transition-opacity duration-300">
-                                <i class="fas fa-edit"></i>
-                              </button>
-                              <button *ngIf="noticia.activo" (click)="desactivarNoticia(noticia.id!)" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-yellow-500 text-white hover:opacity-80 transition-opacity duration-300">
-                                <i class="fa fa-ban"></i>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      </ng-template>
-                      <ng-template pTemplate="emptymessage">
-                        <tr>
-                          <td colspan="10">No se encontraron resultados.</td>
-                        </tr>
-                      </ng-template>
-                    </p-table>
-                  </div>
+                            <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(noticia, 'generales')" class="hover:text-primary">
+                              <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                <div class="text-green-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  <i class="fa fa-images" aria-hidden="true"></i>
+                                  <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                    <div class="py-3 px-4 border-b border-gray-200">
+                                      <h4 class="font-semibold text-gray-800">Imágenes Complementarias</h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                          Ver imágenes complementarias
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                            <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openModal(noticia)" class="hover:text-primary">
+                              <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                <div class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  <i class="fas fa-edit"></i>
+                                  <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                    <div class="py-3 px-4 border-b border-gray-200">
+                                      <h4 class="font-semibold text-gray-800">Editar</h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                          Actualizar la información de la noticia
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                            <button *ngIf="noticia.activo" (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="desactivarNoticia(noticia.id!)" class="hover:text-primary">
+                              <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                <div class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  <i class="fa fa-ban" aria-hidden="true"></i>
+                                  <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                    <div class="py-3 px-4 border-b border-gray-200">
+                                      <h4 class="font-semibold text-gray-800">Desactivar</h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                          Desactivar esta noticia
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                            <button *ngIf="!noticia.activo" (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="activarNoticia(noticia.id!)" class="hover:text-primary">
+                              <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                <div class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  <i class="fa-solid fa-arrow-rotate-left"></i>
+                                  <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                    <div class="py-3 px-4 border-b border-gray-200">
+                                      <h4 class="font-semibold text-gray-800">Activar</h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                          Activar esta noticia
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="6">No se encontraron resultados.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
                 </div>
               </div>
             </div>
+          </div>
         </div>
         <div id="tabs-with-icons-2" class="hidden" role="tabpanel" aria-labelledby="tabs-with-icons-item-2">
           <div class="flex flex-col mb-5">
-              <div class="-m-1.5 overflow-x-auto">
-                <div class="p-1.5 min-w-full inline-block align-middle">
-                  <div class="border rounded-lg overflow-hidden my-2">
-                    <p-table #dt [value]="papeleraNoticias" [paginator]="true" [rows]="5" 
-                             currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros" 
-                             [showCurrentPageReport]="true" 
-                             [globalFilterFields]="['titulo', 'resumen', 'informacion_noticia', 'lugar_noticia', 'autor', 'fecha_publicacion']" 
-                             [tableStyleClass]="'min-w-full divide-y'" 
-                             [resizableColumns]="true">
-                      <ng-template pTemplate="header">
-                        <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="titulo">
-                            <div class="flex">
-                              Título
-                              <p-sortIcon field="titulo"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="resumen">
-                            <div class="flex">
-                              Resumen
-                              <p-sortIcon field="resumen"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="informacion_noticia">
-                            <div class="flex">
-                              Información
-                              <p-sortIcon field="informacion_noticia"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="activo">
-                            <div class="flex">
-                              Activo
-                              <p-sortIcon field="activo"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="lugar_noticia">
-                            <div class="flex">
-                              Lugar
-                              <p-sortIcon field="lugar_noticia"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="autor">
-                            <div class="flex">
-                              Autor
-                              <p-sortIcon field="autor"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_publicacion">
-                            <div class="flex">
-                              Fecha de Publicación
-                              <p-sortIcon field="fecha_publicacion"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
-                            <div class="flex">Imagen Principal</div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
-                            <div class="flex">Imágenes Generales</div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
-                            <div class="flex">Acciones</div>
-                          </th>
-                        </tr>
-                      </ng-template>
-                      <ng-template pTemplate="body" let-noticia>
-                        <tr class="divide-x divide-gray-200 bg-neutral-100">
-                          <td class="px-3 py-2 text-sm text-black">{{ noticia.titulo }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ noticia.resumen | slice:0:50 }}{{ noticia.resumen.length > 50 ? '...' : '' }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ noticia.informacion_noticia | slice:0:50 }}{{ noticia.informacion_noticia.length > 50 ? '...' : '' }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ noticia.activo ? 'Sí' : 'No' }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ noticia.lugar_noticia }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ noticia.autor }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ noticia.fecha_publicacion | date:'dd/MM/yyyy' }}</td>
-                          <td class="px-3 py-2 text-sm text-black">
-                            <button (click)="openImageModal(noticia, 'principal')" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-300">
-                              Ver imagen principal
+            <div class="-m-1.5 overflow-x-auto">
+              <div class="p-1.5 min-w-full inline-block align-middle">
+                <div class="border rounded-lg overflow-hidden my-2">
+                  <p-table #dt [value]="papeleraNoticias" [paginator]="true" [rows]="5" 
+                           currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros" 
+                           [showCurrentPageReport]="true" 
+                           [globalFilterFields]="['titulo', 'resumen', 'informacion_noticia', 'lugar_noticia', 'autor', 'fecha_publicacion']" 
+                           [tableStyleClass]="'min-w-full divide-y'" 
+                           [resizableColumns]="true">
+                    <ng-template pTemplate="header">
+                      <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
+                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="titulo">
+                          <div class="flex">
+                            Título <p-sortIcon field="titulo"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="activo">
+                          <div class="flex">
+                            Activo <p-sortIcon field="activo"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="lugar_noticia">
+                          <div class="flex">
+                            Lugar <p-sortIcon field="lugar_noticia"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="autor">
+                          <div class="flex">
+                            Autor <p-sortIcon field="autor"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_publicacion">
+                          <div class="flex">
+                            Fecha de Publicación <p-sortIcon field="fecha_publicacion"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
+                          <div class="flex">Acciones</div>
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-noticia>
+                      <tr class="divide-x divide-gray-200 bg-neutral-100">
+                        <td class="px-3 py-2 text-sm text-black">{{noticia.titulo}}</td>
+                        <td class="px-3 py-2 text-sm text-black">{{noticia.activo ? 'Sí' : 'No'}}</td>
+                        <td class="px-3 py-2 text-sm text-black">{{noticia.lugar_noticia}}</td>
+                        <td class="px-3 py-2 text-sm text-black">{{noticia.autor}}</td>
+                        <td class="px-3 py-2 text-sm text-black">{{noticia.fecha_publicacion | date:'dd/MM/yyyy'}}</td>
+                        <td class="px-3 py-2 text-sm text-black">
+                          <div class="flex items-center space-x-3.5">
+                            <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openDetailsModal(noticia)" class="hover:text-primary">
+                              <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                <div class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  <i class="fa fa-eye" aria-hidden="true"></i>
+                                  <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                    <div class="py-3 px-4 border-b border-gray-200">
+                                      <h4 class="font-semibold text-gray-800">Detalles</h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                          Ver detalles de la noticia
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
                             </button>
-                          </td>
-                          <td class="px-3 py-2 text-sm text-black">
-                            <button (click)="openImageModal(noticia, 'generales')" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-500 text-white hover:bg-green-600 transition-colors duration-300">
-                              Ver imágenes generales
+                            <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(noticia, 'principal')" class="hover:text-primary">
+                              <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                <div class="text-blue-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  <i class="fa fa-image" aria-hidden="true"></i>
+                                  <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                    <div class="py-3 px-4 border-b border-gray-200">
+                                      <h4 class="font-semibold text-gray-800">Imagen Principal</h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                          Ver imagen principal
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
                             </button>
-                          </td>
-                          <td class="px-3 py-2 text-sm text-black">
-                            <div class="flex items-center space-x-3.5">
-                              <button *ngIf="!noticia.activo" (click)="activarNoticia(noticia.id!)" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-500 text-white hover:opacity-80 transition-opacity duration-300">
-                                <i class="fa fa-check"></i>
-                              </button>
-                              <button (click)="confirmDeleteNoticia(noticia.id!)" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-[#EF4444] text-white hover:opacity-80 transition-opacity duration-300">
-                                <i class="fa fa-trash"></i>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      </ng-template>
-                      <ng-template pTemplate="emptymessage">
-                        <tr>
-                          <td colspan="10">No se encontraron resultados.</td>
-                        </tr>
-                      </ng-template>
-                    </p-table>
-                  </div>
+                            <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(noticia, 'generales')" class="hover:text-primary">
+                              <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                <div class="text-green-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  <i class="fa fa-images" aria-hidden="true"></i>
+                                  <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                    <div class="py-3 px-4 border-b border-gray-200">
+                                      <h4 class="font-semibold text-gray-800">Imágenes Generales</h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                          Ver imágenes complementarias
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                            <button *ngIf="!noticia.activo" (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="activarNoticia(noticia.id!)" class="hover:text-primary">
+                              <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                <div class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  <i class="fa-solid fa-arrow-rotate-left"></i>
+                                  <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                    <div class="py-3 px-4 border-b border-gray-200">
+                                      <h4 class="font-semibold text-gray-800">Activar</h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                          Activar esta noticia
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                            <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="confirmDeleteNoticia(noticia.id!)" class="hover:text-primary">
+                              <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                <div class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                  <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                    <div class="py-3 px-4 border-b border-gray-200">
+                                      <h4 class="font-semibold text-gray-800">Eliminar</h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                          Eliminar esta noticia
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="6">No se encontraron resultados.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
                 </div>
               </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
@@ -385,6 +516,27 @@
       <div class="mt-4 text-center">
         <p *ngIf="allImages.length > 1">Imagen {{ currentImageIndex + 1 }} de {{ getTotalImagesCount() }}</p>
       </div>
+    </div>
+  </div>
+
+<!-- Modal para detalles de la noticia -->
+<div *ngIf="isDetailsModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white p-4 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-bold">Detalles de la Noticia</h3>
+      <button (click)="closeDetailsModal()" class="text-gray-500 hover:text-gray-700">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="mt-4">
+      <h4 class="font-semibold">Resumen:</h4>
+      <p class="mt-2">{{ selectedNoticia?.resumen }}</p>
+    </div>
+    <div class="mt-4">
+      <h4 class="font-semibold">Información de la Noticia:</h4>
+      <p class="mt-2">{{ selectedNoticia?.informacion_noticia }}</p>
     </div>
   </div>
 </div>
