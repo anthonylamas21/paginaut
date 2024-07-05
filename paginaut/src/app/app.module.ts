@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -29,9 +30,15 @@ import { LoginComponent } from './login/login.component';
 import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { CalendarioComponent } from './calendario/calendario.component';
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
+
 import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component';
 import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
 import { TallerComponent } from './taller/taller.component';
+
+import { RolComponent } from './admin/rol/rol.component';
+import { UsuarioComponent } from './admin/usuario/usuario.component';
+import { DepartamentoComponent } from './admin/departamento/departamento.component';
+
 
 @NgModule({
   declarations: [
@@ -52,7 +59,11 @@ import { TallerComponent } from './taller/taller.component';
     PrincipalAdminComponent,
     RegistrarEventoComponent,
     AgregarDireccionComponent,
-    TallerComponent
+    TallerComponent,
+    RolComponent,
+    UsuarioComponent,
+    DepartamentoComponent
+
   ],
   imports: [
     BrowserModule,
@@ -65,7 +76,11 @@ import { TallerComponent } from './taller/taller.component';
     InputTextModule,
     TagModule,
     ButtonModule,
-    DropdownModule
+    DropdownModule,
+    FormsModule,
+    DropdownModule,
+    HttpClientModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

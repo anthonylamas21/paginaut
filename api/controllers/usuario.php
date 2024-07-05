@@ -95,8 +95,6 @@ switch($request_method) {
             $usuario->correo = $data->correo;
             $usuario->rol_id = $data->rol_id;
             $usuario->departamento_id = $data->departamento_id;
-            $usuario->token_recuperacion = $data->token_recuperacion;
-            $usuario->fecha_expiracion_token = $data->fecha_expiracion_token;
             $usuario->activo = $data->activo;
 
             if ($usuario->update()) {

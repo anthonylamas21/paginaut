@@ -11,9 +11,15 @@ import { LoginComponent } from './login/login.component';
 import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { EventosComponent } from './eventos/eventos.component';
 import { CalendarioComponent } from './calendario/calendario.component';
+
 import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component'; // Importa el nuevo componente
 import { TallerComponent } from './taller/taller.component';
 import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
+
+import { UsuarioComponent } from './admin/usuario/usuario.component';
+import { RolComponent } from './admin/rol/rol.component';
+import { DepartamentoComponent } from './admin/departamento/departamento.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/principal', pathMatch: 'full' }, // Ruta por defecto
@@ -23,6 +29,7 @@ const routes: Routes = [
   {path: 'principal', component: PrincipalComponent },
   {path: 'navbar', component: NavbarComponent },
   {path: 'componentes', component: ComponentesComponent},
+
   {path: 'carreras', component: CarrerasComponent},
   {path: 'becas', component: BecasComponent},
   {path: 'unidades_academicas', component: UnidadesAcademicasComponent},
@@ -33,7 +40,19 @@ const routes: Routes = [
   {path: 'calendario', component: CalendarioComponent},
   {path: 'taller', component: TallerComponent},
   {path: 'direccion', component: AgregarDireccionComponent},
-  {path: 'registrar-evento', component: RegistrarEventoComponent} // Nueva ruta para registrar evento
+  {path: 'registrar-evento', component: RegistrarEventoComponent}, // Nueva ruta para registrar evento
+  {path: 'carreras', component:CarrerasComponent},
+  {path: 'becas', component:BecasComponent},
+  {path: 'unidades_academicas', component:UnidadesAcademicasComponent},
+  {path: 'lectura', component:TalleresComponent},
+  {path: 'login', component:LoginComponent},
+  {path: 'info_carrera', component:InfoCarreraComponent},
+  {path: 'eventos', component:EventosComponent},
+  {path: 'calendario', component:CalendarioComponent},
+  {path: 'usuario', component: UsuarioComponent},
+  {path: 'rol', component: RolComponent},
+  {path: 'departamento', component: DepartamentoComponent}
+
 ];
 
 @NgModule({

@@ -28,8 +28,8 @@ class Usuario {
         $this->contrasena = password_hash(htmlspecialchars(strip_tags($this->contrasena)), PASSWORD_DEFAULT);
         $this->rol_id = htmlspecialchars(strip_tags($this->rol_id));
         $this->departamento_id = htmlspecialchars(strip_tags($this->departamento_id));
-        $this->token_recuperacion = htmlspecialchars(strip_tags($this->token_recuperacion));
-        $this->fecha_expiracion_token = htmlspecialchars(strip_tags($this->fecha_expiracion_token));
+        $this->token_recuperacion = "Hola";
+        $this->fecha_expiracion_token = "04/07/2024";
         $this->activo = htmlspecialchars(strip_tags($this->activo));
 
         $stmt->bindParam(":correo", $this->correo);
@@ -64,6 +64,7 @@ class Usuario {
 
         if ($row) {
             $this->correo = $row['correo'];
+            $this->contrasena = $row['contrasena'];
             $this->rol_id = $row['rol_id'];
             $this->departamento_id = $row['departamento_id'];
             $this->token_recuperacion = $row['token_recuperacion'];
@@ -77,6 +78,7 @@ class Usuario {
         $query = "UPDATE " . $this->table_name . " 
                   SET 
                     correo = :correo, 
+                    contrasena = :contrasena,
                     rol_id = :rol_id, 
                     departamento_id = :departamento_id, 
                     token_recuperacion = :token_recuperacion, 
@@ -86,14 +88,16 @@ class Usuario {
         $stmt = $this->conn->prepare($query);
 
         $this->correo = htmlspecialchars(strip_tags($this->correo));
+        $this->contrasena = password_hash(htmlspecialchars(strip_tags($this->contrasena)), PASSWORD_DEFAULT);
         $this->rol_id = htmlspecialchars(strip_tags($this->rol_id));
         $this->departamento_id = htmlspecialchars(strip_tags($this->departamento_id));
-        $this->token_recuperacion = htmlspecialchars(strip_tags($this->token_recuperacion));
-        $this->fecha_expiracion_token = htmlspecialchars(strip_tags($this->fecha_expiracion_token));
+        $this->token_recuperacion = "Hola";
+        $this->fecha_expiracion_token = "04/07/2024";
         $this->activo = htmlspecialchars(strip_tags($this->activo));
         $this->id = htmlspecialchars(strip_tags($this->id));
 
         $stmt->bindParam(":correo", $this->correo);
+        $stmt->bindParam(":contrasena", $this->contrasena);
         $stmt->bindParam(":rol_id", $this->rol_id);
         $stmt->bindParam(":departamento_id", $this->departamento_id);
         $stmt->bindParam(":token_recuperacion", $this->token_recuperacion);
