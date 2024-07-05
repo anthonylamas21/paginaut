@@ -13,11 +13,7 @@ export class AgendaAdminComponent implements OnInit {
 
   eventos: Evento[] = [];
   selectedEvent: any = null;
-  
-  COLOR_PALETTE = [
-    '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8',
-    '#F06292', '#AED581', '#FFD54F', '#7986CB', '#9575CD'
-  ];
+  baseImageUrl = 'http://localhost/paginaut/';
 
   renderEventContent = (eventInfo: any) => {
     const backgroundColor = eventInfo.event.backgroundColor || '#043D3D' ; // Color por defecto de FullCalendar
@@ -26,8 +22,7 @@ export class AgendaAdminComponent implements OnInit {
         <div class="text-white pl-4 rounded-lg bg-[${backgroundColor}]">
           <b>${eventInfo.timeText}</b>
           <i>${eventInfo.event.title}</i>
-          <br>
-          <small>${eventInfo.event.extendedProps.lugar}</small>
+          
         </div>
       `
     };
@@ -42,6 +37,7 @@ export class AgendaAdminComponent implements OnInit {
       fecha_fin: clickInfo.event.extendedProps.fecha_fin,
       hora_inicio: clickInfo.event.extendedProps.hora_inicio,
       hora_fin: clickInfo.event.extendedProps.hora_fin,
+      imagen_principal: clickInfo.event.extendedProps.imagen_principal,
       imagenes_generales: clickInfo.event.extendedProps.imagenes_generales
     };
     this.openModal();
@@ -106,34 +102,36 @@ export class AgendaAdminComponent implements OnInit {
 
   updateCalendarEvents(): void {
     const eventsByDay: { [key: string]: any[] } = {};
-  
+    
     const calendarEvents = this.eventos.map(evento => {
-      const startDate = evento.fecha_inicio.split(' ')[0];
+      const startDate = evento.fecha_inicio.split(' ')[0]; // Extrae solo la fecha
+      const EndDate = evento.fecha_fin.split(' ')[0];
+
       if (!eventsByDay[startDate]) {
         eventsByDay[startDate] = [];
       }
+      if (!eventsByDay[EndDate]) {
+        eventsByDay[EndDate] = [];
+      }
       eventsByDay[startDate].push(evento);
-  
+    
       return {
         title: evento.titulo,
         start: `${startDate}T${evento.hora_inicio}`,
         end: `${evento.fecha_fin.split(' ')[0]}T${evento.hora_fin}`,
         extendedProps: {
           informacion: evento.informacion_evento,
-          lugar: evento.lugar_evento
+          lugar: evento.lugar_evento,
+          fecha_inicio: startDate, // Asigna solo la fecha aquí
+          fecha_fin: EndDate,
+          hora_inicio: evento.hora_inicio,
+          hora_fin: evento.hora_fin,
+          imagen_principal: this.baseImageUrl+evento.imagen_principal,
+          imagenes_generales: evento.imagenes_generales
         }
       };
     });
-  
-    // Asignar colores
-    Object.values(eventsByDay).forEach(dayEvents => {
-      const dayColors = [...this.COLOR_PALETTE];
-      dayEvents.forEach((event: any) => {
-        const colorIndex = Math.floor(Math.random() * dayColors.length);
-        event.backgroundColor = dayColors.splice(colorIndex, 1)[0];
-      });
-    });
-  
+    
     this.calendarOptions.events = calendarEvents;
   }
 }

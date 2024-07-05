@@ -20,33 +20,30 @@
           </button>
         </div>
         <div class="p-4 overflow-y-auto" *ngIf="selectedEvent">
-          <h4 class="text-black font-bold">{{ selectedEvent.titulo }}</h4>
-          <p class="mt-1 text-black font-extralight">
-            {{ selectedEvent.informacion_evento }}
-          </p>
-          <p class="mt-1 text-black font-extralight">
-            <span class="font-bold">Lugar:</span> {{ selectedEvent.lugar_evento }}
-          </p>
-          <p class="mt-1 text-black font-extralight">
-            <span class="font-bold">Fecha de inicio:</span> {{ selectedEvent.fecha_inicio }}
-          </p>
-          <p class="mt-1 text-black font-extralight">
-            <span class="font-bold">Fecha de fin:</span> {{ selectedEvent.fecha_fin }}
-          </p>
-          <p class="mt-1 text-black font-extralight">
-            <span class="font-bold">Hora de inicio:</span> {{ selectedEvent.hora_inicio }}
-          </p>
-          <p class="mt-1 text-black font-extralight">
-            <span class="font-bold">Hora de fin:</span> {{ selectedEvent.hora_fin }}
-          </p>
-          <div class="mt-4">
-            <span class="font-bold">Imágenes:</span>
-            <ul class="list-disc list-inside">
-              <li *ngFor="let imagen of selectedEvent.imagenes_generales">
-                <img src="{{ imagen }}" class="w-32 h-auto rounded-lg shadow-sm mt-2" alt="Imagen del evento">
-              </li>
-            </ul>
+            <span class="font-bold">Titulo del evento: </span><h4 class="text-black indent-8 mb-2">{{ selectedEvent.title }}</h4>
+          
+          <span class="font-bold">Imagen principal: </span>
+          <div class="flex justify-center border-dashed border-2 border-gray-200">
+            <img [src]="selectedEvent.imagen_principal" class="w-1/2 h-auto" alt="Imagen del evento">
           </div>
+
+          
+          <p class="mt-1 text-black font-extralight mb-2">
+            <span class="font-bold">Descripción: </span>{{ selectedEvent.informacion_evento }}
+          </p>
+          <p class="mt-1 text-black font-extralight mb-2">
+            <span class="font-bold">Lugar: </span> {{ selectedEvent.lugar_evento }}
+          </p>
+          <p class="mt-1 text-black font-extralight mb-2">
+            <span class="font-bold">Fecha: </span> {{ selectedEvent.fecha_inicio }} - {{ selectedEvent.fecha_fin }}    
+          </p>
+          
+          <p class="mt-1 text-black font-extralight mb-2">
+            Hora de inicio: {{ selectedEvent.hora_inicio }}
+          </p>
+          <p class="mt-1 text-black font-extralight mb-2">
+            Hora de fin: {{ selectedEvent.hora_fin }}
+          </p>
         </div>
       </div>
     </div>
