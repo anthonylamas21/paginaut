@@ -9,36 +9,27 @@ class TooltipManager {
     button: HTMLElement,
     tooltip: HTMLElement
   ): void {
-    // Obtener dimensiones del botón y del tooltip
     const buttonRect = button.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
 
-    // Obtener dimensiones de la ventana
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
 
-    // Calcular la posición preferida del tooltip
     const preferredLeft =
       buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
-    const preferredTop = buttonRect.top - tooltipRect.height - 10; // Espacio entre el botón y el tooltip
+    const preferredTop = buttonRect.top - tooltipRect.height - 10;
 
-    // Ajustar la posición si se sale de la pantalla hacia la izquierda
     let left = Math.max(preferredLeft, 0);
-
-    // Ajustar la posición si se sale de la pantalla hacia arriba
     let top = Math.max(preferredTop, 0);
 
-    // Ajustar la posición si el tooltip se sale de la pantalla hacia la derecha
     if (left + tooltipRect.width > windowWidth) {
       left = windowWidth - tooltipRect.width;
     }
 
-    // Ajustar la posición si el tooltip se sale de la pantalla hacia abajo
     if (top + tooltipRect.height > windowHeight) {
       top = windowHeight - tooltipRect.height;
     }
 
-    // Aplicar posición al tooltip
     tooltip.style.position = 'fixed';
     tooltip.style.top = `${top}px`;
     tooltip.style.left = `${left}px`;
@@ -76,11 +67,18 @@ export class AgregarCalendarioComponent implements OnInit {
     this.calendarioForm = this.fb.group({
       titulo: ['', [Validators.required, Validators.maxLength(50)]],
       archivo: [''],
+      anio: [
+        '',
+        [Validators.required, Validators.minLength(4), Validators.maxLength(4)],
+      ],
     });
   }
 
   ngOnInit() {
     this.loadCalendarios();
+    this.calendarioForm.get('anio')?.valueChanges.subscribe(() => {
+      this.updateTitulo();
+    });
   }
 
   onSubmit() {
@@ -154,6 +152,7 @@ export class AgregarCalendarioComponent implements OnInit {
       this.currentFileName = calendario.archivo;
       this.calendarioForm.patchValue({
         titulo: calendario.titulo,
+        anio: calendario.titulo.split(' ').pop(),
       });
     } else {
       this.resetForm();
@@ -346,10 +345,18 @@ export class AgregarCalendarioComponent implements OnInit {
       }
     });
   }
+
   updateTitulo() {
     const anio = this.calendarioForm.get('anio')?.value;
     if (anio) {
       this.calendarioForm.patchValue({ titulo: `Calendario Escolar ${anio}` });
+    }
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    const regex = /^[0-9]*$/;
+    if (!regex.test(event.key) && event.key !== 'Backspace') {
+      event.preventDefault();
     }
   }
 }

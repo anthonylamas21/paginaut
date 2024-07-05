@@ -56,31 +56,33 @@
         <form [formGroup]="calendarioForm" (ngSubmit)="onSubmit()">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="col-span-2 md:col-span-1">
-              <label for="titulo" class="text-black text-base">Título:</label>
+              <label for="anio" class="text-black text-base">Año:</label>
               <input
                 type="text"
-                id="titulo"
-                formControlName="titulo"
+                id="anio"
+                formControlName="anio"
                 class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
-                placeholder="Título"
-                maxlength="50"
+                placeholder="Año"
+                maxlength="4"
                 required
+                (keydown)="onKeyDown($event)"
               />
               <div
                 *ngIf="
-                  calendarioForm.get('titulo')?.invalid &&
-                  (calendarioForm.get('titulo')?.dirty ||
-                    calendarioForm.get('titulo')?.touched)
+                  calendarioForm.get('anio')?.invalid &&
+                  (calendarioForm.get('anio')?.dirty ||
+                    calendarioForm.get('anio')?.touched)
                 "
                 class="alert alert-danger"
               >
-                <div *ngIf="calendarioForm.get('titulo')?.errors?.['required']">
-                  El título es requerido.
+                <div *ngIf="calendarioForm.get('anio')?.errors?.['required']">
+                  El año es requerido.
                 </div>
-                <div
-                  *ngIf="calendarioForm.get('titulo')?.errors?.['maxlength']"
-                >
-                  El título no puede tener más de 50 caracteres.
+                <div *ngIf="calendarioForm.get('anio')?.errors?.['minlength']">
+                  El año debe tener 4 dígitos.
+                </div>
+                <div *ngIf="calendarioForm.get('anio')?.errors?.['maxlength']">
+                  El año no puede tener más de 4 dígitos.
                 </div>
               </div>
             </div>
@@ -93,10 +95,8 @@
                 id="archivo"
                 (change)="onFileChange($event)"
                 class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
-                accept=".pdf"
                 required
               />
-
               <div
                 *ngIf="
                   calendarioForm.get('archivo')?.invalid &&
@@ -109,6 +109,11 @@
                   *ngIf="calendarioForm.get('archivo')?.errors?.['required']"
                 >
                   El archivo es requerido.
+                </div>
+                <div
+                  *ngIf="calendarioForm.get('archivo')?.errors?.['invalidFileType']"
+                >
+                  Solo se permiten archivos PDF.
                 </div>
               </div>
             </div>

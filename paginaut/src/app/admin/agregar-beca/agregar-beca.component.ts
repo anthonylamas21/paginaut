@@ -8,36 +8,25 @@ class TooltipManager {
     button: HTMLElement,
     tooltip: HTMLElement
   ): void {
-    // Obtener dimensiones del botón y del tooltip
     const buttonRect = button.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
-
-    // Obtener dimensiones de la ventana
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
-
-    // Calcular la posición preferida del tooltip
     const preferredLeft =
       buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
-    const preferredTop = buttonRect.top - tooltipRect.height - 10; // Espacio entre el botón y el tooltip
+    const preferredTop = buttonRect.top - tooltipRect.height - 10;
 
-    // Ajustar la posición si se sale de la pantalla hacia la izquierda
     let left = Math.max(preferredLeft, 0);
-
-    // Ajustar la posición si se sale de la pantalla hacia arriba
     let top = Math.max(preferredTop, 0);
 
-    // Ajustar la posición si el tooltip se sale de la pantalla hacia la derecha
     if (left + tooltipRect.width > windowWidth) {
       left = windowWidth - tooltipRect.width;
     }
 
-    // Ajustar la posición si el tooltip se sale de la pantalla hacia abajo
     if (top + tooltipRect.height > windowHeight) {
       top = windowHeight - tooltipRect.height;
     }
 
-    // Aplicar posición al tooltip
     tooltip.style.position = 'fixed';
     tooltip.style.top = `${top}px`;
     tooltip.style.left = `${left}px`;
@@ -130,6 +119,13 @@ export class AgregarBecaComponent implements OnInit {
     }
   }
 
+  validateInput(event: KeyboardEvent) {
+    const allowedKeys = /^[a-zA-Z0-9\s]*$/;
+    if (!allowedKeys.test(event.key)) {
+      event.preventDefault();
+    }
+  }
+
   resetForm() {
     this.becaForm.reset();
     this.errorMessage = '';
@@ -172,19 +168,24 @@ export class AgregarBecaComponent implements OnInit {
   }
 
   moveToTrash(id: number) {
-    const becaToUpdate = this.becas.find((beca) => beca.id === id);
-    if (becaToUpdate) {
-      becaToUpdate.activo = false;
-      this.becaService.updateBecaStatus(becaToUpdate.id!, false).subscribe({
-        next: (response: any) => {
-          this.showToast('success', 'Beca movida a la papelera correctamente');
-          this.loadBecas();
-        },
-        error: (error: any) => {
-          this.showToast('error', error.message);
-        },
-      });
-    }
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres mover esta beca a la papelera?',
+      () => {
+        this.becaService.updateBecaStatus(id, false).subscribe({
+          next: (response: any) => {
+            this.showToast(
+              'success',
+              'Beca movida a la papelera correctamente'
+            );
+            this.loadBecas();
+          },
+          error: (error: any) => {
+            this.showToast('error', error.message);
+          },
+        });
+      }
+    );
   }
 
   activateBeca(id: number) {
@@ -258,28 +259,37 @@ export class AgregarBecaComponent implements OnInit {
     );
   }
 
+  mostrar(elemento: any): void {
+    if (elemento.tagName.toLowerCase() === 'button') {
+      const tooltipElement = elemento.querySelector('.hs-tooltip');
+      if (tooltipElement) {
+        tooltipElement.classList.toggle('show');
+        const tooltipContent = tooltipElement.querySelector(
+          '.hs-tooltip-content'
+        );
+        if (tooltipContent) {
+          tooltipContent.classList.toggle('hidden');
+          tooltipContent.classList.toggle('invisible');
+          tooltipContent.classList.toggle('visible');
+          TooltipManager.adjustTooltipPosition(elemento, tooltipContent);
+        }
+      }
+    }
+  }
+
   private showToast(
     icon: 'success' | 'warning' | 'error' | 'info' | 'question',
     title: string
   ): void {
-    const iconColors = {
-      success: '#008779',
-      warning: '#FD9B63',
-      error: '#EF4444',
-      info: '#3ABEF9',
-      question: '#5A72A0',
-    };
-
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
-      iconColor: iconColors[icon],
       showConfirmButton: false,
       timer: 3000,
       timerProgressBar: true,
       didOpen: (toast) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
       },
     });
 
@@ -298,48 +308,15 @@ export class AgregarBecaComponent implements OnInit {
       title: title,
       text: text,
       icon: 'warning',
-      iconColor: '#FD9B63',
       showCancelButton: true,
-      confirmButtonColor: '#EF4444',
-      cancelButtonColor: '#E5E7EB',
-      confirmButtonText: 'Sí, continuar',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, confirmar',
       cancelButtonText: 'Cancelar',
-      reverseButtons: true,
-      focusCancel: true,
-      didOpen: () => {
-        const confirmButton = Swal.getConfirmButton();
-        if (confirmButton) {
-          confirmButton.style.color = 'white';
-        }
-        const cancelButton = Swal.getCancelButton();
-        if (cancelButton) {
-          cancelButton.style.color = 'black';
-        }
-      },
     }).then((result) => {
       if (result.isConfirmed) {
         onConfirm();
       }
     });
-  }
-
-  mostrar(elemento: any): void {
-    // Verifica si el elemento recibido es un botón
-    if (elemento.tagName.toLowerCase() === 'button') {
-      const tooltipElement = elemento.querySelector('.hs-tooltip');
-      if (tooltipElement) {
-        tooltipElement.classList.toggle('show');
-        const tooltipContent = tooltipElement.querySelector(
-          '.hs-tooltip-content'
-        );
-        if (tooltipContent) {
-          tooltipContent.classList.toggle('hidden');
-          tooltipContent.classList.toggle('invisible');
-          tooltipContent.classList.toggle('visible');
-          // Ajustar la posición del tooltip
-          TooltipManager.adjustTooltipPosition(elemento, tooltipContent);
-        }
-      }
-    }
   }
 }
