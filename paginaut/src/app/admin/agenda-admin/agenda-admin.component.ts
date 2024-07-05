@@ -20,7 +20,7 @@ export class AgendaAdminComponent implements OnInit {
     const backgroundColor = eventInfo.event.backgroundColor || '#043D3D' ; // Color por defecto de FullCalendar
     return { 
       html: `
-        <div class="text-white pl-4 rounded-lg bg-[${backgroundColor}]">
+        <div class="text-white pl-4 bg-[${backgroundColor}]">
           <b>${eventInfo.timeText}</b>
           <i>${eventInfo.event.title}</i>
           
@@ -75,7 +75,7 @@ export class AgendaAdminComponent implements OnInit {
     initialView: 'dayGridMonth',
     locale: esLocale,
     headerToolbar: {
-      left: 'prev,next today',
+      left: 'prev,next today',  
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay'
     },

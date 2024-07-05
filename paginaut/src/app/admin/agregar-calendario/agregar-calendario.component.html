@@ -6,7 +6,7 @@
   <h2
     class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4"
   >
-    Eventos
+    Calendario
   </h2>
 </div>
 
@@ -93,8 +93,10 @@
                 id="archivo"
                 (change)="onFileChange($event)"
                 class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+                accept=".pdf"
                 required
               />
+
               <div
                 *ngIf="
                   calendarioForm.get('archivo')?.invalid &&
