@@ -14,11 +14,29 @@ export interface Usuario {
   fecha_creacion?: string;
 }
 
+export interface Rol {
+  id?: number;
+  nombre?: string;
+  activo?: boolean;
+  fecha_creacion?: string;
+}
+
+export interface Departamento{
+  id?: number;
+  nombre: string;
+  activo?: boolean;
+  fecha_creacion?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
   private apiUrl = 'http://localhost/paginaut/api/usuario.php';
+
+  private apiUrlRol = 'http://localhost/paginaut/api/rol.php';
+
+  private apiUrlDep = 'http://localhost/paginaut/api/departamento.php';
 
   constructor(private clientService: HttpClient) { }
 
@@ -31,6 +49,28 @@ export class UsuarioService {
   obtenerUsuarios(): Observable<any> {
     return this.clientService.get<any>(this.apiUrl).pipe(
       catchError(this.handleError));
+  }
+
+  obtenerRoles(): Observable<any> {
+    return this.clientService.get<any>(this.apiUrlRol).pipe(
+      catchError(this.handleError));
+  }
+
+  obtenerRol(rol_id: number): Observable<Usuario> {
+    return this.clientService
+      .get<Usuario>(`${this.apiUrlRol}?id=${rol_id}`).pipe(
+        catchError(this.handleError));
+  }
+
+  obtenerDepartamentos(): Observable<any> {
+    return this.clientService.get<any>(this.apiUrlDep).pipe(
+      catchError(this.handleError));
+  }
+  
+  obtenerDepartamento(departamento_id: number): Observable<Usuario> {
+    return this.clientService
+      .get<Usuario>(`${this.apiUrlDep}?id=${departamento_id}`).pipe(
+        catchError(this.handleError));
   }
 
   obtenerUsuario(id: number): Observable<Usuario> {

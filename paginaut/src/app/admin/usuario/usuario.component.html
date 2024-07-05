@@ -93,13 +93,15 @@
             </div>
 
             <div class="form-group">
-              <label for="rol_id">Rol ID:</label>
-              <input
-                type="number"
+              <label for="rol_id">Rol:</label>
+              <select
                 id="rol_id"
                 formControlName="rol_id"
                 class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900"
-              />
+              >
+                <option value="" disabled selected>Seleccione un rol</option>
+                <option *ngFor="let rol of roles" [value]="rol.id">{{ rol.nombre }}</option>
+              </select>
               <div
                 *ngIf="
                   usuarioForm.get('rol_id')?.invalid &&
@@ -115,13 +117,15 @@
             </div>
 
             <div class="form-group">
-              <label for="departamento_id">Departamento ID:</label>
-              <input
-                type="number"
+              <label for="departamento_id">Departamento:</label>
+              <select
                 id="departamento_id"
                 formControlName="departamento_id"
                 class="block w-full border-2 border-[#E5E7EB] rounded-md py-2 pl-3 pr-3 text-gray-900"
-              />
+              >
+                <option value="" disabled selected>Seleccione un departamento</option>
+                <option *ngFor="let departamento of departamentos" [value]="departamento.id">{{ departamento.nombre }}</option>
+              </select>
               <div
                 *ngIf="
                   usuarioForm.get('departamento_id')?.invalid &&
@@ -301,6 +305,26 @@
                         <th
                           scope="col"
                           class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                          pSortableColumn="fecha_creacion"
+                        >
+                          <div class="flex">
+                            Rol
+                            <p-sortIcon field="fecha_creacion"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                          pSortableColumn="fecha_creacion"
+                        >
+                          <div class="flex">
+                            Departamento
+                            <p-sortIcon field="fecha_creacion"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
                         >
                           <div class="flex">Acciones</div>
                         </th>
@@ -313,6 +337,12 @@
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
                           {{ usuario.fecha_creacion }}
+                        </td>
+                        <td class="px-3 py-2 text-sm text-black">
+                          {{ usuario.rol_id}}
+                        </td>
+                        <td class="px-3 py-2 text-sm text-black">
+                          {{ usuario.departamento_id }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
                           <div class="flex items-center space-x-3.5">

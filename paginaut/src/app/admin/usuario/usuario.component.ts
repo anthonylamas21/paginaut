@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UsuarioService, Usuario } from '../../usuarioService/usuario.service';
+import { UsuarioService, Usuario, Departamento, Rol } from '../../usuarioService/usuario.service';
 
 @Component({
   selector: 'app-usuario',
@@ -13,10 +13,13 @@ export class UsuarioComponent implements OnInit {
   successMessage: string = '';
   isModalOpen: boolean = false;
   usuarios: Usuario[] = [];
+  roles: Rol[] = [];
+  departamentos: Departamento[] = [];
   filteredUsuarios: Usuario[] = [];
   papeleraUsuarios: Usuario[] = [];
   currentUsuarioId?: number;
   currentTab: 'active' | 'inactive' = 'active';
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -32,6 +35,8 @@ export class UsuarioComponent implements OnInit {
 
   ngOnInit() {
     this.loadUsuarios();
+    this.loadRoles();
+    this.loadDepartamentos();
   }
 
   onSubmit() {
@@ -93,6 +98,36 @@ export class UsuarioComponent implements OnInit {
 
   closeModal() {
     this.isModalOpen = false;
+  }
+
+  loadRoles() {
+    this.isLoading = true;
+    this.usuarioService.obtenerRoles().subscribe({
+      next: (response: any) => {
+        this.roles = response.records;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error al cargar los roles', error);
+        this.errorMessage = error.message;
+        this.isLoading = false;
+      },
+    });
+  }
+
+  loadDepartamentos() {
+    this.isLoading = true;
+    this.usuarioService.obtenerDepartamentos().subscribe({
+      next: (response: any) => {
+        this.departamentos = response.records;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error al cargar los roles', error);
+        this.errorMessage = error.message;
+        this.isLoading = false;
+      },
+    });
   }
 
   loadUsuarios() {

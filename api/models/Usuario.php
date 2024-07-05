@@ -55,7 +55,7 @@ class Usuario {
     }
 
     function readOne() {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE id = ?";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = ? LIMIT 1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $this->id);
         $stmt->execute();
