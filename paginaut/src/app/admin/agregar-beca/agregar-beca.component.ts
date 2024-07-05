@@ -90,34 +90,33 @@ export class AgregarBecaComponent implements OnInit {
         formData.append('id', this.currentBecaId.toString());
         this.becaService.updateBeca(formData).subscribe({
           next: (response: any) => {
-            console.log('Beca actualizada con éxito', response);
-            this.successMessage = 'Beca actualizada correctamente';
+            this.showToast('success', 'Beca actualizada correctamente');
             this.loadBecas();
             this.resetForm();
             this.closeModal();
           },
           error: (error: any) => {
-            console.error('Error al actualizar la beca', error);
-            this.errorMessage = error.message;
+            this.showToast('error', error.message);
           },
         });
       } else {
         this.becaService.addBeca(formData).subscribe({
           next: (response: any) => {
-            console.log('Beca agregada con éxito', response);
-            this.successMessage = 'Beca agregada correctamente';
+            this.showToast('success', 'Beca agregada correctamente');
             this.loadBecas();
             this.resetForm();
             this.closeModal();
           },
           error: (error: any) => {
-            console.error('Error al agregar la beca', error);
-            this.errorMessage = error.message;
+            this.showToast('error', error.message);
           },
         });
       }
     } else {
-      this.errorMessage = 'Por favor, completa todos los campos requeridos.';
+      this.showToast(
+        'warning',
+        'Por favor, completa todos los campos requeridos.'
+      );
     }
   }
 
@@ -164,63 +163,46 @@ export class AgregarBecaComponent implements OnInit {
         this.filterBecas();
       },
       error: (error: any) => {
-        console.error('Error al cargar las becas', error);
-        this.errorMessage = error.message;
+        this.showToast('error', error.message);
       },
     });
   }
 
   moveToTrash(id: number) {
-    this.showConfirmDialog(
-      '¿Estás seguro?',
-      '¿Quieres mover esta beca a la papelera? Esta acción no se puede deshacer.',
-      () => {
-        const becaToUpdate = this.becas.find((beca) => beca.id === id);
-        if (becaToUpdate) {
-          becaToUpdate.activo = false;
-          this.becaService.updateBecaStatus(becaToUpdate.id!, false).subscribe({
-            next: (response: any) => {
-              console.log('Beca movida a la papelera con éxito', response);
-              this.successMessage = 'Beca movida a la papelera correctamente';
-              this.loadBecas();
-            },
-            error: (error: any) => {
-              console.error('Error al mover la beca a la papelera', error);
-              this.errorMessage = error.message;
-            },
-          });
-        }
-      }
-    );
+    const becaToUpdate = this.becas.find((beca) => beca.id === id);
+    if (becaToUpdate) {
+      becaToUpdate.activo = false;
+      this.becaService.updateBecaStatus(becaToUpdate.id!, false).subscribe({
+        next: (response: any) => {
+          this.showToast('success', 'Beca movida a la papelera correctamente');
+          this.loadBecas();
+        },
+        error: (error: any) => {
+          this.showToast('error', error.message);
+        },
+      });
+    }
   }
 
   activateBeca(id: number) {
-    this.showConfirmDialog(
-      '¿Estás seguro?',
-      '¿Quieres activar esta beca? Será visible para los usuarios.',
-      () => {
-        const becaToUpdate = this.becas.find((beca) => beca.id === id);
-        if (becaToUpdate) {
-          becaToUpdate.activo = true;
-          const formData: FormData = new FormData();
-          formData.append('id', becaToUpdate.id!.toString());
-          formData.append('nombre', becaToUpdate.nombre);
-          formData.append('descripcion', becaToUpdate.descripcion);
-          formData.append('activo', 'true');
-          this.becaService.updateBeca(formData).subscribe({
-            next: (response: any) => {
-              console.log('Beca activada con éxito', response);
-              this.successMessage = 'Beca activada correctamente';
-              this.loadBecas();
-            },
-            error: (error: any) => {
-              console.error('Error al activar la beca', error);
-              this.errorMessage = error.message;
-            },
-          });
-        }
-      }
-    );
+    const becaToUpdate = this.becas.find((beca) => beca.id === id);
+    if (becaToUpdate) {
+      becaToUpdate.activo = true;
+      const formData: FormData = new FormData();
+      formData.append('id', becaToUpdate.id!.toString());
+      formData.append('nombre', becaToUpdate.nombre);
+      formData.append('descripcion', becaToUpdate.descripcion);
+      formData.append('activo', 'true');
+      this.becaService.updateBeca(formData).subscribe({
+        next: (response: any) => {
+          this.showToast('success', 'Beca activada correctamente');
+          this.loadBecas();
+        },
+        error: (error: any) => {
+          this.showToast('error', error.message);
+        },
+      });
+    }
   }
 
   switchTab(tab: 'active' | 'inactive') {
@@ -262,37 +244,15 @@ export class AgregarBecaComponent implements OnInit {
       () => {
         this.becaService.deleteBeca(id).subscribe({
           next: (response: any) => {
-            console.log('Beca eliminada con éxito', response);
-            this.successMessage = 'Beca eliminada correctamente';
+            this.showToast('success', 'Beca eliminada correctamente');
             this.loadBecas();
           },
           error: (error: any) => {
-            console.error('Error al eliminar la beca', error);
-            this.errorMessage = error.message;
+            this.showToast('error', error.message);
           },
         });
       }
     );
-  }
-
-  mostrar(elemento: any): void {
-    // Verifica si el elemento recibido es un botón
-    if (elemento.tagName.toLowerCase() === 'button') {
-      const tooltipElement = elemento.querySelector('.hs-tooltip');
-      if (tooltipElement) {
-        tooltipElement.classList.toggle('show');
-        const tooltipContent = tooltipElement.querySelector(
-          '.hs-tooltip-content'
-        );
-        if (tooltipContent) {
-          tooltipContent.classList.toggle('hidden');
-          tooltipContent.classList.toggle('invisible');
-          tooltipContent.classList.toggle('visible');
-          // Ajustar la posición del tooltip
-          TooltipManager.adjustTooltipPosition(elemento, tooltipContent);
-        }
-      }
-    }
   }
 
   private showToast(
@@ -358,5 +318,25 @@ export class AgregarBecaComponent implements OnInit {
         onConfirm();
       }
     });
+  }
+
+  mostrar(elemento: any): void {
+    // Verifica si el elemento recibido es un botón
+    if (elemento.tagName.toLowerCase() === 'button') {
+      const tooltipElement = elemento.querySelector('.hs-tooltip');
+      if (tooltipElement) {
+        tooltipElement.classList.toggle('show');
+        const tooltipContent = tooltipElement.querySelector(
+          '.hs-tooltip-content'
+        );
+        if (tooltipContent) {
+          tooltipContent.classList.toggle('hidden');
+          tooltipContent.classList.toggle('invisible');
+          tooltipContent.classList.toggle('visible');
+          // Ajustar la posición del tooltip
+          TooltipManager.adjustTooltipPosition(elemento, tooltipContent);
+        }
+      }
+    }
   }
 }
