@@ -91,6 +91,7 @@ import { DibujoComponent } from './info-horas-recreativas/dibujo/dibujo.componen
 import { DanzaComponent } from './info-horas-recreativas/danza/danza.component';
 import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.component';
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
+import { TallerComponent } from './taller/taller.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +122,7 @@ import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.compo
     GaleriaComponent,
     RedesSocialesComponent,
     TalleresComponent,
+    TallerComponent,
     // Rutas de administrador
     NavbarAdminComponent,
     PrincipalAdminComponent,
