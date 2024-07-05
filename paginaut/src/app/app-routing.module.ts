@@ -33,7 +33,7 @@ import { GaleriaComponent } from './galeria/galeria.component';
 import { EventoComponent } from './admin/evento/evento.component';
 import { NoticiaComponent } from './admin/noticia/noticia.component';
 import { NoticiasComponent } from './noticias/noticias.component';
-
+import { PiedraEstanqueComponent } from './piedra-estanque/piedra-estanque.component';
 
 // Rutas Administrador
 import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
@@ -85,6 +85,7 @@ const routes: Routes = [
   { path: 'calendario', component: CalendarioComponent },
   { path: 'taller', component: TallerComponent },
   { path: 'direccion', component: AgregarDireccionComponent },
+  {path: 'piedra_estanque', component: PiedraEstanqueComponent },
 
   //Rutas
   {path: 'principal', component: PrincipalComponent },

@@ -93,8 +93,12 @@ import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.co
 import { NoticiasComponent } from './noticias/noticias.component';
 import { NoticiaComponent } from './admin/noticia/noticia.component';
 import { InstalacionComponent } from './admin/instalacion/instalacion.component';
+<<<<<<< Updated upstream
 import { AgendaAdminComponent } from './admin/agenda-admin/agenda-admin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+=======
+import { PiedraEstanqueComponent } from './piedra-estanque/piedra-estanque.component';
+>>>>>>> Stashed changes
 
 
 
@@ -102,6 +106,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 @NgModule({
   declarations: [
     AppComponent,
+<<<<<<< Updated upstream
 PrincipalComponent,
 CarrerasComponent,
 NoticiaComponent,
@@ -171,6 +176,81 @@ InstalacionComponent,
 AgendaAdminComponent,
 NotFoundComponent,
 
+=======
+    PrincipalComponent,
+    CarrerasComponent,
+    NavbarComponent,
+    ComponentesComponent,
+    FooterComponent,
+    UnidadesAcademicasComponent,
+    EventosComponent,
+    BecasComponent,
+    LoginComponent,
+    InfoCarreraComponent,
+    CalendarioComponent,
+    CursosComponent,
+    InfoCursoComponent,
+    InfoUnidadesComponent,
+    FilosofiaComponent,
+    AdmisionComponent,
+    InfoBolsaComponent,
+    InfoEnfermeriaComponent,
+    UbicacionComponent,
+    PsicologiaComponent,
+    CorreoComponent,
+    AcercaDeComponent,
+    InfoBecaComponent,
+    GaleriaComponent,
+    CarrerasAdminComponent,
+    AgregarCalendarioComponent,
+    AgregarBecaComponent,
+    RedesSocialesComponent,
+    // Rutas de administrador
+    NavbarAdminComponent,
+    PrincipalAdminComponent,
+    RegistrarEventoComponent,
+    AgregarDireccionComponent,
+    TallerComponent,
+    CarrerasAdminComponent,
+    AgregarCalendarioComponent,
+    AgregarBecaComponent,
+    CursosAdminComponent,
+    DireccionesAdminComponent,
+    BecasAdminComponent,
+    CalendarioAdminComponent,
+    GaleriaAdminComponent,
+    UsuariosAdminComponent,
+    // Info Carreras
+    CarreraAgrobiotecnologiaComponent,
+    CarreraProcesosAlimentarioComponent,
+    CarreraAcuiculturaComponent,
+    CarreraTurismoComponent,
+    CarreraAdministracionComponent,
+    CarreraMercadotecniaComponent,
+    CarreraGastronomiaComponent,
+    CarreraContaduriaComponent,
+    CarreraDesarrolloSoftwareComponent,
+    // Info Horas Recreativas
+    FutbolComponent,
+    BeisbolComponent,
+    BasquetbolComponent,
+    VoleibolComponent,
+    ActivacionFisicaComponent,
+    DibujoComponent,
+    DanzaComponent,
+    LecturaComponent,
+    AjedrezComponent,
+    AcercaDeComponent,
+    InfoBecaComponent,
+    TalleresComponent,
+    RedesSocialesComponent,
+    GaleriaComponent,
+    EventoComponent,
+    NoticiasComponent,
+    NoticiaComponent,
+    InstalacionComponent,
+    PiedraEstanqueComponent,
+>>>>>>> Stashed changes
   ],
   imports: [
     BrowserModule,
