@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
       console.log(this.LoginForm.value);
       this.srvUsuario.IniciarSesion(formData).subscribe(
         res => {
-          console.log(res);
+          //console.log(res);
           console.log('Has iniciado sesión');
           
           localStorage.setItem('token', res.token);

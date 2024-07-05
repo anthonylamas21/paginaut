@@ -62,6 +62,9 @@ export class NavbarComponent  implements OnInit {
           console.log(res);
           console.log('Has cerrado sesión');
           localStorage.removeItem('token');
+            this.srvUsuario.EliminarToken(formData).subscribe(res=>{
+              //console.log("se elimono el token de la base de datos");
+            });
           this.token = null;
           window.location.href = "/principal"
         },
