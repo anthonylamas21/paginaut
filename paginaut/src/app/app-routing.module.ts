@@ -67,6 +67,7 @@ import { DibujoComponent } from './info-horas-recreativas/dibujo/dibujo.componen
 import { DanzaComponent } from './info-horas-recreativas/danza/danza.component';
 import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.component';
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
+import { AgendaAdminComponent } from './admin/agenda-admin/agenda-admin.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/principal', pathMatch: 'full' },
@@ -109,6 +110,29 @@ const routes: Routes = [
   {path: 'acerca_de', component: AcercaDeComponent},
   {path: 'info_becas', component:InfoBecaComponent},
   {path: 'galeria', component:GaleriaComponent},
+  {path: 'agenda-admin', component: AgendaAdminComponent},
+
+  // Info Carreras
+  { path: 'info_carreras/agrobiotecnologia', component: CarreraAgrobiotecnologiaComponent },
+  { path: 'info_carreras/procesos-alimentario', component: CarreraProcesosAlimentarioComponent },
+  { path: 'info_carreras/acuicultura', component: CarreraAcuiculturaComponent },
+  { path: 'info_carreras/turismo', component: CarreraTurismoComponent },
+  { path: 'info_carreras/administracion', component: CarreraAdministracionComponent },
+  { path: 'info_carreras/mercadotecnia', component: CarreraMercadotecniaComponent },
+  { path: 'info_carreras/gastronomia', component: CarreraGastronomiaComponent },
+  { path: 'info_carreras/contaduria', component: CarreraContaduriaComponent },
+  { path: 'info_carreras/desarrollo-software', component: CarreraDesarrolloSoftwareComponent },
+  
+  // Info Horas Recreativas
+  { path: 'futbol', component: FutbolComponent },
+  { path: 'beisbol', component: BeisbolComponent },
+  { path: 'basquetbol', component: BasquetbolComponent },
+  { path: 'voleibol', component: VoleibolComponent },
+  { path: 'activacion-fisica', component: ActivacionFisicaComponent },
+  { path: 'dibujo', component: DibujoComponent },
+  { path: 'danza', component: DanzaComponent },
+  { path: 'lectura', component: LecturaComponent },
+  { path: 'ajedrez', component: AjedrezComponent },
 
   //Rutas Adminstrador
   {path: 'admin/navbar_admin', component: NavbarAdminComponent},
@@ -127,6 +151,7 @@ const routes: Routes = [
   { path: 'noticia/:id', component: NoticiasComponent },
   { path: 'info-beca/:id', component: InfoBecaComponent },
   { path: 'info-unidades/:id', component: InfoUnidadesComponent },
+  { path: 'agenda-admin', component: AgendaAdminComponent },
 
   { path: 'registrar-evento', component: RegistrarEventoComponent },
   { path: 'admin/carreras', component: CarrerasAdminComponent }, // Nueva ruta para administrar carreras
