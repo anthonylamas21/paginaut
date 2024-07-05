@@ -12,6 +12,7 @@ import { EventoService, Evento } from '../../evento.service';
 export class AgendaAdminComponent implements OnInit {
 
   eventos: Evento[] = [];
+  selectedEvent: any = null;
   
   COLOR_PALETTE = [
     '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8',
@@ -19,10 +20,10 @@ export class AgendaAdminComponent implements OnInit {
   ];
 
   renderEventContent = (eventInfo: any) => {
-    const backgroundColor = eventInfo.event.backgroundColor || '#043D3D'; // Color por defecto de FullCalendar
+    const backgroundColor = eventInfo.event.backgroundColor || '#043D3D' ; // Color por defecto de FullCalendar
     return { 
       html: `
-        <div style="background-color: ${backgroundColor}; color: white; padding: 2px 5px; border-radius: 3px;">
+        <div class="text-white pl-4 rounded-lg bg-[${backgroundColor}]">
           <b>${eventInfo.timeText}</b>
           <i>${eventInfo.event.title}</i>
           <br>
@@ -32,12 +33,44 @@ export class AgendaAdminComponent implements OnInit {
     };
   }
 
-  
-
   handleEventClick = (clickInfo: any) => {
-    alert(`Evento: ${clickInfo.event.title}
-    Información: ${clickInfo.event.extendedProps.informacion}
-    Lugar: ${clickInfo.event.extendedProps.lugar}`);
+    this.selectedEvent = {
+      title: clickInfo.event.title,
+      informacion_evento: clickInfo.event.extendedProps.informacion,
+      lugar_evento: clickInfo.event.extendedProps.lugar,
+      fecha_inicio: clickInfo.event.extendedProps.fecha_inicio,
+      fecha_fin: clickInfo.event.extendedProps.fecha_fin,
+      hora_inicio: clickInfo.event.extendedProps.hora_inicio,
+      hora_fin: clickInfo.event.extendedProps.hora_fin,
+      imagenes_generales: clickInfo.event.extendedProps.imagenes_generales
+    };
+    this.openModal();
+  }
+
+  openModal(): void {
+    const modal = document.getElementById('hs-slide-down-animation-modal');
+    const closeButton = document.getElementById('close-modal-button');
+    //console.log("Intentando abrir modal");
+    if (modal && closeButton) {
+      modal.classList.remove('hidden');
+      modal.classList.add('hs-overlay-open', 'opacity-100', 'duration-500');
+      modal.classList.remove('opacity-0', 'ease-out');
+      closeButton.click();  // Simula un clic en el botón que abre el modal
+      //console.log("Modal abierto");
+    } else {
+      //console.error("No se pudo encontrar el modal o el botón de cierre");
+    }
+  }
+
+  closeModal(): void {
+    const modal = document.getElementById('hs-slide-down-animation-modal');
+    //console.log("Cerrando modal");
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('hs-overlay-open', 'opacity-100', 'duration-500');
+      modal.classList.add('opacity-0', 'ease-out');
+      //console.log("Modal cerrado");
+    }
   }
 
   calendarOptions: FullCalendar.CalendarOptions = {
@@ -64,6 +97,7 @@ export class AgendaAdminComponent implements OnInit {
     this.eventoService.obtenerEventos().subscribe({
       next: (response) => {
         this.eventos = response.records;
+        console.log(this.eventos);
         this.updateCalendarEvents();
       },
       error: (error) => console.error('Error al cargar eventos:', error)

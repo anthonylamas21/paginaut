@@ -68,6 +68,7 @@ import { DanzaComponent } from './info-horas-recreativas/danza/danza.component';
 import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.component';
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
 import { AgendaAdminComponent } from './admin/agenda-admin/agenda-admin.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/principal', pathMatch: 'full' },
@@ -124,15 +125,15 @@ const routes: Routes = [
   { path: 'info_carreras/desarrollo-software', component: CarreraDesarrolloSoftwareComponent },
   
   // Info Horas Recreativas
-  { path: 'futbol', component: FutbolComponent },
-  { path: 'beisbol', component: BeisbolComponent },
-  { path: 'basquetbol', component: BasquetbolComponent },
-  { path: 'voleibol', component: VoleibolComponent },
-  { path: 'activacion-fisica', component: ActivacionFisicaComponent },
-  { path: 'dibujo', component: DibujoComponent },
-  { path: 'danza', component: DanzaComponent },
-  { path: 'lectura', component: LecturaComponent },
-  { path: 'ajedrez', component: AjedrezComponent },
+  { path: 'info_horas_recreativas/futbol', component: FutbolComponent },
+  { path: 'info_horas_recreativas/beisbol', component: BeisbolComponent },
+  { path: 'info_horas_recreativas/basquetbol', component: BasquetbolComponent },
+  { path: 'info_horas_recreativas/voleibol', component: VoleibolComponent },
+  { path: 'info_horas_recreativas/activacion-fisica', component: ActivacionFisicaComponent },
+  { path: 'info_horas_recreativas/dibujo', component: DibujoComponent },
+  { path: 'info_horas_recreativas/danza', component: DanzaComponent },
+  { path: 'info_horas_recreativas/lectura', component: LecturaComponent },
+  { path: 'info_horas_recreativas/ajedrez', component: AjedrezComponent },
 
   //Rutas Adminstrador
   {path: 'admin/navbar_admin', component: NavbarAdminComponent},
