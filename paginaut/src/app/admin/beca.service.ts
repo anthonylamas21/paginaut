@@ -15,7 +15,6 @@ export interface BecaResponse {
   records: Beca[];
 }
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -40,7 +39,6 @@ export class BecaService {
       .get<Beca>(`${this.apiUrl}?id=${id}`)
       .pipe(catchError(this.handleError));
   }
-  
 
   updateBeca(beca: FormData): Observable<any> {
     return this.http

@@ -28,6 +28,11 @@
     <h2 class="text-xl font-semibold font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4">Becas</h2>
   </div>
 
+  <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+    <strong class="font-bold">Error!</strong>
+    <span class="block sm:inline">{{ error }}</span>
+  </div>
+
   <div class="flex justify-center">
     <div class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       <!--Skeleton-->
@@ -40,68 +45,21 @@
         <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">
           <div class="flex items-center justify-center">
             <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
-            <span class="text-white">Cargando...</span>
-          </div>
-        </a>
-      </div>
-      <div *ngIf="isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 animate-pulse">
-        <div class="h-8 bg-gray-300 rounded mb-3"></div>
-        <div class="h-3 bg-gray-300 rounded mb-2"></div>
-        <div class="h-3 bg-gray-300 rounded mb-2"></div>
-        <div class="h-3 bg-gray-300 rounded mb-2"></div>
-        <div class="h-3 bg-gray-300 rounded mb-4"></div>
-        <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">
-          <div class="flex items-center justify-center">
-            <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
-            <span class="text-white">Cargando...</span>
-          </div>
-        </a>
-      </div>
-      <div *ngIf="isLoading" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 animate-pulse">
-        <div class="h-8 bg-gray-300 rounded mb-3"></div>
-        <div class="h-3 bg-gray-300 rounded mb-2"></div>
-        <div class="h-3 bg-gray-300 rounded mb-2"></div>
-        <div class="h-3 bg-gray-300 rounded mb-2"></div>
-        <div class="h-3 bg-gray-300 rounded mb-4"></div>
-        <a href="/info_becas" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto">
-          <div class="flex items-center justify-center">
-            <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
-            <span class="text-white">Cargando...</span>
+            <span class="text-white">Loading...</span>
           </div>
         </a>
       </div>
       
       <!--Vista real-->
-      <ng-container *ngIf="!isLoading">
-        <ng-container *ngIf="becas && becas.length > 0; else noBecas">
-          <div *ngFor="let beca of becas" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5">
-            <p class="text-xl font-bold">{{ beca.nombre }}</p>
-            <p class="mt-2 text-black mb-4 hyphens-auto">
-              {{ beca.descripcion }}
-            </p>
-            <a (click)="verDetalleBeca(beca.id)" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto cursor-pointer">Ver más información 
-              <i class="fa-solid fa-eye"></i>
-            </a>
-          </div>
-        </ng-container>
-        
-        <ng-template #noBecas>
-          <div class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5">
-            <div *ngIf="isLoading" class="animate-pulse">
-              <div class="h-8 bg-gray-300 rounded mb-3"></div>
-              <div class="h-3 bg-gray-300 rounded mb-2"></div>
-              <div class="h-3 bg-gray-300 rounded mb-2"></div>
-              <div class="h-3 bg-gray-300 rounded mb-2"></div>
-            </div>
-            <ng-container *ngIf="!isLoading">
-              <p class="text-xl font-bold text-center">No hay becas disponibles</p>
-              <p class="mt-2 text-black mb-4 text-center">
-                En este momento no hay información sobre becas. Por favor, vuelve a consultar más tarde.
-              </p>
-            </ng-container>
-          </div>
-        </ng-template>
-      </ng-container>
+      <div *ngFor="let beca of becas" class="flex flex-col bg-white w-80 border border-gray-200 shadow-sm rounded-xl p-4 md:p-5">
+        <p class="text-xl font-bold">{{ beca.nombre }}</p>
+        <p class="mt-2 text-black mb-4 hyphens-auto">
+          {{ beca.descripcion }}
+        </p>
+        <a (click)="verDetalleBeca(beca.id)" class="w-full bg-[#043D3D] text-white text-center p-1 rounded-lg mt-auto cursor-pointer">Ver más información 
+          <i class="fa-solid fa-eye"></i>
+        </a>
+      </div>
     </div>
   </div>
 </div>

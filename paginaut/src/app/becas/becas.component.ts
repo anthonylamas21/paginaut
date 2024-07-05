@@ -26,16 +26,16 @@ export class BecasComponent implements OnInit {
     this.becaService.getBecas().subscribe({
       next: (response) => {
         if (response && Array.isArray(response.records)) {
-          this.becas = response.records;
+                    this.becas = response.records.filter(beca => beca.activo); // Filtrar becas activas
         } else {
-          console.error('La respuesta no tiene la estructura esperada:', response);
-          this.error = 'La respuesta del servidor no tiene el formato esperado.';
+                    console.error('La respuesta no tiene la estructura esperada:', response);
+                    this.error = 'La respuesta del servidor no tiene el formato esperado.';
         }
         this.isLoading = false;
       },
       error: (error) => {
-        console.error('Error al cargar becas:', error);
-        this.error = 'No se pudieron cargar las becas. Por favor, intente más tarde.';
+                console.error('Error al cargar becas:', error);
+                this.error = 'No se pudieron cargar las becas. Por favor, intente más tarde.';
         this.isLoading = false;
       }
     });
