@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { InstalacionService, Instalacion, InstalacionResponse } from '../instalacionService/instalacion.service';
 
@@ -7,7 +7,7 @@ import { InstalacionService, Instalacion, InstalacionResponse } from '../instala
   templateUrl: './info-unidades.component.html',
   styleUrls: ['./info-unidades.component.css']
 })
-export class InfoUnidadesComponent implements OnInit {
+export class InfoUnidadesComponent implements OnInit, AfterViewInit {
   isLoading = true;
   instalacion: Instalacion | null = null;
   groupedImages: { [key: string]: any[] } = {};
@@ -15,12 +15,21 @@ export class InfoUnidadesComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private instalacionService: InstalacionService
+    private instalacionService: InstalacionService,
+    private renderer: Renderer2,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.setNavbarColor();
     this.cargarInstalacion();
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.setNavbarColor();
+      this.isLoading = false;
+      this.cdRef.detectChanges();
+    }, 0);
   }
 
   cargarInstalacion(): void {
@@ -72,35 +81,31 @@ export class InfoUnidadesComponent implements OnInit {
     return dateB.getTime() - dateA.getTime();
   };
 
- 
-  @HostListener('window:scroll', [])
-  onWindowScroll(): void {
-    this.setNavbarColor();
-    
-  }
-
   private setNavbarColor(): void {
-    const button = document.getElementById('scrollTopButton');
     const navbar = document.getElementById('navbarAccion');
-    const inicioSection = document.getElementById('inicio');
-
-    if (inicioSection && navbar) {
-      const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
-
-      if (window.scrollY > inicioSectionBottom) {
-        button?.classList.remove('hidden');
-      } else {
-        button?.classList.add('hidden');
-      }
-      
-      navbar.classList.remove('bg-transparent');
-      navbar.classList.add('bg-[#043D3D]');
+    if (navbar) {
+      this.renderer.removeClass(navbar, 'bg-transparent');
+      this.renderer.addClass(navbar, 'bg-[#043D3D]');
+      this.renderer.setStyle(navbar, 'position', 'fixed');
+      this.renderer.setStyle(navbar, 'top', '0');
+      this.renderer.setStyle(navbar, 'left', '0');
+      this.renderer.setStyle(navbar, 'right', '0');
+      this.renderer.setStyle(navbar, 'z-index', '1000');
+    }
+    
+    const button = document.getElementById('scrollTopButton');
+    if (button) {
+      this.renderer.addClass(button, 'hidden');
     }
   }
   
   scrollToSection(sectionId: string): void {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
+
   openImageModal(image: { url: string, alt: string }): void {
     this.selectedImage = image;
   }
@@ -108,7 +113,4 @@ export class InfoUnidadesComponent implements OnInit {
   closeImageModal(): void {
     this.selectedImage = null;
   }
-  
-
-  
 }
