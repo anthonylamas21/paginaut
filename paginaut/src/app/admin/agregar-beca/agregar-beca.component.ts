@@ -158,6 +158,13 @@ export class AgregarBecaComponent implements OnInit {
     }
   }
 
+  validateInput(event: KeyboardEvent) {
+    const allowedKeys = /^[a-zA-Z0-9\s]*$/;
+    if (!allowedKeys.test(event.key)) {
+      event.preventDefault();
+    }
+  }
+
   resetForm() {
     this.becaForm.reset();
     this.errorMessage = '';

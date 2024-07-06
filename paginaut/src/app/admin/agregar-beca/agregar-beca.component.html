@@ -58,6 +58,7 @@
             placeholder="Nombre de la Beca"
             maxlength="50"
             required
+            (keypress)="validateInput($event)"
           />
           <p
             *ngIf="
@@ -89,6 +90,7 @@
             placeholder="Descripción de la beca"
             maxlength="100"
             required
+            (keypress)="validateInput($event)"
           />
           <p
             *ngIf="
@@ -513,179 +515,6 @@
                     </tr>
                   </ng-template>
                 </p-table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        id="tabs-with-icons-2"
-        class="hidden"
-        role="tabpanel"
-        aria-labelledby="tabs-with-icons-item-2"
-      >
-        <div class="min-h-60 flex flex-col bg-white rounded-xl">
-          <div class="flex flex-col mb-5">
-            <div class="-m-1.5 overflow-x-auto">
-              <div class="p-1.5 min-w-full inline-block align-middle">
-                <div class="border rounded-lg overflow-hidden my-2">
-                  <p-table
-                    #dt
-                    [value]="papeleraBecas"
-                    [paginator]="true"
-                    [rows]="5"
-                    currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
-                    [showCurrentPageReport]="true"
-                    [globalFilterFields]="[
-                      'nombre',
-                      'descripcion',
-                      'fecha_creacion'
-                    ]"
-                    [tableStyleClass]="'min-w-full divide-y'"
-                    [resizableColumns]="true"
-                  >
-                    <ng-template pTemplate="header">
-                      <tr
-                        class="divide-x divide-gray-200 bg-table-header-color rounded-lg"
-                      >
-                        <th
-                          scope="col"
-                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                          pSortableColumn="nombre"
-                        >
-                          <div class="flex">
-                            Nombre de la beca
-                            <p-sortIcon field="nombre"></p-sortIcon>
-                          </div>
-                        </th>
-                        <th
-                          scope="col"
-                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                          pSortableColumn="descripcion"
-                        >
-                          <div class="flex">
-                            Descripción de la beca
-                            <p-sortIcon field="descripcion"></p-sortIcon>
-                          </div>
-                        </th>
-                        <th
-                          scope="col"
-                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                          pSortableColumn="fecha_creacion"
-                        >
-                          <div class="flex">
-                            Fecha de Creación
-                            <p-sortIcon field="fecha_creacion"></p-sortIcon>
-                          </div>
-                        </th>
-                        <th
-                          scope="col"
-                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                        >
-                          <div class="flex">Acciones</div>
-                        </th>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-beca>
-                      <tr class="divide-x divide-gray-200 bg-neutral-100">
-                        <td class="px-3 py-2 text-sm text-black">
-                          {{ beca.nombre }}
-                        </td>
-                        <td class="px-3 py-2 text-sm text-black">
-                          {{ beca.descripcion }}
-                        </td>
-                        <td class="px-3 py-2 text-sm text-black">
-                          {{ beca.fecha_creacion }}
-                        </td>
-                        <td class="px-3 py-2 text-sm text-black">
-                          <div class="flex items-center space-x-3.5">
-                            <button
-                              (mouseenter)="mostrar($event.target)"
-                              (mouseleave)="mostrar($event.target)"
-                              (click)="activateBeca(beca.id)"
-                              class="hover:text-primary"
-                            >
-                              <div
-                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
-                              >
-                                <div
-                                  class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
-                                >
-                                  <i class="fa-solid fa-arrow-rotate-left"></i>
-                                  <div
-                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
-                                    role="tooltip"
-                                  >
-                                    <div
-                                      class="py-3 px-4 border-b border-gray-200"
-                                    >
-                                      <h4 class="font-semibold text-gray-800">
-                                        Reactivar
-                                      </h4>
-                                    </div>
-                                    <ul class="py-3 px-4 space-y-1">
-                                      <li>
-                                        <div
-                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
-                                        >
-                                          Volver a activar la beca regresando
-                                          con esta toda la información
-                                          relacionada.
-                                        </div>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-                            </button>
-                            <button
-                              (mouseenter)="mostrar($event.target)"
-                              (mouseleave)="mostrar($event.target)"
-                              (click)="deleteBeca(beca.id)"
-                              class="hover:text-primary"
-                            >
-                              <div
-                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
-                              >
-                                <div
-                                  class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
-                                >
-                                  <i class="fa fa-trash" aria-hidden="true"></i>
-                                  <div
-                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
-                                    role="tooltip"
-                                  >
-                                    <div
-                                      class="py-3 px-4 border-b border-gray-200"
-                                    >
-                                      <h4 class="font-semibold text-gray-800">
-                                        Eliminar
-                                      </h4>
-                                    </div>
-                                    <ul class="py-3 px-4 space-y-1">
-                                      <li>
-                                        <div
-                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
-                                        >
-                                          Eliminar la beca de forma definitiva.
-                                        </div>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="emptymessage">
-                      <tr>
-                        <td colspan="4">No se encontraron resultados.</td>
-                      </tr>
-                    </ng-template>
-                  </p-table>
-                </div>
               </div>
             </div>
           </div>
