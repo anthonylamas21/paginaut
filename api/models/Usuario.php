@@ -38,7 +38,7 @@ class Usuario {
         $stmt->bindParam(":departamento_id", $this->departamento_id);
         $stmt->bindParam(":token_recuperacion", $this->token_recuperacion);
         $stmt->bindParam(":fecha_expiracion_token", $this->fecha_expiracion_token);
-        $stmt->bindParam(":activo", $this->activo);
+        $stmt->bindParam(":activo", $this->activo, PDO::PARAM_BOOL);
 
         if ($stmt->execute()) {
             return true;
@@ -93,7 +93,7 @@ class Usuario {
         $this->departamento_id = htmlspecialchars(strip_tags($this->departamento_id));
         $this->token_recuperacion = "Hola";
         $this->fecha_expiracion_token = "04/07/2024";
-        $this->activo = htmlspecialchars(strip_tags($this->activo));
+        $this->activo = filter_var($this->activo, FILTER_VALIDATE_BOOLEAN);
         $this->id = htmlspecialchars(strip_tags($this->id));
 
         $stmt->bindParam(":correo", $this->correo);
@@ -102,7 +102,7 @@ class Usuario {
         $stmt->bindParam(":departamento_id", $this->departamento_id);
         $stmt->bindParam(":token_recuperacion", $this->token_recuperacion);
         $stmt->bindParam(":fecha_expiracion_token", $this->fecha_expiracion_token);
-        $stmt->bindParam(":activo", $this->activo);
+        $stmt->bindParam(":activo", $this->activo, PDO::PARAM_BOOL);
         $stmt->bindParam(":id", $this->id);
 
         if ($stmt->execute()) {

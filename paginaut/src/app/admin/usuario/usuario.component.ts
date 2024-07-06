@@ -143,11 +143,16 @@ export class UsuarioComponent implements OnInit {
     });
   }
 
-  confirmDeleteUsuario(id: number | undefined) {
+  desactivarUsuario(id: number | undefined) {
     if (id !== undefined) {
-      this.changeUsuarioStatus(id, false);
+      const estado: boolean = false;
+      this.changeUsuarioStatus(id, estado);
+      console.log("El estado esta aqui " + estado +" y la id es" + id);
     }
+    console.log("No existe estado ");
   }
+
+
 
   changeUsuarioStatus(id: number, status: boolean) {
     const usuarioToUpdate = this.usuarios.find((u) => u.id === id);
