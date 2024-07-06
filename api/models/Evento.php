@@ -66,62 +66,43 @@ class Evento {
     private function saveImagenPrincipal() {
         if (!empty($this->imagen_principal)) {
             $target_dir = "../uploads/evento/";
-            if (!file_exists($target_dir)) {
-                mkdir($target_dir, 0777, true);
-            }
-
+    
+            // Generar nombre único para el archivo
             $target_file = $target_dir . uniqid() . "_" . basename($this->imagen_principal["name"]);
             if (move_uploaded_file($this->imagen_principal["tmp_name"], $target_file)) {
                 $query = "INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal, activo)
                           VALUES (:titulo, :descripcion, :ruta_imagen, 'Evento', :asociado_id, TRUE, :activo)";
                 $stmt = $this->conn->prepare($query);
-
+    
                 $titulo = $this->titulo;
                 $descripcion = $this->informacion_evento;
                 $ruta_imagen = htmlspecialchars(strip_tags("uploads/evento/" . basename($target_file)));
                 $asociado_id = $this->id;
                 $activo = $this->activo;
-
+    
                 $stmt->bindParam(":titulo", $titulo);
                 $stmt->bindParam(":descripcion", $descripcion);
                 $stmt->bindParam(":ruta_imagen", $ruta_imagen);
                 $stmt->bindParam(":asociado_id", $asociado_id);
                 $stmt->bindParam(":activo", $activo);
-
+    
                 $stmt->execute();
             }
         }
     }
+    
 
     // Guardar imágenes generales asociadas al evento
     private function saveImagenesGenerales() {
         if (!empty($this->imagenes_generales)) {
             $target_dir = "../uploads/evento/";
-            if (!file_exists($target_dir)) {
-                mkdir($target_dir, 0777, true);
-            }
-
-            $query = "INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal, activo)
-                      VALUES (:titulo, :descripcion, :ruta_imagen, 'Evento', :asociado_id, FALSE, :activo)";
-            $stmt = $this->conn->prepare($query);
-
+    
             foreach ($this->imagenes_generales['tmp_name'] as $key => $tmp_name) {
                 if (!empty($tmp_name)) {
                     $target_file = $target_dir . uniqid() . "_" . basename($this->imagenes_generales["name"][$key]);
                     if (move_uploaded_file($tmp_name, $target_file)) {
-                        $titulo = $this->titulo;
-                        $descripcion = $this->informacion_evento;
                         $ruta_imagen = htmlspecialchars(strip_tags("uploads/evento/" . basename($target_file)));
-                        $asociado_id = $this->id;
-                        $activo = $this->activo;
-
-                        $stmt->bindParam(":titulo", $titulo);
-                        $stmt->bindParam(":descripcion", $descripcion);
-                        $stmt->bindParam(":ruta_imagen", $ruta_imagen);
-                        $stmt->bindParam(":asociado_id", $asociado_id);
-                        $stmt->bindParam(":activo", $activo);
-
-                        $stmt->execute();
+                        $this->saveImagenGeneral($ruta_imagen);
                     }
                 }
             }
@@ -132,9 +113,7 @@ class Evento {
     private function saveArchivos() {
         if (!empty($this->archivos)) {
             $target_dir = "../uploads/evento/";
-            if (!file_exists($target_dir)) {
-                mkdir($target_dir, 0777, true);
-            }
+
 
             $query = "INSERT INTO Archivos (nombre_archivo, ruta_archivo, tipo_archivo, seccion, asociado_id, activo)
                       VALUES (:nombre_archivo, :ruta_archivo, :tipo_archivo, 'Evento', :asociado_id, :activo)";
