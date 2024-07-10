@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener,   } from '@angular/core';
 
 @Component({
   selector: 'app-principal-admin',
@@ -6,6 +6,7 @@ import { Component, HostListener } from '@angular/core';
   styleUrl: './principal-admin.component.css'
 })
 export class PrincipalAdminComponent {
+
   ngOnInit(): void {
     this.setNavbarColor();
   }
@@ -37,4 +38,5 @@ export class PrincipalAdminComponent {
   scrollToSection(sectionId: string): void {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
+
 }

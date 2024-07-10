@@ -27,7 +27,7 @@ module.exports = {
         'input-focus-color': '#000',
         'secondary-color': '#008779',
         'secondary-color-90': '#008779e6',
-        'danger-color': '#EF4444',
+        'danger-color': '#EF4444'
       },
       height: {
         '155': '37rem',
