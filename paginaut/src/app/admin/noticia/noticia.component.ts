@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NoticiaService, Noticia } from '../../noticia.service';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 class TooltipManager {
   static adjustTooltipPosition(
     button: HTMLElement,
@@ -46,7 +49,6 @@ class TooltipManager {
 interface NoticiaTemporal extends Noticia {
   imagenesGeneralesOriginales?: string[];
   imagenPrincipalOriginal?: string;
-  
 }
 
 @Component({
@@ -54,7 +56,7 @@ interface NoticiaTemporal extends Noticia {
   templateUrl: './noticia.component.html',
   styleUrls: ['./noticia.component.css']
 })
-export class NoticiaComponent implements OnInit {
+export class NoticiaComponent implements OnInit, OnDestroy {
   noticias: Noticia[] = [];
   filteredNoticias: Noticia[] = [];
   papeleraNoticias: Noticia[] = [];
@@ -74,6 +76,7 @@ export class NoticiaComponent implements OnInit {
   noticiaTemporal: NoticiaTemporal | null = null;
   isDetailsModalOpen = false;
   selectedNoticia: Noticia | null = null;
+  private unsubscribe$ = new Subject<void>();
 
   constructor(
     private noticiaService: NoticiaService,
@@ -81,19 +84,31 @@ export class NoticiaComponent implements OnInit {
   ) {
     this.noticiaForm = this.fb.group({
       titulo: ['', [Validators.required, Validators.maxLength(50)]],
-      resumen: ['', Validators.maxLength(200)],
+      resumen: ['', [Validators.required, Validators.maxLength(200)]],
       informacion_noticia: ['', Validators.required],
       activo: [true],
       lugar_noticia: ['', [Validators.required, Validators.maxLength(50)]],
-      autor: ['', Validators.maxLength(50)],
+      autor: ['', [Validators.required, Validators.maxLength(50)]],
       fecha_publicacion: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
     this.loadNoticias();
+
+    // Suscribirse a los cambios del formulario
+    this.noticiaForm.valueChanges
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {
+        // No hacemos nada aquí, solo queremos que se dispare la detección de cambios
+      });
   }
-  
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
   loadNoticias(): void {
     this.noticiaService.obtenerNoticias().subscribe({
       next: (response) => {
@@ -124,7 +139,7 @@ export class NoticiaComponent implements OnInit {
     this.isModalOpen = true;
     if (noticia) {
       this.currentNoticiaId = noticia.id!;
-      
+
       this.noticiaForm.patchValue(noticia);
 
       this.imagenPrincipalPreview = noticia.imagen_principal || null;
@@ -148,7 +163,7 @@ export class NoticiaComponent implements OnInit {
         noticiaOriginal.imagenes_generales = this.noticiaTemporal.imagenesGeneralesOriginales;
       }
     }
-    
+
     this.isModalOpen = false;
     this.noticiaForm.reset();
     this.currentNoticiaId = null;
@@ -187,7 +202,7 @@ export class NoticiaComponent implements OnInit {
 
       if (this.currentNoticiaId) {
         // Primero, elimina las imágenes marcadas
-        const deletePromises: Promise<any>[] = this.imagenesParaEliminar.map(ruta => 
+        const deletePromises: Promise<any>[] = this.imagenesParaEliminar.map(ruta =>
           this.noticiaService.eliminarImagenGeneral(this.currentNoticiaId!, ruta).toPromise()
         );
 
@@ -235,7 +250,16 @@ export class NoticiaComponent implements OnInit {
       }
     } else {
       this.showToast('warning', 'Por favor, complete todos los campos requeridos correctamente.');
+      // Marcar todos los campos como tocados para mostrar los errores
+      Object.keys(this.noticiaForm.controls).forEach(key => {
+        const control = this.noticiaForm.get(key);
+        control?.markAsTouched();
+      });
     }
+  }
+
+  isFormValid(): boolean {
+    return this.noticiaForm.valid;
   }
 
   confirmDeleteNoticia(id: number): void {
@@ -285,7 +309,7 @@ export class NoticiaComponent implements OnInit {
 
   filterGlobal(event: any): void {
     const searchValue = event.target.value.toLowerCase();
-    this.filteredNoticias = this.noticias.filter(noticia => 
+    this.filteredNoticias = this.noticias.filter(noticia =>
       noticia.titulo.toLowerCase().includes(searchValue) ||
       noticia.resumen.toLowerCase().includes(searchValue) ||
       noticia.informacion_noticia.toLowerCase().includes(searchValue) ||

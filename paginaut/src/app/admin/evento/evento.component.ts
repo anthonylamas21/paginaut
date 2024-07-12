@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { EventoService, Evento } from '../../evento.service';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 class TooltipManager {
   static adjustTooltipPosition(
@@ -55,7 +57,7 @@ interface EventoTemporal extends Evento {
   templateUrl: './evento.component.html',
   styleUrls: ['./evento.component.css'],
 })
-export class EventoComponent implements OnInit {
+export class EventoComponent implements OnInit,  OnDestroy {
   eventos: Evento[] = [];
   filteredEventos: Evento[] = [];
   papeleraEventos: Evento[] = [];
@@ -80,28 +82,40 @@ export class EventoComponent implements OnInit {
   minTimeInicio: string;
   minTimeFin: string;
   timeZone: string = 'America/Mazatlan';
-  
+    private unsubscribe$ = new Subject<void>();
 
-  constructor(private eventoService: EventoService, private fb: FormBuilder) {
-    this.minDate = this.getTodayDate();
-    this.minTimeInicio = this.getCurrentTime();
-    this.minTimeFin = this.minTimeInicio;
-    this.eventoForm = this.fb.group({
-      titulo: ['', [Validators.required, Validators.maxLength(50)]],
-      informacion_evento: ['', Validators.required],
-      activo: [true],
-      lugar_evento: ['', [Validators.required, Validators.maxLength(50)]],
-      fecha_inicio: ['', [Validators.required]],
-      fecha_fin: ['', [Validators.required]],
-      hora_inicio: ['', [Validators.required]],
-      hora_fin: ['', [Validators.required]],
-    }, { validators: this.fechaHoraValidator() });
-  }
 
+    constructor(private eventoService: EventoService, private fb: FormBuilder) {
+      this.minDate = this.getTodayDate();
+      this.minTimeInicio = this.getCurrentTime();
+      this.minTimeFin = this.minTimeInicio;
+      this.eventoForm = this.fb.group({
+        titulo: ['', [Validators.required, Validators.maxLength(50)]],
+        informacion_evento: ['', Validators.required],
+        activo: [true],
+        lugar_evento: ['', [Validators.required, Validators.maxLength(50)]],
+        fecha_inicio: ['', [Validators.required]],
+        fecha_fin: ['', [Validators.required]],
+        hora_inicio: ['', [Validators.required]],
+        hora_fin: ['', [Validators.required]],
+      }, { validators: this.fechaHoraValidator() });
+    }
 
   ngOnInit(): void {
     this.loadEventos();
     this.setupDateTimeValidation();
+
+    // Suscribirse a los cambios del formulario
+    this.eventoForm.valueChanges
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {
+        // No hacemos nada aquí, solo queremos que se dispare la detección de cambios
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
 
@@ -318,12 +332,18 @@ export class EventoComponent implements OnInit {
             },
           });
       }
-    } else {
-      this.showToast(
-        'warning',
-        'Por favor, complete todos los campos requeridos correctamente.'
-      );
+    }else {
+      this.showToast('warning', 'Por favor, complete todos los campos requeridos correctamente.');
+      // Marcar todos los campos como tocados para mostrar los errores
+      Object.keys(this.eventoForm.controls).forEach(key => {
+        const control = this.eventoForm.get(key);
+        control?.markAsTouched();
+      });
     }
+  }
+
+  isFormValid(): boolean {
+    return this.eventoForm.valid;
   }
 
   confirmDeleteEvento(id: number): void {
@@ -499,41 +519,6 @@ export class EventoComponent implements OnInit {
     return field ? field.invalid && (field.dirty || field.touched) : false;
   }
 
-  setupDateTimeValidation(): void {
-    const fechaInicioControl = this.eventoForm.get('fecha_inicio');
-    const fechaFinControl = this.eventoForm.get('fecha_fin');
-    const horaInicioControl = this.eventoForm.get('hora_inicio');
-    const horaFinControl = this.eventoForm.get('hora_fin');
-
-    fechaInicioControl?.valueChanges.subscribe(() => {
-      fechaFinControl?.updateValueAndValidity();
-      horaInicioControl?.updateValueAndValidity();
-      horaFinControl?.updateValueAndValidity();
-      this.updateMinTimeFin();
-    });
-
-    horaInicioControl?.valueChanges.subscribe(() => {
-      this.updateMinTimeFin();
-      horaFinControl?.updateValueAndValidity();
-    });
-  }
-
-  updateMinTimeFin(): void {
-    const fechaInicio = this.eventoForm.get('fecha_inicio')?.value;
-    const horaInicio = this.eventoForm.get('hora_inicio')?.value;
-    
-    if (fechaInicio && horaInicio) {
-      const fechaHoraInicio = new Date(`${fechaInicio}T${horaInicio}`);
-      if (this.isSameDay(fechaHoraInicio, this.getToday())) {
-        this.minTimeFin = horaInicio;
-      } else {
-        this.minTimeFin = '00:00';
-      }
-    } else {
-      this.minTimeFin = this.minTimeInicio;
-    }
-  }
-
   fechaHoraValidator(): ValidatorFn {
     return (group: AbstractControl): {[key: string]: any} | null => {
       const fechaInicio = group.get('fecha_inicio')?.value;
@@ -552,6 +537,43 @@ export class EventoComponent implements OnInit {
 
       return null;
     };
+  }
+
+  setupDateTimeValidation(): void {
+    const fechaInicioControl = this.eventoForm.get('fecha_inicio');
+    const fechaFinControl = this.eventoForm.get('fecha_fin');
+    const horaInicioControl = this.eventoForm.get('hora_inicio');
+    const horaFinControl = this.eventoForm.get('hora_fin');
+
+    fechaInicioControl?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+      fechaFinControl?.updateValueAndValidity();
+      horaInicioControl?.updateValueAndValidity();
+      horaFinControl?.updateValueAndValidity();
+      this.updateMinTimeFin();
+    });
+
+    horaInicioControl?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+      this.updateMinTimeFin();
+      horaFinControl?.updateValueAndValidity();
+    });
+  }
+
+  updateMinTimeFin(): void {
+    const fechaInicio = this.eventoForm.get('fecha_inicio')?.value;
+    const fechaFin = this.eventoForm.get('fecha_fin')?.value;
+    const horaInicio = this.eventoForm.get('hora_inicio')?.value;
+
+    if (fechaInicio && fechaFin && this.isSameDay(new Date(fechaInicio), new Date(fechaFin))) {
+      this.minTimeFin = horaInicio;
+    } else {
+      this.minTimeFin = '00:00';
+    }
+  }
+
+  isSameDay(date1: Date, date2: Date): boolean {
+    return date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getDate() === date2.getDate();
   }
 
   getErrorMessage(fieldName: string): string {
@@ -595,11 +617,7 @@ export class EventoComponent implements OnInit {
     return date.toTimeString().slice(0, 5);
   }
 
-  private isSameDay(date1: Date, date2: Date): boolean {
-    return date1.getFullYear() === date2.getFullYear() &&
-           date1.getMonth() === date2.getMonth() &&
-           date1.getDate() === date2.getDate();
-  }
+
 
   private updateEventosArray(evento: Evento): void {
     const index = this.eventos.findIndex((e) => e.id === evento.id);
@@ -687,7 +705,7 @@ export class EventoComponent implements OnInit {
   }
 
 
-  
+
   mostrar(elemento: any): void {
     // Verifica si el elemento recibido es un botón
     if (elemento.tagName.toLowerCase() === 'button') {
