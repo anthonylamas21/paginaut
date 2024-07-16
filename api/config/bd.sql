@@ -159,6 +159,7 @@ CREATE TABLE Taller (
     descripcion VARCHAR(50) NOT NULL,
     competencia VARCHAR(50) NOT NULL,
     activo BOOLEAN DEFAULT TRUE
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Beca (

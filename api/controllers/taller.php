@@ -20,167 +20,147 @@ $data = json_decode(file_get_contents("php://input"));
 
 switch($request_method) {
     case 'POST':
-        if (isset($_GET['id'])) {
-            // Es una actualización
-            $noticia->id = $_GET['id'];
-            if ($noticia->readOne()) {
-                // Actualizar los campos de la noticia con los nuevos datos
-                $noticia->titulo = $_POST['titulo'] ?? $noticia->titulo;
-                $noticia->resumen = $_POST['resumen'] ?? $noticia->resumen;
-                $noticia->informacion_noticia = $_POST['informacion_noticia'] ?? $noticia->informacion_noticia;
-                $noticia->activo = isset($_POST['activo']) ? filter_var($_POST['activo'], FILTER_VALIDATE_BOOLEAN) : $noticia->activo;
-                $noticia->lugar_noticia = $_POST['lugar_noticia'] ?? $noticia->lugar_noticia;
-                $noticia->autor = $_POST['autor'] ?? $noticia->autor;
-                $noticia->fecha_publicacion = $_POST['fecha_publicacion'] ?? $noticia->fecha_publicacion;
+        $isUpdate = isset($_GET['id']);
     
-                // Manejar la actualización de la imagen principal
-                if (isset($_FILES['imagen_principal']) && $_FILES['imagen_principal']['error'] === UPLOAD_ERR_OK) {
-                    $noticia->updateImagenPrincipal($_FILES['imagen_principal']);
-                }
-    
-                // Manejar la actualización de imágenes generales
-                if (isset($_FILES['imagenes_generales'])) {
-                    $noticia->updateImagenesGenerales($_FILES['imagenes_generales']);
-                }
-    
-                if ($noticia->update()) {
-                    http_response_code(200);
-                    echo json_encode(array(
-                        "message" => "Noticia actualizada correctamente.",
-                        "noticia" => $noticia
-                    ));
-                } else {
-                    http_response_code(503);
-                    echo json_encode(array(
-                        "message" => "No se pudo actualizar la noticia.",
-                        "error" => error_get_last()
-                    ));
-                }
-            } else {
+        if ($isUpdate) {
+            $taller->id = $_GET['id'];
+            // Cargar los datos actuales de la taller
+            if (!$taller->readOne()) {
                 http_response_code(404);
-                echo json_encode(array("message" => "Noticia no encontrada."));
+                echo json_encode(array("message" => "taller no encontrada."));
+                break;
+            }
+        }
+    
+        if (!empty($_POST['nombre'])) {
+            $taller->nombre = $_POST['nombre'];
+            $taller->descripcion = $_POST['descripcion'];
+            $taller->competencia = $_POST['competencia'];
+            $taller->activo = isset($_POST['activo']) ? filter_var($_POST['activo'], FILTER_VALIDATE_BOOLEAN) : true;
+    
+            // Crear o actualizar taller
+            if ($isUpdate) {
+                $result = $taller->update();
+            } else {
+                $result = $taller->create();
+            }
+    
+            if ($result) {
+                // Procesar imágenes después de crear/actualizar la taller
+                $taller->updateImagenes();
+    
+                http_response_code($isUpdate ? 200 : 201);
+                echo json_encode(array(
+                    "message" => $isUpdate ? "taller actualizada correctamente." : "taller creada correctamente.",
+                    "id" => $taller->id
+                ));
+            } else {
+                http_response_code(503);
+                echo json_encode(array("message" => $isUpdate ? "No se pudo actualizar la taller." : "No se pudo crear la taller."));
             }
         } else {
-            // Es una creación (código existente para crear nueva noticia)
+            http_response_code(400);
+            echo json_encode(array("message" => "Datos incompletos."));
         }
         break;
 
-        case 'GET':
-            if (isset($_GET['id'])) {
-                $taller->id = $_GET['id'];
-                if ($taller->readOne()) {
-                    $taller_arr = array(
-                        "id" => $taller->id,
-                        "nombre" => $taller->nombre,
-                        "descripcion" => $taller->descripcion,
-                        "competencia" => $taller->competencia,
-                        "imagen" => $taller->imagen,
-                        "imagenesGenerales" => $taller->getImagenesGenerales()
-                    );
-                    echo json_encode($taller_arr);
-                } else {
-                    http_response_code(404);
-                    echo json_encode(array("message" => "Taller no encontrado."));
-                }
-            } else {
-                $talleres_arr = $taller->read();
-                if (!empty($talleres_arr)) {
-                    echo json_encode(array("records" => $talleres_arr));
-                } else {
-                    http_response_code(404);
-                    echo json_encode(array("message" => "No se encontraron talleres."));
-                }
-            }
-            break;
-        
-
-            case 'PUT':
-                parse_str(file_get_contents("php://input"), $post_vars);
-        
-                // Combinar los datos POST y FILES
-                $_POST = array_merge($_POST, $post_vars);
-        
-                if (!empty($_POST['id']) && !empty($_POST['nombre']) && !empty($_POST['descripcion']) && !empty($_POST['competencia'])) {
-                    $taller->id = $_POST['id'];
-                    $taller->nombre = $_POST['nombre'];
-                    $taller->descripcion = $_POST['descripcion'];
-                    $taller->competencia = $_POST['competencia'];
-        
-                    $nuevaImagenPrincipal = null;
-                    $nuevasImagenesGenerales = [];
-                    $imagenesGeneralesAEliminar = [];
-        
-                    // Manejar la carga de la imagen principal si se proporciona
-                    if (isset($_FILES['imagen_principal']) && $_FILES['imagen_principal']['error'] === UPLOAD_ERR_OK) {
-                        $target_dir = "../uploads/taller/";
-                        $target_file = $target_dir . uniqid() . "_" . basename($_FILES["imagen_principal"]["name"]);
-                        if (move_uploaded_file($_FILES["imagen_principal"]["tmp_name"], $target_file)) {
-                            $nuevaImagenPrincipal = $target_file;
-                        }
-                    }
-        
-                    // Manejar nuevas imágenes generales
-                    if (isset($_FILES['imagenes_generales'])) {
-                        $fileCount = count($_FILES['imagenes_generales']['name']);
-                        for ($i = 0; $i < $fileCount; $i++) {
-                            if ($_FILES['imagenes_generales']['error'][$i] === UPLOAD_ERR_OK) {
-                                $target_file = $target_dir . uniqid() . "_" . basename($_FILES["imagenes_generales"]["name"][$i]);
-                                if (move_uploaded_file($_FILES["imagenes_generales"]["tmp_name"][$i], $target_file)) {
-                                    $nuevasImagenesGenerales[] = $target_file;
-                                }
-                            }
-                        }
-                    }
-        
-                    // Imágenes generales a eliminar
-                    if (!empty($_POST['imagenes_generales_actuales'])) {
-                        $imagenesGeneralesActuales = json_decode($_POST['imagenes_generales_actuales'], true);
-                        $imagenesGeneralesAEliminar = array_diff($taller->getImagenesGenerales(), $imagenesGeneralesActuales);
-                    }
-        
-                    if ($taller->update($nuevaImagenPrincipal, $nuevasImagenesGenerales, $imagenesGeneralesAEliminar)) {
-                        http_response_code(200);
-                        echo json_encode(array("message" => "Taller actualizado correctamente."));
-                    } else {
-                        http_response_code(503);
-                        echo json_encode(array("message" => "No se pudo actualizar el taller."));
-                    }
-                } else {
-                    http_response_code(400);
-                    echo json_encode(array("message" => "No se pudo actualizar el taller. Datos incompletos."));
-                }
-                break;
-            
-              
-
-    case 'DELETE':
+    case 'GET':
         if (isset($_GET['id'])) {
             $taller->id = $_GET['id'];
             if ($taller->readOne()) {
-                // Eliminar la imagen del sistema de archivos
-                if (!empty($taller->imagen) && file_exists($taller->imagen)) {
-                    unlink($taller->imagen);
+                $taller_arr = array(
+                    "id" => $taller->id,
+                    "nombre" => $taller->nombre,
+                    "descripcion" => $taller->descripcion,
+                    "competencia" => $taller->competencia,
+                    "activo" => $taller->activo,
+                    "fecha_creacion" => $taller->fecha_creacion,
+                    "imagen_principal" => $taller->imagen_principal,
+                    "imagenes_generales" => $taller->getImagenesGenerales()
+                );
+                echo json_encode($taller_arr);
+            } else {
+                http_response_code(404);
+                echo json_encode(array("message" => "Taller no encontrado."));
+            }
+        } else {
+            $talleres_arr = $taller->read();
+            if (!empty($talleres_arr)) {
+                echo json_encode(array("records" => $talleres_arr));
+            } else {
+                http_response_code(404);
+                echo json_encode(array("message" => "No se encontraron Talleres."));
+            }
+        }
+        break;
+
+    case 'PUT':
+        if (isset($_GET['id'])) {
+            $taller->id = $_GET['id'];
+            if (isset($_GET['accion']) && $_GET['accion'] == 'activar') {
+                if ($taller->activar()) {
+                    http_response_code(200);
+                    echo json_encode(array("message" => "Taller activado correctamente."));
+                } else {
+                    http_response_code(503);
+                    echo json_encode(array("message" => "No se pudo activar el Taller."));
+                }
+            } elseif (isset($_GET['accion']) && $_GET['accion'] == 'desactivar') {
+                if ($taller->desactivar()) {
+                    http_response_code(200);
+                    echo json_encode(array("message" => "Taller desactivada correctamente."));
+                } else {
+                    http_response_code(503);
+                    echo json_encode(array("message" => "No se pudo desactivar la Taller."));
+                }
+            }
+        } else {
+            // código de actualización existente
+        }
+        break;
+
+    case 'DELETE':
+        if (isset($_GET['id']) && !isset($_GET['rutaImagen'])) {
+            // Eliminar un taller completo
+            $taller->id = $_GET['id'];
+            if ($taller->readOne()) {
+                if (!empty($taller->imagen_principal) && file_exists("../" . $taller->imagen_principal)) {
+                    unlink("../" . $taller->imagen_principal);
+                }
+                $imagenesGenerales = $taller->getImagenesGenerales();
+                foreach ($imagenesGenerales as $imagen) {
+                    if (file_exists("../" . $imagen)) {
+                        unlink("../" . $imagen);
+                    }
                 }
                 if ($taller->delete()) {
                     http_response_code(200);
                     echo json_encode(array("message" => "Taller eliminado correctamente."));
                 } else {
                     http_response_code(503);
-                    echo json_encode(array("message" => "No se pudo eliminar el taller."));
+                    echo json_encode(array("message" => "No se pudo eliminar el Taller."));
                 }
             } else {
                 http_response_code(404);
-                echo json_encode(array("message" => "Taller no encontrado."));
+                echo json_encode(array("message" => "Taller no encontrada."));
+            }
+        } else if (isset($_GET['tallerId']) && isset($_GET['rutaImagen'])) {
+            // Eliminar una imagen general específica
+            error_log("Eliminando imagen de taller con id: " . $_GET['tallerId'] . " y rutaImagen: " . $_GET['rutaImagen']);
+            $taller->id = $_GET['tallerId'];
+            $rutaImagen = $_GET['rutaImagen'];
+            if ($taller->deleteImagenGeneral($rutaImagen)) {
+                http_response_code(200);
+                echo json_encode(array("message" => "Imagen eliminada correctamente."));
+            } else {
+                http_response_code(503);
+                echo json_encode(array("message" => "No se pudo eliminar la imagen."));
             }
         } else {
             http_response_code(400);
-            echo json_encode(array("message" => "No se proporcionó el ID del taller."));
+            echo json_encode(array("message" => "No se proporcionó el ID del Taller o la ruta de la imagen."));
         }
         break;
-
-    default:
-        http_response_code(405);
-        echo json_encode(array("message" => "Método no permitido."));
-        break;
 }
+
 ?>

@@ -16,6 +16,7 @@ import { TallerComponent } from './taller/taller.component';
 import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
 import { NoticiaComponent } from './admin/noticia/noticia.component';
 import { InstalacionComponent } from './admin/instalacion/instalacion.component';
+import { TallerAdminComponent } from './taller-admin/taller-admin.component';
 
 
 const routes: Routes = [
@@ -38,7 +39,8 @@ const routes: Routes = [
   {path: 'direccion', component: AgregarDireccionComponent},
   {path: 'noticia', component: NoticiaComponent},
   {path: 'registrar-evento', component: RegistrarEventoComponent}, // Nueva ruta para registrar evento
-  {path: 'instalacion', component: InstalacionComponent} // Ruta para instalación
+  {path: 'instalacion', component: InstalacionComponent}, // Ruta para instalación
+  {path: 'taller-admin', component: TallerAdminComponent} // Ruta para administración de talleres
 ];
 
 @NgModule({

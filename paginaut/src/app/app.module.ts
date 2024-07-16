@@ -35,6 +35,7 @@ import { TallerComponent } from './taller/taller.component';
 import { NoticiaComponent } from './admin/noticia/noticia.component';
 import { EventoComponent } from './admin/evento/evento.component';
 import { InstalacionComponent } from './admin/instalacion/instalacion.component';
+import { TallerAdminComponent } from './taller-admin/taller-admin.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { InstalacionComponent } from './admin/instalacion/instalacion.component'
     TallerComponent,
     NoticiaComponent,
     EventoComponent,
-    InstalacionComponent
+    InstalacionComponent,
+    TallerAdminComponent
   ],
   imports: [
     BrowserModule,
