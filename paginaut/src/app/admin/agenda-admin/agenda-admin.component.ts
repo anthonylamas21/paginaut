@@ -16,14 +16,16 @@ export class AgendaAdminComponent implements OnInit {
   selectedEvent: any = null;
   baseImageUrl = 'http://localhost/paginaut/';
 
+  // Array de colores predefinidos
+  colors: string[] = ['#3498DB', '#E74C3C', '#2ECC71', '#F1C40F', '#9B59B6', '#E67E22', '#34495E', '#1ABC9C'];
+
   renderEventContent = (eventInfo: any) => {
-    const backgroundColor = eventInfo.event.backgroundColor || '#043D3D' ; // Color por defecto de FullCalendar
+    const backgroundColor = eventInfo.event.backgroundColor || '#04847C'; // Color por defecto de FullCalendar
     return { 
       html: `
         <div class="text-white pl-4 bg-[${backgroundColor}]">
           <b>${eventInfo.timeText}</b>
           <i>${eventInfo.event.title}</i>
-          
         </div>
       `
     };
@@ -47,26 +49,20 @@ export class AgendaAdminComponent implements OnInit {
   openModal(): void {
     const modal = document.getElementById('hs-slide-down-animation-modal');
     const closeButton = document.getElementById('close-modal-button');
-    //console.log("Intentando abrir modal");
     if (modal && closeButton) {
       modal.classList.remove('hidden');
       modal.classList.add('hs-overlay-open', 'opacity-100', 'duration-500');
       modal.classList.remove('opacity-0', 'ease-out');
       closeButton.click();  // Simula un clic en el botón que abre el modal
-      //console.log("Modal abierto");
-    } else {
-      //console.error("No se pudo encontrar el modal o el botón de cierre");
     }
   }
 
   closeModal(): void {
     const modal = document.getElementById('hs-slide-down-animation-modal');
-    //console.log("Cerrando modal");
     if (modal) {
       modal.classList.add('hidden');
       modal.classList.remove('hs-overlay-open', 'opacity-100', 'duration-500');
       modal.classList.add('opacity-0', 'ease-out');
-      //console.log("Modal cerrado");
     }
   }
 
@@ -77,7 +73,7 @@ export class AgendaAdminComponent implements OnInit {
     headerToolbar: {
       left: 'prev,next today',  
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      right: 'dayGridMonth'  // timeGridWeek, timeGridDay
     },
     events: [], // Se actualizará dinámicamente
     eventContent: this.renderEventContent,
@@ -102,7 +98,7 @@ export class AgendaAdminComponent implements OnInit {
   }
 
   updateCalendarEvents(): void {
-    const calendarEvents = this.eventos.map(evento => {
+    const calendarEvents = this.eventos.map((evento, index) => {
       const startDate = evento.fecha_inicio.split(' ')[0];
       const endDate = evento.fecha_fin.split(' ')[0];
 
@@ -110,6 +106,7 @@ export class AgendaAdminComponent implements OnInit {
         title: evento.titulo,
         start: `${startDate}T${evento.hora_inicio}`,
         end: `${endDate}T${evento.hora_fin}`,
+        backgroundColor: this.colors[index % this.colors.length], // Asigna el color de forma cíclica
         extendedProps: {
           informacion: evento.informacion_evento,
           lugar: evento.lugar_evento,

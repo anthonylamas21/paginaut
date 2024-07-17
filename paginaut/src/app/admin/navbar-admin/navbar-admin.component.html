@@ -102,14 +102,23 @@ class=" fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowra
           </a>
           </div>
 
-          <div
-            class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] py-3 md:px-3 md:py-4 mr-3">
-            <a href="/login">
-              <button type="button"
-              class="flex items-center w-full text-white hover:opacity-80 font-medium text-base">
-              <i class="fa-solid fa-user"></i>
-            </button>
-            </a>
+          <div class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] py-3 md:px-3 md:py-4 mr-3">
+            <ng-container *ngIf="token; else loginTemplate">
+              
+              <form (ngSubmit)="onSubmitLogout()">
+                <button type="submit" class="flex items-center w-full text-white hover:opacity-80 font-medium text-base">
+                   <i class="fa-solid fa-sign-out-alt"></i><!-- Ícono de login -->
+                </button>
+              </form> 
+
+            </ng-container>
+            <ng-template #loginTemplate>
+              <a href="/login">
+                <button type="button" class="flex items-center w-full text-white hover:opacity-80 font-medium text-base">
+                  <i class="fa-solid fa-user" title="Cerrar Sesión"></i> <!-- Ícono de logout -->
+                </button>
+              </a>
+            </ng-template>
           </div>
 
         </div>
