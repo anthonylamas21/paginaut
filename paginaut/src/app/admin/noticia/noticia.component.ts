@@ -83,12 +83,31 @@ export class NoticiaComponent implements OnInit, OnDestroy {
     private fb: FormBuilder
   ) {
     this.noticiaForm = this.fb.group({
-      titulo: ['', [Validators.required, Validators.maxLength(50)]],
-      resumen: ['', [Validators.required, Validators.maxLength(200)]],
-      informacion_noticia: ['', Validators.required],
-      activo: [true],
-      lugar_noticia: ['', [Validators.required, Validators.maxLength(50)]],
-      autor: ['', [Validators.required, Validators.maxLength(50)]],
+      titulo: ['', [
+        Validators.required,
+        Validators.maxLength(50),
+        Validators.pattern(/^[a-zA-Z0-9\s]+$/)
+      ]],
+      resumen: ['', [
+        Validators.required,
+        Validators.maxLength(200),
+        Validators.pattern(/^[a-zA-Z0-9\s.,;:!?()'"-]+$/)
+      ]],
+      informacion_noticia: ['', [
+        Validators.required,
+        Validators.maxLength(2000),
+        Validators.pattern(/^[a-zA-Z0-9\s.,;:!?()'"-]+$/)
+      ]],
+      lugar_noticia: ['', [
+        Validators.required,
+        Validators.maxLength(50),
+        Validators.pattern(/^[a-zA-Z0-9\s]+$/)
+      ]],
+      autor: ['', [
+        Validators.required,
+        Validators.maxLength(50),
+        Validators.pattern(/^[a-zA-Z0-9\s]+$/)
+      ]],
       fecha_publicacion: ['', Validators.required]
     });
   }
@@ -403,6 +422,9 @@ export class NoticiaComponent implements OnInit, OnDestroy {
     }
     if (field?.errors?.['maxlength']) {
       return `Máximo ${field.errors['maxlength'].requiredLength} caracteres.`;
+    }
+    if (field?.errors?.['pattern']) {
+      return 'Formato no válido. Solo se permiten letras, números y espacios.';
     }
     return '';
   }

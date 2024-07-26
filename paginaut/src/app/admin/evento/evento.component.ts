@@ -90,10 +90,21 @@ export class EventoComponent implements OnInit,  OnDestroy {
       this.minTimeInicio = this.getCurrentTime();
       this.minTimeFin = this.minTimeInicio;
       this.eventoForm = this.fb.group({
-        titulo: ['', [Validators.required, Validators.maxLength(50)]],
-        informacion_evento: ['', Validators.required],
-        activo: [true],
-        lugar_evento: ['', [Validators.required, Validators.maxLength(50)]],
+        titulo: ['', [
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.pattern(/^[a-zA-Z0-9\s]+$/) // Solo letras, números y espacios
+        ]],
+        lugar_evento: ['', [
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.pattern(/^[a-zA-Z0-9\s]+$/) // Solo letras, números y espacios
+        ]],
+        informacion_evento: ['', [
+          Validators.required,
+          Validators.maxLength(500),
+          Validators.pattern(/^[a-zA-Z0-9\s.,;:!?()'"-]+$/) // Letras, números, espacios y algunos signos de puntuación
+        ]],
         fecha_inicio: ['', [Validators.required]],
         fecha_fin: ['', [Validators.required]],
         hora_inicio: ['', [Validators.required]],
@@ -584,11 +595,15 @@ export class EventoComponent implements OnInit,  OnDestroy {
     if (field?.errors?.['maxlength']) {
       return `Máximo ${field.errors['maxlength'].requiredLength} caracteres.`;
     }
+    if (field?.errors?.['pattern']) {
+      return 'Formato no válido. Solo se permiten letras, números y espacios.';
+    }
     if (this.eventoForm.errors?.['fechaHoraInvalida']) {
       return 'La fecha y hora de fin deben ser posteriores a la fecha y hora de inicio.';
     }
     return '';
   }
+  
 
   isDateDisabled = (date: Date): boolean => {
     return date < this.getToday();
