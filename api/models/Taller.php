@@ -8,6 +8,7 @@ class Taller {
     public $descripcion;
     public $competencia;
     public $activo;
+    public $fecha_creacion;
     public $imagen_principal;
     public $imagenes_generales;
 
