@@ -68,6 +68,8 @@ import { DanzaComponent } from './info-horas-recreativas/danza/danza.component';
 import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.component';
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
 import { AgendaAdminComponent } from './admin/agenda-admin/agenda-admin.component';
+import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera.component';
+
 import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
@@ -177,7 +179,7 @@ const routes: Routes = [
   { path: 'admin/carreras', component: CarrerasAdminComponent }, // Nueva ruta para administrar carreras
   { path: 'admin/agregar-calendario', component: AgregarCalendarioComponent },
   { path: 'admin/agregar-beca', component: AgregarBecaComponent },
-  { path: '**', component: NotFoundComponent },
+  { path: 'admin/agregar-carrera', component: AgregarCarreraComponent },
 ];
 
 @NgModule({

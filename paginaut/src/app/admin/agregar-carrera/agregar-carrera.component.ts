@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DireccionService, Direccion } from '../direccion.service';
+import { CarreraService, Carrera } from '../carrera.service';
+import { DireccionService, Direccion } from '../../direccion.service';
 import Swal from 'sweetalert2';
 
 class TooltipManager {
@@ -35,38 +36,41 @@ class TooltipManager {
 }
 
 @Component({
-  selector: 'app-agregar-direccion',
-  templateUrl: './agregar-direccion.component.html',
-  styleUrls: ['./agregar-direccion.component.css'],
+  selector: 'app-agregar-carrera',
+  templateUrl: './agregar-carrera.component.html',
+  styleUrls: ['./agregar-carrera.component.css'],
 })
-export class AgregarDireccionComponent implements OnInit {
-  direccionForm: FormGroup;
+export class AgregarCarreraComponent implements OnInit {
+  carreraForm: FormGroup;
   errorMessage: string = '';
   successMessage: string = '';
   isModalOpen: boolean = false;
-  isViewModalOpen: boolean = false; // Añadido esta línea
+  isViewModalOpen: boolean = false;
+  carreras: Carrera[] = [];
   direcciones: Direccion[] = [];
-  filteredDirecciones: Direccion[] = [];
-  papeleraDirecciones: Direccion[] = [];
-  currentDireccionId?: number;
-  currentDireccion?: Direccion;
-  selectedDireccion?: Direccion;
+  filteredCarreras: Carrera[] = [];
+  papeleraCarreras: Carrera[] = [];
+  currentCarreraId?: number;
+  currentCarrera?: Carrera;
+  selectedCarrera?: Carrera;
   currentTab: 'active' | 'inactive' = 'active';
 
   constructor(
     private fb: FormBuilder,
-    private direccionService: DireccionService,
-    private renderer: Renderer2
+    private carreraService: CarreraService,
+    private direccionService: DireccionService
   ) {
-    this.direccionForm = this.fb.group({
-      abreviatura: ['', [Validators.required, Validators.maxLength(10)]],
-      nombre: ['', [Validators.required, Validators.maxLength(100)]],
+    this.carreraForm = this.fb.group({
+      nombre_carrera: ['', [Validators.required, Validators.maxLength(100)]],
+      perfil_profesional: ['', [Validators.maxLength(500)]],
+      ocupacion_profesional: ['', [Validators.maxLength(500)]],
+      direccion_id: ['', [Validators.required]],
     });
   }
 
   ngOnInit(): void {
+    this.loadCarreras();
     this.loadDirecciones();
-    this.setNavbarColor();
   }
 
   @HostListener('window:scroll', [])
@@ -80,10 +84,10 @@ export class AgregarDireccionComponent implements OnInit {
 
   private setNavbarColor(): void {
     const button = document.getElementById('scrollTopButton');
-    const nabvar = document.getElementById('navbarAccion');
+    const navbar = document.getElementById('navbarAccion');
     const inicioSection = document.getElementById('inicio');
 
-    if (inicioSection && nabvar) {
+    if (inicioSection && navbar) {
       const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
 
       if (window.scrollY > inicioSectionBottom) {
@@ -92,26 +96,28 @@ export class AgregarDireccionComponent implements OnInit {
         button?.classList.add('hidden');
       }
 
-      nabvar.classList.remove('bg-transparent');
-      nabvar.classList.add('bg-[#043D3D]');
+      navbar.classList.remove('bg-transparent');
+      navbar.classList.add('bg-[#043D3D]');
     }
   }
 
   onSubmit() {
-    if (this.direccionForm.valid) {
-      const formData: FormData = new FormData();
-      formData.append(
-        'abreviatura',
-        this.direccionForm.get('abreviatura')?.value
-      );
-      formData.append('nombre', this.direccionForm.get('nombre')?.value);
+    if (this.carreraForm.valid) {
+      const formData: Carrera = {
+        id: this.currentCarreraId,
+        nombre_carrera: this.carreraForm.get('nombre_carrera')?.value,
+        perfil_profesional: this.carreraForm.get('perfil_profesional')?.value,
+        ocupacion_profesional: this.carreraForm.get('ocupacion_profesional')
+          ?.value,
+        direccion_id: this.carreraForm.get('direccion_id')?.value,
+        activo: true,
+      };
 
-      if (this.currentDireccionId) {
-        formData.append('id', this.currentDireccionId.toString());
-        this.direccionService.updateDireccion(formData).subscribe({
+      if (this.currentCarreraId) {
+        this.carreraService.updateCarrera(formData).subscribe({
           next: (response: any) => {
-            this.showToast('success', 'Dirección actualizada correctamente');
-            this.loadDirecciones();
+            this.showToast('success', 'Carrera actualizada correctamente');
+            this.loadCarreras();
             this.resetForm();
             this.closeModal();
           },
@@ -120,10 +126,10 @@ export class AgregarDireccionComponent implements OnInit {
           },
         });
       } else {
-        this.direccionService.addDireccion(formData).subscribe({
+        this.carreraService.addCarrera(formData).subscribe({
           next: (response: any) => {
-            this.showToast('success', 'Dirección agregada correctamente');
-            this.loadDirecciones();
+            this.showToast('success', 'Carrera agregada correctamente');
+            this.loadCarreras();
             this.resetForm();
             this.closeModal();
           },
@@ -140,28 +146,22 @@ export class AgregarDireccionComponent implements OnInit {
     }
   }
 
-  validateInput(event: KeyboardEvent) {
-    const allowedKeys = /^[a-zA-Z0-9\s]*$/;
-    if (!allowedKeys.test(event.key)) {
-      event.preventDefault();
-    }
-  }
-
   resetForm() {
-    this.direccionForm.reset();
+    this.carreraForm.reset();
     this.errorMessage = '';
     this.successMessage = '';
-    this.currentDireccionId = undefined;
-    this.currentDireccion = undefined;
+    this.currentCarreraId = undefined;
+    this.currentCarrera = undefined;
   }
 
-  openModal(direccion?: Direccion) {
-    if (direccion) {
-      this.currentDireccionId = direccion.id;
-      this.currentDireccion = direccion;
-      this.direccionForm.patchValue({
-        abreviatura: direccion.abreviatura,
-        nombre: direccion.nombre,
+  openModal(carrera?: Carrera) {
+    if (carrera) {
+      this.currentCarreraId = carrera.id;
+      this.carreraForm.patchValue({
+        nombre_carrera: carrera.nombre_carrera,
+        perfil_profesional: carrera.perfil_profesional,
+        ocupacion_profesional: carrera.ocupacion_profesional,
+        direccion_id: carrera.direccion_id,
       });
     } else {
       this.resetForm();
@@ -173,11 +173,20 @@ export class AgregarDireccionComponent implements OnInit {
     this.isModalOpen = false;
   }
 
-  loadDirecciones() {
-    this.direccionService.getDirecciones().subscribe({
+  openViewModal(carrera: Carrera) {
+    this.selectedCarrera = carrera;
+    this.isViewModalOpen = true;
+  }
+
+  closeViewModal() {
+    this.isViewModalOpen = false;
+  }
+
+  loadCarreras() {
+    this.carreraService.getCarreras().subscribe({
       next: (response: any) => {
-        this.direcciones = response.records;
-        this.filterDirecciones();
+        this.carreras = response.records;
+        this.filterCarreras();
       },
       error: (error: any) => {
         this.showToast('error', error.message);
@@ -185,36 +194,26 @@ export class AgregarDireccionComponent implements OnInit {
     });
   }
 
-  deleteDireccion(id: number) {
-    this.showConfirmDialog(
-      '¿Estás seguro?',
-      '¿Quieres eliminar esta dirección? Esta acción no se puede deshacer.',
-      () => {
-        this.direccionService.deleteDireccion(id).subscribe({
-          next: (response: any) => {
-            this.showToast('success', 'Dirección eliminada correctamente');
-            this.loadDirecciones();
-          },
-          error: (error: any) => {
-            this.showToast('error', error.message);
-          },
-        });
-      }
-    );
+  loadDirecciones() {
+    this.direccionService.getDirecciones().subscribe({
+      next: (response: any) => {
+        this.direcciones = response.records;
+      },
+      error: (error: any) => {
+        this.showToast('error', error.message);
+      },
+    });
   }
 
   moveToTrash(id: number) {
     this.showConfirmDialog(
       '¿Estás seguro?',
-      '¿Quieres mover esta dirección a la papelera?',
+      '¿Quieres enviar esta carrera a la papelera?',
       () => {
-        this.direccionService.updateDireccionStatus(id, false).subscribe({
+        this.carreraService.updateCarreraStatus(id, false).subscribe({
           next: (response: any) => {
-            this.showToast(
-              'success',
-              'Dirección movida a la papelera correctamente'
-            );
-            this.loadDirecciones();
+            this.showToast('success', 'Carrera enviada a la papelera');
+            this.loadCarreras();
           },
           error: (error: any) => {
             this.showToast('error', error.message);
@@ -224,76 +223,72 @@ export class AgregarDireccionComponent implements OnInit {
     );
   }
 
-  activateDireccion(id: number) {
-    const direccionToUpdate = this.direcciones.find(
-      (direccion) => direccion.id === id
+  restoreCarrera(id: number) {
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres restaurar esta carrera?',
+      () => {
+        this.carreraService.updateCarreraStatus(id, true).subscribe({
+          next: (response: any) => {
+            this.showToast('success', 'Carrera restaurada');
+            this.loadCarreras();
+          },
+          error: (error: any) => {
+            this.showToast('error', error.message);
+          },
+        });
+      }
     );
-    if (direccionToUpdate) {
-      direccionToUpdate.activo = true;
-      const formData: FormData = new FormData();
-      formData.append('id', direccionToUpdate.id!.toString());
-      formData.append('abreviatura', direccionToUpdate.abreviatura);
-      formData.append('nombre', direccionToUpdate.nombre);
-      formData.append('activo', 'true');
-      this.direccionService.updateDireccion(formData).subscribe({
-        next: (response: any) => {
-          this.showToast('success', 'Dirección activada correctamente');
-          this.loadDirecciones();
-        },
-        error: (error: any) => {
-          this.showToast('error', error.message);
-        },
-      });
+  }
+
+  deleteCarrera(id: number) {
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres eliminar esta carrera? Esta acción no se puede deshacer.',
+      () => {
+        this.carreraService.deleteCarrera(id).subscribe({
+          next: (response: any) => {
+            this.showToast('success', 'Carrera eliminada correctamente');
+            this.loadCarreras();
+          },
+          error: (error: any) => {
+            this.showToast('error', error.message);
+          },
+        });
+      }
+    );
+  }
+
+  filterCarreras() {
+    const value = '';
+    if (this.currentTab === 'active') {
+      this.filteredCarreras = this.carreras.filter(
+        (carrera) =>
+          carrera.activo &&
+          (carrera.nombre_carrera.toLowerCase().includes(value) ||
+            (carrera.perfil_profesional &&
+              carrera.perfil_profesional.toLowerCase().includes(value)) ||
+            (carrera.ocupacion_profesional &&
+              carrera.ocupacion_profesional.toLowerCase().includes(value)) ||
+            (carrera.fecha_creacion && carrera.fecha_creacion.includes(value)))
+      );
+    } else {
+      this.papeleraCarreras = this.carreras.filter(
+        (carrera) =>
+          !carrera.activo &&
+          (carrera.nombre_carrera.toLowerCase().includes(value) ||
+            (carrera.perfil_profesional &&
+              carrera.perfil_profesional.toLowerCase().includes(value)) ||
+            (carrera.ocupacion_profesional &&
+              carrera.ocupacion_profesional.toLowerCase().includes(value)) ||
+            (carrera.fecha_creacion && carrera.fecha_creacion.includes(value)))
+      );
     }
   }
 
   switchTab(tab: 'active' | 'inactive') {
     this.currentTab = tab;
-    this.filterDirecciones();
-  }
-
-  filterDirecciones() {
-    if (this.currentTab === 'active') {
-      this.filteredDirecciones = this.direcciones.filter(
-        (direccion) => direccion.activo
-      );
-    } else {
-      this.papeleraDirecciones = this.direcciones.filter(
-        (direccion) => !direccion.activo
-      );
-    }
-  }
-
-  filterGlobal(event: Event) {
-    const value = (event.target as HTMLInputElement).value.toLowerCase();
-    if (this.currentTab === 'active') {
-      this.filteredDirecciones = this.direcciones.filter(
-        (direccion) =>
-          direccion.activo &&
-          (direccion.abreviatura.toLowerCase().includes(value) ||
-            direccion.nombre.toLowerCase().includes(value) ||
-            (direccion.fecha_creacion &&
-              direccion.fecha_creacion.includes(value)))
-      );
-    } else {
-      this.papeleraDirecciones = this.direcciones.filter(
-        (direccion) =>
-          !direccion.activo &&
-          (direccion.abreviatura.toLowerCase().includes(value) ||
-            direccion.nombre.toLowerCase().includes(value) ||
-            (direccion.fecha_creacion &&
-              direccion.fecha_creacion.includes(value)))
-      );
-    }
-  }
-
-  viewDireccion(direccion: Direccion) {
-    this.selectedDireccion = direccion;
-    this.isViewModalOpen = true;
-  }
-
-  closeViewModal() {
-    this.isViewModalOpen = false;
+    this.filterCarreras();
   }
 
   mostrar(elemento: any): void {

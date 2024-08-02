@@ -6,7 +6,7 @@
   <h2
     class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4"
   >
-    Direcciones
+    Carreras
   </h2>
 </div>
 
@@ -20,7 +20,7 @@
       class="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10"
     >
       <h3 class="text-xl font-bold text-gray-900">
-        {{ currentDireccionId ? "Editar Dirección" : "Nueva Dirección" }}
+        {{ currentCarreraId ? "Editar Carrera" : "Nueva Carrera" }}
       </h3>
       <button
         type="button"
@@ -45,71 +45,132 @@
     </div>
 
     <form
-      [formGroup]="direccionForm"
+      [formGroup]="carreraForm"
       (ngSubmit)="onSubmit()"
       class="p-4 space-y-4"
     >
       <div class="space-y-4">
         <div>
           <label
-            for="abreviatura"
+            for="nombre_carrera"
             class="block text-sm font-medium text-gray-700"
-            >Abreviatura</label
+            >Nombre de la Carrera</label
           >
           <input
             type="text"
-            id="abreviatura"
-            formControlName="abreviatura"
+            id="nombre_carrera"
+            formControlName="nombre_carrera"
             class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
-            placeholder="Abreviatura"
-            maxlength="10"
-            required
-          />
-          <p
-            *ngIf="
-              direccionForm.get('abreviatura')?.invalid &&
-              (direccionForm.get('abreviatura')?.dirty ||
-                direccionForm.get('abreviatura')?.touched)
-            "
-            class="mt-1 text-xs text-red-600"
-          >
-            <span *ngIf="direccionForm.get('abreviatura')?.errors?.['required']"
-              >La abreviatura es requerida.</span
-            >
-            <span
-              *ngIf="direccionForm.get('abreviatura')?.errors?.['maxlength']"
-              >La abreviatura no puede tener más de 10 caracteres.</span
-            >
-          </p>
-        </div>
-
-        <div>
-          <label for="nombre" class="block text-sm font-medium text-gray-700"
-            >Nombre de la Dirección</label
-          >
-          <input
-            type="text"
-            id="nombre"
-            formControlName="nombre"
-            class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
-            placeholder="Nombre de la Dirección"
+            placeholder="Nombre de la Carrera"
             maxlength="100"
             required
           />
           <p
             *ngIf="
-              direccionForm.get('nombre')?.invalid &&
-              (direccionForm.get('nombre')?.dirty ||
-                direccionForm.get('nombre')?.touched)
+              carreraForm.get('nombre_carrera')?.invalid &&
+              (carreraForm.get('nombre_carrera')?.dirty ||
+                carreraForm.get('nombre_carrera')?.touched)
             "
             class="mt-1 text-xs text-red-600"
           >
-            <span *ngIf="direccionForm.get('nombre')?.errors?.['required']"
-              >El nombre de la dirección es requerido.</span
+            <span
+              *ngIf="carreraForm.get('nombre_carrera')?.errors?.['required']"
+              >El nombre de la carrera es requerido.</span
             >
-            <span *ngIf="direccionForm.get('nombre')?.errors?.['maxlength']"
-              >El nombre de la dirección no puede tener más de 100
+            <span
+              *ngIf="carreraForm.get('nombre_carrera')?.errors?.['maxlength']"
+              >El nombre de la carrera no puede tener más de 100
               caracteres.</span
+            >
+          </p>
+        </div>
+
+        <div>
+          <label
+            for="perfil_profesional"
+            class="block text-sm font-medium text-gray-700"
+            >Perfil Profesional</label
+          >
+          <textarea
+            id="perfil_profesional"
+            formControlName="perfil_profesional"
+            class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+            placeholder="Perfil Profesional"
+            maxlength="500"
+          ></textarea>
+          <p
+            *ngIf="
+              carreraForm.get('perfil_profesional')?.invalid &&
+              (carreraForm.get('perfil_profesional')?.dirty ||
+                carreraForm.get('perfil_profesional')?.touched)
+            "
+            class="mt-1 text-xs text-red-600"
+          >
+            <span
+              *ngIf="carreraForm.get('perfil_profesional')?.errors?.['maxlength']"
+              >El perfil profesional no puede tener más de 500 caracteres.</span
+            >
+          </p>
+        </div>
+
+        <div>
+          <label
+            for="ocupacion_profesional"
+            class="block text-sm font-medium text-gray-700"
+            >Ocupación Profesional</label
+          >
+          <textarea
+            id="ocupacion_profesional"
+            formControlName="ocupacion_profesional"
+            class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+            placeholder="Ocupación Profesional"
+            maxlength="500"
+          ></textarea>
+          <p
+            *ngIf="
+              carreraForm.get('ocupacion_profesional')?.invalid &&
+              (carreraForm.get('ocupacion_profesional')?.dirty ||
+                carreraForm.get('ocupacion_profesional')?.touched)
+            "
+            class="mt-1 text-xs text-red-600"
+          >
+            <span
+              *ngIf="carreraForm.get('ocupacion_profesional')?.errors?.['maxlength']"
+              >La ocupación profesional no puede tener más de 500
+              caracteres.</span
+            >
+          </p>
+        </div>
+
+        <div>
+          <label
+            for="direccion_id"
+            class="block text-sm font-medium text-gray-700"
+            >Dirección</label
+          >
+          <select
+            id="direccion_id"
+            formControlName="direccion_id"
+            class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+            required
+          >
+            <option
+              *ngFor="let direccion of direcciones"
+              [value]="direccion.id"
+            >
+              {{ direccion.nombre }}
+            </option>
+          </select>
+          <p
+            *ngIf="
+              carreraForm.get('direccion_id')?.invalid &&
+              (carreraForm.get('direccion_id')?.dirty ||
+                carreraForm.get('direccion_id')?.touched)
+            "
+            class="mt-1 text-xs text-red-600"
+          >
+            <span *ngIf="carreraForm.get('direccion_id')?.errors?.['required']"
+              >La dirección es requerida.</span
             >
           </p>
         </div>
@@ -119,11 +180,11 @@
     <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
       <button
         type="submit"
-        [disabled]="direccionForm.invalid"
+        [disabled]="carreraForm.invalid"
         (click)="onSubmit()"
         class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm"
       >
-        {{ currentDireccionId ? "Actualizar Dirección" : "Agregar Dirección" }}
+        {{ currentCarreraId ? "Actualizar Carrera" : "Agregar Carrera" }}
       </button>
       <button
         type="button"
@@ -208,7 +269,6 @@
                     </svg>
                   </div>
                   <input
-                    (input)="filterGlobal($event)"
                     class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]"
                     type="text"
                     placeholder="Ingresa tu búsqueda"
@@ -230,7 +290,7 @@
                 (click)="openModal()"
               >
                 <i class="fa fa-plus" aria-hidden="true"></i>
-                Registrar Dirección
+                Registrar Carrera
               </button>
             </div>
           </div>
@@ -241,14 +301,15 @@
               <div class="border rounded-lg overflow-hidden my-2">
                 <p-table
                   #dt
-                  [value]="filteredDirecciones"
+                  [value]="filteredCarreras"
                   [paginator]="true"
                   [rows]="5"
                   currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
                   [showCurrentPageReport]="true"
                   [globalFilterFields]="[
-                    'abreviatura',
-                    'nombre',
+                    'nombre_carrera',
+                    'perfil_profesional',
+                    'ocupacion_profesional',
                     'fecha_creacion'
                   ]"
                   [tableStyleClass]="'min-w-full divide-y'"
@@ -261,21 +322,34 @@
                       <th
                         scope="col"
                         class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                        pSortableColumn="abreviatura"
+                        pSortableColumn="nombre_carrera"
                       >
                         <div class="flex">
-                          Abreviatura<p-sortIcon
-                            field="abreviatura"
+                          Nombre de la Carrera<p-sortIcon
+                            field="nombre_carrera"
                           ></p-sortIcon>
                         </div>
                       </th>
                       <th
                         scope="col"
                         class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                        pSortableColumn="nombre"
+                        pSortableColumn="perfil_profesional"
                       >
                         <div class="flex">
-                          Nombre<p-sortIcon field="nombre"></p-sortIcon>
+                          Perfil Profesional<p-sortIcon
+                            field="perfil_profesional"
+                          ></p-sortIcon>
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                        pSortableColumn="ocupacion_profesional"
+                      >
+                        <div class="flex">
+                          Ocupación Profesional<p-sortIcon
+                            field="ocupacion_profesional"
+                          ></p-sortIcon>
                         </div>
                       </th>
                       <th
@@ -297,23 +371,26 @@
                       </th>
                     </tr>
                   </ng-template>
-                  <ng-template pTemplate="body" let-direccion>
+                  <ng-template pTemplate="body" let-carrera>
                     <tr class="divide-x divide-gray-200 bg-neutral-100">
                       <td class="px-3 py-2 text-sm text-black">
-                        {{ direccion.abreviatura }}
+                        {{ carrera.nombre_carrera }}
                       </td>
                       <td class="px-3 py-2 text-sm text-black">
-                        {{ direccion.nombre }}
+                        {{ carrera.perfil_profesional }}
                       </td>
                       <td class="px-3 py-2 text-sm text-black">
-                        {{ direccion.fecha_creacion }}
+                        {{ carrera.ocupacion_profesional }}
+                      </td>
+                      <td class="px-3 py-2 text-sm text-black">
+                        {{ carrera.fecha_creacion }}
                       </td>
                       <td class="px-3 py-2 text-sm text-black">
                         <div class="flex items-center space-x-3.5">
                           <button
                             (mouseenter)="mostrar($event.target)"
                             (mouseleave)="mostrar($event.target)"
-                            (click)="openModal(direccion)"
+                            (click)="openModal(carrera)"
                             class="hover:text-primary"
                           >
                             <div
@@ -339,8 +416,8 @@
                                       <div
                                         class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
                                       >
-                                        Actualizar la información de la
-                                        dirección actual.
+                                        Actualizar la información de la carrera
+                                        actual.
                                       </div>
                                     </li>
                                   </ul>
@@ -351,7 +428,7 @@
                           <button
                             (mouseenter)="mostrar($event.target)"
                             (mouseleave)="mostrar($event.target)"
-                            (click)="moveToTrash(direccion.id)"
+                            (click)="moveToTrash(carrera.id)"
                             class="hover:text-primary"
                           >
                             <div
@@ -377,7 +454,7 @@
                                       <div
                                         class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
                                       >
-                                        Mover la dirección a la papelera.
+                                        Mover la carrera a la papelera.
                                       </div>
                                     </li>
                                   </ul>
@@ -391,7 +468,7 @@
                   </ng-template>
                   <ng-template pTemplate="emptymessage">
                     <tr>
-                      <td colspan="4">No se encontraron resultados.</td>
+                      <td colspan="5">No se encontraron resultados.</td>
                     </tr>
                   </ng-template>
                 </p-table>
@@ -413,14 +490,15 @@
                 <div class="border rounded-lg overflow-hidden my-2">
                   <p-table
                     #dt
-                    [value]="papeleraDirecciones"
+                    [value]="papeleraCarreras"
                     [paginator]="true"
                     [rows]="5"
                     currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
                     [showCurrentPageReport]="true"
                     [globalFilterFields]="[
-                      'abreviatura',
-                      'nombre',
+                      'nombre_carrera',
+                      'perfil_profesional',
+                      'ocupacion_profesional',
                       'fecha_creacion'
                     ]"
                     [tableStyleClass]="'min-w-full divide-y'"
@@ -433,21 +511,34 @@
                         <th
                           scope="col"
                           class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                          pSortableColumn="abreviatura"
+                          pSortableColumn="nombre_carrera"
                         >
                           <div class="flex">
-                            Abreviatura<p-sortIcon
-                              field="abreviatura"
+                            Nombre de la Carrera<p-sortIcon
+                              field="nombre_carrera"
                             ></p-sortIcon>
                           </div>
                         </th>
                         <th
                           scope="col"
                           class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                          pSortableColumn="nombre"
+                          pSortableColumn="perfil_profesional"
                         >
                           <div class="flex">
-                            Nombre<p-sortIcon field="nombre"></p-sortIcon>
+                            Perfil Profesional<p-sortIcon
+                              field="perfil_profesional"
+                            ></p-sortIcon>
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                          pSortableColumn="ocupacion_profesional"
+                        >
+                          <div class="flex">
+                            Ocupación Profesional<p-sortIcon
+                              field="ocupacion_profesional"
+                            ></p-sortIcon>
                           </div>
                         </th>
                         <th
@@ -469,23 +560,26 @@
                         </th>
                       </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-direccion>
+                    <ng-template pTemplate="body" let-carrera>
                       <tr class="divide-x divide-gray-200 bg-neutral-100">
                         <td class="px-3 py-2 text-sm text-black">
-                          {{ direccion.abreviatura }}
+                          {{ carrera.nombre_carrera }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
-                          {{ direccion.nombre }}
+                          {{ carrera.perfil_profesional }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
-                          {{ direccion.fecha_creacion }}
+                          {{ carrera.ocupacion_profesional }}
+                        </td>
+                        <td class="px-3 py-2 text-sm text-black">
+                          {{ carrera.fecha_creacion }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
                           <div class="flex items-center space-x-3.5">
                             <button
                               (mouseenter)="mostrar($event.target)"
                               (mouseleave)="mostrar($event.target)"
-                              (click)="activateDireccion(direccion.id)"
+                              (click)="restoreCarrera(carrera.id)"
                               class="hover:text-primary"
                             >
                               <div
@@ -511,9 +605,9 @@
                                         <div
                                           class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
                                         >
-                                          Volver a activar la dirección
-                                          regresando con esta toda la
-                                          información relacionada.
+                                          Volver a activar la carrera regresando
+                                          con esta toda la información
+                                          relacionada.
                                         </div>
                                       </li>
                                     </ul>
@@ -524,7 +618,7 @@
                             <button
                               (mouseenter)="mostrar($event.target)"
                               (mouseleave)="mostrar($event.target)"
-                              (click)="deleteDireccion(direccion.id)"
+                              (click)="deleteCarrera(carrera.id)"
                               class="hover:text-primary"
                             >
                               <div
@@ -550,7 +644,7 @@
                                         <div
                                           class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
                                         >
-                                          Eliminar la dirección de forma
+                                          Eliminar la carrera de forma
                                           definitiva.
                                         </div>
                                       </li>
@@ -562,7 +656,7 @@
                             <button
                               (mouseenter)="mostrar($event.target)"
                               (mouseleave)="mostrar($event.target)"
-                              (click)="viewDireccion(direccion)"
+                              (click)="openViewModal(carrera)"
                               class="hover:text-primary"
                             >
                               <div
@@ -588,7 +682,7 @@
                                         <div
                                           class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
                                         >
-                                          Ver detalles de la dirección.
+                                          Ver detalles de la carrera.
                                         </div>
                                       </li>
                                     </ul>
@@ -602,7 +696,7 @@
                     </ng-template>
                     <ng-template pTemplate="emptymessage">
                       <tr>
-                        <td colspan="4">No se encontraron resultados.</td>
+                        <td colspan="5">No se encontraron resultados.</td>
                       </tr>
                     </ng-template>
                   </p-table>

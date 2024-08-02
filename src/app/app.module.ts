@@ -9,6 +9,7 @@ import { SalalecturaComponent } from './salalectura/salalectura.component';
 import { BolsadetrabajoComponent } from './bolsadetrabajo/bolsadetrabajo.component';
 import { TransparenciaComponent } from './transparencia/transparencia.component';
 import { PrincipalComponent } from './principal/principal.component';
+import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { PrincipalComponent } from './principal/principal.component';
     SalalecturaComponent,
     BolsadetrabajoComponent,
     TransparenciaComponent,
-    PrincipalComponent
+    PrincipalComponent,
+    AgregarCarreraComponent
   ],
   imports: [
     BrowserModule,

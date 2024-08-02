@@ -17,7 +17,7 @@ class Direccion
 
   function create()
   {
-    $query = "INSERT INTO " . $this->table_name . " 
+    $query = "INSERT INTO " . $this->table_name . "
                     (abreviatura, nombre, activo)
                   VALUES
                     (:abreviatura, :nombre, :activo)";
@@ -59,8 +59,7 @@ class Direccion
                     " . $this->table_name . "
                   WHERE
                     id = ?
-                  LIMIT
-                    0,1";
+                  LIMIT 1";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(1, $this->id);
     $stmt->execute();
@@ -96,6 +95,28 @@ class Direccion
     $stmt->bindParam(":id", $this->id);
     $stmt->bindParam(":abreviatura", $this->abreviatura);
     $stmt->bindParam(":nombre", $this->nombre);
+    $stmt->bindParam(":activo", $this->activo, PDO::PARAM_BOOL);
+
+    if ($stmt->execute()) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function updateStatus()
+  {
+    $query = "UPDATE " . $this->table_name . "
+                  SET
+                    activo = :activo
+                  WHERE
+                    id = :id";
+    $stmt = $this->conn->prepare($query);
+
+    $this->id = htmlspecialchars(strip_tags($this->id));
+    $this->activo = filter_var($this->activo, FILTER_VALIDATE_BOOLEAN);
+
+    $stmt->bindParam(":id", $this->id);
     $stmt->bindParam(":activo", $this->activo, PDO::PARAM_BOOL);
 
     if ($stmt->execute()) {

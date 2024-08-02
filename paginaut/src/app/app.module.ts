@@ -92,6 +92,7 @@ import { DanzaComponent } from './info-horas-recreativas/danza/danza.component';
 import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.component';
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
 import { TallerComponent } from './taller/taller.component';
+import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera.component';
 
 @NgModule({
   declarations: [
@@ -165,6 +166,7 @@ import { TallerComponent } from './taller/taller.component';
     DanzaComponent,
     LecturaComponent,
     AjedrezComponent,
+    AgregarCarreraComponent,
   ],
   imports: [
     BrowserModule,
