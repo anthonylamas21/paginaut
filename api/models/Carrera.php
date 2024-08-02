@@ -38,6 +38,7 @@ class Carrera
     $stmt->bindParam(":activo", $this->activo);
 
     if ($stmt->execute()) {
+      $this->id = $this->conn->lastInsertId();
       return true;
     }
 

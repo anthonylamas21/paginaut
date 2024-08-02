@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -25,9 +29,17 @@ export class CarreraService {
 
   constructor(private http: HttpClient) {}
 
-  addCarrera(carrera: Carrera): Observable<any> {
+  saveCarrera(carrera: Carrera): Observable<any> {
+    const formData = new HttpParams()
+      .set('id', carrera.id?.toString() || '')
+      .set('nombre_carrera', carrera.nombre_carrera)
+      .set('perfil_profesional', carrera.perfil_profesional || '')
+      .set('ocupacion_profesional', carrera.ocupacion_profesional || '')
+      .set('direccion_id', carrera.direccion_id.toString())
+      .set('activo', carrera.activo ? '1' : '0');
+
     return this.http
-      .post<any>(this.apiUrl, carrera)
+      .post<any>(this.apiUrl, formData)
       .pipe(catchError(this.handleError));
   }
 
@@ -37,22 +49,10 @@ export class CarreraService {
       .pipe(catchError(this.handleError));
   }
 
-  getCarreraById(id: number): Observable<Carrera> {
-    return this.http
-      .get<Carrera>(`${this.apiUrl}?id=${id}`)
-      .pipe(catchError(this.handleError));
-  }
-
-  updateCarrera(carrera: Carrera): Observable<any> {
-    return this.http
-      .put<any>(this.apiUrl, carrera)
-      .pipe(catchError(this.handleError));
-  }
-
   updateCarreraStatus(id: number, activo: boolean): Observable<any> {
     const body = { id, activo };
     return this.http
-      .put<any>(`${this.apiUrl}/status`, body)
+      .put<any>(`${this.apiUrl}`, body)
       .pipe(catchError(this.handleError));
   }
 

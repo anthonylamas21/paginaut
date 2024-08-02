@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CarreraService, Carrera } from '../carrera.service';
 import { DireccionService, Direccion } from '../../direccion.service';
@@ -113,31 +113,22 @@ export class AgregarCarreraComponent implements OnInit {
         activo: true,
       };
 
-      if (this.currentCarreraId) {
-        this.carreraService.updateCarrera(formData).subscribe({
-          next: (response: any) => {
-            this.showToast('success', 'Carrera actualizada correctamente');
-            this.loadCarreras();
-            this.resetForm();
-            this.closeModal();
-          },
-          error: (error: any) => {
-            this.showToast('error', error.message);
-          },
-        });
-      } else {
-        this.carreraService.addCarrera(formData).subscribe({
-          next: (response: any) => {
-            this.showToast('success', 'Carrera agregada correctamente');
-            this.loadCarreras();
-            this.resetForm();
-            this.closeModal();
-          },
-          error: (error: any) => {
-            this.showToast('error', error.message);
-          },
-        });
-      }
+      this.carreraService.saveCarrera(formData).subscribe({
+        next: (response: any) => {
+          this.showToast(
+            'success',
+            this.currentCarreraId
+              ? 'Carrera actualizada correctamente'
+              : 'Carrera agregada correctamente'
+          );
+          this.loadCarreras();
+          this.resetForm();
+          this.closeModal();
+        },
+        error: (error: any) => {
+          this.showToast('error', error.message);
+        },
+      });
     } else {
       this.showToast(
         'warning',
