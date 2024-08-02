@@ -64,7 +64,7 @@ export class TallerAdminComponent implements OnInit {
 
   filterTalleres(): void {
     this.filteredTalleres = this.talleres.filter(taller => taller.activo !== false);
-    this.filteredTalleres = this.talleres.filter(taller => taller.activo === false);
+    this.papeleraTalleres = this.talleres.filter(taller => taller.activo === false);
   }
 
   openModal(taller?: Taller): void {
@@ -291,7 +291,7 @@ export class TallerAdminComponent implements OnInit {
   }
 
   switchTab(tab: 'active' | 'inactive'): void {
-    if (tab === 'active') {
+    if (tab == 'active') {
       this.filteredTalleres = this.talleres.filter(taller => taller.activo === true);
     } else {
       this.filteredTalleres = this.papeleraTalleres;
