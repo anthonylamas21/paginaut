@@ -34,10 +34,7 @@ export class NavbarComponent  implements OnInit {
 
     this.LogoutForm = this.formulario.group({
       token: [''],
-      token_cookie: ['']
     });
-
-    this.token = localStorage.getItem('token');
 
     this.token = localStorage.getItem('token');
   }

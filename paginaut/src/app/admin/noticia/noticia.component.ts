@@ -404,6 +404,9 @@ export class NoticiaComponent implements OnInit, OnDestroy {
     if (field?.errors?.['maxlength']) {
       return `Máximo ${field.errors['maxlength'].requiredLength} caracteres.`;
     }
+    if (field?.errors?.['pattern']) {
+      return 'Formato no válido. Solo se permiten letras, números y espacios.';
+    }
     return '';
   }
 

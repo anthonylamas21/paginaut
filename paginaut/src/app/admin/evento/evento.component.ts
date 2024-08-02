@@ -584,11 +584,15 @@ export class EventoComponent implements OnInit,  OnDestroy {
     if (field?.errors?.['maxlength']) {
       return `Máximo ${field.errors['maxlength'].requiredLength} caracteres.`;
     }
+    if (field?.errors?.['pattern']) {
+      return 'Formato no válido. Solo se permiten letras, números y espacios.';
+    }
     if (this.eventoForm.errors?.['fechaHoraInvalida']) {
       return 'La fecha y hora de fin deben ser posteriores a la fecha y hora de inicio.';
     }
     return '';
   }
+
 
   isDateDisabled = (date: Date): boolean => {
     return date < this.getToday();
