@@ -46,7 +46,6 @@ export class TallerAdminComponent implements OnInit {
       next: (response) => {
         this.talleres = response.records.map(taller => ({
           ...taller,
-          nombre: taller.nombre,
           imagen_principal: this.getImageUrl(taller.imagen_principal || ''),
           imagenes_generales: (taller.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
         }));
@@ -211,7 +210,9 @@ export class TallerAdminComponent implements OnInit {
   filterGlobal(event: any): void {
     const searchValue = event.target.value.toLowerCase();
     this.filteredTalleres = this.talleres.filter(taller => 
-      (taller.nombre && taller.nombre.toLowerCase().includes(searchValue)) ||
+      taller.nombre && taller.nombre.toLowerCase().includes(searchValue) ||
+      taller.descripcion.toLowerCase().includes(searchValue) ||
+      taller.competencia.toLowerCase().includes(searchValue) ||
       taller.fecha_publicacion.toLowerCase().includes(searchValue)
     );
   }
@@ -291,7 +292,7 @@ export class TallerAdminComponent implements OnInit {
 
   switchTab(tab: 'active' | 'inactive'): void {
     if (tab === 'active') {
-      this.filteredTalleres = this.talleres.filter(taller => taller.activo !== false);
+      this.filteredTalleres = this.talleres.filter(taller => taller.activo === true);
     } else {
       this.filteredTalleres = this.papeleraTalleres;
     }

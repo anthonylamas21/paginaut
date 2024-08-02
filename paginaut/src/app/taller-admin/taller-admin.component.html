@@ -123,24 +123,24 @@
                       <p-table #dt [value]="filteredTalleres" [paginator]="true" [rows]="5" 
                                currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros" 
                                [showCurrentPageReport]="true" 
-                               [globalFilterFields]="['nombre', 'fecha_publicacion']" 
+                               [globalFilterFields]="['nombre', 'descripcion', 'competencia', 'fecha_publicacion']" 
                                [tableStyleClass]="'min-w-full divide-y'" 
                                [resizableColumns]="true">
                         <ng-template pTemplate="header">
                           <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
                             <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="nombre">
                               <div class="flex">
-                                Título
+                                Nombre
                                 <p-sortIcon field="nombre"></p-sortIcon>
                               </div>
                             </th>
-                            <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="Descripcion">
+                            <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="descripcion">
                               <div class="flex">
                                 Descripcion
                                 <p-sortIcon field="Descripcion"></p-sortIcon>
                               </div>
                             </th>
-                            <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="Competencia">
+                            <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="competencia">
                               <div class="flex">
                                 Competencia
                                 <p-sortIcon field="Competencia"></p-sortIcon>
@@ -213,7 +213,7 @@
                       <p-table #dt [value]="papeleraTalleres" [paginator]="true" [rows]="5" 
                                currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros" 
                                [showCurrentPageReport]="true" 
-                               [globalFilterFields]="['nombre', 'resumen', 'fecha_publicacion']" 
+                               [globalFilterFields]="['nombre', 'descripcion', 'competencia', 'fecha_publicacion']"
                                [tableStyleClass]="'min-w-full divide-y'" 
                                [resizableColumns]="true">
                         <ng-template pTemplate="header">
@@ -222,6 +222,18 @@
                               <div class="flex">
                                 Título
                                 <p-sortIcon field="nombre"></p-sortIcon>
+                              </div>
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="descripcion">
+                              <div class="flex">
+                                Descripcion
+                                <p-sortIcon field="Descripcion"></p-sortIcon>
+                              </div>
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="competencia">
+                              <div class="flex">
+                                Competencia
+                                <p-sortIcon field="Competencia"></p-sortIcon>
                               </div>
                             </th>
                             <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_publicacion">
@@ -244,6 +256,8 @@
                         <ng-template pTemplate="body" let-taller>
                           <tr class="divide-x divide-gray-200 bg-neutral-100">
                             <td class="px-3 py-2 text-sm text-black">{{ taller.nombre }}</td>
+                            <td class="px-3 py-2 text-sm text-black">{{ taller.descripcion }}</td>
+                            <td class="px-3 py-2 text-sm text-black">{{ taller.competencia }}</td>
                             <td class="px-3 py-2 text-sm text-black">{{ taller.fecha_creacion | date:'dd/MM/yyyy' }}</td>
                             <td class="px-3 py-2 text-sm text-black">
                               <button (click)="openImageModal(taller, 'principal')" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-300">
