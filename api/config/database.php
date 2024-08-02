@@ -2,7 +2,7 @@
 class Database
 {
   private $host = "localhost";
-  private $db_name = "UTC2";
+  private $db_name = "UTC";
   private $username = "postgres";
   private $password = "1802";
   public $conn;
