@@ -51,16 +51,36 @@ CREATE TABLE Direccion (
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Crear la tabla NivelesEstudios
+CREATE TABLE NivelesEstudios (
+    id SERIAL PRIMARY KEY,
+    nivel VARCHAR(50) NOT NULL,
+    activo BOOLEAN DEFAULT TRUE,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Crear la tabla CampoEstudio
+CREATE TABLE CampoEstudio (
+    id SERIAL PRIMARY KEY,
+    campo VARCHAR(100) NOT NULL,
+    activo BOOLEAN DEFAULT TRUE,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Crear la tabla Carrera
 CREATE TABLE Carrera (
     id SERIAL PRIMARY KEY,
     nombre_carrera VARCHAR(100) NOT NULL,
     perfil_profesional TEXT,
     ocupacion_profesional TEXT,
-    direccion_id INT,  -- Cambié el nombre de la columna a "direccion_id"
+    direccion_id INT,
+    nivel_estudio_id INT,
+    campo_estudio_id INT,
     activo BOOLEAN DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (direccion_id) REFERENCES Direccion(id)  -- Añadí la restricción de clave externa
+    FOREIGN KEY (direccion_id) REFERENCES Direccion(id),
+    FOREIGN KEY (nivel_estudio_id) REFERENCES NivelesEstudios(id),
+    FOREIGN KEY (campo_estudio_id) REFERENCES CampoEstudio(id)
 );
 
 CREATE TABLE Cuatrimestre (
