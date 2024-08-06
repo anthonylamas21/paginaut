@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { EventoService, Evento } from '../evento.service';
 import { NoticiaService, Noticia } from '../noticia.service';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-principal',
@@ -8,20 +9,49 @@ import { NoticiaService, Noticia } from '../noticia.service';
   styleUrls: ['./principal.component.css']
 })
 export class PrincipalComponent implements OnInit {
+
+  private secretKey = 'X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg'; // Usa una clave segura en producción
   eventosRecientes: Evento[] = [];
   noticias: Noticia[] = [];
   noticiasVisibles: Noticia[] = [];
   cantidadInicial = 3;
   incremento = 3;
 
+  encryptedToken: string | null;
+  encryptedRol: string | null;
+  encryptedDepa: string | null;
+
+
   constructor(
     private eventoService: EventoService,
     private noticiaService: NoticiaService
-  ) {}
+  ) {
+
+    this.encryptedToken = localStorage.getItem('token');
+    this.encryptedRol = localStorage.getItem('rol');
+    this.encryptedDepa = localStorage.getItem('depa');
+  }
+
+  private decrypt(encrypted: string): string {
+    return CryptoJS.AES.decrypt(encrypted, this.secretKey).toString(CryptoJS.enc.Utf8);
+  }
 
   ngOnInit() {
     this.cargarEventosRecientes();
     this.cargarNoticias();
+
+    // if(this.encryptedToken){
+    //   const token = this.decrypt(this.encryptedToken);
+    //   console.log("desencriptado 1: ",token)
+    //   if(this.encryptedRol){
+    //     const rol = this.decrypt(this.encryptedRol);
+    //     console.log("desencriptado 2: ",rol)
+    //   }
+    //   if(this.encryptedDepa){
+    //     const departamento = this.decrypt(this.encryptedDepa);
+    //     console.log("desencriptado 3: ",departamento)
+    //   }
+    // }
   }
 
   cargarEventosRecientes(): void {

@@ -97,11 +97,13 @@ import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera
 @NgModule({
   declarations: [
     AppComponent,
+    TallerComponent,
     PrincipalComponent,
     CarrerasComponent,
     NavbarComponent,
     ComponentesComponent,
     FooterComponent,
+    TalleresComponent,
     UnidadesAcademicasComponent,
     EventosComponent,
     BecasComponent,
