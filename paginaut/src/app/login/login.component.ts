@@ -1,7 +1,9 @@
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UsuarioService, Usuario } from '../usuario.service';
 import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-login',
@@ -41,13 +43,13 @@ export class LoginComponent implements OnInit {
       console.log(this.LoginForm.value);
       this.srvUsuario.IniciarSesion(formData).subscribe(
         res => {
-          console.log(res);
+          //console.log(res);
           console.log('Has iniciado sesión');
           
           localStorage.setItem('token', res.token);
           this.creaciontoken = res.token;
           this.token = res.token;
-          window.location.href = "/principal"
+          window.location.href = "/admin/principal_admin"
         },
         err => {
           console.log('Error al iniciar sesión', err);
@@ -59,5 +61,7 @@ export class LoginComponent implements OnInit {
       console.log('Ya tiene una sesión activa');
     }
   }
+
+
 
 }

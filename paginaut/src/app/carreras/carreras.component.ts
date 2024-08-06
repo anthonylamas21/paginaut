@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-carreras',
@@ -7,8 +7,18 @@ import { Component, HostListener } from '@angular/core';
 })
 export class CarrerasComponent {
 
+  isLoading = true;
+  constructor(private renderer: Renderer2){}
+
   ngOnInit(): void {
     this.setNavbarColor();
+  }
+
+  ngAfterViewInit(): void {
+    this.renderer.listen('window', 'load', () => {
+       this.isLoading = false;
+
+    }); 
   }
 
   @HostListener('window:scroll', [])

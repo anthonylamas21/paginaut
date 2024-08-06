@@ -2,10 +2,10 @@
 <router-outlet>
 
     <p id="inicio"></p>
-    <button id="scrollTopButton" (click)="scrollToSection('inicio')" class="hidden fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+    <button id="scrollTopButton" (click)="scrollToSection('inicio')" class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
       <i class="fa-solid fa-chevron-up"></i>
     </button>
-    
+
     <br><br><br>
     <ol class="flex items-center whitespace-nowrap m-4">
       <li class="inline-flex items-center">
@@ -28,7 +28,7 @@
         Galería
       </li>
     </ol>
-    
+
     <button class="btn-default w-auto m-2 bg-[#FFFFFF] border-2 border-[#EDEDED] text-black py-3 px-3 rounded-xl font-bold uppercase hover:opacity-90 transition-opacity duration-300">
     <span class="relative">boton primario</span>
     </button>
@@ -50,14 +50,14 @@
       Botón 4
     </button>
     <br><br>
-    
+
     <div>
       <input type="text" class="block w-auto border-2 border-[#E5E7EB] rounded-md py-2 pl-7 pr-7 text-gray-900 focus:border-[#04847C] focus:ring-[#04847C]" placeholder="Texto"><br>
       <input type="number" class="block w-auto border-2 border-[#E5E7EB] rounded-md py-2 pl-7 pr-7 text-gray-900 focus:border-[#04847C] focus:ring-[#04847C]" placeholder="Numero"><br>
       <textarea rows="3" class="w-auto rounded-md border-2 border-[#E5E7EB] p-[10px] text-black focus:border-[#04847C] focus:ring-[#04847C] mb-[10px]" placeholder="Descripción"></textarea>
     </div>
     <br>
-      
+
       <div>
         <label class="text-black text-base">Adjuntar una imagen:</label><br>
             <div class="max-w-sm">
@@ -84,24 +84,24 @@
       <option>3</option>
     </select>
     <br>
-    
-    <!--CHECKBOX-->
+
+    <!--CHECKBOX-->z
     <div class="flex m-3">
       <input type="checkbox" class="size-5 shrink-0 mt-0.5 border-gray-200 rounded text--[#04847C] focus:ring-[#04847C] disabled:opacity-50 disabled:pointer-events-none">
       <label class="text-sm text-black ms-3">Default checkbox</label>
     </div>
-    
+
     <div class="flex m-3">
       <input type="checkbox" class="size-5 shrink-0 mt-0.5 border-gray-200 rounded text--[#04847C] focus:ring-[#04847C] disabled:opacity-50 disabled:pointer-events-none" checked="">
       <label  class="text-sm text-black ms-3">Checked checkbox</label>
     </div>
-    
+
     <br>
     <div class="flex m-3">
       <input type="radio" name="hs-default-radio" class="shrink-0 mt-0.5 size-5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
       <label  class="text-sm text-black ms-2">Default radio</label>
     </div>
-    
+
     <div class="flex m-3">
       <input type="radio" name="hs-default-radio" class="shrink-0 mt-0.5 size-5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" checked="">
       <label class="text-sm text-black ms-2">Checked radio</label>
@@ -129,7 +129,7 @@
     <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-500 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-slide-down-animation-modal">
       Modal informativo y acciones
     </button>
-    
+
     <div id="hs-slide-down-animation-modal" class="hs-overlay hs-overlay-backdrop-open:bg-gray-900/50 hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none [--overlay-backdrop:static]" data-hs-overlay-keyboard="false">
       <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
         <div class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
@@ -168,7 +168,7 @@
     <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-500 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-slide-down-animation-modal2">
       Modal con formulario particionado
     </button>
-    
+
     <div id="hs-slide-down-animation-modal2" class="hs-overlay hs-overlay-backdrop-open:bg-gray-900/50 hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none [--overlay-backdrop:static]" data-hs-overlay-keyboard="false">
       <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
         <div class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
@@ -185,23 +185,23 @@
             </button>
           </div>
           <div class="p-4 overflow-y-auto">
-              
+
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="col-span-2 md:col-span-1">
                   <label class="text-black text-base">Ingresa tu nombre:</label><br>
                   <input type="text" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" placeholder="Texto">
                 </div>
-                
+
                 <div class="col-span-2 md:col-span-1">
                   <label class="text-black text-base">Ingresa tu edad:</label><br>
                   <input type="number" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" placeholder="Número">
                 </div>
-            
+
                 <div class="col-span-2">
                   <label class="text-black text-base">Descríbenos algo sobre ti:</label><br>
                   <textarea rows="3" class="border-2 border-[#EDEDED] block w-full rounded-md p-2.5 text-gray-900" placeholder="Descripción"></textarea>
                 </div>
-            
+
                 <div class="col-span-2 md:col-span-1">
                   <label class="text-black text-base">Adjuntar una imagen:</label><br>
                   <label class="block">
@@ -219,13 +219,13 @@
                     ">
                   </label>
                 </div>
-                
+
                 <div class="col-span-2 md:col-span-1">
                   <label class="text-black text-base">Selecciona las opciones</label><br>
                   <input type="checkbox" class="size-5" checked>
                   <input type="checkbox" class="size-5">
-            
-                 
+
+
                     <input type="checkbox" id="cbx2" style="display: none;" checked>
                     <label for="cbx2" class="check">
                         <svg width="18px" height="18px" viewBox="0 0 18 18">
@@ -233,17 +233,17 @@
                             <polyline points="1 9 7 14 15 4"></polyline>
                         </svg>
                     </label>
-                  
-            
+
+
                 </div>
-                
+
                 <div class="col-span-2 md:col-span-1">
                   <label class="text-black text-base">Selecciona las opciones</label><br>
                   <input type="radio" name="opcion" class="size-5" checked>
                   <input type="radio" name="opcion" class="size-5">
                 </div>
               </div>
-            
+
           </div>
           <div class="flex justify-end items-center gap-x-2 py-3 px-4 border-t">
             <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-gray-200 bg-gray-200 text-black hover:opacity-70 transition-opacity duration-300 disabled:pointer-events-none font-medium" data-hs-overlay="#hs-slide-down-animation-modal2">
@@ -259,12 +259,12 @@
         </div>
       </div>
     </div>
-    
+
     <br><br>
     <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-500 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none " data-hs-overlay="#hs-slide-down-animation-modal3">
       Modal con formulario de pocos inputs
     </button>
-    
+
     <div id="hs-slide-down-animation-modal3" class="hs-overlay hs-overlay-backdrop-open:bg-gray-900/50 hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none [--overlay-backdrop:static]" data-hs-overlay-keyboard="false">
       <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
         <div class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
@@ -281,19 +281,19 @@
             </button>
           </div>
           <div class="p-4 overflow-y-auto">
-              
+
                 <div class="col-span-2 md:col-span-1">
                   <label class="text-black text-base">Ingresa tu nombre:</label>
                   <input type="text" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" placeholder="Mario">
                 </div>
-                
+
                 <div class="col-span-2 md:col-span-1">
                   <label class="text-black text-base">Ingresa tu edad:</label>
                   <input type="number" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" placeholder="23">
                 </div>
-    
+
                 <p class="m-2">-----Otro----</p>
-                
+
                 <div class="flex items-center space-x-5">
                   <label class="text-black text-base w-3/12">Nombres:</label>
                   <input type="text" class="border-2 border-[#EDEDED] rounded-md py-2 pl-3 pr-3 text-gray-900 w-4/5" placeholder="Mario">
@@ -302,7 +302,7 @@
                   <label class="text-black text-base w-3/12">Edad:</label>
                   <input type="number" class="border-2 border-[#EDEDED] rounded-md py-2 pl-3 pr-3 text-gray-900 w-4/5" placeholder="23">
                 </div>
-                
+
           </div>
           <div class="flex justify-end items-center gap-x-2 py-3 px-4 border-t">
             <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-gray-200 bg-gray-200 text-black hover:opacity-70 transition-opacity duration-300 disabled:pointer-events-none font-medium" data-hs-overlay="#hs-slide-down-animation-modal3">
@@ -320,18 +320,18 @@
     </div>
     <!--FIN MODAL-->
     <hr>
-    
+
     <br><br><br>
-    
-    
-    
-    
+
+
+
+
     <!--CARDS-->
     <h4 class="text-xl">CARDS CON IMAGEN</h4>
-    
+
     <div class="flex flex-wrap justify-center">
-    
-    
+
+
     <div class="w-3/12 flex flex-col bg-white border shadow-sm rounded-xl m-4 p-4">
       <img class="w-full h-auto rounded-t-xl" src="https://images.unsplash.com/photo-1680868543815-b8666dba60f7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2532&q=80" alt="Image Description">
       <div class="p-4 md:p-5">
@@ -388,7 +388,7 @@
       </div>
     </div>
     </div>
-    
+
     <h4 class="text-xl">CARDS SIN IMAGEN</h4>
     <div class="flex flex-wrap justify-center">
       <div class="w-3/12 flex flex-col bg-white border shadow-sm rounded-xl m-4 p-4">
@@ -444,12 +444,12 @@
         </div>
       </div>
     </div>
-    
+
     <!--FIN CARDS-->
     <br><br>
-    
+
     <!--TABLAS-->
-    
+
     <div class="rounded-lg border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default sm:px-7.5 xl:pb-1 my-2">
       <div class="max-w-full ">
         <div class="border-b border-gray-200">
@@ -466,7 +466,7 @@
             </button>
           </nav>
         </div>
-    
+
         <div class="mt-3">
           <div id="tabs-with-icons-1" role="tabpanel" aria-labelledby="tabs-with-icons-item-1">
             <div class="flex flex-wrap  items-center">
@@ -487,7 +487,7 @@
                         class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]"
                         type="text" placeholder="Ingresa tu busqueda" value="" data-hs-combo-box-input="">
                     </div>
-    
+
                     <!-- SearchBox Dropdown -->
                     <div class="absolute z-50 w-full bg-white border border-gray-200 rounded-lg" style="display: none;"
                       data-hs-combo-box-output="">
@@ -544,7 +544,7 @@
                             </div>
                           </th>
                         </tr>
-    
+
                       </ng-template>
                       <ng-template pTemplate="body" let-registro>
                         <tr class="divide-x  divide-gray-200 bg-neutral-100">
@@ -553,16 +553,16 @@
                           <td class="px-3 py-2 text-sm text-black">{{registro.direccion}}</td>
                           <td class="px-3 py-2 text-sm text-black">
                             <div class="flex items-center  space-x-3.5">
-    
+
                               <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)"
                                 class="hover:text-primary">
-    
+
                                 <!-- User -->
                                 <div
                                   class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                   <div
                                     class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
-    
+
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     <!-- Popover Content -->
                                     <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible
@@ -588,7 +588,7 @@
                                         </li>
                                       </ul>
                                     </div>
-    
+
                                     <!-- End Popover Content -->
                                   </div>
                                 </div>
@@ -600,7 +600,7 @@
                                 <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                   <div
                                     class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
-    
+
                                     <i class="fas fa-edit "></i>
                                     <!-- Popover Content -->
                                     <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible
@@ -634,12 +634,12 @@
                               <button
                                 (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)"
                               class="hover:text-primary">
-    
+
                                 <!-- User -->
                                 <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                   <div
                                     class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
-    
+
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                     <!-- Popover Content -->
                                     <div
@@ -671,12 +671,12 @@
                               <button
                                 (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)"
                               class="hover:text-primary">
-    
+
                                 <!-- User -->
                                 <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                   <div
                                     class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
-    
+
                                     <i class="fa-solid fa-arrow-rotate-left"></i>
                                     <!-- Popover Content -->
                                     <div
@@ -740,22 +740,22 @@
             </div>
           </div>
         </div>
-    
-    
+
+
       </div>
     </div>
-    
-    
-    
+
+
+
     <div>
-    
+
     </div>
-    
+
     <div>
     </div>
     <br><br><br>
-    
-    
+
+
     <ol class="flex items-center whitespace-nowrap m-2">
       <li class="inline-flex items-center">
         <a class="flex items-center text-sm text-gray-500 hover:text-[#003C3D] focus:outline-none focus:text-[#003C3D] " href="#">
@@ -777,9 +777,9 @@
         Galería
       </li>
     </ol>
-    
+
     <br><br><br>
-    
+
     <i class="m-2 text-[#003C3D] fa-solid fa-floppy-disk"></i>
     <i class="m-2 text-[#04847C] fa-solid fa-pen-to-square"></i>
     <i class="m-2 text-[#EF4444] fa-solid fa-trash"></i>
@@ -788,9 +788,9 @@
     <i class="m-2 text-[#47B0A4] fa-solid fa-rotate-right fa-flip-horizontal"></i>
     <i class="m-2 p-2 bg-[#000] text-[#fff] fa-solid fa-arrow-left"></i>
     <i class="m-2 p-2 fa-solid fa-chevron-up text-[#FFFFFF] bg-[#000]"></i>
-    
+
     <br><br><br>
-    
+
     <div class="border-b border-gray-200">
       <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
         <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none active" id="tabs-with-underline-item-1" data-hs-tab="#tabs-with-underline-1" aria-controls="tabs-with-underline-1" role="tab">
@@ -804,7 +804,7 @@
         </button>
       </nav>
     </div>
-    
+
     <div class="mt-3">
       <div id="tabs-with-underline-1" role="tabpanel" aria-labelledby="tabs-with-underline-item-1">
         <p class="text-black">
@@ -822,9 +822,9 @@
         </p>
       </div>
     </div>
-    
+
     <br><br><br>
-    
+
     <div class="flex m-3">
       <div class="flex bg-gray-100 hover:bg-gray-200 rounded-full transition px-2 py-2">
         <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
@@ -840,7 +840,7 @@
         </nav>
       </div>
     </div>
-    
+
     <div class="mt-3">
       <div id="segment-1" role="tabpanel" aria-labelledby="segment-item-1">
         <p class="text-gray-500 dark:text-neutral-400">
@@ -858,9 +858,9 @@
         </p>
       </div>
     </div>
-    
+
     <br><br><br>
-    
+
     <div class="hs-accordion-group m-3">
       <div class="hs-accordion active" id="hs-basic-with-title-and-arrow-stretched-heading-one">
         <button class="hs-accordion-toggle hs-accordion-active:text-[#008779] py-3 inline-flex items-center justify-between gap-x-3 w-full font-semibold text-start text-[#04847C] hover:text-[#04847C] hover:opacity-80 rounded-lg disabled:opacity-50 disabled:pointer-events-none" aria-controls="hs-basic-with-title-and-arrow-stretched-collapse-one">
@@ -878,7 +878,7 @@
           </p>
         </div>
       </div>
-    
+
       <div class="hs-accordion" id="hs-basic-with-title-and-arrow-stretched-heading-two">
         <button class="hs-accordion-toggle hs-accordion-active:text-[#008779] py-3 inline-flex items-center justify-between gap-x-3 w-full font-semibold text-start text-[#04847C] hover:text-[#04847C] hover:opacity-80 rounded-lg disabled:opacity-50 disabled:pointer-events-none" aria-controls="hs-basic-with-title-and-arrow-stretched-collapse-two">
           Sección #2
@@ -895,7 +895,7 @@
           </p>
         </div>
       </div>
-    
+
       <div class="hs-accordion" id="hs-basic-with-title-and-arrow-stretched-heading-three">
         <button class="hs-accordion-toggle hs-accordion-active:text-[#008779] py-3 inline-flex items-center justify-between gap-x-3 w-full font-semibold text-start text-[#04847C] hover:text-[#04847C] hover:opacity-80 rounded-lg disabled:opacity-50 disabled:pointer-events-none" aria-controls="hs-basic-with-title-and-arrow-stretched-collapse-three">
           Sección #3
@@ -913,7 +913,7 @@
         </div>
       </div>
     </div>
-    
+
     <br><br><br>
     <button
     class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#E5E7EB] text-white py-3 px-3 rounded-xl font-bold uppercase hover:opacity-90 transition-opacity duration-300" (click)="funcion1()">
@@ -940,10 +940,10 @@
     class="btn-default w-auto m-2 bg-[#008779] border-2 border-[#E5E7EB] text-white py-3 px-3 rounded-xl font-bold uppercase hover:opacity-90 transition-opacity duration-300" (click)="activarSweetAlertSure()">
     <span class="relative">Are you sure?</span>
     </button>
-    
+
     <br><br><br>
     <!--FIN TABLAS-->
-    
+
     <!--INPUT CON ICONOS E ICONOS-->
     <h1>ICONOS Y INPUT CON ICONOS</h1>
     <button class="bg-[#008779] text-white hover:opacity-80 transition-opacity duration-300 text-white py-2 px-4 rounded-[10px] m-2">
@@ -957,18 +957,18 @@
       <i class="fa-solid fa-question absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500 md:left-auto md:right-2" title="Información"></i>
     </div>
     <!--FIN DE INPUT CON ICONOS-->
-    
-    
+
+
     <br><br><br><br>
     <!--inicio-->
     <div class="flex animate-pulse m-4">
       <div class="flex-shrink-0">
         <span class="size-12 block bg-gray-200 rounded-full"></span>
       </div>
-    
+
       <div class="ms-4 mt-2 w-80">
         <p class="h-4 bg-gray-200 rounded-full" style="width: 40%;"></p>
-    
+
         <ul class="mt-5 space-y-3">
           <li class="w-full h-4 bg-gray-200 rounded-full"></li>
           <li class="w-full h-4 bg-gray-200 rounded-full"></li>
@@ -981,7 +981,7 @@
     <div class="flex animate-pulse m-4">
       <div class="ms-4 mt-2 w-3/12">
         <p class="h-4 bg-gray-200 rounded-full" style="width: 40%;"></p>
-    
+
         <ul class="mt-5 space-y-3">
           <li class="w-3/12 h-4 bg-gray-200 rounded-full"></li>
           <li class="w-6/12 h-4 bg-gray-200 rounded-full"></li>
@@ -1140,10 +1140,10 @@
         </div>
       </form>
     </div>
-    
+
     <br>
     <!-- FOOTER -->
-    
+
       <footer class="w-full text-gray-700 bg-[#003c3d] body-font">
         <div
           class="container flex flex-col flex-wrap px-5 py-24 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap">

@@ -9,8 +9,8 @@ CREATE TABLE Rol (
 
 CREATE TABLE token_sesion (
     id SERIAL PRIMARY KEY,
-    correo INT NOT NULL UNIQUE,
-    token INT NOT NULL,
+    correo VARCHAR(50) NOT NULL UNIQUE,
+    token VARCHAR(255) NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -51,16 +51,36 @@ CREATE TABLE Direccion (
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Crear la tabla NivelesEstudios
+CREATE TABLE NivelesEstudios (
+    id SERIAL PRIMARY KEY,
+    nivel VARCHAR(50) NOT NULL,
+    activo BOOLEAN DEFAULT TRUE,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Crear la tabla CampoEstudio
+CREATE TABLE CampoEstudio (
+    id SERIAL PRIMARY KEY,
+    campo VARCHAR(100) NOT NULL,
+    activo BOOLEAN DEFAULT TRUE,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Crear la tabla Carrera
 CREATE TABLE Carrera (
     id SERIAL PRIMARY KEY,
     nombre_carrera VARCHAR(100) NOT NULL,
     perfil_profesional TEXT,
     ocupacion_profesional TEXT,
-    direccion_id INT,  -- Cambié el nombre de la columna a "direccion_id"
+    direccion_id INT,
+    nivel_estudio_id INT,
+    campo_estudio_id INT,
     activo BOOLEAN DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (direccion_id) REFERENCES Direccion(id)  -- Añadí la restricción de clave externa
+    FOREIGN KEY (direccion_id) REFERENCES Direccion(id),
+    FOREIGN KEY (nivel_estudio_id) REFERENCES NivelesEstudios(id),
+    FOREIGN KEY (campo_estudio_id) REFERENCES CampoEstudio(id)
 );
 
 CREATE TABLE Cuatrimestre (
@@ -99,25 +119,25 @@ CREATE TABLE Archivos (
     id SERIAL PRIMARY KEY,
     nombre_archivo VARCHAR(255) NOT NULL,
     ruta_archivo VARCHAR(255) NOT NULL,
-    tipo_archivo VARCHAR(50) NOT NULL, 
+    tipo_archivo VARCHAR(255) NOT NULL,
     seccion VARCHAR(50) NOT NULL, -- Identifica a qué sección pertenece el archivo (asignatura, evento, calendario, etc.)
     asociado_id INT, -- ID del registro en la tabla correspondiente
     activo BOOLEAN DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE Evento (
-    id SERIAL PRIMARY KEY,
-    titulo VARCHAR(50) NOT NULL,
-    informacion_evento TEXT NOT NULL,
-    activo BOOLEAN DEFAULT TRUE,
-    lugar_evento VARCHAR(50) NOT NULL,
-    fecha_inicio TIMESTAMP,
-    fecha_fin TIMESTAMP,
-    hora_inicio TIME,
-    hora_fin TIME,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-);
+  CREATE TABLE Evento (
+      id SERIAL PRIMARY KEY,
+      titulo VARCHAR(50) NOT NULL,
+      informacion_evento TEXT NOT NULL,
+      activo BOOLEAN DEFAULT TRUE,
+      lugar_evento VARCHAR(50) NOT NULL,
+      fecha_inicio TIMESTAMP,
+      fecha_fin TIMESTAMP,
+      hora_inicio TIME,
+      hora_fin TIME,
+      fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
 
 CREATE TABLE Noticia (
     id SERIAL PRIMARY KEY,

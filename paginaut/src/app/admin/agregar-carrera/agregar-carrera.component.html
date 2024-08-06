@@ -1,0 +1,711 @@
+<app-navbar-admin></app-navbar-admin>
+<p id="inicio"></p>
+<!--Fin Navbar-->
+
+<div class="bg-[#043D3D] rounded-lg mt-28 mb-5">
+  <h2
+    class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4"
+  >
+    Carreras
+  </h2>
+</div>
+
+<!-- Modal -->
+<div
+  [ngClass]="{ hidden: !isModalOpen }"
+  class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4"
+>
+  <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+    <div
+      class="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10"
+    >
+      <h3 class="text-xl font-bold text-gray-900">
+        {{ currentCarreraId ? "Editar Carrera" : "Nueva Carrera" }}
+      </h3>
+      <button
+        type="button"
+        class="text-gray-400 hover:text-gray-500"
+        (click)="closeModal()"
+      >
+        <span class="sr-only">Cerrar</span>
+        <svg
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <form
+      [formGroup]="carreraForm"
+      (ngSubmit)="onSubmit()"
+      class="p-4 space-y-4"
+    >
+      <div class="space-y-4">
+        <div>
+          <label
+            for="nombre_carrera"
+            class="block text-sm font-medium text-gray-700"
+            >Nombre de la Carrera</label
+          >
+          <input
+            type="text"
+            id="nombre_carrera"
+            formControlName="nombre_carrera"
+            class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+            placeholder="Nombre de la Carrera"
+            maxlength="100"
+            required
+          />
+          <p
+            *ngIf="
+              carreraForm.get('nombre_carrera')?.invalid &&
+              (carreraForm.get('nombre_carrera')?.dirty ||
+                carreraForm.get('nombre_carrera')?.touched)
+            "
+            class="mt-1 text-xs text-red-600"
+          >
+            <span
+              *ngIf="carreraForm.get('nombre_carrera')?.errors?.['required']"
+              >El nombre de la carrera es requerido.</span
+            >
+            <span
+              *ngIf="carreraForm.get('nombre_carrera')?.errors?.['maxlength']"
+              >El nombre de la carrera no puede tener más de 100
+              caracteres.</span
+            >
+          </p>
+        </div>
+
+        <div>
+          <label
+            for="perfil_profesional"
+            class="block text-sm font-medium text-gray-700"
+            >Perfil Profesional</label
+          >
+          <textarea
+            id="perfil_profesional"
+            formControlName="perfil_profesional"
+            class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+            placeholder="Perfil Profesional"
+            maxlength="500"
+          ></textarea>
+          <p
+            *ngIf="
+              carreraForm.get('perfil_profesional')?.invalid &&
+              (carreraForm.get('perfil_profesional')?.dirty ||
+                carreraForm.get('perfil_profesional')?.touched)
+            "
+            class="mt-1 text-xs text-red-600"
+          >
+            <span
+              *ngIf="carreraForm.get('perfil_profesional')?.errors?.['maxlength']"
+              >El perfil profesional no puede tener más de 500 caracteres.</span
+            >
+          </p>
+        </div>
+
+        <div>
+          <label
+            for="ocupacion_profesional"
+            class="block text-sm font-medium text-gray-700"
+            >Ocupación Profesional</label
+          >
+          <textarea
+            id="ocupacion_profesional"
+            formControlName="ocupacion_profesional"
+            class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+            placeholder="Ocupación Profesional"
+            maxlength="500"
+          ></textarea>
+          <p
+            *ngIf="
+              carreraForm.get('ocupacion_profesional')?.invalid &&
+              (carreraForm.get('ocupacion_profesional')?.dirty ||
+                carreraForm.get('ocupacion_profesional')?.touched)
+            "
+            class="mt-1 text-xs text-red-600"
+          >
+            <span
+              *ngIf="carreraForm.get('ocupacion_profesional')?.errors?.['maxlength']"
+              >La ocupación profesional no puede tener más de 500
+              caracteres.</span
+            >
+          </p>
+        </div>
+
+        <div>
+          <label
+            for="direccion_id"
+            class="block text-sm font-medium text-gray-700"
+            >Dirección</label
+          >
+          <select
+            id="direccion_id"
+            formControlName="direccion_id"
+            class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+            required
+          >
+            <option
+              *ngFor="let direccion of direcciones"
+              [value]="direccion.id"
+            >
+              {{ direccion.nombre }}
+            </option>
+          </select>
+          <p
+            *ngIf="
+              carreraForm.get('direccion_id')?.invalid &&
+              (carreraForm.get('direccion_id')?.dirty ||
+                carreraForm.get('direccion_id')?.touched)
+            "
+            class="mt-1 text-xs text-red-600"
+          >
+            <span *ngIf="carreraForm.get('direccion_id')?.errors?.['required']"
+              >La dirección es requerida.</span
+            >
+          </p>
+        </div>
+      </div>
+    </form>
+
+    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+      <button
+        type="submit"
+        [disabled]="carreraForm.invalid"
+        (click)="onSubmit()"
+        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm"
+      >
+        {{ currentCarreraId ? "Actualizar Carrera" : "Agregar Carrera" }}
+      </button>
+      <button
+        type="button"
+        (click)="closeModal()"
+        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+      >
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Resto del contenido de tu componente -->
+
+<div *ngIf="errorMessage" class="alert alert-danger mt-3">
+  {{ errorMessage }}
+</div>
+<div *ngIf="successMessage" class="alert alert-success mt-3">
+  {{ successMessage }}
+</div>
+
+<div
+  class="rounded-lg border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default sm:px-7.5 xl:pb-1 my-2"
+>
+  <div class="max-w-full">
+    <div class="border-b border-gray-200">
+      <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
+        <button
+          type="button"
+          class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none active"
+          id="tabs-with-icons-item-1"
+          data-hs-tab="#tabs-with-icons-1"
+          aria-controls="tabs-with-icons-1"
+          role="tab"
+          (click)="switchTab('active')"
+        >
+          Todos
+        </button>
+        <button
+          type="button"
+          class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none"
+          id="tabs-with-icons-item-2"
+          data-hs-tab="#tabs-with-icons-2"
+          aria-controls="tabs-with-icons-2"
+          role="tab"
+          (click)="switchTab('inactive')"
+        >
+          Papelera
+        </button>
+      </nav>
+    </div>
+
+    <div class="mt-3">
+      <div
+        id="tabs-with-icons-1"
+        role="tabpanel"
+        aria-labelledby="tabs-with-icons-item-1"
+      >
+        <div class="flex flex-wrap items-center">
+          <div class="flex flex-col lg:w-7/12 sm:w-12/12 md:w-7/12 w-full">
+            <div class="w-full">
+              <!-- SearchBox -->
+              <div class="relative w-full">
+                <div class="relative w-full">
+                  <div
+                    class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5 w-full"
+                  >
+                    <svg
+                      class="flex-shrink-0 size-4 text-gray-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <path d="m21 21-4.3-4.3"></path>
+                    </svg>
+                  </div>
+                  <input
+                    class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]"
+                    type="text"
+                    placeholder="Ingresa tu búsqueda"
+                    value=""
+                    data-hs-combo-box-input=""
+                  />
+                </div>
+              </div>
+              <!-- End SearchBox -->
+            </div>
+          </div>
+          <div
+            class="flex flex-col lg:w-5/12 sm:w-12/12 md:w-5/12 text-right w-full"
+          >
+            <div class="w-full">
+              <button
+                type="button"
+                class="py-3 my-2 px-4 inline-flex button-secondary items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-color text-white hover:bg-primary-color-90 disabled:opacity-50 disabled:pointer-events-none"
+                (click)="openModal()"
+              >
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Registrar Carrera
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col mb-5">
+          <div class="-m-1.5 overflow-x-auto">
+            <div class="p-1.5 min-w-full inline-block align-middle">
+              <div class="border rounded-lg overflow-hidden my-2">
+                <p-table
+                  #dt
+                  [value]="filteredCarreras"
+                  [paginator]="true"
+                  [rows]="5"
+                  currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
+                  [showCurrentPageReport]="true"
+                  [globalFilterFields]="[
+                    'nombre_carrera',
+                    'perfil_profesional',
+                    'ocupacion_profesional',
+                    'fecha_creacion'
+                  ]"
+                  [tableStyleClass]="'min-w-full divide-y'"
+                  [resizableColumns]="true"
+                >
+                  <ng-template pTemplate="header">
+                    <tr
+                      class="divide-x divide-gray-200 bg-table-header-color rounded-lg"
+                    >
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                        pSortableColumn="nombre_carrera"
+                      >
+                        <div class="flex">
+                          Nombre de la Carrera<p-sortIcon
+                            field="nombre_carrera"
+                          ></p-sortIcon>
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                        pSortableColumn="perfil_profesional"
+                      >
+                        <div class="flex">
+                          Perfil Profesional<p-sortIcon
+                            field="perfil_profesional"
+                          ></p-sortIcon>
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                        pSortableColumn="ocupacion_profesional"
+                      >
+                        <div class="flex">
+                          Ocupación Profesional<p-sortIcon
+                            field="ocupacion_profesional"
+                          ></p-sortIcon>
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                        pSortableColumn="fecha_creacion"
+                      >
+                        <div class="flex">
+                          Fecha de Creación<p-sortIcon
+                            field="fecha_creacion"
+                          ></p-sortIcon>
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                      >
+                        <div class="flex">Acciones</div>
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-carrera>
+                    <tr class="divide-x divide-gray-200 bg-neutral-100">
+                      <td class="px-3 py-2 text-sm text-black">
+                        {{ carrera.nombre_carrera }}
+                      </td>
+                      <td class="px-3 py-2 text-sm text-black">
+                        {{ carrera.perfil_profesional }}
+                      </td>
+                      <td class="px-3 py-2 text-sm text-black">
+                        {{ carrera.ocupacion_profesional }}
+                      </td>
+                      <td class="px-3 py-2 text-sm text-black">
+                        {{ carrera.fecha_creacion }}
+                      </td>
+                      <td class="px-3 py-2 text-sm text-black">
+                        <div class="flex items-center space-x-3.5">
+                          <button
+                            (mouseenter)="mostrar($event.target)"
+                            (mouseleave)="mostrar($event.target)"
+                            (click)="openModal(carrera)"
+                            class="hover:text-primary"
+                          >
+                            <div
+                              class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                            >
+                              <div
+                                class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                              >
+                                <i class="fas fa-edit"></i>
+                                <div
+                                  class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                  role="tooltip"
+                                >
+                                  <div
+                                    class="py-3 px-4 border-b border-gray-200"
+                                  >
+                                    <h4 class="font-semibold text-gray-800">
+                                      Editar
+                                    </h4>
+                                  </div>
+                                  <ul class="py-3 px-4 space-y-1">
+                                    <li>
+                                      <div
+                                        class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                      >
+                                        Actualizar la información de la carrera
+                                        actual.
+                                      </div>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </button>
+                          <button
+                            (mouseenter)="mostrar($event.target)"
+                            (mouseleave)="mostrar($event.target)"
+                            (click)="moveToTrash(carrera.id)"
+                            class="hover:text-primary"
+                          >
+                            <div
+                              class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                            >
+                              <div
+                                class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                              >
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                <div
+                                  class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                  role="tooltip"
+                                >
+                                  <div
+                                    class="py-3 px-4 border-b border-gray-200"
+                                  >
+                                    <h4 class="font-semibold text-gray-800">
+                                      Eliminar
+                                    </h4>
+                                  </div>
+                                  <ul class="py-3 px-4 space-y-1">
+                                    <li>
+                                      <div
+                                        class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                      >
+                                        Mover la carrera a la papelera.
+                                      </div>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr>
+                      <td colspan="5">No se encontraron resultados.</td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        id="tabs-with-icons-2"
+        class="hidden"
+        role="tabpanel"
+        aria-labelledby="tabs-with-icons-item-2"
+      >
+        <div class="min-h-60 flex flex-col bg-white rounded-xl">
+          <div class="flex flex-col mb-5">
+            <div class="-m-1.5 overflow-x-auto">
+              <div class="p-1.5 min-w-full inline-block align-middle">
+                <div class="border rounded-lg overflow-hidden my-2">
+                  <p-table
+                    #dt
+                    [value]="papeleraCarreras"
+                    [paginator]="true"
+                    [rows]="5"
+                    currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
+                    [showCurrentPageReport]="true"
+                    [globalFilterFields]="[
+                      'nombre_carrera',
+                      'perfil_profesional',
+                      'ocupacion_profesional',
+                      'fecha_creacion'
+                    ]"
+                    [tableStyleClass]="'min-w-full divide-y'"
+                    [resizableColumns]="true"
+                  >
+                    <ng-template pTemplate="header">
+                      <tr
+                        class="divide-x divide-gray-200 bg-table-header-color rounded-lg"
+                      >
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                          pSortableColumn="nombre_carrera"
+                        >
+                          <div class="flex">
+                            Nombre de la Carrera<p-sortIcon
+                              field="nombre_carrera"
+                            ></p-sortIcon>
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                          pSortableColumn="perfil_profesional"
+                        >
+                          <div class="flex">
+                            Perfil Profesional<p-sortIcon
+                              field="perfil_profesional"
+                            ></p-sortIcon>
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                          pSortableColumn="ocupacion_profesional"
+                        >
+                          <div class="flex">
+                            Ocupación Profesional<p-sortIcon
+                              field="ocupacion_profesional"
+                            ></p-sortIcon>
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                          pSortableColumn="fecha_creacion"
+                        >
+                          <div class="flex">
+                            Fecha de Creación<p-sortIcon
+                              field="fecha_creacion"
+                            ></p-sortIcon>
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                        >
+                          <div class="flex">Acciones</div>
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-carrera>
+                      <tr class="divide-x divide-gray-200 bg-neutral-100">
+                        <td class="px-3 py-2 text-sm text-black">
+                          {{ carrera.nombre_carrera }}
+                        </td>
+                        <td class="px-3 py-2 text-sm text-black">
+                          {{ carrera.perfil_profesional }}
+                        </td>
+                        <td class="px-3 py-2 text-sm text-black">
+                          {{ carrera.ocupacion_profesional }}
+                        </td>
+                        <td class="px-3 py-2 text-sm text-black">
+                          {{ carrera.fecha_creacion }}
+                        </td>
+                        <td class="px-3 py-2 text-sm text-black">
+                          <div class="flex items-center space-x-3.5">
+                            <button
+                              (mouseenter)="mostrar($event.target)"
+                              (mouseleave)="mostrar($event.target)"
+                              (click)="restoreCarrera(carrera.id)"
+                              class="hover:text-primary"
+                            >
+                              <div
+                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                              >
+                                <div
+                                  class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                >
+                                  <i class="fa-solid fa-arrow-rotate-left"></i>
+                                  <div
+                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                    role="tooltip"
+                                  >
+                                    <div
+                                      class="py-3 px-4 border-b border-gray-200"
+                                    >
+                                      <h4 class="font-semibold text-gray-800">
+                                        Reactivar
+                                      </h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div
+                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                        >
+                                          Volver a activar la carrera regresando
+                                          con esta toda la información
+                                          relacionada.
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                            <button
+                              (mouseenter)="mostrar($event.target)"
+                              (mouseleave)="mostrar($event.target)"
+                              (click)="deleteCarrera(carrera.id)"
+                              class="hover:text-primary"
+                            >
+                              <div
+                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                              >
+                                <div
+                                  class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                >
+                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                  <div
+                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                    role="tooltip"
+                                  >
+                                    <div
+                                      class="py-3 px-4 border-b border-gray-200"
+                                    >
+                                      <h4 class="font-semibold text-gray-800">
+                                        Eliminar
+                                      </h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div
+                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                        >
+                                          Eliminar la carrera de forma
+                                          definitiva.
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                            <button
+                              (mouseenter)="mostrar($event.target)"
+                              (mouseleave)="mostrar($event.target)"
+                              (click)="openViewModal(carrera)"
+                              class="hover:text-primary"
+                            >
+                              <div
+                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                              >
+                                <div
+                                  class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                >
+                                  <i class="fa fa-eye" aria-hidden="true"></i>
+                                  <div
+                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                    role="tooltip"
+                                  >
+                                    <div
+                                      class="py-3 px-4 border-b border-gray-200"
+                                    >
+                                      <h4 class="font-semibold text-gray-800">
+                                        Detalles
+                                      </h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div
+                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                        >
+                                          Ver detalles de la carrera.
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="5">No se encontraron resultados.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Table,TableModule } from 'primeng/table';
 import Swal from 'sweetalert2';
-import { UsuarioService, Logout } from '../usuario.service';
+import { UsuarioService, Usuario, Logout } from '../usuario.service';
 
 interface Item {
   nombre: string;
@@ -34,10 +34,7 @@ export class NavbarComponent  implements OnInit {
 
     this.LogoutForm = this.formulario.group({
       token: [''],
-      token_cookie: ['']
     });
-
-    this.token = localStorage.getItem('token');
 
     this.token = localStorage.getItem('token');
   }
@@ -62,6 +59,9 @@ export class NavbarComponent  implements OnInit {
           console.log(res);
           console.log('Has cerrado sesión');
           localStorage.removeItem('token');
+            this.srvUsuario.EliminarToken(formData).subscribe(res=>{
+              //console.log("se elimono el token de la base de datos");
+            });
           this.token = null;
           window.location.href = "/principal"
         },

@@ -1,0 +1,56 @@
+<app-navbar></app-navbar>
+<p id="inicio"></p>
+
+<ol class="flex items-center whitespace-nowrap ml-4 mt-24">
+    <li class="inline-flex items-center">
+      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="#">
+        Inicio
+      </a>
+      <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6"></path>
+      </svg>
+    </li>
+    <li class="inline-flex items-center">
+      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] ">
+        Hora prensa
+        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </a>
+    </li>
+    <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
+        Dibujo
+    </li>
+  </ol>
+
+<div class="flex justify-center items-center w-full mt-10 mb-10">
+    <div class="flex flex-col bg-white border shadow-sm rounded-xl w-9/12">
+
+    <section class="bg-white p-6 rounded-lg shadow-md">
+      <h1 class="text-2xl font-bold mb-4">Dibujo</h1>
+      
+      <div class="relative mb-6">
+        <img src="https://placehold.co/600x400" alt="Taller de Lectura" class="w-full h-96 rounded-lg shadow-md object-cover">
+        <img src="./assets/img/Plantilla_imagenes_utc.png" alt="Superposición" class="absolute rounded-b-lg bottom-0 left-0 w-full h-auto">
+      </div>
+      
+      
+      <p class="mb-6 border-l-4 border-black p-4 text-gray-800">
+        ¡Bienvenidos al Taller de Dibujo de nuestra Universidad! Este espacio ha sido creado para fomentar la creatividad y la expresión artística en un ambiente inspirador y colaborativo. Aquí, tanto estudiantes como profesores y visitantes pueden participar en clases, talleres y sesiones libres de dibujo, explorando diversas técnicas y estilos, desde el dibujo a lápiz y carboncillo hasta la ilustración digital. Únete a nosotros y descubre cómo el dibujo puede desarrollar tu habilidad artística, estimular tu imaginación y fortalecer los lazos dentro de nuestra comunidad universitaria.
+      </p>
+      
+      <div class="bg-[#043D3D] rounded-lg my-8">
+        <h2 class="text-xl font-poppins font-extralight py-2 px-2 text-white uppercase">Galería</h2>
+      </div>  
+            <ngx-masonry class="mx-auto">
+              <div ngxMasonryItem class="masonry-item p-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5" *ngFor="let image of images">
+                <img [src]="image.url" [alt]="image.alt" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out" data-hs-overlay="#hs-slide-down-animation-modal" (click)=" openModal(image)">
+              </div>
+            </ngx-masonry>
+    </section>
+  </div>
+  </div>
+
+<!--Inicio componente Footer-->
+<app-footer></app-footer>
+<!--Fin Footer-->

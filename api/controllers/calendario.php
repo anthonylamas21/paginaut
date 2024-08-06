@@ -5,10 +5,16 @@ header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-$root = dirname(__DIR__);  // Obtiene el directorio raíz del proyecto
+// Configuración de errores y logging
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+error_reporting(E_ALL);
+ini_set('error_log', 'C:/xampp/htdocs/paginaut/api/logs/php-error.log');
 
-include_once $root . '/config/database.php';
-include_once $root . '/models/Calendario.php';
+$root = dirname(__DIR__, 2);  // Obtiene el directorio raíz del proyecto
+
+require_once $root . '/api/config/database.php';
+require_once $root . '/api/models/Calendario.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -16,14 +22,63 @@ $db = $database->getConnection();
 $calendario = new Calendario($db);
 
 $request_method = $_SERVER["REQUEST_METHOD"];
-$data = json_decode(file_get_contents("php://input"));
 
-switch($request_method) {
+switch ($request_method) {
     case 'POST':
-        if (!empty($data->titulo) && !empty($data->archivo_id)) {
-            $calendario->titulo = $data->titulo;
-            $calendario->archivo_id = $data->archivo_id;
+        // Verificar si es una actualización o una creación
+        $isUpdate = isset($_POST['id']);
 
+        // Manejar el archivo si se proporciona uno
+        if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] == 0) {
+            $file_name = basename($_FILES['archivo']['name']);
+            $target_dir = $root . '/uploads/calendario/';
+            $target_file = $target_dir . $file_name;
+
+            // Verificar si la carpeta de destino existe, si no, crearla
+            if (!is_dir($target_dir)) {
+                mkdir($target_dir, 0777, true);
+            }
+
+            if (move_uploaded_file($_FILES['archivo']['tmp_name'], $target_file)) {
+                $calendario->archivo = '/uploads/calendario/' . $file_name; // Guardar la ruta completa
+            } else {
+                http_response_code(400);
+                echo json_encode(array("message" => "No se pudo subir el archivo."));
+                break;
+            }
+        } elseif ($isUpdate) {
+            // Si es una actualización y no se proporcionó un nuevo archivo, mantener el archivo existente
+            $calendario->id = $_POST['id'];
+            if ($calendario->readOne()) {
+                // El método readOne debe haber cargado el archivo existente en $calendario->archivo
+            } else {
+                http_response_code(404);
+                echo json_encode(array("message" => "Calendario no encontrado."));
+                break;
+            }
+        } elseif (!$isUpdate) {
+            // Si es una creación y no se proporcionó archivo, error
+            http_response_code(400);
+            echo json_encode(array("message" => "Se requiere un archivo para crear un nuevo calendario."));
+            break;
+        }
+
+        // Asignar valores comunes
+        $calendario->titulo = $_POST['titulo'];
+        $calendario->activo = isset($_POST['activo']) ? $_POST['activo'] : true;
+
+        if ($isUpdate) {
+            // Actualización
+            $calendario->id = $_POST['id'];
+            if ($calendario->update()) {
+                http_response_code(200);
+                echo json_encode(array("message" => "Calendario actualizado correctamente."));
+            } else {
+                http_response_code(503);
+                echo json_encode(array("message" => "No se pudo actualizar el calendario."));
+            }
+        } else {
+            // Creación
             if ($calendario->create()) {
                 http_response_code(201);
                 echo json_encode(array("message" => "Calendario creado correctamente.", "id" => $calendario->id));
@@ -31,9 +86,6 @@ switch($request_method) {
                 http_response_code(503);
                 echo json_encode(array("message" => "No se pudo crear el calendario."));
             }
-        } else {
-            http_response_code(400);
-            echo json_encode(array("message" => "No se pudo crear el calendario. Datos incompletos."));
         }
         break;
 
@@ -41,14 +93,7 @@ switch($request_method) {
         if (isset($_GET['id'])) {
             $calendario->id = $_GET['id'];
             if ($calendario->readOne()) {
-                $calendario_arr = array(
-                    "id" => $calendario->id,
-                    "titulo" => $calendario->titulo,
-                    "archivo_id" => $calendario->archivo_id,
-                    "activo" => $calendario->activo,
-                    "fecha_creacion" => $calendario->fecha_creacion
-                );
-                echo json_encode($calendario_arr);
+                echo json_encode($calendario);
             } else {
                 http_response_code(404);
                 echo json_encode(array("message" => "Calendario no encontrado."));
@@ -64,7 +109,7 @@ switch($request_method) {
                     $calendario_item = array(
                         "id" => $id,
                         "titulo" => $titulo,
-                        "archivo_id" => $archivo_id,
+                        "archivo" => $archivo,
                         "activo" => $activo,
                         "fecha_creacion" => $fecha_creacion
                     );
@@ -72,29 +117,30 @@ switch($request_method) {
                 }
                 echo json_encode(array("records" => $calendarios_arr));
             } else {
-                http_response_code(404);
-                echo json_encode(array("message" => "No se encontraron calendarios."));
+                http_response_code(200); // Cambiar el código de estado a 200
+                echo json_encode(array("records" => array())); // Retornar un arreglo vacío
             }
         }
         break;
 
     case 'PUT':
-        if (!empty($data->id)) {
+        // Obtener los datos del cuerpo de la solicitud
+        $data = json_decode(file_get_contents("php://input"));
+
+        if (isset($data->id)) {
             $calendario->id = $data->id;
-            $calendario->titulo = $data->titulo;
-            $calendario->archivo_id = $data->archivo_id;
             $calendario->activo = $data->activo;
 
-            if ($calendario->update()) {
+            if ($calendario->updateStatus()) {
                 http_response_code(200);
-                echo json_encode(array("message" => "Calendario actualizado correctamente."));
+                echo json_encode(array("message" => "Estado del calendario actualizado correctamente."));
             } else {
                 http_response_code(503);
-                echo json_encode(array("message" => "No se pudo actualizar el calendario."));
+                echo json_encode(array("message" => "No se pudo actualizar el estado del calendario."));
             }
         } else {
             http_response_code(400);
-            echo json_encode(array("message" => "No se pudo actualizar el calendario. Datos incompletos."));
+            echo json_encode(array("message" => "Datos incompletos."));
         }
         break;
 
@@ -119,4 +165,3 @@ switch($request_method) {
         echo json_encode(array("message" => "Método no permitido."));
         break;
 }
-?>

@@ -1,7 +1,49 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Instalacion,InstalacionService } from '../../intalacionService/instalacion.service';
+import { Instalacion,InstalacionService } from '../../instalacionService/instalacion.service';
+import Swal from 'sweetalert2';
 
+
+class TooltipManager {
+  static adjustTooltipPosition(
+    button: HTMLElement,
+    tooltip: HTMLElement
+  ): void {
+    // Obtener dimensiones del botón y del tooltip
+    const buttonRect = button.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
+
+    // Obtener dimensiones de la ventana
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    // Calcular la posición preferida del tooltip
+    const preferredLeft =
+      buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
+    const preferredTop = buttonRect.top - tooltipRect.height - 10; // Espacio entre el botón y el tooltip
+
+    // Ajustar la posición si se sale de la pantalla hacia la izquierda
+    let left = Math.max(preferredLeft, 0);
+
+    // Ajustar la posición si se sale de la pantalla hacia arriba
+    let top = Math.max(preferredTop, 0);
+
+    // Ajustar la posición si el tooltip se sale de la pantalla hacia la derecha
+    if (left + tooltipRect.width > windowWidth) {
+      left = windowWidth - tooltipRect.width;
+    }
+
+    // Ajustar la posición si el tooltip se sale de la pantalla hacia abajo
+    if (top + tooltipRect.height > windowHeight) {
+      top = windowHeight - tooltipRect.height;
+    }
+
+    // Aplicar posición al tooltip
+    tooltip.style.position = 'fixed';
+    tooltip.style.top = `${top}px`;
+    tooltip.style.left = `${left}px`;
+  }
+}
 @Component({
   selector: 'app-instalacion',
   templateUrl: './instalacion.component.html',
@@ -125,13 +167,9 @@ export class InstalacionComponent implements OnInit {
           imagenesGenerales ? Array.from(imagenesGenerales) : undefined
         ).subscribe({
           next: (response) => {
-            this.responseMessage = 'Instalación actualizada con éxito';
-            this.closeModal();
-            this.loadInstalaciones();
-          },
+            this.showToast('success', 'Instalación actualizada con éxito');
           error: (error) => {
-            console.error('Error al actualizar la instalación:', error);
-            this.responseMessage = 'Error al actualizar la instalación: ' + (error.error?.message || error.message);
+            this.showToast('error', 'Error al actualizar la instalación: ' + (error.error?.message || error.message));
           },
           complete: () => {
             this.isLoading = false;
@@ -144,13 +182,13 @@ export class InstalacionComponent implements OnInit {
           imagenesGenerales ? Array.from(imagenesGenerales) : undefined
         ).subscribe({
           next: (response) => {
-            this.responseMessage = 'Instalación creada con éxito';
+            this.showToast('success', 'Instalación creada con éxito');
             this.closeModal();
             this.loadInstalaciones();
           },
           error: (error) => {
             console.error('Error al crear la instalación:', error);
-            this.responseMessage = 'Error al crear la instalación: ' + (error.error?.message || error.message);
+            this.showToast('error', 'Error al crear la instalación: ' + (error.error?.message || error.message));
           },
           complete: () => {
             this.isLoading = false;
@@ -158,53 +196,65 @@ export class InstalacionComponent implements OnInit {
         });
       }
     } else {
-      this.responseMessage = 'Por favor, complete todos los campos requeridos correctamente.';
+      this.showToast('warning', 'Por favor, complete todos los campos requeridos correctamente.');
     }
   }
 
   confirmDeleteInstalacion(id: number): void {
-    if (confirm('¿Estás seguro de que quieres eliminar esta instalación?')) {
-      this.instalacionService.eliminarInstalacion(id).subscribe({
-        next: () => {
-          this.responseMessage = 'Instalación eliminada con éxito';
-          this.loadInstalaciones();
-        },
-        error: (error) => {
-          this.responseMessage = 'Error al eliminar la instalación';
-          console.error('Error:', error);
-        }
-      });
-    }
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres eliminar esta instalación? Esta acción no se puede deshacer.',
+      () => {
+        this.instalacionService.eliminarInstalacion(id).subscribe({
+          next: () => {
+            this.showToast('success', 'Instalación eliminada con éxito');
+            this.loadInstalaciones();
+          },
+          error: (error) => {
+            this.showToast('error', 'Error al eliminar la instalación: ' + (error.error?.message || error.message));
+            console.error('Error:', error);
+          }
+        });
+      }
+    );
   }
 
   desactivarInstalacion(id: number): void {
-    if (confirm('¿Estás seguro de que quieres desactivar esta instalación?')) {
-      this.instalacionService.desactivarInstalacion(id).subscribe({
-        next: () => {
-          this.responseMessage = 'Instalación desactivada con éxito';
-          this.loadInstalaciones();
-        },
-        error: (error) => {
-          this.responseMessage = 'Error al desactivar la instalación';
-          console.error('Error:', error);
-        }
-      });
-    }
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres desactivar esta instalación? No será visible para los usuarios.',
+      () => {
+        this.instalacionService.desactivarInstalacion(id).subscribe({
+          next: () => {
+            this.showToast('success', 'Instalación desactivada con éxito');
+            this.loadInstalaciones();
+          },
+          error: (error) => {
+            this.showToast('error', 'Error al desactivar la instalación: ' + (error.error?.message || error.message));
+            console.error('Error:', error);
+          }
+        });
+      }
+    );
   }
 
   activarInstalacion(id: number): void {
-    if (confirm('¿Estás seguro de que quieres activar esta instalación?')) {
-      this.instalacionService.activarInstalacion(id).subscribe({
-        next: () => {
-          this.responseMessage = 'Instalación activada con éxito';
-          this.loadInstalaciones();
-        },
-        error: (error) => {
-          this.responseMessage = 'Error al activar la instalación';
-          console.error('Error:', error);
-        }
-      });
-    }
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres activar esta instalación? Será visible para los usuarios.',
+      () => {
+        this.instalacionService.activarInstalacion(id).subscribe({
+          next: () => {
+            this.showToast('success', 'Instalación activada con éxito');
+            this.loadInstalaciones();
+          },
+          error: (error) => {
+            this.showToast('error', 'Error al activar la instalación: ' + (error.error?.message || error.message));
+            console.error('Error:', error);
+          }
+        });
+      }
+    );
   }
 
   filterGlobal(event: any): void {
@@ -332,4 +382,91 @@ export class InstalacionComponent implements OnInit {
       this.filterInstalaciones();
     }
   }
+  private showToast(
+    icon: 'success' | 'warning' | 'error' | 'info' | 'question',
+    title: string
+  ): void {
+    const iconColors = {
+      success: '#008779',
+      warning: '#FD9B63',
+      error: '#EF4444',
+      info: '#3ABEF9',
+      question: '#5A72A0',
+    };
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      iconColor: iconColors[icon],
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      },
+    });
+
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+  }
+
+  private showConfirmDialog(
+    title: string,
+    text: string,
+    onConfirm: () => void
+  ): void {
+    Swal.fire({
+      title: title,
+      text: text,
+      icon: 'warning',
+      iconColor: '#FD9B63',
+      showCancelButton: true,
+      confirmButtonColor: '#EF4444',
+      cancelButtonColor: '#E5E7EB',
+      confirmButtonText: 'Sí, continuar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+      focusCancel: true,
+      didOpen: () => {
+        const confirmButton = Swal.getConfirmButton();
+        if (confirmButton) {
+          confirmButton.style.color = 'white';
+        }
+        const cancelButton = Swal.getCancelButton();
+        if (cancelButton) {
+          cancelButton.style.color = 'black';
+        }
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        onConfirm();
+      }
+    });
+  }
+
+    
+  mostrar(elemento: any): void {
+    // Verifica si el elemento recibido es un botón
+    if (elemento.tagName.toLowerCase() === 'button') {
+      const tooltipElement = elemento.querySelector('.hs-tooltip');
+      if (tooltipElement) {
+        tooltipElement.classList.toggle('show');
+        const tooltipContent = tooltipElement.querySelector(
+          '.hs-tooltip-content'
+        );
+        if (tooltipContent) {
+          tooltipContent.classList.toggle('hidden');
+          tooltipContent.classList.toggle('invisible');
+          tooltipContent.classList.toggle('visible');
+          // Ajustar la posición del tooltip
+          TooltipManager.adjustTooltipPosition(elemento, tooltipContent);
+        }
+      }
+    }
+  }
+
+  
 }

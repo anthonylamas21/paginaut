@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface Evento {
   id?: number;
@@ -75,6 +76,7 @@ export class EventoService {
 
     if (imagenPrincipal) {
       formData.append('imagen_principal', imagenPrincipal, imagenPrincipal.name);
+      console.log('Imagen Principal añadida al FormData:', imagenPrincipal.name);
     }
 
     if (imagenesGenerales && imagenesGenerales.length > 0) {
@@ -88,6 +90,10 @@ export class EventoService {
         formData.append(`archivos[]`, archivo, archivo.name);
       });
     }
+    console.log('Contenido del FormData:');
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
 
     return this.http.post(`${this.apiUrl}?id=${evento.id}`, formData);
   }
@@ -111,4 +117,18 @@ export class EventoService {
   activarEvento(id: number): Observable<any> {
     return this.http.put(`${this.apiUrl}?id=${id}&accion=activar`, {});
   }
+  obtenerEventosRecientes(limit: number = 5): Observable<Evento[]> {
+    return this.http.get<EventoResponse>(this.apiUrl).pipe(
+      map(response => response.records
+        .filter(evento => evento.activo)
+        .sort((a, b) => new Date(b.fecha_inicio).getTime() - new Date(a.fecha_inicio).getTime())
+        .slice(0, limit)
+      )
+    );
+  }
+  obtenerEvento(id: number): Observable<Evento> {
+    return this.http.get<Evento>(`${this.apiUrl}?id=${id}`);
+  }
+
+
 }

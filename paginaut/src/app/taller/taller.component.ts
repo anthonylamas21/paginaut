@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TallerService, Taller, TallerResponse } from '../taller.service';
 import { Observable } from 'rxjs';
@@ -6,11 +12,13 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-taller',
   templateUrl: './taller.component.html',
-  styleUrls: ['./taller.component.css']
+  styleUrls: ['./taller.component.css'],
 })
-export class TallerComponent implements OnInit {
-  @ViewChild('fileInputPrincipal') fileInputPrincipal!: ElementRef<HTMLInputElement>;
-  @ViewChild('fileInputGenerales') fileInputGenerales!: ElementRef<HTMLInputElement>;
+export class TallerComponent implements OnInit, AfterViewInit {
+  @ViewChild('fileInputPrincipal')
+  fileInputPrincipal!: ElementRef<HTMLInputElement>;
+  @ViewChild('fileInputGenerales')
+  fileInputGenerales!: ElementRef<HTMLInputElement>;
 
   tallerForm: FormGroup;
   imagenPrincipal: File | undefined;
@@ -34,10 +42,7 @@ export class TallerComponent implements OnInit {
   imagenesGeneralesActuales: string[] = [];
   isEditMode = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private tallerService: TallerService
-  ) {
+  constructor(private fb: FormBuilder, private tallerService: TallerService) {
     this.tallerForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
       descripcion: ['', [Validators.required, Validators.maxLength(50)]],
@@ -47,6 +52,21 @@ export class TallerComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadTalleres();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.fileInputPrincipal) {
+      this.fileInputPrincipal.nativeElement.addEventListener(
+        'change',
+        this.onFileChangePrincipal.bind(this)
+      );
+    }
+    if (this.fileInputGenerales) {
+      this.fileInputGenerales.nativeElement.addEventListener(
+        'change',
+        this.onFileChangeGenerales.bind(this)
+      );
+    }
   }
 
   openModal(taller?: Taller): void {
@@ -107,13 +127,12 @@ export class TallerComponent implements OnInit {
         nombre: this.tallerForm.get('nombre')?.value,
         descripcion: this.tallerForm.get('descripcion')?.value,
         competencia: this.tallerForm.get('competencia')?.value,
-        activo: true
+        activo: true,
       };
 
       let observable: Observable<any>;
 
       if (this.currentTallerId) {
-        // Actualizar taller existente
         observable = this.tallerService.actualizarTaller(
           tallerData,
           this.imagenPrincipal,
@@ -121,7 +140,6 @@ export class TallerComponent implements OnInit {
           this.imagenesGeneralesActuales
         );
       } else {
-        // Crear nuevo taller
         observable = this.tallerService.crearTaller(
           tallerData,
           this.imagenPrincipal,
@@ -131,21 +149,29 @@ export class TallerComponent implements OnInit {
 
       observable.subscribe({
         next: (response: any) => {
-          console.log(this.currentTallerId ? 'Taller actualizado' : 'Taller creado', response);
-          this.responseMessage = this.currentTallerId ? 'Taller actualizado con éxito' : 'Taller creado con éxito';
+          console.log(
+            this.currentTallerId ? 'Taller actualizado' : 'Taller creado',
+            response
+          );
+          this.responseMessage = this.currentTallerId
+            ? 'Taller actualizado con éxito'
+            : 'Taller creado con éxito';
           this.loadTalleres();
           this.closeModal();
         },
         error: (error: any) => {
           console.error('Error en la operación del taller', error);
-          this.responseMessage = `Error: ${error.message || 'Ha ocurrido un error desconocido'}`;
+          this.responseMessage = `Error: ${
+            error.message || 'Ha ocurrido un error desconocido'
+          }`;
         },
         complete: () => {
           this.isLoading = false;
-        }
+        },
       });
     } else {
-      this.responseMessage = 'Por favor, complete todos los campos requeridos correctamente.';
+      this.responseMessage =
+        'Por favor, complete todos los campos requeridos correctamente.';
     }
   }
 
@@ -156,7 +182,9 @@ export class TallerComponent implements OnInit {
           this.talleres = response.records.map((taller: Taller) => ({
             ...taller,
             imagen: this.getImageUrl(taller.imagen || ''),
-            imagenesGenerales: (taller.imagenesGenerales || []).map((img: string) => this.getImageUrl(img))
+            imagenesGenerales: (taller.imagenesGenerales || []).map(
+              (img: string) => this.getImageUrl(img)
+            ),
           }));
           this.filterTalleres();
         } else {
@@ -165,7 +193,7 @@ export class TallerComponent implements OnInit {
       },
       error: (error: Error) => {
         console.error('Error al cargar los talleres', error);
-      }
+      },
     });
   }
 
@@ -180,8 +208,12 @@ export class TallerComponent implements OnInit {
     if (!Array.isArray(this.talleres)) {
       this.talleres = [];
     }
-    this.filteredTalleres = this.talleres.filter(taller => taller.activo !== false);
-    this.papeleraTalleres = this.talleres.filter(taller => taller.activo === false);
+    this.filteredTalleres = this.talleres.filter(
+      (taller) => taller.activo !== false
+    );
+    this.papeleraTalleres = this.talleres.filter(
+      (taller) => taller.activo === false
+    );
   }
 
   resetForm(): void {
@@ -206,7 +238,11 @@ export class TallerComponent implements OnInit {
 
   isFieldInvalid(fieldName: string): boolean {
     const field = this.tallerForm.get(fieldName);
-    return !!(field && (field.invalid && (field.dirty || field.touched || this.formSubmitted)));
+    return !!(
+      field &&
+      field.invalid &&
+      (field.dirty || field.touched || this.formSubmitted)
+    );
   }
 
   getErrorMessage(fieldName: string): string {
@@ -227,7 +263,7 @@ export class TallerComponent implements OnInit {
   }
 
   changeTallerStatus(id: number, status: boolean): void {
-    const tallerToUpdate = this.talleres.find(t => t.id === id);
+    const tallerToUpdate = this.talleres.find((t) => t.id === id);
     if (tallerToUpdate) {
       tallerToUpdate.activo = status;
 
@@ -239,7 +275,7 @@ export class TallerComponent implements OnInit {
         error: (error) => {
           console.error('Error al actualizar el taller', error);
           this.responseMessage = error.message;
-        }
+        },
       });
     }
   }
@@ -250,15 +286,17 @@ export class TallerComponent implements OnInit {
 
   filterGlobal(event: Event): void {
     const value = (event.target as HTMLInputElement).value.toLowerCase();
-    this.filteredTalleres = this.talleres.filter(taller =>
-      taller.nombre.toLowerCase().includes(value) ||
-      taller.descripcion.toLowerCase().includes(value) ||
-      taller.competencia.toLowerCase().includes(value)
+    this.filteredTalleres = this.talleres.filter(
+      (taller) =>
+        taller.nombre.toLowerCase().includes(value) ||
+        taller.descripcion.toLowerCase().includes(value) ||
+        taller.competencia.toLowerCase().includes(value)
     );
-    this.papeleraTalleres = this.talleres.filter(taller =>
-      taller.nombre.toLowerCase().includes(value) ||
-      taller.descripcion.toLowerCase().includes(value) ||
-      taller.competencia.toLowerCase().includes(value)
+    this.papeleraTalleres = this.talleres.filter(
+      (taller) =>
+        taller.nombre.toLowerCase().includes(value) ||
+        taller.descripcion.toLowerCase().includes(value) ||
+        taller.competencia.toLowerCase().includes(value)
     );
   }
 
@@ -266,6 +304,7 @@ export class TallerComponent implements OnInit {
     this.currentTab = tab;
     this.filterTalleres();
   }
+
   openImageModal(taller: Taller, tipo: 'principal' | 'generales'): void {
     this.selectedTaller = taller;
     this.isImageModalOpen = true;
@@ -275,12 +314,13 @@ export class TallerComponent implements OnInit {
       this.allImages = taller.imagen ? [taller.imagen] : [];
       this.modalTitle = 'Imagen Principal';
     } else {
-      this.allImages = taller.imagenesGenerales ? [...taller.imagenesGenerales] : [];
+      this.allImages = taller.imagenesGenerales
+        ? [...taller.imagenesGenerales]
+        : [];
       this.modalTitle = 'Imágenes Generales';
     }
 
-    // Filtramos cualquier valor undefined o null del array
-    this.allImages = this.allImages.filter(img => img != null);
+    this.allImages = this.allImages.filter((img) => img != null);
   }
 
   closeImageModal(): void {
@@ -291,13 +331,16 @@ export class TallerComponent implements OnInit {
 
   nextImage(): void {
     if (this.allImages.length > 0) {
-      this.currentImageIndex = (this.currentImageIndex + 1) % this.allImages.length;
+      this.currentImageIndex =
+        (this.currentImageIndex + 1) % this.allImages.length;
     }
   }
 
   prevImage(): void {
     if (this.allImages.length > 0) {
-      this.currentImageIndex = (this.currentImageIndex - 1 + this.allImages.length) % this.allImages.length;
+      this.currentImageIndex =
+        (this.currentImageIndex - 1 + this.allImages.length) %
+        this.allImages.length;
     }
   }
 

@@ -1,19 +1,68 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Table,TableModule } from 'primeng/table';
-import Swal from 'sweetalert2';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { EventoService, Evento } from '../evento.service';
+import { NoticiaService, Noticia } from '../noticia.service';
 
 @Component({
   selector: 'app-principal',
   templateUrl: './principal.component.html',
-  styleUrl: './principal.component.css'
+  styleUrls: ['./principal.component.css']
 })
-
 export class PrincipalComponent implements OnInit {
+  eventosRecientes: Evento[] = [];
+  noticias: Noticia[] = [];
+  noticiasVisibles: Noticia[] = [];
+  cantidadInicial = 3;
+  incremento = 3;
+
+  constructor(
+    private eventoService: EventoService,
+    private noticiaService: NoticiaService
+  ) {}
 
   ngOnInit() {
-    // Inicializa Flasher
-    
+    this.cargarEventosRecientes();
+    this.cargarNoticias();
+  }
+
+  cargarEventosRecientes(): void {
+    this.eventoService.obtenerEventosRecientes().subscribe({
+      next: (eventos) => {
+        this.eventosRecientes = eventos.map(evento => ({
+          ...evento,
+          imagen_principal: this.getImageUrl(evento.imagen_principal || ''),
+          imagenes_generales: (evento.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
+        }));
+        console.log(this.eventosRecientes)
+      },
+      error: (error) => console.error('Error al cargar eventos recientes:', error)
+    });
+  }
+
+  cargarNoticias(): void {
+    this.noticiaService.obtenerNoticias().subscribe({
+      next: (response) => {
+        this.noticias = response.records.map(noticia => ({
+          ...noticia,
+          imagen_principal: this.getImageUrl(noticia.imagen_principal || ''),
+          imagenes_generales: (noticia.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
+        }));
+        this.noticiasVisibles = this.noticias.slice(0, this.cantidadInicial);
+      },
+      error: (error) => console.error('Error al cargar noticias:', error)
+    });
+  }
+
+  getImageUrl(relativePath: string): string {
+    const baseImageUrl = 'http://localhost/paginaut/';
+    if (relativePath && relativePath.startsWith('../')) {
+      return baseImageUrl + relativePath.substring(3);
+    }
+    return baseImageUrl + relativePath;
+  }
+
+  verMasNoticias(): void {
+    const nuevaCantidad = this.noticiasVisibles.length + this.incremento;
+    this.noticiasVisibles = this.noticias.slice(0, nuevaCantidad);
   }
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
