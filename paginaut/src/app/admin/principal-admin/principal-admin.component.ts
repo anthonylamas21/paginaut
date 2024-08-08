@@ -39,4 +39,7 @@ export class PrincipalAdminComponent {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
 
+  //CHARTS
+
+
 }

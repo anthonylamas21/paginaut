@@ -11,6 +11,7 @@ export class EventosComponent implements OnInit {
   isLoading = true;
   evento: Evento | null = null;
   error: string | null = null;
+  imagenAmpliada: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -87,5 +88,9 @@ export class EventosComponent implements OnInit {
 
   volverAEventos(): void {
     this.router.navigate(['/eventos']); // Asegúrate de tener una ruta para la lista de eventos
+  }
+
+  ampliarImagen(imagenUrl: string): void {
+    this.imagenAmpliada = imagenUrl;
   }
 }
