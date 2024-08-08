@@ -48,11 +48,13 @@
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
       <!-- Imagen principal de la noticia (ahora clicable) -->
       <div class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow-lg relative">
-        <img [src]="getImageUrl(noticia.imagen_principal)" 
-             [alt]="noticia.titulo" 
-             class="w-full h-80 object-cover rounded-t-lg cursor-pointer"
-             (click)="ampliarImagen(getImageUrl(noticia.imagen_principal))">
-        <div class="absolute inset-0 flex flex-col justify-between p-4 bg-black bg-opacity-50 text-white">
+        <div class="w-full h-80 overflow-hidden flex justify-end">
+          <img [src]="getImageUrl(noticia.imagen_principal)"
+               [alt]="noticia.titulo"
+               class="w-full lg:w-8/12 h-full object-cover object-center rounded-lg cursor-pointer"
+               (click)="ampliarImagen(getImageUrl(noticia.imagen_principal))">
+        </div>
+        <div class="absolute inset-0 flex flex-col justify-between p-4 bg-black bg-opacity-50 text-white rounded-lg">
           <h3 class="text-2xl font-poppins font-bold">{{ noticia.titulo }}</h3>
           <div>
             <p class="text-xl">{{ noticia.lugar_noticia }}</p>
@@ -103,9 +105,9 @@
 
 <!-- Modal para imagen ampliada -->
 <div *ngIf="imagenAmpliada" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-  <div class="relative max-w-4xl w-full">
-    <img [src]="imagenAmpliada" alt="Imagen ampliada" class="max-h-[90vh] w-auto mx-auto">
-    <button (click)="cerrarImagenAmpliada()" class="absolute top-4 right-4 text-white text-2xl">&times;</button>
+  <div class="relative max-w-[90vh] w-full">
+    <img [src]="imagenAmpliada" alt="Imagen ampliada" class="max-h-[90vh] w-[90vh] mx-auto">
+    <button (click)="cerrarImagenAmpliada()" class="absolute top-0 right-0 bg-red-500 w-8 h-8 rounded-bl-lg text-white text-2xl">&times;</button>
   </div>
 </div>
 

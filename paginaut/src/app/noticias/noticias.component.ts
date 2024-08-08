@@ -92,6 +92,7 @@ export class NoticiasComponent implements OnInit {
   }
   ampliarImagen(imagenUrl: string): void {
     this.imagenAmpliada = imagenUrl;
+    console.log("se amplio");
   }
 
   cerrarImagenAmpliada(): void {
