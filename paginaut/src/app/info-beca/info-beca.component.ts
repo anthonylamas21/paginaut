@@ -12,11 +12,11 @@ export class InfoBecaComponent implements OnInit, AfterViewInit {
   beca: Beca | null = null;
   error: string | null = null;
   safeArchivoUrl: SafeResourceUrl | null = null;
-  documentoExistente: boolean = false;
+  archivoDisponible: boolean = false;
   private baseUrl = 'http://localhost/paginaut/';
   isLoading = true;
 
-  constructor(
+  constructor( 
     private renderer: Renderer2,
     private route: ActivatedRoute,
     private becaService: BecaService,
@@ -89,6 +89,7 @@ export class InfoBecaComponent implements OnInit, AfterViewInit {
       this.safeArchivoUrl = null;
     }
   }
+
 
   private getFullUrl(path: string): string {
     if (path.startsWith('http://') || path.startsWith('https://')) {
