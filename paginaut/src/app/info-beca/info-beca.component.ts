@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, Renderer2, ChangeDetectorRef } from '
 import { ActivatedRoute } from '@angular/router';
 import { BecaService, Beca } from '../admin/beca.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-info-beca',
@@ -20,13 +21,26 @@ export class InfoBecaComponent implements OnInit, AfterViewInit {
     private renderer: Renderer2,
     private route: ActivatedRoute,
     private becaService: BecaService,
-    private sanitizer: DomSanitizer,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private sanitizer: DomSanitizer, private http: HttpClient
   ) {}
 
   ngOnInit(): void {
     this.cargarDetalleBeca();
     this.setNavbarColor();
+  }
+
+  verificarUrl(url: string): void {
+    this.http.head(url, { observe: 'response' }).subscribe(response => {
+      if (response.status === 200) {
+        this.safeArchivoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+        this.safeArchivoUrl = true;
+      } else {
+        this.safeArchivoUrl = false;
+      }
+    }, () => {
+      this.safeArchivoUrl = false;
+    });
   }
 
   ngAfterViewInit(): void {
