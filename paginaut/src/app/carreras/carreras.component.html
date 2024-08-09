@@ -42,45 +42,57 @@
             <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-64 h-64 mx-auto relative"></div>
         </div>
         <div *ngIf="!isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
+            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden group">
                 <div class="absolute top-0 left-0 m-2 z-10">
-                    <span class="relative flex items-center text-white">Ingeniería en Agrobiotecnología</span>
+                    <span class="relative flex items-center group-hover:font-bold text-white  px-2 py-1 rounded">
+                        Ingeniería en Agrobiotecnología
+                    </span>
                 </div>
                 <a href="info_carreras/agrobiotecnologia" class="relative w-full h-full">
-                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/agrobiotecnologia.jpg" alt="Image Description">
+                    <img class="w-full h-full rounded-lg object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-105" src="./assets/img/fotos_por_carrera/agrobiotecnologia.jpg" alt="Image Description">
+                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div class="absolute bottom-0 right-0 m-2">
                         <span class="relative flex items-center text-white">
-                            <i class="fa-solid fa-arrow-right"></i>
+                <i class="fa-solid fa-arrow-right transition-transform duration-300 group-hover:scale-150"></i>
                         </span>
                     </div>
                 </a>
             </div>
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
+            
+            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden group">
                 <div class="absolute top-0 left-0 m-2 z-10">
-                    <span class="relative flex items-center text-white">Ingeniería en Procesos Alimentario</span>
+                    <span class="relative flex items-center group-hover:font-bold text-white  px-2 py-1 rounded">
+                        Ingeniería en Procesos Alimentarios
+                    </span>
                 </div>
                 <a href="info_carreras/procesos-alimentario" class="relative w-full h-full">
-                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/procesos-alimenticios.jpg" alt="Image Description">
+                    <img class="w-full h-full rounded-lg object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-105" src="./assets/img/fotos_por_carrera/procesos-alimenticios.jpg" alt="Image Description">
+                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div class="absolute bottom-0 right-0 m-2">
                         <span class="relative flex items-center text-white">
-                            <i class="fa-solid fa-arrow-right"></i>
+                <i class="fa-solid fa-arrow-right transition-transform duration-300 group-hover:scale-150"></i>
                         </span>
                     </div>
                 </a>
             </div>
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
+            
+            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden group">
                 <div class="absolute top-0 left-0 m-2 z-10">
-                    <span class="relative flex items-center text-white">Ingeniería en Acuicultura</span>
+                    <span class="relative flex items-center group-hover:font-bold text-white  px-2 py-1 rounded">
+                        Ingeniería en Acuicultura
+                    </span>
                 </div>
                 <a href="info_carreras/acuicultura" class="relative w-full h-full">
-                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/acuicultura.jpg" alt="Image Description">
+                    <img class="w-full h-full rounded-lg object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-105" src="./assets/img/fotos_por_carrera/acuicultura.jpg" alt="Image Description">
+                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div class="absolute bottom-0 right-0 m-2">
                         <span class="relative flex items-center text-white">
-                            <i class="fa-solid fa-arrow-right"></i>
+                <i class="fa-solid fa-arrow-right transition-transform duration-300 group-hover:scale-150"></i>
                         </span>
                     </div>
                 </a>
             </div>
+            
         </div>
     </div>
 
@@ -100,71 +112,91 @@
             <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-64 h-64 mx-auto relative"></div>
         </div>
         <div *ngIf="!isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
+            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden group">
                 <div class="absolute top-0 left-0 m-2 z-10">
-                    <span class="relative flex items-center text-white">Licenciatura en turismo</span>
+                    <span class="relative flex items-center group-hover:font-bold text-white  px-2 py-1 rounded">
+                        Licenciatura en Turismo
+                    </span>
                 </div>
                 <a href="info_carreras/turismo" class="relative w-full h-full">
-                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/turismo.jpg" alt="Image Description">
+                    <img class="w-full h-full rounded-lg object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-105" src="./assets/img/fotos_por_carrera/turismo.jpg" alt="Image Description">
+                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div class="absolute bottom-0 right-0 m-2">
                         <span class="relative flex items-center text-white">
-                            <i class="fa-solid fa-arrow-right"></i>
+                <i class="fa-solid fa-arrow-right transition-transform duration-300 group-hover:scale-150"></i>
                         </span>
                     </div>
                 </a>
             </div>
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
+            
+            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden group">
                 <div class="absolute top-0 left-0 m-2 z-10">
-                    <span class="relative flex items-center text-white">Licenciatura en administración</span>
+                    <span class="relative flex items-center group-hover:font-bold text-white  px-2 py-1 rounded">
+                        Licenciatura en Administración
+                    </span>
                 </div>
                 <a href="info_carreras/administracion" class="relative w-full h-full">
-                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/mercadotecnia.jpg" alt="Image Description">
+                    <img class="w-full h-full rounded-lg object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-105" src="./assets/img/fotos_por_carrera/mercadotecnia.jpg" alt="Image Description">
+                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div class="absolute bottom-0 right-0 m-2">
                         <span class="relative flex items-center text-white">
-                            <i class="fa-solid fa-arrow-right"></i>
+                <i class="fa-solid fa-arrow-right transition-transform duration-300 group-hover:scale-150"></i>
                         </span>
                     </div>
                 </a>
             </div>
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
+            
+            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden group">
                 <div class="absolute top-0 left-0 m-2 z-10">
-                  <span class="relative flex items-center text-white">Licenciatura en mercadotecnia</span>
+                    <span class="relative flex items-center group-hover:font-bold text-white  px-2 py-1 rounded">
+                        Licenciatura en Mercadotecnia
+                    </span>
                 </div>
                 <a href="info_carreras/mercadotecnia" class="relative w-full h-full">
-                  <img class="absolute inset-0 w-full h-full object-cover" src="./assets/img/fotos_por_carrera/administracion.jpg" alt="Image Description">
-                  <div class="absolute bottom-0 right-0 m-2 z-10">
-                    <span class="relative flex items-center text-white">
-                      <i class="fa-solid fa-arrow-right"></i>
-                    </span>
-                  </div>
+                    <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-105" src="./assets/img/fotos_por_carrera/administracion.jpg" alt="Image Description">
+                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute bottom-0 right-0 m-2 z-10">
+                        <span class="relative flex items-center text-white">
+                <i class="fa-solid fa-arrow-right transition-transform duration-300 group-hover:scale-150"></i>
+                        </span>
+                    </div>
                 </a>
-              </div>              
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
+            </div>
+                         
+            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden group">
                 <div class="absolute top-0 left-0 m-2 z-10">
-                    <span class="relative flex items-center text-white">Licenciatura en gastronomía</span>
+                    <span class="relative flex items-center group-hover:font-bold text-white  px-2 py-1 rounded">
+                        Licenciatura en Gastronomía
+                    </span>
                 </div>
                 <a href="info_carreras/gastronomia" class="relative w-full h-full">
-                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/gastronomia.jpg" alt="Image Description">
-                    <div class="absolute bottom-0 right-0 m-2">
+                    <img class="w-full h-full rounded-lg object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-105" src="./assets/img/fotos_por_carrera/gastronomia.jpg" alt="Image Description">
+                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute bottom-0 right-0 m-2 z-10">
                         <span class="relative flex items-center text-white">
-                            <i class="fa-solid fa-arrow-right"></i>
+                <i class="fa-solid fa-arrow-right transition-transform duration-300 group-hover:scale-150"></i>
                         </span>
                     </div>
                 </a>
             </div>
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
+            
+            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden group">
                 <div class="absolute top-0 left-0 m-2 z-10">
-                    <span class="relative flex items-center text-white">T.S.U. en contaduría</span>
+                    <span class="relative flex items-center group-hover:font-bold text-white  px-2 py-1 rounded">
+                        T.S.U. en Contaduría
+                    </span>
                 </div>
                 <a href="info_carreras/contaduria" class="relative w-full h-full">
-                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/contaduria.jpg" alt="Image Description">
-                    <div class="absolute bottom-0 right-0 m-2">
+                    <img class="w-full h-full rounded-lg object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-105" src="./assets/img/fotos_por_carrera/contaduria.jpg" alt="Image Description">
+                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute bottom-0 right-0 m-2 z-10">
                         <span class="relative flex items-center text-white">
-                            <i class="fa-solid fa-arrow-right"></i>
+                <i class="fa-solid fa-arrow-right transition-transform duration-300 group-hover:scale-150"></i>
                         </span>
                     </div>
                 </a>
             </div>
+            
         </div>
     </div>
     
@@ -184,19 +216,23 @@
             <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-64 h-64 mx-auto relative"></div>
         </div>
         <div *ngIf="!isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
+            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden group">
                 <div class="absolute top-0 left-0 m-2 z-10">
-                    <span class="relative flex items-center text-white">Ingeniería en desarrollo y gestión de software</span>
+                    <span class="relative flex items-center text-white group-hover:font-bold  px-2 py-1 rounded transition-all duration-300">
+                        Ingeniería en Desarrollo y Gestión de Software
+                    </span>
                 </div>
                 <a href="info_carreras/desarrollo-software" class="relative w-full h-full">
-                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/desarrollo-software.jpg" alt="Image Description">
-                    <div class="absolute bottom-0 right-0 m-2">
+                    <img class="w-full h-full rounded-lg object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-105" src="./assets/img/fotos_por_carrera/desarrollo-software.jpg" alt="Image Description">
+                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute bottom-0 right-0 m-2 z-10">
                         <span class="relative flex items-center text-white">
-                            <i class="fa-solid fa-arrow-right"></i>
+                <i class="fa-solid fa-arrow-right transition-transform duration-300 group-hover:scale-150"></i>
                         </span>
                     </div>
                 </a>
             </div>
+            
         </div>
     </div>
     
