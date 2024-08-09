@@ -47,12 +47,12 @@
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label for="titulo" class="block text-sm font-medium text-gray-700">Título</label>
-            <input type="text" id="titulo" formControlName="titulo" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
+            <input type="text" id="titulo" placeholder="Titulo del evento" formControlName="titulo" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
             <p *ngIf="isFieldInvalid('titulo')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('titulo') }}</p>
           </div>
           <div>
             <label for="lugar_evento" class="block text-sm font-medium text-gray-700">Lugar del Evento</label>
-            <input type="text" id="lugar_evento" formControlName="lugar_evento" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
+            <input type="text" id="lugar_evento" placeholder="Lugar del evento" formControlName="lugar_evento" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
             <p *ngIf="isFieldInvalid('lugar_evento')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('lugar_evento') }}</p>
           </div>
         </div>
@@ -62,7 +62,7 @@
         <h4 class="font-medium text-gray-700">2. Detalles del evento</h4>
         <div>
           <label for="informacion_evento" class="block text-sm font-medium text-gray-700">Información del Evento</label>
-          <textarea id="informacion_evento" formControlName="informacion_evento" rows="4" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"></textarea>
+          <textarea id="informacion_evento" placeholder="Información relevante" formControlName="informacion_evento" rows="4" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"></textarea>
           <p *ngIf="isFieldInvalid('informacion_evento')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('informacion_evento') }}</p>
         </div>
       </div>
