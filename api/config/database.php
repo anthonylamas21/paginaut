@@ -4,6 +4,7 @@ class Database
   private $host = "localhost";
   private $db_name = "UTC";
   private $username = "postgres";
+  private $password = "2003";
   public $conn;
 
   public function getConnection()
