@@ -93,6 +93,7 @@ import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.compo
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
 import { TallerComponent } from './taller/taller.component';
 import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera.component';
+import { BibliotecaComponent } from './biblioteca/biblioteca.component';
 
 @NgModule({
   declarations: [
@@ -169,6 +170,7 @@ import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera
     LecturaComponent,
     AjedrezComponent,
     AgregarCarreraComponent,
+    BibliotecaComponent,
   ],
   imports: [
     BrowserModule,
