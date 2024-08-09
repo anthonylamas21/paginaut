@@ -15,7 +15,36 @@
 <br> 
 <br>
 
-<div class="container mt-4">  
+<!--Contenedor de carreras-->
+<div class="container mt-4">
+
+  <div class="container mx-auto bg-[#043D3D] rounded-lg">
+    <h2 class="text-3xl text-white font-poppins font-bold-700 uppercase mb-4">Nuestras Ofertas Educativas</h2>
+  </div>
+  <div class="container sm p-4 bg-white rounded-lg shadow-lg">
+
+  <a routerLink="/carreras"   >
+    <img class="object-fill w-full h-full lg:h-80" src="../../assets/img/liscarrera.webp" alt="...">
+  </a>
+  </div>
+</div>
+
+
+<div class="container mt-8">
+
+  <div class="container mx-auto bg-[#043D3D] rounded-lg">
+    <h2 class="text-3xl text-white font-poppins font-bold-700 uppercase mb-4">Nuestras Becas</h2>
+  </div>
+  <div class="container sm p-4 bg-white rounded-lg shadow-lg">
+  <a routerLink="/becas"   >
+    <img class="object-fill w-full h-full lg:h-80" src="../../assets/img/becalos.jpeg" alt="...">
+  </a>
+  </div>
+
+</div>
+
+
+<div class="container mt-8">  
 <!--Contenedor Eventos-->
 <div class="container mx-auto bg-[#043D3D] rounded-lg">
   <h2 class="text-3xl text-white font-poppins font-bold-700 uppercase mb-4">Eventos Más Recientes</h2>
@@ -73,6 +102,8 @@
 <div class="container max-w-screen-lg mb-8">
   
 <!-- Contenedor de noticias -->
+<div class="container sm p-4 bg-white rounded-lg shadow-lg">
+
 <div class="container max-w-screen-lg mb-8">
   <div class="container max-w-screen-lg mb-8">
     <div *ngFor="let noticia of noticiasVisibles" class="border rounded-lg shadow-lg overflow-hidden mb-4">
@@ -102,7 +133,7 @@
       </div>
     </div>
   </div>
-
+</div>
   <!-- Mensaje cuando no hay noticias -->
   <div *ngIf="noticiasVisibles.length === 0" class="border rounded-lg shadow-lg overflow-hidden mb-4 p-4">
     <p class="text-center text-gray-600">No hay noticias recientes disponibles en este momento. Por favor, vuelve a consultar más tarde.</p>

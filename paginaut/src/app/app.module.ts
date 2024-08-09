@@ -1,11 +1,12 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxMasonryModule } from 'ngx-masonry';
-
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+registerLocaleData(localeEs, 'es');
 // PrimeNG Modules
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
@@ -93,8 +94,10 @@ import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.compo
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
 import { TallerComponent } from './taller/taller.component';
 import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera.component';
+import { LOCALE_ID } from '@angular/core';
 
 @NgModule({
+
   declarations: [
     AppComponent,
     TallerComponent,
@@ -186,7 +189,7 @@ import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera
     FullCalendarModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [],
+  providers: [{ provide: LOCALE_ID, useValue: 'es' }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
