@@ -335,7 +335,7 @@ export class AgregarBecaComponent implements OnInit {
     title: string
   ): void {
     const Toast = Swal.mixin({
-      toast: true,
+      toast: true,iconColor: '#008779',
       position: 'top-end',
       showConfirmButton: false,
       timer: 3000,
@@ -361,11 +361,24 @@ export class AgregarBecaComponent implements OnInit {
       title: title,
       text: text,
       icon: 'warning',
+      iconColor: '#FD9B63',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#EF4444',
+      cancelButtonColor: '#E5E7EB',
+      reverseButtons: true,
+      focusCancel: true,
       confirmButtonText: 'Sí, confirmar',
       cancelButtonText: 'Cancelar',
+      didOpen: () => {
+        const confirmButton = Swal.getConfirmButton();
+        if (confirmButton) {
+          confirmButton.style.color = 'white';
+        }
+        const cancelButton = Swal.getCancelButton();
+        if (cancelButton) {
+          cancelButton.style.color = 'black';
+        }
+      }
     }).then((result) => {
       if (result.isConfirmed) {
         onConfirm();

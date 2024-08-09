@@ -1,9 +1,26 @@
 <app-navbar-admin></app-navbar-admin>
 <p id="inicio"></p>
+
+<div class=" mt-4">
+  <ol class="flex items-center whitespace-nowrap ml-4 mt-24">
+      <li class="inline-flex items-center">
+        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/admin/principal_admin">
+          Panel Administrador
+        </a>
+        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </li>
+      <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate" aria-current="page">
+          Becas 
+        </li>
+    </ol>
+</div>
+
 <!--Fin Navbar-->
 
-<div class="container mx-auto">
-<div class="bg-[#043D3D] rounded-lg mt-28 mb-5">
+<div class="p-2 mx-auto">
+<div class="bg-[#043D3D] rounded-lg mt-8 mb-5">
   <h2
     class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4"
   >
@@ -481,7 +498,7 @@
                               <div
                                 class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
                               >
-                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                <i class="fa fa-ban" aria-hidden="true"></i>
                                 <div
                                   class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
                                   role="tooltip"
@@ -490,7 +507,7 @@
                                     class="py-3 px-4 border-b border-gray-200"
                                   >
                                     <h4 class="font-semibold text-gray-800">
-                                      Eliminar
+                                      Desactivar
                                     </h4>
                                   </div>
                                   <ul class="py-3 px-4 space-y-1">
@@ -605,6 +622,43 @@
                             <button
                               (mouseenter)="mostrar($event.target)"
                               (mouseleave)="mostrar($event.target)"
+                              (click)="viewBeca(beca)"
+                              class="hover:text-primary"
+                            >
+                              <div
+                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                              >
+                                <div
+                                  class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                >
+                                  <i class="fa fa-eye" aria-hidden="true"></i>
+                                  <div
+                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                    role="tooltip"
+                                  >
+                                    <div
+                                      class="py-3 px-4 border-b border-gray-200"
+                                    >
+                                      <h4 class="font-semibold text-gray-800">
+                                        Detalles
+                                      </h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div
+                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                        >
+                                          Ver detalles de la beca.
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                            <button
+                              (mouseenter)="mostrar($event.target)"
+                              (mouseleave)="mostrar($event.target)"
                               (click)="activateBeca(beca.id)"
                               class="hover:text-primary"
                             >
@@ -623,7 +677,7 @@
                                       class="py-3 px-4 border-b border-gray-200"
                                     >
                                       <h4 class="font-semibold text-gray-800">
-                                        Reactivar
+                                        Activar
                                       </h4>
                                     </div>
                                     <ul class="py-3 px-4 space-y-1">
@@ -671,43 +725,6 @@
                                           class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
                                         >
                                           Eliminar la beca de forma definitiva.
-                                        </div>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-                            </button>
-                            <button
-                              (mouseenter)="mostrar($event.target)"
-                              (mouseleave)="mostrar($event.target)"
-                              (click)="viewBeca(beca)"
-                              class="hover:text-primary"
-                            >
-                              <div
-                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
-                              >
-                                <div
-                                  class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
-                                >
-                                  <i class="fa fa-eye" aria-hidden="true"></i>
-                                  <div
-                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
-                                    role="tooltip"
-                                  >
-                                    <div
-                                      class="py-3 px-4 border-b border-gray-200"
-                                    >
-                                      <h4 class="font-semibold text-gray-800">
-                                        Detalles
-                                      </h4>
-                                    </div>
-                                    <ul class="py-3 px-4 space-y-1">
-                                      <li>
-                                        <div
-                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
-                                        >
-                                          Ver detalles de la beca.
                                         </div>
                                       </li>
                                     </ul>
