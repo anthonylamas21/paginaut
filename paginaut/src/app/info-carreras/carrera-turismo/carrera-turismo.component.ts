@@ -27,6 +27,8 @@ interface Image {
 })
 export class CarreraTurismoComponent {
   isLoading = true;
+  imagenAmpliada: string | null = null;
+  selectedImage: Image = { url: '', alt: '' };
   
   constructor(private renderer: Renderer2) {}
 
@@ -44,19 +46,6 @@ export class CarreraTurismoComponent {
 
     // más imágenes aquí
   ];
-
-  selectedImage: Image = { url: '', alt: '' };
-
-  openModal(image: Image): void {
-    if (image) {
-      this.selectedImage = image;
-      const modal = document.getElementById('hs-vertically-centered-modal');
-      if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('pointer-events-auto');
-      }
-    }
-  }
   
   ngAfterViewInit(): void {
     this.renderer.listen('window', 'load', () => {
@@ -121,10 +110,35 @@ export class CarreraTurismoComponent {
 //INICIO TABLA CUATRIMESTRES
 onMouseOver(columna: string, valor: any) {
   if(valor == ""){
-    console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
+    //console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
   }else{
-    console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
+    //console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
   }
+}
+
+openModal(image: Image): void {
+  this.selectedImage = image;
+  const modal = document.getElementById('hs-vertically-centered-modal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    modal.classList.add('pointer-events-auto');
+  }
+}
+closeModal(): void {
+  const modal = document.getElementById('hs-vertically-centered-modal');
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.classList.remove('pointer-events-auto');
+  }
+  this.selectedImage = { url: '', alt: '' };
+}
+
+ampliarImagen(imagenUrl: string): void {
+  this.imagenAmpliada = imagenUrl;
+}
+
+cerrarImagenAmpliada(): void {
+  this.imagenAmpliada = null;
 }
 
 //FIN TABLA CUATRIMESTRES
