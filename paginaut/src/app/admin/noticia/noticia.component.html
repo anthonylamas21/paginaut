@@ -45,12 +45,12 @@
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label for="titulo" class="block text-sm font-medium text-gray-700">Título</label>
-            <input type="text" id="titulo" formControlName="titulo" class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" maxlength="50" />
+            <input type="text" id="titulo" formControlName="titulo" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
             <p *ngIf="isFieldInvalid('titulo')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('titulo') }}</p>
           </div>
           <div>
             <label for="autor" class="block text-sm font-medium text-gray-700">Autor</label>
-            <input type="text" id="autor" formControlName="autor" class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" maxlength="50" />
+            <input type="text" id="autor" formControlName="autor" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
             <p *ngIf="isFieldInvalid('autor')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('autor') }}</p>
           </div>
         </div>
@@ -60,12 +60,12 @@
         <h4 class="font-medium text-gray-700">2. Contenido</h4>
         <div>
           <label for="resumen" class="block text-sm font-medium text-gray-700">Resumen</label>
-          <textarea id="resumen" formControlName="resumen" rows="2" class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" maxlength="1000"></textarea>
+          <textarea id="resumen" formControlName="resumen" rows="2" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="1000"></textarea>
           <p *ngIf="isFieldInvalid('resumen')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('resumen') }}</p>
         </div>
         <div>
           <label for="informacion_noticia" class="block text-sm font-medium text-gray-700">Información de la Noticia</label>
-          <textarea id="informacion_noticia" formControlName="informacion_noticia" rows="4" class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"></textarea>
+          <textarea id="informacion_noticia" formControlName="informacion_noticia" rows="4" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"></textarea>
           <p *ngIf="isFieldInvalid('informacion_noticia')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('informacion_noticia') }}</p>
         </div>
       </div>
@@ -75,12 +75,12 @@
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label for="lugar_noticia" class="block text-sm font-medium text-gray-700">Lugar de la Noticia</label>
-            <input type="text" id="lugar_noticia" formControlName="lugar_noticia" class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" maxlength="50" />
+            <input type="text" id="lugar_noticia" formControlName="lugar_noticia" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
             <p *ngIf="isFieldInvalid('lugar_noticia')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('lugar_noticia') }}</p>
           </div>
           <div>
             <label for="fecha_publicacion" class="block text-sm font-medium text-gray-700">Fecha de Publicación</label>
-            <input type="date" id="fecha_publicacion" formControlName="fecha_publicacion" class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" />
+            <input type="date" id="fecha_publicacion" formControlName="fecha_publicacion" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
             <p *ngIf="isFieldInvalid('fecha_publicacion')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('fecha_publicacion') }}</p>
           </div>
         </div>

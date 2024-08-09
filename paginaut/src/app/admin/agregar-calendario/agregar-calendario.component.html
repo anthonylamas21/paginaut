@@ -33,7 +33,7 @@
   [ngClass]="{ hidden: !isModalOpen }"
   class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4"
 >
-  <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+  <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
     <div
       class="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10"
     >
@@ -70,14 +70,14 @@
       <div class="space-y-4">
         <div>
           <label for="anio" class="block text-sm font-medium text-gray-700"
-            >Año</label
+            >Titulo del calendario</label
           >
           <input
             type="text"
             id="anio"
             formControlName="anio"
-            class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
-            placeholder="Año del calendario"
+            class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+            placeholder="Titulo y año del calendario"
             maxlength="4"
             required
             (input)="updateTitulo()"

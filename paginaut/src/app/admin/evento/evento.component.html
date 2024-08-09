@@ -47,12 +47,12 @@
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label for="titulo" class="block text-sm font-medium text-gray-700">Título</label>
-            <input type="text" id="titulo" formControlName="titulo" class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" maxlength="50" />
+            <input type="text" id="titulo" formControlName="titulo" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
             <p *ngIf="isFieldInvalid('titulo')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('titulo') }}</p>
           </div>
           <div>
             <label for="lugar_evento" class="block text-sm font-medium text-gray-700">Lugar del Evento</label>
-            <input type="text" id="lugar_evento" formControlName="lugar_evento" class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" maxlength="50" />
+            <input type="text" id="lugar_evento" formControlName="lugar_evento" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
             <p *ngIf="isFieldInvalid('lugar_evento')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('lugar_evento') }}</p>
           </div>
         </div>
@@ -62,7 +62,7 @@
         <h4 class="font-medium text-gray-700">2. Detalles del evento</h4>
         <div>
           <label for="informacion_evento" class="block text-sm font-medium text-gray-700">Información del Evento</label>
-          <textarea id="informacion_evento" formControlName="informacion_evento" rows="4" class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"></textarea>
+          <textarea id="informacion_evento" formControlName="informacion_evento" rows="4" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"></textarea>
           <p *ngIf="isFieldInvalid('informacion_evento')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('informacion_evento') }}</p>
         </div>
       </div>
@@ -75,28 +75,28 @@
             <input type="date" id="fecha_inicio" formControlName="fecha_inicio"
                    [min]="minDate"
                    [attr.max]="eventoForm.get('fecha_fin')?.value || null"
-                   class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" />
+                   class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
             <p *ngIf="isFieldInvalid('fecha_inicio')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('fecha_inicio') }}</p>
           </div>
           <div>
             <label for="fecha_fin" class="block text-sm font-medium text-gray-700">Fecha de Fin</label>
             <input type="date" id="fecha_fin" formControlName="fecha_fin"
                    [min]="eventoForm.get('fecha_inicio')?.value || minDate"
-                   class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" />
+                   class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
             <p *ngIf="isFieldInvalid('fecha_fin')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('fecha_fin') }}</p>
           </div>
           <div>
             <label for="hora_inicio" class="block text-sm font-medium text-gray-700">Hora de Inicio</label>
             <input type="time" id="hora_inicio" formControlName="hora_inicio"
                    [min]="eventoForm.get('fecha_inicio')?.value === minDate ? minTimeInicio : null"
-                   class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" />
+                   class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
             <p *ngIf="isFieldInvalid('hora_inicio')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('hora_inicio') }}</p>
           </div>
           <div>
             <label for="hora_fin" class="block text-sm font-medium text-gray-700">Hora de Fin</label>
             <input type="time" id="hora_fin" formControlName="hora_fin"
                    [min]="minTimeFin"
-                   class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" />
+                   class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
             <p *ngIf="isFieldInvalid('hora_fin')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('hora_fin') }}</p>
           </div>
         </div>

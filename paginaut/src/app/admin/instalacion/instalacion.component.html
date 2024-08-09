@@ -29,7 +29,7 @@
 </div>
   
     <div [ngClass]="{ 'hidden': !isModalOpen }" class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+      <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         <div class="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10">
           <h3 class="text-xl font-bold text-gray-900">{{ currentInstalacionId ? "Editar Instalación" : "Nueva Instalación" }}</h3>
           <button type="button" class="text-gray-400 hover:text-gray-500" (click)="closeModal()">
@@ -45,7 +45,7 @@
             <div>
               <label for="titulo" class="block text-sm font-medium text-gray-700">Título</label>
               <input type="text" id="titulo" formControlName="titulo" 
-                     class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+                     class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
                      placeholder="Título de la instalación" maxlength="50" />
               <p *ngIf="isFieldInvalid('titulo')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('titulo') }}</p>
             </div>
