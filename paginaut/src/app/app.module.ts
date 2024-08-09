@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -94,7 +94,7 @@ import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.compo
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
 import { TallerComponent } from './taller/taller.component';
 import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera.component';
-import { LOCALE_ID } from '@angular/core';
+import { BibliotecaComponent } from './biblioteca/biblioteca.component';
 
 @NgModule({
 
@@ -172,6 +172,7 @@ import { LOCALE_ID } from '@angular/core';
     LecturaComponent,
     AjedrezComponent,
     AgregarCarreraComponent,
+    BibliotecaComponent,
   ],
   imports: [
     BrowserModule,
