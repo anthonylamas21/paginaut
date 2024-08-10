@@ -13,6 +13,8 @@ export class InfoUnidadesComponent implements OnInit, AfterViewInit {
   groupedImages: { [key: string]: any[] } = {};
   selectedImage: { url: string, alt: string } | null = null;
 
+  imagenAmpliada: string | null = null;
+
   constructor(
     private route: ActivatedRoute,
     private instalacionService: InstalacionService,
@@ -106,11 +108,35 @@ export class InfoUnidadesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  openImageModal(image: { url: string, alt: string }): void {
-    this.selectedImage = image;
+  openModal(image: { url: string, alt: string }): void {
+    console.log('Imagen a abrir:', image);  // Verifica el valor de la imagen
+    this.selectedImage = {
+      url: image.url,
+      alt: image.alt
+    };
+    const modal = document.getElementById('hs-vertically-centered-modal');
+    if (modal) {
+      console.log('Mostrando modal');  // Verifica que el modal se está mostrando
+      modal.classList.remove('hidden');
+      modal.classList.add('pointer-events-auto');
+    }
   }
-
-  closeImageModal(): void {
-    this.selectedImage = null;
+  
+  closeModal(): void {
+    const modal = document.getElementById('hs-vertically-centered-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('pointer-events-auto');
+    }
+    this.selectedImage = null;  // Cambiar de objeto vacío a null
+  }
+  
+  
+  ampliarImagen(imagenUrl: string): void {
+    this.imagenAmpliada = imagenUrl;
+  }
+  
+  cerrarImagenAmpliada(): void {
+    this.imagenAmpliada = null;
   }
 }

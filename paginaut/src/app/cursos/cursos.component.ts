@@ -6,8 +6,15 @@ import { Component, HostListener } from '@angular/core';
   styleUrl: './cursos.component.css'
 })
 export class CursosComponent {
+
+  isLoading = true;
+
   ngOnInit(): void {
     this.setNavbarColor();
+    
+    setInterval(() => {
+      this.isLoading = false;
+    },2000)
   }
 
   @HostListener('window:scroll', [])

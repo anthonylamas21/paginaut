@@ -20,6 +20,7 @@ interface Image {
   url: string;
   alt: string;
 }
+
 @Component({
   selector: 'app-carrera-turismo',
   templateUrl: './carrera-turismo.component.html',
