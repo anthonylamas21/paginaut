@@ -1,184 +1,190 @@
-<!--Componente Navbar-->
+<!-- Componente Navbar -->
 <app-navbar></app-navbar>
 <p id="inicio"></p>
-<!--Fin Navbar-->
+<!-- Fin Navbar -->
 
-<div class="w-full h-screen overflow-hidden">
-  <img class="object-cover w-full h-full" src="../../assets/img/universidad.jpg" alt="...">
-</div>
+<!-- Hero Section -->
+<div class="relative w-full h-screen overflow-hidden">
+  <img class="object-cover w-full h-full transform transition-transform duration-1000 hover:scale-105" src="./assets/img/universidad.jpg" alt="Universidad">
+  <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="text-center text-white p-8 animate-fadeIn">
+      <h1 class="text-5xl md:text-6xl font-bold uppercase tracking-wide">Universidad Tecnológica de la Costa</h1>
+      <p class="mt-4 text-lg md:text-xl">Conocimiento que transforma vidas</p>
+      <a (click)="scrollToSectionCarreras('carreras')" class="mt-8 inline-block bg-[#04847C] hover:bg-[#032D2D] text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300">Descubre Más</a>
 
-<button id="scrollTopButton" (click)="scrollToSection('inicio')"
-  class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
-  <i class="fa-solid fa-chevron-up"></i>
-</button>
-
-<br> 
-<br>
-
-<!--Contenedor de carreras-->
-<div class="container mt-4">
-
-  <div class="container mx-auto bg-[#043D3D] rounded-lg">
-    <h2 class="text-3xl text-white font-poppins font-bold-700 uppercase mb-4">Nuestras Ofertas Educativas</h2>
-  </div>
-  <div class="container sm p-4 bg-white rounded-lg shadow-lg">
-
-  <a href="/carreras"  >
-    <img class="object-fill w-full h-full lg:h-80" src="../../assets/img/liscarrera.webp" alt="...">
-  </a>
-  </div>
-</div>
-
-
-<div class="container mt-8">
-
-  <div class="container mx-auto bg-[#043D3D] rounded-lg">
-    <h2 class="text-3xl text-white font-poppins font-bold-700 uppercase mb-4">Nuestras Becas</h2>
-  </div>
-  <div class="container sm p-4 bg-white rounded-lg shadow-lg">
-  <a href="/becas"    >
-    <img class="object-fill w-full h-full lg:h-80" src="../../assets/img/becalos.jpeg" alt="...">
-  </a>
-  </div>
-
-</div>
-
-
-<div class="container mt-8">  
-<!--Contenedor Eventos-->
-<div class="container mx-auto bg-[#043D3D] rounded-lg">
-  <h2 class="text-3xl text-white font-poppins font-bold-700 uppercase mb-4">Eventos Más Recientes</h2>
-</div>
-
-
-<div class="container mx-auto">
-  <div class="container sm p-4 bg-white rounded-lg shadow-lg">
-    <div class="container max-w-screen-lg mb-8">
-    <div *ngIf="eventosRecientes.length > 0; else noEventos" class="grid grid-cols-1 lg:grid-cols-4 gap-4">
-      
-      <!-- Evento más reciente -->
-      <div class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow-lg relative">
-        <img [src]="eventosRecientes[0].imagen_principal" [alt]="eventosRecientes[0].titulo" class="w-full h-60 object-cover rounded-t-lg">
-        <h3 class="text-2xl font-poppins font-bold text-black p-4">{{ eventosRecientes[0].titulo }}</h3>
-        <div class="p-4">
-          <p class="text-gray-600">{{ eventosRecientes[0].informacion_evento | slice:0:100 }}...</p>
-          <a [routerLink]="['/evento', eventosRecientes[0].id]" class="mt-2 inline-block text-blue-600 hover:underline">Leer más</a>
-        </div>
-      </div>
-      
-      <!-- Otros 4 eventos recientes -->
-      <ng-container *ngFor="let evento of eventosRecientes.slice(1, 5)">
-        <div class="col-span-1 lg:col-span-1 bg-white rounded-lg border border-gray-200">
-          <img [src]="evento.imagen_principal" [alt]="evento.titulo" class="w-full h-32 object-cover rounded-t-lg">
-          <div class="p-4">
-            <h3 class="text-lg font-semibold text-gray-800">{{ evento.titulo }}</h3>
-            <p class="text-sm text-gray-600">{{ evento.informacion_evento | slice:0:50 }}...</p>
-            <a [routerLink]="['/evento', evento.id]" class="mt-2 inline-block text-blue-600 hover:underline">Leer más</a>
-          </div>
-        </div>
-      </ng-container>
     </div>
-
-    <!-- Mensaje cuando no hay eventos -->
-    <ng-template #noEventos>
-      <div class="p-4 bg-white rounded-lg border border-gray-200 text-center">
-        <p class="text-gray-600">No hay eventos recientes disponibles en este momento. Por favor, vuelve a consultar más tarde.</p>
-      </div>
-    </ng-template>
   </div>
 </div>
-</div>
-<!--Fin Eventos-->
-<br>
-<br>
-<br>
 
-<!--Inicio Noticias-->
-<div class="container mx-auto mb-4 w-full bg-[#043D3D] rounded-lg">
-  <h2 class="text-3xl text-white font-poppins font-bold-700 uppercase mb-4">Noticias</h2>
-</div>
+<!-- Sección de Carreras -->
+<section #carrerasSection id="carreras" class="relative py-16 bg-gray-100 px-16 opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+  <div class="container mx-auto text-center mb-8">
+    <h2 class="text-4xl text-[#043D3D] font-bold uppercase tracking-wide animate-slideIn">Conoce nuestras carreras</h2>
+  </div>
 
-<!-- Contenedor de noticias -->
-<div class="container max-w-screen-lg mb-8">
+  <!-- Contenedor del Carrusel con animación de subrayado -->
+  <div class="relative w-full max-w-5xl mx-auto px-4 md:px-6 py-24 overflow-hidden z-10 underline-animation-container">
+    <div class="text-center">
+      <div class="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
+        <a routerLink="/carreras">
+          <ul #logosUl class="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll">
+            <img *ngFor="let imagen of imagenes" [src]="imagen.src" [alt]="imagen.alt" class="w-full h-48 object-cover">
+          </ul>
+        </a>
+      </div>
+      <div class="container mx-auto max-w-4xl mt-6">
+        <p class="text-gray-700 text-center mb-6">Descubre tu futuro con nosotros. Explora nuestra variedad de carreras universitarias, desde Contaduría y Administración hasta Gastronomía y Agrobiotecnología. Cada programa está diseñado para impulsar tu potencial y prepararte para el éxito profesional.</p>
+      </div>
+      <!-- Nueva línea con retraso -->
+    <div class="underline-line-delay"></div>
+    </div>
+  </div>
+  <!-- Fin del Carrusel Infinito -->
+</section>
+
+
+
+<!-- Sección de Becas -->
+<section #becasSection id="becas" class="relative py-20 bg-gradient-to-r from-[#043D3D] to-[#04847C] text-white overflow-hidden opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+  <div class="container mx-auto text-center">
+    <div class="relative z-10">
+      <h2 class="text-5xl font-bold uppercase tracking-wide animate__animated animate__fadeInDown">¡Gran Oportunidad de Becas!</h2>
+      <p class="mt-4 px-8 text-lg md:text-xl animate__animated animate__fadeInUp animate__delay-1s">
+        Impulsa tu futuro con nuestras becas. ¡No dejes pasar esta oportunidad única!
+      </p>
+      <a href="/becas" class="mt-8 inline-block bg-[#04847C] hover:bg-[#032D2D] text-white font-bold py-4 px-8 rounded-full shadow-xl transition-transform transform hover:scale-110 animate__animated animate__bounceIn animate__delay-2s">
+        Descubre nuestras becas
+      </a>
+    </div>
+  </div>
   
-<!-- Contenedor de noticias -->
-<div class="container sm p-4 bg-white rounded-lg shadow-lg">
+  <!-- Animación de Círculos Flotantes -->
+  <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none">
+    <div class="relative w-64 h-64">
+      <div class="absolute top-0 left-0 w-32 h-32 bg-white bg-opacity-10 rounded-full filter blur-lg animate-pulse"></div>
+      <div class="absolute top-8 right-0 w-24 h-24 bg-white bg-opacity-20 rounded-full filter blur-md animate-bounce"></div>
+      <div class="absolute bottom-0 left-16 w-40 h-40 bg-white bg-opacity-10 rounded-full filter blur-lg animate-pulse"></div>
+    </div>
+  </div>
+</section>
 
-<div class="container max-w-screen-lg mb-8">
-  <div class="container max-w-screen-lg mb-8">
-    <div *ngFor="let noticia of noticiasVisibles" class="border rounded-lg shadow-lg overflow-hidden mb-4">
-      <div class="bg-white rounded-lg overflow-hidden">
-        <div class="grid grid-cols-1 lg:grid-cols-5">
-          <div class="relative lg:col-span-2">
-            <div class="flex flex-row lg:flex-col">
-              <div class="w-3/4 lg:w-full h-24 lg:h-auto">
-                <img [src]="noticia.imagen_principal" [alt]="noticia.titulo" class="object-cover w-full h-full lg:h-32">
-              </div>
-              <div class="w-1/4 lg:w-full date-container bg-green-800 text-white flex flex-col items-center justify-center p-2">
-                <p class="text-2xl lg:text-4xl font-bold">{{ noticia.fecha_publicacion | date:'dd' }}</p>
-                <p class="text-xs lg:text-md capitalize">{{ noticia.fecha_publicacion | date:'MMMM' }}</p>
-              </div>
-            </div>
-          </div>
-          <div class="p-2 lg:col-span-3 flex flex-col justify-between">
-            <div>
-              <h3 class="text-xl font-bold text-gray-800 mb-1">{{ noticia.titulo }}</h3>
-              <p class="text-gray-600 mb-2 text-sm">{{ noticia.resumen }}</p>
-            </div>
-            <div class="flex items-center justify-end">
-              <a [routerLink]="['/noticia', noticia.id]" class="text-green-800 font-semibold text-sm">Leer más</a>
-            </div>
-          </div>
+
+<!-- Eventos Recientes -->
+<section #eventosSection id="eventos" class="py-16 bg-gray-100 px-16 opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+  <div class="container mx-auto text-center mb-8">
+    <h2 class="text-4xl text-[#043D3D] font-bold uppercase tracking-wide animate-slideIn">Eventos Más Recientes</h2>
+  </div>
+  
+  <div class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <!-- Evento más reciente -->
+    
+    <div class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300 flex flex-col">
+      <img [src]="eventosRecientes[0].imagen_principal" [alt]="eventosRecientes[0].titulo" class="w-full h-52 object-cover rounded-t-lg">
+      <div class="p-6 flex-1 flex flex-col justify-between">
+        <div>
+          <h3 class="text-2xl font-bold text-[#043D3D]">{{ eventosRecientes[0].titulo | slice:0:sliceValue }}</h3>
+          <p class="mt-2 text-gray-600">{{ eventosRecientes[0].informacion_evento | slice:0:sliceValue }}.</p>
         </div>
+        <a [routerLink]="['/evento', eventosRecientes[0].id]" class="mt-4 text-[#04847C] hover:text-[#032D2D] font-bold">Leer más</a>
       </div>
     </div>
+    
+    <!-- Otros 4 eventos recientes -->
+    <ng-container *ngFor="let evento of eventosRecientes.slice(1, 5)">
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 flex flex-col">
+        <img [src]="evento.imagen_principal" [alt]="evento.titulo" class="w-full h-32 object-cover rounded-t-lg">
+        <div class="p-6 flex-1 flex flex-col justify-between">
+          <div>
+            <h3 class="text-lg font-bold text-[#043D3D]">{{ evento.titulo | slice:0:sliceValue }}</h3>
+            <p class="text-gray-600">{{ evento.informacion_evento | slice:0:getDynamicSliceValue(evento.informacion_evento)}}.</p>
+          </div>
+          <a [routerLink]="['/evento', evento.id]" class="mt-2 text-[#04847C] hover:text-[#032D2D] font-bold">Leer más</a>
+        </div>
+      </div>
+    </ng-container>
+  </div>    
+</section>
+
+<!-- Noticias -->
+<section #noticiasSection id="noticias" class="py-16 bg-white px-16 opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+  <div class="container mx-auto text-center mb-8">
+    <h2 class="text-4xl text-[#043D3D] font-bold uppercase tracking-wide animate-slideIn">Noticias</h2>
   </div>
-</div>
-  <!-- Mensaje cuando no hay noticias -->
-  <div *ngIf="noticiasVisibles.length === 0" class="border rounded-lg shadow-lg overflow-hidden mb-4 p-4">
-    <p class="text-center text-gray-600">No hay noticias recientes disponibles en este momento. Por favor, vuelve a consultar más tarde.</p>
-  </div>
+  
+  <div class="container max-w-screen-lg mb-12 space-y-4">
 
-</div>
-
-  <!-- Botón Ver más -->
-  <div *ngIf="noticiasVisibles.length < noticias.length" class="border shadow-lg overflow-hidden mb-4 p-2 bg-gray-100 rounded-lg">
-    <a (click)="verMasNoticias()" class="cursor-pointer">
-      <p class="text-md text-center">Mostrar más noticias <i class="fa-solid fa-angle-down"></i></p>
-    </a>
-  </div>
-
-</div>
-
-<!--Contenedor Recorrido-->
-<div class="container mx-auto bg-[#043D3D] rounded-lg">
-  <h2 class="text-3xl text-white font-poppins font-bold-700 mt-8 uppercase mb-4">Recorrido Virtual</h2>
-</div>
-<div class="container max-w-screen-lg mb-8">
-  <div class="container max-w-screen-lg mb-8">
-
-<div class="container mx-auto bg-white p-4 rounded-lg shadow-lg mb-8">
-  <div class="flex flex-col items-center">
-    <div class="w-full h-fit overflow-hidden">
-      <a href="https://www.utdelacosta.edu.mx/recorrido_virtual/"    >
-      <img class="w-full h-32 object-cover" src="../../assets/img/universidad.jpg" alt="...">
-    </a>
+    <!-- Iteración de noticias -->
+    <div *ngFor="let noticia of noticiasVisibles" class="flex items-stretch bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 h-40">
+  
+      <!-- Imagen de la noticia -->
+      <div class="w-24 flex-shrink-0">
+        <img [src]="noticia.imagen_principal" [alt]="noticia.titulo" class="w-full h-full object-cover rounded-l-lg">
+      </div>
+  
+      <!-- Fecha de la noticia -->
+      <div class="flex flex-col items-center justify-center bg-[#04847C] text-white w-20 p-2 text-center">
+        <p class="text-lg sm:text-base font-bold">{{ noticia.fecha_publicacion | date:'dd' }}</p>
+        <p class="text-lg sm:text-base capitalize">{{ noticia.fecha_publicacion | date:'MMMM yyyy' }}</p>
+      </div>
+  
+      <!-- Contenido de la noticia -->
+      <div class="flex flex-col justify-between p-4 w-full">
+        <div>
+          <h3 class="font-bold text-sm text-gray-800 mb-1">{{ noticia.titulo }}</h3>
+          <p class="text-gray-600 text-sm">{{ noticia.resumen | slice:0:sliceValue }}.</p>
+        </div>
+        <div class="text-right">
+          <a [routerLink]="['/noticia', noticia.id]" class="text-[#04847C] hover:text-[#043D3D] font-semibold text-sm transition-colors duration-300">
+            Leer más <i class="fa-solid fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+      </div>
+  
     </div>
-    <p class="text-gray-700 text-center mb-4">Explora nuestras instalaciones desde la comodidad de tu hogar con nuestro recorrido virtual interactivo.</p>
-    <a href="https://www.utdelacosta.edu.mx/recorrido_virtual/" target="_blank" rel="noopener noreferrer" class="bg-[#043D3D] hover:bg-[#032D2D] text-white font-bold py-2 px-4 rounded transition duration-300">
-      Ir a Recorrido Virtual
-    </a>
+    <!-- Fin de la iteración de noticias -->
+  
+    <!-- Mensaje cuando no hay noticias -->
+    <div *ngIf="noticiasVisibles.length === 0" class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg">
+      <p class="text-gray-600 text-lg">No hay noticias recientes disponibles en este momento. Por favor, vuelve a consultar más tarde.</p>
+    </div>
+  
+    <!-- Botón Ver más -->
+    <div *ngIf="noticiasVisibles.length < noticias.length" class="mt-8 text-center">
+      <button (click)="verMasNoticias()" class="bg-[#043D3D] hover:bg-[#032D2D] text-white font-bold py-3 px-6 rounded-full shadow-lg transition-colors duration-300">
+        Mostrar más noticias <i class="fa-solid fa-angle-down ml-2"></i>
+      </button>
+    </div>
   </div>
-</div>
-<!--Fin Recorrido-->
-</div>
-</div>
-</div>
+</section>
 
+<!-- Recorrido Virtual -->
+<section #recorridoSection id="recorrido" class="py-16 px-16 bg-gray-100 opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+  <div class="container mx-auto text-center mb-8">
+    <h2 class="text-4xl text-[#043D3D] font-bold uppercase tracking-wide animate-slideIn">Recorrido Virtual</h2>
+  </div>
+  
+  <div class="container mx-auto max-w-4xl bg-white p-8 rounded-lg shadow-lg transform hover:translate-y-1 transition duration-300">
+    <div class="overflow-hidden mb-4">
+      <a href="https://www.utdelacosta.edu.mx/recorrido_virtual/">
+        <img class="w-full h-60 object-cover" src="../../assets/img/universidad.jpg" alt="Recorrido Virtual">
+      </a>
+    </div>
+    <p class="text-gray-700 text-center mb-6">Explora nuestras instalaciones desde la comodidad de tu hogar con nuestro recorrido virtual interactivo.</p>
+    <a href="https://www.utdelacosta.edu.mx/recorrido_virtual/" target="_blank" rel="noopener noreferrer" class="bg-[#043D3D] hover:bg-[#032D2D] text-white font-bold py-3 px-6 rounded-full transition duration-300">Ir a Recorrido Virtual</a>
+  </div>
+</section>
 
-
-<!--FIN DE CONTENEDOR NOTICIAS-->
-
-<!--Inicio componente Footer-->
+<!-- Componente Footer -->
 <app-footer></app-footer>
-<!--Fin Footer-->
+<!-- Fin Footer -->
+
+<script>
+  // Ejemplo de animaciones en JavaScript para hacer que el contenido aparezca al hacer scroll
+  window.addEventListener('scroll', function() {
+    document.querySelectorAll('.animate-slideIn').forEach(function(element) {
+      if (element.getBoundingClientRect().top < window.innerHeight) {
+        element.classList.add('opacity-100', 'transform', 'translate-x-0');
+      }
+    });
+  });
+</script>

@@ -329,7 +329,7 @@
 
 <div [class.hidden]="!selectedImage.url" id="hs-vertically-centered-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
   <div class="relative max-w-[90vh] w-full">
-    <img [src]="selectedImage.url" [alt]="selectedImage.alt" class="max-h-[90vh] w-[90vh] mx-auto rounded-md">
+    <a href=""></a><img [src]="selectedImage.url" [alt]="selectedImage.alt" class="max-h-[90vh] w-[90vh] mx-auto rounded-md">
     <button (click)="closeModal()" class="absolute top-0 right-0 bg-red-500 w-8 h-8 rounded-bl-md rounded-tr-md text-white text-2xl">&times;</button>
   </div>
 </div>

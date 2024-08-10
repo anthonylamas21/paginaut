@@ -41,10 +41,7 @@ export class CarreraAdministracionComponent {
 
   ngAfterViewInit(): void {
     this.renderer.listen('window', 'load', () => {
-      setInterval(() => {
         this.isLoading = false
-      }, 3000);  
-      
     });
   }
 
