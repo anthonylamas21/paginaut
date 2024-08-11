@@ -5,15 +5,8 @@ header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-ini_set('display_errors', 1);
-ini_set('log_errors', 1);
-error_reporting(E_ALL);
-ini_set('error_log', 'C:/xampp/htdocs/paginaut/api/logs/php-error.log');
-
-$root = dirname(__DIR__, 2);
-
-require_once $root . '/api/config/database.php';
-require_once $root . '/api/models/Carrera.php';
+require_once 'config/database.php';
+require_once 'models/Carrera.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -24,96 +17,132 @@ $request_method = $_SERVER["REQUEST_METHOD"];
 
 switch ($request_method) {
   case 'POST':
-    if (isset($_POST['id']) && !empty($_POST['id'])) {
-      $carrera->id = $_POST['id'];
-      if (!$carrera->readOne()) {
-        http_response_code(404);
-        echo json_encode(array("message" => "Carrera no encontrada."));
-        break;
-      }
+    // Verificar si es una actualización o una creación
+    $isUpdate = !empty($_POST['id']); // Comprobar si se ha proporcionado un ID
 
-      $carrera->nombre_carrera = $_POST['nombre_carrera'];
-      $carrera->perfil_profesional = $_POST['perfil_profesional'];
-      $carrera->ocupacion_profesional = $_POST['ocupacion_profesional'];
-      $carrera->direccion_id = $_POST['direccion_id'];
-      $carrera->activo = $_POST['activo'];
+    if ($isUpdate) {
+        $carrera->id = $_POST['id'];
+        if (!$carrera->readOne()) {
+            http_response_code(404);
+            echo json_encode(array("message" => "Carrera no encontrada."));
+            break;
+        }
+    }
 
-      if ($carrera->update()) {
-        http_response_code(200);
-        echo json_encode(array("message" => "Carrera actualizada correctamente."));
-      } else {
-        http_response_code(503);
-        echo json_encode(array("message" => "No se pudo actualizar la carrera."));
-      }
+    if (!empty($_POST['nombre_carrera']) && !empty($_POST['direccion_id']) && !empty($_POST['nivel_estudio_id']) && !empty($_POST['campo_estudio_id'])) {
+        $carrera->nombre_carrera = $_POST['nombre_carrera'];
+        $carrera->perfil_profesional = $_POST['perfil_profesional'];
+        $carrera->ocupacion_profesional = $_POST['ocupacion_profesional'];
+        $carrera->direccion_id = $_POST['direccion_id'];
+        $carrera->nivel_estudio_id = $_POST['nivel_estudio_id'];
+        $carrera->campo_estudio_id = $_POST['campo_estudio_id'];
+        $carrera->activo = isset($_POST['activo']) ? filter_var($_POST['activo'], FILTER_VALIDATE_BOOLEAN) : true;
+
+        if (isset($_FILES['imagen_principal']) && $_FILES['imagen_principal']['error'] === UPLOAD_ERR_OK) {
+            $carrera->imagen_principal = $_FILES['imagen_principal'];
+        }
+
+        if (isset($_FILES['imagenes_generales']) && !empty($_FILES['imagenes_generales']['name'][0])) {
+            $carrera->imagenes_generales = $_FILES['imagenes_generales'];
+        }
+
+        if ($isUpdate) {
+            $result = $carrera->update();
+            $message = "Carrera actualizada correctamente.";
+        } else {
+            $result = $carrera->create();
+            $message = "Carrera creada correctamente.";
+        }
+
+        if ($result) {
+            http_response_code($isUpdate ? 200 : 201);
+            echo json_encode(array(
+                "message" => $message,
+                "id" => $carrera->id
+            ));
+        } else {
+            http_response_code(503);
+            echo json_encode(array("message" => $isUpdate ? "No se pudo actualizar la carrera." : "No se pudo crear la carrera."));
+        }
     } else {
-      $carrera->nombre_carrera = $_POST['nombre_carrera'];
-      $carrera->perfil_profesional = $_POST['perfil_profesional'];
-      $carrera->ocupacion_profesional = $_POST['ocupacion_profesional'];
-      $carrera->direccion_id = $_POST['direccion_id'];
-      $carrera->activo = true;
-
-      if ($carrera->create()) {
-        http_response_code(201);
-        echo json_encode(array("message" => "Carrera creada correctamente.", "id" => $carrera->id));
-      } else {
-        http_response_code(503);
-        echo json_encode(array("message" => "No se pudo crear la carrera."));
-      }
+        http_response_code(400);
+        echo json_encode(array("message" => "Datos incompletos."));
     }
     break;
+
 
   case 'GET':
     if (isset($_GET['id'])) {
       $carrera->id = $_GET['id'];
       if ($carrera->readOne()) {
-        echo json_encode($carrera);
+        $carrera_arr = array(
+          "id" => $carrera->id,
+          "nombre_carrera" => $carrera->nombre_carrera,
+          "perfil_profesional" => $carrera->perfil_profesional,
+          "ocupacion_profesional" => $carrera->ocupacion_profesional,
+          "direccion_id" => $carrera->direccion_id,
+          "nivel_estudio_id" => $carrera->nivel_estudio_id,
+          "campo_estudio_id" => $carrera->campo_estudio_id,
+          "activo" => $carrera->activo,
+          "fecha_creacion" => $carrera->fecha_creacion,
+          "imagen_principal" => $carrera->getImagenPrincipal(),
+          "imagenes_generales" => $carrera->getImagenesGenerales()
+        );
+        echo json_encode($carrera_arr);
       } else {
         http_response_code(404);
         echo json_encode(array("message" => "Carrera no encontrada."));
       }
     } else {
       $stmt = $carrera->read();
-      $num = $stmt->rowCount();
-
-      if ($num > 0) {
-        $carreras_arr = array();
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-          extract($row);
-          $carrera_item = array(
-            "id" => $id,
-            "nombre_carrera" => $nombre_carrera,
-            "perfil_profesional" => $perfil_profesional,
-            "ocupacion_profesional" => $ocupacion_profesional,
-            "direccion_id" => $direccion_id,
-            "activo" => $activo,
-            "fecha_creacion" => $fecha_creacion
-          );
-          array_push($carreras_arr, $carrera_item);
-        }
-        echo json_encode(array("records" => $carreras_arr));
-      } else {
-        http_response_code(200);
-        echo json_encode(array("records" => array()));
+      $carreras_arr = array();
+      while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        extract($row);
+        $carrera_item = array(
+          "id" => $id,
+          "nombre_carrera" => $nombre_carrera,
+          "perfil_profesional" => $perfil_profesional,
+          "ocupacion_profesional" => $ocupacion_profesional,
+          "direccion_id" => $direccion_id,
+          "nivel_estudio_id" => $nivel_estudio_id,
+          "campo_estudio_id" => $campo_estudio_id,
+          "activo" => $activo,
+          "fecha_creacion" => $fecha_creacion,
+          "direccion_nombre" => $direccion_nombre,
+          "nivel_estudio_nombre" => $nivel_estudio_nombre,
+          "campo_estudio_nombre" => $campo_estudio_nombre,
+          "imagen_principal" => $carrera->getImagenPrincipal(),
+          "imagenes_generales" => $carrera->getImagenesGenerales()
+        );
+        array_push($carreras_arr, $carrera_item);
       }
+      echo json_encode(array("records" => $carreras_arr));
     }
     break;
 
   case 'PUT':
-    $data = json_decode(file_get_contents("php://input"), true);
-    if (!empty($data['id'])) {
-      $carrera->id = $data['id'];
-      $carrera->activo = $data['activo'];
-
-      if ($carrera->updateStatus()) {
-        http_response_code(200);
-        echo json_encode(array("message" => "Estado de la carrera actualizado correctamente."));
-      } else {
-        http_response_code(503);
-        echo json_encode(array("message" => "No se pudo actualizar el estado de la carrera."));
+    if (isset($_GET['id'])) {
+      $carrera->id = $_GET['id'];
+      if (isset($_GET['accion']) && $_GET['accion'] == 'activar') {
+        if ($carrera->updateStatus(true)) {
+          http_response_code(200);
+          echo json_encode(array("message" => "Carrera activada correctamente."));
+        } else {
+          http_response_code(503);
+          echo json_encode(array("message" => "No se pudo activar la carrera."));
+        }
+      } elseif (isset($_GET['accion']) && $_GET['accion'] == 'desactivar') {
+        if ($carrera->updateStatus(false)) {
+          http_response_code(200);
+          echo json_encode(array("message" => "Carrera desactivada correctamente."));
+        } else {
+          http_response_code(503);
+          echo json_encode(array("message" => "No se pudo desactivar la carrera."));
+        }
       }
     } else {
       http_response_code(400);
-      echo json_encode(array("message" => "Datos incompletos."));
+      echo json_encode(array("message" => "No se proporcionó el ID de la carrera o la acción."));
     }
     break;
 
@@ -138,3 +167,4 @@ switch ($request_method) {
     echo json_encode(array("message" => "Método no permitido."));
     break;
 }
+?>

@@ -6,6 +6,7 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 export interface Carrera {
   id?: number;
@@ -13,6 +14,8 @@ export interface Carrera {
   perfil_profesional?: string;
   ocupacion_profesional?: string;
   direccion_id: number;
+  nivel_estudio_id: number;
+  campo_estudio_id: number;
   activo?: boolean;
   fecha_creacion?: string;
 }
@@ -29,19 +32,42 @@ export class CarreraService {
 
   constructor(private http: HttpClient) {}
 
-  saveCarrera(carrera: Carrera): Observable<any> {
-    const formData = new HttpParams()
-      .set('id', carrera.id?.toString() || '')
-      .set('nombre_carrera', carrera.nombre_carrera)
-      .set('perfil_profesional', carrera.perfil_profesional || '')
-      .set('ocupacion_profesional', carrera.ocupacion_profesional || '')
-      .set('direccion_id', carrera.direccion_id.toString())
-      .set('activo', carrera.activo ? '1' : '0');
+  saveCarrera(carrera: Carrera, imagenPrincipal?: File, imagenesGenerales?: File[]): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('nombre_carrera', carrera.nombre_carrera);
+    formData.append('perfil_profesional', carrera.perfil_profesional || '');
+    formData.append('ocupacion_profesional', carrera.ocupacion_profesional || '');
+    formData.append('direccion_id', carrera.direccion_id.toString());
+    formData.append('nivel_estudio_id', carrera.nivel_estudio_id.toString());
+    formData.append('campo_estudio_id', carrera.campo_estudio_id.toString());
+    formData.append('activo', carrera.activo ? 'true' : 'false');
+
+    if (carrera.id) {
+        formData.append('id', carrera.id.toString());
+    }
+
+    if (imagenPrincipal) {
+        formData.append('imagen_principal', imagenPrincipal);
+    }
+
+    if (imagenesGenerales) {
+        imagenesGenerales.forEach((file, index) => {
+            formData.append(`imagenes_generales[${index}]`, file);
+        });
+    }
 
     return this.http
-      .post<any>(this.apiUrl, formData)
-      .pipe(catchError(this.handleError));
-  }
+        .post<any>(this.apiUrl, formData)
+        .pipe(
+            catchError(this.handleError),
+            tap(response => console.log("Respuesta del servidor:", response))
+        );
+}
+
+getCuatrimestresYAsignaturas(carreraId: number): Observable<any> {
+  return this.http.get(`${this.apiUrl}/cuatrimestres?carreraId=${carreraId}`);
+}
+
 
   getCarreras(): Observable<CarreraResponse> {
     return this.http
@@ -49,12 +75,13 @@ export class CarreraService {
       .pipe(catchError(this.handleError));
   }
 
-  updateCarreraStatus(id: number, activo: boolean): Observable<any> {
-    const body = { id, activo };
+  updateCarreraStatus(id: number, accion: string): Observable<any> {
+    const params = new HttpParams().set('accion', accion);
     return this.http
-      .put<any>(`${this.apiUrl}`, body)
+      .put<any>(`${this.apiUrl}?id=${id}`, null, { params })
       .pipe(catchError(this.handleError));
   }
+  
 
   deleteCarrera(id: number): Observable<any> {
     return this.http
