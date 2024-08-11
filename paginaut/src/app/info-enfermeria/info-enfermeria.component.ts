@@ -6,6 +6,9 @@ import { Component,HostListener } from '@angular/core';
   styleUrl: './info-enfermeria.component.css'
 })
 export class InfoEnfermeriaComponent {
+
+  correo = "enfermeria@utdelacosta.edu.mx";
+
   ngOnInit(): void {
     this.setNavbarColor();
   }

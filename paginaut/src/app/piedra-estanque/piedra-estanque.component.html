@@ -5,7 +5,7 @@
   <li class="inline-flex items-center">
     <a
       class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]"
-      href="#"
+      href="/principal"
     >
       Inicio
     </a>
@@ -60,9 +60,9 @@
 
       <div class="mb-6">
         <img
-          src=".\assets\img\galeria\lectura.jpg"
+          src=".\assets\img\galeria\image.png"
           alt="La piedra en el estanque"
-          class="w-full h-96 rounded-lg shadow-md object-cover"
+          class=""
         />
       </div>
 
@@ -81,18 +81,14 @@
         >
           Galería
         </h2>
+
       </div>
       <ngx-masonry class="mx-auto">
-        <div
-          ngxMasonryItem
-          class="masonry-item p-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5"
-        >
-          <img
-            class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out"
-            data-hs-overlay="#hs-slide-down-animation-modal"
-          />
+        <div ngxMasonryItem class="masonry-item p-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5" *ngFor="let image of images">
+          <img [src]="image.url" [alt]="image.alt" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out" data-hs-overlay="#hs-slide-down-animation-modal" (click)=" openModal(image)">
         </div>
       </ngx-masonry>
+
     </section>
   </div>
 </div>
