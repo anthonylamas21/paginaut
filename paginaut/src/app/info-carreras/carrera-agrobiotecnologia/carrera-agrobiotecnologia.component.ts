@@ -28,6 +28,8 @@ interface Image {
 export class CarreraAgrobiotecnologiaComponent {
 
   isLoading = true;
+  imagenAmpliada: string | null = null;
+  selectedImage: Image = { url: '', alt: '' };
   
   constructor(private renderer: Renderer2) {}
 
@@ -56,19 +58,6 @@ export class CarreraAgrobiotecnologiaComponent {
     { url: './assets/img/galeria/agro/agro22.jpg', alt: 'Image 2' },
     // más imágenes aquí
   ];
-
-  selectedImage: Image = { url: '', alt: '' };
-
-  openModal(image: Image): void {
-    if (image) {
-      this.selectedImage = image;
-      const modal = document.getElementById('hs-vertically-centered-modal');
-      if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('pointer-events-auto');
-      }
-    }
-  }
 
   ngAfterViewInit(): void {
     this.renderer.listen('window', 'load', () => {
@@ -138,9 +127,9 @@ export class CarreraAgrobiotecnologiaComponent {
 //INICIO TABLA CUATRIMESTRES
 onMouseOver(columna: string, valor: any) {
   if(valor == ""){
-    console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
+    //console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
   }else{
-    console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
+    //console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
   }
 }
 
@@ -170,6 +159,31 @@ onMouseOver(columna: string, valor: any) {
             }
         }
     }
+  }
+
+  openModal(image: Image): void {
+    this.selectedImage = image;
+    const modal = document.getElementById('hs-vertically-centered-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.classList.add('pointer-events-auto');
+    }
+  }
+  closeModal(): void {
+    const modal = document.getElementById('hs-vertically-centered-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('pointer-events-auto');
+    }
+    this.selectedImage = { url: '', alt: '' };
+  }
+  
+  ampliarImagen(imagenUrl: string): void {
+    this.imagenAmpliada = imagenUrl;
+  }
+
+  cerrarImagenAmpliada(): void {
+    this.imagenAmpliada = null;
   }
 
 }

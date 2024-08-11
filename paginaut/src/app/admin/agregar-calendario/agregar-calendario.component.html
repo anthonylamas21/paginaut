@@ -1,8 +1,26 @@
 <app-navbar-admin></app-navbar-admin>
 <p id="inicio"></p>
+
+<div class=" mt-4">
+  <ol class="flex items-center whitespace-nowrap ml-4 mt-24">
+      <li class="inline-flex items-center">
+        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/admin/principal_admin">
+          Panel Administrador
+        </a>
+        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </li>
+      <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate" aria-current="page">
+          Calendario 
+        </li>
+    </ol>
+</div>
+
 <!--Fin Navbar-->
 
-<div class="bg-[#043D3D] rounded-lg mt-28 mb-5">
+<div class="p-2 mx-auto">
+<div class="bg-[#043D3D] rounded-lg mt-8 mb-5">
   <h2
     class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4"
   >
@@ -15,7 +33,7 @@
   [ngClass]="{ hidden: !isModalOpen }"
   class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4"
 >
-  <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+  <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
     <div
       class="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10"
     >
@@ -52,14 +70,14 @@
       <div class="space-y-4">
         <div>
           <label for="anio" class="block text-sm font-medium text-gray-700"
-            >Año</label
+            >Titulo del calendario</label
           >
           <input
             type="text"
             id="anio"
             formControlName="anio"
-            class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
-            placeholder="Año del calendario"
+            class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+            placeholder="Titulo y año del calendario"
             maxlength="4"
             required
             (input)="updateTitulo()"
@@ -354,44 +372,6 @@
                           <button
                             (mouseenter)="mostrar($event.target)"
                             (mouseleave)="mostrar($event.target)"
-                            (click)="openModal(calendario)"
-                            class="hover:text-primary"
-                          >
-                            <div
-                              class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
-                            >
-                              <div
-                                class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
-                              >
-                                <i class="fas fa-edit"></i>
-                                <div
-                                  class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
-                                  role="tooltip"
-                                >
-                                  <div
-                                    class="py-3 px-4 border-b border-gray-200"
-                                  >
-                                    <h4 class="font-semibold text-gray-800">
-                                      Editar
-                                    </h4>
-                                  </div>
-                                  <ul class="py-3 px-4 space-y-1">
-                                    <li>
-                                      <div
-                                        class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
-                                      >
-                                        Actualizar la información del calendario
-                                        actual.
-                                      </div>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-                            </div>
-                          </button>
-                          <button
-                            (mouseenter)="mostrar($event.target)"
-                            (mouseleave)="mostrar($event.target)"
                             (click)="viewCalendario(calendario)"
                             class="hover:text-primary"
                           >
@@ -430,6 +410,44 @@
                           <button
                             (mouseenter)="mostrar($event.target)"
                             (mouseleave)="mostrar($event.target)"
+                            (click)="openModal(calendario)"
+                            class="hover:text-primary"
+                          >
+                            <div
+                              class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                            >
+                              <div
+                                class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                              >
+                                <i class="fas fa-edit"></i>
+                                <div
+                                  class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                  role="tooltip"
+                                >
+                                  <div
+                                    class="py-3 px-4 border-b border-gray-200"
+                                  >
+                                    <h4 class="font-semibold text-gray-800">
+                                      Editar
+                                    </h4>
+                                  </div>
+                                  <ul class="py-3 px-4 space-y-1">
+                                    <li>
+                                      <div
+                                        class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                      >
+                                        Actualizar la información del calendario
+                                        actual.
+                                      </div>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </button>
+                          <button
+                            (mouseenter)="mostrar($event.target)"
+                            (mouseleave)="mostrar($event.target)"
                             (click)="moveToTrash(calendario.id)"
                             class="hover:text-primary"
                           >
@@ -439,7 +457,7 @@
                               <div
                                 class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
                               >
-                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                <i class="fa fa-ban" aria-hidden="true"></i>
                                 <div
                                   class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
                                   role="tooltip"
@@ -448,7 +466,7 @@
                                     class="py-3 px-4 border-b border-gray-200"
                                   >
                                     <h4 class="font-semibold text-gray-800">
-                                      Eliminar
+                                      Desactivar
                                     </h4>
                                   </div>
                                   <ul class="py-3 px-4 space-y-1">
@@ -456,9 +474,7 @@
                                       <div
                                         class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
                                       >
-                                        Eliminar el calendario indica
-                                        desaparecer la información relacionada a
-                                        este calendario.
+                                        Mover el calendario a la papelera.
                                       </div>
                                     </li>
                                   </ul>
@@ -547,45 +563,6 @@
                             <button
                               (mouseenter)="mostrar($event.target)"
                               (mouseleave)="mostrar($event.target)"
-                              (click)="activateCalendario(calendario.id)"
-                              class="hover:text-primary"
-                            >
-                              <div
-                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
-                              >
-                                <div
-                                  class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
-                                >
-                                  <i class="fa-solid fa-arrow-rotate-left"></i>
-                                  <div
-                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
-                                    role="tooltip"
-                                  >
-                                    <div
-                                      class="py-3 px-4 border-b border-gray-200"
-                                    >
-                                      <h4 class="font-semibold text-gray-800">
-                                        Reactivar
-                                      </h4>
-                                    </div>
-                                    <ul class="py-3 px-4 space-y-1">
-                                      <li>
-                                        <div
-                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
-                                        >
-                                          Volver a activar el calendario
-                                          regresando con este toda la
-                                          información relacionada.
-                                        </div>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-                            </button>
-                            <button
-                              (mouseenter)="mostrar($event.target)"
-                              (mouseleave)="mostrar($event.target)"
                               (click)="viewCalendario(calendario)"
                               class="hover:text-primary"
                             >
@@ -614,6 +591,45 @@
                                         >
                                           Información detallada del registro
                                           {{ calendario.titulo }}
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                            <button
+                              (mouseenter)="mostrar($event.target)"
+                              (mouseleave)="mostrar($event.target)"
+                              (click)="activateCalendario(calendario.id)"
+                              class="hover:text-primary"
+                            >
+                              <div
+                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                              >
+                                <div
+                                  class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                >
+                                  <i class="fa-solid fa-arrow-rotate-left"></i>
+                                  <div
+                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                    role="tooltip"
+                                  >
+                                    <div
+                                      class="py-3 px-4 border-b border-gray-200"
+                                    >
+                                      <h4 class="font-semibold text-gray-800">
+                                        Activar
+                                      </h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div
+                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                        >
+                                          Volver a activar el calendario
+                                          regresando con este toda la
+                                          información relacionada.
                                         </div>
                                       </li>
                                     </ul>
@@ -679,3 +695,5 @@
     </div>
   </div>
 </div>
+
+</div><!--cierre container-->

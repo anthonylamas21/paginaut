@@ -365,7 +365,7 @@ export class AgregarCarreraComponent implements OnInit {
 
   private showToast(icon: 'success' | 'warning' | 'error' | 'info' | 'question', title: string): void {
     const Toast = Swal.mixin({
-      toast: true,
+      toast: true,iconColor: '#008779',
       position: 'top-end',
       showConfirmButton: false,
       timer: 3000,

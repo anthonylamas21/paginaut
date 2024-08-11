@@ -38,9 +38,17 @@
     <p class="text-lg text-gray-700">{{ descripcionBeca }}</p>
   </div>
 
-  <div class="flex justify-center my-4 flex-1">
-    <iframe *ngIf="safeArchivoUrl" [src]="safeArchivoUrl" class="w-10/12 h-[500px]"></iframe>
-  </div>
+  <ng-container *ngIf="safeArchivoUrl; else noArchivo">
+    <div class="flex justify-center my-4 flex-1">
+      <iframe [src]="safeArchivoUrl" class="w-10/12 h-[500px]"></iframe>
+    </div>
+  </ng-container>
+  
+  <ng-template #noArchivo>
+    <div class="flex justify-center my-4 flex-1">
+      <app-not-found class="w-10/12 h-[500px]"></app-not-found>
+    </div>
+  </ng-template>
 
   <div class="flex justify-center space-x-4 mb-4">
     <a *ngIf="archivoBeca" [href]="archivoBeca" target="_blank" class="bg-[#043D3D] text-white py-2 px-4 rounded-lg flex items-center">

@@ -6,6 +6,8 @@ import { Component, HostListener } from '@angular/core';
   styleUrl: './psicologia.component.css'
 })
 export class PsicologiaComponent {
+
+  correo = "serviciosgenerales@utdelacosta.edu.mx";
   ngOnInit(): void {
     this.setNavbarColor();
   }

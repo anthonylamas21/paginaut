@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { Table,TableModule } from 'primeng/table';
 import Swal from 'sweetalert2';
 import { Logout, UsuarioService } from '../../usuario.service';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-navbar-admin',
@@ -10,6 +11,8 @@ import { Logout, UsuarioService } from '../../usuario.service';
   styleUrl: './navbar-admin.component.css'
 })
 export class NavbarAdminComponent {
+
+  private secretKey = 'X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg'; // Usa una clave segura en producción
 
   myForm: FormGroup; 
   LogoutForm: FormGroup;
@@ -33,7 +36,9 @@ export class NavbarAdminComponent {
     this.token = localStorage.getItem('token');
   }
 
-
+  private decrypt(encrypted: string): string {
+      return CryptoJS.AES.decrypt(encrypted, this.secretKey).toString(CryptoJS.enc.Utf8);
+    }
 
   ngOnInit() {
     
@@ -41,8 +46,10 @@ export class NavbarAdminComponent {
 
   onSubmitLogout() {
     if (this.token) {
+
+      const tokenDesencriptado = this.decrypt(this.token);
       this.LogoutForm.patchValue({
-        token: this.token,
+        token: tokenDesencriptado,
       });
 
       const formData: Logout = this.LogoutForm.value;
@@ -50,14 +57,20 @@ export class NavbarAdminComponent {
 
       this.srvUsuario.CerrarSesion(formData).subscribe(
         res => {
-          console.log(res);
-          console.log('Has cerrado sesión');
-          localStorage.removeItem('token');
+          //console.log("Boton precionado de cerrar sesion");
+          
             this.srvUsuario.EliminarToken(formData).subscribe(res=>{
               //console.log("se elimono el token de la base de datos");
+              console.log('Has cerrado sesión');
+              localStorage.removeItem('token');
+              localStorage.removeItem('rol');
+              localStorage.removeItem('depa');
+
+              this.token = null;
+              window.location.href = "/principal"
+            }, err =>{
+              console.log('Error al eliminar token de la base de datos', err);
             });
-          this.token = null;
-          window.location.href = "/principal"
         },
         err => {
           console.log('Error al cerrar sesión', err);

@@ -68,6 +68,7 @@ import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.compo
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
 import { AgendaAdminComponent } from './admin/agenda-admin/agenda-admin.component';
 import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera.component';
+import { BibliotecaComponent } from './biblioteca/biblioteca.component';
 
 import { NotFoundComponent } from './not-found/not-found.component';
 
@@ -114,6 +115,9 @@ const routes: Routes = [
   { path: 'info_becas', component: InfoBecaComponent },
   { path: 'galeria', component: GaleriaComponent },
   { path: 'agenda-admin', component: AgendaAdminComponent },
+
+  { path: 'biblioteca', component: BibliotecaComponent },
+
 
   // Info Carreras
   {

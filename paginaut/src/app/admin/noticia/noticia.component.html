@@ -1,10 +1,27 @@
 <app-navbar-admin></app-navbar-admin>
 <p id="inicio"></p>
+
+<div class=" mt-4">
+  <ol class="flex items-center whitespace-nowrap ml-4 mt-24">
+      <li class="inline-flex items-center">
+        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/admin/principal_admin">
+          Panel Administrador
+        </a>
+        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </li>
+      <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate" aria-current="page">
+          Noticias 
+        </li>
+    </ol>
+</div>
+
+<div class="p-2 mx-auto">
 <!--Fin Navbar-->
-<div class="bg-[#043D3D] rounded-lg mt-28 mb-5">
+<div class="bg-[#043D3D] rounded-lg mt-8 mb-5">
   <h2
-    class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4"
-  >
+    class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4">
     Noticias
   </h2>
 </div>
@@ -28,12 +45,12 @@
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label for="titulo" class="block text-sm font-medium text-gray-700">Título</label>
-            <input type="text" id="titulo" formControlName="titulo" class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" maxlength="50" />
+            <input type="text" id="titulo" placeholder="Titulo de la noticia" formControlName="titulo" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
             <p *ngIf="isFieldInvalid('titulo')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('titulo') }}</p>
           </div>
           <div>
             <label for="autor" class="block text-sm font-medium text-gray-700">Autor</label>
-            <input type="text" id="autor" formControlName="autor" class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" maxlength="50" />
+            <input type="text" id="autor" placeholder="Autor de la noticia" formControlName="autor" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
             <p *ngIf="isFieldInvalid('autor')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('autor') }}</p>
           </div>
         </div>
@@ -43,12 +60,12 @@
         <h4 class="font-medium text-gray-700">2. Contenido</h4>
         <div>
           <label for="resumen" class="block text-sm font-medium text-gray-700">Resumen</label>
-          <textarea id="resumen" formControlName="resumen" rows="2" class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" maxlength="1000"></textarea>
+          <textarea id="resumen" placeholder="Resumen de la noticia" formControlName="resumen" rows="2" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="1000"></textarea>
           <p *ngIf="isFieldInvalid('resumen')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('resumen') }}</p>
         </div>
         <div>
           <label for="informacion_noticia" class="block text-sm font-medium text-gray-700">Información de la Noticia</label>
-          <textarea id="informacion_noticia" formControlName="informacion_noticia" rows="4" class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"></textarea>
+          <textarea id="informacion_noticia" placeholder="Información relevante" formControlName="informacion_noticia" rows="4" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"></textarea>
           <p *ngIf="isFieldInvalid('informacion_noticia')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('informacion_noticia') }}</p>
         </div>
       </div>
@@ -58,12 +75,12 @@
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label for="lugar_noticia" class="block text-sm font-medium text-gray-700">Lugar de la Noticia</label>
-            <input type="text" id="lugar_noticia" formControlName="lugar_noticia" class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" maxlength="50" />
+            <input type="text" id="lugar_noticia" placeholder="Lugar de la noticia" formControlName="lugar_noticia" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
             <p *ngIf="isFieldInvalid('lugar_noticia')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('lugar_noticia') }}</p>
           </div>
           <div>
             <label for="fecha_publicacion" class="block text-sm font-medium text-gray-700">Fecha de Publicación</label>
-            <input type="date" id="fecha_publicacion" formControlName="fecha_publicacion" class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm" />
+            <input type="date" id="fecha_publicacion" formControlName="fecha_publicacion" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
             <p *ngIf="isFieldInvalid('fecha_publicacion')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('fecha_publicacion') }}</p>
           </div>
         </div>
@@ -282,7 +299,7 @@
                             <button *ngIf="noticia.activo" (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="desactivarNoticia(noticia.id!)" class="hover:text-primary">
                               <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                 <div class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
-                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                  <i class="fa fa-ban" aria-hidden="true"></i>
                                   <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
                                     <div class="py-3 px-4 border-b border-gray-200">
                                       <h4 class="font-semibold text-gray-800">Desactivar</h4>
@@ -560,3 +577,5 @@
     </ng-template>
   </div>
 </div>
+
+</div><!--cierre de container-->
