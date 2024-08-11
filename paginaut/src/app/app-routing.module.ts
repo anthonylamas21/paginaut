@@ -14,7 +14,6 @@ import { CalendarioComponent } from './calendario/calendario.component';
 import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component'; // Importa el nuevo componente
 import { TallerComponent } from './taller/taller.component';
 import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
-import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.component';
 import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-calendario.component';
 import { AgregarBecaComponent } from './admin/agregar-beca/agregar-beca.component'; // Asegúrate de ajustar la ruta si es necesario
 import { CursosComponent } from './cursos/cursos.component';
@@ -163,7 +162,6 @@ const routes: Routes = [
   //Rutas Adminstrador
   { path: 'admin/navbar_admin', component: NavbarAdminComponent },
   { path: 'admin/principal_admin', component: PrincipalAdminComponent },
-  { path: 'admin/carreras_admin', component: CarrerasAdminComponent },
   { path: 'admin/cursos_admin', component: CursosAdminComponent },
   { path: 'admin/direcciones_admin', component: DireccionesAdminComponent },
   { path: 'admin/becas_admin', component: BecasAdminComponent },
@@ -180,7 +178,6 @@ const routes: Routes = [
   { path: 'admin/agenda-admin', component: AgendaAdminComponent },
 
   { path: 'admin/registrar-evento', component: RegistrarEventoComponent },
-  { path: 'admin/carreras', component: CarrerasAdminComponent }, // Nueva ruta para administrar carreras
   { path: 'admin/agregar-calendario', component: AgregarCalendarioComponent },
   { path: 'admin/agregar-beca', component: AgregarBecaComponent },
   { path: 'admin/agregar-carrera', component: AgregarCarreraComponent },

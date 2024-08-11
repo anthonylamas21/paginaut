@@ -71,10 +71,7 @@ export class CarreraAcuiculturaComponent {
 
   ngAfterViewInit(): void {
     this.renderer.listen('window', 'load', () => {
-      setInterval(() => {
         this.isLoading = false
-      }, 3000);  
-      
     });
   }
 

@@ -61,10 +61,7 @@ export class CarreraAgrobiotecnologiaComponent {
 
   ngAfterViewInit(): void {
     this.renderer.listen('window', 'load', () => {
-      setInterval(() => {
         this.isLoading = false
-      }, 3000);  
-      
     });
   }
 

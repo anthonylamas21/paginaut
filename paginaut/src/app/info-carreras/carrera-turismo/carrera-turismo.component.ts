@@ -20,6 +20,7 @@ interface Image {
   url: string;
   alt: string;
 }
+
 @Component({
   selector: 'app-carrera-turismo',
   templateUrl: './carrera-turismo.component.html',
@@ -49,9 +50,7 @@ export class CarreraTurismoComponent {
   
   ngAfterViewInit(): void {
     this.renderer.listen('window', 'load', () => {
-      setInterval(() => {
-        this.isLoading = false
-      }, 3000);  
+      this.isLoading = false 
       
     });
   }

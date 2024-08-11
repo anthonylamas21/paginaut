@@ -3,60 +3,55 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-export interface Carrera {
+export interface CampoEstudio {
   id?: number;
-  nombre_carrera: string;
-  perfil_profesional: string[];
-  ocupacion_profesional: string[];
+  campo: string;
   activo?: boolean;
   fecha_creacion?: string;
+}
+
+export interface CampoEstudioResponse {
+  records: CampoEstudio[];
 }
 
 @Injectable({
   providedIn: 'root',
 })
-export class CarreraService {
-  private apiUrl = 'http://localhost/paginaut/api/carrera.php'; // Ajusta esta URL según tu configuración
+export class CampoEstudioService {
+  private apiUrl = 'http://localhost/paginaut/api/campo-estudio.php';
 
   constructor(private http: HttpClient) {}
 
-  agregarCarrera(carrera: Carrera): Observable<any> {
+  saveCampoEstudio(campoEstudio: CampoEstudio): Observable<any> {
     return this.http
-      .post<any>(this.apiUrl, carrera)
+      .post<any>(this.apiUrl, campoEstudio)
       .pipe(catchError(this.handleError));
   }
 
-  obtenerCarreras(): Observable<Carrera[]> {
+  getCampoEstudio(): Observable<CampoEstudioResponse> {
     return this.http
-      .get<Carrera[]>(this.apiUrl)
+      .get<CampoEstudioResponse>(this.apiUrl)
       .pipe(catchError(this.handleError));
   }
 
-  obtenerCarrera(id: number): Observable<Carrera> {
+  updateCampoEstudioStatus(id: number, activo: boolean): Observable<any> {
+    const body = { id, activo };
     return this.http
-      .get<Carrera>(`${this.apiUrl}?id=${id}`)
+      .put<any>(this.apiUrl, body)
       .pipe(catchError(this.handleError));
   }
 
-  actualizarCarrera(carrera: Carrera): Observable<any> {
+  deleteCampoEstudio(id: number): Observable<any> {
     return this.http
-      .put<any>(`${this.apiUrl}`, carrera)
-      .pipe(catchError(this.handleError));
-  }
-
-  eliminarCarrera(id: number): Observable<any> {
-    return this.http
-      .put<any>(`${this.apiUrl}`, { id, activo: false })
+      .delete<any>(`${this.apiUrl}?id=${id}`)
       .pipe(catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Un error desconocido ha ocurrido';
     if (error.error instanceof ErrorEvent) {
-      // Error del lado del cliente
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      // El backend retornó un código de error
       errorMessage = `Código de error ${error.status}, mensaje: ${
         error.error.message || error.statusText
       }`;
