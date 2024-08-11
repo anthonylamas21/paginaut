@@ -52,7 +52,6 @@ import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.componen
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
 import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component';
 import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
-import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.component';
 import { AgregarBecaComponent } from './admin/agregar-beca/agregar-beca.component';
 import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-calendario.component';
 import { CursosAdminComponent } from './admin/cursos-admin/cursos-admin.component';
@@ -101,6 +100,7 @@ import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera
     CarrerasComponent,
     NavbarComponent,
     ComponentesComponent,
+    UnidadesAcademicasComponent,
     FooterComponent,
     UnidadesAcademicasComponent,
     EventosComponent,
@@ -129,7 +129,6 @@ import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera
     PrincipalAdminComponent,
     RegistrarEventoComponent,
     AgregarDireccionComponent,
-    CarrerasAdminComponent,
     AgregarBecaComponent,
     AgregarCalendarioComponent,
     CursosAdminComponent,

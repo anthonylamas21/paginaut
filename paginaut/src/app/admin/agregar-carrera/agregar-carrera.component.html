@@ -3,9 +3,7 @@
 <!--Fin Navbar-->
 
 <div class="bg-[#043D3D] rounded-lg mt-28 mb-5">
-  <h2
-    class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4"
-  >
+  <h2 class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4">
     Carreras
   </h2>
 </div>
@@ -16,9 +14,7 @@
   class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4"
 >
   <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
-    <div
-      class="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10"
-    >
+    <div class="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10">
       <h3 class="text-xl font-bold text-gray-900">
         {{ currentCarreraId ? "Editar Carrera" : "Nueva Carrera" }}
       </h3>
@@ -34,166 +30,220 @@
           viewBox="0 0 24 24"
           stroke="currentColor"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </div>
 
     <form
-      [formGroup]="carreraForm"
-      (ngSubmit)="onSubmit()"
-      class="p-4 space-y-4"
-    >
-      <div class="space-y-4">
-        <div>
-          <label
-            for="nombre_carrera"
-            class="block text-sm font-medium text-gray-700"
-            >Nombre de la Carrera</label
-          >
-          <input
-            type="text"
-            id="nombre_carrera"
-            formControlName="nombre_carrera"
-            class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
-            placeholder="Nombre de la Carrera"
-            maxlength="100"
-            required
-          />
-          <p
-            *ngIf="
-              carreraForm.get('nombre_carrera')?.invalid &&
-              (carreraForm.get('nombre_carrera')?.dirty ||
-                carreraForm.get('nombre_carrera')?.touched)
-            "
-            class="mt-1 text-xs text-red-600"
-          >
-            <span
-              *ngIf="carreraForm.get('nombre_carrera')?.errors?.['required']"
-              >El nombre de la carrera es requerido.</span
-            >
-            <span
-              *ngIf="carreraForm.get('nombre_carrera')?.errors?.['maxlength']"
-              >El nombre de la carrera no puede tener más de 100
-              caracteres.</span
-            >
-          </p>
-        </div>
-
-        <div>
-          <label
-            for="perfil_profesional"
-            class="block text-sm font-medium text-gray-700"
-            >Perfil Profesional</label
-          >
-          <textarea
-            id="perfil_profesional"
-            formControlName="perfil_profesional"
-            class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
-            placeholder="Perfil Profesional"
-            maxlength="500"
-          ></textarea>
-          <p
-            *ngIf="
-              carreraForm.get('perfil_profesional')?.invalid &&
-              (carreraForm.get('perfil_profesional')?.dirty ||
-                carreraForm.get('perfil_profesional')?.touched)
-            "
-            class="mt-1 text-xs text-red-600"
-          >
-            <span
-              *ngIf="carreraForm.get('perfil_profesional')?.errors?.['maxlength']"
-              >El perfil profesional no puede tener más de 500 caracteres.</span
-            >
-          </p>
-        </div>
-
-        <div>
-          <label
-            for="ocupacion_profesional"
-            class="block text-sm font-medium text-gray-700"
-            >Ocupación Profesional</label
-          >
-          <textarea
-            id="ocupacion_profesional"
-            formControlName="ocupacion_profesional"
-            class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
-            placeholder="Ocupación Profesional"
-            maxlength="500"
-          ></textarea>
-          <p
-            *ngIf="
-              carreraForm.get('ocupacion_profesional')?.invalid &&
-              (carreraForm.get('ocupacion_profesional')?.dirty ||
-                carreraForm.get('ocupacion_profesional')?.touched)
-            "
-            class="mt-1 text-xs text-red-600"
-          >
-            <span
-              *ngIf="carreraForm.get('ocupacion_profesional')?.errors?.['maxlength']"
-              >La ocupación profesional no puede tener más de 500
-              caracteres.</span
-            >
-          </p>
-        </div>
-
-        <div>
-          <label
-            for="direccion_id"
-            class="block text-sm font-medium text-gray-700"
-            >Dirección</label
-          >
-          <select
-            id="direccion_id"
-            formControlName="direccion_id"
-            class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
-            required
-          >
-            <option
-              *ngFor="let direccion of direcciones"
-              [value]="direccion.id"
-            >
-              {{ direccion.nombre }}
-            </option>
-          </select>
-          <p
-            *ngIf="
-              carreraForm.get('direccion_id')?.invalid &&
-              (carreraForm.get('direccion_id')?.dirty ||
-                carreraForm.get('direccion_id')?.touched)
-            "
-            class="mt-1 text-xs text-red-600"
-          >
-            <span *ngIf="carreraForm.get('direccion_id')?.errors?.['required']"
-              >La dirección es requerida.</span
-            >
-          </p>
-        </div>
+    [formGroup]="carreraForm"
+    (ngSubmit)="onSubmit()"
+    class="p-4 space-y-4"
+  >
+    <div class="space-y-4">
+      <div>
+        <label for="nombre_carrera" class="block text-sm font-medium text-gray-700">
+          Nombre de la Carrera
+        </label>
+        <input
+          type="text"
+          id="nombre_carrera"
+          formControlName="nombre_carrera"
+          class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+          placeholder="Nombre de la Carrera"
+          maxlength="100"
+          required
+        />
+        <p
+          *ngIf="
+            carreraForm.get('nombre_carrera')?.invalid &&
+            (carreraForm.get('nombre_carrera')?.dirty || carreraForm.get('nombre_carrera')?.touched)
+          "
+          class="mt-1 text-xs text-red-600"
+        >
+          <span *ngIf="carreraForm.get('nombre_carrera')?.errors?.['required']">
+            El nombre de la carrera es requerido.
+          </span>
+          <span *ngIf="carreraForm.get('nombre_carrera')?.errors?.['maxlength']">
+            El nombre de la carrera no puede tener más de 100 caracteres.
+          </span>
+        </p>
       </div>
-    </form>
-
-    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-      <button
-        type="submit"
-        [disabled]="carreraForm.invalid"
-        (click)="onSubmit()"
-        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm"
-      >
-        {{ currentCarreraId ? "Actualizar Carrera" : "Agregar Carrera" }}
-      </button>
-      <button
-        type="button"
-        (click)="closeModal()"
-        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-      >
-        Cancelar
-      </button>
+  
+      <div>
+        <label for="perfil_profesional" class="block text-sm font-medium text-gray-700">
+          Perfil Profesional
+        </label>
+        <textarea
+          id="perfil_profesional"
+          formControlName="perfil_profesional"
+          class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+          placeholder="Perfil Profesional"
+          maxlength="500"
+        ></textarea>
+        <p
+          *ngIf="
+            carreraForm.get('perfil_profesional')?.invalid &&
+            (carreraForm.get('perfil_profesional')?.dirty || carreraForm.get('perfil_profesional')?.touched)
+          "
+          class="mt-1 text-xs text-red-600"
+        >
+          <span *ngIf="carreraForm.get('perfil_profesional')?.errors?.['maxlength']">
+            El perfil profesional no puede tener más de 500 caracteres.
+          </span>
+        </p>
+      </div>
+  
+      <div>
+        <label for="ocupacion_profesional" class="block text-sm font-medium text-gray-700">
+          Ocupación Profesional
+        </label>
+        <textarea
+          id="ocupacion_profesional"
+          formControlName="ocupacion_profesional"
+          class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+          placeholder="Ocupación Profesional"
+          maxlength="500"
+        ></textarea>
+        <p
+          *ngIf="
+            carreraForm.get('ocupacion_profesional')?.invalid &&
+            (carreraForm.get('ocupacion_profesional')?.dirty || carreraForm.get('ocupacion_profesional')?.touched)
+          "
+          class="mt-1 text-xs text-red-600"
+        >
+          <span *ngIf="carreraForm.get('ocupacion_profesional')?.errors?.['maxlength']">
+            La ocupación profesional no puede tener más de 500 caracteres.
+          </span>
+        </p>
+      </div>
+  
+      <div>
+        <label for="direccion_id" class="block text-sm font-medium text-gray-700">
+          Dirección
+        </label>
+        <select
+          id="direccion_id"
+          formControlName="direccion_id"
+          class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+          required
+        >
+          <option *ngFor="let direccion of direcciones" [value]="direccion.id">
+            {{ direccion.nombre }}
+          </option>
+        </select>
+        <p
+          *ngIf="
+            carreraForm.get('direccion_id')?.invalid &&
+            (carreraForm.get('direccion_id')?.dirty || carreraForm.get('direccion_id')?.touched)
+          "
+          class="mt-1 text-xs text-red-600"
+        >
+          <span *ngIf="carreraForm.get('direccion_id')?.errors?.['required']">
+            La dirección es requerida.
+          </span>
+        </p>
+      </div>
+  
+      <div>
+        <label for="campo_estudio_id" class="block text-sm font-medium text-gray-700">
+          Campo de Estudio
+        </label>
+        <select
+          id="campo_estudio_id"
+          formControlName="campo_estudio_id"
+          class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+          required
+        >
+          <option *ngFor="let campoEstudio of camposEstudio" [value]="campoEstudio.id">
+            {{ campoEstudio.campo }}
+          </option>
+        </select>
+        <p
+          *ngIf="
+            carreraForm.get('campo_estudio_id')?.invalid &&
+            (carreraForm.get('campo_estudio_id')?.dirty || carreraForm.get('campo_estudio_id')?.touched)
+          "
+          class="mt-1 text-xs text-red-600"
+        >
+          <span *ngIf="carreraForm.get('campo_estudio_id')?.errors?.['required']">
+            El campo de estudio es requerido.
+          </span>
+        </p>
+      </div>
+  
+      <div>
+        <label for="nivel_estudio_id" class="block text-sm font-medium text-gray-700">
+          Nivel de Estudio
+        </label>
+        <select
+          id="nivel_estudio_id"
+          formControlName="nivel_estudio_id"
+          class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+          required
+        >
+          <option *ngFor="let nivelEstudio of nivelesEstudios" [value]="nivelEstudio.id">
+            {{ nivelEstudio.nivel }}
+          </option>
+        </select>
+        <p
+          *ngIf="
+            carreraForm.get('nivel_estudio_id')?.invalid &&
+            (carreraForm.get('nivel_estudio_id')?.dirty || carreraForm.get('nivel_estudio_id')?.touched)
+          "
+          class="mt-1 text-xs text-red-600"
+        >
+          <span *ngIf="carreraForm.get('nivel_estudio_id')?.errors?.['required']">
+            El nivel de estudio es requerido.
+          </span>
+        </p>
+      </div>
+  
+      <div>
+        <label for="imagen_principal" class="block text-sm font-medium text-gray-700">
+          Imagen Principal
+        </label>
+        <input
+          type="file"
+          id="imagen_principal"
+          (change)="onFileChange($event, 'principal')"
+          class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+          accept="image/*"
+        />
+      </div>
+  
+      <div>
+        <label for="imagenes_generales" class="block text-sm font-medium text-gray-700">
+          Imágenes Generales
+        </label>
+        <input
+          type="file"
+          id="imagenes_generales"
+          (change)="onFileChange($event, 'generales')"
+          class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+          accept="image/*"
+          multiple
+        />
+      </div>
+  
+      <div class="flex justify-end space-x-4">
+        <button
+          type="button"
+          class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          (click)="closeModal()"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+          Guardar
+        </button>
+      </div>
     </div>
+  </form>
+  
   </div>
 </div>
 
@@ -206,9 +256,7 @@
   {{ successMessage }}
 </div>
 
-<div
-  class="rounded-lg border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default sm:px-7.5 xl:pb-1 my-2"
->
+<div class="rounded-lg border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default sm:px-7.5 xl:pb-1 my-2">
   <div class="max-w-full">
     <div class="border-b border-gray-200">
       <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
@@ -238,11 +286,7 @@
     </div>
 
     <div class="mt-3">
-      <div
-        id="tabs-with-icons-1"
-        role="tabpanel"
-        aria-labelledby="tabs-with-icons-item-1"
-      >
+      <div id="tabs-with-icons-1" role="tabpanel" aria-labelledby="tabs-with-icons-item-1">
         <div class="flex flex-wrap items-center">
           <div class="flex flex-col lg:w-7/12 sm:w-12/12 md:w-7/12 w-full">
             <div class="w-full">
@@ -280,9 +324,7 @@
               <!-- End SearchBox -->
             </div>
           </div>
-          <div
-            class="flex flex-col lg:w-5/12 sm:w-12/12 md:w-5/12 text-right w-full"
-          >
+          <div class="flex flex-col lg:w-5/12 sm:w-12/12 md:w-5/12 text-right w-full">
             <div class="w-full">
               <button
                 type="button"
@@ -310,24 +352,24 @@
                     'nombre_carrera',
                     'perfil_profesional',
                     'ocupacion_profesional',
-                    'fecha_creacion'
+                    'fecha_creacion',
+                    'direccion_nombre',
+                    'nivel_estudio_nombre',
+                    'campo_estudio_nombre'
                   ]"
                   [tableStyleClass]="'min-w-full divide-y'"
                   [resizableColumns]="true"
                 >
                   <ng-template pTemplate="header">
-                    <tr
-                      class="divide-x divide-gray-200 bg-table-header-color rounded-lg"
-                    >
+                    <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
                       <th
                         scope="col"
                         class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
                         pSortableColumn="nombre_carrera"
                       >
                         <div class="flex">
-                          Nombre de la Carrera<p-sortIcon
-                            field="nombre_carrera"
-                          ></p-sortIcon>
+                          Nombre de la Carrera
+                          <p-sortIcon field="nombre_carrera"></p-sortIcon>
                         </div>
                       </th>
                       <th
@@ -336,9 +378,8 @@
                         pSortableColumn="perfil_profesional"
                       >
                         <div class="flex">
-                          Perfil Profesional<p-sortIcon
-                            field="perfil_profesional"
-                          ></p-sortIcon>
+                          Perfil Profesional
+                          <p-sortIcon field="perfil_profesional"></p-sortIcon>
                         </div>
                       </th>
                       <th
@@ -347,9 +388,38 @@
                         pSortableColumn="ocupacion_profesional"
                       >
                         <div class="flex">
-                          Ocupación Profesional<p-sortIcon
-                            field="ocupacion_profesional"
-                          ></p-sortIcon>
+                          Ocupación Profesional
+                          <p-sortIcon field="ocupacion_profesional"></p-sortIcon>
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                        pSortableColumn="direccion_nombre"
+                      >
+                        <div class="flex">
+                          Dirección
+                          <p-sortIcon field="direccion_nombre"></p-sortIcon>
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                        pSortableColumn="nivel_estudio_nombre"
+                      >
+                        <div class="flex">
+                          Nivel de Estudio
+                          <p-sortIcon field="nivel_estudio_nombre"></p-sortIcon>
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                        pSortableColumn="campo_estudio_nombre"
+                      >
+                        <div class="flex">
+                          Campo de Estudio
+                          <p-sortIcon field="campo_estudio_nombre"></p-sortIcon>
                         </div>
                       </th>
                       <th
@@ -358,15 +428,11 @@
                         pSortableColumn="fecha_creacion"
                       >
                         <div class="flex">
-                          Fecha de Creación<p-sortIcon
-                            field="fecha_creacion"
-                          ></p-sortIcon>
+                          Fecha de Creación
+                          <p-sortIcon field="fecha_creacion"></p-sortIcon>
                         </div>
                       </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                      >
+                      <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
                         <div class="flex">Acciones</div>
                       </th>
                     </tr>
@@ -383,6 +449,15 @@
                         {{ carrera.ocupacion_profesional }}
                       </td>
                       <td class="px-3 py-2 text-sm text-black">
+                        {{ carrera.direccion_nombre }}
+                      </td>
+                      <td class="px-3 py-2 text-sm text-black">
+                        {{ carrera.nivel_estudio_nombre }}
+                      </td>
+                      <td class="px-3 py-2 text-sm text-black">
+                        {{ carrera.campo_estudio_nombre }}
+                      </td>
+                      <td class="px-3 py-2 text-sm text-black">
                         {{ carrera.fecha_creacion }}
                       </td>
                       <td class="px-3 py-2 text-sm text-black">
@@ -393,9 +468,7 @@
                             (click)="openModal(carrera)"
                             class="hover:text-primary"
                           >
-                            <div
-                              class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
-                            >
+                            <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                               <div
                                 class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
                               >
@@ -404,20 +477,15 @@
                                   class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
                                   role="tooltip"
                                 >
-                                  <div
-                                    class="py-3 px-4 border-b border-gray-200"
-                                  >
-                                    <h4 class="font-semibold text-gray-800">
-                                      Editar
-                                    </h4>
+                                  <div class="py-3 px-4 border-b border-gray-200">
+                                    <h4 class="font-semibold text-gray-800">Editar</h4>
                                   </div>
                                   <ul class="py-3 px-4 space-y-1">
                                     <li>
                                       <div
                                         class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
                                       >
-                                        Actualizar la información de la carrera
-                                        actual.
+                                        Actualizar la información de la carrera actual.
                                       </div>
                                     </li>
                                   </ul>
@@ -431,9 +499,7 @@
                             (click)="moveToTrash(carrera.id)"
                             class="hover:text-primary"
                           >
-                            <div
-                              class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
-                            >
+                            <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                               <div
                                 class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
                               >
@@ -442,12 +508,8 @@
                                   class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
                                   role="tooltip"
                                 >
-                                  <div
-                                    class="py-3 px-4 border-b border-gray-200"
-                                  >
-                                    <h4 class="font-semibold text-gray-800">
-                                      Eliminar
-                                    </h4>
+                                  <div class="py-3 px-4 border-b border-gray-200">
+                                    <h4 class="font-semibold text-gray-800">Eliminar</h4>
                                   </div>
                                   <ul class="py-3 px-4 space-y-1">
                                     <li>
@@ -477,12 +539,7 @@
           </div>
         </div>
       </div>
-      <div
-        id="tabs-with-icons-2"
-        class="hidden"
-        role="tabpanel"
-        aria-labelledby="tabs-with-icons-item-2"
-      >
+      <div id="tabs-with-icons-2" class="hidden" role="tabpanel" aria-labelledby="tabs-with-icons-item-2">
         <div class="min-h-60 flex flex-col bg-white rounded-xl">
           <div class="flex flex-col mb-5">
             <div class="-m-1.5 overflow-x-auto">
@@ -499,24 +556,24 @@
                       'nombre_carrera',
                       'perfil_profesional',
                       'ocupacion_profesional',
-                      'fecha_creacion'
+                      'fecha_creacion',
+                      'direccion_nombre',
+                      'nivel_estudio_nombre',
+                      'campo_estudio_nombre'
                     ]"
                     [tableStyleClass]="'min-w-full divide-y'"
                     [resizableColumns]="true"
                   >
                     <ng-template pTemplate="header">
-                      <tr
-                        class="divide-x divide-gray-200 bg-table-header-color rounded-lg"
-                      >
+                      <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
                         <th
                           scope="col"
                           class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
                           pSortableColumn="nombre_carrera"
                         >
                           <div class="flex">
-                            Nombre de la Carrera<p-sortIcon
-                              field="nombre_carrera"
-                            ></p-sortIcon>
+                            Nombre de la Carrera
+                            <p-sortIcon field="nombre_carrera"></p-sortIcon>
                           </div>
                         </th>
                         <th
@@ -525,9 +582,8 @@
                           pSortableColumn="perfil_profesional"
                         >
                           <div class="flex">
-                            Perfil Profesional<p-sortIcon
-                              field="perfil_profesional"
-                            ></p-sortIcon>
+                            Perfil Profesional
+                            <p-sortIcon field="perfil_profesional"></p-sortIcon>
                           </div>
                         </th>
                         <th
@@ -536,9 +592,38 @@
                           pSortableColumn="ocupacion_profesional"
                         >
                           <div class="flex">
-                            Ocupación Profesional<p-sortIcon
-                              field="ocupacion_profesional"
-                            ></p-sortIcon>
+                            Ocupación Profesional
+                            <p-sortIcon field="ocupacion_profesional"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                          pSortableColumn="direccion_nombre"
+                        >
+                          <div class="flex">
+                            Dirección
+                            <p-sortIcon field="direccion_nombre"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                          pSortableColumn="nivel_estudio_nombre"
+                        >
+                          <div class="flex">
+                            Nivel de Estudio
+                            <p-sortIcon field="nivel_estudio_nombre"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                          pSortableColumn="campo_estudio_nombre"
+                        >
+                          <div class="flex">
+                            Campo de Estudio
+                            <p-sortIcon field="campo_estudio_nombre"></p-sortIcon>
                           </div>
                         </th>
                         <th
@@ -547,15 +632,11 @@
                           pSortableColumn="fecha_creacion"
                         >
                           <div class="flex">
-                            Fecha de Creación<p-sortIcon
-                              field="fecha_creacion"
-                            ></p-sortIcon>
+                            Fecha de Creación
+                            <p-sortIcon field="fecha_creacion"></p-sortIcon>
                           </div>
                         </th>
-                        <th
-                          scope="col"
-                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                        >
+                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
                           <div class="flex">Acciones</div>
                         </th>
                       </tr>
@@ -572,6 +653,15 @@
                           {{ carrera.ocupacion_profesional }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
+                          {{ carrera.direccion_nombre }}
+                        </td>
+                        <td class="px-3 py-2 text-sm text-black">
+                          {{ carrera.nivel_estudio_nombre }}
+                        </td>
+                        <td class="px-3 py-2 text-sm text-black">
+                          {{ carrera.campo_estudio_nombre }}
+                        </td>
+                        <td class="px-3 py-2 text-sm text-black">
                           {{ carrera.fecha_creacion }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
@@ -582,9 +672,7 @@
                               (click)="restoreCarrera(carrera.id)"
                               class="hover:text-primary"
                             >
-                              <div
-                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
-                              >
+                              <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                 <div
                                   class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
                                 >
@@ -593,20 +681,13 @@
                                     class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
                                     role="tooltip"
                                   >
-                                    <div
-                                      class="py-3 px-4 border-b border-gray-200"
-                                    >
-                                      <h4 class="font-semibold text-gray-800">
-                                        Reactivar
-                                      </h4>
+                                    <div class="py-3 px-4 border-b border-gray-200">
+                                      <h4 class="font-semibold text-gray-800">Reactivar</h4>
                                     </div>
                                     <ul class="py-3 px-4 space-y-1">
                                       <li>
-                                        <div
-                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
-                                        >
-                                          Volver a activar la carrera regresando
-                                          con esta toda la información
+                                        <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                          Volver a activar la carrera regresando con esta toda la información
                                           relacionada.
                                         </div>
                                       </li>
@@ -621,9 +702,7 @@
                               (click)="deleteCarrera(carrera.id)"
                               class="hover:text-primary"
                             >
-                              <div
-                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
-                              >
+                              <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                 <div
                                   class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
                                 >
@@ -632,57 +711,13 @@
                                     class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
                                     role="tooltip"
                                   >
-                                    <div
-                                      class="py-3 px-4 border-b border-gray-200"
-                                    >
-                                      <h4 class="font-semibold text-gray-800">
-                                        Eliminar
-                                      </h4>
+                                    <div class="py-3 px-4 border-b border-gray-200">
+                                      <h4 class="font-semibold text-gray-800">Eliminar</h4>
                                     </div>
                                     <ul class="py-3 px-4 space-y-1">
                                       <li>
-                                        <div
-                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
-                                        >
-                                          Eliminar la carrera de forma
-                                          definitiva.
-                                        </div>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-                            </button>
-                            <button
-                              (mouseenter)="mostrar($event.target)"
-                              (mouseleave)="mostrar($event.target)"
-                              (click)="openViewModal(carrera)"
-                              class="hover:text-primary"
-                            >
-                              <div
-                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
-                              >
-                                <div
-                                  class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
-                                >
-                                  <i class="fa fa-eye" aria-hidden="true"></i>
-                                  <div
-                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
-                                    role="tooltip"
-                                  >
-                                    <div
-                                      class="py-3 px-4 border-b border-gray-200"
-                                    >
-                                      <h4 class="font-semibold text-gray-800">
-                                        Detalles
-                                      </h4>
-                                    </div>
-                                    <ul class="py-3 px-4 space-y-1">
-                                      <li>
-                                        <div
-                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
-                                        >
-                                          Ver detalles de la carrera.
+                                        <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                          Eliminar la carrera de forma definitiva.
                                         </div>
                                       </li>
                                     </ul>

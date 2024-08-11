@@ -2,20 +2,18 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CarreraService, Carrera } from '../carrera.service';
 import { DireccionService, Direccion } from '../../direccion.service';
+import { NivelesEstudiosService, NivelesEstudios } from '../../niveles-estudios.service';
+import { CampoEstudioService, CampoEstudio } from '../../campo-estudio.service';
 import Swal from 'sweetalert2';
 
 class TooltipManager {
-  static adjustTooltipPosition(
-    button: HTMLElement,
-    tooltip: HTMLElement
-  ): void {
+  static adjustTooltipPosition(button: HTMLElement, tooltip: HTMLElement): void {
     const buttonRect = button.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
 
-    const preferredLeft =
-      buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
+    const preferredLeft = buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
     const preferredTop = buttonRect.top - tooltipRect.height - 10;
 
     let left = Math.max(preferredLeft, 0);
@@ -45,32 +43,44 @@ export class AgregarCarreraComponent implements OnInit {
   errorMessage: string = '';
   successMessage: string = '';
   isModalOpen: boolean = false;
+  isMapaModalOpen: boolean = false;  // Para el modal del mapa cuatrimestral
   isViewModalOpen: boolean = false;
   carreras: Carrera[] = [];
   direcciones: Direccion[] = [];
+  nivelesEstudios: NivelesEstudios[] = [];
+  camposEstudio: CampoEstudio[] = [];
   filteredCarreras: Carrera[] = [];
   papeleraCarreras: Carrera[] = [];
   currentCarreraId?: number;
   currentCarrera?: Carrera;
   selectedCarrera?: Carrera;
   currentTab: 'active' | 'inactive' = 'active';
+  imagenPrincipal?: File;
+  imagenesGenerales: File[] = [];
+  selectedMapaCarrera?: Carrera;  // Carrera seleccionada para el mapa cuatrimestral
 
   constructor(
     private fb: FormBuilder,
     private carreraService: CarreraService,
-    private direccionService: DireccionService
+    private direccionService: DireccionService,
+    private nivelesEstudiosService: NivelesEstudiosService,
+    private campoEstudioService: CampoEstudioService
   ) {
     this.carreraForm = this.fb.group({
       nombre_carrera: ['', [Validators.required, Validators.maxLength(100)]],
       perfil_profesional: ['', [Validators.maxLength(500)]],
       ocupacion_profesional: ['', [Validators.maxLength(500)]],
       direccion_id: ['', [Validators.required]],
+      nivel_estudio_id: ['', [Validators.required]],
+      campo_estudio_id: ['', [Validators.required]],
     });
   }
 
   ngOnInit(): void {
     this.loadCarreras();
     this.loadDirecciones();
+    this.loadNivelesEstudios();
+    this.loadCamposEstudio();
   }
 
   @HostListener('window:scroll', [])
@@ -107,14 +117,21 @@ export class AgregarCarreraComponent implements OnInit {
         id: this.currentCarreraId,
         nombre_carrera: this.carreraForm.get('nombre_carrera')?.value,
         perfil_profesional: this.carreraForm.get('perfil_profesional')?.value,
-        ocupacion_profesional: this.carreraForm.get('ocupacion_profesional')
-          ?.value,
+        ocupacion_profesional: this.carreraForm.get('ocupacion_profesional')?.value,
         direccion_id: this.carreraForm.get('direccion_id')?.value,
+        nivel_estudio_id: this.carreraForm.get('nivel_estudio_id')?.value,
+        campo_estudio_id: this.carreraForm.get('campo_estudio_id')?.value,
         activo: true,
       };
 
-      this.carreraService.saveCarrera(formData).subscribe({
+      console.log("Enviando datos de carrera:", formData);
+
+      this.carreraService.saveCarrera(formData, this.imagenPrincipal, this.imagenesGenerales).subscribe({
         next: (response: any) => {
+          console.log("Respuesta del servidor:", response);
+          if (response.id) {
+            this.currentCarreraId = response.id; // Actualiza la ID de la carrera
+          }
           this.showToast(
             'success',
             this.currentCarreraId
@@ -126,6 +143,7 @@ export class AgregarCarreraComponent implements OnInit {
           this.closeModal();
         },
         error: (error: any) => {
+          console.error("Error al guardar la carrera:", error);
           this.showToast('error', error.message);
         },
       });
@@ -143,6 +161,8 @@ export class AgregarCarreraComponent implements OnInit {
     this.successMessage = '';
     this.currentCarreraId = undefined;
     this.currentCarrera = undefined;
+    this.imagenPrincipal = undefined;
+    this.imagenesGenerales = [];
   }
 
   openModal(carrera?: Carrera) {
@@ -153,7 +173,11 @@ export class AgregarCarreraComponent implements OnInit {
         perfil_profesional: carrera.perfil_profesional,
         ocupacion_profesional: carrera.ocupacion_profesional,
         direccion_id: carrera.direccion_id,
+        nivel_estudio_id: carrera.nivel_estudio_id,
+        campo_estudio_id: carrera.campo_estudio_id,
       });
+      this.imagenPrincipal = undefined; // Resetea las imágenes al abrir el modal
+      this.imagenesGenerales = [];
     } else {
       this.resetForm();
     }
@@ -162,6 +186,16 @@ export class AgregarCarreraComponent implements OnInit {
 
   closeModal() {
     this.isModalOpen = false;
+  }
+
+  openMapaModal(carrera: Carrera) {
+    this.selectedMapaCarrera = carrera;
+    this.isMapaModalOpen = true;
+    // Aquí podrías cargar los datos específicos para el mapa cuatrimestral
+  }
+
+  closeMapaModal() {
+    this.isMapaModalOpen = false;
   }
 
   openViewModal(carrera: Carrera) {
@@ -196,12 +230,34 @@ export class AgregarCarreraComponent implements OnInit {
     });
   }
 
+  loadNivelesEstudios() {
+    this.nivelesEstudiosService.getNivelesEstudios().subscribe({
+      next: (response: any) => {
+        this.nivelesEstudios = response.records;
+      },
+      error: (error: any) => {
+        this.showToast('error', error.message);
+      },
+    });
+  }
+
+  loadCamposEstudio() {
+    this.campoEstudioService.getCampoEstudio().subscribe({
+      next: (response: any) => {
+        this.camposEstudio = response.records;
+      },
+      error: (error: any) => {
+        this.showToast('error', error.message);
+      },
+    });
+  }
+
   moveToTrash(id: number) {
     this.showConfirmDialog(
       '¿Estás seguro?',
       '¿Quieres enviar esta carrera a la papelera?',
       () => {
-        this.carreraService.updateCarreraStatus(id, false).subscribe({
+        this.carreraService.updateCarreraStatus(id, 'desactivar').subscribe({
           next: (response: any) => {
             this.showToast('success', 'Carrera enviada a la papelera');
             this.loadCarreras();
@@ -213,13 +269,13 @@ export class AgregarCarreraComponent implements OnInit {
       }
     );
   }
-
+  
   restoreCarrera(id: number) {
     this.showConfirmDialog(
       '¿Estás seguro?',
       '¿Quieres restaurar esta carrera?',
       () => {
-        this.carreraService.updateCarreraStatus(id, true).subscribe({
+        this.carreraService.updateCarreraStatus(id, 'activar').subscribe({
           next: (response: any) => {
             this.showToast('success', 'Carrera restaurada');
             this.loadCarreras();
@@ -231,6 +287,7 @@ export class AgregarCarreraComponent implements OnInit {
       }
     );
   }
+  
 
   deleteCarrera(id: number) {
     this.showConfirmDialog(
@@ -287,9 +344,7 @@ export class AgregarCarreraComponent implements OnInit {
       const tooltipElement = elemento.querySelector('.hs-tooltip');
       if (tooltipElement) {
         tooltipElement.classList.toggle('show');
-        const tooltipContent = tooltipElement.querySelector(
-          '.hs-tooltip-content'
-        );
+        const tooltipContent = tooltipElement.querySelector('.hs-tooltip-content');
         if (tooltipContent) {
           tooltipContent.classList.toggle('hidden');
           tooltipContent.classList.toggle('invisible');
@@ -300,10 +355,15 @@ export class AgregarCarreraComponent implements OnInit {
     }
   }
 
-  private showToast(
-    icon: 'success' | 'warning' | 'error' | 'info' | 'question',
-    title: string
-  ): void {
+  onFileChange(event: any, type: 'principal' | 'generales'): void {
+    if (type === 'principal') {
+      this.imagenPrincipal = event.target.files[0];
+    } else if (type === 'generales') {
+      this.imagenesGenerales = Array.from(event.target.files);
+    }
+  }
+
+  private showToast(icon: 'success' | 'warning' | 'error' | 'info' | 'question', title: string): void {
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
@@ -322,11 +382,7 @@ export class AgregarCarreraComponent implements OnInit {
     });
   }
 
-  private showConfirmDialog(
-    title: string,
-    text: string,
-    onConfirm: () => void
-  ): void {
+  private showConfirmDialog(title: string, text: string, onConfirm: () => void): void {
     Swal.fire({
       title: title,
       text: text,
