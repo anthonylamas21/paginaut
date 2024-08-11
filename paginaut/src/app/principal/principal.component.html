@@ -26,7 +26,7 @@
   <div class="relative w-full max-w-5xl mx-auto px-4 md:px-6 py-24 overflow-hidden z-10 underline-animation-container">
     <div class="text-center">
       <div class="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
-        <a routerLink="/carreras">
+        <a href="/carreras">
           <ul #logosUl class="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll">
             <img *ngFor="let imagen of imagenes" [src]="imagen.src" [alt]="imagen.alt" class="w-full h-48 object-cover">
           </ul>
