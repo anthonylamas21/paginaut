@@ -67,7 +67,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
 
   ngOnInit() {
     this.cargarEventosRecientes();
-    this.cargarNoticias();
+    this.cargarNoticiasActivas();
   }
 
   scrollToSectionCarreras(sectionId: string): void {
