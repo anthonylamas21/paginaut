@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 export interface Noticia {
   id?: number;
@@ -58,7 +58,7 @@ export class NoticiaService {
 
   actualizarNoticia(noticia: Noticia, imagenPrincipal?: File, imagenesGenerales?: File[]): Observable<any> {
     const formData: FormData = new FormData();
-    
+
     Object.keys(noticia).forEach(key => {
       if (noticia[key] !== undefined && noticia[key] !== null && key !== 'imagen_principal' && key !== 'imagenes_generales') {
         formData.append(key, noticia[key].toString());
@@ -96,6 +96,16 @@ activarNoticia(id: number): Observable<any> {
 
 obtenerNoticia(id: number): Observable<Noticia> {
   return this.http.get<Noticia>(`${this.apiUrl}?id=${id}`);
+}
+
+obtenerNoticiasActivas(limit: number = 5): Observable<Noticia[]> {
+  return this.http.get<NoticiaResponse>(this.apiUrl).pipe(
+    map(response => response.records
+      .filter(noticia => noticia.activo)
+      .sort((a, b) => new Date(b.fecha_publicacion).getTime() - new Date(a.fecha_publicacion).getTime())
+      .slice(0, limit)
+    )
+  );
 }
 
 

@@ -21,7 +21,7 @@ export class PrincipalComponent implements OnInit {
 
   ngOnInit() {
     this.cargarEventosRecientes();
-    this.cargarNoticias();
+    this.cargarNoticiasActivas();
   }
 
   cargarEventosRecientes(): void {
@@ -38,17 +38,17 @@ export class PrincipalComponent implements OnInit {
     });
   }
 
-  cargarNoticias(): void {
-    this.noticiaService.obtenerNoticias().subscribe({
-      next: (response) => {
-        this.noticias = response.records.map(noticia => ({
+  cargarNoticiasActivas(): void {
+    this.noticiaService.obtenerNoticiasActivas().subscribe({
+      next: (noticias) => {
+        this.noticias = noticias.map(noticia => ({
           ...noticia,
           imagen_principal: this.getImageUrl(noticia.imagen_principal || ''),
           imagenes_generales: (noticia.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
         }));
         this.noticiasVisibles = this.noticias.slice(0, this.cantidadInicial);
       },
-      error: (error) => console.error('Error al cargar noticias:', error)
+      error: (error) => console.error('Error al cargar noticias activas:', error)
     });
   }
 
@@ -69,10 +69,10 @@ export class PrincipalComponent implements OnInit {
     const button = document.getElementById('scrollTopButton');
     const nabvar = document.getElementById('navbarAccion');
     const inicioSection = document.getElementById('inicio');
-  
+
     if (inicioSection && nabvar) {
       const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
-  
+
       if (window.scrollY > inicioSectionBottom) {
         button?.classList.remove('hidden');
         nabvar.classList.remove('bg-transparent', 'transition-colors', 'duration-500');
