@@ -1,4 +1,7 @@
 <?php
+// Configurar la zona horaria a America/Mazatlan
+date_default_timezone_set('America/Mazatlan');
+
 // Allow from any origin
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
@@ -28,35 +31,35 @@ switch ($request_method) {
     case 'DELETE':
         if (strpos($request_uri, '/api/usuario') !== false) {
             include_once 'controllers/usuario.php';
-        } elseif (strpos($request_uri, '/api/rol') !== false) { 
+        } elseif (strpos($request_uri, '/api/rol') !== false) {
             include_once 'controllers/rol.php';
-        } elseif (strpos($request_uri, '/api/departamento') !== false) { 
+        } elseif (strpos($request_uri, '/api/departamento') !== false) {
             include_once 'controllers/departamento.php';
-        } elseif (strpos($request_uri, '/api/direccion') !== false) { 
+        } elseif (strpos($request_uri, '/api/direccion') !== false) {
             include_once 'controllers/direccion.php';
-        } elseif (strpos($request_uri, '/api/carrera') !== false) { 
+        } elseif (strpos($request_uri, '/api/carrera') !== false) {
             include_once 'controllers/carrera.php';
-        } elseif (strpos($request_uri, '/api/cuatrimestre') !== false) { 
+        } elseif (strpos($request_uri, '/api/cuatrimestre') !== false) {
             include_once 'controllers/cuatrimestre.php';
-        } elseif (strpos($request_uri, '/api/asignatura') !== false) { 
+        } elseif (strpos($request_uri, '/api/asignatura') !== false) {
             include_once 'controllers/asignatura.php';
-        } elseif (strpos($request_uri, '/api/evento') !== false) { 
+        } elseif (strpos($request_uri, '/api/evento') !== false) {
             include_once 'controllers/evento.php';
-        } elseif (strpos($request_uri, '/api/imagenevento') !== false) { 
+        } elseif (strpos($request_uri, '/api/imagenevento') !== false) {
             include_once 'controllers/imagenevento.php';
-        } elseif (strpos($request_uri, '/api/taller') !== false) { 
+        } elseif (strpos($request_uri, '/api/taller') !== false) {
             include_once 'controllers/taller.php';
-        } elseif (strpos($request_uri, '/api/bolsa_de_trabajo') !== false) { 
+        } elseif (strpos($request_uri, '/api/bolsa_de_trabajo') !== false) {
             include_once 'controllers/bolsa_de_trabajo.php';
-        } elseif (strpos($request_uri, '/api/login') !== false) { 
+        } elseif (strpos($request_uri, '/api/login') !== false) {
             include_once 'controllers/login.php';
-        } elseif (strpos($request_uri, '/api/logout') !== false) { 
+        } elseif (strpos($request_uri, '/api/logout') !== false) {
             include_once 'controllers/logout.php';
-        } elseif (strpos($request_uri, '/api/recover_password') !== false) { 
+        } elseif (strpos($request_uri, '/api/recover_password') !== false) {
             include_once 'controllers/recover_password.php';
-        } elseif (strpos($request_uri, '/api/reset_password') !== false) { 
+        } elseif (strpos($request_uri, '/api/reset_password') !== false) {
             include_once 'controllers/reset_password.php';
-        } elseif (strpos($request_uri, '/api/deleteToken') !== false) { 
+        } elseif (strpos($request_uri, '/api/deleteToken') !== false) {
             include_once 'controllers/deleteToken.php';
         } elseif (strpos($request_uri, '/api/talleres') !== false) {
             include_once 'controllers/taller.php';
@@ -75,9 +78,9 @@ switch ($request_method) {
             include_once 'controllers/NivelesEstudiosController.php';
         } elseif (strpos($request_uri, '/api/campo-estudio') !== false) { // Nueva ruta para CampoEstudio
             include_once 'controllers/CampoEstudioController.php';
-        }elseif (strpos($request_uri, '/api/cuatrimestre') !== false) { 
+        }elseif (strpos($request_uri, '/api/cuatrimestre') !== false) {
             include_once 'controllers/cuatrimestre.php';
-        } elseif (strpos($request_uri, '/api/asignatura') !== false) { 
+        } elseif (strpos($request_uri, '/api/asignaturas') !== false) {
             include_once 'controllers/asignatura.php';
         } else {
             header("HTTP/1.0 404 Not Found");
