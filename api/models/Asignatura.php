@@ -20,6 +20,7 @@ class Asignatura {
         return $stmt;
     }
 
+
     public function create() {
         $query = "INSERT INTO " . $this->table_name . " (nombre, cuatrimestre_id, activo) VALUES (:nombre, :cuatrimestre_id, :activo)";
         $stmt = $this->conn->prepare($query);
@@ -31,6 +32,53 @@ class Asignatura {
         if ($stmt->execute()) {
             return true;
         }
+        return false;
+    }
+
+    public function update() {
+        $query = "UPDATE " . $this->table_name . " SET nombre = :nombre, cuatrimestre_id = :cuatrimestre_id, activo = :activo WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(':nombre', $this->nombre, PDO::PARAM_STR);
+        $stmt->bindParam(':cuatrimestre_id', $this->cuatrimestre_id, PDO::PARAM_INT);
+        $stmt->bindParam(':activo', $this->activo, PDO::PARAM_BOOL);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    public function delete() {
+        $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    public function readOne() {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id LIMIT 0,1";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            $this->nombre = $row['nombre'];
+            $this->cuatrimestre_id = $row['cuatrimestre_id'];
+            $this->activo = $row['activo'];
+            $this->fecha_creacion = $row['fecha_creacion'];
+            return true;
+        }
+
         return false;
     }
 }

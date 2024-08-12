@@ -69,7 +69,7 @@
           </span>
         </p>
       </div>
-  
+
       <div>
         <label for="perfil_profesional" class="block text-sm font-medium text-gray-700">
           Perfil Profesional
@@ -93,7 +93,7 @@
           </span>
         </p>
       </div>
-  
+
       <div>
         <label for="ocupacion_profesional" class="block text-sm font-medium text-gray-700">
           Ocupación Profesional
@@ -117,7 +117,7 @@
           </span>
         </p>
       </div>
-  
+
       <div>
         <label for="direccion_id" class="block text-sm font-medium text-gray-700">
           Dirección
@@ -144,7 +144,7 @@
           </span>
         </p>
       </div>
-  
+
       <div>
         <label for="campo_estudio_id" class="block text-sm font-medium text-gray-700">
           Campo de Estudio
@@ -171,7 +171,7 @@
           </span>
         </p>
       </div>
-  
+
       <div>
         <label for="nivel_estudio_id" class="block text-sm font-medium text-gray-700">
           Nivel de Estudio
@@ -198,7 +198,7 @@
           </span>
         </p>
       </div>
-  
+
       <div>
         <label for="imagen_principal" class="block text-sm font-medium text-gray-700">
           Imagen Principal
@@ -211,7 +211,7 @@
           accept="image/*"
         />
       </div>
-  
+
       <div>
         <label for="imagenes_generales" class="block text-sm font-medium text-gray-700">
           Imágenes Generales
@@ -225,7 +225,7 @@
           multiple
         />
       </div>
-  
+
       <div class="flex justify-end space-x-4">
         <button
           type="button"
@@ -243,7 +243,7 @@
       </div>
     </div>
   </form>
-  
+
   </div>
 </div>
 
@@ -524,6 +524,45 @@
                               </div>
                             </div>
                           </button>
+                          <button
+                          type="button"
+                          class="text-white hover:text-gray-400 focus:outline-none"
+                          (click)="openMapaModal(carrera)"
+                        >
+                        <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                          <div class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-6 w-6"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 20l-5.447-2.724A2 2 0 013 15.382V8.618a2 2 0 01.553-1.382L9 4m0 16l6-3m-6 3l6-3m6 3l-6-3m6 3V8.618a2 2 0 00-.553-1.382L15 4m0 16V4m0 16L9 4"
+                              />
+                            </svg>
+                            <div
+                              class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                              role="tooltip"
+                            >
+                              <div class="py-3 px-4 border-b border-gray-200">
+                                <h4 class="font-semibold text-gray-800">Mapa Cuatrimestral</h4>
+                              </div>
+                              <ul class="py-3 px-4 space-y-1">
+                                <li>
+                                  <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                    Abrir el mapa cuatrimestral para esta carrera.
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        </button>
                         </div>
                       </td>
                     </tr>
@@ -741,6 +780,88 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Mapa Cuatrimestral -->
+<div
+  [ngClass]="{ hidden: !isMapaModalOpen }"
+  class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4"
+>
+  <div class="bg-white rounded-lg shadow-xl w-full max-w-3xl">
+    <div class="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10">
+      <h3 class="text-xl font-bold text-gray-900">
+        Mapa Cuatrimestral - {{ selectedMapaCarrera?.nombre_carrera }}
+      </h3>
+      <button
+        type="button"
+        class="text-gray-400 hover:text-gray-500"
+        (click)="closeMapaModal()"
+      >
+        <span class="sr-only">Cerrar</span>
+        <svg
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="p-4 space-y-4">
+      <form [formGroup]="asignaturaForm" (ngSubmit)="onSubmitAsignatura()">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="cuatrimestre" class="block text-sm font-medium text-gray-700">
+              Cuatrimestre
+            </label>
+            <select
+              id="cuatrimestre"
+              formControlName="cuatrimestre_id"
+              class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+              required
+            >
+              <option *ngFor="let cuatrimestre of cuatrimestres" [value]="cuatrimestre.id">
+                {{ cuatrimestre.numero }}
+              </option>
+            </select>
+          </div>
+
+          <div>
+            <label for="nombre_asignatura" class="block text-sm font-medium text-gray-700">
+              Nombre de la Asignatura
+            </label>
+            <input
+              type="text"
+              id="nombre_asignatura"
+              formControlName="nombre"
+              class="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-sm"
+              placeholder="Nombre de la Asignatura"
+              maxlength="100"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="flex justify-end space-x-4 mt-4">
+          <button
+            type="button"
+            class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            (click)="closeMapaModal()"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Guardar
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
