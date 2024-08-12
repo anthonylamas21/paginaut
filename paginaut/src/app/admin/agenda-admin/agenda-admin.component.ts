@@ -75,14 +75,25 @@ export class AgendaAdminComponent implements OnInit {
     initialView: 'dayGridMonth',
     locale: esLocale,
     headerToolbar: {
-      left: 'prev,next today',  
+      left: 'prev,next today',
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay'
     },
     events: [], // Se actualizará dinámicamente
+    datesSet: this.handleDatesSet.bind(this), // Llama a la función handleDatesSet cuando se actualizan las fechas
     eventContent: this.renderEventContent,
     eventClick: this.handleEventClick
   };
+
+  handleDatesSet(args: any) {
+    const titleElement = document.querySelector('.fc-toolbar-title');
+    if (titleElement) {
+      titleElement.classList.add('capitalize');
+    }
+  }
+  
+  
+  
 
   constructor(private eventoService: EventoService) { }
 
