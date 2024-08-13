@@ -50,26 +50,23 @@ export class UsuarioService {
     const encryptedToken = localStorage.getItem('token');
     const encryptedRol = localStorage.getItem('rol');
     const encryptedDepa = localStorage.getItem('depa');
-
-    if (!encryptedToken || !encryptedRol || !encryptedDepa) {
+  
+    if (!encryptedToken || !encryptedRol) {
       return { isAuthenticated: false, rol: null, departamento: null };
     }
-
+  
     const token = this.decrypt(encryptedToken);
     const rol = this.decrypt(encryptedRol);
-    const departamento = this.decrypt(encryptedDepa);
-
+  
     const isAuthenticated = token && token.length > 0;
     const isAdmin = rol === '1';
-    const isUser = rol === '2';
-
+  
     return { 
       isAuthenticated, 
-      isAdmin, 
-      isUser, 
-      departamento 
+      isAdmin
     };
   }
+  
 
   crearUsuario(data: Usuario): Observable<any>{
     return this.http.post<any>(this.URL, data);

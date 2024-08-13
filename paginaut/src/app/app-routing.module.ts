@@ -71,6 +71,7 @@ import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera
 import { BibliotecaComponent } from './biblioteca/biblioteca.component';
 
 import { NotFoundComponent } from './not-found/not-found.component';
+import { guardAuthGuard } from './Guard/guard-auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/principal', pathMatch: 'full' },
@@ -160,27 +161,27 @@ const routes: Routes = [
   { path: 'info_horas_recreativas/ajedrez', component: AjedrezComponent },
 
   //Rutas Adminstrador
-  { path: 'admin/navbar_admin', component: NavbarAdminComponent },
-  { path: 'admin/principal_admin', component: PrincipalAdminComponent },
-  { path: 'admin/cursos_admin', component: CursosAdminComponent },
-  { path: 'admin/direcciones_admin', component: DireccionesAdminComponent },
-  { path: 'admin/becas_admin', component: BecasAdminComponent },
-  { path: 'admin/calendario_admin', component: CalendarioAdminComponent },
-  { path: 'admin/galeria_admin', component: GaleriaAdminComponent },
-  { path: 'admin/usuarios_admin', component: UsuariosAdminComponent },
-  { path: 'admin/evento', component: EventoComponent },
-  { path: 'admin/noticia', component: NoticiaComponent },
-  { path: 'admin/instalacion', component: InstalacionComponent },
+  { path: 'admin/navbar_admin', component: NavbarAdminComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/principal_admin', component: PrincipalAdminComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/cursos_admin', component: CursosAdminComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/direcciones_admin', component: DireccionesAdminComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/becas_admin', component: BecasAdminComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/calendario_admin', component: CalendarioAdminComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/galeria_admin', component: GaleriaAdminComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/usuarios_admin', component: UsuariosAdminComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/evento', component: EventoComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/noticia', component: NoticiaComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/instalacion', component: InstalacionComponent, canActivate: [guardAuthGuard] },
   { path: 'evento/:id', component: EventosComponent },
   { path: 'noticia/:id', component: NoticiasComponent },
   { path: 'info-beca/:id', component: InfoBecaComponent },
   { path: 'info-unidades/:id', component: InfoUnidadesComponent },
-  { path: 'admin/agenda-admin', component: AgendaAdminComponent },
+  { path: 'admin/agenda-admin', component: AgendaAdminComponent, canActivate: [guardAuthGuard] },
 
-  { path: 'admin/registrar-evento', component: RegistrarEventoComponent },
-  { path: 'admin/agregar-calendario', component: AgregarCalendarioComponent },
-  { path: 'admin/agregar-beca', component: AgregarBecaComponent },
-  { path: 'admin/agregar-carrera', component: AgregarCarreraComponent },
+  { path: 'admin/registrar-evento', component: RegistrarEventoComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/agregar-calendario', component: AgregarCalendarioComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/agregar-beca', component: AgregarBecaComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/agregar-carrera', component: AgregarCarreraComponent, canActivate: [guardAuthGuard] },
   { path: '**', component:NotFoundComponent},
 ];
 
