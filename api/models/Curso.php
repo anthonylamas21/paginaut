@@ -151,7 +151,7 @@ class Curso
 
   private function updateImagenPrincipal($imagen)
 {
-    $target_dir = "../uploads/cursos/";
+    $target_dir = "../../uploads/cursos/";
     
     // Verificar si la carpeta existe, si no, crearla
     if (!is_dir($target_dir)) {
@@ -180,7 +180,7 @@ class Curso
 
   private function updateImagenesGenerales($nuevasImagenes)
   {
-    $target_dir = "../uploads/cursos/";
+    $target_dir = "../../uploads/cursos/";
     $nuevasRutas = [];
 
     foreach ($nuevasImagenes['tmp_name'] as $key => $tmp_name) {
