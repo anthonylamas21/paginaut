@@ -44,6 +44,7 @@ import { CalendarioAdminComponent } from './admin/calendario-admin/calendario-ad
 import { GaleriaAdminComponent } from './admin/galeria-admin/galeria-admin.component';
 import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.component';
 import { InstalacionComponent } from './admin/instalacion/instalacion.component';
+import { AgregarCursoComponent } from './admin/agregar-curso/agregar-curso.component';
 
 // Info Carreras
 import { CarreraAgrobiotecnologiaComponent } from './info-carreras/carrera-agrobiotecnologia/carrera-agrobiotecnologia.component';
@@ -181,6 +182,7 @@ const routes: Routes = [
   { path: 'admin/agregar-calendario', component: AgregarCalendarioComponent },
   { path: 'admin/agregar-beca', component: AgregarBecaComponent },
   { path: 'admin/agregar-carrera', component: AgregarCarreraComponent },
+  { path: 'agregar-curso', component: AgregarCursoComponent },
   { path: '**', component:NotFoundComponent},
 ];
 

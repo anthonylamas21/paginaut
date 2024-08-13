@@ -69,6 +69,7 @@ import { InstalacionComponent } from './admin/instalacion/instalacion.component'
 import { AgendaAdminComponent } from './admin/agenda-admin/agenda-admin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PiedraEstanqueComponent } from './piedra-estanque/piedra-estanque.component';
+import { AgregarCursoComponent } from './admin/agregar-curso/agregar-curso.component';
 
 // Info Carreras
 import { CarreraAgrobiotecnologiaComponent } from './info-carreras/carrera-agrobiotecnologia/carrera-agrobiotecnologia.component';
@@ -172,6 +173,7 @@ import { BibliotecaComponent } from './biblioteca/biblioteca.component';
     AjedrezComponent,
     AgregarCarreraComponent,
     BibliotecaComponent,
+    AgregarCursoComponent,
   ],
   imports: [
     BrowserModule,
