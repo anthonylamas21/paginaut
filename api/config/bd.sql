@@ -162,17 +162,33 @@ CREATE TABLE Calendario (
 
 CREATE TABLE BolsaDeTrabajo (
     id SERIAL PRIMARY KEY,
-    titulo_trabajo VARCHAR(50) NOT NULL,
-    informacion_oferta TEXT NOT NULL,
-    correo_empresa VARCHAR(100),
-    tipo VARCHAR(50) NOT NULL, -- 'EMPRESA' o 'PROFESORES'
-    telefono_empresa VARCHAR(20),
+    nombre_empresa VARCHAR(50) NOT NULL,
+    descripcion TEXT NOT NULL,
+    direccion VARCHAR(100) NOT NULL,
+    telefono VARCHAR(15) NOT NULL,
+    correo VARCHAR(50) NOT NULL,
+    puesto VARCHAR(50) NOT NULL,
+    archivo TEXT,
     activo BOOLEAN DEFAULT TRUE,
-    archivo VARCHAR(10000) NOT NULL,
-    id_direccion INT,
-    FOREIGN KEY (id_direccion) references Direccion(id),
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id_direccion INT
 );
+CREATE TABLE HorariosBolsa (
+    id SERIAL PRIMARY KEY,
+    bolsa_id INT REFERENCES BolsaDeTrabajo(id) ON DELETE CASCADE,
+    dia VARCHAR(20) NOT NULL,
+    hora_inicio TIME,
+    hora_fin TIME,
+    cerrado BOOLEAN DEFAULT FALSE
+);
+CREATE TABLE RequisitosBolsa (
+    id SERIAL PRIMARY KEY,
+    bolsa_id INT REFERENCES BolsaDeTrabajo(id) ON DELETE CASCADE,
+    descripcion TEXT NOT NULL
+);
+
+
+
 
 CREATE TABLE Taller (
     id SERIAL PRIMARY KEY,

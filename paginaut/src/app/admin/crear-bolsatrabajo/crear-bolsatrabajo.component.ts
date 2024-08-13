@@ -35,27 +35,23 @@ export class CrearBolsatrabajoComponent implements OnInit {
     this.bolsaForm = this.fb.group({
       nombre_empresa: ['', [Validators.required, Validators.maxLength(50)]],
       descripcion: ['', [Validators.required, Validators.maxLength(500)]],
-      requisitos: this.fb.array([]),
       direccion: ['', [Validators.required, Validators.maxLength(100)]],
       telefono: ['', [Validators.required, Validators.maxLength(15)]],
       correo: [
         '',
         [Validators.required, Validators.email, Validators.maxLength(50)],
       ],
-      horarios: this.fb.array([]),
       puesto: ['', [Validators.required, Validators.maxLength(50)]],
       archivo: [''],
+      horarios: this.fb.array([]),
+      requisitos: this.fb.array([]),
+      id_direccion: [null],
     });
   }
 
   ngOnInit(): void {
     this.loadBolsas();
     this.setNavbarColor();
-
-    // Suscribirse a los cambios en el formulario para validar dinámicamente
-    this.bolsaForm.statusChanges.subscribe(() => {
-      this.isFormValid();
-    });
   }
 
   @HostListener('window:scroll', [])
@@ -94,18 +90,23 @@ export class CrearBolsatrabajoComponent implements OnInit {
         this.bolsaForm.get('nombre_empresa')?.value
       );
       formData.append('descripcion', this.bolsaForm.get('descripcion')?.value);
-      formData.append(
-        'requisitos',
-        JSON.stringify(this.bolsaForm.get('requisitos')?.value)
-      );
       formData.append('direccion', this.bolsaForm.get('direccion')?.value);
       formData.append('telefono', this.bolsaForm.get('telefono')?.value);
       formData.append('correo', this.bolsaForm.get('correo')?.value);
+      formData.append('puesto', this.bolsaForm.get('puesto')?.value);
+      formData.append(
+        'id_direccion',
+        this.bolsaForm.get('id_direccion')?.value
+      );
       formData.append(
         'horarios',
-        JSON.stringify(this.bolsaForm.get('horarios')?.value)
+        JSON.stringify(this.bolsaForm.get('horarios')?.value || [])
       );
-      formData.append('puesto', this.bolsaForm.get('puesto')?.value);
+      formData.append(
+        'requisitos',
+        JSON.stringify(this.bolsaForm.get('requisitos')?.value || [])
+      );
+
       if (this.fileToUpload) {
         formData.append('archivo', this.fileToUpload, this.fileToUpload.name);
       } else {
@@ -193,6 +194,7 @@ export class CrearBolsatrabajoComponent implements OnInit {
         telefono: bolsa.telefono,
         correo: bolsa.correo,
         puesto: bolsa.puesto,
+        id_direccion: bolsa.id_direccion,
       });
       this.populateHorarios(bolsa.horarios);
       this.populateRequisitos(bolsa.requisitos);
@@ -347,8 +349,8 @@ export class CrearBolsatrabajoComponent implements OnInit {
   addHorario() {
     const horarioGroup = this.fb.group({
       dia: ['', Validators.required],
-      horaInicio: ['', Validators.required],
-      horaFin: ['', Validators.required],
+      hora_inicio: ['', Validators.required],
+      hora_fin: ['', Validators.required],
       cerrado: [false],
     });
 
@@ -356,20 +358,22 @@ export class CrearBolsatrabajoComponent implements OnInit {
       .get('cerrado')
       ?.valueChanges.subscribe((isCerrado: boolean | null) => {
         if (isCerrado) {
-          horarioGroup.get('horaInicio')?.disable();
-          horarioGroup.get('horaFin')?.disable();
+          horarioGroup.get('hora_inicio')?.disable();
+          horarioGroup.get('hora_fin')?.disable();
         } else {
-          horarioGroup.get('horaInicio')?.enable();
-          horarioGroup.get('horaFin')?.enable();
+          horarioGroup.get('hora_inicio')?.enable();
+          horarioGroup.get('hora_fin')?.enable();
         }
+        horarioGroup.updateValueAndValidity(); // Asegurarse de actualizar la validez del grupo de formulario
       });
 
     this.horarios.push(horarioGroup);
+    this.bolsaForm.updateValueAndValidity(); // Actualizar validez del formulario principal
   }
 
   removeHorario(index: number) {
-    const horarios = this.bolsaForm.get('horarios') as FormArray;
-    horarios.removeAt(index);
+    this.horarios.removeAt(index);
+    this.bolsaForm.updateValueAndValidity(); // Actualizar validez del formulario principal
   }
 
   get horarios() {
@@ -386,8 +390,8 @@ export class CrearBolsatrabajoComponent implements OnInit {
     horariosData.forEach((horario) => {
       const horarioGroup = this.fb.group({
         dia: [horario.dia, Validators.required],
-        horaInicio: [horario.horaInicio, Validators.required],
-        horaFin: [horario.horaFin, Validators.required],
+        hora_inicio: [horario.hora_inicio, Validators.required],
+        hora_fin: [horario.hora_fin, Validators.required],
         cerrado: [horario.cerrado],
       });
 
@@ -395,17 +399,18 @@ export class CrearBolsatrabajoComponent implements OnInit {
         .get('cerrado')
         ?.valueChanges.subscribe((isCerrado: boolean | null) => {
           if (isCerrado) {
-            horarioGroup.get('horaInicio')?.disable();
-            horarioGroup.get('horaFin')?.disable();
+            horarioGroup.get('hora_inicio')?.disable();
+            horarioGroup.get('hora_fin')?.disable();
           } else {
-            horarioGroup.get('horaInicio')?.enable();
-            horarioGroup.get('horaFin')?.enable();
+            horarioGroup.get('hora_inicio')?.enable();
+            horarioGroup.get('hora_fin')?.enable();
           }
+          horarioGroup.updateValueAndValidity(); // Asegurarse de actualizar la validez del grupo de formulario
         });
 
       if (horario.cerrado) {
-        horarioGroup.get('horaInicio')?.disable();
-        horarioGroup.get('horaFin')?.disable();
+        horarioGroup.get('hora_inicio')?.disable();
+        horarioGroup.get('hora_fin')?.disable();
       }
 
       horarios.push(horarioGroup);
@@ -419,11 +424,13 @@ export class CrearBolsatrabajoComponent implements OnInit {
         descripcion: ['', Validators.required],
       })
     );
+    this.bolsaForm.updateValueAndValidity(); // Actualizar validez del formulario principal
   }
 
   removeRequisito(index: number) {
     const requisitos = this.bolsaForm.get('requisitos') as FormArray;
     requisitos.removeAt(index);
+    this.bolsaForm.updateValueAndValidity(); // Actualizar validez del formulario principal
   }
 
   populateRequisitos(requisitosData: any[]) {
@@ -439,9 +446,7 @@ export class CrearBolsatrabajoComponent implements OnInit {
   }
 
   isFormValid(): boolean {
-    const isValid =
-      this.bolsaForm.valid && this.horarios.valid && this.requisitos.valid;
-    return isValid;
+    return this.bolsaForm.valid && this.horarios.valid && this.requisitos.valid;
   }
 
   private showToast(

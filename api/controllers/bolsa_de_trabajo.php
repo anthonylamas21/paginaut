@@ -1,159 +1,120 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
-ini_set('display_errors', 1);
-ini_set('log_errors', 1);
-error_reporting(E_ALL);
-ini_set('error_log', 'C:/xampp/htdocs/paginaut/api/logs/php-error.log');
-
-$root = dirname(__DIR__, 2);
-
-require_once $root . '/api/config/database.php';
-require_once $root . '/api/models/BolsaDeTrabajo.php';
+include_once 'C:/xampp/htdocs/paginaut/api/config/database.php';
+include_once 'C:/xampp/htdocs/paginaut/api/models/BolsaDeTrabajo.php';
+include_once 'C:/xampp/htdocs/paginaut/api/models/HorariosBolsa.php';
+include_once 'C:/xampp/htdocs/paginaut/api/models/RequisitosBolsa.php';
 
 $database = new Database();
 $db = $database->getConnection();
 
-$bolsa = new BolsaDeTrabajo($db);
+$method = $_SERVER['REQUEST_METHOD'];
 
-$request_method = $_SERVER["REQUEST_METHOD"];
+if ($method === 'POST') {
+  $bolsaDeTrabajo = new BolsaDeTrabajo($db);
 
-switch ($request_method) {
-  case 'POST':
-    $isUpdate = isset($_POST['id']);
+  $bolsaDeTrabajo->nombre_empresa = $_POST['nombre_empresa'];
+  $bolsaDeTrabajo->descripcion = $_POST['descripcion'];
+  $bolsaDeTrabajo->direccion = $_POST['direccion'];
+  $bolsaDeTrabajo->telefono = $_POST['telefono'];
+  $bolsaDeTrabajo->correo = $_POST['correo'];
+  $bolsaDeTrabajo->puesto = $_POST['puesto'];
+  $bolsaDeTrabajo->activo = true;
 
-    if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] == 0) {
-      $file_name = basename($_FILES['archivo']['name']);
-      $target_dir = $root . '/uploads/bolsa_de_trabajo/';
-      $target_file = $target_dir . $file_name;
+  if (isset($_FILES['archivo'])) {
+    $bolsaDeTrabajo->archivo = $_FILES['archivo']['name'];
+  } else {
+    $bolsaDeTrabajo->archivo = null;
+  }
 
-      if (!is_dir($target_dir)) {
-        mkdir($target_dir, 0777, true);
-      }
+  $horarios = json_decode($_POST['horarios'], true);
+  $requisitos = json_decode($_POST['requisitos'], true);
 
-      if (move_uploaded_file($_FILES['archivo']['tmp_name'], $target_file)) {
-        $bolsa->archivo = '/uploads/bolsa_de_trabajo/' . $file_name;
-      } else {
-        http_response_code(400);
-        echo json_encode(array("message" => "No se pudo subir el archivo."));
-        break;
-      }
-    } elseif ($isUpdate) {
-      $bolsa->id = $_POST['id'];
-      if ($bolsa->readOne()) {
-        // Mantener archivo existente
-      } else {
-        http_response_code(404);
-        echo json_encode(array("message" => "Bolsa de trabajo no encontrada."));
-        break;
-      }
-    } elseif (!$isUpdate) {
-      http_response_code(400);
-      echo json_encode(array("message" => "Se requiere un archivo para crear una nueva entrada."));
-      break;
+  if ($bolsaDeTrabajo->create()) {
+    $bolsaId = $db->lastInsertId();  // Obtener el ID de la bolsa de trabajo recién creada
+
+    foreach ($horarios as $horario) {
+      $horariosBolsa = new HorariosBolsa($db);
+      $horariosBolsa->bolsa_id = $bolsaId;
+      $horariosBolsa->dia = $horario['dia'];
+      $horariosBolsa->hora_inicio = $horario['hora_inicio'];
+      $horariosBolsa->hora_fin = $horario['hora_fin'];
+      $horariosBolsa->cerrado = $horario['cerrado'];
+      $horariosBolsa->create();
     }
 
-    $bolsa->nombre_empresa = $_POST['nombre_empresa'];
-    $bolsa->descripcion = $_POST['descripcion'];
-    $bolsa->activo = isset($_POST['activo']) ? $_POST['activo'] : true;
-
-    if ($isUpdate) {
-      $bolsa->id = $_POST['id'];
-      if ($bolsa->update()) {
-        http_response_code(200);
-        echo json_encode(array("message" => "Bolsa de trabajo actualizada correctamente."));
-      } else {
-        http_response_code(503);
-        echo json_encode(array("message" => "No se pudo actualizar la bolsa de trabajo."));
-      }
-    } else {
-      if ($bolsa->create()) {
-        http_response_code(201);
-        echo json_encode(array("message" => "Bolsa de trabajo creada correctamente.", "id" => $bolsa->id));
-      } else {
-        http_response_code(503);
-        echo json_encode(array("message" => "No se pudo crear la bolsa de trabajo."));
-      }
+    foreach ($requisitos as $requisito) {
+      $requisitosBolsa = new RequisitosBolsa($db);
+      $requisitosBolsa->bolsa_id = $bolsaId;
+      $requisitosBolsa->descripcion = $requisito['descripcion'];
+      $requisitosBolsa->create();
     }
-    break;
 
-  case 'GET':
-    if (isset($_GET['id'])) {
-      $bolsa->id = $_GET['id'];
-      if ($bolsa->readOne()) {
-        echo json_encode($bolsa);
-      } else {
-        http_response_code(404);
-        echo json_encode(array("message" => "Bolsa de trabajo no encontrada."));
-      }
-    } else {
-      $stmt = $bolsa->read();
-      $num = $stmt->rowCount();
+    echo json_encode(["message" => "Bolsa de trabajo agregada correctamente"]);
+  } else {
+    echo json_encode(["message" => "Error al agregar la bolsa de trabajo"]);
+  }
+} elseif ($method === 'GET') {
+  $bolsaDeTrabajo = new BolsaDeTrabajo($db);
 
-      if ($num > 0) {
-        $bolsas_arr = array();
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-          extract($row);
-          $bolsa_item = array(
-            "id" => $id,
-            "nombre_empresa" => $nombre_empresa,
-            "descripcion" => $descripcion,
-            "archivo" => $archivo,
-            "activo" => $activo,
-            "fecha_creacion" => $fecha_creacion
-          );
-          array_push($bolsas_arr, $bolsa_item);
-        }
-        echo json_encode(array("records" => $bolsas_arr));
-      } else {
-        http_response_code(200);
-        echo json_encode(array("records" => array()));
-      }
+  if (isset($_GET['id'])) {
+    $bolsaDeTrabajo->id = $_GET['id'];
+    $bolsaDeTrabajo->readOne();
+
+    echo json_encode([
+      "id" => $bolsaDeTrabajo->id,
+      "nombre_empresa" => $bolsaDeTrabajo->nombre_empresa,
+      "descripcion" => $bolsaDeTrabajo->descripcion,
+      "direccion" => $bolsaDeTrabajo->direccion,
+      "telefono" => $bolsaDeTrabajo->telefono,
+      "correo" => $bolsaDeTrabajo->correo,
+      "puesto" => $bolsaDeTrabajo->puesto,
+      "archivo" => $bolsaDeTrabajo->archivo,
+      "activo" => $bolsaDeTrabajo->activo,
+      "fecha_creacion" => $bolsaDeTrabajo->fecha_creacion,
+    ]);
+  } else {
+    $stmt = $bolsaDeTrabajo->read();
+    $bolsas = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      extract($row);
+      $bolsas[] = [
+        "id" => $id,
+        "nombre_empresa" => $nombre_empresa,
+        "descripcion" => $descripcion,
+        "direccion" => $direccion,
+        "telefono" => $telefono,
+        "correo" => $correo,
+        "puesto" => $puesto,
+        "archivo" => $archivo,
+        "activo" => $activo,
+        "fecha_creacion" => $fecha_creacion,
+      ];
     }
-    break;
 
-  case 'PUT':
-    $data = json_decode(file_get_contents("php://input"));
+    echo json_encode(["records" => $bolsas]);
+  }
+} elseif ($method === 'PUT') {
+  parse_str(file_get_contents("php://input"), $_PUT);
 
-    if (isset($data->id) && isset($data->activo)) {
-      $bolsa->id = $data->id;
-      $bolsa->activo = filter_var($data->activo, FILTER_VALIDATE_BOOLEAN);
+  $bolsaDeTrabajo = new BolsaDeTrabajo($db);
 
-      if ($bolsa->updateStatus()) {
-        http_response_code(200);
-        echo json_encode(array("message" => "Estado de la bolsa de trabajo actualizado correctamente."));
-      } else {
-        http_response_code(503);
-        echo json_encode(array("message" => "No se pudo actualizar el estado de la bolsa de trabajo."));
-      }
-    } else {
-      http_response_code(400);
-      echo json_encode(array("message" => "Datos incompletos."));
-    }
-    break;
+  $bolsaDeTrabajo->id = $_PUT['id'];
+  $bolsaDeTrabajo->activo = $_PUT['activo'];
 
-  case 'DELETE':
-    if (isset($_GET['id'])) {
-      $bolsa->id = $_GET['id'];
-      if ($bolsa->delete()) {
-        http_response_code(200);
-        echo json_encode(array("message" => "Bolsa de trabajo eliminada correctamente."));
-      } else {
-        http_response_code(503);
-        echo json_encode(array("message" => "No se pudo eliminar la bolsa de trabajo."));
-      }
-    } else {
-      http_response_code(400);
-      echo json_encode(array("message" => "No se proporcionó el ID de la bolsa de trabajo."));
-    }
-    break;
+  if ($bolsaDeTrabajo->updateStatus()) {
+    echo json_encode(["message" => "Bolsa de trabajo actualizada correctamente"]);
+  } else {
+    echo json_encode(["message" => "Error al actualizar la bolsa de trabajo"]);
+  }
+} elseif ($method === 'DELETE') {
+  parse_str(file_get_contents("php://input"), $_DELETE);
 
-  default:
-    http_response_code(405);
-    echo json_encode(array("message" => "Método no permitido."));
-    break;
+  $bolsaDeTrabajo = new BolsaDeTrabajo($db);
+  $bolsaDeTrabajo->id = $_DELETE['id'];
+
+  if ($bolsaDeTrabajo->delete()) {
+    echo json_encode(["message" => "Bolsa de trabajo eliminada correctamente"]);
+  } else {
+    echo json_encode(["message" => "Error al eliminar la bolsa de trabajo"]);
+  }
 }

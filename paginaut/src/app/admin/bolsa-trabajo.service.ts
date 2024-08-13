@@ -3,6 +3,17 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+export interface Horario {
+  dia: string;
+  hora_inicio: string;
+  hora_fin: string;
+  cerrado: boolean;
+}
+
+export interface Requisito {
+  descripcion: string;
+}
+
 export interface Bolsa {
   id?: number;
   nombre_empresa: string;
@@ -11,12 +22,12 @@ export interface Bolsa {
   telefono: string;
   correo: string;
   puesto: string;
-  horarios: any[];
-  requisitos: any[];
   archivo: string;
   activo?: boolean;
   fecha_creacion?: string;
   id_direccion?: number;
+  horarios: Horario[];
+  requisitos: Requisito[];
 }
 
 export interface BolsaResponse {
