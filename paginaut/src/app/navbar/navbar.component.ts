@@ -52,12 +52,12 @@ export class NavbarComponent  implements OnInit {
       });
 
       const formData: Logout = this.LogoutForm.value;
-      console.log(this.LogoutForm.value);
+      //console.log(this.LogoutForm.value);
 
       this.srvUsuario.CerrarSesion(formData).subscribe(
         res => {
-          console.log(res);
-          console.log('Has cerrado sesión');
+          //console.log(res);
+          //console.log('Has cerrado sesión');
           localStorage.removeItem('token');
               localStorage.removeItem('rol');
               localStorage.removeItem('depa');
@@ -65,18 +65,42 @@ export class NavbarComponent  implements OnInit {
               //console.log("se elimono el token de la base de datos");
             });
           this.token = null;
-          window.location.href = "/principal"
+          this.showToast('success', 'Sesión cerrada correctamente');
+            setInterval(()=>{
+              window.location.href = "/principal";
+            },2000)
         },
         err => {
-          console.log('Error al cerrar sesión', err);
+          //console.log('Error al cerrar sesión', err);
         }
       );
 
     } else {
-      console.log('No hay token para cerrar sesión');
+      //console.log('No hay token para cerrar sesión');
     }
   }
   
+  private showToast(
+    icon: 'success' | 'warning' | 'error' | 'info' | 'question',
+    title: string
+  ): void {
+    const Toast = Swal.mixin({
+      toast: true,iconColor: '#008779',
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
+
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+  }
 
 
 
