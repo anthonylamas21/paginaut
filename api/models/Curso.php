@@ -150,27 +150,33 @@ class Curso
   }
 
   private function updateImagenPrincipal($imagen)
-  {
+{
     $target_dir = "../uploads/cursos/";
+    
+    // Verificar si la carpeta existe, si no, crearla
+    if (!is_dir($target_dir)) {
+        mkdir($target_dir, 0777, true);
+    }
+
     $target_file = $target_dir . uniqid() . "_" . basename($imagen["name"]);
 
     if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
-      $imagenAnterior = $this->getImagenPrincipal();
-      if ($imagenAnterior && file_exists("../" . $imagenAnterior)) {
-        unlink("../" . $imagenAnterior);
-      }
+        $imagenAnterior = $this->getImagenPrincipal();
+        if ($imagenAnterior && file_exists("../" . $imagenAnterior)) {
+            unlink("../" . $imagenAnterior);
+        }
 
-      $query = "UPDATE Imagenes SET ruta_imagen = :ruta_imagen
+        $query = "UPDATE Imagenes SET ruta_imagen = :ruta_imagen
                       WHERE seccion = 'Cursos' AND asociado_id = :asociado_id AND principal = TRUE";
-      $stmt = $this->conn->prepare($query);
-      $ruta_relativa = "uploads/cursos/" . basename($target_file);
-      $stmt->bindParam(":ruta_imagen", $ruta_relativa);
-      $stmt->bindParam(":asociado_id", $this->id);
-      $stmt->execute();
+        $stmt = $this->conn->prepare($query);
+        $ruta_relativa = "uploads/cursos/" . basename($target_file);
+        $stmt->bindParam(":ruta_imagen", $ruta_relativa);
+        $stmt->bindParam(":asociado_id", $this->id);
+        $stmt->execute();
 
-      $this->imagen_principal = $ruta_relativa;
+        $this->imagen_principal = $ruta_relativa;
     }
-  }
+}
 
   private function updateImagenesGenerales($nuevasImagenes)
   {
