@@ -181,6 +181,7 @@ const routes: Routes = [
   { path: 'admin/agregar-calendario', component: AgregarCalendarioComponent },
   { path: 'admin/agregar-beca', component: AgregarBecaComponent },
   { path: 'admin/agregar-carrera', component: AgregarCarreraComponent },
+  { path: '**', component:NotFoundComponent},
 ];
 
 @NgModule({
