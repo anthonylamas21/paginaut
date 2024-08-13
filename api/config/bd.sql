@@ -168,6 +168,7 @@ CREATE TABLE BolsaDeTrabajo (
     tipo VARCHAR(50) NOT NULL, -- 'EMPRESA' o 'PROFESORES'
     telefono_empresa VARCHAR(20),
     activo BOOLEAN DEFAULT TRUE,
+    archivo VARCHAR(10000) NOT NULL,
     id_direccion INT,
     FOREIGN KEY (id_direccion) references Direccion(id),
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP

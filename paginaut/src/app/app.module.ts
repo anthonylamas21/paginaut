@@ -94,6 +94,7 @@ import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.compo
 import { TallerComponent } from './taller/taller.component';
 import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera.component';
 import { BibliotecaComponent } from './biblioteca/biblioteca.component';
+import { CrearBolsatrabajoComponent } from './admin/crear-bolsatrabajo/crear-bolsatrabajo.component';
 
 @NgModule({
 
@@ -172,6 +173,7 @@ import { BibliotecaComponent } from './biblioteca/biblioteca.component';
     AjedrezComponent,
     AgregarCarreraComponent,
     BibliotecaComponent,
+    CrearBolsatrabajoComponent,
   ],
   imports: [
     BrowserModule,

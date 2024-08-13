@@ -44,6 +44,7 @@ import { CalendarioAdminComponent } from './admin/calendario-admin/calendario-ad
 import { GaleriaAdminComponent } from './admin/galeria-admin/galeria-admin.component';
 import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.component';
 import { InstalacionComponent } from './admin/instalacion/instalacion.component';
+import { CrearBolsatrabajoComponent } from './admin/crear-bolsatrabajo/crear-bolsatrabajo.component';
 
 // Info Carreras
 import { CarreraAgrobiotecnologiaComponent } from './info-carreras/carrera-agrobiotecnologia/carrera-agrobiotecnologia.component';
@@ -118,7 +119,6 @@ const routes: Routes = [
 
   { path: 'biblioteca', component: BibliotecaComponent },
 
-
   // Info Carreras
   {
     path: 'info_carreras/agrobiotecnologia',
@@ -181,7 +181,8 @@ const routes: Routes = [
   { path: 'admin/agregar-calendario', component: AgregarCalendarioComponent },
   { path: 'admin/agregar-beca', component: AgregarBecaComponent },
   { path: 'admin/agregar-carrera', component: AgregarCarreraComponent },
-  { path: '**', component:NotFoundComponent},
+  { path: 'admin/agregar-direccion', component: AgregarDireccionComponent },
+  { path: 'admin/crear-bolsatrabajo', component: CrearBolsatrabajoComponent },
 ];
 
 @NgModule({
