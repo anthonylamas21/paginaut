@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PrincipalComponent } from './principal/principal.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -116,7 +116,6 @@ const routes: Routes = [
   { path: 'info_becas', component: InfoBecaComponent },
   { path: 'galeria', component: GaleriaComponent },
   { path: 'agenda-admin', component: AgendaAdminComponent },
-
   { path: 'biblioteca', component: BibliotecaComponent },
 
   // Info Carreras
@@ -183,6 +182,7 @@ const routes: Routes = [
   { path: 'admin/agregar-carrera', component: AgregarCarreraComponent },
   { path: 'admin/agregar-direccion', component: AgregarDireccionComponent },
   { path: 'admin/crear-bolsatrabajo', component: CrearBolsatrabajoComponent },
+  { path: '**' , component: NotFoundComponent}
 ];
 
 @NgModule({
