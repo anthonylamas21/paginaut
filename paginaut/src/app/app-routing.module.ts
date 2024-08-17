@@ -72,6 +72,7 @@ import { BibliotecaComponent } from './biblioteca/biblioteca.component';
 
 import { NotFoundComponent } from './not-found/not-found.component';
 import { guardAuthGuard } from './Guard/guard-auth.guard';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/principal', pathMatch: 'full' },
@@ -116,7 +117,7 @@ const routes: Routes = [
   { path: 'info_becas', component: InfoBecaComponent },
   { path: 'galeria', component: GaleriaComponent },
   { path: 'agenda-admin', component: AgendaAdminComponent },
-
+  { path: 'enviar-correo', component: PasswordResetComponent },
   { path: 'biblioteca', component: BibliotecaComponent },
 
 
@@ -187,6 +188,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+exports: [RouterModule],
 })
 export class AppRoutingModule {}

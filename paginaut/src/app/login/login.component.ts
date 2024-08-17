@@ -76,10 +76,10 @@ export class LoginComponent implements OnInit {
           }
         },
         err => {
-          console.error('Error al iniciar sesión', err);
+        //console.error('Error al iniciar sesión', err);
           this.showToast(
             'warning',
-            'Ya tienes una sesión activa'
+            'Credenciales incorrectas'
           );
         }
       );
@@ -87,7 +87,7 @@ export class LoginComponent implements OnInit {
       this.LoginForm.reset();
     } else {
       this.showToast(
-        'warning',
+        'info',
         'Ya tienes una sesión activa'
       );
     }
