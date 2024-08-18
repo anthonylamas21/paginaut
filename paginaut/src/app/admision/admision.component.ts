@@ -39,4 +39,21 @@ export class AdmisionComponent {
   scrollToSection(sectionId: string): void {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
+
+  //FILTRAR LA BOLSA DE TRABAJO
+  searchText: string = '';
+  jobs = [
+    { title: 'Asistente de Investigación en Biotecnología', requirements: ['Experiencia en redes', '5 años de experiencia laboral', 'Inglés'] },
+    { title: 'Desarrollador de Software para Proyectos Académicos', requirements: ['Experiencia en redes', '5 años de experiencia laboral', 'Inglés'] },
+    { title: 'Analista de Datos en Ciencias Sociales', requirements: ['Experiencia en redes', '5 años de experiencia laboral', 'Inglés'] },
+    { title: 'Asistente Administrativo en la Facultad de Derecho', requirements: ['Experiencia en redes', '5 años de experiencia laboral', 'Inglés'] },
+  ];
+
+  filteredJobs = [...this.jobs];
+
+  filterJobs() {
+    this.filteredJobs = this.jobs.filter(job => 
+      job.title.toLowerCase().includes(this.searchText.toLowerCase())
+    );
+  }
 }

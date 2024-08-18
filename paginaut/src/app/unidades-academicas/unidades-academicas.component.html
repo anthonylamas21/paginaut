@@ -87,16 +87,22 @@
     <!--INFORMACION DE LAS CARDS UNA VEZ CARGADAS-->
 
     <div *ngIf="!isLoading" id="cardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-      <div *ngFor="let instalacion of instalaciones" class="bg-white rounded-lg shadow-lg p-4 relative cursor-pointer" (click)="verGaleria(instalacion?.id)">
-        <img [src]="getImageUrl(instalacion.imagen_principal)" [alt]="instalacion.nombre"
-          class="w-full h-full object-cover rounded-t-lg">
-        <div class="absolute inset-1 flex items-center justify-center w-full">
+      <div *ngFor="let instalacion of instalaciones" class="relative bg-white border shadow-sm rounded-xl overflow-hidden cursor-pointer group" (click)="verGaleria(instalacion?.id)">
+        <!-- Imagen con efecto de zoom y oscurecimiento -->
+        <img [src]="getImageUrl(instalacion.imagen_principal)" [alt]="instalacion.nombre" class="w-full h-full object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-105 rounded-t-lg">
+    
+        <!-- Capa oscura que aparece al hacer hover -->
+        <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+    
+        <!-- Título centrado -->
+        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
           <h3 class="text-2xl font-poppins font-bold text-white">
             {{ instalacion.nombre }}
           </h3>
         </div>
       </div>
     </div>
+    
     </div>
   </main>
 

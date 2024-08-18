@@ -4,6 +4,8 @@ import { CarreraService, Carrera } from '../carrera.service';
 import { DireccionService, Direccion } from '../../direccion.service';
 import { NivelesEstudiosService, NivelesEstudios } from '../../niveles-estudios.service';
 import { CampoEstudioService, CampoEstudio } from '../../campo-estudio.service';
+import { CuatrimestreService } from '../../cuatrimestre.service';  // Importa el servicio de Cuatrimestres
+import { AsignaturaService } from '../../asignatura.service';  // Importa el servicio de Asignaturas
 import Swal from 'sweetalert2';
 
 class TooltipManager {
@@ -40,6 +42,7 @@ class TooltipManager {
 })
 export class AgregarCarreraComponent implements OnInit {
   carreraForm: FormGroup;
+  asignaturaForm: FormGroup;  // Formulario para agregar asignaturas
   errorMessage: string = '';
   successMessage: string = '';
   isModalOpen: boolean = false;
@@ -49,6 +52,7 @@ export class AgregarCarreraComponent implements OnInit {
   direcciones: Direccion[] = [];
   nivelesEstudios: NivelesEstudios[] = [];
   camposEstudio: CampoEstudio[] = [];
+  cuatrimestres: any[] = [];  // Lista de cuatrimestres para el formulario
   filteredCarreras: Carrera[] = [];
   papeleraCarreras: Carrera[] = [];
   currentCarreraId?: number;
@@ -64,7 +68,9 @@ export class AgregarCarreraComponent implements OnInit {
     private carreraService: CarreraService,
     private direccionService: DireccionService,
     private nivelesEstudiosService: NivelesEstudiosService,
-    private campoEstudioService: CampoEstudioService
+    private campoEstudioService: CampoEstudioService,
+    private cuatrimestreService: CuatrimestreService,  // Inyecta el servicio de Cuatrimestres
+    private asignaturaService: AsignaturaService  // Inyecta el servicio de Asignaturas
   ) {
     this.carreraForm = this.fb.group({
       nombre_carrera: ['', [Validators.required, Validators.maxLength(100)]],
@@ -73,6 +79,11 @@ export class AgregarCarreraComponent implements OnInit {
       direccion_id: ['', [Validators.required]],
       nivel_estudio_id: ['', [Validators.required]],
       campo_estudio_id: ['', [Validators.required]],
+    });
+
+    this.asignaturaForm = this.fb.group({
+      nombre: ['', [Validators.required, Validators.maxLength(100)]],
+      cuatrimestre_id: ['', [Validators.required]]
     });
   }
 
@@ -155,6 +166,32 @@ export class AgregarCarreraComponent implements OnInit {
     }
   }
 
+  onSubmitAsignatura() {
+    if (this.asignaturaForm.valid) {
+      const formData = {
+        nombre: this.asignaturaForm.get('nombre')?.value,
+        cuatrimestre_id: this.asignaturaForm.get('cuatrimestre_id')?.value,
+        carrera_id: this.selectedMapaCarrera?.id // Asegúrate de pasar el carrera_id
+      };
+
+      this.asignaturaService.saveAsignatura(formData).subscribe({
+        next: (response) => {
+          console.log("Asignatura guardada:", response);
+          this.closeMapaModal();
+          this.showToast('success', 'Asignatura agregada correctamente');
+        },
+        error: (error) => {
+          console.error("Error al guardar la asignatura:", error);
+          this.showToast('error', 'Error al guardar la asignatura');
+        }
+      });
+    } else {
+      this.showToast('warning', 'Por favor, completa todos los campos requeridos.');
+    }
+  }
+
+
+
   resetForm() {
     this.carreraForm.reset();
     this.errorMessage = '';
@@ -188,14 +225,42 @@ export class AgregarCarreraComponent implements OnInit {
     this.isModalOpen = false;
   }
 
-  openMapaModal(carrera: Carrera) {
-    this.selectedMapaCarrera = carrera;
-    this.isMapaModalOpen = true;
-    // Aquí podrías cargar los datos específicos para el mapa cuatrimestral
+  openMapaModal(carrera?: Carrera) {
+    if (carrera && carrera.id !== undefined) {
+      this.selectedMapaCarrera = carrera;
+
+      // Determina el rango de cuatrimestres según el nivel de estudios
+      let cuatrimestreInicio: number;
+      let cuatrimestreFin: number;
+
+      if (carrera.nivel_estudio_id === 1) {
+        cuatrimestreInicio = 1;
+        cuatrimestreFin = 6;
+      } else if (carrera.nivel_estudio_id === 2 || carrera.nivel_estudio_id === 3) {
+        cuatrimestreInicio = 7;
+        cuatrimestreFin = 11;
+      } else {
+        console.error('Nivel de estudio no reconocido');
+        return;
+      }
+
+      // Cargar cuatrimestres en base al rango determinado
+      this.cuatrimestres = [];
+      for (let i = cuatrimestreInicio; i <= cuatrimestreFin; i++) {
+        this.cuatrimestres.push({ id: i, numero: i });
+      }
+
+      this.isMapaModalOpen = true;
+    } else {
+      console.error("La carrera no tiene un ID válido o no se proporcionó una carrera.");
+    }
   }
+
+
 
   closeMapaModal() {
     this.isMapaModalOpen = false;
+    this.asignaturaForm.reset();
   }
 
   openViewModal(carrera: Carrera) {
@@ -252,6 +317,15 @@ export class AgregarCarreraComponent implements OnInit {
     });
   }
 
+  cargarCuatrimestres(carreraId: number) {
+    this.cuatrimestreService.getCuatrimestresByCarrera(carreraId).subscribe({
+      next: (cuatrimestres) => {
+        this.cuatrimestres = cuatrimestres;
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
   moveToTrash(id: number) {
     this.showConfirmDialog(
       '¿Estás seguro?',
@@ -269,7 +343,7 @@ export class AgregarCarreraComponent implements OnInit {
       }
     );
   }
-  
+
   restoreCarrera(id: number) {
     this.showConfirmDialog(
       '¿Estás seguro?',
@@ -287,7 +361,7 @@ export class AgregarCarreraComponent implements OnInit {
       }
     );
   }
-  
+
 
   deleteCarrera(id: number) {
     this.showConfirmDialog(

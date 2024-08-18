@@ -1,5 +1,11 @@
 <!--Componente Navbar-->
-<app-navbar class="min-h-screen"></app-navbar>
+<app-navbar></app-navbar>
+
+<!-- Contenedor principal flexible -->
+<div class="flex flex-col min-h-screen">
+  <!-- Contenido principal que puede crecer -->
+  <main class="flex-grow">
+
 <p id="inicio"></p>
 <!--Fin Navbar-->
 
@@ -47,133 +53,34 @@
             </div>
             <input
               class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]"
-              type="text" placeholder="Ingresa tu busqueda" value="" data-hs-combo-box-input="">
+              type="text" placeholder="Ingresa tu búsqueda" [(ngModel)]="searchText" (input)="filterJobs()">
           </div>
-
+          
           <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            <!-- Pro Plan -->
-            <div class="bg-[#EEEEEE] rounded-lg p-4 transform hover:scale-105 transition duration-300 flex flex-col justify-between h-full">
+            <div *ngFor="let job of filteredJobs" class="bg-[#EEEEEE] rounded-lg p-4 transform hover:scale-105 transition duration-300 flex flex-col justify-between h-full">
               <div class="mb-8">
-                <h3 class="text-center text-2xl font-extrabold text-[#043D3D]">Asistente de Investigación en Biotecnología</h3>
+                <h3 class="text-center text-2xl font-extrabold text-[#043D3D]">{{ job.title }}</h3>
               </div>
               <ul class="mb-8 space-y-4 text-gray-400">
-                <li class="flex items-center">
+                <li *ngFor="let requirement of job.requirements" class="flex items-center">
                   <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                   </svg>
-                  <span class="text-black">Experiencia en redes</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">5 años de experiencia laboral</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">Inglés</span>
+                  <span class="text-black">{{ requirement }}</span>
                 </li>
               </ul>
-              <a href="#" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium">
-                Aplicar
-              </a>
-            </div>
-            
-            <!-- Pro Plan -->
-            <div class="bg-[#EEEEEE] rounded-lg p-4 transform hover:scale-105 transition duration-300 flex flex-col justify-between h-full">
-              <div class="mb-8">
-                <h3 class="text-center text-2xl font-extrabold text-[#043D3D]">Desarrollador de Software para Proyectos Académicos</h3>
-              </div>
-              <ul class="mb-8 space-y-4 text-gray-400">
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">Experiencia en redes</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">5 años de experiencia laboral</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">Inglés</span>
-                </li>
-              </ul>
-              <a href="#" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium">
-                Aplicar
-              </a>
-            </div>
-
-            <!-- Pro Plan -->
-            <div class="bg-[#EEEEEE] rounded-lg p-4 transform hover:scale-105 transition duration-300 flex flex-col justify-between h-full">
-              <div class="mb-8">
-                <h3 class="text-center text-2xl font-extrabold text-[#043D3D]">Analista de Datos en Ciencias Sociales</h3>
-              </div>
-              <ul class="mb-8 space-y-4 text-gray-400">
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">Experiencia en redes</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">5 años de experiencia laboral</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">Inglés</span>
-                </li>
-              </ul>
-              <a href="#" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium">
-                Aplicar
-              </a>
-            </div>
-
-            <!-- Pro Plan -->
-            <div class="bg-[#EEEEEE] rounded-lg p-4 transform hover:scale-105 transition duration-300 flex flex-col justify-between h-full">
-              <div class="mb-8">
-                <h3 class="text-center text-2xl font-extrabold text-[#043D3D]">Asistente Administrativo en la Facultad de Derecho</h3>
-              </div>
-              <ul class="mb-8 space-y-4 text-gray-400">
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">Experiencia en redes</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">5 años de experiencia laboral</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">Inglés</span>
-                </li>
-              </ul>
-              <a href="#" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium">
+              <a href="/info_bolsa" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium">
                 Aplicar
               </a>
             </div>
           </div>
+          
+          
         </div>
       </section>
 </div>
+  </main>
 <!--Inicio componente Footer-->
 <app-footer></app-footer>
 <!--Fin Footer-->
+</div>
