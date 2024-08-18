@@ -16,7 +16,7 @@
     <div class="text-center text-white p-8 animate-fadeIn">
       <h1 class="text-5xl md:text-6xl font-bold uppercase tracking-wide">Universidad Tecnológica de la Costa</h1>
       <p class="mt-4 text-xl md:text-4xl">Conocimiento que transforma vidas</p>
-      <a (click)="scrollToSectionCarreras('carreras')" class="mt-8 inline-block bg-[#04847C] hover:bg-[#032D2D] text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300">Descubre más</a>
+      <button (click)="scrollToSectionCarreras('carreras')" class="mt-8 inline-block bg-[#04847C] hover:bg-[#032D2D] text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300">Descubre más</button>
 
     </div>
   </div>
@@ -85,7 +85,7 @@
    <div class="container max-w-screen-lg mb-12 space-y-4">
       <div *ngIf="eventosRecientes.length === 0" class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg">
       <p class="text-gray-600 text-lg">No hay eventos recientes disponibles en este momento. Por favor, vuelve a consultar más tarde.</p>
-    </div>
+      </div>
    </div>
   
 
@@ -93,7 +93,7 @@
   <div *ngIf="eventosRecientes.length > 0" class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
     <!-- Evento más reciente -->
     <div class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300 flex flex-col">
-      <img [src]="eventosRecientes[0].imagen_principal" [alt]="eventosRecientes[0].titulo" class="w-full h-52 object-cover rounded-t-lg">
+      <img [src]="eventosRecientes[0].imagen_principal" [alt]="eventosRecientes[0].titulo" class="w-full h-80 object-cover rounded-t-lg">
       <div class="p-6 flex-1 flex flex-col justify-between">
         <div>
           <h3 class="text-2xl font-bold text-[#043D3D]">{{ eventosRecientes[0].titulo | slice:0:sliceValue }}</h3>
@@ -104,7 +104,7 @@
     </div>
 
     <!-- Otros 4 eventos recientes -->
-    <ng-container *ngFor="let evento of eventosRecientes.slice(1, 5)">
+    <ng-container *ngFor="let evento of eventosRecientes.slice(1,  5)">
       <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 flex flex-col">
         <img [src]="evento.imagen_principal" [alt]="evento.titulo" class="w-full h-32 object-cover rounded-t-lg">
         <div class="p-6 flex-1 flex flex-col justify-between">

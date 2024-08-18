@@ -70,17 +70,67 @@ export class PasswordResetComponent {
       setTimeout(() => {
         Swal.fire({
           title: 'Ingresa tu código de verificación',
-          input: 'textarea',
-          inputPlaceholder: 'Escribe tu código aquí...',
-          showCancelButton: true,
-          confirmButtonText: 'Enviar',
-          cancelButtonText: 'Cancelar',
-          allowOutsideClick: false
+          html: `
+          <div class="flex justify-center gap-2 mb-6">
+            <input id="otp1" class="w-12 h-12 text-center border rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code" required>
+            <input id="otp2" class="w-12 h-12 text-center border rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code" required>
+            <input id="otp3" class="w-12 h-12 text-center border rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code" required>
+            <input id="otp4" class="w-12 h-12 text-center border rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code" required>
+            <input id="otp5" class="w-12 h-12 text-center border rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code" required>
+            <input id="otp6" class="w-12 h-12 text-center border rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code" required>
+          </div>
+        `,
+        didOpen: () => {
+          // Set focus to the first input
+          const otp1 = document.getElementById('otp1') as HTMLInputElement;
+          const otp2 = document.getElementById('otp2') as HTMLInputElement;
+          const otp3 = document.getElementById('otp3') as HTMLInputElement;
+          const otp4 = document.getElementById('otp4') as HTMLInputElement;
+          const otp5 = document.getElementById('otp5') as HTMLInputElement;
+          const otp6 = document.getElementById('otp6') as HTMLInputElement;
+      
+          otp1?.focus();
+      
+          const moveToNext = (currentElement: HTMLInputElement, nextElement: HTMLInputElement) => {
+            currentElement.addEventListener('input', () => {
+              if (currentElement.value.length === 1) {
+                nextElement.focus();
+              }
+            });
+          };
+      
+          const moveToPrevious = (currentElement: HTMLInputElement, previousElement: HTMLInputElement) => {
+            currentElement.addEventListener('keydown', (event) => {
+              if (event.key === 'Backspace' && currentElement.value.length === 0) {
+                previousElement.focus();
+              }
+            });
+          };
+      
+          // Apply the focus transitions
+          moveToNext(otp1, otp2);
+          moveToNext(otp2, otp3);
+          moveToNext(otp3, otp4);
+          moveToNext(otp4, otp5);
+          moveToNext(otp5, otp6);
+          moveToPrevious(otp2, otp1);
+          moveToPrevious(otp3, otp2);
+          moveToPrevious(otp4, otp3);
+          moveToPrevious(otp5, otp4);
+          moveToPrevious(otp6, otp5);
+        },
         }).then((result) => {
           if (result.isConfirmed) {
-            console.log('Código ingresado:', result.value);
-            const codigo = result.value;  
-            console.log(codigo);
+            const otp1 = (document.getElementById('otp1') as HTMLInputElement).value;
+            const otp2 = (document.getElementById('otp2') as HTMLInputElement).value;
+            const otp3 = (document.getElementById('otp3') as HTMLInputElement).value;
+            const otp4 = (document.getElementById('otp4') as HTMLInputElement).value;
+            const otp5 = (document.getElementById('otp5') as HTMLInputElement).value;
+            const otp6 = (document.getElementById('otp6') as HTMLInputElement).value;
+        
+            const codigo = `${otp1}${otp2}${otp3}${otp4}${otp5}${otp6}`;
+            console.log('Código ingresado:', codigo);
+           
 
             const resetData = {
               codigo: codigo
