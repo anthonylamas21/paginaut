@@ -1,9 +1,14 @@
-<!--Componente Navbar-->
-<app-navbar></app-navbar>
-<p id="inicio"></p>
-<!--Fin Navbar-->
+ <!--Componente Navbar-->
+ <app-navbar></app-navbar>
 
-<div class=" mt-4">
+ <!-- Contenedor principal flexible -->
+<div class="flex flex-col min-h-screen">
+  <!-- Contenido principal que puede crecer -->
+  <main class="flex-grow">
+ <p id="inicio"></p>
+ <!--Fin Navbar-->
+
+ <div class=" mt-4">
     <ol class="flex items-center whitespace-nowrap ml-4 mt-24">
         <li class="inline-flex items-center">
           <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/principal">
@@ -22,52 +27,57 @@
             </svg>
           </li>
           <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
-            Ubicación 
+            Más información
           </li>
       </ol>
 </div>
 
-<section class="">
-    <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-16 lg:px-8">
-        <div class="max-w-2xl lg:max-w-4xl mx-auto text-center">
-          <div class="container mx-auto text-center mb-2">
-            <h2 class="text-4xl text-[#043D3D] font-bold uppercase tracking-wide animate-slideIn">Visítenos</h2>
+<div class="flex justify-center">
+  <div class="max-w-7xl w-full">
+    <!-- Sección de Ubicación -->
+    <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden p-8 sm:p-12">
+      <h2 class="text-4xl font-extrabold text-black mb-6 text-center">Visítenos</h2>
+      <p class="text-xl text-black mb-12 text-center">Universidad Tecnológica de la Costa</p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="rounded-lg overflow-hidden shadow-lg">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29631.65887185448!2d-105.20683411763848!3d21.820578372106322!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8420a8ceea11c975%3A0x263dec0370f9d5f3!2sUniversidad%20Tecnol%C3%B3gica%20de%20La%20Costa!5e0!3m2!1ses!2smx!4v1719933863364!5m2!1ses!2smx" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div class="bg-white bg-opacity-20 rounded-lg overflow-hidden shadow-lg text-black">
+          <div class="px-6 py-4">
+            <h3 class="text-lg font-medium">Dirección</h3>
+            <p class="mt-1">Carretera Santiago entronque internacional no. 15 km 5, Santiago Ixcuintla, Nay.</p>
           </div>
-            <p class="mt-4 text-2xl text-gray-500">Universidad tecnológica de la costa.</p>
-        </div>
-        <div class="mt-16 lg:mt-16">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="rounded-lg overflow-hidden">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29631.65887185448!2d-105.20683411763848!3d21.820578372106322!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8420a8ceea11c975%3A0x263dec0370f9d5f3!2sUniversidad%20Tecnol%C3%B3gica%20de%20La%20Costa!5e0!3m2!1ses!2smx!4v1719933863364!5m2!1ses!2smx" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-                <div>
-                    <div class="max-w-full mx-auto rounded-lg overflow-hidden">
-                        <div class="px-6 py-4">
-                            <h3 class="text-lg font-medium text-gray-900">Dirección</h3>
-                            <p class="mt-1 text-gray-600">Carretera Santiago entronque internacional no. 15 km 5, Santiago Ixcuintla, Nay.</p>
-                        </div>
-                        <div class="border-t border-gray-200 px-6 py-4">
-                          <div class="flex justify-between items-center">
-                            <h3 class="text-lg font-medium text-gray-900">Horarios</h3>
-                            <span class="font-bold" [ngClass]="isOpen ? 'text-green-600' : 'text-red-600'">
-                            <span class="text-black font-normal">Actualmente:</span>  {{ isOpen ? 'Abierto' : 'Cerrado' }}
-                            </span>
-                          </div>
-                          <p class="mt-1 text-gray-600">Lunes - Viernes: 8am - 4pm</p>
-                          <p class="mt-1 text-gray-600">Sábado: 8am - 5:30pm</p>
-                          <p class="mt-1 text-gray-600">Domingo: Cerrado</p>
-                        </div>
-                        <div class="border-t border-gray-200 px-6 py-4">
-                            <h3 class="text-lg font-medium text-gray-900">Contacto</h3>
-                            <p class="mt-1 text-gray-600">Teléfono: +52 (323) 174 3139.</p>
-                        </div>
-                    </div>
-                </div>
+          <div class="border-t border-gray-200 border-opacity-20 px-6 py-4">
+            <div class="flex justify-between items-center">
+              <h3 class="text-lg font-medium">Horarios</h3>
+              <span class="font-bold" [ngClass]="isOpen ? 'text-green-400' : 'text-red-400'">
+                <span class="text-black font-normal">Actualmente:</span> {{ isOpen ? 'Abierto' : 'Cerrado' }}
+              </span>
             </div>
+            <p class="mt-1">Lunes - Viernes: 8am - 4pm</p>
+            <p class="mt-1">Sábado: 8am - 5:30pm</p>
+            <p class="mt-1">Domingo: Cerrado</p>
+          </div>
+          <div class="border-t border-gray-200 border-opacity-20 px-6 py-4">
+            <h3 class="text-lg font-medium">Contacto</h3>
+            <p class="mt-1">Teléfono: +52 (323) 174 3139</p>
+          </div>
         </div>
+      </div>
     </div>
-</section>
 
-<!--Inicio componente Footer-->
+    <!-- Botón de contacto -->
+    <div class="my-12 text-center">
+      <a href="/correo" class="inline-block bg-[#04847C] hover:bg-[#032D2D] text-white font-bold py-4 px-10 rounded-full shadow-xl transition-transform transform hover:scale-105 duration-300">
+        Envíanos un mensaje
+      </a>
+    </div>
+  </div>
+</div>
+</main>
+
+ <!--Inicio componente Footer-->
 <app-footer></app-footer>
 <!--Fin Footer-->
+</div>
