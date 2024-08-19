@@ -1,0 +1,919 @@
+<app-navbar-admin></app-navbar-admin>
+<p id="inicio"></p>
+
+<div class="mt-4">
+  <ol class="flex items-center whitespace-nowrap ml-4 mt-24">
+    <li class="inline-flex items-center">
+      <a
+        class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]"
+        href="/admin/principal_admin"
+      >
+        Panel Administrador
+      </a>
+      <svg
+        class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="m9 18 6-6-6-6"></path>
+      </svg>
+    </li>
+    <li
+      class="inline-flex items-center text-sm font-semibold text-gray-800 truncate"
+      aria-current="page"
+    >
+      Bolsa de Trabajo
+    </li>
+  </ol>
+</div>
+
+<div class="p-2 mx-auto">
+  <div class="bg-[#043D3D] rounded-lg mt-8 mb-5">
+    <h2
+      class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4"
+    >
+      Bolsa de Trabajo
+    </h2>
+  </div>
+
+  <!-- Modal para registrar Bolsa de Trabajo -->
+  <div
+    [ngClass]="{ hidden: !isModalOpen }"
+    class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4"
+  >
+    <div
+      class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+    >
+      <div class="flex justify-between items-center p-4 bg-white">
+        <h3 class="text-xl font-bold text-gray-900">
+          {{
+            currentBolsaDeTrabajoId
+              ? "Editar Bolsa de Trabajo"
+              : "Nueva Bolsa de Trabajo"
+          }}
+        </h3>
+        <button
+          type="button"
+          class="text-gray-400 hover:text-gray-500"
+          (click)="closeModal()"
+        >
+          <span class="sr-only">Cerrar</span>
+          <svg
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <form
+        [formGroup]="bolsaDeTrabajoForm"
+        (ngSubmit)="onSubmitBolsa()"
+        class="p-4 space-y-4 grid grid-cols-2 gap-4"
+      >
+        <div>
+          <label
+            for="nombre_empresa"
+            class="block text-sm font-medium text-gray-700"
+            >Nombre de la Empresa</label
+          >
+          <input
+            type="text"
+            id="nombre_empresa"
+            formControlName="nombre_empresa"
+            class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+            placeholder="Nombre de la Empresa"
+            required
+          />
+        </div>
+
+        <div>
+          <label
+            for="descripcion_trabajo"
+            class="block text-sm font-medium text-gray-700"
+            >Descripción del Trabajo</label
+          >
+          <textarea
+            id="descripcion_trabajo"
+            formControlName="descripcion_trabajo"
+            class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+            placeholder="Descripción del Trabajo"
+            required
+          ></textarea>
+        </div>
+
+        <div>
+          <label
+            for="puesto_trabajo"
+            class="block text-sm font-medium text-gray-700"
+            >Puesto de Trabajo</label
+          >
+          <input
+            type="text"
+            id="puesto_trabajo"
+            formControlName="puesto_trabajo"
+            class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+            placeholder="Puesto de Trabajo"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="direccion" class="block text-sm font-medium text-gray-700"
+            >Dirección</label
+          >
+          <input
+            type="text"
+            id="direccion"
+            formControlName="direccion"
+            class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+            placeholder="Dirección"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="telefono" class="block text-sm font-medium text-gray-700"
+            >Teléfono</label
+          >
+          <input
+            type="text"
+            id="telefono"
+            formControlName="telefono"
+            class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+            placeholder="Teléfono"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="correo" class="block text-sm font-medium text-gray-700"
+            >Correo</label
+          >
+          <input
+            type="email"
+            id="correo"
+            formControlName="correo"
+            class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+            placeholder="Correo"
+            required
+          />
+        </div>
+
+        <div class="col-span-2">
+          <button
+            type="submit"
+            [disabled]="bolsaDeTrabajoForm.invalid"
+            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm"
+          >
+            {{
+              currentBolsaDeTrabajoId
+                ? "Actualizar Bolsa de Trabajo"
+                : "Agregar Bolsa de Trabajo"
+            }}
+          </button>
+        </div>
+      </form>
+
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button
+          type="button"
+          (click)="closeModal()"
+          class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para agregar requisitos -->
+  <div
+    [ngClass]="{ hidden: !isRequisitosModalOpen }"
+    class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4"
+  >
+    <div
+      class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+    >
+      <div class="flex justify-between items-center p-4 bg-white">
+        <h3 class="text-xl font-bold text-gray-900">Agregar Requisitos</h3>
+        <button
+          type="button"
+          class="text-gray-400 hover:text-gray-500"
+          (click)="closeRequisitosModal()"
+        >
+          <span class="sr-only">Cerrar</span>
+          <svg
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <form
+        [formGroup]="requisitosForm"
+        (ngSubmit)="onSubmitRequisitos()"
+        class="p-4 space-y-4"
+      >
+        <div formArrayName="requisitos">
+          <div
+            *ngFor="let requisito of requisitos.controls; let i = index"
+            [formGroupName]="i"
+            class="flex items-center space-x-2 mb-2"
+          >
+            <input
+              type="text"
+              formControlName="requisito"
+              class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+              placeholder="Requisito"
+              required
+            />
+            <button
+              type="button"
+              class="text-red-600 hover:text-red-800"
+              (click)="removeRequisito(i)"
+            >
+              Eliminar
+            </button>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="mt-2 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
+          (click)="addRequisito()"
+        >
+          Agregar Requisito
+        </button>
+        <button
+          type="submit"
+          [disabled]="requisitosForm.invalid"
+          class="mt-4 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C]"
+        >
+          Guardar Requisitos
+        </button>
+      </form>
+
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button
+          type="button"
+          (click)="closeRequisitosModal()"
+          class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="errorMessage" class="alert alert-danger mt-3">
+  {{ errorMessage }}
+</div>
+<div *ngIf="successMessage" class="alert alert-success mt-3">
+  {{ successMessage }}
+</div>
+
+<div
+  class="rounded-lg border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default sm:px-7.5 xl:pb-1 my-2"
+>
+  <div class="max-w-full">
+    <div class="border-b border-gray-200">
+      <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
+        <button
+          type="button"
+          class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none active"
+          id="tabs-with-icons-item-1"
+          data-hs-tab="#tabs-with-icons-1"
+          aria-controls="tabs-with-icons-1"
+          role="tab"
+          (click)="switchTab('active')"
+        >
+          Todos
+        </button>
+        <button
+          type="button"
+          class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none"
+          id="tabs-with-icons-item-2"
+          data-hs-tab="#tabs-with-icons-2"
+          aria-controls="tabs-with-icons-2"
+          role="tab"
+          (click)="switchTab('inactive')"
+        >
+          Papelera
+        </button>
+      </nav>
+    </div>
+
+    <div class="mt-3">
+      <div
+        id="tabs-with-icons-1"
+        role="tabpanel"
+        aria-labelledby="tabs-with-icons-item-1"
+      >
+        <div class="flex flex-wrap items-center">
+          <div class="flex flex-col lg:w-7/12 sm:w-12/12 md:w-7/12 w-full">
+            <div class="w-full">
+              <!-- SearchBox -->
+              <div class="relative w-full">
+                <div class="relative w-full">
+                  <div
+                    class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5 w-full"
+                  >
+                    <svg
+                      class="flex-shrink-0 size-4 text-gray-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <path d="m21 21-4.3-4.3"></path>
+                    </svg>
+                  </div>
+                  <input
+                    (input)="filterGlobal($event)"
+                    class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]"
+                    type="text"
+                    placeholder="Ingresa tu búsqueda"
+                    value=""
+                    data-hs-combo-box-input=""
+                  />
+                </div>
+              </div>
+              <!-- End SearchBox -->
+            </div>
+          </div>
+          <div
+            class="flex flex-col lg:w-5/12 sm:w-12/12 md:w-5/12 text-right w-full"
+          >
+            <div class="w-full">
+              <button
+                type="button"
+                class="py-3 my-2 px-4 inline-flex button-secondary items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-color text-white hover:bg-primary-color-90 disabled:opacity-50 disabled:pointer-events-none"
+                (click)="openModal()"
+              >
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Registrar Bolsa de Trabajo
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col mb-5">
+          <div class="-m-1.5 overflow-x-auto">
+            <div class="p-1.5 min-w-full inline-block align-middle">
+              <div class="border rounded-lg overflow-hidden my-2">
+                <p-table
+                  #dt
+                  [value]="filteredBolsas"
+                  [paginator]="true"
+                  [rows]="5"
+                  currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
+                  [showCurrentPageReport]="true"
+                  [globalFilterFields]="[
+                    'nombre_empresa',
+                    'descripcion_trabajo',
+                    'puesto_trabajo',
+                    'direccion',
+                    'telefono',
+                    'correo',
+                    'fecha_creacion'
+                  ]"
+                  [tableStyleClass]="'min-w-full divide-y'"
+                  [resizableColumns]="true"
+                >
+                  <ng-template pTemplate="header">
+                    <tr
+                      class="divide-x divide-gray-200 bg-table-header-color rounded-lg"
+                    >
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                        pSortableColumn="nombre_empresa"
+                      >
+                        <div class="flex">
+                          Nombre de la Empresa
+                          <p-sortIcon field="nombre_empresa"></p-sortIcon>
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                        pSortableColumn="descripcion_trabajo"
+                      >
+                        <div class="flex">
+                          Descripción del Trabajo
+                          <p-sortIcon field="descripcion_trabajo"></p-sortIcon>
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                        pSortableColumn="puesto_trabajo"
+                      >
+                        <div class="flex">
+                          Puesto de Trabajo
+                          <p-sortIcon field="puesto_trabajo"></p-sortIcon>
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                        pSortableColumn="direccion"
+                      >
+                        <div class="flex">
+                          Dirección
+                          <p-sortIcon field="direccion"></p-sortIcon>
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                        pSortableColumn="telefono"
+                      >
+                        <div class="flex">
+                          Teléfono
+                          <p-sortIcon field="telefono"></p-sortIcon>
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                        pSortableColumn="correo"
+                      >
+                        <div class="flex">
+                          Correo
+                          <p-sortIcon field="correo"></p-sortIcon>
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                        pSortableColumn="fecha_creacion"
+                      >
+                        <div class="flex">
+                          Fecha de Creación
+                          <p-sortIcon field="fecha_creacion"></p-sortIcon>
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                      >
+                        <div class="flex">Acciones</div>
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-bolsa>
+                    <tr class="divide-x divide-gray-200 bg-neutral-100">
+                      <td class="px-3 py-2 text-sm text-black">
+                        {{ bolsa.nombre_empresa }}
+                      </td>
+                      <td class="px-3 py-2 text-sm text-black">
+                        {{ bolsa.descripcion_trabajo }}
+                      </td>
+                      <td class="px-3 py-2 text-sm text-black">
+                        {{ bolsa.puesto_trabajo }}
+                      </td>
+                      <td class="px-3 py-2 text-sm text-black">
+                        {{ bolsa.direccion }}
+                      </td>
+                      <td class="px-3 py-2 text-sm text-black">
+                        {{ bolsa.telefono }}
+                      </td>
+                      <td class="px-3 py-2 text-sm text-black">
+                        {{ bolsa.correo }}
+                      </td>
+                      <td class="px-3 py-2 text-sm text-black">
+                        {{ bolsa.fecha_creacion }}
+                      </td>
+                      <td class="px-3 py-2 text-sm text-black">
+                        <div class="flex items-center space-x-3.5">
+                          <button
+                            (mouseenter)="mostrar($event.target)"
+                            (mouseleave)="mostrar($event.target)"
+                            (click)="openModal(bolsa)"
+                            class="hover:text-primary"
+                          >
+                            <div
+                              class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                            >
+                              <div
+                                class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                              >
+                                <i class="fas fa-edit"></i>
+                                <div
+                                  class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                  role="tooltip"
+                                >
+                                  <div
+                                    class="py-3 px-4 border-b border-gray-200"
+                                  >
+                                    <h4 class="font-semibold text-gray-800">
+                                      Editar
+                                    </h4>
+                                  </div>
+                                  <ul class="py-3 px-4 space-y-1">
+                                    <li>
+                                      <div
+                                        class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                      >
+                                        Actualizar la información de la bolsa de
+                                        trabajo.
+                                      </div>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </button>
+                          <button
+                            (mouseenter)="mostrar($event.target)"
+                            (mouseleave)="mostrar($event.target)"
+                            (click)="viewBolsa(bolsa)"
+                            class="hover:text-primary"
+                          >
+                            <div
+                              class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                            >
+                              <div
+                                class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                              >
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                <div
+                                  class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                  role="tooltip"
+                                >
+                                  <div
+                                    class="py-3 px-4 border-b border-gray-200"
+                                  >
+                                    <h4 class="font-semibold text-gray-800">
+                                      Detalles
+                                    </h4>
+                                  </div>
+                                  <ul class="py-3 px-4 space-y-1">
+                                    <li>
+                                      <div
+                                        class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                      >
+                                        Ver detalles de la bolsa de trabajo.
+                                      </div>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </button>
+                          <button
+                            (mouseenter)="mostrar($event.target)"
+                            (mouseleave)="mostrar($event.target)"
+                            (click)="moveToTrash(bolsa.id)"
+                            class="hover:text-primary"
+                          >
+                            <div
+                              class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                            >
+                              <div
+                                class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                              >
+                                <i class="fa fa-ban" aria-hidden="true"></i>
+                                <div
+                                  class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                  role="tooltip"
+                                >
+                                  <div
+                                    class="py-3 px-4 border-b border-gray-200"
+                                  >
+                                    <h4 class="font-semibold text-gray-800">
+                                      Desactivar
+                                    </h4>
+                                  </div>
+                                  <ul class="py-3 px-4 space-y-1">
+                                    <li>
+                                      <div
+                                        class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                      >
+                                        Mover la bolsa de trabajo a la papelera.
+                                      </div>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr>
+                      <td colspan="8">No se encontraron resultados.</td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="tabs-with-icons-2"
+        class="hidden"
+        role="tabpanel"
+        aria-labelledby="tabs-with-icons-item-2"
+      >
+        <div class="min-h-60 flex flex-col bg-white rounded-xl">
+          <div class="flex flex-col mb-5">
+            <div class="-m-1.5 overflow-x-auto">
+              <div class="p-1.5 min-w-full inline-block align-middle">
+                <div class="border rounded-lg overflow-hidden my-2">
+                  <p-table
+                    #dt
+                    [value]="papeleraBolsas"
+                    [paginator]="true"
+                    [rows]="5"
+                    currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
+                    [showCurrentPageReport]="true"
+                    [globalFilterFields]="[
+                      'nombre_empresa',
+                      'descripcion_trabajo',
+                      'puesto_trabajo',
+                      'direccion',
+                      'telefono',
+                      'correo',
+                      'fecha_creacion'
+                    ]"
+                    [tableStyleClass]="'min-w-full divide-y'"
+                    [resizableColumns]="true"
+                  >
+                    <ng-template pTemplate="header">
+                      <tr
+                        class="divide-x divide-gray-200 bg-table-header-color rounded-lg"
+                      >
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                          pSortableColumn="nombre_empresa"
+                        >
+                          <div class="flex">
+                            Nombre de la Empresa
+                            <p-sortIcon field="nombre_empresa"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                          pSortableColumn="descripcion_trabajo"
+                        >
+                          <div class="flex">
+                            Descripción del Trabajo
+                            <p-sortIcon
+                              field="descripcion_trabajo"
+                            ></p-sortIcon>
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                          pSortableColumn="puesto_trabajo"
+                        >
+                          <div class="flex">
+                            Puesto de Trabajo
+                            <p-sortIcon field="puesto_trabajo"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                          pSortableColumn="direccion"
+                        >
+                          <div class="flex">
+                            Dirección
+                            <p-sortIcon field="direccion"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                          pSortableColumn="telefono"
+                        >
+                          <div class="flex">
+                            Teléfono
+                            <p-sortIcon field="telefono"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                          pSortableColumn="correo"
+                        >
+                          <div class="flex">
+                            Correo
+                            <p-sortIcon field="correo"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                          pSortableColumn="fecha_creacion"
+                        >
+                          <div class="flex">
+                            Fecha de Creación
+                            <p-sortIcon field="fecha_creacion"></p-sortIcon>
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                        >
+                          <div class="flex">Acciones</div>
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-bolsa>
+                      <tr class="divide-x divide-gray-200 bg-neutral-100">
+                        <td class="px-3 py-2 text-sm text-black">
+                          {{ bolsa.nombre_empresa }}
+                        </td>
+                        <td class="px-3 py-2 text-sm text-black">
+                          {{ bolsa.descripcion_trabajo }}
+                        </td>
+                        <td class="px-3 py-2 text-sm text-black">
+                          {{ bolsa.puesto_trabajo }}
+                        </td>
+                        <td class="px-3 py-2 text-sm text-black">
+                          {{ bolsa.direccion }}
+                        </td>
+                        <td class="px-3 py-2 text-sm text-black">
+                          {{ bolsa.telefono }}
+                        </td>
+                        <td class="px-3 py-2 text-sm text-black">
+                          {{ bolsa.correo }}
+                        </td>
+                        <td class="px-3 py-2 text-sm text-black">
+                          {{ bolsa.fecha_creacion }}
+                        </td>
+                        <td class="px-3 py-2 text-sm text-black">
+                          <div class="flex items-center space-x-3.5">
+                            <button
+                              (mouseenter)="mostrar($event.target)"
+                              (mouseleave)="mostrar($event.target)"
+                              (click)="viewBolsa(bolsa)"
+                              class="hover:text-primary"
+                            >
+                              <div
+                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                              >
+                                <div
+                                  class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                >
+                                  <i class="fa fa-eye" aria-hidden="true"></i>
+                                  <div
+                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                    role="tooltip"
+                                  >
+                                    <div
+                                      class="py-3 px-4 border-b border-gray-200"
+                                    >
+                                      <h4 class="font-semibold text-gray-800">
+                                        Detalles
+                                      </h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div
+                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                        >
+                                          Ver detalles de la bolsa de trabajo.
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                            <button
+                              (mouseenter)="mostrar($event.target)"
+                              (mouseleave)="mostrar($event.target)"
+                              (click)="activateBolsa(bolsa.id)"
+                              class="hover:text-primary"
+                            >
+                              <div
+                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                              >
+                                <div
+                                  class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                >
+                                  <i class="fa-solid fa-arrow-rotate-left"></i>
+                                  <div
+                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                    role="tooltip"
+                                  >
+                                    <div
+                                      class="py-3 px-4 border-b border-gray-200"
+                                    >
+                                      <h4 class="font-semibold text-gray-800">
+                                        Activar
+                                      </h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div
+                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                        >
+                                          Volver a activar la bolsa de trabajo
+                                          regresando con esta toda la
+                                          información relacionada.
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                            <button
+                              (mouseenter)="mostrar($event.target)"
+                              (mouseleave)="mostrar($event.target)"
+                              (click)="deleteBolsa(bolsa.id)"
+                              class="hover:text-primary"
+                            >
+                              <div
+                                class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                              >
+                                <div
+                                  class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                >
+                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                  <div
+                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                    role="tooltip"
+                                  >
+                                    <div
+                                      class="py-3 px-4 border-b border-gray-200"
+                                    >
+                                      <h4 class="font-semibold text-gray-800">
+                                        Eliminar
+                                      </h4>
+                                    </div>
+                                    <ul class="py-3 px-4 space-y-1">
+                                      <li>
+                                        <div
+                                          class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                        >
+                                          Eliminar la bolsa de trabajo de forma
+                                          definitiva.
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="8">No se encontraron resultados.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

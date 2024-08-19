@@ -95,9 +95,9 @@ import { TallerComponent } from './taller/taller.component';
 import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera.component';
 import { BibliotecaComponent } from './biblioteca/biblioteca.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { AgregarBolsaTrabajoComponent } from './admin/bolsadetrabajo/bolsadetrabajo.component';
 
 @NgModule({
-
   declarations: [
     AppComponent,
     TallerComponent,
@@ -174,6 +174,7 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
     AgregarCarreraComponent,
     BibliotecaComponent,
     PasswordResetComponent,
+    AgregarBolsaTrabajoComponent,
   ],
   imports: [
     BrowserModule,
