@@ -5,10 +5,31 @@ class Usuario {
 
     public $correo;
     public $token_recuperacion;
-    public $password;
+    public $contrasena;
 
     public function __construct($db) {
         $this->conn = $db;
+    }
+
+    public function index() {
+        $query = "SELECT correo, token_recuperacion FROM " . $this->table_name . " WHERE correo = :correo";
+        
+        $this->correo = htmlspecialchars(strip_tags($this->correo));
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':correo', $this->correo);
+        $stmt->execute();
+
+        // Obtener la fila
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($row) {
+            // Asignar valores a las propiedades del objeto
+            $this->correo = $row['correo'];
+            $this->token_recuperacion = $row['token_recuperacion'];
+            return true;
+        } else {
+            return false;
+        }
     }
 
      // Método para verificar si el correo electrónico existe

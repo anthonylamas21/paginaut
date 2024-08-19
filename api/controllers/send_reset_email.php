@@ -20,8 +20,17 @@ $data = json_decode(file_get_contents("php://input"));
 
 switch($request_method) {
     case 'POST':
-        if (!empty($data->correo) && !empty($data->contrasena)) {
-            echo json_encode(array("message" => "si se reciben."));
+
+        if ($data && isset($data->email)) {
+            $usuario->correo = $data->email;
+
+            if ($usuario->index()) {
+                http_response_code(200);
+                echo json_encode(array("code" => $usuario));
+            } else {
+                http_response_code(401);
+                echo json_encode(array("message" => "No se pudo generar el token el usuario."));
+            }
         } else {
             http_response_code(400);
             echo json_encode(array("message" => "Datos incompletos."));
@@ -34,14 +43,15 @@ switch($request_method) {
           
             if ($usuario->store()) {
                 
-
-                http_response_code(200);
+            http_response_code(200);
                 echo json_encode(array("message" => "Si existe ese correo"));
             } else {
                 http_response_code(401);
                 echo json_encode(array("message" => "No existe ese correo"));
             }
 
+        }else{
+            echo json_encode(array("message" => "No existe la variable"));
         }
         break;
 
