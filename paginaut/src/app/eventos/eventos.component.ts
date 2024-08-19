@@ -90,4 +90,12 @@ export class EventosComponent implements OnInit {
     this.imagenAmpliada = imagenUrl;
   }
 
+  closeModal(): void {
+    const modal = document.getElementById('hs-vertically-centered-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('pointer-events-auto');
+    }
+    this.imagenAmpliada = null;  // Cambiar de objeto vacío a null
+  }
 }

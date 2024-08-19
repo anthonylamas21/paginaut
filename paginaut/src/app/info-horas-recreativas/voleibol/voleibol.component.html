@@ -53,3 +53,11 @@
 <!--Inicio componente Footer-->
 <app-footer></app-footer>
 <!--Fin Footer-->
+
+<!-- Modal para imagen ampliada -->
+<div *ngIf="selectedImage"  id="hs-vertically-centered-modal" class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
+  <div class="relative max-w-[90vh] w-full">
+    <img [src]="selectedImage.url" alt="selectedImage.alt" class="max-h-[90vh] w-[90vh] mx-auto">
+    <button (click)="closeModal()" class="absolute top-2 right-2 bg-red-500 w-8 h-8 rounded-full text-white text-2xl flex items-center justify-center">&times;</button>
+  </div>
+</div>

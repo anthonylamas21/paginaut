@@ -46,6 +46,15 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
     { src: './assets/img/fotos_por_carrera/acuicultura.jpg', alt: 'Acuicultura' },
     { src: './assets/img/fotos_por_carrera/procesos-alimenticios.jpg', alt: 'Procesos Alimenticios' },
     { src: './assets/img/fotos_por_carrera/agrobiotecnologia.jpg', alt: 'Agrobiotecnología' },
+    { src: './assets/img/fotos_por_carrera/desarrollo-software.jpg', alt: 'Desarrollo de Software' },
+    { src: './assets/img/fotos_por_carrera/contaduria.jpg', alt: 'Contaduría' },
+    { src: './assets/img/fotos_por_carrera/gastronomia.jpg', alt: 'Gastronomía' },
+    { src: './assets/img/fotos_por_carrera/administracion.jpg', alt: 'Administración' },
+    { src: './assets/img/fotos_por_carrera/mercadotecnia.jpg', alt: 'Mercadotecnia' },
+    { src: './assets/img/fotos_por_carrera/turismo.jpg', alt: 'Turismo' },
+    { src: './assets/img/fotos_por_carrera/acuicultura.jpg', alt: 'Acuicultura' },
+    { src: './assets/img/fotos_por_carrera/procesos-alimenticios.jpg', alt: 'Procesos Alimenticios' },
+    { src: './assets/img/fotos_por_carrera/agrobiotecnologia.jpg', alt: 'Agrobiotecnología' },
   ];
 
   constructor(
