@@ -57,7 +57,7 @@ export class UnidadesAcademicasComponent implements OnInit, AfterViewInit {
         window.location.reload();
       }, 1000);
     } else {
-      console.error('ID de instalación no disponible');
+      //console.error('ID de instalación no disponible');
     }
   }
 

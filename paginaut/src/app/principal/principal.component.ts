@@ -84,7 +84,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
       const img = new Image();
       img.src = image.src;
       img.onload = () => {
-        console.log(`Imagen ${image.alt} cargada.`);
+        //console.log(`Imagen ${image.alt} cargada.`);
       };
     });
   }
@@ -97,9 +97,9 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
           imagen_principal: this.getImageUrl(evento.imagen_principal || ''),
           imagenes_generales: (evento.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
         }));
-        console.log(this.eventosRecientes)
+        //console.log(this.eventosRecientes)
       },
-      error: (error) => console.error('Error al cargar eventos recientes:', error)
+      error: (error) => console.error(error)
     });
   }
 
@@ -113,7 +113,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
         }));
         this.noticiasVisibles = this.noticias.slice(0, this.cantidadInicial);
       },
-      error: (error) => console.error('Error al cargar noticias activas:', error)
+      error: (error) => console.error(error)
     });
   }
 

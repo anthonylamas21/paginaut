@@ -30,9 +30,10 @@
 
     <div class="container mx-auto mb-8">
 
-      <div class="text-center mb-10">
+      <div class="mb-10">
         <div class="bg-[#043D3D] rounded-lg">
-          <h2 class="text-3xl font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4">Cursos</h2>
+          <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
+            Cursos</h2>
       </div>
       </div>
 
@@ -47,7 +48,7 @@
         </div>
         <input
           class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]"
-          type="text" placeholder="Ingresa tu busqueda" [(ngModel)]="searchTerm" 
+          type="text" placeholder="Ingresa tu búsqueda" [(ngModel)]="searchTerm" 
           (input)="filterCursos()">
       </div>
 
@@ -134,7 +135,7 @@
               <h3 class="text-center text-2xl font-extrabold text-[#043D3D]">{{ curso.title }}</h3>
               <p class="text-black text-base mt-4">{{ curso.description }}</p>
             </div>
-            <a href="#" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium">
+            <a href="/info_curso" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium">
               Aplicar
             </a>
           </div>

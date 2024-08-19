@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { UsuarioService, Usuario } from '../usuario.service';
 import { Subscription } from 'rxjs';
 import * as CryptoJS from 'crypto-js';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -66,20 +67,51 @@ export class LoginComponent implements OnInit {
             const encryptedDepartamento = this.encrypt(deptoString);
             localStorage.setItem('depa', encryptedDepartamento);
   
-            window.location.href = "/admin/principal_admin";
+            this.showToast('success', 'Bienvenido Admin');
+            setInterval(()=>{
+              window.location.href = "/admin/principal_admin";
+            },2000)
           } else {
-            console.error('La respuesta del servidor no tiene la estructura esperada');
+            //console.error('La respuesta del servidor no tiene la estructura esperada');
           }
         },
         err => {
-          console.error('Error al iniciar sesión', err);
+        //console.error('Error al iniciar sesión', err);
+          this.showToast(
+            'warning',
+            'Credenciales incorrectas'
+          );
         }
       );
   
       this.LoginForm.reset();
     } else {
-      console.log('Ya tiene una sesión activa');
+      this.showToast(
+        'info',
+        'Ya tienes una sesión activa'
+      );
     }
   }
 
+  private showToast(
+    icon: 'success' | 'warning' | 'error' | 'info' | 'question',
+    title: string
+  ): void {
+    const Toast = Swal.mixin({
+      toast: true,iconColor: '#008779',
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
+
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+  }
 }

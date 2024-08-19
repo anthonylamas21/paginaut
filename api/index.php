@@ -86,7 +86,10 @@ switch ($request_method) {
         elseif (strpos($request_uri, '/api/cuatrimestres/carrera/') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
             include_once 'controllers/cuatrimestre.php';
         }
-         else {
+        elseif (strpos($request_uri, '/api/send_reset_email') !== false) {
+            include_once 'controllers/send_reset_email.php';
+        } else {
+
             header("HTTP/1.0 404 Not Found");
             echo json_encode(array("message" => "Endpoint not found."));
         }
