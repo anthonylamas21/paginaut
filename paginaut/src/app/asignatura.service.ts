@@ -16,9 +16,27 @@ export class AsignaturaService {
   }
 
   // Guardar una nueva asignatura
-  saveAsignatura(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, data);
+  saveAsignatura(asignaturaData: any): Observable<any> {
+    if (asignaturaData.id) {
+      // Si hay un ID, se está editando la asignatura
+      return this.http.put(`${this.apiUrl}/${asignaturaData.id}`, asignaturaData);
+    } else {
+      // Si no hay ID, se está creando una nueva asignatura
+      return this.http.post(this.apiUrl, asignaturaData);
+    }
   }
+
+  deleteAsignatura(id: number): Observable<any> {
+    const url = `${this.apiUrl}`;  // No incluir el ID en la URL
+    const body = { id };  // Pasar el ID en el cuerpo de la solicitud
+    console.log('URL de eliminación:', url);  // Solo muestra la URL base
+    console.log('ID en el cuerpo de la solicitud:', body);  // Verificar que el cuerpo contiene el ID
+    return this.http.request('DELETE', url, { body });  // Usar el método request para enviar el cuerpo
+}
+
+
+
+
 
   // Obtener una asignatura por ID
   getAsignaturaById(id: number): Observable<any> {
@@ -27,11 +45,13 @@ export class AsignaturaService {
 
   // Actualizar una asignatura
   updateAsignatura(id: number, data: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, data);
+    const url = `${this.apiUrl}`;  // No incluir el ID en la URL
+    const body = { id, ...data };  // Incluir el ID junto con los datos en el cuerpo de la solicitud
+    console.log('URL de actualización:', url);  // Mostrar la URL base
+    console.log('Datos en el cuerpo de la solicitud:', body);  // Verificar que el cuerpo contiene el ID y los datos
+    return this.http.request('PUT', url, { body });  // Usar el método request para enviar el cuerpo
   }
 
-  // Eliminar una asignatura
-  deleteAsignatura(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
-  }
+
+
 }
