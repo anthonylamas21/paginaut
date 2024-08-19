@@ -32,12 +32,11 @@ class Asignatura {
     }
 
     public function update() {
-        $query = "UPDATE " . $this->table_name . " SET nombre = :nombre, cuatrimestre_id = :cuatrimestre_id, activo = :activo WHERE id = :id";
+        $query = "UPDATE " . $this->table_name . " SET nombre = :nombre, activo = :activo WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
         $stmt->bindParam(':nombre', $this->nombre, PDO::PARAM_STR);
-        $stmt->bindParam(':cuatrimestre_id', $this->cuatrimestre_id, PDO::PARAM_INT);
         $stmt->bindParam(':activo', $this->activo, PDO::PARAM_BOOL);
 
         return $stmt->execute();

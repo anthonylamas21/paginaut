@@ -172,29 +172,62 @@ export class AgregarCarreraComponent implements OnInit {
       );
     }
   }
-  // Método para editar una asignatura
-onEditAsignatura(cuatrimestreId: number, asignaturaIndex: number): void {
-  const asignatura = this.cuatrimestresConAsignaturas[cuatrimestreId][asignaturaIndex];
-
-  this.asignaturaForm.patchValue({
-    cuatrimestre_id: cuatrimestreId,
-    nombre: asignatura
-  });
-
-  this.currentAsignaturaId = asignaturaIndex; // Guardar el índice de la asignatura que se está editando
-  this.isMapaModalOpen = true; // Abre el modal para editar
-}
-
-// Método para eliminar una asignatura
-onDeleteAsignatura(cuatrimestreId: number, asignaturaIndex: number): void {
-  const asignatura = this.cuatrimestresConAsignaturas[cuatrimestreId][asignaturaIndex];
-
-  if (!asignatura.id) {
-    console.error('El ID de la asignatura no está definido', asignatura);
-    this.showToast('error', 'No se puede eliminar la asignatura. Falta el ID.');
-    return;
+  findAsignaturaById(asignaturaId: number) {
+    console.log('Buscando asignatura con ID:', asignaturaId);
+    for (const cuatrimestreNum of this.cuatrimestresOrdenados) {
+      const asignaturas = this.cuatrimestresConAsignaturas[cuatrimestreNum];
+      if (asignaturas) {
+        const asignatura = asignaturas.find(a => a.id === asignaturaId);
+        if (asignatura) {
+          console.log('Asignatura encontrada:', asignatura);
+          return asignatura;
+        }
+      }
+    }
+    console.log('Asignatura no encontrada');
+    return null;
   }
 
+  onEditAsignatura(asignaturaId: number) {
+    console.log('Intentando editar asignatura con ID:', asignaturaId);
+
+    const asignatura = this.findAsignaturaById(asignaturaId);
+
+    if (!asignatura) {
+      console.error(`Asignatura con ID ${asignaturaId} no encontrada.`);
+      this.showToast('error', 'Asignatura no encontrada.');
+      return;
+    }
+
+    console.log('Asignatura encontrada:', asignatura);
+
+    this.asignaturaForm.patchValue({
+      nombre: asignatura.nombre,
+      cuatrimestre_id: this.getCuatrimestreId(asignaturaId)
+    });
+
+    this.currentAsignaturaId = asignaturaId;
+    this.isMapaModalOpen = true;
+  }
+
+
+  getCuatrimestreId(asignaturaId: number): number | null {
+    for (const cuatrimestreNum of this.cuatrimestresOrdenados) {
+      const asignaturas = this.cuatrimestresConAsignaturas[cuatrimestreNum];
+      if (asignaturas) {
+        const asignatura = asignaturas.find(a => a.id === asignaturaId);
+        if (asignatura) {
+          return cuatrimestreNum; // Devuelve el número de cuatrimestre
+        }
+      }
+    }
+    return null; // Retorna null si no se encuentra el cuatrimestre
+  }
+
+
+
+// Método para eliminar una asignatura
+onDeleteAsignatura(asignaturaId: number) {
   Swal.fire({
     title: '¿Estás seguro?',
     text: 'Esta acción no se puede deshacer',
@@ -206,7 +239,7 @@ onDeleteAsignatura(cuatrimestreId: number, asignaturaIndex: number): void {
     cancelButtonText: 'Cancelar'
   }).then((result) => {
     if (result.isConfirmed) {
-      this.asignaturaService.deleteAsignatura(asignatura.id).subscribe({
+      this.asignaturaService.deleteAsignatura(asignaturaId).subscribe({
         next: () => {
           this.showToast('success', 'Asignatura eliminada correctamente');
           this.cargarCuatrimestresConAsignaturas(this.selectedMapaCarrera?.id || 0);
@@ -221,6 +254,7 @@ onDeleteAsignatura(cuatrimestreId: number, asignaturaIndex: number): void {
 
 
 
+
 onSubmitAsignatura() {
   if (this.asignaturaForm.valid) {
     const cuatrimestreId = this.asignaturaForm.get('cuatrimestre_id')?.value;
@@ -228,19 +262,20 @@ onSubmitAsignatura() {
 
     if (this.currentAsignaturaId !== undefined) {
       // Editar la asignatura existente
-      const asignaturaId = this.cuatrimestresConAsignaturas[cuatrimestreId][this.currentAsignaturaId].id;
-
-      this.asignaturaService.updateAsignatura(asignaturaId, { nombre: nombreAsignatura, cuatrimestre_id: cuatrimestreId })
-        .subscribe({
-          next: () => {
-            this.showToast('success', 'Asignatura actualizada correctamente');
-            this.cargarCuatrimestresConAsignaturas(this.selectedMapaCarrera?.id || 0);
-            this.closeMapaModal();
-          },
-          error: () => {
-            this.showToast('error', 'Error al actualizar la asignatura');
-          }
-        });
+      this.asignaturaService.updateAsignatura(this.currentAsignaturaId, {
+        nombre: nombreAsignatura,
+        cuatrimestre_id: cuatrimestreId
+      })
+      .subscribe({
+        next: () => {
+          this.showToast('success', 'Asignatura actualizada correctamente');
+          this.cargarCuatrimestresConAsignaturas(this.selectedMapaCarrera?.id || 0);
+          this.closeMapaModal();
+        },
+        error: () => {
+          this.showToast('error', 'Error al actualizar la asignatura');
+        }
+      });
     } else {
       // Crear una nueva asignatura
       const cuatrimestreData = {
@@ -389,6 +424,21 @@ onSubmitAsignatura() {
       }
     });
   }
+  getAsignaturasPorFila(cuatrimestres: number[]) {
+    const filas: any[] = [];
+    const maxAsignaturasPorCuatrimestre = Math.max(...cuatrimestres.map(cuatrimestreNum => this.cuatrimestresConAsignaturas[cuatrimestreNum]?.length || 0));
+
+    for (let i = 0; i < maxAsignaturasPorCuatrimestre; i++) {
+      const fila: any = {};
+      cuatrimestres.forEach(cuatrimestreNum => {
+        fila[cuatrimestreNum] = this.cuatrimestresConAsignaturas[cuatrimestreNum]?.[i] || null;
+      });
+      filas.push(fila);
+    }
+
+    return filas;
+  }
+
 
 
 
