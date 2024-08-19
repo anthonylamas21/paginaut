@@ -53,9 +53,6 @@ export class UnidadesAcademicasComponent implements OnInit, AfterViewInit {
   verGaleria(id: number | undefined): void {
     if (id !== undefined) {
       this.router.navigate(['/info-unidades', id]);
-      setInterval(()=>{
-        window.location.reload();
-      }, 1000);
     } else {
       //console.error('ID de instalación no disponible');
     }

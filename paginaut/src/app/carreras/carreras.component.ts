@@ -7,8 +7,63 @@ import { Component, HostListener, Renderer2 } from '@angular/core';
 })
 export class CarrerasComponent {
 
-  isLoading = true;
   constructor(private renderer: Renderer2){}
+
+  isLoading = true;
+  
+  carrerasAgropecuarias = [
+    {
+      title: 'Ingeniería en Agrobiotecnología',
+      imageUrl: './assets/img/fotos_por_carrera/agrobiotecnologia.jpg',
+      link: 'info_carreras/agrobiotecnologia'
+    },
+    {
+      title: 'Ingeniería en Procesos Alimentarios',
+      imageUrl: './assets/img/fotos_por_carrera/procesos-alimenticios.jpg',
+      link: 'info_carreras/procesos-alimentario'
+    },
+    {
+      title: 'Ingeniería en Acuicultura',
+      imageUrl: './assets/img/fotos_por_carrera/acuicultura.jpg',
+      link: 'info_carreras/acuicultura'
+    }
+  ];
+
+  carrerasNegocios = [
+    {
+      title: 'Licenciatura en Turismo',
+      imageUrl: './assets/img/fotos_por_carrera/turismo.jpg',
+      link: 'info_carreras/turismo'
+    },
+    {
+      title: 'Licenciatura en Administración',
+      imageUrl: './assets/img/fotos_por_carrera/administracion.jpg',
+      link: 'info_carreras/administracion'
+    },
+    {
+      title: 'Licenciatura en Mercadotecnia',
+      imageUrl: './assets/img/fotos_por_carrera/mercadotecnia.jpg',
+      link: 'info_carreras/mercadotecnia'
+    },
+    {
+      title: 'Licenciatura en Gastronomía',
+      imageUrl: './assets/img/fotos_por_carrera/gastronomia.jpg',
+      link: 'info_carreras/gastronomia'
+    },
+    {
+      title: 'TSU. en Contaduría',
+      imageUrl: './assets/img/fotos_por_carrera/contaduria.jpg',
+      link: 'info_carreras/contaduria'
+    }
+  ];
+
+  carrerasTecnologica = [
+    {
+      title: 'Ingeniería en Desarrollo de Gestión de Software',
+      imageUrl: './assets/img/fotos_por_carrera/desarrollo-software.jpg',
+      link: 'info_carreras/desarrollo_software'
+    }
+  ];
 
   ngOnInit(): void {
     this.setNavbarColor();

@@ -20,7 +20,6 @@ class Asignatura {
         return $stmt;
     }
 
-
     public function create() {
         $query = "INSERT INTO " . $this->table_name . " (nombre, cuatrimestre_id, activo) VALUES (:nombre, :cuatrimestre_id, :activo)";
         $stmt = $this->conn->prepare($query);
@@ -29,10 +28,7 @@ class Asignatura {
         $stmt->bindParam(':cuatrimestre_id', $this->cuatrimestre_id, PDO::PARAM_INT);
         $stmt->bindParam(':activo', $this->activo, PDO::PARAM_BOOL);
 
-        if ($stmt->execute()) {
-            return true;
-        }
-        return false;
+        return $stmt->execute();
     }
 
     public function update() {
@@ -44,10 +40,7 @@ class Asignatura {
         $stmt->bindParam(':cuatrimestre_id', $this->cuatrimestre_id, PDO::PARAM_INT);
         $stmt->bindParam(':activo', $this->activo, PDO::PARAM_BOOL);
 
-        if ($stmt->execute()) {
-            return true;
-        }
-        return false;
+        return $stmt->execute();
     }
 
     public function delete() {
@@ -56,14 +49,11 @@ class Asignatura {
 
         $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
 
-        if ($stmt->execute()) {
-            return true;
-        }
-        return false;
+        return $stmt->execute();
     }
 
     public function readOne() {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id LIMIT 0,1";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id LIMIT 1";
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);

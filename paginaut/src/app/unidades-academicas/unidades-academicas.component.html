@@ -90,6 +90,11 @@
       <div *ngFor="let instalacion of instalaciones" class="relative bg-white border shadow-sm rounded-xl overflow-hidden cursor-pointer group" (click)="verGaleria(instalacion?.id)">
         <!-- Imagen con efecto de zoom y oscurecimiento -->
         <img [src]="getImageUrl(instalacion.imagen_principal)" [alt]="instalacion.nombre" class="w-full h-full object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-105 rounded-t-lg">
+        <div class="absolute inset-0 flex items-center justify-center transition-opacity duration-500">
+          <h3 class="text-2xl font-poppins font-bold text-white">
+            {{ instalacion.nombre }}
+          </h3>
+        </div>
     
         <!-- Capa oscura que aparece al hacer hover -->
         <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>

@@ -22,7 +22,7 @@ export class BeisbolComponent {
     // más imágenes aquí
   ];
 
-  selectedImage: Image = { url: '', alt: '' };
+  selectedImage: Image | null = null;
 
   openModal(image: Image): void {
     if (image) {
@@ -33,6 +33,14 @@ export class BeisbolComponent {
         modal.classList.add('pointer-events-auto');
       }
     }
+  }
+  closeModal(): void {
+    const modal = document.getElementById('hs-vertically-centered-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('pointer-events-auto');
+    }
+    this.selectedImage = null;  // Cambiar de objeto vacío a null
   }
   
   ngOnInit(): void {

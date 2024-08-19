@@ -7,6 +7,7 @@ import { CampoEstudioService, CampoEstudio } from '../../campo-estudio.service';
 import { CuatrimestreService } from '../../cuatrimestre.service';  // Importa el servicio de Cuatrimestres
 import { AsignaturaService } from '../../asignatura.service';  // Importa el servicio de Asignaturas
 import Swal from 'sweetalert2';
+import { KeyValuePipe } from '@angular/common';
 
 class TooltipManager {
   static adjustTooltipPosition(button: HTMLElement, tooltip: HTMLElement): void {
@@ -41,6 +42,7 @@ class TooltipManager {
   styleUrls: ['./agregar-carrera.component.css'],
 })
 export class AgregarCarreraComponent implements OnInit {
+  Object = Object;
   carreraForm: FormGroup;
   asignaturaForm: FormGroup;  // Formulario para agregar asignaturas
   errorMessage: string = '';
@@ -62,6 +64,11 @@ export class AgregarCarreraComponent implements OnInit {
   imagenPrincipal?: File;
   imagenesGenerales: File[] = [];
   selectedMapaCarrera?: Carrera;  // Carrera seleccionada para el mapa cuatrimestral
+  cuatrimestresConAsignaturas: { [key: number]: { id: number, nombre: string }[] } = {};
+  maxAsignaturasPorCuatrimestre: number = 0;
+  cuatrimestresOrdenados: number[] = [];
+  currentAsignaturaId?: number;
+
 
   constructor(
     private fb: FormBuilder,
@@ -165,30 +172,112 @@ export class AgregarCarreraComponent implements OnInit {
       );
     }
   }
+  // Método para editar una asignatura
+onEditAsignatura(cuatrimestreId: number, asignaturaIndex: number): void {
+  const asignatura = this.cuatrimestresConAsignaturas[cuatrimestreId][asignaturaIndex];
 
-  onSubmitAsignatura() {
-    if (this.asignaturaForm.valid) {
-      const formData = {
-        nombre: this.asignaturaForm.get('nombre')?.value,
-        cuatrimestre_id: this.asignaturaForm.get('cuatrimestre_id')?.value,
-        carrera_id: this.selectedMapaCarrera?.id // Asegúrate de pasar el carrera_id
-      };
+  this.asignaturaForm.patchValue({
+    cuatrimestre_id: cuatrimestreId,
+    nombre: asignatura
+  });
 
-      this.asignaturaService.saveAsignatura(formData).subscribe({
-        next: (response) => {
-          console.log("Asignatura guardada:", response);
-          this.closeMapaModal();
-          this.showToast('success', 'Asignatura agregada correctamente');
+  this.currentAsignaturaId = asignaturaIndex; // Guardar el índice de la asignatura que se está editando
+  this.isMapaModalOpen = true; // Abre el modal para editar
+}
+
+// Método para eliminar una asignatura
+onDeleteAsignatura(cuatrimestreId: number, asignaturaIndex: number): void {
+  const asignatura = this.cuatrimestresConAsignaturas[cuatrimestreId][asignaturaIndex];
+
+  if (!asignatura.id) {
+    console.error('El ID de la asignatura no está definido', asignatura);
+    this.showToast('error', 'No se puede eliminar la asignatura. Falta el ID.');
+    return;
+  }
+
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: 'Esta acción no se puede deshacer',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.asignaturaService.deleteAsignatura(asignatura.id).subscribe({
+        next: () => {
+          this.showToast('success', 'Asignatura eliminada correctamente');
+          this.cargarCuatrimestresConAsignaturas(this.selectedMapaCarrera?.id || 0);
         },
         error: (error) => {
-          console.error("Error al guardar la asignatura:", error);
-          this.showToast('error', 'Error al guardar la asignatura');
+          this.showToast('error', 'Error al eliminar la asignatura');
         }
       });
-    } else {
-      this.showToast('warning', 'Por favor, completa todos los campos requeridos.');
     }
+  });
+}
+
+
+
+onSubmitAsignatura() {
+  if (this.asignaturaForm.valid) {
+    const cuatrimestreId = this.asignaturaForm.get('cuatrimestre_id')?.value;
+    const nombreAsignatura = this.asignaturaForm.get('nombre')?.value;
+
+    if (this.currentAsignaturaId !== undefined) {
+      // Editar la asignatura existente
+      const asignaturaId = this.cuatrimestresConAsignaturas[cuatrimestreId][this.currentAsignaturaId].id;
+
+      this.asignaturaService.updateAsignatura(asignaturaId, { nombre: nombreAsignatura, cuatrimestre_id: cuatrimestreId })
+        .subscribe({
+          next: () => {
+            this.showToast('success', 'Asignatura actualizada correctamente');
+            this.cargarCuatrimestresConAsignaturas(this.selectedMapaCarrera?.id || 0);
+            this.closeMapaModal();
+          },
+          error: () => {
+            this.showToast('error', 'Error al actualizar la asignatura');
+          }
+        });
+    } else {
+      // Crear una nueva asignatura
+      const cuatrimestreData = {
+        numero: cuatrimestreId,
+        carrera_id: this.selectedMapaCarrera?.id
+      };
+
+      this.cuatrimestreService.saveCuatrimestre(cuatrimestreData).subscribe({
+        next: (cuatrimestreResponse) => {
+          const asignaturaData = {
+            nombre: nombreAsignatura,
+            cuatrimestre_id: cuatrimestreResponse.id
+          };
+
+          this.asignaturaService.saveAsignatura(asignaturaData).subscribe({
+            next: () => {
+              this.showToast('success', 'Asignatura agregada correctamente');
+              this.cargarCuatrimestresConAsignaturas(this.selectedMapaCarrera?.id || 0);
+              this.closeMapaModal();
+            },
+            error: () => {
+              this.showToast('error', 'Error al guardar la asignatura');
+            }
+          });
+        },
+        error: (error) => {
+          this.showToast('error', 'Error al crear el cuatrimestre');
+        }
+      });
+    }
+  } else {
+    this.showToast('warning', 'Por favor, completa todos los campos requeridos.');
   }
+}
+
+
+
 
 
 
@@ -229,6 +318,14 @@ export class AgregarCarreraComponent implements OnInit {
     if (carrera && carrera.id !== undefined) {
       this.selectedMapaCarrera = carrera;
 
+      // Limpiar las variables antes de cargar los datos de la nueva carrera
+      this.cuatrimestresConAsignaturas = {};
+      this.cuatrimestresOrdenados = [];
+      this.maxAsignaturasPorCuatrimestre = 0;
+
+      // Cargar los cuatrimestres y asignaturas si existen
+      this.cargarCuatrimestresConAsignaturas(carrera.id);
+
       // Determina el rango de cuatrimestres según el nivel de estudios
       let cuatrimestreInicio: number;
       let cuatrimestreFin: number;
@@ -255,6 +352,45 @@ export class AgregarCarreraComponent implements OnInit {
       console.error("La carrera no tiene un ID válido o no se proporcionó una carrera.");
     }
   }
+
+  cargarCuatrimestresConAsignaturas(carreraId: number) {
+    this.cuatrimestreService.getCuatrimestresConAsignaturas(carreraId).subscribe({
+      next: (response: any) => {
+        this.cuatrimestresConAsignaturas = {};
+        this.maxAsignaturasPorCuatrimestre = 0;
+
+        if (Array.isArray(response) && response.length > 0) {
+          response.forEach((cuatrimestre: any) => {
+            if (!this.cuatrimestresConAsignaturas[cuatrimestre.numero]) {
+              this.cuatrimestresConAsignaturas[cuatrimestre.numero] = [];
+            }
+            if (cuatrimestre.asignaturas && Array.isArray(cuatrimestre.asignaturas)) {
+              cuatrimestre.asignaturas.forEach((asignatura: any) => {
+                this.cuatrimestresConAsignaturas[cuatrimestre.numero].push({
+                  id: asignatura.id,
+                  nombre: asignatura.nombre
+                });
+              });
+              this.maxAsignaturasPorCuatrimestre = Math.max(
+                this.maxAsignaturasPorCuatrimestre,
+                cuatrimestre.asignaturas.length
+              );
+            }
+          });
+
+          // Ordenar los cuatrimestres si existen asignaturas
+          this.cuatrimestresOrdenados = Object.keys(this.cuatrimestresConAsignaturas)
+            .map(Number)
+            .sort((a, b) => a - b);
+        }
+      },
+      error: (error: any) => {
+        this.showToast('error', 'Error al cargar cuatrimestres y asignaturas.');
+      }
+    });
+  }
+
+
 
 
 
