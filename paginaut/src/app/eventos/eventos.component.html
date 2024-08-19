@@ -10,7 +10,7 @@
 
 <!--Boton de desplacamiento -->
 <button id="scrollTopButton" (click)="scrollToSection('inicio')"
-  class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+  class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 translate-y-10 transition-all duration-1000 ease-out">
   <i class="fa-solid fa-chevron-up"></i>
 </button>
 <!--Fin Boton de desplacamiento-->
@@ -119,4 +119,12 @@
 <!--Inicio componente Footer-->
 <app-footer></app-footer>
 <!--Fin Footer-->
+</div>
+
+<!-- Modal para la imagen ampliada -->
+<div *ngIf="imagenAmpliada" id="image-modal" class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
+  <div class="relative max-w-3xl mx-auto bg-white rounded-lg shadow-lg">
+    <img [src]="imagenAmpliada" alt="Imagen ampliada" class="max-h-[80vh] max-w-full mx-auto rounded-md">
+    <button (click)="closeModal()" class="absolute top-2 right-2 bg-red-500 w-8 h-8 rounded-full text-white text-2xl flex items-center justify-center">&times;</button>
+  </div>
 </div>

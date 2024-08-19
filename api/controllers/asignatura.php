@@ -13,9 +13,12 @@ $request_method = $_SERVER["REQUEST_METHOD"];
 
 switch ($request_method) {
     case 'POST':
-        if (!empty($_POST['nombre']) && !empty($_POST['cuatrimestre_id'])) {
+        // Obtener datos de la solicitud en formato JSON
+        $data = json_decode(file_get_contents("php://input"));
+
+        if (!empty($data->nombre) && !empty($data->cuatrimestre_id)) {
             // Verificar que el cuatrimestre existe
-            $cuatrimestre->id = $_POST['cuatrimestre_id'];
+            $cuatrimestre->id = $data->cuatrimestre_id;
             if (!$cuatrimestre->readOne()) {
                 http_response_code(404);
                 echo json_encode(array("message" => "Cuatrimestre no encontrado."));
@@ -23,9 +26,9 @@ switch ($request_method) {
             }
 
             // Crear la asignatura
-            $asignatura->nombre = $_POST['nombre'];
-            $asignatura->cuatrimestre_id = $_POST['cuatrimestre_id'];
-            $asignatura->activo = $_POST['activo'] ?? true;
+            $asignatura->nombre = $data->nombre;
+            $asignatura->cuatrimestre_id = $data->cuatrimestre_id;
+            $asignatura->activo = $data->activo ?? true;
 
             if ($asignatura->create()) {
                 http_response_code(201);
@@ -41,8 +44,8 @@ switch ($request_method) {
         break;
 
     case 'GET':
-        // Si se recibe un ID, obtener una asignatura específica
         if (isset($_GET['id'])) {
+            // Obtener una asignatura específica
             $asignatura->id = $_GET['id'];
             if ($asignatura->readOne()) {
                 echo json_encode($asignatura);
@@ -76,7 +79,66 @@ switch ($request_method) {
         }
         break;
 
-    // Otros métodos PUT, DELETE para actualizar o eliminar asignaturas
+    case 'PUT':
+        // Actualizar una asignatura
+        $data = json_decode(file_get_contents("php://input"));
+
+        if (!empty($data->id) && !empty($data->nombre) && !empty($data->cuatrimestre_id)) {
+            $asignatura->id = $data->id;
+
+            // Verificar que la asignatura existe
+            if (!$asignatura->readOne()) {
+                http_response_code(404);
+                echo json_encode(array("message" => "Asignatura no encontrada."));
+                exit;
+            }
+
+            // Actualizar la asignatura
+            $asignatura->nombre = $data->nombre;
+            $asignatura->cuatrimestre_id = $data->cuatrimestre_id;
+            $asignatura->activo = $data->activo ?? true;
+
+            if ($asignatura->update()) {
+                http_response_code(200);
+                echo json_encode(array("message" => "Asignatura actualizada correctamente."));
+            } else {
+                http_response_code(503);
+                echo json_encode(array("message" => "No se pudo actualizar la asignatura."));
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(array("message" => "Datos incompletos."));
+        }
+        break;
+
+        case 'DELETE':
+          // Obtener datos de la solicitud en formato JSON
+          $data = json_decode(file_get_contents("php://input"));
+
+          // Verifica si el ID está presente en el cuerpo de la solicitud
+          if (!empty($data->id) && is_numeric($data->id)) {
+              $asignatura->id = intval($data->id); // Convertir a entero
+              error_log("ID recibido para eliminación: " . $asignatura->id); // Log para depuración
+
+              // Intenta eliminar la asignatura
+              if ($asignatura->delete()) {
+                  http_response_code(200);
+                  echo json_encode(array("message" => "Asignatura eliminada."));
+              } else {
+                  http_response_code(503);
+                  echo json_encode(array("message" => "No se pudo eliminar la asignatura."));
+              }
+          } else {
+              error_log("No se recibió un ID válido para eliminación"); // Log si no se recibe un ID
+              http_response_code(400);
+              echo json_encode(array("message" => "Datos incompletos. Falta el ID."));
+          }
+          break;
+
+
+
+
+
     default:
         http_response_code(405);
         echo json_encode(array("message" => "Método no permitido."));

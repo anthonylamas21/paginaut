@@ -20,6 +20,10 @@ export class PasswordResetService {
     return this.http.put(this.apiUrl, data );
   }
 
+  VerifyCodeEmail(data: { email: string }): Observable<any>{
+    return this.http.post(this.apiUrl, data)
+  }
+
   sendCodeVerify(data: {codigo: string}): Observable<any> {
   return this.http.post(this.apiUrlPass, data);
   }

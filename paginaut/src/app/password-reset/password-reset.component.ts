@@ -16,6 +16,8 @@ export class PasswordResetComponent {
   ResetPassword: FormGroup;
   email?: string;
   codigo?: string;
+  showcodigo?: string;
+  isLoading: boolean = false;
 
   constructor(private passwordResetService: PasswordResetService, private formulario: FormBuilder) { 
 
@@ -31,20 +33,23 @@ export class PasswordResetComponent {
   }
 
   checkEmail() {
-
+    // Activa el loader antes de hacer la solicitud al servidor
+    this.isLoading = true;
+  
     const VerifyMail = this.EmailForm.get('email')?.value;
-
+  
     this.passwordResetService.checkEmail(VerifyMail).subscribe(
       response => {
-        console.log('Correo verificado');
         this.sendResetEmail();
       },
       error => {
-        console.log('No existe el correo');
+        // Desactiva el loader incluso si hay un error
+        this.isLoading = false;
         // Muestra un mensaje de error al usuario
-      });
-
+      }
+    );
   }
+  
 
   sendResetEmail() {
     const resetToken = this.generateResetToken();
@@ -60,27 +65,109 @@ export class PasswordResetComponent {
 
     this.passwordResetService.sendResetEmail(requestData).subscribe(
       response => {
+      // Ahora desactiva el loader
+      this.isLoading = false;
+
         this.showToast(
           'success',
           'Se le ha enviado el correo'
         );
         this.EmailForm.reset();
+        
+        if(this.email){
+
+          const email = {
+            email: this.email
+          }
+
+          this.passwordResetService.VerifyCodeEmail(email).subscribe(
+            (result)=>{
+            this.showcodigo = result.code.token_recuperacion;
+            //console.log("Obtuve el codigo: " + this.showcodigo)
+            }, (error)=>{
+              //console.log("Error: " + error)
+            });
+          }
 
           // Agrega un breve retraso antes de mostrar el Swal
       setTimeout(() => {
         Swal.fire({
           title: 'Ingresa tu código de verificación',
-          input: 'textarea',
-          inputPlaceholder: 'Escribe tu código aquí...',
-          showCancelButton: true,
-          confirmButtonText: 'Enviar',
-          cancelButtonText: 'Cancelar',
-          allowOutsideClick: false
+          html: `
+          <div class="flex justify-center gap-2 mb-6">
+            <input id="otp1" class="w-12 h-12 text-center border rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code" required>
+            <input id="otp2" class="w-12 h-12 text-center border rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code" required>
+            <input id="otp3" class="w-12 h-12 text-center border rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code" required>
+            <input id="otp4" class="w-12 h-12 text-center border rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code" required>
+            <input id="otp5" class="w-12 h-12 text-center border rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code" required>
+            <input id="otp6" class="w-12 h-12 text-center border rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code" required>
+          </div>
+        `,
+        showCancelButton: false,  // Deshabilitar el botón de cancelar
+        allowOutsideClick: false, // No permitir cerrar haciendo clic fuera
+        didOpen: () => {
+          // Set focus to the first input
+          const otp1 = document.getElementById('otp1') as HTMLInputElement;
+          const otp2 = document.getElementById('otp2') as HTMLInputElement;
+          const otp3 = document.getElementById('otp3') as HTMLInputElement;
+          const otp4 = document.getElementById('otp4') as HTMLInputElement;
+          const otp5 = document.getElementById('otp5') as HTMLInputElement;
+          const otp6 = document.getElementById('otp6') as HTMLInputElement;
+      
+          otp1?.focus();
+      
+          const moveToNext = (currentElement: HTMLInputElement, nextElement: HTMLInputElement) => {
+            currentElement.addEventListener('input', () => {
+              if (currentElement.value.length === 1) {
+                nextElement.focus();
+              }
+            });
+          };
+      
+          const moveToPrevious = (currentElement: HTMLInputElement, previousElement: HTMLInputElement) => {
+            currentElement.addEventListener('keydown', (event) => {
+              if (event.key === 'Backspace' && currentElement.value.length === 0) {
+                previousElement.focus();
+              }
+            });
+          };
+      
+          // Apply the focus transitions
+          moveToNext(otp1, otp2);
+          moveToNext(otp2, otp3);
+          moveToNext(otp3, otp4);
+          moveToNext(otp4, otp5);
+          moveToNext(otp5, otp6);
+          moveToPrevious(otp2, otp1);
+          moveToPrevious(otp3, otp2);
+          moveToPrevious(otp4, otp3);
+          moveToPrevious(otp5, otp4);
+          moveToPrevious(otp6, otp5);
+        },
+
+        preConfirm: () => {
+          const otp1 = (document.getElementById('otp1') as HTMLInputElement).value;
+          const otp2 = (document.getElementById('otp2') as HTMLInputElement).value;
+          const otp3 = (document.getElementById('otp3') as HTMLInputElement).value;
+          const otp4 = (document.getElementById('otp4') as HTMLInputElement).value;
+          const otp5 = (document.getElementById('otp5') as HTMLInputElement).value;
+          const otp6 = (document.getElementById('otp6') as HTMLInputElement).value;
+      
+          const codigo = `${otp1}${otp2}${otp3}${otp4}${otp5}${otp6}`;
+
+          // Validar si el código coincide
+          if (codigo !== this.showcodigo) {
+            Swal.showValidationMessage('El código ingresado es incorrecto');
+            return false;  // No permitir cerrar el Swal
+          } else {
+            return codigo; // Retornar el código si es correcto
+          }
+        }
         }).then((result) => {
+
           if (result.isConfirmed) {
-            console.log('Código ingresado:', result.value);
-            const codigo = result.value;  
-            console.log(codigo);
+
+            const codigo = result.value;
 
             const resetData = {
               codigo: codigo
@@ -129,6 +216,7 @@ export class PasswordResetComponent {
               
                   this.passwordResetService.sendResetPassword(requestPassword).subscribe(
                     response => {
+                      if(response){
                       this.showToast(
                         'success',
                         'Contraseña restablecida'
@@ -136,19 +224,34 @@ export class PasswordResetComponent {
                       setTimeout(() => {
                         window.location.href = '/login'
                       }, 2000);
+                      }else{
+                        this.showToast(
+                          'error',
+                          'Error al restablecer la contraseña'
+                        );
+                      }
                     },
                     error => {
-                      console.error('Error al restablecer la contraseña', error);
+                      this.showToast(
+                        'error',
+                        'Error al restablecer la contraseña'
+                      );
                     }
                   );
                 } else {
-                  console.error('El correo electrónico no está definido');
+                  this.showToast(
+                    'error',
+                    'El correo electrónico no está definido'
+                  );
                 }
               });
               
 
             }, (error) => {
-
+              this.showToast(
+                'error',
+                'El codigo es incorrecto'
+              );
             });
 
           }
@@ -157,6 +260,7 @@ export class PasswordResetComponent {
 
       },
       error => {
+        this.isLoading = false;
         console.error('Error', error);
         // Muestra un mensaje de error al usuario
       }

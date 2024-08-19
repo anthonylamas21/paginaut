@@ -10,7 +10,7 @@
 
     <!-- Botón de desplazamiento -->
     <button id="scrollTopButton" (click)="scrollToSection('inicio')"
-      class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+      class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 translate-y-10 transition-all duration-1000 ease-out">
       <i class="fa-solid fa-chevron-up"></i>
     </button>
 
@@ -30,9 +30,10 @@
 
     <div class="container mx-auto mb-8">
 
-      <div class="text-center mb-10">
+      <div class="mb-10">
         <div class="bg-[#043D3D] rounded-lg">
-          <h2 class="text-xl font-bold font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4">Cursos</h2>
+          <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
+            Cursos</h2>
       </div>
       </div>
 
@@ -126,19 +127,31 @@
         </div>
       </div>
 
-      <div class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-        <div *ngFor="let curso of filteredCursos" class="bg-[#EEEEEE] rounded-lg p-4 transform hover:scale-105 transition duration-300 flex flex-col justify-between h-full">
-          <img [src]="curso.image" [alt]="curso.title" class="w-full max-h-72 lg:object-scale-down object-cover rounded-t-lg">
-          <div class="flex flex-col flex-grow">
-            <div class="mb-8">
-              <h3 class="text-center text-2xl font-extrabold text-[#043D3D]">{{ curso.title }}</h3>
-              <p class="text-black text-base mt-4">{{ curso.description }}</p>
+      <!-- Sección de cursos -->
+      <div *ngIf="!isLoading">
+        <ng-container *ngIf="filteredCursos && filteredCursos.length > 0; else noCursos">
+          <div class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+            <div *ngFor="let curso of filteredCursos" class="bg-[#EEEEEE] rounded-lg p-4 transform hover:scale-105 transition duration-300 flex flex-col justify-between h-full">
+              <img [src]="curso.image" [alt]="curso.title" class="w-full max-h-72 lg:object-scale-down object-cover rounded-t-lg">
+              <div class="flex flex-col flex-grow">
+                <div class="mb-8">
+                  <h3 class="text-center text-2xl font-extrabold text-[#043D3D]">{{ curso.title }}</h3>
+                  <p class="text-black text-base mt-4">{{ curso.description }}</p>
+                </div>
+                <a href="/info_curso" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium">
+                  Aplicar
+                </a>
+              </div>
             </div>
-            <a href="/info_curso" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium">
-              Aplicar
-            </a>
           </div>
-        </div>
+        </ng-container>
+        <ng-template #noCursos>
+          <div class="container max-w-screen-lg mb-12 space-y-4">
+            <div class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg">
+            <p class="text-gray-600 text-lg">Lo sentimos, no encontramos lo que buscabas.</p>
+            </div>
+         </div>
+        </ng-template>
       </div>
 
     </div>

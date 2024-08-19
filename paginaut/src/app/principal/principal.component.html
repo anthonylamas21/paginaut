@@ -5,74 +5,94 @@
  
  <!-- Botón de desplazamiento -->
  <button id="scrollTopButton" (click)="scrollToSection('inicio')"
- class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+ class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 translate-y-10 transition-all duration-1000 ease-out">
  <i class="fa-solid fa-chevron-up"></i>
 </button>
 
-<!-- Hero Section -->
+<!-- Sección inicio -->
 <div class="relative w-full h-screen overflow-hidden">
-  <img class="object-cover w-full h-full transform transition-transform duration-1000 hover:scale-105" src="./assets/img/universidad.jpg" alt="Universidad">
-  <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-    <div class="text-center text-white p-8 animate-fadeIn">
-      <h1 class="text-5xl md:text-6xl font-bold uppercase tracking-wide">Universidad Tecnológica de la Costa</h1>
-      <p class="mt-4 text-xl md:text-4xl">Conocimiento que transforma vidas</p>
-      <a (click)="scrollToSectionCarreras('carreras')" class="mt-8 inline-block bg-[#04847C] hover:bg-[#032D2D] text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300">Descubre más</a>
 
+  <img class="object-cover w-full h-full transform transition-transform duration-1000 hover:scale-105" src="./assets/img/universidad.jpg" alt="Universidad">
+
+  <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-left">
+    <div class="text-left text-white p-8 animate-fadeIn">
+      <h1 class="text-5xl md:text-6xl font-bold uppercase tracking-wide pl-6">Universidad Tecnológica de la</h1>
+      <h1 class="text-5xl md:text-6xl font-bold uppercase tracking-wide pl-6">Costa</h1>
+      <p class="mt-4 text-xl md:text-4xl pl-6">Conocimiento que transforma vidas</p>
     </div>
+  </div>
+
+  <div class="absolute inset-x-20 bottom-0 flex justify-end items-end z-20">
+    <img class="h-[70vh] md:h-[80vh] object-contain" src="./assets/img/PORTADA_AUN2.png" alt="University Students">
   </div>
 </div>
 
+
+
 <!-- Sección de Carreras -->
-<section #carrerasSection id="carreras" class="relative py-16 bg-gray-100 px-16 opacity-0 translate-y-10 transition-all duration-1000 ease-out">
-  <div class="container mx-auto text-center mb-8">
-    <h2 class="text-4xl text-[#043D3D] font-bold uppercase tracking-wide animate-slideIn">Conoce nuestras carreras</h2>
+<section #carrerasSection id="carreras" class="relative py-20 bg-gradient-to-b from-white to-gray-200 px-16 opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+  <div class="container mx-auto text-center mb-10">
+    <h2 class="text-5xl text-[#043D3D] font-extrabold uppercase tracking-wide animate-slideIn">
+      Descubre Nuestras Carreras Universitarias
+    </h2>
+    <p class="text-lg text-gray-600 mt-4">Elige entre una amplia gama de programas diseñados para desarrollar tu futuro profesional.</p>
   </div>
 
-  <!-- Contenedor del Carrusel con animación de subrayado -->
-  <div class="relative w-full max-w-5xl mx-auto px-4 md:px-6 py-24 overflow-hidden z-10 underline-animation-container">
+  <!-- Carrusel de Carreras -->
+  <div class="relative w-full max-w-6xl mx-auto px-4 md:px-8 py-16 overflow-hidden z-10 underline-animation-container bg-white rounded-lg shadow-xl">
     <div class="text-center">
       <div class="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
-        <a href="/carreras">
-          <ul #logosUl class="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll">
-            <img *ngFor="let imagen of imagenes" [src]="imagen.src" [alt]="imagen.alt" class="w-full h-48 object-cover">
-          </ul>
-        </a>
+        <ul #logosUl class="flex items-center justify-center md:justify-start space-x-10 animate-infinite-scroll transform transition-transform duration-500 ease-in-out">
+         
+          <li *ngFor="let imagen of imagenes" class="flex-shrink-0 relative group">
+            <a href="/carreras">
+              <img [src]="imagen.src" [alt]="imagen.alt" class="w-56 h-36 object-cover shadow-lg rounded-md transform hover:scale-105 transition-transform duration-500 ease-out">
+            </a>
+          </li>
+         
+        </ul>
       </div>
-      <div class="container mx-auto max-w-4xl mt-6">
-        <p class="text-gray-700 text-center mb-6">Descubre tu futuro con nosotros. Explora nuestra variedad de carreras universitarias, desde Contaduría y Administración hasta Gastronomía y Agrobiotecnología. Cada programa está diseñado para impulsar tu potencial y prepararte para el éxito profesional.</p>
-      </div>
-      <!-- Nueva línea con retraso -->
-    <div class="underline-line-delay"></div>
     </div>
   </div>
-  <!-- Fin del Carrusel Infinito -->
+
+  <!-- Información Adicional -->
+  <div class="container mx-auto max-w-4xl mt-12 text-center">
+    <p class="text-gray-700 text-lg mb-8">
+      Nuestros programas académicos están diseñados para equiparte con las habilidades necesarias para destacar en el mundo laboral. Desde la ciencia y la tecnología hasta las artes y las humanidades, encontrarás el programa perfecto para ti.
+    </p>
+    <a href="/carreras" class="inline-block bg-[#04847C] hover:bg-[#032D2D] text-white font-bold py-4 px-10 rounded-full shadow-xl transition-transform transform hover:scale-105 duration-300">
+      Explora Todas las Carreras
+    </a>
+  </div>
 </section>
 
 
 
 <!-- Sección de Becas -->
-<section #becasSection id="becas" class="relative py-28 bg-gradient-to-r from-[#043D3D] to-[#04847C] text-white overflow-hidden opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+<section id="becas" class="relative py-36 bg-gradient-to-br from-[#032D2D] via-[#046969] to-[#04847C] text-white overflow-hidden transition-all duration-1000 ease-out">
   <div class="container mx-auto text-center">
     <div class="relative z-10">
-      <h2 class="text-5xl font-bold uppercase tracking-wide animate__animated animate__fadeInDown">¡Gran Oportunidad de Becas!</h2>
-      <p class="mt-4 px-8 text-lg md:text-xl animate__animated animate__fadeInUp animate__delay-1s">
-        Impulsa tu futuro con nuestras becas. ¡No dejes pasar esta oportunidad!
+      <h2 class="text-5xl font-extrabold uppercase tracking-tight">
+        ¡Becas Disponibles!
+      </h2>
+      <p class="mt-6 text-xl md:text-2xl leading-relaxed">
+        Avanza tu carrera con nuestras becas exclusivas. ¡Aprovecha esta gran oportunidad!
       </p>
-      <a href="/becas" class="mt-8 inline-block bg-[#04847C] hover:bg-[#032D2D] text-white font-bold py-4 px-8 rounded-full shadow-xl transition-transform transform hover:scale-110 animate__animated animate__bounceIn animate__delay-2s">
-        Descubre nuestras becas
+      <a href="/becas" class="mt-8 inline-block bg-white text-[#04847C] font-semibold py-4 px-10 rounded-full shadow-lg transform transition-transform hover:scale-105 hover:shadow-xl">
+        Explora las Becas
       </a>
     </div>
   </div>
-  
-  <!-- Animación de Círculos Flotantes -->
-  <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none">
-    <div class="relative w-64 h-64">
-      <div class="absolute top-0 left-0 w-32 h-32 bg-white bg-opacity-10 rounded-full filter blur-lg animate-pulse"></div>
-      <div class="absolute top-8 right-0 w-24 h-24 bg-white bg-opacity-20 rounded-full filter blur-md animate-bounce"></div>
-      <div class="absolute bottom-0 left-16 w-40 h-40 bg-white bg-opacity-10 rounded-full filter blur-lg animate-pulse"></div>
+
+  <!-- Elementos Flotantes -->
+  <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <div class="relative w-full h-full">
+      <div class="absolute top-0 left-1/4 w-40 h-40 bg-white bg-opacity-5 rounded-full filter blur-2xl animate-pulse"></div>
+      <div class="absolute bottom-0 right-1/4 w-52 h-52 bg-white bg-opacity-10 rounded-full filter blur-lg animate-pulse"></div>
     </div>
   </div>
 </section>
+
 
 
 <!-- Eventos Recientes -->
@@ -85,7 +105,7 @@
    <div class="container max-w-screen-lg mb-12 space-y-4">
       <div *ngIf="eventosRecientes.length === 0" class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg">
       <p class="text-gray-600 text-lg">No hay eventos recientes disponibles en este momento. Por favor, vuelve a consultar más tarde.</p>
-    </div>
+      </div>
    </div>
   
 
@@ -93,7 +113,7 @@
   <div *ngIf="eventosRecientes.length > 0" class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
     <!-- Evento más reciente -->
     <div class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300 flex flex-col">
-      <img [src]="eventosRecientes[0].imagen_principal" [alt]="eventosRecientes[0].titulo" class="w-full h-52 object-cover rounded-t-lg">
+      <img [src]="eventosRecientes[0].imagen_principal" [alt]="eventosRecientes[0].titulo" class="w-full h-80 object-cover rounded-t-lg">
       <div class="p-6 flex-1 flex flex-col justify-between">
         <div>
           <h3 class="text-2xl font-bold text-[#043D3D]">{{ eventosRecientes[0].titulo | slice:0:sliceValue }}</h3>
@@ -104,7 +124,7 @@
     </div>
 
     <!-- Otros 4 eventos recientes -->
-    <ng-container *ngFor="let evento of eventosRecientes.slice(1, 5)">
+    <ng-container *ngFor="let evento of eventosRecientes.slice(1,  5)">
       <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 flex flex-col">
         <img [src]="evento.imagen_principal" [alt]="evento.titulo" class="w-full h-32 object-cover rounded-t-lg">
         <div class="p-6 flex-1 flex flex-col justify-between">

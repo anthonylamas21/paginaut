@@ -24,4 +24,13 @@ export class CuatrimestreService {
   asignarAsignaturas(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/asignar-asignaturas`, data);
   }
+
+  // Guardar un nuevo cuatrimestre
+  saveCuatrimestre(data: any): Observable<any> {
+    return this.http.post(this.apiUrl, data, { headers: { 'Content-Type': 'application/json' } });
+  }
+  getCuatrimestresConAsignaturas(carreraId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/carrera/${carreraId}/asignaturas`);
+  }
+
 }
