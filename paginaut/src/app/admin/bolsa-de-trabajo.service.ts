@@ -62,14 +62,14 @@ export class BolsaDeTrabajoService {
   updateBolsa(id: number, bolsa: any): Observable<any> {
     const body = { id, ...bolsa };
     return this.http
-      .put<any>(this.apiUrl, body)
+      .put<any>(`${this.apiUrl}?id=${id}`, bolsa)
       .pipe(catchError(this.handleError));
   }
 
   updateBolsaStatus(id: number, activo: boolean): Observable<any> {
     const body = { id, activo };
     return this.http
-      .put<any>(this.apiUrl, body)
+      .put<any>(`${this.apiUrl}?id=${id}`, body)
       .pipe(catchError(this.handleError));
   }
 
@@ -77,6 +77,10 @@ export class BolsaDeTrabajoService {
     return this.http
       .delete<any>(`${this.apiUrl}?id=${id}`)
       .pipe(catchError(this.handleError));
+  }
+
+  getRequisitos(id:number): Observable<any> {
+   return this.http.get<any>(`${this.apiUrlRequisitos}?id=${id}`);
   }
 
   private handleError(error: HttpErrorResponse) {

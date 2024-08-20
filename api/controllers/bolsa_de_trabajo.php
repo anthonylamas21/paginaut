@@ -111,6 +111,8 @@ switch ($request_method) {
         http_response_code(404);
         echo json_encode(array("message" => "Bolsa de trabajo no encontrada."));
       }
+    }elseif (isset($_GET['id']) && !empty($data->activo)){
+      echo json_encode(array("message" => "actualiza perrillo"));
     } else {
       http_response_code(400);
       echo json_encode(array("message" => "No se proporcionó un ID."));

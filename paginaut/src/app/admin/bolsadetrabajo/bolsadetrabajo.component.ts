@@ -60,11 +60,15 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
   filteredBolsas: BolsaDeTrabajo[] = [];
   papeleraBolsas: BolsaDeTrabajo[] = [];
   currentBolsaDeTrabajoId?: number;
+  id_bolsaTrabajo?: number;
   currentBolsa?: BolsaDeTrabajo;
   selectedBolsa?: BolsaDeTrabajo;
   currentTab: 'active' | 'inactive' = 'active';
   fileToUpload: File | null = null;
   baseImageUrl = 'http://localhost/paginaut/';
+  isDetailsModalOpen = false;
+  getrequisitos?: Array<{ requisito: string }>;
+  IDMostrarRequisitos?: number;
 
   constructor(
     private fb: FormBuilder,
@@ -73,6 +77,7 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {
     this.bolsaDeTrabajoForm = this.fb.group({
+      id:[''],
       nombre_empresa: [''],
       descripcion_trabajo: [''],
       puesto_trabajo: [''],
@@ -141,10 +146,12 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
 
   onSubmitBolsa() {
     const bolsaData = this.bolsaDeTrabajoForm.value;
-
-    if (this.currentBolsaDeTrabajoId) {
+    //console.log(bolsaData)
+    this.id_bolsaTrabajo = this.bolsaDeTrabajoForm.value.id
+    //console.log('id ',this.id_bolsaTrabajo)
+    if (this.id_bolsaTrabajo) {
       this.bolsaDeTrabajoService
-        .updateBolsa(this.currentBolsaDeTrabajoId, bolsaData)
+        .updateBolsa(this.id_bolsaTrabajo, bolsaData)
         .subscribe({
           next: (response: any) => {
             this.showToast(
@@ -255,22 +262,22 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
   }
 
   moveToTrash(id: number) {
+    //console.log('id ', id);
     this.showConfirmDialog(
       '¿Estás seguro?',
       '¿Quieres mover esta bolsa de trabajo a la papelera?',
       () => {
-        this.bolsaDeTrabajoService.updateBolsaStatus(id, false).subscribe({
-          next: (response: any) => {
+        this.bolsaDeTrabajoService.updateBolsaStatus(id, false).subscribe(
+          (response) => {
             this.showToast(
               'success',
               'Bolsa de trabajo movida a la papelera correctamente'
             );
             this.loadBolsas();
           },
-          error: (error: any) => {
+          (error) => {
             this.showToast('error', error.message);
-          },
-        });
+          });
       }
     );
   }
@@ -329,12 +336,37 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
     }
   }
 
-  viewBolsa(bolsa: BolsaDeTrabajo) {
-    this.selectedBolsa = bolsa;
-    this.isModalOpen = true;
+  openDetailsModal(bolsaTrabajo: BolsaDeTrabajo): void {
+    this.selectedBolsa = bolsaTrabajo;
+    console.log(this.selectedBolsa);
+    this.isDetailsModalOpen = true;
   }
 
+  loadRequisitosBolsa(bolsaTrabajo: BolsaDeTrabajo) {
+    const id = bolsaTrabajo.id;
+    if (id && typeof id === 'number') {
+      this.bolsaDeTrabajoService.getRequisitos(id).subscribe(
+        (response) => {
+          this.getrequisitos = response.details;
+          console.log('Requisitos recibidos:', this.getrequisitos);
+        },
+        (error) => {
+          this.showToast('error', error.message);
+        }
+      );
+    } else {
+      console.error('ID no es un número:', id);
+    }  
+}
+
+
+  closeDetailsModal(): void {
+    this.isDetailsModalOpen = false;
+  }
+
+
   mostrar(elemento: any): void {
+    // Verifica si el elemento recibido es un botón
     if (elemento.tagName.toLowerCase() === 'button') {
       const tooltipElement = elemento.querySelector('.hs-tooltip');
       if (tooltipElement) {
@@ -346,6 +378,7 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
           tooltipContent.classList.toggle('hidden');
           tooltipContent.classList.toggle('invisible');
           tooltipContent.classList.toggle('visible');
+          // Ajustar la posición del tooltip
           TooltipManager.adjustTooltipPosition(elemento, tooltipContent);
         }
       }
@@ -408,4 +441,6 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
       }
     });
   }
+
+  
 }

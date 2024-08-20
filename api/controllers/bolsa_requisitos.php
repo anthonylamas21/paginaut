@@ -50,12 +50,20 @@ switch ($request_method) {
     break;
 
   case 'GET':
-    if (isset($_GET['id'])) {
-      $BolsaRequisitos->id = $_GET['id'];
+    if (isset($_GET['id']) && !empty($_GET['id'])) {
+      $BolsaRequisitos->id_bolsadetrabajo = $_GET['id'];
       
-    } else {
-      echo json_encode(array("message" => "Datos incompletos."));
-    }
+      if ($BolsaRequisitos->getDetalles()) {
+          http_response_code(200);
+          echo json_encode(array("details" => $BolsaRequisitos->detalles));
+      } else {
+          http_response_code(404);
+          echo json_encode(array("message" => "No se encontraron registros para la bolsa de trabajo con ese ID."));
+      }
+  } else {
+      http_response_code(400); // Código de error para solicitud incorrecta
+      echo json_encode(array("message" => "Datos incompletos o inválidos."));
+  }
     break;
 
   case 'PUT':
