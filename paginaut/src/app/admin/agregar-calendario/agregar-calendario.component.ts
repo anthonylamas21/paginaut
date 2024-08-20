@@ -230,35 +230,49 @@ export class AgregarCalendarioComponent implements OnInit {
     const calendarioToUpdate = this.calendarios.find((cal) => cal.id === id);
 
     if (calendarioToUpdate && calendarioToUpdate.id !== undefined) {
-      if (this.hasActiveCalendario) {
+      if (this.papeleraCalendarios.length > 2) {
         this.showConfirmDialog(
           'Confirmar activación de calendario',
-          'Actualmente tienes un calendario activo. Si activas este nuevo calendario, el anterior se desactivará automáticamente y se moverá a la papelera. ¿Deseas continuar?',
+          `Tienes más de dos calendarios en la papelera. ¿Estás seguro de que deseas activar este calendario?`,
           () => {
-            // Desactivar el calendario activo actual
-            const activeCalendario = this.calendarios.find((cal) => cal.activo);
-            if (activeCalendario && activeCalendario.id !== undefined) {
-              this.calendarioService
-                .updateCalendarioStatus(activeCalendario.id, false)
-                .subscribe({
-                  next: () => {
-                    this.actualizarYActivarCalendario(calendarioToUpdate);
-                  },
-                  error: (error: any) => {
-                    this.showToast(
-                      'error',
-                      'Error al desactivar el calendario anterior'
-                    );
-                  },
-                });
-            }
+            this.confirmActivation(calendarioToUpdate);
           }
         );
       } else {
-        this.actualizarYActivarCalendario(calendarioToUpdate);
+        this.confirmActivation(calendarioToUpdate);
       }
     } else {
       this.showToast('error', 'No se pudo encontrar el calendario a activar.');
+    }
+  }
+
+  confirmActivation(calendarioToUpdate: Calendario) {
+    if (this.hasActiveCalendario) {
+      this.showConfirmDialog(
+        'Confirmar activación de calendario',
+        'Actualmente tienes un calendario activo. Si activas este nuevo calendario, el anterior se desactivará automáticamente y se moverá a la papelera. ¿Deseas continuar?',
+        () => {
+          // Desactivar el calendario activo actual
+          const activeCalendario = this.calendarios.find((cal) => cal.activo);
+          if (activeCalendario && activeCalendario.id !== undefined) {
+            this.calendarioService
+              .updateCalendarioStatus(activeCalendario.id, false)
+              .subscribe({
+                next: () => {
+                  this.actualizarYActivarCalendario(calendarioToUpdate);
+                },
+                error: (error: any) => {
+                  this.showToast(
+                    'error',
+                    'Error al desactivar el calendario anterior'
+                  );
+                },
+              });
+          }
+        }
+      );
+    } else {
+      this.actualizarYActivarCalendario(calendarioToUpdate);
     }
   }
 
