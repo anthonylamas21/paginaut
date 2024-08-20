@@ -1,4 +1,5 @@
 import { Component,HostListener } from '@angular/core';
+import { BolsaDeTrabajo, BolsaDeTrabajoService } from '../admin/bolsa-de-trabajo.service';
 
 @Component({
   selector: 'app-info-bolsa',

@@ -154,12 +154,13 @@ export class AgregarBecaComponent implements OnInit {
       this.fileToUpload = file;
     } else {
       this.becaForm.get('archivo')?.setErrors({ invalidFileType: true });
+      this.showToast('error', 'Solo se permiten archivos en formato PDF.');
       this.fileToUpload = null;
     }
   }
 
   validateInput(event: KeyboardEvent) {
-    const allowedKeys = /^[a-zA-Z0-9\s]*$/;
+    const allowedKeys = /^[a-zA-Z0-9\s.,]*$/; // Permitir letras, números, espacios, puntos y comas
     if (!allowedKeys.test(event.key)) {
       event.preventDefault();
     }
@@ -217,8 +218,8 @@ export class AgregarBecaComponent implements OnInit {
 
   deleteBeca(id: number) {
     this.showConfirmDialog(
-      '¿Estás seguro?',
-      '¿Quieres eliminar esta beca? Esta acción no se puede deshacer.',
+      'Eliminar beca',
+      'Esta acción eliminará permanentemente la beca seleccionada. No podrás recuperarla. ¿Estás seguro de que deseas continuar?',
       () => {
         this.becaService.deleteBeca(id).subscribe({
           next: (response: any) => {
@@ -235,8 +236,8 @@ export class AgregarBecaComponent implements OnInit {
 
   moveToTrash(id: number) {
     this.showConfirmDialog(
-      '¿Estás seguro?',
-      '¿Quieres mover esta beca a la papelera?',
+      'Mover a papelera',
+      'Esta beca será movida a la papelera. Podrás restaurarla más tarde si lo deseas. ¿Quieres mover esta beca a la papelera?',
       () => {
         this.becaService.updateBecaStatus(id, false).subscribe({
           next: (response: any) => {
@@ -257,21 +258,27 @@ export class AgregarBecaComponent implements OnInit {
   activateBeca(id: number) {
     const becaToUpdate = this.becas.find((beca) => beca.id === id);
     if (becaToUpdate) {
-      becaToUpdate.activo = true;
-      const formData: FormData = new FormData();
-      formData.append('id', becaToUpdate.id!.toString());
-      formData.append('nombre', becaToUpdate.nombre);
-      formData.append('descripcion', becaToUpdate.descripcion);
-      formData.append('activo', 'true');
-      this.becaService.updateBeca(formData).subscribe({
-        next: (response: any) => {
-          this.showToast('success', 'Beca activada correctamente');
-          this.loadBecas();
-        },
-        error: (error: any) => {
-          this.showToast('error', error.message);
-        },
-      });
+      this.showConfirmDialog(
+        'Reactivar beca',
+        '¿Quieres reactivar esta beca?',
+        () => {
+          becaToUpdate.activo = true;
+          const formData: FormData = new FormData();
+          formData.append('id', becaToUpdate.id!.toString());
+          formData.append('nombre', becaToUpdate.nombre);
+          formData.append('descripcion', becaToUpdate.descripcion);
+          formData.append('activo', 'true');
+          this.becaService.updateBeca(formData).subscribe({
+            next: (response: any) => {
+              this.showToast('success', 'Beca reactivada correctamente');
+              this.loadBecas();
+            },
+            error: (error: any) => {
+              this.showToast('error', error.message);
+            },
+          });
+        }
+      );
     }
   }
 
@@ -335,7 +342,8 @@ export class AgregarBecaComponent implements OnInit {
     title: string
   ): void {
     const Toast = Swal.mixin({
-      toast: true,iconColor: '#008779',
+      toast: true,
+      iconColor: '#008779',
       position: 'top-end',
       showConfirmButton: false,
       timer: 3000,
@@ -378,7 +386,7 @@ export class AgregarBecaComponent implements OnInit {
         if (cancelButton) {
           cancelButton.style.color = 'black';
         }
-      }
+      },
     }).then((result) => {
       if (result.isConfirmed) {
         onConfirm();

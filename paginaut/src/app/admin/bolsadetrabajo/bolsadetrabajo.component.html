@@ -556,9 +556,7 @@
                             </div>
                           </button>
                           <button
-                            (mouseenter)="mostrar($event.target)"
-                            (mouseleave)="mostrar($event.target)"
-                            (click)="viewBolsa(bolsa)"
+                            (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openDetailsModal(bolsa); loadRequisitosBolsa(bolsa)"
                             class="hover:text-primary"
                           >
                             <div
@@ -785,9 +783,7 @@
                         <td class="px-3 py-2 text-sm text-black">
                           <div class="flex items-center space-x-3.5">
                             <button
-                              (mouseenter)="mostrar($event.target)"
-                              (mouseleave)="mostrar($event.target)"
-                              (click)="viewBolsa(bolsa)"
+                              (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openDetailsModal(bolsa)"
                               class="hover:text-primary"
                             >
                               <div
@@ -915,5 +911,51 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+
+<!-- Modal para detalles de la noticia -->
+<div *ngIf="isDetailsModalOpen" class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
+  <div class="bg-white p-4 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-bold">Detalles del trabajo de interés</h3>
+      <button (click)="closeDetailsModal()" class="text-gray-500 hover:text-gray-700">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div *ngIf="selectedBolsa; else noDetails">
+      <div class="mt-4">
+        <h4 class="font-semibold">Nombre de la empresa:</h4>
+        <p class="mt-2">{{ selectedBolsa.nombre_empresa }}</p>
+      </div>
+      <div class="mt-4">
+        <h4 class="font-semibold">Información del trabajo:</h4>
+        <p class="mt-2">{{ selectedBolsa.descripcion_trabajo }}</p>
+      </div>
+      <div class="mt-4">
+        <h4 class="font-semibold">Puesto solicitado:</h4>
+        <p class="mt-2">{{ selectedBolsa.puesto_trabajo }}</p>
+      </div>
+      <div class="mt-4">
+        <h4 class="font-semibold">Requisitos:</h4>
+        <ul class="mt-2">
+          <li *ngFor="let requisito of getrequisitos">
+            *{{ requisito.requisito }}
+          </li>
+        </ul>
+      </div>
+      <div class="mt-4">
+        <h4 class="font-semibold">Teléfono de contacto:</h4>
+        <p class="mt-2">{{ selectedBolsa.telefono }}</p>
+      </div>
+    </div>
+    <ng-template #noDetails>
+      <div class="text-center py-8">
+        <p class="text-gray-500">No hay detalles disponibles para esta noticia.</p>
+      </div>
+    </ng-template>
   </div>
 </div>

@@ -36,7 +36,7 @@ switch ($request_method) {
         // Crear la bolsa de trabajo
         if ($bolsaDeTrabajo->create()) {
           // Recuperar el ID generado
-          $bolsaDeTrabajoId = $bolsaDeTrabajo->id;
+          $bolsaDeTrabajoId = $db->lastInsertId(); // Obtener el ID del último registro insertado
 
           if ($bolsaDeTrabajoId > 0) {
             // Guardar requisitos si los hay
@@ -50,8 +50,8 @@ switch ($request_method) {
             // Confirmar la transacción
             $db->commit();
 
-            http_response_code(201);
-            echo json_encode(array("message" => "Bolsa de trabajo creada correctamente."));
+            http_response_code(200);
+            echo json_encode(array("message" => "Bolsa de trabajo creada correctamente.", "id" => $bolsaDeTrabajoId));
           } else {
             throw new Exception("ID de bolsa de trabajo no encontrado después de la inserción");
           }
@@ -61,8 +61,8 @@ switch ($request_method) {
       } catch (Exception $e) {
         // Revertir la transacción en caso de error
         $db->rollBack();
-        http_response_code(503);
-        echo json_encode(array("message" => "Bolsa creada, pero no se pudieron guardar los requisitos. Error: " . $e->getMessage()));
+        http_response_code(500);
+        echo json_encode(array("message" => "Error: " . $e->getMessage()));
       }
     } else {
       http_response_code(400);
@@ -111,6 +111,8 @@ switch ($request_method) {
         http_response_code(404);
         echo json_encode(array("message" => "Bolsa de trabajo no encontrada."));
       }
+    }elseif (isset($_GET['id']) && !empty($data->activo)){
+      echo json_encode(array("message" => "actualiza perrillo"));
     } else {
       http_response_code(400);
       echo json_encode(array("message" => "No se proporcionó un ID."));

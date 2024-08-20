@@ -124,6 +124,7 @@ export class AgregarCalendarioComponent implements OnInit {
       this.fileToUpload = file;
     } else {
       this.calendarioForm.get('archivo')?.setErrors({ invalidFileType: true });
+      this.showToast('error', 'Solo se permiten archivos en formato PDF.');
       this.fileToUpload = null;
     }
   }
@@ -188,8 +189,8 @@ export class AgregarCalendarioComponent implements OnInit {
 
   deleteCalendario(id: number) {
     this.showConfirmDialog(
-      '¿Estás seguro?',
-      '¿Quieres eliminar este calendario? Esta acción no se puede deshacer.',
+      'Eliminar calendario',
+      'Esta acción eliminará permanentemente el calendario seleccionado. No podrás recuperarlo. ¿Estás seguro de que deseas continuar?',
       () => {
         this.calendarioService.deleteCalendario(id).subscribe({
           next: (response: any) => {
@@ -206,8 +207,8 @@ export class AgregarCalendarioComponent implements OnInit {
 
   moveToTrash(id: number) {
     this.showConfirmDialog(
-      '¿Estás seguro?',
-      '¿Quieres mover este calendario a la papelera?',
+      'Mover a papelera',
+      'Este calendario será movido a la papelera. Podrás restaurarlo más tarde si lo deseas. ¿Quieres mover este calendario a la papelera?',
       () => {
         this.calendarioService.updateCalendarioStatus(id, false).subscribe({
           next: (response: any) => {
@@ -227,22 +228,56 @@ export class AgregarCalendarioComponent implements OnInit {
 
   activateCalendario(id: number) {
     const calendarioToUpdate = this.calendarios.find((cal) => cal.id === id);
-    if (calendarioToUpdate) {
-      calendarioToUpdate.activo = true;
-      const formData: FormData = new FormData();
-      formData.append('id', calendarioToUpdate.id!.toString());
-      formData.append('titulo', calendarioToUpdate.titulo);
-      formData.append('activo', 'true');
-      this.calendarioService.updateCalendario(formData).subscribe({
-        next: (response: any) => {
-          this.showToast('success', 'Calendario activado correctamente');
-          this.loadCalendarios();
-        },
-        error: (error: any) => {
-          this.showToast('error', error.message);
-        },
-      });
+
+    if (calendarioToUpdate && calendarioToUpdate.id !== undefined) {
+      if (this.hasActiveCalendario) {
+        this.showConfirmDialog(
+          'Confirmar activación de calendario',
+          'Actualmente tienes un calendario activo. Si activas este nuevo calendario, el anterior se desactivará automáticamente y se moverá a la papelera. ¿Deseas continuar?',
+          () => {
+            // Desactivar el calendario activo actual
+            const activeCalendario = this.calendarios.find((cal) => cal.activo);
+            if (activeCalendario && activeCalendario.id !== undefined) {
+              this.calendarioService
+                .updateCalendarioStatus(activeCalendario.id, false)
+                .subscribe({
+                  next: () => {
+                    this.actualizarYActivarCalendario(calendarioToUpdate);
+                  },
+                  error: (error: any) => {
+                    this.showToast(
+                      'error',
+                      'Error al desactivar el calendario anterior'
+                    );
+                  },
+                });
+            }
+          }
+        );
+      } else {
+        this.actualizarYActivarCalendario(calendarioToUpdate);
+      }
+    } else {
+      this.showToast('error', 'No se pudo encontrar el calendario a activar.');
     }
+  }
+
+  actualizarYActivarCalendario(calendarioToUpdate: Calendario) {
+    calendarioToUpdate.activo = true;
+    const formData: FormData = new FormData();
+    formData.append('id', calendarioToUpdate.id!.toString());
+    formData.append('titulo', calendarioToUpdate.titulo);
+    formData.append('activo', 'true');
+
+    this.calendarioService.updateCalendario(formData).subscribe({
+      next: (response: any) => {
+        this.showToast('success', 'Calendario activado correctamente');
+        this.loadCalendarios();
+      },
+      error: (error: any) => {
+        this.showToast('error', error.message);
+      },
+    });
   }
 
   switchTab(tab: 'active' | 'inactive') {
@@ -308,7 +343,8 @@ export class AgregarCalendarioComponent implements OnInit {
     title: string
   ): void {
     const Toast = Swal.mixin({
-      toast: true,iconColor: '#008779',
+      toast: true,
+      iconColor: '#008779',
       position: 'top-end',
       showConfirmButton: false,
       timer: 3000,
@@ -351,7 +387,7 @@ export class AgregarCalendarioComponent implements OnInit {
         if (cancelButton) {
           cancelButton.style.color = 'black';
         }
-      }
+      },
     }).then((result) => {
       if (result.isConfirmed) {
         onConfirm();

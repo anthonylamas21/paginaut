@@ -1,53 +1,44 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Instalacion,InstalacionService } from '../../instalacionService/instalacion.service';
+import {
+  Instalacion,
+  InstalacionService,
+} from '../../instalacionService/instalacion.service';
 import Swal from 'sweetalert2';
-
 
 class TooltipManager {
   static adjustTooltipPosition(
     button: HTMLElement,
     tooltip: HTMLElement
   ): void {
-    // Obtener dimensiones del botón y del tooltip
     const buttonRect = button.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
-
-    // Obtener dimensiones de la ventana
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
-
-    // Calcular la posición preferida del tooltip
     const preferredLeft =
       buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
-    const preferredTop = buttonRect.top - tooltipRect.height - 10; // Espacio entre el botón y el tooltip
-
-    // Ajustar la posición si se sale de la pantalla hacia la izquierda
+    const preferredTop = buttonRect.top - tooltipRect.height - 10;
     let left = Math.max(preferredLeft, 0);
-
-    // Ajustar la posición si se sale de la pantalla hacia arriba
     let top = Math.max(preferredTop, 0);
 
-    // Ajustar la posición si el tooltip se sale de la pantalla hacia la derecha
     if (left + tooltipRect.width > windowWidth) {
       left = windowWidth - tooltipRect.width;
     }
 
-    // Ajustar la posición si el tooltip se sale de la pantalla hacia abajo
     if (top + tooltipRect.height > windowHeight) {
       top = windowHeight - tooltipRect.height;
     }
 
-    // Aplicar posición al tooltip
     tooltip.style.position = 'fixed';
     tooltip.style.top = `${top}px`;
     tooltip.style.left = `${left}px`;
   }
 }
+
 @Component({
   selector: 'app-instalacion',
   templateUrl: './instalacion.component.html',
-  styleUrls: ['./instalacion.component.css']
+  styleUrls: ['./instalacion.component.css'],
 })
 export class InstalacionComponent implements OnInit {
   instalaciones: Instalacion[] = [];
@@ -74,26 +65,30 @@ export class InstalacionComponent implements OnInit {
     this.instalacionForm = this.fb.group({
       titulo: ['', [Validators.required, Validators.maxLength(50)]],
       resumen: ['', Validators.maxLength(200)],
-      activo: [true]
+      activo: [true],
     });
   }
 
   ngOnInit(): void {
     this.loadInstalaciones();
   }
-  
+
   loadInstalaciones(): void {
     this.instalacionService.obtenerInstalacion().subscribe({
       next: (response) => {
-        this.instalaciones = response.records.map(instalacion => ({
+        this.instalaciones = response.records.map((instalacion) => ({
           ...instalacion,
           titulo: instalacion.nombre,
-          imagen_principal: this.getImageUrl(instalacion.imagen_principal || ''),
-          imagenes_generales: (instalacion.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
+          imagen_principal: this.getImageUrl(
+            instalacion.imagen_principal || ''
+          ),
+          imagenes_generales: (instalacion.imagenes_generales || []).map(
+            (img: string) => this.getImageUrl(img)
+          ),
         }));
         this.filterInstalaciones();
       },
-      error: (error) => console.error('Error al cargar instalaciones:', error)
+      error: (error) => console.error('Error al cargar instalaciones:', error),
     });
   }
 
@@ -105,8 +100,12 @@ export class InstalacionComponent implements OnInit {
   }
 
   filterInstalaciones(): void {
-    this.filteredInstalaciones = this.instalaciones.filter(instalacion => instalacion.activo !== false);
-    this.papeleraInstalaciones = this.instalaciones.filter(instalacion => instalacion.activo === false);
+    this.filteredInstalaciones = this.instalaciones.filter(
+      (instalacion) => instalacion.activo !== false
+    );
+    this.papeleraInstalaciones = this.instalaciones.filter(
+      (instalacion) => instalacion.activo === false
+    );
   }
 
   openModal(instalacion?: Instalacion): void {
@@ -135,8 +134,12 @@ export class InstalacionComponent implements OnInit {
   }
 
   clearFileInputs(): void {
-    const imagenPrincipalInput = document.getElementById('imagenPrincipal') as HTMLInputElement;
-    const imagenesGeneralesInput = document.getElementById('imagenesGenerales') as HTMLInputElement;
+    const imagenPrincipalInput = document.getElementById(
+      'imagenPrincipal'
+    ) as HTMLInputElement;
+    const imagenesGeneralesInput = document.getElementById(
+      'imagenesGenerales'
+    ) as HTMLInputElement;
     if (imagenPrincipalInput) {
       imagenPrincipalInput.value = '';
     }
@@ -152,55 +155,74 @@ export class InstalacionComponent implements OnInit {
         ...this.instalacionForm.value,
         id: this.currentInstalacionId,
         imagen_principal: this.imagenPrincipalPreview as string,
-        imagenes_generales: this.imagenesGeneralesActuales
+        imagenes_generales: this.imagenesGeneralesActuales,
       };
-  
-      const imagenPrincipalInput = document.getElementById('imagenPrincipal') as HTMLInputElement;
+
+      const imagenPrincipalInput = document.getElementById(
+        'imagenPrincipal'
+      ) as HTMLInputElement;
       const imagenPrincipal = imagenPrincipalInput.files?.[0];
-      const imagenesGeneralesInput = document.getElementById('imagenesGenerales') as HTMLInputElement;
+      const imagenesGeneralesInput = document.getElementById(
+        'imagenesGenerales'
+      ) as HTMLInputElement;
       const imagenesGenerales = imagenesGeneralesInput.files;
-  
+
       if (this.currentInstalacionId) {
-        this.instalacionService.actualizarInstalacion(
-          instalacionData,
-          imagenPrincipal,
-          imagenesGenerales ? Array.from(imagenesGenerales) : undefined
-        ).subscribe({
-          next: (response) => {
-            this.showToast('success', 'Instalación actualizada con éxito');
-            this.closeModal();
-            this.loadInstalaciones();
-          },
-          error: (error) => {
-            console.error('Error al actualizar la instalación:', error);
-            this.showToast('error', 'Error al actualizar la instalación: ' + (error.error?.message || error.message));
-          },
-          complete: () => {
-            this.isLoading = false;
-          }
-        });
+        this.instalacionService
+          .actualizarInstalacion(
+            instalacionData,
+            imagenPrincipal,
+            imagenesGenerales ? Array.from(imagenesGenerales) : undefined
+          )
+          .subscribe({
+            next: (response) => {
+              this.showToast('success', 'Instalación actualizada con éxito');
+              this.closeModal();
+              this.loadInstalaciones();
+            },
+            error: (error) => {
+              console.error('Error al actualizar la instalación:', error);
+              this.showToast(
+                'error',
+                'Error al actualizar la instalación: ' +
+                  (error.error?.message || error.message)
+              );
+            },
+            complete: () => {
+              this.isLoading = false;
+            },
+          });
       } else {
-        this.instalacionService.crearInstalacion(
-          instalacionData,
-          imagenPrincipal,
-          imagenesGenerales ? Array.from(imagenesGenerales) : undefined
-        ).subscribe({
-          next: (response) => {
-            this.showToast('success', 'Instalación creada con éxito');
-            this.closeModal();
-            this.loadInstalaciones();
-          },
-          error: (error) => {
-            console.error('Error al crear la instalación:', error);
-            this.showToast('error', 'Error al crear la instalación: ' + (error.error?.message || error.message));
-          },
-          complete: () => {
-            this.isLoading = false;
-          }
-        });
+        this.instalacionService
+          .crearInstalacion(
+            instalacionData,
+            imagenPrincipal,
+            imagenesGenerales ? Array.from(imagenesGenerales) : undefined
+          )
+          .subscribe({
+            next: (response) => {
+              this.showToast('success', 'Instalación creada con éxito');
+              this.closeModal();
+              this.loadInstalaciones();
+            },
+            error: (error) => {
+              console.error('Error al crear la instalación:', error);
+              this.showToast(
+                'error',
+                'Error al crear la instalación: ' +
+                  (error.error?.message || error.message)
+              );
+            },
+            complete: () => {
+              this.isLoading = false;
+            },
+          });
       }
     } else {
-      this.showToast('warning', 'Por favor, complete todos los campos requeridos correctamente.');
+      this.showToast(
+        'warning',
+        'Por favor, complete todos los campos requeridos correctamente.'
+      );
     }
   }
 
@@ -215,9 +237,13 @@ export class InstalacionComponent implements OnInit {
             this.loadInstalaciones();
           },
           error: (error) => {
-            this.showToast('error', 'Error al eliminar la instalación: ' + (error.error?.message || error.message));
+            this.showToast(
+              'error',
+              'Error al eliminar la instalación: ' +
+                (error.error?.message || error.message)
+            );
             console.error('Error:', error);
-          }
+          },
         });
       }
     );
@@ -234,9 +260,13 @@ export class InstalacionComponent implements OnInit {
             this.loadInstalaciones();
           },
           error: (error) => {
-            this.showToast('error', 'Error al desactivar la instalación: ' + (error.error?.message || error.message));
+            this.showToast(
+              'error',
+              'Error al desactivar la instalación: ' +
+                (error.error?.message || error.message)
+            );
             console.error('Error:', error);
-          }
+          },
         });
       }
     );
@@ -253,9 +283,13 @@ export class InstalacionComponent implements OnInit {
             this.loadInstalaciones();
           },
           error: (error) => {
-            this.showToast('error', 'Error al activar la instalación: ' + (error.error?.message || error.message));
+            this.showToast(
+              'error',
+              'Error al activar la instalación: ' +
+                (error.error?.message || error.message)
+            );
             console.error('Error:', error);
-          }
+          },
         });
       }
     );
@@ -263,11 +297,14 @@ export class InstalacionComponent implements OnInit {
 
   filterGlobal(event: any): void {
     const searchValue = event.target.value.toLowerCase();
-    this.filteredInstalaciones = this.instalaciones.filter(instalacion => 
-      (instalacion.nombre && instalacion.nombre.toLowerCase().includes(searchValue)) ||
-      instalacion.fecha_publicacion.toLowerCase().includes(searchValue)
+    this.filteredInstalaciones = this.instalaciones.filter(
+      (instalacion) =>
+        (instalacion.titulo &&
+          instalacion.titulo.toLowerCase().includes(searchValue)) ||
+        (instalacion['fecha_creacion'] &&
+          instalacion['fecha_creacion'].toLowerCase().includes(searchValue))
     );
-}
+  }
 
   onFileChangePrincipal(event: any): void {
     const file = event.target.files[0];
@@ -295,22 +332,30 @@ export class InstalacionComponent implements OnInit {
 
   removeImagenGeneral(index: number): void {
     const imagenParaEliminar = this.imagenesGeneralesActuales[index];
-    if (this.currentInstalacionId && imagenParaEliminar.startsWith(this.baseImageUrl)) {
-        const relativePath = imagenParaEliminar.replace(this.baseImageUrl, '');
-        this.instalacionService.eliminarImagenGeneral(this.currentInstalacionId, relativePath).subscribe({
-            next: () => {
-                this.imagenesGeneralesActuales.splice(index, 1);
-            },
-            error: (error) => {
-                console.error('Error al eliminar la imagen:', error);
-            }
+    if (
+      this.currentInstalacionId &&
+      imagenParaEliminar.startsWith(this.baseImageUrl)
+    ) {
+      const relativePath = imagenParaEliminar.replace(this.baseImageUrl, '');
+      this.instalacionService
+        .eliminarImagenGeneral(this.currentInstalacionId, relativePath)
+        .subscribe({
+          next: () => {
+            this.imagenesGeneralesActuales.splice(index, 1);
+          },
+          error: (error) => {
+            console.error('Error al eliminar la imagen:', error);
+          },
         });
     } else {
-        this.imagenesGeneralesActuales.splice(index, 1);
+      this.imagenesGeneralesActuales.splice(index, 1);
     }
   }
 
-  openImageModal(instalacion: Instalacion, type: 'principal' | 'generales'): void {
+  openImageModal(
+    instalacion: Instalacion,
+    type: 'principal' | 'generales'
+  ): void {
     this.isImageModalOpen = true;
     this.currentImageIndex = 0;
     if (type === 'principal') {
@@ -331,11 +376,14 @@ export class InstalacionComponent implements OnInit {
   }
 
   nextImage(): void {
-    this.currentImageIndex = (this.currentImageIndex + 1) % this.allImages.length;
+    this.currentImageIndex =
+      (this.currentImageIndex + 1) % this.allImages.length;
   }
 
   prevImage(): void {
-    this.currentImageIndex = (this.currentImageIndex - 1 + this.allImages.length) % this.allImages.length;
+    this.currentImageIndex =
+      (this.currentImageIndex - 1 + this.allImages.length) %
+      this.allImages.length;
   }
 
   getTotalImagesCount(): number {
@@ -344,7 +392,9 @@ export class InstalacionComponent implements OnInit {
 
   switchTab(tab: 'active' | 'inactive'): void {
     if (tab === 'active') {
-      this.filteredInstalaciones = this.instalaciones.filter(instalacion => instalacion.activo !== false);
+      this.filteredInstalaciones = this.instalaciones.filter(
+        (instalacion) => instalacion.activo !== false
+      );
     } else {
       this.filteredInstalaciones = this.papeleraInstalaciones;
     }
@@ -352,7 +402,7 @@ export class InstalacionComponent implements OnInit {
 
   isFieldInvalid(fieldName: string): boolean {
     const field = this.instalacionForm.get(fieldName);
-    return field ? (field.invalid && (field.dirty || field.touched)) : false;
+    return field ? field.invalid && (field.dirty || field.touched) : false;
   }
 
   getErrorMessage(fieldName: string): string {
@@ -367,7 +417,7 @@ export class InstalacionComponent implements OnInit {
   }
 
   private updateInstalacionesArray(instalacion: Instalacion): void {
-    const index = this.instalaciones.findIndex(n => n.id === instalacion.id);
+    const index = this.instalaciones.findIndex((n) => n.id === instalacion.id);
     if (index !== -1) {
       this.instalaciones[index] = instalacion;
       this.filterInstalaciones();
@@ -375,17 +425,18 @@ export class InstalacionComponent implements OnInit {
   }
 
   private removeInstalacionFromArray(id: number): void {
-    this.instalaciones = this.instalaciones.filter(n => n.id !== id);
+    this.instalaciones = this.instalaciones.filter((n) => n.id !== id);
     this.filterInstalaciones();
   }
 
   private updateInstalacionStatus(id: number, status: boolean): void {
-    const index = this.instalaciones.findIndex(n => n.id === id);
+    const index = this.instalaciones.findIndex((n) => n.id === id);
     if (index !== -1) {
       this.instalaciones[index].activo = status;
       this.filterInstalaciones();
     }
   }
+
   private showToast(
     icon: 'success' | 'warning' | 'error' | 'info' | 'question',
     title: string
@@ -451,9 +502,7 @@ export class InstalacionComponent implements OnInit {
     });
   }
 
-    
   mostrar(elemento: any): void {
-    // Verifica si el elemento recibido es un botón
     if (elemento.tagName.toLowerCase() === 'button') {
       const tooltipElement = elemento.querySelector('.hs-tooltip');
       if (tooltipElement) {
@@ -465,12 +514,9 @@ export class InstalacionComponent implements OnInit {
           tooltipContent.classList.toggle('hidden');
           tooltipContent.classList.toggle('invisible');
           tooltipContent.classList.toggle('visible');
-          // Ajustar la posición del tooltip
           TooltipManager.adjustTooltipPosition(elemento, tooltipContent);
         }
       }
     }
   }
-
-  
 }

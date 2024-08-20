@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { BolsaDeTrabajo, BolsaDeTrabajoService } from '../admin/bolsa-de-trabajo.service';
 
 @Component({
   selector: 'app-admision',
@@ -8,24 +9,72 @@ import { Component, HostListener } from '@angular/core';
 export class AdmisionComponent {
 
   isLoading = true;
-
   searchText: string = '';
-  jobs = [
-    { title: 'Asistente de Investigación en Biotecnología', requirements: ['Experiencia en redes', '5 años de experiencia laboral', 'Inglés'] },
-    { title: 'Desarrollador de Software para Proyectos Académicos', requirements: ['Experiencia en redes', '5 años de experiencia laboral', 'Inglés'] },
-    { title: 'Analista de Datos en Ciencias Sociales', requirements: ['Experiencia en redes', '5 años de experiencia laboral', 'Inglés'] },
-    { title: 'Asistente Administrativo en la Facultad de Derecho', requirements: ['Experiencia en redes', '5 años de experiencia laboral', 'Inglés'] },
-  ];
+  bolsas: BolsaDeTrabajo[] = [];
+  filteredBolsas: BolsaDeTrabajo[] = [];
+  getrequisitos?: Array<{ requisito: string }>;
 
-  filteredJobs = [...this.jobs];
+  constructor(private bolsaDeTrabajoService: BolsaDeTrabajoService) { }
 
   ngOnInit(): void {
-    // Simulación de carga de datos
     setTimeout(() => {
-      this.filteredJobs = this.jobs;  // Mostrar los trabajos después de la carga
-      this.isLoading = false;  // Detener la animación de carga
-    }, 2000);  // Simulación de un retraso de 2 segundos
+      this.loadBolsas();
+      this.isLoading = false;
+    }, 2000);
     this.setNavbarColor();
+  }
+
+  // Filtrar las bolsas de trabajo
+  filterBolsas() {
+    if (this.searchText) {
+      this.filteredBolsas = this.bolsas.filter(bolsa =>
+        bolsa.nombre_empresa.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        bolsa.descripcion_trabajo.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        bolsa.puesto_trabajo.toLowerCase().includes(this.searchText.toLowerCase())
+      );
+    } else {
+      this.filteredBolsas = [...this.bolsas]; // Mostrar todas las bolsas si no hay texto de búsqueda
+    }
+  }
+
+  // OBTENER INFORMACION
+  loadBolsas() {
+    this.bolsaDeTrabajoService.getBolsas().subscribe(
+      (response: any) => {
+        this.bolsas = response.records;
+        this.filteredBolsas = [...this.bolsas]; // Inicializar la lista filtrada con todas las bolsas
+        console.log('Bolsas de trabajo recibidas:', this.bolsas);
+
+        // Cargar los requisitos para cada bolsa de trabajo
+        this.bolsas.forEach((bolsa: BolsaDeTrabajo) => {
+          this.loadRequisitosBolsa(bolsa);
+        });
+      },
+      (error) => {
+        console.error('Error al cargar bolsas de trabajo:', error);
+      }
+    );
+  }
+
+  loadRequisitosBolsa(bolsaTrabajo: BolsaDeTrabajo) {
+    const id = bolsaTrabajo.id;
+    if (id && typeof id === 'number') {
+      this.bolsaDeTrabajoService.getRequisitos(id).subscribe(
+        (response) => {
+          bolsaTrabajo.requisitos = response.details;
+          console.log(`Requisitos recibidos para la bolsa con ID ${id}:`, bolsaTrabajo.requisitos);
+        },
+        (error) => {
+          console.error('Error al cargar requisitos:', error);
+        }
+      );
+    } else {
+      console.error('ID no es un número:', id);
+    }
+  }
+
+  scrollToSection(sectionId: string): void {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
 
   @HostListener('window:scroll', [])
@@ -51,14 +100,5 @@ export class AdmisionComponent {
       nabvar.classList.add('bg-[#043D3D]');
     }
   }
-
-  scrollToSection(sectionId: string): void {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-  }
-
-  filterJobs(): void {
-    this.filteredJobs = this.jobs.filter(job => 
-      job.title.toLowerCase().includes(this.searchText.toLowerCase())
-    );
-  }
 }
+
