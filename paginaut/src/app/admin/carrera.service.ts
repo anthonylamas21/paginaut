@@ -18,6 +18,8 @@ export interface Carrera {
   campo_estudio_id: number;
   activo?: boolean;
   fecha_creacion?: string;
+  imagen_principal?: string;
+  imagenes_generales?: string[];
 }
 
 export interface CarreraResponse {
@@ -81,7 +83,7 @@ getCuatrimestresYAsignaturas(carreraId: number): Observable<any> {
       .put<any>(`${this.apiUrl}?id=${id}`, null, { params })
       .pipe(catchError(this.handleError));
   }
-  
+
 
   deleteCarrera(id: number): Observable<any> {
     return this.http

@@ -71,54 +71,39 @@ switch ($request_method) {
     break;
 
 
-  case 'GET':
-    if (isset($_GET['id'])) {
-      $carrera->id = $_GET['id'];
-      if ($carrera->readOne()) {
-        $carrera_arr = array(
-          "id" => $carrera->id,
-          "nombre_carrera" => $carrera->nombre_carrera,
-          "perfil_profesional" => $carrera->perfil_profesional,
-          "ocupacion_profesional" => $carrera->ocupacion_profesional,
-          "direccion_id" => $carrera->direccion_id,
-          "nivel_estudio_id" => $carrera->nivel_estudio_id,
-          "campo_estudio_id" => $carrera->campo_estudio_id,
-          "activo" => $carrera->activo,
-          "fecha_creacion" => $carrera->fecha_creacion,
-          "imagen_principal" => $carrera->getImagenPrincipal(),
-          "imagenes_generales" => $carrera->getImagenesGenerales()
-        );
-        echo json_encode($carrera_arr);
+    case 'GET':
+      if (isset($_GET['id'])) {
+          $carrera->id = $_GET['id'];
+          if ($carrera->readOne()) {
+              $carrera_arr = array(
+                  "id" => $carrera->id,
+                  "nombre_carrera" => $carrera->nombre_carrera,
+                  "perfil_profesional" => $carrera->perfil_profesional,
+                  "ocupacion_profesional" => $carrera->ocupacion_profesional,
+                  "direccion_id" => $carrera->direccion_id,
+                  "nivel_estudio_id" => $carrera->nivel_estudio_id,
+                  "campo_estudio_id" => $carrera->campo_estudio_id,
+                  "activo" => $carrera->activo,
+                  "fecha_creacion" => $carrera->fecha_creacion,
+                  "imagen_principal" => $carrera->getImagenPrincipal(),
+                  "imagenes_generales" => $carrera->getImagenesGenerales()
+              );
+              echo json_encode($carrera_arr);
+          } else {
+              http_response_code(404);
+              echo json_encode(array("message" => "Carrera no encontrada."));
+          }
       } else {
-        http_response_code(404);
-        echo json_encode(array("message" => "Carrera no encontrada."));
+          $carreras_arr = $carrera->read(); // Ya retorna el array de carreras con imágenes
+          if ($carreras_arr) {
+              echo json_encode(array("records" => $carreras_arr));
+          } else {
+              http_response_code(404);
+              echo json_encode(array("message" => "No se encontraron carreras."));
+          }
       }
-    } else {
-      $stmt = $carrera->read();
-      $carreras_arr = array();
-      while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        extract($row);
-        $carrera_item = array(
-          "id" => $id,
-          "nombre_carrera" => $nombre_carrera,
-          "perfil_profesional" => $perfil_profesional,
-          "ocupacion_profesional" => $ocupacion_profesional,
-          "direccion_id" => $direccion_id,
-          "nivel_estudio_id" => $nivel_estudio_id,
-          "campo_estudio_id" => $campo_estudio_id,
-          "activo" => $activo,
-          "fecha_creacion" => $fecha_creacion,
-          "direccion_nombre" => $direccion_nombre,
-          "nivel_estudio_nombre" => $nivel_estudio_nombre,
-          "campo_estudio_nombre" => $campo_estudio_nombre,
-          "imagen_principal" => $carrera->getImagenPrincipal(),
-          "imagenes_generales" => $carrera->getImagenesGenerales()
-        );
-        array_push($carreras_arr, $carrera_item);
-      }
-      echo json_encode(array("records" => $carreras_arr));
-    }
-    break;
+      break;
+
 
   case 'PUT':
     if (isset($_GET['id'])) {

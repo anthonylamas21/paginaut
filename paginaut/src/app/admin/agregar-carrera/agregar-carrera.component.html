@@ -462,6 +462,48 @@
                       </td>
                       <td class="px-3 py-2 text-sm text-black">
                         <div class="flex items-center space-x-3.5">
+                          <!-- Botón para ver la imagen principal -->
+<button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(carrera, 'principal')" class="hover:text-primary">
+  <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+    <div class="text-blue-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+      <i class="fa fa-image" aria-hidden="true"></i>
+      <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+        <div class="py-3 px-4 border-b border-gray-200">
+          <h4 class="font-semibold text-gray-800">Imagen Principal</h4>
+        </div>
+        <ul class="py-3 px-4 space-y-1">
+          <li>
+            <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+              Ver imagen principal
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</button>
+
+<!-- Botón para ver las imágenes generales -->
+<button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(carrera, 'generales')" class="hover:text-primary">
+  <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+    <div class="text-green-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+      <i class="fa fa-images" aria-hidden="true"></i>
+      <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+        <div class="py-3 px-4 border-b border-gray-200">
+          <h4 class="font-semibold text-gray-800">Imágenes Complementarias</h4>
+        </div>
+        <ul class="py-3 px-4 space-y-1">
+          <li>
+            <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+              Ver imágenes complementarias
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</button>
+
                           <button
                             (mouseenter)="mostrar($event.target)"
                             (mouseleave)="mostrar($event.target)"
@@ -910,9 +952,41 @@
 <ng-template #noData>
   <p class="text-center text-gray-500">No hay datos de cuatrimestres y asignaturas disponibles.</p>
 </ng-template>
+    </div>
+  </div>
+</div>
 
-
-
+<!-- Modal para visualizar imágenes de la carrera -->
+<div *ngIf="isImageModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white p-4 rounded-lg max-w-3xl w-full">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-bold">{{ modalTitle }}</h3>
+      <button (click)="closeImageModal()" class="text-gray-500 hover:text-gray-700">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div *ngIf="allImages.length > 0; else noImages" class="relative">
+      <img [src]="getCurrentImage()" alt="Imagen de la carrera" class="w-full h-auto max-h-96 object-contain">
+      <button *ngIf="allImages.length > 1" (click)="prevImage()" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </button>
+      <button *ngIf="allImages.length > 1" (click)="nextImage()" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+    </div>
+    <ng-template #noImages>
+      <div class="text-center py-8">
+        <p class="text-gray-500">No hay imágenes disponibles para esta carrera.</p>
+      </div>
+    </ng-template>
+    <div class="mt-4 text-center">
+      <p *ngIf="allImages.length > 1">Imagen {{ currentImageIndex + 1 }} de {{ getTotalImagesCount() }}</p>
     </div>
   </div>
 </div>
