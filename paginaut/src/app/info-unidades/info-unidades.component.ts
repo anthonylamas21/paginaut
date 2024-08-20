@@ -40,11 +40,12 @@ export class InfoUnidadesComponent implements OnInit, AfterViewInit {
       this.instalacionService.obtenerInstalacionPorId(+id).subscribe({
         next: (instalacion: Instalacion) => {
           this.instalacion = instalacion;
+          //console.log(this.instalacion);
           this.groupImagesByMonth();
           this.isLoading = false;
         },
         error: (error: string) => {
-          console.error('Error al cargar la instalación:', error);
+          //console.error('Error al cargar la instalación:', error);
           this.isLoading = false;
         }
       });
@@ -53,33 +54,40 @@ export class InfoUnidadesComponent implements OnInit, AfterViewInit {
 
   groupImagesByMonth(): void {
     if (this.instalacion && this.instalacion.imagenes_generales) {
-      this.instalacion.imagenes_generales.forEach((imagen, index) => {
-        const date = this.instalacion?.fecha_publicacion 
-          ? new Date(this.instalacion.fecha_publicacion) 
-          : new Date(new Date().setDate(new Date().getDate() - index));
-
+      this.instalacion.imagenes_generales.forEach((imagen: any, index: number) => {
+        // Accede a la fecha de creación de cada imagen
+        const fechaCreacion = imagen.fecha_creacion;
+        const date = fechaCreacion ? new Date(fechaCreacion) : new Date();
+  
+        // Formatea la fecha en mes y año
         const month = date.toLocaleString('default', { month: 'long', year: 'numeric' });
-        
+  
+        // Si no existe un grupo para este mes, se crea
         if (!this.groupedImages[month]) {
           this.groupedImages[month] = [];
         }
-        
+  
+        // Se agrega la imagen al grupo correspondiente
         this.groupedImages[month].push({
-          url: this.getImageUrl(imagen),
+          url: this.getImageUrl(imagen.ruta_imagen),
           alt: `Imagen ${index + 1} de ${this.instalacion?.nombre || 'la instalación'}`,
           date: date
         });
       });
     }
   }
-
+  
   getImageUrl(path: string): string {
     return `http://localhost/paginaut/${path}`;
   }
+  
 
   sortByMonth = (a: { key: string }, b: { key: string }): number => {
-    const dateA = new Date(a.key);
-    const dateB = new Date(b.key);
+    // Convertir los meses a fechas completas para comparar correctamente
+    const dateA = new Date(`01 ${a.key}`); // '01' para fijar el día y comparar solo mes y año
+    const dateB = new Date(`01 ${b.key}`);
+    
+    // Orden ascendente: fechas más recientes primero
     return dateB.getTime() - dateA.getTime();
   };
 
@@ -109,14 +117,9 @@ export class InfoUnidadesComponent implements OnInit, AfterViewInit {
   }
 
   openModal(image: { url: string, alt: string }): void {
-    console.log('Imagen a abrir:', image);  // Verifica el valor de la imagen
-    this.selectedImage = {
-      url: image.url,
-      alt: image.alt
-    };
+    this.selectedImage = image;
     const modal = document.getElementById('hs-vertically-centered-modal');
     if (modal) {
-      console.log('Mostrando modal');  // Verifica que el modal se está mostrando
       modal.classList.remove('hidden');
       modal.classList.add('pointer-events-auto');
     }
@@ -128,7 +131,7 @@ export class InfoUnidadesComponent implements OnInit, AfterViewInit {
       modal.classList.add('hidden');
       modal.classList.remove('pointer-events-auto');
     }
-    this.selectedImage = null;  // Cambiar de objeto vacío a null
+    this.selectedImage = null;
   }
   
   
