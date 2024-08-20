@@ -96,6 +96,7 @@ import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera
 import { BibliotecaComponent } from './biblioteca/biblioteca.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { AgregarBolsaTrabajoComponent } from './admin/bolsadetrabajo/bolsadetrabajo.component';
+import { AgregarCursoComponent } from './admin/agregar-curso/agregar-curso.component';
 
 @NgModule({
   declarations: [
@@ -175,6 +176,7 @@ import { AgregarBolsaTrabajoComponent } from './admin/bolsadetrabajo/bolsadetrab
     BibliotecaComponent,
     PasswordResetComponent,
     AgregarBolsaTrabajoComponent,
+    AgregarCursoComponent,
   ],
   imports: [
     BrowserModule,
