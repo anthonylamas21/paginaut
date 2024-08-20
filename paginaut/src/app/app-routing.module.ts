@@ -121,7 +121,7 @@ const routes: Routes = [
   { path: 'agenda-admin', component: AgendaAdminComponent },
   { path: 'enviar-correo', component: PasswordResetComponent },
   { path: 'biblioteca', component: BibliotecaComponent },
-  { path: 'admin/agregar-curso', component: AgregarCursoComponent },
+  { path: 'admin/agregar-curso', component: AgregarCursoComponent, canActivate: [guardAuthGuard] },
   
 
   // Info Carreras

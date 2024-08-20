@@ -95,7 +95,7 @@ export class AgregarCursoComponent {
         }));
         this.filterCursos();
       },
-      error: (error) => console.error('Error al cargar cursos:', error),
+      error: (error) => (error),
     });
   }
 
