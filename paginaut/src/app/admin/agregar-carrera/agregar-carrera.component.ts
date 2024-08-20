@@ -8,6 +8,11 @@ import { CuatrimestreService } from '../../cuatrimestre.service';  // Importa el
 import { AsignaturaService } from '../../asignatura.service';  // Importa el servicio de Asignaturas
 import Swal from 'sweetalert2';
 import { KeyValuePipe } from '@angular/common';
+interface CarreraTemporal extends Carrera {
+  imagenesGeneralesOriginales?: string[];
+  imagenPrincipalOriginal?: string;
+}
+
 
 class TooltipManager {
   static adjustTooltipPosition(button: HTMLElement, tooltip: HTMLElement): void {
@@ -68,6 +73,13 @@ export class AgregarCarreraComponent implements OnInit {
   maxAsignaturasPorCuatrimestre: number = 0;
   cuatrimestresOrdenados: number[] = [];
   currentAsignaturaId?: number;
+  isImageModalOpen = false;
+  modalTitle = '';
+  currentImageIndex = 0;
+  allImages: string[] = [];
+  baseImageUrl = 'http://localhost/paginaut/';
+
+
 
 
   constructor(
@@ -93,6 +105,13 @@ export class AgregarCarreraComponent implements OnInit {
       cuatrimestre_id: ['', [Validators.required]]
     });
   }
+  getFullImageUrl(relativePath: string): string {
+    if (!relativePath) {
+      return ''; // Maneja el caso donde no haya una ruta válida
+    }
+    return this.baseImageUrl + relativePath;
+  }
+
 
   ngOnInit(): void {
     this.loadCarreras();
@@ -108,6 +127,12 @@ export class AgregarCarreraComponent implements OnInit {
 
   scrollToSection(sectionId: string): void {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  }
+  getImageUrl(relativePath: string): string {
+    if (relativePath && relativePath.startsWith('../')) {
+      return this.baseImageUrl + relativePath.substring(3);
+    }
+    return this.baseImageUrl + relativePath;
   }
 
   private setNavbarColor(): void {
@@ -186,6 +211,56 @@ export class AgregarCarreraComponent implements OnInit {
     }
     console.log('Asignatura no encontrada');
     return null;
+  }
+  openImageModal(carrera: Carrera, type: 'principal' | 'generales'): void {
+    this.closeAllModals();
+    this.isImageModalOpen = true;
+    this.currentImageIndex = 0;
+
+    if (type === 'principal' && carrera.imagen_principal) {
+      this.modalTitle = 'Imagen Principal';
+      this.allImages = [this.getFullImageUrl(carrera.imagen_principal)];
+    } else if (type === 'generales' && carrera.imagenes_generales) {
+      this.modalTitle = 'Imágenes Generales';
+      this.allImages = carrera.imagenes_generales.map(img => this.getFullImageUrl(img));
+    }
+  }
+
+  closeImageModal(): void {
+    this.isImageModalOpen = false;
+    this.allImages = [];
+  }
+  getCurrentImage(): string {
+    const currentImage = this.allImages[this.currentImageIndex];
+    if (currentImage.startsWith('http')) {
+      // Si la ruta ya incluye 'http', entonces no agregamos la base URL
+      return currentImage;
+    } else {
+      // Si no la incluye, agregamos la base URL
+      return this.baseImageUrl + currentImage;
+    }
+  }
+
+
+
+  nextImage(): void {
+    this.currentImageIndex =
+      (this.currentImageIndex + 1) % this.allImages.length;
+  }
+
+  prevImage(): void {
+    this.currentImageIndex =
+      (this.currentImageIndex - 1 + this.allImages.length) %
+      this.allImages.length;
+  }
+
+  getTotalImagesCount(): number {
+    return this.allImages.length;
+  }
+
+  closeAllModals(): void {
+    this.isImageModalOpen = false;
+    this.allImages = [];
   }
 
   onEditAsignatura(asignaturaId: number) {
