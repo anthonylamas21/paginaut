@@ -184,16 +184,15 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
         })
       );
 
-      this.bolsaDeTrabajoService.addRequisitos(requisitosData).subscribe({
-        next: () => {
+      this.bolsaDeTrabajoService.addRequisitos(requisitosData).subscribe(
+        (response) => {
           this.showToast('success', 'Requisitos agregados correctamente');
           this.closeRequisitosModal();
           this.loadBolsas();
         },
-        error: (error: any) => {
-          this.showToast('error', error.message);
-        },
-      });
+        (error) => {
+          console.log("error" , error)
+        });
     }
   }
 

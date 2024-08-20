@@ -21,29 +21,28 @@ $data = json_decode(file_get_contents("php://input"));
 switch ($request_method) {
   case 'POST':
     if (!empty($data->requisitos) && is_array($data->requisitos)) {   
-        foreach ($data->requisitos as $requisito) {
-            if (!empty($requisito->requisito) && !empty($requisito->id_bolsadetrabajo)) {
-
-                $BolsaRequisitos->id_bolsadetrabajo = $requisito->id_bolsadetrabajo;
-                $BolsaRequisitos->requisito = $requisito->requisito;
-                
-                if ($BolsaRequisitos->create()) {
-                  http_response_code(201);
-                  echo json_encode(array("message" => "Requisito creado correctamente."));
-                } else {
-                  http_response_code(500);
-                  echo json_encode(array("message" => "No se pudo crear el requisito."));
-                }
-  
+      
+      foreach ($data->requisitos as $requisito) {
+        if (!empty($requisito->requisito) && !empty($requisito->id_bolsadetrabajo)) {
+            $messages = [];
+            $BolsaRequisitos->id_bolsadetrabajo = $requisito->id_bolsadetrabajo;
+            $BolsaRequisitos->requisito = $requisito->requisito;
+            
+            if ($BolsaRequisitos->create()) {
+                $messages[] = "Requisito creado correctamente.";
             } else {
-              http_response_code(400);
-              echo json_encode(array("message" => "No se reciben los datos en uno de los requisitos"));
-              exit(); // Detener la ejecución si falta algún dato
+                http_response_code(401);
+                echo json_encode(array("message" => "No se pudo crear el requisito."));
+                exit(); // Detener la ejecución si hay un error
             }
+        } else {
+            http_response_code(400);
+            echo json_encode(array("message" => "No se reciben los datos en uno de los requisitos"));
+            exit(); // Detener la ejecución si falta algún dato
         }
-  
-        http_response_code(200);
-        echo json_encode(array("message" => "Datos recibidos y procesados correctamente"));
+    }
+    http_response_code(200);
+    echo json_encode(array("message" => implode(" ", $messages)));
       } else {
         http_response_code(400);
         echo json_encode(array("message" => "No se reciben los datos o no es un array"));
