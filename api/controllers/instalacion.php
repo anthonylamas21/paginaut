@@ -32,8 +32,8 @@ switch($request_method) {
             }
         }
     
-        if (!empty($_POST['titulo'])) {
-            $instalacion->titulo = $_POST['titulo'];
+        if (!empty($_POST['nombre'])) {
+            $instalacion->nombre = $_POST['nombre'];
             $instalacion->activo = isset($_POST['activo']) ? filter_var($_POST['activo'], FILTER_VALIDATE_BOOLEAN) : true;
     
             // Crear o actualizar instalacion
@@ -68,7 +68,7 @@ switch($request_method) {
             if ($instalacion->readOne()) {
                 $instalacion_arr = array(
                     "id" => $instalacion->id,
-                    "nombre" => $instalacion->titulo,
+                    "nombre" => $instalacion->nombre,
                     "activo" => $instalacion->activo,
                     "fecha_creacion" => $instalacion->fecha_creacion,
                     "imagen_principal" => $instalacion->imagen_principal,

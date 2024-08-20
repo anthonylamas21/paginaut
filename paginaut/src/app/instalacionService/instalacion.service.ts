@@ -5,7 +5,6 @@ import { catchError } from 'rxjs/operators';
 
 export interface Instalacion {
   id?: number;
-  titulo: string;
   nombre: string;
   resumen: string;
   activo: boolean;
@@ -29,7 +28,7 @@ export class InstalacionService {
 
   crearInstalacion(instalacion: Instalacion, imagenPrincipal?: File, imagenesGenerales?: File[]): Observable<any> {
     const formData: FormData = new FormData();
-    formData.append('titulo', instalacion.titulo);
+    formData.append('nombre', instalacion.nombre);
     
     formData.append('activo', instalacion.activo.toString());
 

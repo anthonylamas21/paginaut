@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Instalacion,InstalacionService } from '../../instalacionService/instalacion.service';
+import { Instalacion, InstalacionService } from '../../instalacionService/instalacion.service';
 import Swal from 'sweetalert2';
 
 
@@ -65,14 +65,14 @@ export class InstalacionComponent implements OnInit {
   modalTitle = '';
   currentImageIndex = 0;
   allImages: string[] = [];
-  titulo?: string;
+  nombre?: string;
 
   constructor(
     private instalacionService: InstalacionService,
     private fb: FormBuilder
   ) {
     this.instalacionForm = this.fb.group({
-      titulo: ['', [Validators.required, Validators.maxLength(50)]],
+      nombre: ['', [Validators.required, Validators.maxLength(50)]],
       resumen: ['', Validators.maxLength(200)],
       activo: [true]
     });
@@ -81,13 +81,13 @@ export class InstalacionComponent implements OnInit {
   ngOnInit(): void {
     this.loadInstalaciones();
   }
-  
+
   loadInstalaciones(): void {
     this.instalacionService.obtenerInstalacion().subscribe({
       next: (response) => {
         this.instalaciones = response.records.map(instalacion => ({
           ...instalacion,
-          titulo: instalacion.nombre,
+          nombre: instalacion.nombre,
           imagen_principal: this.getImageUrl(instalacion.imagen_principal || ''),
           imagenes_generales: (instalacion.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
         }));
@@ -154,12 +154,12 @@ export class InstalacionComponent implements OnInit {
         imagen_principal: this.imagenPrincipalPreview as string,
         imagenes_generales: this.imagenesGeneralesActuales
       };
-  
+
       const imagenPrincipalInput = document.getElementById('imagenPrincipal') as HTMLInputElement;
       const imagenPrincipal = imagenPrincipalInput.files?.[0];
       const imagenesGeneralesInput = document.getElementById('imagenesGenerales') as HTMLInputElement;
       const imagenesGenerales = imagenesGeneralesInput.files;
-  
+
       if (this.currentInstalacionId) {
         this.instalacionService.actualizarInstalacion(
           instalacionData,
@@ -263,11 +263,13 @@ export class InstalacionComponent implements OnInit {
 
   filterGlobal(event: any): void {
     const searchValue = event.target.value.toLowerCase();
-    this.filteredInstalaciones = this.instalaciones.filter(instalacion => 
-      (instalacion.nombre && instalacion.nombre.toLowerCase().includes(searchValue)) ||
-      instalacion.fecha_publicacion.toLowerCase().includes(searchValue)
+    this.filteredInstalaciones = this.instalaciones.filter(
+      (instalacion) =>
+        instalacion.nombre.toLowerCase().includes(searchValue) ||
+        instalacion.nombre.includes(searchValue) ||
+        instalacion.fecha_publicacion.toLowerCase().includes(searchValue)
     );
-}
+  }
 
   onFileChangePrincipal(event: any): void {
     const file = event.target.files[0];
@@ -296,17 +298,17 @@ export class InstalacionComponent implements OnInit {
   removeImagenGeneral(index: number): void {
     const imagenParaEliminar = this.imagenesGeneralesActuales[index];
     if (this.currentInstalacionId && imagenParaEliminar.startsWith(this.baseImageUrl)) {
-        const relativePath = imagenParaEliminar.replace(this.baseImageUrl, '');
-        this.instalacionService.eliminarImagenGeneral(this.currentInstalacionId, relativePath).subscribe({
-            next: () => {
-                this.imagenesGeneralesActuales.splice(index, 1);
-            },
-            error: (error) => {
-                console.error('Error al eliminar la imagen:', error);
-            }
-        });
+      const relativePath = imagenParaEliminar.replace(this.baseImageUrl, '');
+      this.instalacionService.eliminarImagenGeneral(this.currentInstalacionId, relativePath).subscribe({
+        next: () => {
+          this.imagenesGeneralesActuales.splice(index, 1);
+        },
+        error: (error) => {
+          console.error('Error al eliminar la imagen:', error);
+        }
+      });
     } else {
-        this.imagenesGeneralesActuales.splice(index, 1);
+      this.imagenesGeneralesActuales.splice(index, 1);
     }
   }
 
@@ -451,7 +453,7 @@ export class InstalacionComponent implements OnInit {
     });
   }
 
-    
+
   mostrar(elemento: any): void {
     // Verifica si el elemento recibido es un botón
     if (elemento.tagName.toLowerCase() === 'button') {
@@ -472,5 +474,5 @@ export class InstalacionComponent implements OnInit {
     }
   }
 
-  
+
 }

@@ -4,7 +4,7 @@ class Instalacion {
     private $table_name = "Instalaciones";
 
     public $id;
-    public $titulo;
+    public $nombre;
     public $resumen;
     public $activo;
     public $fecha_creacion;
@@ -20,17 +20,17 @@ class Instalacion {
         $query = "INSERT INTO " . $this->table_name . " 
                   (nombre, activo) 
                   VALUES 
-                  (:titulo, :activo)";
+                  (:nombre, :activo)";
         
         $stmt = $this->conn->prepare($query);
 
         // Sanear los datos de entrada
-        $this->titulo = htmlspecialchars(strip_tags($this->titulo));
+        $this->nombre = htmlspecialchars(strip_tags($this->nombre));
         $this->activo = $this->activo ? 1 : 0;
         $this->resumen = htmlspecialchars(strip_tags($this->resumen));
 
         // Vincular parámetros
-        $stmt->bindParam(":titulo", $this->titulo);
+        $stmt->bindParam(":nombre", $this->nombre);
         $stmt->bindParam(":activo", $this->activo);
 
         if ($stmt->execute()) {
@@ -47,7 +47,7 @@ class Instalacion {
                   VALUES (:titulo, :descripcion, :ruta_imagen, 'Instalacion', :asociado_id, TRUE)";
         $stmt = $this->conn->prepare($query);
 
-        $titulo = $this->titulo;
+        $titulo = $this->nombre;
         $descripcion = "Galeria imagen";
         $ruta_imagen = htmlspecialchars(strip_tags($this->imagen_principal));
         $asociado_id = $this->id;   
@@ -102,7 +102,7 @@ class Instalacion {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
     
             if ($row) {
-                $this->titulo = $row['nombre'];
+                $this->nombre = $row['nombre'];
                 $this->activo = $row['activo'];
                 $this->imagen_principal = $this->getImagenPrincipal();
                 return true;
@@ -119,17 +119,17 @@ class Instalacion {
     // Actualizar Instalacion
     function update() {
         $query = "UPDATE " . $this->table_name . " SET 
-                  nombre = :titulo, 
+                  nombre = :nombre, 
                   activo = :activo
                   WHERE id = :id";
     
         $stmt = $this->conn->prepare($query);
     
         // Sanear y vincular los parámetros
-        $this->titulo = htmlspecialchars(strip_tags($this->titulo));
+        $this->nombre = htmlspecialchars(strip_tags($this->nombre));
         $this->activo = $this->activo ? 1 : 0;
     
-        $stmt->bindParam(":titulo", $this->titulo);
+        $stmt->bindParam(":nombre", $this->nombre);
         $stmt->bindParam(":activo", $this->activo);
         $stmt->bindParam(":id", $this->id);
     
@@ -215,7 +215,7 @@ class Instalacion {
                   VALUES (:titulo, :descripcion, :ruta_imagen, 'Instalacion', :asociado_id, FALSE)";
         $stmt = $this->conn->prepare($query);
 
-        $titulo = $this->titulo;
+        $titulo = $this->nombre;
         $descripcion = "Galeria imagen";
         $asociado_id = $this->id;
 
