@@ -61,7 +61,7 @@ export class CarrerasComponent {
     {
       title: 'Ingeniería en Desarrollo de Gestión de Software',
       imageUrl: './assets/img/fotos_por_carrera/desarrollo-software.jpg',
-      link: 'info_carreras/desarrollo_software'
+      link: 'info_carreras/desarrollo-software'
     }
   ];
 

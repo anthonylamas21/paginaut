@@ -34,8 +34,10 @@ export class CarreraAdministracionComponent {
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/mg3.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/mg4.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/admin/admin1.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/admin/admin2.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/admin/admin3.jpg', alt: 'Image 3' },
+    { url: './assets/img/galeria/admin/admin4.jpg', alt: 'Image 4' },
     // más imágenes aquí
   ];
 

@@ -33,8 +33,8 @@ export class CarreraDesarrolloSoftwareComponent {
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/mg1.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/mg2.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/desarrollo/desarrollo1.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/desarrollo/desarrollo2.jpg', alt: 'Image 2' },
     // más imágenes aquí
   ];
 
