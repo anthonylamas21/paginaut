@@ -230,10 +230,10 @@ export class AgregarCalendarioComponent implements OnInit {
     const calendarioToUpdate = this.calendarios.find((cal) => cal.id === id);
 
     if (calendarioToUpdate && calendarioToUpdate.id !== undefined) {
-      if (this.papeleraCalendarios.length > 2) {
+      if (this.papeleraCalendarios.length >= 1) {
         this.showConfirmDialog(
           'Confirmar activación de calendario',
-          `Tienes más de dos calendarios en la papelera. ¿Estás seguro de que deseas activar este calendario?`,
+          `Tienes ${this.papeleraCalendarios.length} calendario(s) en la papelera. ¿Estás seguro de que deseas activar este calendario?`,
           () => {
             this.confirmActivation(calendarioToUpdate);
           }
