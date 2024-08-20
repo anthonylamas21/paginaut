@@ -88,6 +88,9 @@ switch ($request_method) {
         }
         elseif (strpos($request_uri, '/api/send_reset_email') !== false) {
             include_once 'controllers/send_reset_email.php';
+                
+        }elseif(strpos($request_uri, '/api/bolsa_requisitos.php') !== false){
+            include_once 'controllers/bolsa_requisitos.php';
         } else {
 
             header("HTTP/1.0 404 Not Found");

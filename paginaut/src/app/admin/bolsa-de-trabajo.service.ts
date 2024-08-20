@@ -31,6 +31,7 @@ export interface BolsaDeTrabajoResponse {
 })
 export class BolsaDeTrabajoService {
   private apiUrl = 'http://localhost/paginaut/api/bolsa_de_trabajo.php';
+  private apiUrlRequisitos = 'http://localhost/paginaut/api/bolsa_requisitos.php';
 
   constructor(private http: HttpClient) {}
 
@@ -42,7 +43,7 @@ export class BolsaDeTrabajoService {
 
   addRequisitos(requisitos: Requisito[]): Observable<any> {
     return this.http
-      .post<any>(`${this.apiUrl}/requisitos`, { requisitos })
+      .post<any>(`${this.apiUrlRequisitos}`, { requisitos })
       .pipe(catchError(this.handleError));
   }
 

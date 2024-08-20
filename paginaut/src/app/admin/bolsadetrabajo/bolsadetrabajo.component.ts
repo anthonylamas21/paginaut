@@ -160,18 +160,18 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
           },
         });
     } else {
-      this.bolsaDeTrabajoService.addBolsa(bolsaData).subscribe({
-        next: (response: any) => {
-          this.currentBolsaDeTrabajoId = response.id; // Guardar ID de la bolsa recién creada
+      this.bolsaDeTrabajoService.addBolsa(bolsaData).subscribe(
+        (response) => {
+          console.log(response)
+          this.currentBolsaDeTrabajoId = response.id; // Guardar ID de la bolsa recién creada 
           this.showToast('success', 'Bolsa de trabajo agregada correctamente');
           this.loadBolsas();
           this.closeModal();
           this.openRequisitosModal(); // Abrir modal de requisitos después de crear
         },
-        error: (error: any) => {
+        (error) => {
           this.showToast('error', error.message);
-        },
-      });
+        });
     }
   }
 
