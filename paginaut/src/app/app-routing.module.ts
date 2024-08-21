@@ -46,6 +46,7 @@ import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.co
 import { InstalacionComponent } from './admin/instalacion/instalacion.component';
 import { AgregarBolsaTrabajoComponent } from './admin/bolsadetrabajo/bolsadetrabajo.component';
 import { AgregarCursoComponent } from './admin/agregar-curso/agregar-curso.component';
+import { AgregarProfesorComponent } from './admin/agregar-profesor/agregar-profesor.component';
 
 // Info Carreras
 import { CarreraAgrobiotecnologiaComponent } from './info-carreras/carrera-agrobiotecnologia/carrera-agrobiotecnologia.component';
@@ -122,7 +123,7 @@ const routes: Routes = [
   { path: 'enviar-correo', component: PasswordResetComponent },
   { path: 'biblioteca', component: BibliotecaComponent },
   { path: 'admin/agregar-curso', component: AgregarCursoComponent, canActivate: [guardAuthGuard] },
-  
+
 
   // Info Carreras
   {
@@ -253,6 +254,11 @@ const routes: Routes = [
   {
     path: 'admin/agregar-bolsadetrabajo',
     component: AgregarBolsaTrabajoComponent,
+    canActivate: [guardAuthGuard],
+  },
+  {
+    path: 'admin/agregar-profesor',
+    component: AgregarProfesorComponent,
     canActivate: [guardAuthGuard],
   },
   { path: '**', component: NotFoundComponent },

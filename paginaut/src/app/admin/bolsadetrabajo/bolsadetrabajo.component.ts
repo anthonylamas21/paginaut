@@ -77,7 +77,7 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {
     this.bolsaDeTrabajoForm = this.fb.group({
-      id:[''],
+      id: [''],
       nombre_empresa: [''],
       descripcion_trabajo: [''],
       puesto_trabajo: [''],
@@ -147,37 +147,40 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
         timer: 3000,
         allowOutsideClick: false,
         allowEscapeKey: false,
-        allowEnterKey: false
+        allowEnterKey: false,
       });
     }
   }
-  
-  
+
   addRequisito() {
     this.requisitos.push(this.createRequisito());
     this.cdr.detectChanges(); // Forzar la detección de cambios
   }
-  
 
   onSubmitBolsa() {
     const bolsaData = this.bolsaDeTrabajoForm.value;
-  
+
     if (this.currentBolsaDeTrabajoId) {
-      this.bolsaDeTrabajoService.updateBolsa(this.currentBolsaDeTrabajoId, bolsaData).subscribe({
-        next: (response: any) => {
-          this.showToast('success', 'Bolsa de trabajo actualizada correctamente');
-          this.loadBolsas();
-          this.closeModal();
-          // No abrir el modal de requisitos de nuevo, mantén los requisitos actuales
-        },
-        error: (error: any) => {
-          this.showToast('error', error.message);
-        },
-      });
+      this.bolsaDeTrabajoService
+        .updateBolsa(this.currentBolsaDeTrabajoId, bolsaData)
+        .subscribe({
+          next: (response: any) => {
+            this.showToast(
+              'success',
+              'Bolsa de trabajo actualizada correctamente'
+            );
+            this.loadBolsas();
+            this.closeModal();
+            // No abrir el modal de requisitos de nuevo, mantén los requisitos actuales
+          },
+          error: (error: any) => {
+            this.showToast('error', error.message);
+          },
+        });
     } else {
       this.bolsaDeTrabajoService.addBolsa(bolsaData).subscribe(
         (response) => {
-          this.currentBolsaDeTrabajoId = response.id; // Guardar ID de la bolsa recién creada 
+          this.currentBolsaDeTrabajoId = response.id; // Guardar ID de la bolsa recién creada
           this.showToast('success', 'Bolsa de trabajo agregada correctamente');
           this.loadBolsas();
           this.closeModal();
@@ -189,7 +192,7 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
       );
     }
   }
-  
+
   onSubmitRequisitos() {
     if (this.requisitosForm.valid && this.currentBolsaDeTrabajoId) {
       const requisitosData = this.requisitosForm.value.requisitos.map(
@@ -198,7 +201,7 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
           id_bolsadetrabajo: this.currentBolsaDeTrabajoId,
         })
       );
-  
+
       // Actualizar requisitos existentes y agregar nuevos
       this.bolsaDeTrabajoService.updateRequisitos(requisitosData).subscribe(
         (response) => {
@@ -228,7 +231,6 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
     }
     this.isModalOpen = true;
   }
-  
 
   closeModal() {
     this.isModalOpen = false;
@@ -241,7 +243,7 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
     } else {
       this.currentBolsaDeTrabajoId = undefined;
       this.requisitosForm.reset();
-      this.requisitos.clear(); 
+      this.requisitos.clear();
       this.addRequisito();
     }
     this.isRequisitosModalOpen = true;
@@ -300,7 +302,8 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
           },
           (error) => {
             this.showToast('error', error.message);
-          });
+          }
+        );
       }
     );
   }
@@ -379,14 +382,12 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
       );
     } else {
       console.error('ID no es un número:', id);
-    }  
-}
-
+    }
+  }
 
   closeDetailsModal(): void {
     this.isDetailsModalOpen = false;
   }
-
 
   mostrar(elemento: any): void {
     // Verifica si el elemento recibido es un botón
@@ -471,7 +472,9 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
         this.requisitos.clear(); // Limpia los requisitos actuales en el formulario
         if (response.details && response.details.length > 0) {
           response.details.forEach((requisito: any) => {
-            this.requisitos.push(this.fb.group({ requisito: requisito.requisito }));
+            this.requisitos.push(
+              this.fb.group({ requisito: requisito.requisito })
+            );
           });
         } else {
           this.addRequisito(); // Añadir un requisito inicial si no hay requisitos
@@ -482,7 +485,4 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
       }
     );
   }
-  
-  
-  
 }

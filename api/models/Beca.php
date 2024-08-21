@@ -48,8 +48,8 @@ class Beca
 
     function readOne()
     {
-        $query = "SELECT id, nombre, descripcion, archivo, activo, fecha_creacion 
-              FROM " . $this->table_name . " 
+        $query = "SELECT id, nombre, descripcion, archivo, activo, fecha_creacion
+              FROM " . $this->table_name . "
               WHERE id = ?
               LIMIT 1";
 
