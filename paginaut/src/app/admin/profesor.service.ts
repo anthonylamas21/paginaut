@@ -44,21 +44,6 @@ export class ProfesorService {
       .pipe(catchError(this.handleError));
   }
 
-  addTipoProfesor(tipoProfesor: TipoProfesor): Observable<any> {
-    return this.http
-      .post<any>(this.tipoUrl, tipoProfesor)
-      .pipe(catchError(this.handleError));
-  }
-
-  getTiposProfesor(profesor_id: number): Observable<any> {
-    return this.http
-      .get<any>(`${this.tipoUrl}?profesor_id=${profesor_id}`)
-      .pipe(
-        map(response => response.tipos), // Aquí estamos mapeando la respuesta para obtener el array de tipos
-        catchError(this.handleError)
-      );
-  }
-
   getProfesores(): Observable<ProfesorResponse> {
     return this.http
       .get<ProfesorResponse>(this.apiUrl)
@@ -77,15 +62,28 @@ export class ProfesorService {
       .pipe(catchError(this.handleError));
   }
 
-  deleteTiposByProfesorId(profesor_id: number): Observable<any> {
-    return this.http
-      .delete<any>(`${this.tipoUrl}?profesor_id=${profesor_id}`)
-      .pipe(catchError(this.handleError));
-  }
-
   deleteProfesor(id: number): Observable<any> {
     return this.http
       .delete<any>(`${this.apiUrl}?id=${id}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  //TIPO PROFESORES
+  getTiposProfesor(profesor_id: number): Observable<TipoProfesor[]> {
+    return this.http
+      .get<TipoProfesor[]>(`${this.tipoUrl}?profesor_id=${profesor_id}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  addTipoProfesor(tiposProfesor: TipoProfesor[]): Observable<any> {
+    return this.http
+      .post<any>(`${this.tipoUrl}`, tiposProfesor)
+      .pipe(catchError(this.handleError));
+  }
+
+  deleteTiposByProfesorId(profesor_id: number): Observable<any> {
+    return this.http
+      .delete<any>(`${this.tipoUrl}?profesor_id=${profesor_id}`)
       .pipe(catchError(this.handleError));
   }
 

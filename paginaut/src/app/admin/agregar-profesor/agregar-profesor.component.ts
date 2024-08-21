@@ -145,36 +145,24 @@ export class AgregarProfesorComponent implements OnInit {
       formData.append('nombre', this.profesorForm.get('nombre')?.value);
       formData.append('apellido', this.profesorForm.get('apellido')?.value);
       formData.append('correo', this.profesorForm.get('correo')?.value);
-      formData.append(
-        'telefono',
-        this.profesorForm.get('telefono')?.value || ''
-      );
-      formData.append(
-        'especialidad',
-        this.profesorForm.get('especialidad')?.value || ''
-      );
-      formData.append(
-        'grado_academico',
-        this.profesorForm.get('grado_academico')?.value || ''
-      );
-      formData.append(
-        'experiencia',
-        this.profesorForm.get('experiencia')?.value || ''
-      );
-
+      formData.append('telefono', this.profesorForm.get('telefono')?.value || '');
+      formData.append('especialidad', this.profesorForm.get('especialidad')?.value || '');
+      formData.append('grado_academico', this.profesorForm.get('grado_academico')?.value || '');
+      formData.append('experiencia', this.profesorForm.get('experiencia')?.value || '');
+  
       if (this.fileToUpload) {
         formData.append('foto', this.fileToUpload, this.fileToUpload.name);
       } else {
         formData.append('foto', this.currentFileName);
       }
-
+  
       // Asegurarse de enviar el ID en caso de que sea una edición
       if (this.currentProfesorId) {
         formData.append('id', this.currentProfesorId.toString()); // Aquí se añade el ID
-
+  
         this.profesorService.updateProfesor(formData).subscribe({
           next: (response: any) => {
-            this.assignTipoProfesor(this.currentProfesorId!);
+            this.updateTipoProfesor(this.currentProfesorId!);
             this.showToast('success', 'Profesor actualizado correctamente');
             this.loadProfesores();
             this.resetForm();
@@ -188,7 +176,7 @@ export class AgregarProfesorComponent implements OnInit {
         this.profesorService.addProfesor(formData).subscribe({
           next: (response: any) => {
             const profesor_id = response.id;
-            this.assignTipoProfesor(profesor_id);
+            this.updateTipoProfesor(profesor_id);
             this.showToast('success', 'Profesor agregado correctamente');
             this.loadProfesores();
             this.resetForm();
@@ -200,12 +188,32 @@ export class AgregarProfesorComponent implements OnInit {
         });
       }
     } else {
-      this.showToast(
-        'warning',
-        'Por favor, completa todos los campos requeridos.'
-      );
+      this.showToast('warning', 'Por favor, completa todos los campos requeridos.');
     }
   }
+  
+  private updateTipoProfesor(profesor_id: number): void {
+    const tiposProfesor = this.assignTipoProfesor(profesor_id);
+    
+    // Primero eliminamos los tipos actuales (si existen)
+    this.profesorService.deleteTiposByProfesorId(profesor_id).subscribe({
+      next: () => {
+        // Luego agregamos los nuevos tipos
+        this.profesorService.addTipoProfesor(tiposProfesor).subscribe({
+          next: () => {
+           //alerta omitida
+          },
+          error: (error: any) => {
+            //alerta error omitida
+          }
+        });
+      },
+      error: (error: any) => {
+        this.showToast('error', 'Error al eliminar los tipos de profesor anteriores');
+      }
+    });
+  }
+  
 
   onFileChange(event: any) {
     const file = event.target.files[0];
@@ -416,24 +424,22 @@ export class AgregarProfesorComponent implements OnInit {
       );
     }
   }
+private assignTipoProfesor(profesor_id: number): Array<{ profesor_id: number, tipo_id: number }> {
+  const tiposProfesor: Array<{ profesor_id: number, tipo_id: number }> = [];
 
-  private assignTipoProfesor(profesor_id: number) {
-    if (this.profesorForm.get('tipoTiempoCompleto')?.value) {
-      this.profesorService
-        .addTipoProfesor({ profesor_id, tipo_id: 1 })
-        .subscribe();
-    }
-    if (this.profesorForm.get('tipoAsignatura')?.value) {
-      this.profesorService
-        .addTipoProfesor({ profesor_id, tipo_id: 2 })
-        .subscribe();
-    }
-    if (this.profesorForm.get('tipoCursos')?.value) {
-      this.profesorService
-        .addTipoProfesor({ profesor_id, tipo_id: 3 })
-        .subscribe();
-    }
+  if (this.profesorForm.get('tipoTiempoCompleto')?.value) {
+    tiposProfesor.push({ profesor_id, tipo_id: 1 });
   }
+  if (this.profesorForm.get('tipoAsignatura')?.value) {
+    tiposProfesor.push({ profesor_id, tipo_id: 2 });
+  }
+  if (this.profesorForm.get('tipoCursos')?.value) {
+    tiposProfesor.push({ profesor_id, tipo_id: 3 });
+  }
+
+  return tiposProfesor; // Return the array of tipos
+}
+  
 
   mostrar(elemento: any): void {
     if (elemento.tagName.toLowerCase() === 'button') {

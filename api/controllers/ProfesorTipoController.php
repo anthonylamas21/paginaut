@@ -20,20 +20,32 @@ $data = json_decode(file_get_contents("php://input"));
 
 switch ($request_method) {
   case 'POST':
-    if (!empty($data->profesor_id) && !empty($data->tipo_id)) {
-      $profesorTipo->profesor_id = $data->profesor_id;
-      $profesorTipo->tipo_id = $data->tipo_id;
-
-      if ($profesorTipo->create()) {
+    if (!empty($data) && is_array($data)) {
+      $success = true;
+      foreach ($data as $tipo) {
+        if (isset($tipo->profesor_id) && isset($tipo->tipo_id)) {
+          $profesorTipo->profesor_id = $tipo->profesor_id;
+          $profesorTipo->tipo_id = $tipo->tipo_id;
+          if (!$profesorTipo->create()) {
+            $success = false;
+            break;
+          }
+        } else {
+          http_response_code(400);
+          echo json_encode(array("message" => "Datos incompletos en uno de los objetos."));
+          exit;
+        }
+      }
+      if ($success) {
         http_response_code(201);
-        echo json_encode(array("message" => "Tipo de profesor asignado correctamente."));
+        echo json_encode(array("message" => "Tipos de profesor asignados correctamente."));
       } else {
         http_response_code(503);
-        echo json_encode(array("message" => "No se pudo asignar el tipo de profesor."));
+        echo json_encode(array("message" => "No se pudo asignar uno o más tipos de profesor."));
       }
     } else {
       http_response_code(400);
-      echo json_encode(array("message" => "Datos incompletos."));
+      echo json_encode(array("message" => "Datos inválidos o vacíos."));
     }
     break;
 
@@ -48,14 +60,14 @@ switch ($request_method) {
     break;
 
   case 'DELETE':
-    if (isset($_GET['id'])) {
-      $profesorTipo->id = $_GET['id'];
+    if (isset($_GET['profesor_id'])) {
+      $profesorTipo->profesor_id = $_GET['profesor_id'];
       if ($profesorTipo->delete()) {
         http_response_code(200);
-        echo json_encode(array("message" => "Tipo de profesor eliminado correctamente."));
+        echo json_encode(array("message" => "Tipos de profesor eliminados correctamente."));
       } else {
         http_response_code(503);
-        echo json_encode(array("message" => "No se pudo eliminar el tipo de profesor."));
+        echo json_encode(array("message" => "No se pudo eliminar los tipos de profesor."));
       }
     } else {
       http_response_code(400);

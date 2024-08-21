@@ -16,6 +16,9 @@ class Profesor
     public $activo;
     public $fecha_creacion;
 
+    public $profesor_id;
+    public $tipo_id;
+
     public function __construct($db)
     {
         $this->conn = $db;
@@ -144,6 +147,22 @@ class Profesor
             "fecha_creacion" => $this->fecha_creacion
         );
     }
+
+    function deleteByProfesorAndTipo()
+{
+    $query = "DELETE FROM ProfesorTipo WHERE profesor_id = :profesor_id AND tipo_id = :tipo_id";
+    $stmt = $this->conn->prepare($query);
+
+    $stmt->bindParam(":profesor_id", $this->profesor_id);
+    $stmt->bindParam(":tipo_id", $this->tipo_id);
+
+    if ($stmt->execute()) {
+        return true;
+    }
+
+    return false;
+}
+
 
     private function sanitize()
     {

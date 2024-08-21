@@ -39,9 +39,9 @@ class ProfesorTipo
 
   function delete()
   {
-    $query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
+    $query = "DELETE FROM " . $this->table_name . " WHERE profesor_id = ?";
     $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(1, $this->id);
+    $stmt->bindParam(1, $this->profesor_id);
 
     if ($stmt->execute()) {
       return true;
