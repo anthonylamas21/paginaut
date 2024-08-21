@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 export interface Profesor {
   id?: number;
@@ -49,6 +50,15 @@ export class ProfesorService {
       .pipe(catchError(this.handleError));
   }
 
+  getTiposProfesor(profesor_id: number): Observable<any> {
+    return this.http
+      .get<any>(`${this.tipoUrl}?profesor_id=${profesor_id}`)
+      .pipe(
+        map(response => response.tipos), // Aquí estamos mapeando la respuesta para obtener el array de tipos
+        catchError(this.handleError)
+      );
+  }
+
   getProfesores(): Observable<ProfesorResponse> {
     return this.http
       .get<ProfesorResponse>(this.apiUrl)
@@ -62,24 +72,20 @@ export class ProfesorService {
   }
 
   updateProfesor(profesor: FormData): Observable<any> {
-    const id = profesor.get('id');
-    if (!id) {
-      return throwError(() => new Error('No se proporcionó un ID.'));
-    }
     return this.http
-      .put<any>(`${this.apiUrl}`, profesor)
+      .post<any>(this.apiUrl, profesor)  // Usando POST para la actualización
+      .pipe(catchError(this.handleError));
+  }
+
+  deleteTiposByProfesorId(profesor_id: number): Observable<any> {
+    return this.http
+      .delete<any>(`${this.tipoUrl}?profesor_id=${profesor_id}`)
       .pipe(catchError(this.handleError));
   }
 
   deleteProfesor(id: number): Observable<any> {
     return this.http
       .delete<any>(`${this.apiUrl}?id=${id}`)
-      .pipe(catchError(this.handleError));
-  }
-
-  getTiposProfesor(profesor_id: number): Observable<TipoProfesor[]> {
-    return this.http
-      .get<TipoProfesor[]>(`${this.tipoUrl}?profesor_id=${profesor_id}`)
       .pipe(catchError(this.handleError));
   }
 
