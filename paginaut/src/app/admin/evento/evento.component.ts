@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { EventoService, Evento } from '../../evento.service';
+import { CursoService, Curso } from '../../cursoService/curso.service';
 import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -61,6 +62,7 @@ export class EventoComponent implements OnInit,  OnDestroy {
   eventos: Evento[] = [];
   filteredEventos: Evento[] = [];
   papeleraEventos: Evento[] = [];
+  cursos: Curso[] = []; // Lista de cursos
   eventoForm: FormGroup;
   isModalOpen = false;
   currentEventoId: number | null = null;
@@ -85,7 +87,7 @@ export class EventoComponent implements OnInit,  OnDestroy {
     private unsubscribe$ = new Subject<void>();
 
 
-    constructor(private eventoService: EventoService, private fb: FormBuilder) {
+    constructor(private eventoService: EventoService,  private cursoService: CursoService,  private fb: FormBuilder) {
       this.minDate = this.getTodayDate();
       this.minTimeInicio = this.getCurrentTime();
       this.minTimeFin = this.minTimeInicio;
@@ -98,25 +100,48 @@ export class EventoComponent implements OnInit,  OnDestroy {
         fecha_fin: ['', [Validators.required]],
         hora_inicio: ['', [Validators.required]],
         hora_fin: ['', [Validators.required]],
+        es_curso: [null, Validators.required], // Inicia con null para representar "Selecciona una opción"
+        curso_id: [null], // Nuevo campo para el ID del curso, opcional
       }, { validators: this.fechaHoraValidator() });
     }
 
-  ngOnInit(): void {
-    this.loadEventos();
-    this.setupDateTimeValidation();
+    ngOnInit(): void {
+      this.loadEventos();
+      this.loadCursos(); // Cargar los cursos
+      this.setupDateTimeValidation();
 
-    // Suscribirse a los cambios del formulario
-    this.eventoForm.valueChanges
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(() => {
-        // No hacemos nada aquí, solo queremos que se dispare la detección de cambios
+      this.eventoForm.get('es_curso')?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(value => {
+          if (value === true) {
+              // Si selecciona "Sí", hacer que curso_id sea obligatorio
+              this.eventoForm.get('curso_id')?.setValidators([Validators.required]);
+              this.eventoForm.get('curso_id')?.updateValueAndValidity();
+          } else {
+              // Si selecciona "No", limpiar curso_id y remover validación
+              this.eventoForm.get('curso_id')?.clearValidators();
+              this.eventoForm.get('curso_id')?.setValue(null);
+              this.eventoForm.get('curso_id')?.updateValueAndValidity();
+          }
       });
   }
+
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
+  loadCursos(): void {
+    this.cursoService.getCursos().subscribe({
+      next: (cursos: Curso[]) => {
+        this.cursos = cursos;
+      },
+      error: (error) => {
+        console.error('Error al cargar los cursos:', error);
+        this.showToast('error', 'Error al cargar los cursos');
+      }
+    });
+  }
+
+
 
 
 
@@ -170,6 +195,8 @@ export class EventoComponent implements OnInit,  OnDestroy {
         ...evento,
         fecha_inicio: fechaInicio,
         fecha_fin: fechaFin,
+        es_curso: evento.es_curso || false,
+        curso_id: evento.curso_id || null,
       });
 
       this.imagenPrincipalPreview = evento.imagen_principal || null;
@@ -238,109 +265,90 @@ export class EventoComponent implements OnInit,  OnDestroy {
 
   onSubmit(): void {
     if (this.eventoForm.valid) {
-      this.isLoading = true;
-      const eventoData: Evento = {
-        ...this.eventoForm.value,
-        id: this.currentEventoId,
-        imagen_principal: this.imagenPrincipalPreview as string,
-        imagenes_generales: this.imagenesGeneralesActuales,
-        archivos: this.archivosActuales,
-      };
+        this.isLoading = true;
+        const eventoData: Evento = {
+            ...this.eventoForm.value,
+            id: this.currentEventoId,
+            imagen_principal: this.imagenPrincipalPreview as string,
+            imagenes_generales: this.imagenesGeneralesActuales,
+            archivos: this.archivosActuales,
+            es_curso: this.eventoForm.get('es_curso')?.value,
+            curso_id: this.eventoForm.get('curso_id')?.value
+        };
 
-      const imagenPrincipalInput = document.getElementById(
-        'imagenPrincipal'
-      ) as HTMLInputElement;
-      const imagenPrincipal = imagenPrincipalInput.files?.[0];
-      const imagenesGeneralesInput = document.getElementById(
-        'imagenesGenerales'
-      ) as HTMLInputElement;
-      const imagenesGenerales = imagenesGeneralesInput.files;
-      const archivosInput = document.getElementById(
-        'archivos'
-      ) as HTMLInputElement;
-      const archivos = archivosInput.files;
+        const imagenPrincipalInput = document.getElementById('imagenPrincipal') as HTMLInputElement;
+        const imagenPrincipal = imagenPrincipalInput.files?.[0];
+        const imagenesGeneralesInput = document.getElementById('imagenesGenerales') as HTMLInputElement;
+        const imagenesGenerales = imagenesGeneralesInput.files;
+        const archivosInput = document.getElementById('archivos') as HTMLInputElement;
+        const archivos = archivosInput.files;
 
-      if (this.currentEventoId) {
-        // Primero, elimina las imágenes y archivos marcados
-        const deletePromises: Promise<any>[] = [
-          ...this.imagenesParaEliminar.map((ruta) =>
-            this.eventoService
-              .eliminarImagenGeneral(this.currentEventoId!, ruta)
-              .toPromise()
-          ),
-          ...this.archivosParaEliminar.map((ruta) =>
-            this.eventoService
-              .eliminarArchivo(this.currentEventoId!, ruta)
-              .toPromise()
-          ),
-        ];
+        if (this.currentEventoId) {
+            // Primero, elimina las imágenes y archivos marcados
+            const deleteImagenesPromises: Promise<any>[] = this.imagenesParaEliminar.map(ruta =>
+                this.eventoService.eliminarImagenGeneral(this.currentEventoId!, ruta).toPromise()
+            );
 
-        Promise.all(deletePromises)
-          .then(() => {
-            // Luego, actualiza el evento
-            return this.eventoService
-              .actualizarEvento(
+            const deleteArchivosPromises: Promise<any>[] = this.archivosParaEliminar.map(ruta =>
+                this.eventoService.eliminarArchivo(this.currentEventoId!, ruta).toPromise()
+            );
+
+            Promise.all([...deleteImagenesPromises, ...deleteArchivosPromises])
+                .then(() => {
+                    // Luego, actualiza el evento
+                    return this.eventoService.actualizarEvento(
+                        eventoData,
+                        imagenPrincipal,
+                        imagenesGenerales ? Array.from(imagenesGenerales) : undefined,
+                        archivos ? Array.from(archivos) : undefined
+                    ).toPromise();
+                })
+                .then(() => {
+                    this.showToast('success', 'Evento actualizado con éxito');
+                    this.closeModal();
+                    this.loadEventos();
+                })
+                .catch(error => {
+                    console.error('Error al actualizar el evento:', error);
+                    this.showToast('error', 'Error al actualizar el evento: ' + (error.error?.message || error.message));
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                    this.imagenesParaEliminar = [];
+                    this.archivosParaEliminar = [];
+                });
+        } else {
+            // Crear nuevo evento
+            this.eventoService.crearEvento(
                 eventoData,
                 imagenPrincipal,
                 imagenesGenerales ? Array.from(imagenesGenerales) : undefined,
                 archivos ? Array.from(archivos) : undefined
-              )
-              .toPromise();
-          })
-          .then(() => {
-            this.showToast('success', 'Evento actualizado con éxito');
-            this.closeModal();
-            this.loadEventos();
-          })
-          .catch((error) => {
-            console.error('Error al actualizar el evento:', error);
-            this.showToast(
-              'error',
-              'Error al actualizar el evento: ' +
-                (error.error?.message || error.message)
-            );
-          })
-          .finally(() => {
-            this.isLoading = false;
-            this.imagenesParaEliminar = [];
-            this.archivosParaEliminar = [];
-          });
-      } else {
-        this.eventoService
-          .crearEvento(
-            eventoData,
-            imagenPrincipal,
-            imagenesGenerales ? Array.from(imagenesGenerales) : undefined,
-            archivos ? Array.from(archivos) : undefined
-          )
-          .subscribe({
-            next: (response) => {
-              this.showToast('success', 'Evento creado con éxito');
-              this.closeModal();
-              this.loadEventos();
-            },
-            error: (error) => {
-              console.error('Error al crear el evento:', error);
-              this.showToast(
-                'error',
-                'Error al crear el evento: ' +
-                  (error.error?.message || error.message)
-              );
-            },
-            complete: () => {
-              this.isLoading = false;
-            },
-          });
-      }
-    }else {
-      this.showToast('warning', 'Por favor, complete todos los campos requeridos correctamente.');
-      // Marcar todos los campos como tocados para mostrar los errores
-      Object.keys(this.eventoForm.controls).forEach(key => {
-        const control = this.eventoForm.get(key);
-        control?.markAsTouched();
-      });
+            ).subscribe({
+                next: (response) => {
+                    this.showToast('success', 'Evento creado con éxito');
+                    this.closeModal();
+                    this.loadEventos();
+                },
+                error: (error) => {
+                    console.error('Error al crear el evento:', error);
+                    this.showToast('error', 'Error al crear el evento: ' + (error.error?.message || error.message));
+                },
+                complete: () => {
+                    this.isLoading = false;
+                }
+            });
+        }
+    } else {
+        this.showToast('warning', 'Por favor, complete todos los campos requeridos correctamente.');
+        Object.keys(this.eventoForm.controls).forEach(key => {
+            const control = this.eventoForm.get(key);
+            control?.markAsTouched();
+        });
     }
-  }
+}
+
+
 
   isFormValid(): boolean {
     return this.eventoForm.valid;
@@ -754,6 +762,7 @@ export class EventoComponent implements OnInit,  OnDestroy {
       this.archivosActuales = [];
     }
   }
+
 
   closeAllModals(): void {
     this.isImageModalOpen = false;

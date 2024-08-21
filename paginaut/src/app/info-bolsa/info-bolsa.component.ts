@@ -1,37 +1,15 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component,HostListener } from '@angular/core';
 import { BolsaDeTrabajo, BolsaDeTrabajoService } from '../admin/bolsa-de-trabajo.service';
 
 @Component({
   selector: 'app-info-bolsa',
   templateUrl: './info-bolsa.component.html',
-  styleUrls: ['./info-bolsa.component.css']
+  styleUrl: './info-bolsa.component.css'
 })
-export class InfoBolsaComponent implements OnInit {
-  bolsa?: BolsaDeTrabajo;
-
-  constructor(
-    private route: ActivatedRoute,
-    private bolsaDeTrabajoService: BolsaDeTrabajoService
-  ) {}
+export class InfoBolsaComponent {
 
   ngOnInit(): void {
-    this.loadBolsaDeTrabajo();
     this.setNavbarColor();
-  }
-
-  private loadBolsaDeTrabajo(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.bolsaDeTrabajoService.getBolsaById(+id).subscribe({
-        next: (data: BolsaDeTrabajo) => {
-          this.bolsa = data;
-        },
-        error: (err) => {
-          console.error('Error loading bolsa de trabajo:', err);
-        }
-      });
-    }
   }
 
   @HostListener('window:scroll', [])

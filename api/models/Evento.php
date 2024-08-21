@@ -13,6 +13,8 @@ class Evento
   public $fecha_fin;
   public $hora_inicio;
   public $hora_fin;
+  public $es_curso;  // Nueva propiedad para indicar si es un curso
+  public $curso_id;  // Nueva propiedad para el ID del curso
   public $fecha_creacion;
   public $imagen_principal;
   public $imagenes_generales = [];
@@ -26,44 +28,54 @@ class Evento
   // Crear evento
   function create()
   {
-    $query = "INSERT INTO " . $this->table_name . "
-                  (titulo, informacion_evento, activo, lugar_evento, fecha_inicio, fecha_fin, hora_inicio, hora_fin)
-                  VALUES
-                  (:titulo, :informacion_evento, :activo, :lugar_evento, :fecha_inicio, :fecha_fin, :hora_inicio, :hora_fin)";
+      $query = "INSERT INTO " . $this->table_name . "
+                    (titulo, informacion_evento, activo, lugar_evento, fecha_inicio, fecha_fin, hora_inicio, hora_fin, es_curso, curso_id)
+                    VALUES
+                    (:titulo, :informacion_evento, :activo, :lugar_evento, :fecha_inicio, :fecha_fin, :hora_inicio, :hora_fin, :es_curso, :curso_id)";
 
-    $stmt = $this->conn->prepare($query);
+      $stmt = $this->conn->prepare($query);
 
-    // Sanear los datos de entrada
-    $this->titulo = htmlspecialchars(strip_tags($this->titulo));
-    $this->informacion_evento = htmlspecialchars(strip_tags($this->informacion_evento));
-    $this->activo = $this->activo ? 1 : 0;
-    $this->lugar_evento = htmlspecialchars(strip_tags($this->lugar_evento));
-    $this->fecha_inicio = htmlspecialchars(strip_tags($this->fecha_inicio));
-    $this->fecha_fin = htmlspecialchars(strip_tags($this->fecha_fin));
-    $this->hora_inicio = htmlspecialchars(strip_tags($this->hora_inicio));
-    $this->hora_fin = htmlspecialchars(strip_tags($this->hora_fin));
+      // Sanear los datos de entrada
+      $this->titulo = htmlspecialchars(strip_tags($this->titulo));
+      $this->informacion_evento = htmlspecialchars(strip_tags($this->informacion_evento));
+      $this->activo = $this->activo ? 1 : 0;
+      $this->lugar_evento = htmlspecialchars(strip_tags($this->lugar_evento));
+      $this->fecha_inicio = htmlspecialchars(strip_tags($this->fecha_inicio));
+      $this->fecha_fin = htmlspecialchars(strip_tags($this->fecha_fin));
+      $this->hora_inicio = htmlspecialchars(strip_tags($this->hora_inicio));
+      $this->hora_fin = htmlspecialchars(strip_tags($this->hora_fin));
+      $this->es_curso = $this->es_curso ? 1 : 0;
 
-    // Vincular parámetros
-    $stmt->bindParam(":titulo", $this->titulo);
-    $stmt->bindParam(":informacion_evento", $this->informacion_evento);
-    $stmt->bindParam(":activo", $this->activo);
-    $stmt->bindParam(":lugar_evento", $this->lugar_evento);
-    $stmt->bindParam(":fecha_inicio", $this->fecha_inicio);
-    $stmt->bindParam(":fecha_fin", $this->fecha_fin);
-    $stmt->bindParam(":hora_inicio", $this->hora_inicio);
-    $stmt->bindParam(":hora_fin", $this->hora_fin);
+      // Vincular parámetros
+      $stmt->bindParam(":titulo", $this->titulo);
+      $stmt->bindParam(":informacion_evento", $this->informacion_evento);
+      $stmt->bindParam(":activo", $this->activo);
+      $stmt->bindParam(":lugar_evento", $this->lugar_evento);
+      $stmt->bindParam(":fecha_inicio", $this->fecha_inicio);
+      $stmt->bindParam(":fecha_fin", $this->fecha_fin);
+      $stmt->bindParam(":hora_inicio", $this->hora_inicio);
+      $stmt->bindParam(":hora_fin", $this->hora_fin);
+      $stmt->bindParam(":es_curso", $this->es_curso);
 
-    if ($stmt->execute()) {
-      $this->id = $this->conn->lastInsertId();
-      if (!empty($_FILES['imagen_principal'])) {
-        $this->saveImagenPrincipal($_FILES['imagen_principal']);
+      // Vincula curso_id solo si no está vacío, de lo contrario, usa null
+      if (!empty($this->curso_id)) {
+          $stmt->bindParam(":curso_id", $this->curso_id, PDO::PARAM_INT);
+      } else {
+          $stmt->bindValue(":curso_id", null, PDO::PARAM_NULL);
       }
-      $this->saveImagenesGenerales();
-      $this->saveArchivos();
-      return true;
-    }
-    return false;
+
+      if ($stmt->execute()) {
+        $this->id = $this->conn->lastInsertId();
+        if (!empty($_FILES['imagen_principal'])) {
+          $this->saveImagenPrincipal($_FILES['imagen_principal']);
+        }
+        $this->saveImagenesGenerales();
+        $this->saveArchivos();
+        return true;
+      }
+      return false;
   }
+
 
   // Guardar imagen principal asociada al evento
   private function saveImagenPrincipal()
@@ -243,62 +255,90 @@ class Evento
   }
 
   // Actualizar evento
-  function update()
+  public function update()
   {
-    $query = "UPDATE " . $this->table_name . " SET
-                titulo = :titulo,
-                informacion_evento = :informacion_evento,
-                activo = :activo,
-                lugar_evento = :lugar_evento,
-                fecha_inicio = :fecha_inicio,
-                fecha_fin = :fecha_fin,
-                hora_inicio = :hora_inicio,
-                hora_fin = :hora_fin
-                WHERE id = :id";
+      $query = "UPDATE " . $this->table_name . " SET
+              titulo = :titulo,
+              informacion_evento = :informacion_evento,
+              activo = :activo,
+              lugar_evento = :lugar_evento,
+              fecha_inicio = :fecha_inicio,
+              fecha_fin = :fecha_fin,
+              hora_inicio = :hora_inicio,
+              hora_fin = :hora_fin,
+              es_curso = :es_curso,
+              curso_id = :curso_id
+              WHERE id = :id";
 
+      $stmt = $this->conn->prepare($query);
+
+      // Sanear y vincular los parámetros
+      $this->titulo = htmlspecialchars(strip_tags($this->titulo));
+      $this->informacion_evento = htmlspecialchars(strip_tags($this->informacion_evento));
+      $this->activo = $this->activo ? 1 : 0;
+      $this->lugar_evento = htmlspecialchars(strip_tags($this->lugar_evento));
+      $this->fecha_inicio = htmlspecialchars(strip_tags($this->fecha_inicio));
+      $this->fecha_fin = htmlspecialchars(strip_tags($this->fecha_fin));
+      $this->hora_inicio = htmlspecialchars(strip_tags($this->hora_inicio));
+      $this->hora_fin = htmlspecialchars(strip_tags($this->hora_fin));
+      $this->es_curso = $this->es_curso ? 1 : 0;
+      $this->curso_id = !empty($this->curso_id) ? intval($this->curso_id) : null;
+
+      $stmt->bindParam(":titulo", $this->titulo);
+      $stmt->bindParam(":informacion_evento", $this->informacion_evento);
+      $stmt->bindParam(":activo", $this->activo);
+      $stmt->bindParam(":lugar_evento", $this->lugar_evento);
+      $stmt->bindParam(":fecha_inicio", $this->fecha_inicio);
+      $stmt->bindParam(":fecha_fin", $this->fecha_fin);
+      $stmt->bindParam(":hora_inicio", $this->hora_inicio);
+      $stmt->bindParam(":hora_fin", $this->hora_fin);
+      $stmt->bindParam(":es_curso", $this->es_curso);
+      $stmt->bindParam(":curso_id", $this->curso_id);
+      $stmt->bindParam(":id", $this->id);
+
+      if ($stmt->execute()) {
+          // Eliminar imágenes generales seleccionadas para eliminar
+          if (isset($_POST['imagenes_a_eliminar']) && is_array($_POST['imagenes_a_eliminar'])) {
+              foreach ($_POST['imagenes_a_eliminar'] as $rutaImagen) {
+                  $this->deleteImagenGeneral($rutaImagen);
+              }
+          }
+
+          // Actualizar imagen principal si se proporcionó una nueva
+          if (isset($_FILES['imagen_principal']) && $_FILES['imagen_principal']['error'] === UPLOAD_ERR_OK) {
+              $this->updateImagenPrincipal($_FILES['imagen_principal']);
+          }
+
+          // Actualizar imágenes generales si se proporcionaron nuevas
+          if (isset($_FILES['imagenes_generales']) && !empty($_FILES['imagenes_generales']['name'][0])) {
+              $this->updateImagenesGenerales($_FILES['imagenes_generales']);
+          }
+
+          return true;
+      } else {
+          return false;
+      }
+  }
+// Método auxiliar para eliminar una imagen general de la base de datos
+public function deleteImagenGeneral($rutaImagen)
+{
+    $query = "DELETE FROM Imagenes WHERE seccion = 'Evento' AND asociado_id = :asociado_id AND ruta_imagen = :ruta_imagen AND principal = FALSE";
     $stmt = $this->conn->prepare($query);
 
-    // Sanear y vincular los parámetros
-    $this->titulo = htmlspecialchars(strip_tags($this->titulo));
-    $this->informacion_evento = htmlspecialchars(strip_tags($this->informacion_evento));
-    $this->activo = $this->activo ? 1 : 0;
-    $this->lugar_evento = htmlspecialchars(strip_tags($this->lugar_evento));
-    $this->fecha_inicio = htmlspecialchars(strip_tags($this->fecha_inicio));
-    $this->fecha_fin = htmlspecialchars(strip_tags($this->fecha_fin));
-    $this->hora_inicio = htmlspecialchars(strip_tags($this->hora_inicio));
-    $this->hora_fin = htmlspecialchars(strip_tags($this->hora_fin));
-
-    $stmt->bindParam(":titulo", $this->titulo);
-    $stmt->bindParam(":informacion_evento", $this->informacion_evento);
-    $stmt->bindParam(":activo", $this->activo);
-    $stmt->bindParam(":lugar_evento", $this->lugar_evento);
-    $stmt->bindParam(":fecha_inicio", $this->fecha_inicio);
-    $stmt->bindParam(":fecha_fin", $this->fecha_fin);
-    $stmt->bindParam(":hora_inicio", $this->hora_inicio);
-    $stmt->bindParam(":hora_fin", $this->hora_fin);
-    $stmt->bindParam(":id", $this->id);
+    $stmt->bindParam(":asociado_id", $this->id);
+    $stmt->bindParam(":ruta_imagen", $rutaImagen);
 
     if ($stmt->execute()) {
-      // Actualizar imagen principal si se proporcionó una nueva
-      if (!empty($_FILES['imagen_principal'])) {
-        $this->updateImagenPrincipal($_FILES['imagen_principal']);
-      }
-
-      // Actualizar imágenes generales si se proporcionaron nuevas
-      if (isset($_FILES['imagenes_generales']) && !empty($_FILES['imagenes_generales']['name'][0])) {
-        $this->updateImagenesGenerales($_FILES['imagenes_generales']);
-      }
-
-      // Actualizar archivos si se proporcionaron nuevos
-      if (isset($_FILES['archivos']) && !empty($_FILES['archivos']['name'][0])) {
-        $this->updateArchivos($_FILES['archivos']);
-      }
-
-      return true;
+        if (file_exists("../" . $rutaImagen)) {
+            unlink("../" . $rutaImagen);
+        }
+        return true;
     } else {
-      return false;
+        return false;
     }
-  }
+}
+
+
 
   public function updateImagenPrincipal($imagen)
   {
@@ -460,24 +500,6 @@ class Evento
     $stmt->execute();
   }
 
-  // Método auxiliar para eliminar una imagen general de la base de datos
-  public function deleteImagenGeneral($rutaImagen)
-  {
-    $query = "DELETE FROM Imagenes WHERE seccion = 'Evento' AND asociado_id = :asociado_id AND ruta_imagen = :ruta_imagen AND principal = FALSE";
-    $stmt = $this->conn->prepare($query);
-
-    $stmt->bindParam(":asociado_id", $this->id);
-    $stmt->bindParam(":ruta_imagen", $rutaImagen);
-
-    if ($stmt->execute()) {
-      if (file_exists("../" . $rutaImagen)) {
-        unlink("../" . $rutaImagen);
-      }
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   // Método auxiliar para eliminar un archivo de la base de datos
   public function deleteArchivo($rutaArchivo)

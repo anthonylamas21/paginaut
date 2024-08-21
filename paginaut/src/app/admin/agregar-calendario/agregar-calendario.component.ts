@@ -230,47 +230,64 @@ export class AgregarCalendarioComponent implements OnInit {
     const calendarioToUpdate = this.calendarios.find((cal) => cal.id === id);
 
     if (calendarioToUpdate && calendarioToUpdate.id !== undefined) {
-      if (this.papeleraCalendarios.length >= 1) {
+      if (this.hasActiveCalendario && this.papeleraCalendarios.length >= 1) {
+        // Caso 1: Un calendario activo y uno o más en la papelera
         this.showConfirmDialog(
           'Confirmar activación de calendario',
-          `Tienes ${this.papeleraCalendarios.length} calendario(s) en la papelera. ¿Estás seguro de que deseas activar este calendario?`,
+          'Actualmente tienes un calendario activo. Si activas este nuevo calendario, el anterior se desactivará automáticamente y se moverá a la papelera. ¿Deseas continuar?',
           () => {
-            this.confirmActivation(calendarioToUpdate);
+            this.desactivarYActivar(calendarioToUpdate);
+          }
+        );
+      } else if (
+        !this.hasActiveCalendario &&
+        this.papeleraCalendarios.length === 1
+      ) {
+        // Caso 2: Solo un calendario en la papelera y ninguno activo
+        this.showConfirmDialog(
+          'Reactivar beca',
+          '¿Quieres reactivar esta beca?',
+          () => {
+            this.actualizarYActivarCalendario(calendarioToUpdate);
+          }
+        );
+      } else if (
+        !this.hasActiveCalendario &&
+        this.papeleraCalendarios.length >= 2
+      ) {
+        // Caso 3: Dos o más calendarios en la papelera y ninguno activo
+        this.showConfirmDialog(
+          'Confirmar activación de calendario',
+          'Tienes más de un calendario en la papelera. ¿Estás seguro de que deseas activar este calendario?',
+          () => {
+            this.actualizarYActivarCalendario(calendarioToUpdate);
           }
         );
       } else {
-        this.confirmActivation(calendarioToUpdate);
+        this.actualizarYActivarCalendario(calendarioToUpdate);
       }
     } else {
       this.showToast('error', 'No se pudo encontrar el calendario a activar.');
     }
   }
 
-  confirmActivation(calendarioToUpdate: Calendario) {
-    if (this.hasActiveCalendario) {
-      this.showConfirmDialog(
-        'Confirmar activación de calendario',
-        'Actualmente tienes un calendario activo. Si activas este nuevo calendario, el anterior se desactivará automáticamente y se moverá a la papelera. ¿Deseas continuar?',
-        () => {
-          // Desactivar el calendario activo actual
-          const activeCalendario = this.calendarios.find((cal) => cal.activo);
-          if (activeCalendario && activeCalendario.id !== undefined) {
-            this.calendarioService
-              .updateCalendarioStatus(activeCalendario.id, false)
-              .subscribe({
-                next: () => {
-                  this.actualizarYActivarCalendario(calendarioToUpdate);
-                },
-                error: (error: any) => {
-                  this.showToast(
-                    'error',
-                    'Error al desactivar el calendario anterior'
-                  );
-                },
-              });
-          }
-        }
-      );
+  desactivarYActivar(calendarioToUpdate: Calendario) {
+    const activeCalendario = this.calendarios.find((cal) => cal.activo);
+
+    if (activeCalendario && activeCalendario.id !== undefined) {
+      this.calendarioService
+        .updateCalendarioStatus(activeCalendario.id, false)
+        .subscribe({
+          next: () => {
+            this.actualizarYActivarCalendario(calendarioToUpdate);
+          },
+          error: (error: any) => {
+            this.showToast(
+              'error',
+              'Error al desactivar el calendario anterior'
+            );
+          },
+        });
     } else {
       this.actualizarYActivarCalendario(calendarioToUpdate);
     }

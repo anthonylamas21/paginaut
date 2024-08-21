@@ -199,7 +199,29 @@ CREATE TABLE Historial (
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     hora TIME NOT NULL DEFAULT CURRENT_TIME
 );
-
+CREATE TABLE TiposProfesores (
+    id SERIAL PRIMARY KEY,
+    tipo VARCHAR(50) NOT NULL UNIQUE
+);
+CREATE TABLE Profesores (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    correo VARCHAR(100) NOT NULL,
+    telefono VARCHAR(20),
+    especialidad VARCHAR(150),
+    grado_academico VARCHAR(100),
+    experiencia TEXT,
+    foto VARCHAR(500),
+    activo BOOLEAN DEFAULT TRUE,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE ProfesorTipo (
+    id SERIAL PRIMARY KEY,
+    profesor_id INT REFERENCES Profesores(id) ON DELETE CASCADE,
+    tipo_id INT REFERENCES TiposProfesores(id) ON DELETE CASCADE,
+    UNIQUE (profesor_id, tipo_id)
+);
 -- Función y trigger para la tabla Usuario
 CREATE OR REPLACE FUNCTION log_modificacion_usuario()
 RETURNS TRIGGER AS $$
