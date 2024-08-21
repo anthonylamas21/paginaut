@@ -74,6 +74,24 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
     return CryptoJS.AES.decrypt(encrypted, this.secretKey).toString(CryptoJS.enc.Utf8);
   }
 
+  verNoticia(id: number | undefined): void {
+    if (id !== undefined) {
+      const encryptedId = CryptoJS.AES.encrypt(id.toString(), this.secretKey).toString();
+      this.router.navigate(['/noticia', encryptedId]);
+    } else {
+      console.error('ID de noticia no disponible');
+    }
+  }
+
+  verEvento(id: number | undefined): void {
+    if (id !== undefined) {
+      const encryptedId = CryptoJS.AES.encrypt(id.toString(), this.secretKey).toString();
+      this.router.navigate(['/evento', encryptedId]);
+    } else {
+      console.error('ID de noticia no disponible');
+    }
+  }
+
   ngOnInit() {
     this.cargarEventosRecientes();
     this.cargarNoticiasActivas();

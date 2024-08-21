@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NoticiaService, Noticia } from '../noticia.service';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-noticias',
@@ -8,6 +9,10 @@ import { NoticiaService, Noticia } from '../noticia.service';
   styleUrls: ['./noticias.component.css']
 })
 export class NoticiasComponent implements OnInit {
+
+  private secretKey: string = 'X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg';
+  idDecrypted: number | undefined;
+  
   isLoading = true;
   noticia: Noticia | null = null;
   error: string | null = null;
@@ -17,7 +22,16 @@ export class NoticiasComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private noticiaService: NoticiaService
-  ) {}
+  ) {
+    // Desencriptar el ID en el constructor
+    const encryptedId = this.route.snapshot.paramMap.get('id');
+    if (encryptedId) {
+      const bytes = CryptoJS.AES.decrypt(encryptedId, this.secretKey);
+      this.idDecrypted = parseInt(bytes.toString(CryptoJS.enc.Utf8), 10);
+    } else {
+      console.error('ID de noticia no disponible');
+    }
+  }
 
   ngOnInit(): void {
     this.setNavbarColor();
@@ -25,9 +39,8 @@ export class NoticiasComponent implements OnInit {
   }
 
   loadNoticia(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.noticiaService.obtenerNoticia(+id).subscribe({
+    if (this.idDecrypted !== undefined) {
+      this.noticiaService.obtenerNoticia(this.idDecrypted).subscribe({
         next: (noticia: Noticia) => {
           this.noticia = noticia;
           this.isLoading = false;
@@ -90,9 +103,10 @@ export class NoticiasComponent implements OnInit {
   volverANoticias(): void {
     this.router.navigate(['/noticias']); // Asegúrate de tener una ruta para la lista de noticias
   }
+
   ampliarImagen(imagenUrl: string): void {
     this.imagenAmpliada = imagenUrl;
-    console.log("se amplio");
+    console.log("Imagen ampliada:", imagenUrl);
   }
 
   cerrarImagenAmpliada(): void {

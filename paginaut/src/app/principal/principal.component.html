@@ -11,9 +11,10 @@
 
 <!-- Sección inicio -->
 <div class="relative w-full h-screen overflow-hidden">
-
+  <!-- Imagen de fondo -->
   <img class="object-cover w-full h-full transform transition-transform duration-1000 hover:scale-105" src="./assets/img/universidad.jpg" alt="Universidad">
 
+  <!-- Texto en la parte superior de la imagen -->
   <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-left">
     <div class="text-left text-white p-8 animate-fadeIn">
       <h1 class="text-5xl md:text-6xl font-bold uppercase tracking-wide pl-6">Universidad Tecnológica de la</h1>
@@ -22,8 +23,12 @@
     </div>
   </div>
 
+  <!-- Imagen con transición de movimiento -->
   <div class="absolute inset-x-20 bottom-0 flex justify-end items-end z-20">
-    <img class="h-[70vh] md:h-[80vh] object-contain" src="./assets/img/PORTADA_AUN2.png" alt="University Students">
+    <img class="h-[70vh] md:h-[80vh] object-contain transform translate-y-20 opacity-0 transition-transform transition-opacity duration-500 ease-out" 
+         src="./assets/img/PORTADA_AUN2.png" 
+         alt="University Students"
+         onload="this.classList.remove('translate-y-20', 'opacity-0')">
   </div>
 </div>
 
@@ -119,7 +124,7 @@
           <h3 class="text-2xl font-bold text-[#043D3D]">{{ eventosRecientes[0].titulo | slice:0:sliceValue }}</h3>
           <p class="mt-2 text-gray-600">{{ eventosRecientes[0].informacion_evento | slice:0:sliceValue }}.</p>
         </div>
-        <a [routerLink]="['/evento', eventosRecientes[0].id]" class="mt-4 text-[#04847C] hover:text-[#032D2D] font-bold">Leer más</a>
+        <a (click)="verEvento(eventosRecientes[0].id)" class="mt-4 text-[#04847C] hover:text-[#032D2D] font-bold">Leer más</a>
       </div>
     </div>
 
@@ -132,7 +137,7 @@
             <h3 class="text-lg font-bold text-[#043D3D]">{{ evento.titulo | slice:0:sliceValue }}</h3>
             <p class="text-gray-600">{{ evento.informacion_evento | slice:0:getDynamicSliceValue(evento.informacion_evento) }}.</p>
           </div>
-          <a [routerLink]="['/evento', evento.id]" class="mt-2 text-[#04847C] hover:text-[#032D2D] font-bold">Leer más</a>
+          <a (click)="verEvento(evento.id)" class="mt-2 text-[#04847C] hover:text-[#032D2D] font-bold">Leer más</a>
         </div>
       </div>
     </ng-container>
@@ -169,7 +174,7 @@
           <p class="text-gray-600 text-base">{{ noticia.resumen | slice:0:sliceValue }}.</p>
         </div>
         <div class="text-right">
-          <a [routerLink]="['/noticia', noticia.id]" class="text-[#04847C] hover:text-[#043D3D] font-semibold text-sm transition-colors duration-300">
+          <a (click)="verNoticia(noticia.id)" class="text-[#04847C] hover:text-[#043D3D] font-semibold text-sm transition-colors duration-300">
             Leer más <i class="fa-solid fa-chevron-right ml-1"></i>
           </a>
         </div>
@@ -177,7 +182,7 @@
 
       <!-- Información y flecha (visible solo en pantallas pequeñas) -->
       <div class="flex flex-col justify-center p-4 w-full md:hidden">
-        <a [routerLink]="['/noticia', noticia.id]" class="text-[#04847C] hover:text-[#043D3D] font-semibold text-sm transition-colors duration-300 flex items-center justify-end">
+        <a (click)="verNoticia(noticia.id)" class="text-[#04847C] hover:text-[#043D3D] font-semibold text-sm transition-colors duration-300 flex items-center justify-end">
           <!-- Icono visible en todas las pantallas -->
           <i class="fa-solid fa-chevron-right text-2xl ml-1"></i>
         </a>
