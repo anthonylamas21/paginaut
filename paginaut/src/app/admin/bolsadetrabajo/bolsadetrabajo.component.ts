@@ -134,42 +134,49 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
     return this.requisitosForm.get('requisitos') as FormArray;
   }
 
+  removeRequisito(index: number) {
+    if (this.requisitos.length > 1) {
+      this.requisitos.removeAt(index);
+      this.cdr.detectChanges(); // Forzar la detección de cambios
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'No puedes eliminar el último requisito',
+        text: 'Debe haber al menos un requisito en el formulario.',
+        showConfirmButton: false,
+        timer: 3000,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false
+      });
+    }
+  }
+  
+  
   addRequisito() {
     this.requisitos.push(this.createRequisito());
     this.cdr.detectChanges(); // Forzar la detección de cambios
   }
-
-  removeRequisito(index: number) {
-    this.requisitos.removeAt(index);
-    this.cdr.detectChanges(); // Forzar la detección de cambios
-  }
+  
 
   onSubmitBolsa() {
     const bolsaData = this.bolsaDeTrabajoForm.value;
-    //console.log(bolsaData)
-    this.id_bolsaTrabajo = this.bolsaDeTrabajoForm.value.id
-    //console.log('id ',this.id_bolsaTrabajo)
-    if (this.id_bolsaTrabajo) {
-      this.bolsaDeTrabajoService
-        .updateBolsa(this.id_bolsaTrabajo, bolsaData)
-        .subscribe({
-          next: (response: any) => {
-            this.showToast(
-              'success',
-              'Bolsa de trabajo actualizada correctamente'
-            );
-            this.loadBolsas();
-            this.closeModal();
-            this.openRequisitosModal(); // Abrir modal de requisitos después de actualizar
-          },
-          error: (error: any) => {
-            this.showToast('error', error.message);
-          },
-        });
+  
+    if (this.currentBolsaDeTrabajoId) {
+      this.bolsaDeTrabajoService.updateBolsa(this.currentBolsaDeTrabajoId, bolsaData).subscribe({
+        next: (response: any) => {
+          this.showToast('success', 'Bolsa de trabajo actualizada correctamente');
+          this.loadBolsas();
+          this.closeModal();
+          // No abrir el modal de requisitos de nuevo, mantén los requisitos actuales
+        },
+        error: (error: any) => {
+          this.showToast('error', error.message);
+        },
+      });
     } else {
       this.bolsaDeTrabajoService.addBolsa(bolsaData).subscribe(
         (response) => {
-          console.log(response)
           this.currentBolsaDeTrabajoId = response.id; // Guardar ID de la bolsa recién creada 
           this.showToast('success', 'Bolsa de trabajo agregada correctamente');
           this.loadBolsas();
@@ -178,10 +185,11 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
         },
         (error) => {
           this.showToast('error', error.message);
-        });
+        }
+      );
     }
   }
-
+  
   onSubmitRequisitos() {
     if (this.requisitosForm.valid && this.currentBolsaDeTrabajoId) {
       const requisitosData = this.requisitosForm.value.requisitos.map(
@@ -190,16 +198,18 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
           id_bolsadetrabajo: this.currentBolsaDeTrabajoId,
         })
       );
-
-      this.bolsaDeTrabajoService.addRequisitos(requisitosData).subscribe(
+  
+      // Actualizar requisitos existentes y agregar nuevos
+      this.bolsaDeTrabajoService.updateRequisitos(requisitosData).subscribe(
         (response) => {
-          this.showToast('success', 'Requisitos agregados correctamente');
-          this.closeRequisitosModal();
+          this.showToast('success', 'Requisitos actualizados correctamente');
+          this.closeRequisitosModal(); // Cerrar el modal después de agregar
           this.loadBolsas();
         },
         (error) => {
-          console.log("error" , error)
-        });
+          this.showToast('error', error.message);
+        }
+      );
     }
   }
 
@@ -207,20 +217,33 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
     if (bolsa) {
       this.currentBolsaDeTrabajoId = bolsa.id;
       this.bolsaDeTrabajoForm.patchValue(bolsa);
+      if (bolsa.id !== undefined) {
+        this.loadRequisitos(bolsa.id);
+      }
     } else {
       this.bolsaDeTrabajoForm.reset();
       this.currentBolsaDeTrabajoId = undefined;
+      this.requisitos.clear();
+      this.addRequisito();
     }
     this.isModalOpen = true;
   }
+  
 
   closeModal() {
     this.isModalOpen = false;
   }
 
-  openRequisitosModal() {
-    this.requisitosForm.reset();
-    this.addRequisito(); // Añadir un requisito inicial
+  openRequisitosModal(bolsa?: BolsaDeTrabajo) {
+    if (bolsa && bolsa.id !== undefined) {
+      this.currentBolsaDeTrabajoId = bolsa.id;
+      this.loadRequisitos(bolsa.id);
+    } else {
+      this.currentBolsaDeTrabajoId = undefined;
+      this.requisitosForm.reset();
+      this.requisitos.clear(); 
+      this.addRequisito();
+    }
     this.isRequisitosModalOpen = true;
   }
 
@@ -442,5 +465,24 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
     });
   }
 
+  private loadRequisitos(id_bolsaTrabajo: number) {
+    this.bolsaDeTrabajoService.getRequisitos(id_bolsaTrabajo).subscribe(
+      (response) => {
+        this.requisitos.clear(); // Limpia los requisitos actuales en el formulario
+        if (response.details && response.details.length > 0) {
+          response.details.forEach((requisito: any) => {
+            this.requisitos.push(this.fb.group({ requisito: requisito.requisito }));
+          });
+        } else {
+          this.addRequisito(); // Añadir un requisito inicial si no hay requisitos
+        }
+      },
+      (error) => {
+        this.showToast('error', error.message);
+      }
+    );
+  }
+  
+  
   
 }

@@ -65,5 +65,32 @@ class BolsaRequisitos
     }
 }
 
+function deleteByBolsaTrabajoId() {
+  $query = "DELETE FROM " . $this->table_name . " WHERE id_bolsadetrabajo = :id_bolsadetrabajo";
+  $stmt = $this->conn->prepare($query);
+
+  $this->id_bolsadetrabajo = htmlspecialchars(strip_tags($this->id_bolsadetrabajo));
+
+  $stmt->bindParam(':id_bolsadetrabajo', $this->id_bolsadetrabajo);
+
+  return $stmt->execute();
+}
+
+
+function update() {
+  $query = "UPDATE " . $this->table_name . " SET requisito = :requisito WHERE id = :id";
+  $stmt = $this->conn->prepare($query);
+
+  $this->requisito = htmlspecialchars(strip_tags($this->requisito));
+  $this->id = htmlspecialchars(strip_tags($this->id));
+
+  $stmt->bindParam(':requisito', $this->requisito);
+  $stmt->bindParam(':id', $this->id);
+
+  return $stmt->execute();
+}
+
+
+
 
 }
