@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ProfesorService, Profesor } from '../profesor.service';
+import { ProfesorService, Profesor, TipoProfesor } from '../profesor.service';
 import Swal from 'sweetalert2';
 
 class TooltipManager {
@@ -161,14 +161,17 @@ export class AgregarProfesorComponent implements OnInit {
         'experiencia',
         this.profesorForm.get('experiencia')?.value || ''
       );
+
       if (this.fileToUpload) {
         formData.append('foto', this.fileToUpload, this.fileToUpload.name);
       } else {
         formData.append('foto', this.currentFileName);
       }
 
+      // Asegurarse de enviar el ID en caso de que sea una edición
       if (this.currentProfesorId) {
-        formData.append('id', this.currentProfesorId.toString());
+        formData.append('id', this.currentProfesorId.toString()); // Aquí se añade el ID
+
         this.profesorService.updateProfesor(formData).subscribe({
           next: (response: any) => {
             this.assignTipoProfesor(this.currentProfesorId!);
@@ -224,7 +227,6 @@ export class AgregarProfesorComponent implements OnInit {
     this.currentFileName = '';
     this.fileToUpload = null;
   }
-
   openModal(profesor?: Profesor) {
     if (profesor) {
       this.currentProfesorId = profesor.id;
@@ -238,9 +240,31 @@ export class AgregarProfesorComponent implements OnInit {
         especialidad: profesor.especialidad ?? '',
         grado_academico: profesor.grado_academico ?? '',
         experiencia: profesor.experiencia ?? '',
-        tipoTiempoCompleto: profesor.tipo === 'Tiempo Completo',
-        tipoAsignatura: profesor.tipo === 'Asignatura',
-        tipoCursos: profesor.tipo === 'Cursos',
+      });
+
+      // Obtener los tipos de profesor
+      this.profesorService.getTiposProfesor(profesor.id!).subscribe({
+        next: (response: any) => {
+          if (response && Array.isArray(response.tipos)) {
+            const tipoIds = response.tipos.map(
+              (tipo: TipoProfesor) => tipo.tipo_id
+            );
+
+            this.profesorForm.patchValue({
+              tipoTiempoCompleto: tipoIds.includes(1),
+              tipoAsignatura: tipoIds.includes(2),
+              tipoCursos: tipoIds.includes(3),
+            });
+          } else {
+            console.error(
+              'Error: la respuesta de tipos no es un array',
+              response
+            );
+          }
+        },
+        error: (error: any) => {
+          console.error('Error al obtener los tipos de profesor:', error);
+        },
       });
     } else {
       this.resetForm();

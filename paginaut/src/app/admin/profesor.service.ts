@@ -62,6 +62,10 @@ export class ProfesorService {
   }
 
   updateProfesor(profesor: FormData): Observable<any> {
+    const id = profesor.get('id');
+    if (!id) {
+      return throwError(() => new Error('No se proporcionó un ID.'));
+    }
     return this.http
       .put<any>(`${this.apiUrl}`, profesor)
       .pipe(catchError(this.handleError));

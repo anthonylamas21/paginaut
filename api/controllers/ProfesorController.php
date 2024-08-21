@@ -5,8 +5,15 @@ header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-require_once(dirname(__DIR__) . '/config/database.php');
-require_once(dirname(__DIR__) . '/models/Profesor.php');
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+error_reporting(E_ALL);
+ini_set('error_log', 'C:/xampp/htdocs/paginaut/api/logs/php-error.log');
+
+$root = dirname(__DIR__, 2);  // Obtiene el directorio raíz del proyecto
+
+require_once $root . '/api/config/database.php';
+require_once $root . '/api/models/Profesor.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -15,21 +22,63 @@ $profesor = new Profesor($db);
 
 $request_method = $_SERVER["REQUEST_METHOD"];
 
-// Obtener datos de la solicitud
 switch ($request_method) {
   case 'POST':
     $data = $_POST;
-    if (!empty($data['nombre']) && !empty($data['apellido']) && !empty($data['correo'])) {
-      $profesor->nombre = $data['nombre'];
-      $profesor->apellido = $data['apellido'];
-      $profesor->correo = $data['correo'];
-      $profesor->telefono = $data['telefono'] ?? null;
-      $profesor->especialidad = $data['especialidad'] ?? null;
-      $profesor->grado_academico = $data['grado_academico'] ?? null;
-      $profesor->experiencia = $data['experiencia'] ?? null;
-      $profesor->foto = isset($_FILES['foto']) ? file_get_contents($_FILES['foto']['tmp_name']) : null;
-      $profesor->activo = isset($data['activo']) ? filter_var($data['activo'], FILTER_VALIDATE_BOOLEAN) : true;
+    $isUpdate = isset($_POST['id']);
 
+    if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
+      $file_name = basename($_FILES['foto']['name']);
+      $target_dir = $root . '/uploads/profesores/';
+      $target_file = $target_dir . $file_name;
+
+      // Verificar si la carpeta de destino existe, si no, crearla
+      if (!is_dir($target_dir)) {
+        mkdir($target_dir, 0777, true);
+      }
+
+      if (move_uploaded_file($_FILES['foto']['tmp_name'], $target_file)) {
+        $profesor->foto = '/uploads/profesores/' . $file_name; // Guardar la ruta completa
+      } else {
+        http_response_code(400);
+        echo json_encode(array("message" => "No se pudo subir la foto."));
+        break;
+      }
+    } elseif ($isUpdate) {
+      $profesor->id = $_POST['id'];
+      if ($profesor->readOne()) {
+        // Mantener la foto existente si no se ha subido una nueva
+        $profesor->foto = $profesor->foto;
+      } else {
+        http_response_code(404);
+        echo json_encode(array("message" => "Profesor no encontrado."));
+        break;
+      }
+    } elseif (!$isUpdate) {
+      http_response_code(400);
+      echo json_encode(array("message" => "Se requiere una foto para crear un nuevo profesor."));
+      break;
+    }
+
+    $profesor->nombre = $data['nombre'];
+    $profesor->apellido = $data['apellido'];
+    $profesor->correo = $data['correo'];
+    $profesor->telefono = $data['telefono'] ?? null;
+    $profesor->especialidad = $data['especialidad'] ?? null;
+    $profesor->grado_academico = $data['grado_academico'] ?? null;
+    $profesor->experiencia = $data['experiencia'] ?? null;
+    $profesor->activo = isset($data['activo']) ? filter_var($data['activo'], FILTER_VALIDATE_BOOLEAN) : true;
+
+    if ($isUpdate) {
+      $profesor->id = $_POST['id'];
+      if ($profesor->update()) {
+        http_response_code(200);
+        echo json_encode(array("message" => "Profesor actualizado correctamente."));
+      } else {
+        http_response_code(503);
+        echo json_encode(array("message" => "No se pudo actualizar el profesor."));
+      }
+    } else {
       if ($profesor->create()) {
         $profesor_id = $db->lastInsertId();
         http_response_code(201);
@@ -38,9 +87,6 @@ switch ($request_method) {
         http_response_code(503);
         echo json_encode(array("message" => "No se pudo crear el profesor."));
       }
-    } else {
-      http_response_code(400);
-      echo json_encode(array("message" => "Datos incompletos."));
     }
     break;
 
@@ -48,7 +94,17 @@ switch ($request_method) {
     if (isset($_GET['id'])) {
       $profesor->id = $_GET['id'];
       if ($profesor->readOne()) {
-        echo json_encode($profesor->getDetalles());
+        // Obtener los tipos de profesor
+        require_once $root . '/api/models/ProfesorTipo.php';
+        $profesorTipo = new ProfesorTipo($db);
+        $profesorTipo->profesor_id = $profesor->id;
+        $tipos = $profesorTipo->getTipos();
+
+        // Incluir los tipos en la respuesta
+        $detalles = $profesor->getDetalles();
+        $detalles['tipos'] = array_column($tipos, 'tipo_id');
+
+        echo json_encode($detalles);
       } else {
         http_response_code(404);
         echo json_encode(array("message" => "Profesor no encontrado."));
@@ -60,9 +116,10 @@ switch ($request_method) {
 
   case 'PUT':
     parse_str(file_get_contents("php://input"), $data);
-    if (isset($data['id'])) {
+    if (isset($data['id'])) {  // Verifica si el ID está presente
       $profesor->id = $data['id'];
       if ($profesor->readOne()) {
+        // Asignar los valores recibidos
         $profesor->nombre = !empty($data['nombre']) ? $data['nombre'] : $profesor->nombre;
         $profesor->apellido = !empty($data['apellido']) ? $data['apellido'] : $profesor->apellido;
         $profesor->correo = !empty($data['correo']) ? $data['correo'] : $profesor->correo;
@@ -70,7 +127,6 @@ switch ($request_method) {
         $profesor->especialidad = !empty($data['especialidad']) ? $data['especialidad'] : $profesor->especialidad;
         $profesor->grado_academico = !empty($data['grado_academico']) ? $data['grado_academico'] : $profesor->grado_academico;
         $profesor->experiencia = !empty($data['experiencia']) ? $data['experiencia'] : $profesor->experiencia;
-        $profesor->foto = isset($_FILES['foto']) ? file_get_contents($_FILES['foto']['tmp_name']) : $profesor->foto;
         $profesor->activo = isset($data['activo']) ? filter_var($data['activo'], FILTER_VALIDATE_BOOLEAN) : $profesor->activo;
 
         if ($profesor->update()) {

@@ -24,9 +24,9 @@ class Profesor
   function create()
   {
     $query = "INSERT INTO " . $this->table_name . "
-            (nombre, apellido, correo, telefono, especialidad, grado_academico, experiencia, foto, activo)
-            VALUES
-            (:nombre, :apellido, :correo, :telefono, :especialidad, :grado_academico, :experiencia, :foto, :activo)";
+                  (nombre, apellido, correo, telefono, especialidad, grado_academico, experiencia, foto, activo)
+                  VALUES
+                  (:nombre, :apellido, :correo, :telefono, :especialidad, :grado_academico, :experiencia, :foto, :activo)";
 
     $stmt = $this->conn->prepare($query);
     $this->sanitize();
@@ -83,16 +83,16 @@ class Profesor
   function update()
   {
     $query = "UPDATE " . $this->table_name . " SET
-            nombre = :nombre,
-            apellido = :apellido,
-            correo = :correo,
-            telefono = :telefono,
-            especialidad = :especialidad,
-            grado_academico = :grado_academico,
-            experiencia = :experiencia,
-            foto = :foto,
-            activo = :activo
-            WHERE id = :id";
+                  nombre = :nombre,
+                  apellido = :apellido,
+                  correo = :correo,
+                  telefono = :telefono,
+                  especialidad = :especialidad,
+                  grado_academico = :grado_academico,
+                  experiencia = :experiencia,
+                  foto = :foto,
+                  activo = :activo
+                  WHERE id = :id";
 
     $stmt = $this->conn->prepare($query);
     $this->sanitize();
