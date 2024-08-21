@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { BolsaDeTrabajo, BolsaDeTrabajoService } from '../admin/bolsa-de-trabajo.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admision',
@@ -14,15 +15,24 @@ export class AdmisionComponent {
   filteredBolsas: BolsaDeTrabajo[] = [];
   getrequisitos?: Array<{ requisito: string }>;
 
-  constructor(private bolsaDeTrabajoService: BolsaDeTrabajoService) { }
+  constructor(private bolsaDeTrabajoService: BolsaDeTrabajoService, private router: Router) { }
 
   ngOnInit(): void {
     setTimeout(() => {
       this.loadBolsas();
       this.isLoading = false;
-    }, 2000);
+    }, 1000);
     this.setNavbarColor();
   }
+
+  redirectToBolsa(id?: number): void {
+    if (id !== undefined) {
+      this.router.navigate(['/info_bolsa', id]);
+    } else {
+      console.error('El ID de la bolsa es indefinido');
+    }
+  }
+  
 
   // Filtrar las bolsas de trabajo
   filterBolsas() {

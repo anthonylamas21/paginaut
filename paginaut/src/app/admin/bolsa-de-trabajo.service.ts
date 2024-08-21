@@ -83,6 +83,13 @@ export class BolsaDeTrabajoService {
    return this.http.get<any>(`${this.apiUrlRequisitos}?id=${id}`);
   }
 
+  updateRequisitos(requisitos: Requisito[]): Observable<any> {
+    return this.http
+      .put<any>(`${this.apiUrlRequisitos}`, { requisitos })
+      .pipe(catchError(this.handleError));
+  }
+  
+
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Un error desconocido ha ocurrido';
     if (error.error instanceof ErrorEvent) {

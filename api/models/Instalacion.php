@@ -63,13 +63,16 @@ class Instalacion {
 
     // Obtener todas las imágenes generales asociadas a la Instalacion
     public function getImagenesGenerales() {
-        $query = "SELECT ruta_imagen FROM Imagenes WHERE seccion = 'Instalacion' AND asociado_id = :asociado_id AND principal = FALSE";
+        $query = "SELECT ruta_imagen, fecha_creacion FROM Imagenes WHERE seccion = 'Instalacion' AND asociado_id = :asociado_id AND principal = FALSE";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":asociado_id", $this->id);
         $stmt->execute();
         $imagenes = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $imagenes[] = $row['ruta_imagen'];
+            $imagenes[] = [
+                'ruta_imagen' => $row['ruta_imagen'],
+                'fecha_creacion' => $row['fecha_creacion']
+            ];
         }
         return $imagenes;
     }
@@ -103,6 +106,7 @@ class Instalacion {
     
             if ($row) {
                 $this->titulo = $row['nombre'];
+                $this->fecha_creacion = $row['fecha_creacion'];
                 $this->activo = $row['activo'];
                 $this->imagen_principal = $this->getImagenPrincipal();
                 return true;

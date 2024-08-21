@@ -45,6 +45,7 @@ import { GaleriaAdminComponent } from './admin/galeria-admin/galeria-admin.compo
 import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.component';
 import { InstalacionComponent } from './admin/instalacion/instalacion.component';
 import { AgregarBolsaTrabajoComponent } from './admin/bolsadetrabajo/bolsadetrabajo.component';
+import { AgregarCursoComponent } from './admin/agregar-curso/agregar-curso.component';
 
 // Info Carreras
 import { CarreraAgrobiotecnologiaComponent } from './info-carreras/carrera-agrobiotecnologia/carrera-agrobiotecnologia.component';
@@ -109,7 +110,7 @@ const routes: Routes = [
   { path: 'info_unidades', component: InfoUnidadesComponent },
   { path: 'filosofia', component: FilosofiaComponent },
   { path: 'admision', component: AdmisionComponent },
-  { path: 'info_bolsa', component: InfoBolsaComponent },
+  { path: 'info_bolsa/:id', component: InfoBolsaComponent },
   { path: 'info_enfermeria', component: InfoEnfermeriaComponent },
   { path: 'ubicacion', component: UbicacionComponent },
   { path: 'psicologia', component: PsicologiaComponent },
@@ -120,6 +121,8 @@ const routes: Routes = [
   { path: 'agenda-admin', component: AgendaAdminComponent },
   { path: 'enviar-correo', component: PasswordResetComponent },
   { path: 'biblioteca', component: BibliotecaComponent },
+  { path: 'admin/agregar-curso', component: AgregarCursoComponent, canActivate: [guardAuthGuard] },
+  
 
   // Info Carreras
   {

@@ -65,16 +65,47 @@ switch ($request_method) {
       echo json_encode(array("message" => "Datos incompletos o inválidos."));
   }
     break;
-
-  case 'PUT':
-    if (isset($_GET['id'])) {
-      $BolsaRequisitos->id = $_GET['id'];
-      
-    } else {
-      http_response_code(400);
-      echo json_encode(array("message" => "No se proporcionó un ID."));
-    }
-    break;
+    case 'PUT':
+      if (isset($data->requisitos) && is_array($data->requisitos)) {
+          try {
+              // Iniciar transacción
+              $db->beginTransaction();
+  
+              // Primero, elimina todos los requisitos existentes para esta bolsa de trabajo
+              $BolsaRequisitos->id_bolsadetrabajo = $data->requisitos[0]->id_bolsadetrabajo;
+              $BolsaRequisitos->deleteByBolsaTrabajoId();
+  
+              // Luego, inserta los nuevos o actualizados
+              foreach ($data->requisitos as $requisito) {
+                  if (!empty($requisito->requisito) && !empty($requisito->id_bolsadetrabajo)) {
+                      $BolsaRequisitos->id_bolsadetrabajo = $requisito->id_bolsadetrabajo;
+                      $BolsaRequisitos->requisito = $requisito->requisito;
+  
+                      // Crear un nuevo requisito
+                      if (!$BolsaRequisitos->create()) {
+                          throw new Exception("Error al crear requisito");
+                      }
+                  } else {
+                      throw new Exception("Datos incompletos en el requisito");
+                  }
+              }
+  
+              // Confirmar la transacción
+              $db->commit();
+  
+              http_response_code(200);
+              echo json_encode(array("message" => "Requisitos procesados correctamente."));
+          } catch (Exception $e) {
+              // Revertir la transacción en caso de error
+              $db->rollBack();
+              http_response_code(500);
+              echo json_encode(array("message" => "Error: " . $e->getMessage()));
+          }
+      } else {
+          http_response_code(400);
+          echo json_encode(array("message" => "Datos incompletos o inválidos."));
+      }
+      break;  
 
   case 'DELETE':
     if (isset($_GET['id'])) {
