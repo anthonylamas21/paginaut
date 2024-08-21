@@ -126,18 +126,28 @@ CREATE TABLE Archivos (
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-  CREATE TABLE Evento (
-      id SERIAL PRIMARY KEY,
-      titulo VARCHAR(50) NOT NULL,
-      informacion_evento TEXT NOT NULL,
-      activo BOOLEAN DEFAULT TRUE,
-      lugar_evento VARCHAR(50) NOT NULL,
-      fecha_inicio TIMESTAMP,
-      fecha_fin TIMESTAMP,
-      hora_inicio TIME,
-      hora_fin TIME,
-      fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  );
+CREATE TABLE Evento (
+    id SERIAL PRIMARY KEY,
+    titulo VARCHAR(50) NOT NULL,
+    informacion_evento TEXT NOT NULL,
+    activo BOOLEAN DEFAULT TRUE,
+    lugar_evento VARCHAR(50) NOT NULL,
+    fecha_inicio TIMESTAMP,
+    fecha_fin TIMESTAMP,
+    hora_inicio TIME,
+    hora_fin TIME,
+    es_curso BOOLEAN DEFAULT FALSE,  -- Indica si es un evento de curso o no
+    curso_id INT,  -- Referencia al curso al que pertenece el evento, si aplica
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_curso FOREIGN KEY (curso_id) REFERENCES Curso(id) ON DELETE SET NULL
+);
+CREATE TABLE Curso (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    descripcion VARCHAR(50) NOT NULL,
+    activo BOOLEAN DEFAULT TRUE,
+fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 CREATE TABLE Noticia (
     id SERIAL PRIMARY KEY,
