@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventoService, Evento } from '../evento.service';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-eventos',
@@ -13,11 +14,23 @@ export class EventosComponent implements OnInit {
   error: string | null = null;
   imagenAmpliada: string | null = null;
 
+  private secretKey: string = 'X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg';
+  idDecrypted: number | undefined;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private eventoService: EventoService
-  ) {}
+  ) {
+    // Desencriptar el ID en el constructor
+    const encryptedId = this.route.snapshot.paramMap.get('id');
+    if (encryptedId) {
+      const bytes = CryptoJS.AES.decrypt(encryptedId, this.secretKey);
+      this.idDecrypted = parseInt(bytes.toString(CryptoJS.enc.Utf8), 10);
+    } else {
+      console.error('ID de evento no disponible');
+    }
+  }
 
   ngOnInit(): void {
     this.setNavbarColor();
@@ -25,9 +38,8 @@ export class EventosComponent implements OnInit {
   }
 
   loadEvento(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.eventoService.obtenerEvento(+id).subscribe({
+    if (this.idDecrypted !== undefined) {
+      this.eventoService.obtenerEvento(this.idDecrypted).subscribe({
         next: (evento: Evento) => {
           this.evento = evento;
           this.isLoading = false;
@@ -43,6 +55,7 @@ export class EventosComponent implements OnInit {
       this.isLoading = false;
     }
   }
+
   getFileExtension(filename: string): string {
     return filename.split('.').pop()?.toLowerCase() || '';
   }
@@ -96,6 +109,6 @@ export class EventosComponent implements OnInit {
       modal.classList.add('hidden');
       modal.classList.remove('pointer-events-auto');
     }
-    this.imagenAmpliada = null;  // Cambiar de objeto vacío a null
+    this.imagenAmpliada = null;
   }
 }

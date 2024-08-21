@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, Renderer2, ChangeDetectorRef } from '
 import { ActivatedRoute } from '@angular/router';
 import { BecaService, Beca } from '../admin/beca.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-info-beca',
@@ -9,6 +10,10 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   styleUrls: ['./info-beca.component.css']
 })
 export class InfoBecaComponent implements OnInit, AfterViewInit {
+
+  private secretKey: string = 'X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg';
+  idDecrypted: number | undefined;
+
   beca: Beca | null = null;
   error: string | null = null;
   safeArchivoUrl: SafeResourceUrl | null = null;
@@ -22,15 +27,23 @@ export class InfoBecaComponent implements OnInit, AfterViewInit {
     private becaService: BecaService,
     private sanitizer: DomSanitizer,
     private cdRef: ChangeDetectorRef
-  ) {}
-
+  ) {
+    // Desencriptar el ID en el constructor
+    const encryptedId = this.route.snapshot.paramMap.get('id');
+    if (encryptedId) {
+      const bytes = CryptoJS.AES.decrypt(encryptedId, this.secretKey);
+      this.idDecrypted = parseInt(bytes.toString(CryptoJS.enc.Utf8), 10);
+    } else {
+      console.error('ID de beca no disponible');
+    }
+  }
+  
   ngOnInit(): void {
     this.cargarDetalleBeca();
     this.setNavbarColor();
   }
 
   ngAfterViewInit(): void {
-    // Asegurarse de que el navbar se coloree después de que la vista se haya inicializado
     setTimeout(() => {
       this.setNavbarColor();
       this.isLoading = false;
@@ -63,11 +76,9 @@ export class InfoBecaComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   cargarDetalleBeca(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.becaService.getBecaById(Number(id)).subscribe({
+    if (this.idDecrypted !== undefined) {
+      this.becaService.getBecaById(this.idDecrypted).subscribe({
         next: (beca) => {
           this.beca = beca;
           this.actualizarSafeArchivoUrl();
@@ -77,6 +88,8 @@ export class InfoBecaComponent implements OnInit, AfterViewInit {
           this.error = 'No se pudo cargar el detalle de la beca. Por favor, intente más tarde.';
         }
       });
+    } else {
+      console.error('ID de beca no disponible');
     }
   }
 
@@ -89,7 +102,6 @@ export class InfoBecaComponent implements OnInit, AfterViewInit {
       this.safeArchivoUrl = null;
     }
   }
-
 
   private getFullUrl(path: string): string {
     if (path.startsWith('http://') || path.startsWith('https://')) {
@@ -109,7 +121,4 @@ export class InfoBecaComponent implements OnInit, AfterViewInit {
   get archivoBeca(): string | null {
     return this.beca?.archivo ? this.getFullUrl(this.beca.archivo) : null;
   }
-
-
-
 }

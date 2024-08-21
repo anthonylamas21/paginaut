@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { BecaService, Beca } from '../admin/beca.service';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-becas',
@@ -11,6 +12,7 @@ export class BecasComponent implements OnInit, AfterViewInit {
   isLoading = true;
   becas: Beca[] = [];
   error: string | null = null;
+  private secretKey: string = 'X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg';
 
   constructor(
     private becaService: BecaService,
@@ -52,7 +54,8 @@ export class BecasComponent implements OnInit, AfterViewInit {
 
   verDetalleBeca(id: number | undefined): void {
     if (id !== undefined) {
-      this.router.navigate(['/info-beca', id]);
+      const encryptedId = CryptoJS.AES.encrypt(id.toString(), this.secretKey).toString();
+      this.router.navigate(['/info-beca', encryptedId]);
     } else {
       console.error('ID de beca no disponible');
     }

@@ -220,9 +220,9 @@ const routes: Routes = [
     component: InstalacionComponent,
     canActivate: [guardAuthGuard],
   },
-  { path: 'evento/:id', component: EventosComponent },
-  { path: 'noticia/:id', component: NoticiasComponent },
-  { path: 'info-beca/:id', component: InfoBecaComponent },
+  { path: 'evento/:id', component: EventosComponent }, //Encriptado
+  { path: 'noticia/:id', component: NoticiasComponent }, //Encriptado
+  { path: 'info-beca/:id', component: InfoBecaComponent },  //Encriptado
   { path: 'info-unidades/:id', component: InfoUnidadesComponent },
   {
     path: 'admin/agenda-admin',
