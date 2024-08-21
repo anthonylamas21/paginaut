@@ -18,64 +18,68 @@ $evento = new Evento($db);
 $request_method = $_SERVER["REQUEST_METHOD"];
 
 switch($request_method) {
-    case 'POST':
-        $isUpdate = isset($_GET['id']);
-    
-        if ($isUpdate) {
-            $evento->id = $_GET['id'];
-            // Cargar los datos actuales del evento
-            if (!$evento->readOne()) {
-                http_response_code(404);
-                echo json_encode(array("message" => "Evento no encontrado."));
-                break;
-            }
+  case 'POST':
+    $isUpdate = isset($_GET['id']);
+
+    if ($isUpdate) {
+        $evento->id = $_GET['id'];
+        // Cargar los datos actuales del evento
+        if (!$evento->readOne()) {
+            http_response_code(404);
+            echo json_encode(array("message" => "Evento no encontrado."));
+            break;
         }
-    
-        if (!empty($_POST['titulo']) && !empty($_POST['informacion_evento']) && !empty($_POST['lugar_evento'])) {
-            $evento->titulo = $_POST['titulo'];
-            $evento->informacion_evento = $_POST['informacion_evento'];
-            $evento->activo = isset($_POST['activo']) ? filter_var($_POST['activo'], FILTER_VALIDATE_BOOLEAN) : true;
-            $evento->lugar_evento = $_POST['lugar_evento'];
-            $evento->fecha_inicio = $_POST['fecha_inicio'];
-            $evento->fecha_fin = $_POST['fecha_fin'];
-            $evento->hora_inicio = $_POST['hora_inicio'];
-            $evento->hora_fin = $_POST['hora_fin'];
-            error_log("Datos recibidos en POST: " . print_r($_POST, true));
-            error_log("Archivos recibidos: " . print_r($_FILES, true));
-    
-            // Crear o actualizar evento
-            if ($isUpdate) {
-                $result = $evento->update();
-            } else {
-                $result = $evento->create();
+    }
+
+    if (!empty($_POST['titulo']) && !empty($_POST['informacion_evento']) && !empty($_POST['lugar_evento'])) {
+      $evento->titulo = $_POST['titulo'];
+      $evento->informacion_evento = $_POST['informacion_evento'];
+      $evento->activo = isset($_POST['activo']) ? filter_var($_POST['activo'], FILTER_VALIDATE_BOOLEAN) : true;
+      $evento->lugar_evento = $_POST['lugar_evento'];
+      $evento->fecha_inicio = $_POST['fecha_inicio'];
+      $evento->fecha_fin = $_POST['fecha_fin'];
+      $evento->hora_inicio = $_POST['hora_inicio'];
+      $evento->hora_fin = $_POST['hora_fin'];
+      $evento->es_curso = isset($_POST['es_curso']) ? filter_var($_POST['es_curso'], FILTER_VALIDATE_BOOLEAN) : false;
+      $evento->curso_id = !empty($_POST['curso_id']) ? intval($_POST['curso_id']) : null;  // Manejo del curso_id
+
+      error_log("Datos recibidos en POST: " . print_r($_POST, true));
+      error_log("Archivos recibidos: " . print_r($_FILES, true));
+
+      // Crear o actualizar evento
+      if ($isUpdate) {
+          $result = $evento->update();
+      } else {
+          $result = $evento->create();
+      }
+
+        if ($result) {
+            // Procesar imágenes y archivos después de crear/actualizar el evento
+            if (!empty($_FILES['imagen_principal'])) {
+                $evento->updateImagenPrincipal($_FILES['imagen_principal']);
             }
-            
-            if ($result) {
-                // Procesar imágenes y archivos después de crear/actualizar el evento
-                if (!empty($_FILES['imagen_principal'])) {
-                    $evento->updateImagenPrincipal($_FILES['imagen_principal']);
-                }
-                if (!empty($_FILES['imagenes_generales']['name'][0])) {
-                    $evento->updateImagenesGenerales($_FILES['imagenes_generales']);
-                }
-                if (!empty($_FILES['archivos']['name'][0])) {
-                    $evento->updateArchivos($_FILES['archivos']);
-                }
-    
-                http_response_code($isUpdate ? 200 : 201);
-                echo json_encode(array(
-                    "message" => $isUpdate ? "Evento actualizado correctamente." : "Evento creado correctamente.",
-                    "id" => $evento->id
-                ));
-            } else {
-                http_response_code(503);
-                echo json_encode(array("message" => $isUpdate ? "No se pudo actualizar el evento." : "No se pudo crear el evento."));
+            if (!empty($_FILES['imagenes_generales']['name'][0])) {
+                $evento->updateImagenesGenerales($_FILES['imagenes_generales']);
             }
+            if (!empty($_FILES['archivos']['name'][0])) {
+                $evento->updateArchivos($_FILES['archivos']);
+            }
+
+            http_response_code($isUpdate ? 200 : 201);
+            echo json_encode(array(
+                "message" => $isUpdate ? "Evento actualizado correctamente." : "Evento creado correctamente.",
+                "id" => $evento->id
+            ));
         } else {
-            http_response_code(400);
-            echo json_encode(array("message" => "Datos incompletos."));
+            http_response_code(503);
+            echo json_encode(array("message" => $isUpdate ? "No se pudo actualizar el evento." : "No se pudo crear el evento."));
         }
-        break;
+    } else {
+        http_response_code(400);
+        echo json_encode(array("message" => "Datos incompletos."));
+    }
+    break;
+
 
     case 'GET':
         if (isset($_GET['id'])) {

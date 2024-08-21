@@ -13,7 +13,7 @@
         </svg>
       </li>
       <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate" aria-current="page">
-          Eventos 
+          Eventos
         </li>
     </ol>
 </div>
@@ -57,6 +57,28 @@
           </div>
         </div>
       </div>
+      <div class="space-y-2">
+        <h4 class="font-medium text-gray-700">2. Selección de Curso</h4>
+        <div>
+          <label for="esCurso" class="block text-sm font-medium text-gray-700">¿Este evento es de un curso?</label>
+          <select id="esCurso" formControlName="es_curso" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900">
+            <option [ngValue]="null">Selecciona una opción</option>
+            <option [ngValue]="true">Sí</option>
+            <option [ngValue]="false">No</option>
+          </select>
+        </div>
+
+        <!-- Este select solo se muestra si es_curso es true -->
+        <div *ngIf="eventoForm.get('es_curso')?.value === true" class="mt-4">
+          <label for="curso_id" class="block text-sm font-medium text-gray-700">Selecciona el curso</label>
+          <select id="curso_id" formControlName="curso_id" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900">
+            <option [ngValue]="null">Selecciona un curso</option>
+            <option *ngFor="let curso of cursos" [ngValue]="curso.id">{{ curso.nombre }}</option>
+          </select>
+          <p *ngIf="isFieldInvalid('curso_id')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('curso_id') }}</p>
+        </div>
+      </div>
+
 
       <div class="space-y-2">
         <h4 class="font-medium text-gray-700">2. Detalles del evento</h4>

@@ -13,11 +13,14 @@ export interface Evento {
   fecha_fin: string;
   hora_inicio: string;
   hora_fin: string;
+  es_curso: boolean;
+  curso_id?: number;
   imagen_principal?: string;
   imagenes_generales?: string[];
   archivos?: any[];
   [key: string]: any;
 }
+
 
 export interface EventoResponse {
   records: Evento[];
@@ -41,6 +44,10 @@ export class EventoService {
     formData.append('fecha_fin', evento.fecha_fin);
     formData.append('hora_inicio', evento.hora_inicio);
     formData.append('hora_fin', evento.hora_fin);
+    formData.append('es_curso', evento.es_curso.toString());
+    if (evento.curso_id !== undefined && evento.curso_id !== null) {
+      formData.append('curso_id', evento.curso_id.toString());
+    }
 
     if (imagenPrincipal) {
       formData.append('imagen_principal', imagenPrincipal);
@@ -67,7 +74,7 @@ export class EventoService {
 
   actualizarEvento(evento: Evento, imagenPrincipal?: File, imagenesGenerales?: File[], archivos?: File[]): Observable<any> {
     const formData: FormData = new FormData();
-    
+
     Object.keys(evento).forEach(key => {
       if (evento[key] !== undefined && evento[key] !== null && key !== 'imagen_principal' && key !== 'imagenes_generales' && key !== 'archivos') {
         formData.append(key, evento[key].toString());

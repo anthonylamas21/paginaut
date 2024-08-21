@@ -6,6 +6,7 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 export interface Curso {
   id?: number;
@@ -59,6 +60,14 @@ export class CursoService {
     return this.http
       .get<CursoResponse>(this.apiUrl)
       .pipe(catchError(this.handleError));
+  }
+  getCursos(): Observable<Curso[]> {
+    return this.http
+      .get<CursoResponse>(this.apiUrl)
+      .pipe(
+        map(response => response.records), // Mapea la respuesta para obtener solo los cursos
+        catchError(this.handleError)
+      );
   }
 
   obtenerCursoPorId(id: number): Observable<Curso> {
