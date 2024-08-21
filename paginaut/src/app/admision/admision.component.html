@@ -96,9 +96,10 @@
                     </div>
 
                   </div>
-                  <a [routerLink]="['/info_bolsa', bolsa.id]" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium">
+                  <a (click)="redirectToBolsa(bolsa.id)" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium cursor-pointer">
                     Más información
                   </a>
+                  
                 </div>
               </div>
             </div>

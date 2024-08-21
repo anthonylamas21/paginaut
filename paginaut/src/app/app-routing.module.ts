@@ -110,7 +110,7 @@ const routes: Routes = [
   { path: 'info_unidades', component: InfoUnidadesComponent },
   { path: 'filosofia', component: FilosofiaComponent },
   { path: 'admision', component: AdmisionComponent },
-  { path: 'info_bolsa', component: InfoBolsaComponent },
+  { path: 'info_bolsa/:id', component: InfoBolsaComponent },
   { path: 'info_enfermeria', component: InfoEnfermeriaComponent },
   { path: 'ubicacion', component: UbicacionComponent },
   { path: 'psicologia', component: PsicologiaComponent },
