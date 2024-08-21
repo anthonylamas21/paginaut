@@ -59,6 +59,13 @@ export class BolsaDeTrabajoService {
       .pipe(catchError(this.handleError));
   }
 
+  getActiveBolsas(): Observable<BolsaDeTrabajoResponse> {
+    return this.http
+      .get<BolsaDeTrabajoResponse>(`${this.apiUrl}?status=activo`)
+      .pipe(catchError(this.handleError));
+  }
+  
+
   updateBolsa(id: number, bolsa: any): Observable<any> {
     const body = { id, ...bolsa };
     return this.http

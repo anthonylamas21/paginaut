@@ -18,9 +18,9 @@ export class AdmisionComponent {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.loadBolsas();
+      this.loadInactiveBolsas();
       this.isLoading = false;
-    }, 2000);
+    }, 1000);
     this.setNavbarColor();
   }
 
@@ -38,23 +38,25 @@ export class AdmisionComponent {
   }
 
   // OBTENER INFORMACION
-  loadBolsas() {
-    this.bolsaDeTrabajoService.getBolsas().subscribe(
+
+  loadInactiveBolsas() {
+    this.bolsaDeTrabajoService.getActiveBolsas().subscribe(
       (response: any) => {
         this.bolsas = response.records;
-        this.filteredBolsas = [...this.bolsas]; // Inicializar la lista filtrada con todas las bolsas
-        console.log('Bolsas de trabajo recibidas:', this.bolsas);
-
-        // Cargar los requisitos para cada bolsa de trabajo
+        this.filteredBolsas = [...this.bolsas]; // Inicializar la lista filtrada con todas las bolsas inactivas
+        console.log('Bolsas de trabajo activas recibidas:', this.bolsas);
+  
+        // Cargar los requisitos para cada bolsa de trabajo inactiva si es necesario
         this.bolsas.forEach((bolsa: BolsaDeTrabajo) => {
           this.loadRequisitosBolsa(bolsa);
         });
       },
       (error) => {
-        console.error('Error al cargar bolsas de trabajo:', error);
+        console.error('Error al cargar bolsas de trabajo inactivas:', error);
       }
     );
   }
+  
 
   loadRequisitosBolsa(bolsaTrabajo: BolsaDeTrabajo) {
     const id = bolsaTrabajo.id;

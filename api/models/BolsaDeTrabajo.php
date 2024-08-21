@@ -170,6 +170,16 @@ class BolsaDeTrabajo
     $stmt->execute();
   }
 
+  function readactive()
+{
+    $query = "SELECT * FROM " . $this->table_name . " WHERE activo = true ORDER BY fecha_creacion DESC";
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
   function getDetalles()
   {
     return array(

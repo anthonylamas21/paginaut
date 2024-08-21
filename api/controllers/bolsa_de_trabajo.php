@@ -74,14 +74,16 @@ switch ($request_method) {
     if (isset($_GET['id'])) {
       $bolsaDeTrabajo->id = $_GET['id'];
       if ($bolsaDeTrabajo->readOne()) {
-        echo json_encode($bolsaDeTrabajo->getDetalles());
+          echo json_encode($bolsaDeTrabajo->getDetalles());
       } else {
-        http_response_code(404);
-        echo json_encode(array("message" => "Bolsa de trabajo no encontrada."));
+          http_response_code(404);
+          echo json_encode(array("message" => "Bolsa de trabajo no encontrada."));
       }
-    } else {
+  } elseif (isset($_GET['status']) && $_GET['status'] == 'activo') {
+      echo json_encode(array("records" => $bolsaDeTrabajo->readactive()));
+  } else {
       echo json_encode(array("records" => $bolsaDeTrabajo->read()));
-    }
+  }
     break;
 
   case 'PUT':
