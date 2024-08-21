@@ -94,7 +94,7 @@ switch ($request_method) {
       include_once $baseDir . '/controllers/bolsa_requisitos.php';
     } elseif (strpos($request_uri, '/api/profesor') !== false) {
       include_once $baseDir . '/controllers/ProfesorController.php';
-    } elseif (strpos($request_uri, '/api/profesor-tipo') !== false) {
+    } elseif (strpos($request_uri, '/api/tipo-pro') !== false) {
       include_once $baseDir . '/controllers/ProfesorTipoController.php';
     } else {
       header("HTTP/1.0 404 Not Found");

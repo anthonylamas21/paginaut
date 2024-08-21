@@ -33,7 +33,7 @@ export interface ProfesorResponse {
 })
 export class ProfesorService {
   private apiUrl = 'http://localhost/paginaut/api/profesor.php';
-  private tipoUrl = 'http://localhost/paginaut/api/profesorTipo.php';
+  private tipoUrl = 'http://localhost/paginaut/api/tipo-pro';
 
   constructor(private http: HttpClient) {}
 
