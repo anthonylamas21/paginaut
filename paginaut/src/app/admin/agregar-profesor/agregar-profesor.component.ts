@@ -64,6 +64,7 @@ export class AgregarProfesorComponent implements OnInit {
   baseImageUrl = 'http://localhost/paginaut/';
   tipoProfesorError: string = '';
   fotoValida: boolean = false;
+  isSubmitting: boolean = false; // Nueva bandera para prevenir doble envío
 
   constructor(
     private fb: FormBuilder,
@@ -171,6 +172,9 @@ export class AgregarProfesorComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.isSubmitting) return; // Previene el doble envío
+    this.isSubmitting = true;
+
     if (this.profesorForm.valid && !this.tipoProfesorError && this.fotoValida) {
       const formData: FormData = new FormData();
       formData.append(
@@ -210,41 +214,36 @@ export class AgregarProfesorComponent implements OnInit {
         formData.append('foto', this.currentFileName);
       }
 
-      if (this.currentProfesorId) {
-        formData.append('id', this.currentProfesorId.toString());
+      const submitCallback = this.currentProfesorId
+        ? this.profesorService.updateProfesor(formData)
+        : this.profesorService.addProfesor(formData);
 
-        this.profesorService.updateProfesor(formData).subscribe({
-          next: (response: any) => {
-            this.updateTipoProfesor(this.currentProfesorId!);
-            this.showToast('success', 'Profesor actualizado correctamente');
-            this.loadProfesores();
-            this.resetForm();
-            this.closeModal();
-          },
-          error: (error: any) => {
-            this.showToast('error', error.message);
-          },
-        });
-      } else {
-        this.profesorService.addProfesor(formData).subscribe({
-          next: (response: any) => {
-            const profesor_id = response.id;
-            this.updateTipoProfesor(profesor_id);
-            this.showToast('success', 'Profesor agregado correctamente');
-            this.loadProfesores();
-            this.resetForm();
-            this.closeModal();
-          },
-          error: (error: any) => {
-            this.showToast('error', error.message);
-          },
-        });
-      }
+      submitCallback.subscribe({
+        next: (response: any) => {
+          const profesor_id = this.currentProfesorId || response.id;
+          this.updateTipoProfesor(profesor_id);
+          this.showToast(
+            'success',
+            `Profesor ${
+              this.currentProfesorId ? 'actualizado' : 'agregado'
+            } correctamente`
+          );
+          this.loadProfesores();
+          this.resetForm();
+          this.closeModal();
+          this.isSubmitting = false; // Reestablece la bandera después de la respuesta
+        },
+        error: (error: any) => {
+          this.showToast('error', error.message);
+          this.isSubmitting = false; // Reestablece la bandera en caso de error
+        },
+      });
     } else {
       this.showToast(
         'warning',
         'Por favor, completa todos los campos requeridos.'
       );
+      this.isSubmitting = false; // Reestablece la bandera si la validación falla
     }
   }
 
@@ -305,6 +304,7 @@ export class AgregarProfesorComponent implements OnInit {
     this.fileToUpload = null;
     this.fotoValida = false;
     this.tipoProfesorError = '';
+    this.isSubmitting = false; // Resetea la bandera al resetear el formulario
   }
 
   openModal(profesor?: Profesor) {
