@@ -60,6 +60,7 @@ switch ($request_method) {
         $curso_arr = array(
           "id" => $curso->id,
           "nombre" => $curso->nombre,
+          "descripcion" => $curso->descripcion,
           "activo" => $curso->activo,
           "fecha_creacion" => $curso->fecha_creacion,
           "imagen_principal" => $curso->imagen_principal,

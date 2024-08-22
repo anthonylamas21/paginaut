@@ -107,7 +107,7 @@ const routes: Routes = [
   { path: 'eventos', component: EventosComponent },
   { path: 'calendario', component: CalendarioComponent },
   { path: 'cursos', component: CursosComponent },
-  { path: 'info_curso', component: InfoCursoComponent },
+  { path: 'info_curso/:id', component: InfoCursoComponent },
   { path: 'info_unidades', component: InfoUnidadesComponent },
   { path: 'filosofia', component: FilosofiaComponent },
   { path: 'admision', component: AdmisionComponent },

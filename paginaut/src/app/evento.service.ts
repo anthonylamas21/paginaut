@@ -137,5 +137,10 @@ export class EventoService {
     return this.http.get<Evento>(`${this.apiUrl}?id=${id}`);
   }
 
-
+  obtenerEventosPorCursoId(cursoId: number): Observable<Evento[]> {
+    return this.http.get<EventoResponse>(`${this.apiUrl}?curso_id=${cursoId}`).pipe(
+      map((response: EventoResponse) => response.records)
+    );
+  }
+  
 }
