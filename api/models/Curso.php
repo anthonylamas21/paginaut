@@ -7,6 +7,7 @@ class Curso
   public $id;
   public $nombre;
   public $descripcion;
+  public $profesor;
   public $activo;
   public $fecha_creacion;
   public $imagen_principal;
@@ -37,9 +38,25 @@ class Curso
     if ($stmt->execute()) {
       $this->id = $this->conn->lastInsertId();
       $this->saveImagenPrincipal();
+      $this->saveCursoProfesor();
       return true;
     }
     return false;
+  }
+
+  private function saveCursoProfesor(){
+    $query = "INSERT INTO curso_mestro (profesor_id, curso_id)
+                  VALUES (:profesor_id, :curso_id)";
+    $stmt = $this->conn->prepare($query);
+
+    $profesor = htmlspecialchars(strip_tags($this->profesor));
+    $asociado_id = $this->id;
+
+    $stmt->bindParam(":curso_id", $asociado_id);
+    $stmt->bindParam(":profesor_id", $profesor);
+
+    $stmt->execute();
+
   }
 
   private function saveImagenPrincipal()

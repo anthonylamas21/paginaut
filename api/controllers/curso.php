@@ -32,6 +32,7 @@ switch ($request_method) {
     if (!empty($_POST['nombre'])) {
       $curso->nombre = $_POST['nombre'];
       $curso->descripcion = $_POST['descripcion'];
+      $curso->profesor = $_POST['profesor'];
       $curso->activo = isset($_POST['activo']) ? filter_var($_POST['activo'], FILTER_VALIDATE_BOOLEAN) : true;
 
       $result = $isUpdate ? $curso->update() : $curso->create();

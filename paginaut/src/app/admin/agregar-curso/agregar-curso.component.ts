@@ -74,6 +74,7 @@ export class AgregarCursoComponent {
     this.cursoForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
       descripcion: ['', Validators.maxLength(200)],
+      profesor: [],
       activo: [true],
     });
   }

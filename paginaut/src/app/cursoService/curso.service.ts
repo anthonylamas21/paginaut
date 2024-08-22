@@ -16,6 +16,7 @@ export interface Curso {
   fecha_publicacion: string;
   imagen_principal?: string;
   imagenes_generales?: string[];
+  profesor: string;
   [key: string]: any;
 }
 
@@ -39,6 +40,7 @@ export class CursoService {
     const formData: FormData = new FormData();
     formData.append('nombre', curso.nombre);
     formData.append('descripcion', curso.descripcion);
+    formData.append('profesor', curso.profesor);
     formData.append('activo', curso.activo.toString());
 
     if (imagenPrincipal) {
