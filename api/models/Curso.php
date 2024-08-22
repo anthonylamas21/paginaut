@@ -45,7 +45,7 @@ class Curso
   }
 
   private function saveCursoProfesor(){
-    $query = "INSERT INTO curso_mestro (profesor_id, curso_id)
+    $query = "INSERT INTO curso_maestro (profesor_id, curso_id)
                   VALUES (:profesor_id, :curso_id)";
     $stmt = $this->conn->prepare($query);
 
