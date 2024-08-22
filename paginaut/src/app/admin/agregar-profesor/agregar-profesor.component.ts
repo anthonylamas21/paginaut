@@ -125,19 +125,12 @@ export class AgregarProfesorComponent implements OnInit {
   }
 
   onTipoProfesorChange(): void {
-    const tipoTiempoCompleto =
-      this.profesorForm.get('tipoTiempoCompleto')?.value;
+    const tipoTiempoCompleto = this.profesorForm.get('tipoTiempoCompleto')?.value;
     const tipoAsignatura = this.profesorForm.get('tipoAsignatura')?.value;
+    const tipoCursos = this.profesorForm.get('tipoCursos')?.value;
 
-    if (tipoTiempoCompleto && tipoAsignatura) {
-      this.tipoProfesorError =
-        'No puedes seleccionar Tiempo Completo y Asignatura al mismo tiempo.';
-    } else if (
-      !tipoTiempoCompleto &&
-      !tipoAsignatura &&
-      !this.profesorForm.get('tipoCursos')?.value
-    ) {
-      this.tipoProfesorError = 'Debe seleccionar al menos un tipo de profesor.';
+    if (!tipoTiempoCompleto && !tipoAsignatura && !tipoCursos) {
+      this.tipoProfesorError = 'Debes seleccionar al menos un tipo de profesor.';
     } else {
       this.tipoProfesorError = '';
     }
@@ -176,6 +169,9 @@ export class AgregarProfesorComponent implements OnInit {
     this.isSubmitting = true;
 
     const isUpdate = !!this.currentProfesorId;
+
+    // Llama a la función para verificar el tipo de profesor
+    this.onTipoProfesorChange();
 
     if (this.profesorForm.valid && !this.tipoProfesorError) {
       const formData: FormData = new FormData();
@@ -217,7 +213,6 @@ export class AgregarProfesorComponent implements OnInit {
         }
       });
     } else {
-      this.showToast('warning', 'Por favor, completa todos los campos requeridos.');
       this.isSubmitting = false;
     }
   }
