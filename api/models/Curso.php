@@ -104,6 +104,8 @@ class Curso
       if ($row) {
         $this->nombre = $row['nombre'];
         $this->activo = $row['activo'];
+        $this->fecha_creacion = $row['fecha_creacion'];
+        $this->descripcion = $row['descripcion'];
         $this->imagen_principal = $this->getImagenPrincipal();
         return true;
       }

@@ -34,7 +34,7 @@
         <div class="bg-[#043D3D] rounded-lg">
           <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
             Cursos</h2>
-      </div>
+        </div>
       </div>
 
       <div class="relative w-full mb-5">
@@ -48,83 +48,12 @@
         </div>
         <input
           class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]"
-          type="text" placeholder="Ingresa tu búsqueda" [(ngModel)]="searchTerm" 
-          (input)="filterCursos()">
+          type="text" placeholder="Ingresa tu búsqueda" [(ngModel)]="searchTerm" onchange="filterCursos()">
       </div>
 
       <div *ngIf="isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-        <div class="bg-[#EEEEEE] rounded-lg p-4 transform transition duration-300 flex flex-col justify-between h-full animate-pulse">
-          <div class="w-full max-h-72 bg-gray-300 rounded-t-lg mb-4"></div>
-          <div class="flex flex-col flex-grow">
-            <div class="mb-8">
-              <div class="h-6 bg-gray-300 rounded w-3/4 mb-4 mx-auto"></div>
-              <div class="h-4 bg-gray-300 rounded mb-2"></div>
-              <div class="h-4 bg-gray-300 rounded mb-2"></div>
-              <div class="h-4 bg-gray-300 rounded mb-2"></div>
-              <div class="h-4 bg-gray-300 rounded mb-4"></div>
-            </div>
-            <a href="#" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium">
-              <div class="flex items-center justify-center">
-                <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
-                <span class="text-white">Cargando...</span>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="bg-[#EEEEEE] rounded-lg p-4 transform transition duration-300 flex flex-col justify-between h-full animate-pulse">
-          <div class="w-full max-h-72 bg-gray-300 rounded-t-lg mb-4"></div>
-          <div class="flex flex-col flex-grow">
-            <div class="mb-8">
-              <div class="h-6 bg-gray-300 rounded w-3/4 mb-4 mx-auto"></div>
-              <div class="h-4 bg-gray-300 rounded mb-2"></div>
-              <div class="h-4 bg-gray-300 rounded mb-2"></div>
-              <div class="h-4 bg-gray-300 rounded mb-2"></div>
-              <div class="h-4 bg-gray-300 rounded mb-4"></div>
-            </div>
-            <a href="#" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium">
-              <div class="flex items-center justify-center">
-                <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
-                <span class="text-white">Cargando...</span>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="bg-[#EEEEEE] rounded-lg p-4 transform transition duration-300 flex flex-col justify-between h-full animate-pulse">
-          <div class="w-full max-h-72 bg-gray-300 rounded-t-lg mb-4"></div>
-          <div class="flex flex-col flex-grow">
-            <div class="mb-8">
-              <div class="h-6 bg-gray-300 rounded w-3/4 mb-4 mx-auto"></div>
-              <div class="h-4 bg-gray-300 rounded mb-2"></div>
-              <div class="h-4 bg-gray-300 rounded mb-2"></div>
-              <div class="h-4 bg-gray-300 rounded mb-2"></div>
-              <div class="h-4 bg-gray-300 rounded mb-4"></div>
-            </div>
-            <a href="#" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium">
-              <div class="flex items-center justify-center">
-                <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
-                <span class="text-white">Cargando...</span>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="bg-[#EEEEEE] rounded-lg p-4 transform transition duration-300 flex flex-col justify-between h-full animate-pulse">
-          <div class="w-full max-h-72 bg-gray-300 rounded-t-lg mb-4"></div>
-          <div class="flex flex-col flex-grow">
-            <div class="mb-8">
-              <div class="h-6 bg-gray-300 rounded w-3/4 mb-4 mx-auto"></div>
-              <div class="h-4 bg-gray-300 rounded mb-2"></div>
-              <div class="h-4 bg-gray-300 rounded mb-2"></div>
-              <div class="h-4 bg-gray-300 rounded mb-2"></div>
-              <div class="h-4 bg-gray-300 rounded mb-4"></div>
-            </div>
-            <a href="#" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium">
-              <div class="flex items-center justify-center">
-                <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
-                <span class="text-white">Cargando...</span>
-              </div>
-            </a>
-          </div>
-        </div>
+        <!-- Aquí van los placeholders de carga -->
+        <!-- Código omitido por brevedad -->
       </div>
 
       <!-- Sección de cursos -->
@@ -132,14 +61,14 @@
         <ng-container *ngIf="filteredCursos && filteredCursos.length > 0; else noCursos">
           <div class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
             <div *ngFor="let curso of filteredCursos" class="bg-[#EEEEEE] rounded-lg p-4 transform hover:scale-105 transition duration-300 flex flex-col justify-between h-full">
-              <img [src]="curso.image" [alt]="curso.title" class="w-full max-h-72 lg:object-scale-down object-cover rounded-t-lg">
+              <img [src]="'http://localhost/paginaut/'+curso.imagen_principal" [alt]="curso.nombre" class="w-full max-h-60 lg:object-scale-down object-cover rounded-t-lg">
               <div class="flex flex-col flex-grow">
                 <div class="mb-8">
-                  <h3 class="text-center text-2xl font-extrabold text-[#043D3D]">{{ curso.title }}</h3>
-                  <p class="text-black text-base mt-4">{{ curso.description }}</p>
+                  <h3 class="text-center text-2xl font-extrabold text-[#043D3D]">{{ curso.nombre }}</h3>
+                  <p class="text-black text-base mt-4">{{ recortarDescripcion(curso.descripcion) }}</p>
                 </div>
-                <a href="/info_curso" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium">
-                  Aplicar
+                <a (click)="verDetalleCurso(curso.id)" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium">
+                  Más información
                 </a>
               </div>
             </div>

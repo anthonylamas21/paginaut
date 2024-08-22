@@ -1,54 +1,69 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { Curso, CursoService } from '../cursoService/curso.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cursos',
   templateUrl: './cursos.component.html',
-  styleUrl: './cursos.component.css'
+  styleUrls: ['./cursos.component.css']
 })
-export class CursosComponent {
-
+export class CursosComponent implements OnInit {
   isLoading = true;
   searchTerm: string = '';  // Término de búsqueda ingresado por el usuario
-  cursos: Array<{ title: string, description: string, image: string }> = [];  // Arreglo de todos los cursos
-  filteredCursos: Array<{ title: string, description: string, image: string }> = [];  // Arreglo de cursos filtrados
+  cursos: Curso[] = [];  // Arreglo de todos los cursos
+  filteredCursos: Curso[] = [];  // Arreglo de cursos filtrados
 
+  constructor(private cursoService: CursoService, private router: Router) {}
 
   ngOnInit(): void {
-    // Simulación de carga de datos (puedes reemplazar esto con una llamada a un servicio)
-    setTimeout(() => {
-      this.cursos = [
-        {
-          title: 'Inglés Básico',
-          description: 'Aprende inglés de manera efectiva con nuestras clases sabatinas, diseñadas para niños, adolescentes y adultos.',
-          image: './assets/img/BANNER INGLES ADULTO E INFANTIL.jpg'
-        },
-        {
-          title: 'TOEFL Preparation',
-          description: 'Prepárate para el examen TOEFL con nuestros cursos intensivos diseñados para mejorar tu puntuación.',
-          image: './assets/img/TOELF.jpg'
-        },
-        {
-          title: 'Inglés Avanzado',
-          description: 'Perfecciona tu inglés con nuestras clases avanzadas, enfocadas en conversación y comprensión lectora.',
-          image: './assets/img/CLENN.jpg'
-        },
-        {
-          title: 'Curso de Conversación',
-          description: 'Mejora tu fluidez en inglés con nuestros cursos de conversación enfocados en situaciones reales.',
-          image: './assets/img/TOELF.jpg'
-        }
-      ];
-      this.filteredCursos = this.cursos;  // Inicialmente muestra todos los cursos
-      this.isLoading = false;  // Detener la animación de carga
-    }, 2000);  // Simulación de un retraso de 2 segundos
+    this.loadCursos();
     this.setNavbarColor();
   }
+
+ // Método para cargar los cursos
+loadCursos(): void {
+  this.cursoService.getCursos().subscribe({
+    next: (response: Curso[]) => {
+      this.cursos = response.map(curso => ({
+        ...curso,
+        title: curso.nombre,
+        description: curso.descripcion,
+        image: curso.imagen_principal, 
+      }));
+      this.filteredCursos = this.cursos;
+      this.isLoading = false;
+    },
+    error: (error) => {
+      console.error('Error al cargar los cursos:', error);
+      this.isLoading = false;
+    },
+  });
+}
+
+recortarDescripcion(descripcion: string, maxLength: number = 100): string {
+  if (descripcion.length <= maxLength) {
+    return descripcion;
+  }
+  const trimmedText = descripcion.substring(0, maxLength);
+  const lastSpaceIndex = trimmedText.lastIndexOf(' ');
+
+  return lastSpaceIndex > 0 ? trimmedText.substring(0, lastSpaceIndex) + '...' : trimmedText + '...';
+}
+
+verDetalleCurso(id: number | undefined): void {
+  //console.log("id", id)
+  if (id) {
+    window.location.href = '/info_curso/'+id;
+  } else {
+    console.error('ID de beca no disponible');
+  }
+}
 
   // Método para filtrar cursos basado en el término de búsqueda
   filterCursos(): void {
     this.filteredCursos = this.cursos.filter(curso => 
-      curso.title.toLowerCase().includes(this.searchTerm.toLowerCase()) || 
-      curso.description.toLowerCase().includes(this.searchTerm.toLowerCase())
+      curso.nombre.toLowerCase().includes(this.searchTerm.toLowerCase()) || 
+      curso.descripcion.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
@@ -70,12 +85,12 @@ export class CursosComponent {
       } else {
         button?.classList.add('hidden');
       }
-      
+
       nabvar.classList.remove('bg-transparent');
       nabvar.classList.add('bg-[#043D3D]');
     }
   }
-  
+
   scrollToSection(sectionId: string): void {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
