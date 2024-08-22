@@ -56,30 +56,22 @@ switch ($request_method) {
       $target_file = $target_dir . $file_name;
 
       if (!is_dir($target_dir)) {
-        mkdir($target_dir, 0777, true);
+          mkdir($target_dir, 0777, true);
       }
 
       if (move_uploaded_file($_FILES['foto']['tmp_name'], $target_file)) {
-        $profesor->foto = '/uploads/profesores/' . $file_name;
+          $profesor->foto = '/uploads/profesores/' . $file_name;
       } else {
-        http_response_code(400);
-        echo json_encode(array("message" => "No se pudo subir la foto."));
-        break;
+          http_response_code(400);
+          echo json_encode(array("message" => "No se pudo subir la foto."));
+          break;
       }
-    } elseif ($isUpdate) {
+  } elseif ($isUpdate) {
       $profesor->id = $_POST['id'];
       if ($profesor->readOne()) {
-        $profesor->foto = $profesor->foto;
-      } else {
-        http_response_code(404);
-        echo json_encode(array("message" => "Profesor no encontrado."));
-        break;
+          $profesor->foto = $profesor->foto;  // Mantén la foto existente
       }
-    } elseif (!$isUpdate) {
-      http_response_code(400);
-      echo json_encode(array("message" => "Se requiere una foto para crear un nuevo profesor."));
-      break;
-    }
+  }
 
     $profesor->nombre = $data['nombre'];
     $profesor->apellido = $data['apellido'];

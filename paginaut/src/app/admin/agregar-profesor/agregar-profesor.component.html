@@ -318,7 +318,6 @@
               (change)="onFileChange($event)"
               class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
               accept="image/*"
-              required
             />
             <p
               *ngIf="
@@ -328,9 +327,6 @@
               "
               class="mt-1 text-xs text-red-600"
             >
-              <span *ngIf="profesorForm.get('foto')?.errors?.['required']">
-                La foto es requerida.
-              </span>
               <span
                 *ngIf="profesorForm.get('foto')?.errors?.['invalidFileType']"
               >
@@ -384,7 +380,7 @@
           <button
             type="submit"
             [disabled]="
-              profesorForm.invalid || tipoProfesorError || !fotoValida
+              profesorForm.invalid || tipoProfesorError
             "
             (click)="onSubmit()"
             class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm"

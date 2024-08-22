@@ -97,7 +97,7 @@ export class AgregarProfesorComponent implements OnInit {
       especialidad: ['', [Validators.required, Validators.maxLength(100)]],
       grado_academico: ['', [Validators.required, Validators.maxLength(100)]],
       experiencia: ['', [Validators.required]],
-      foto: ['', Validators.required],
+      foto: [''],
       tipoTiempoCompleto: [false],
       tipoAsignatura: [false],
       tipoCursos: [false],
@@ -172,49 +172,32 @@ export class AgregarProfesorComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.isSubmitting) return; // Previene el doble envío
+    if (this.isSubmitting) return;
     this.isSubmitting = true;
 
-    if (this.profesorForm.valid && !this.tipoProfesorError && this.fotoValida) {
+    const isUpdate = !!this.currentProfesorId;
+
+    if (this.profesorForm.valid && !this.tipoProfesorError) {
       const formData: FormData = new FormData();
-      formData.append(
-        'nombre',
-        this.sanitizeInput(this.profesorForm.get('nombre')?.value)
-      );
-      formData.append(
-        'apellido',
-        this.sanitizeInput(this.profesorForm.get('apellido')?.value)
-      );
-      formData.append(
-        'correo',
-        this.sanitizeInput(this.profesorForm.get('correo')?.value)
-      );
-      formData.append(
-        'telefono',
-        this.sanitizeInput(this.profesorForm.get('telefono')?.value || '')
-      );
-      formData.append(
-        'especialidad',
-        this.sanitizeInput(this.profesorForm.get('especialidad')?.value || '')
-      );
-      formData.append(
-        'grado_academico',
-        this.sanitizeInput(
-          this.profesorForm.get('grado_academico')?.value || ''
-        )
-      );
-      formData.append(
-        'experiencia',
-        this.sanitizeInput(this.profesorForm.get('experiencia')?.value || '')
-      );
+      formData.append('nombre', this.sanitizeInput(this.profesorForm.get('nombre')?.value));
+      formData.append('apellido', this.sanitizeInput(this.profesorForm.get('apellido')?.value));
+      formData.append('correo', this.sanitizeInput(this.profesorForm.get('correo')?.value));
+      formData.append('telefono', this.sanitizeInput(this.profesorForm.get('telefono')?.value || ''));
+      formData.append('especialidad', this.sanitizeInput(this.profesorForm.get('especialidad')?.value || ''));
+      formData.append('grado_academico', this.sanitizeInput(this.profesorForm.get('grado_academico')?.value || ''));
+      formData.append('experiencia', this.sanitizeInput(this.profesorForm.get('experiencia')?.value || ''));
+
+      if (isUpdate) {
+        formData.append('id', this.currentProfesorId!.toString());  // Asegúrate de enviar el ID en la actualización
+      }
 
       if (this.fileToUpload) {
         formData.append('foto', this.fileToUpload, this.fileToUpload.name);
-      } else {
-        formData.append('foto', this.currentFileName);
+      } else if (isUpdate && this.currentFileName) {
+        formData.append('foto', this.currentFileName); // Mantén la foto existente en caso de actualización
       }
 
-      const submitCallback = this.currentProfesorId
+      const submitCallback = isUpdate
         ? this.profesorService.updateProfesor(formData)
         : this.profesorService.addProfesor(formData);
 
@@ -222,30 +205,24 @@ export class AgregarProfesorComponent implements OnInit {
         next: (response: any) => {
           const profesor_id = this.currentProfesorId || response.id;
           this.updateTipoProfesor(profesor_id);
-          this.showToast(
-            'success',
-            `Profesor ${
-              this.currentProfesorId ? 'actualizado' : 'agregado'
-            } correctamente`
-          );
+          this.showToast('success', `Profesor ${isUpdate ? 'actualizado' : 'agregado'} correctamente`);
           this.loadProfesores();
           this.resetForm();
           this.closeModal();
-          this.isSubmitting = false; // Reestablece la bandera después de la respuesta
+          this.isSubmitting = false;
         },
         error: (error: any) => {
           this.showToast('error', error.message);
-          this.isSubmitting = false; // Reestablece la bandera en caso de error
-        },
+          this.isSubmitting = false;
+        }
       });
     } else {
-      this.showToast(
-        'warning',
-        'Por favor, completa todos los campos requeridos.'
-      );
-      this.isSubmitting = false; // Reestablece la bandera si la validación falla
+      this.showToast('warning', 'Por favor, completa todos los campos requeridos.');
+      this.isSubmitting = false;
     }
   }
+
+
 
   private sanitizeInput(input: string): string {
     const temp = document.createElement('div');
