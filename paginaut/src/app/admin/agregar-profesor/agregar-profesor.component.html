@@ -34,8 +34,6 @@
   </ol>
 </div>
 
-<!--Fin Navbar-->
-
 <div class="p-2 mx-auto">
   <div class="bg-[#043D3D] rounded-lg mt-8 mb-5">
     <h2
@@ -45,7 +43,6 @@
     </h2>
   </div>
 
-  <!-- Modal -->
   <div
     [ngClass]="{ hidden: !isModalOpen }"
     class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4"
@@ -97,7 +94,7 @@
               placeholder="Nombre del Profesor"
               maxlength="50"
               required
-              (keypress)="validateInput($event)"
+              (keypress)="validateInput($event, 'text')"
             />
             <p
               *ngIf="
@@ -130,7 +127,7 @@
               placeholder="Apellido del Profesor"
               maxlength="50"
               required
-              (keypress)="validateInput($event)"
+              (keypress)="validateInput($event, 'text')"
             />
             <p
               *ngIf="
@@ -192,7 +189,7 @@
               placeholder="Teléfono"
               maxlength="20"
               required
-              (keypress)="validateInput($event)"
+              (keypress)="validateInput($event, 'number')"
             />
             <p
               *ngIf="
@@ -225,7 +222,7 @@
               placeholder="Especialidad"
               maxlength="100"
               required
-              (keypress)="validateInput($event)"
+              (keypress)="validateInput($event, 'text')"
             />
             <p
               *ngIf="
@@ -260,7 +257,7 @@
               placeholder="Grado Académico"
               maxlength="100"
               required
-              (keypress)="validateInput($event)"
+              (keypress)="validateInput($event, 'text')"
             />
             <p
               *ngIf="
@@ -294,7 +291,7 @@
               class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
               placeholder="Años de Experiencia"
               required
-              (keypress)="validateInput($event)"
+              (keypress)="validateInput($event, 'number')"
             />
             <p
               *ngIf="
@@ -336,7 +333,7 @@
               >
               <span
                 *ngIf="profesorForm.get('foto')?.errors?.['invalidFileType']"
-                >Solo se permiten archivos de imagen.</span
+                >Solo se permiten archivos de imagen menores a 5MB.</span
               >
             </p>
           </div>
@@ -371,6 +368,7 @@
                   type="checkbox"
                   formControlName="tipoCursos"
                   class="form-checkbox text-indigo-600 h-4 w-4"
+                  (change)="onTipoProfesorChange()"
                 />
                 <span class="ml-2 text-gray-700">Cursos</span>
               </label>
@@ -401,8 +399,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Modal para ver detalles del profesor -->
   <div
     [ngClass]="{
       'hs-overlay-open': isViewModalOpen,
@@ -444,26 +440,59 @@
             </svg>
           </button>
         </div>
-        <div class="p-4 overflow-y-auto">
-          <div *ngIf="selectedProfesor">
-            <h4 class="text-lg font-semibold mb-2">
-              {{ selectedProfesor.nombre }} {{ selectedProfesor.apellido }}
-            </h4>
-            <p><strong>Correo:</strong> {{ selectedProfesor.correo }}</p>
-            <p><strong>Teléfono:</strong> {{ selectedProfesor.telefono }}</p>
-            <p>
-              <strong>Especialidad:</strong> {{ selectedProfesor.especialidad }}
-            </p>
-            <p>
-              <strong>Grado Académico:</strong>
-              {{ selectedProfesor.grado_academico }}
-            </p>
-            <p>
-              <strong>Experiencia:</strong>
-              {{ selectedProfesor.experiencia }} años
-            </p>
-            <div class="mt-4">
-              <h5 class="text-sm font-semibold">Foto:</h5>
+        <div class="p-6 overflow-y-auto">
+          <div
+            *ngIf="selectedProfesor"
+            class="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
+            <div class="flex flex-col space-y-4">
+              <div>
+                <h4 class="text-lg font-semibold text-gray-700">
+                  Nombre Completo
+                </h4>
+                <p class="text-sm text-gray-900">
+                  {{ selectedProfesor.nombre }} {{ selectedProfesor.apellido }}
+                </p>
+              </div>
+              <div>
+                <h4 class="text-lg font-semibold text-gray-700">
+                  Correo Electrónico
+                </h4>
+                <p class="text-sm text-gray-900">
+                  {{ selectedProfesor.correo }}
+                </p>
+              </div>
+              <div>
+                <h4 class="text-lg font-semibold text-gray-700">Teléfono</h4>
+                <p class="text-sm text-gray-900">
+                  {{ selectedProfesor.telefono }}
+                </p>
+              </div>
+              <div>
+                <h4 class="text-lg font-semibold text-gray-700">
+                  Especialidad
+                </h4>
+                <p class="text-sm text-gray-900">
+                  {{ selectedProfesor.especialidad }}
+                </p>
+              </div>
+              <div>
+                <h4 class="text-lg font-semibold text-gray-700">
+                  Grado Académico
+                </h4>
+                <p class="text-sm text-gray-900">
+                  {{ selectedProfesor.grado_academico }}
+                </p>
+              </div>
+              <div>
+                <h4 class="text-lg font-semibold text-gray-700">Experiencia</h4>
+                <p class="text-sm text-gray-900">
+                  {{ selectedProfesor.experiencia }} años
+                </p>
+              </div>
+            </div>
+            <div class="flex flex-col items-center justify-center">
+              <h4 class="text-lg font-semibold text-gray-700 mb-4">Foto</h4>
               <img
                 *ngIf="selectedProfesor.foto"
                 [src]="
@@ -472,7 +501,7 @@
                   )
                 "
                 alt="Foto del profesor"
-                class="w-32 h-32 object-cover rounded-md border"
+                class="w-40 h-40 object-cover rounded-md border"
               />
               <p *ngIf="!selectedProfesor.foto" class="text-gray-500">
                 No disponible
@@ -483,8 +512,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Resto del contenido de tu componente -->
 
   <div *ngIf="errorMessage" class="alert alert-danger mt-3">
     {{ errorMessage }}
@@ -533,7 +560,6 @@
           <div class="flex flex-wrap items-center">
             <div class="flex flex-col lg:w-7/12 sm:w-12/12 md:w-7/12 w-full">
               <div class="w-full">
-                <!-- SearchBox -->
                 <div class="relative w-full">
                   <div class="relative w-full">
                     <div
@@ -565,7 +591,6 @@
                     />
                   </div>
                 </div>
-                <!-- End SearchBox -->
               </div>
             </div>
             <div
@@ -798,6 +823,7 @@
             </div>
           </div>
         </div>
+        <!-- Papelera de Profesores -->
         <div
           id="tabs-with-icons-2"
           class="hidden"
@@ -906,7 +932,83 @@
                                     class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
                                   >
                                     <i
-                                      class="fa fa-check"
+                                      class="fa-solid fa-arrow-rotate-left"
+                                    ></i>
+                                    <div
+                                      class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                      role="tooltip"
+                                    >
+                                      <div
+                                        class="py-3 px-4 border-b border-gray-200"
+                                      >
+                                        <h4 class="font-semibold text-gray-800">
+                                          Activar
+                                        </h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div
+                                            class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                          >
+                                            Volver a activar al profesor.
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button
+                                (mouseenter)="mostrar($event.target)"
+                                (mouseleave)="mostrar($event.target)"
+                                (click)="openViewModal(profesor)"
+                                class="hover:text-primary"
+                              >
+                                <div
+                                  class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                                >
+                                  <div
+                                    class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                  >
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                    <div
+                                      class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
+                                      role="tooltip"
+                                    >
+                                      <div
+                                        class="py-3 px-4 border-b border-gray-200"
+                                      >
+                                        <h4 class="font-semibold text-gray-800">
+                                          Ver Detalles
+                                        </h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div
+                                            class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
+                                          >
+                                            Ver detalles del profesor.
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button
+                                (mouseenter)="mostrar($event.target)"
+                                (mouseleave)="mostrar($event.target)"
+                                (click)="deleteProfesor(profesor.id)"
+                                class="hover:text-primary"
+                              >
+                                <div
+                                  class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
+                                >
+                                  <div
+                                    class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                  >
+                                    <i
+                                      class="fa fa-trash"
                                       aria-hidden="true"
                                     ></i>
                                     <div
@@ -917,7 +1019,7 @@
                                         class="py-3 px-4 border-b border-gray-200"
                                       >
                                         <h4 class="font-semibold text-gray-800">
-                                          Reactivar
+                                          Eliminar
                                         </h4>
                                       </div>
                                       <ul class="py-3 px-4 space-y-1">
@@ -925,7 +1027,8 @@
                                           <div
                                             class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap"
                                           >
-                                            Reactivar el profesor.
+                                            Eliminar definitivamente al
+                                            profesor.
                                           </div>
                                         </li>
                                       </ul>

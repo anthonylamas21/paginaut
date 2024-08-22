@@ -74,8 +74,24 @@ export class AgregarProfesorComponent implements OnInit {
     this.profesorForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
       apellido: ['', [Validators.required, Validators.maxLength(50)]],
-      correo: ['', [Validators.required, Validators.email]],
-      telefono: ['', [Validators.required, Validators.maxLength(20)]],
+      correo: [
+        '',
+        [
+          Validators.required,
+          Validators.email,
+          Validators.pattern(
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+          ),
+        ],
+      ],
+      telefono: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[0-9+()-\s]*$/),
+          Validators.maxLength(20),
+        ],
+      ],
       especialidad: ['', [Validators.required, Validators.maxLength(100)]],
       grado_academico: ['', [Validators.required, Validators.maxLength(100)]],
       experiencia: ['', [Validators.required]],
@@ -91,9 +107,17 @@ export class AgregarProfesorComponent implements OnInit {
     this.setNavbarColor();
   }
 
-  validateInput(event: KeyboardEvent) {
-    const allowedKeys = /^[a-zA-Z0-9\s.,]*$/; // Permitir letras, números, espacios, puntos y comas
-    if (!allowedKeys.test(event.key)) {
+  validateInput(event: KeyboardEvent, type: 'text' | 'number' | 'email'): void {
+    let allowedKeys: RegExp | undefined;
+    if (type === 'text') {
+      allowedKeys = /^[a-zA-Z\s]*$/;
+    } else if (type === 'number') {
+      allowedKeys = /^[0-9]*$/;
+    } else if (type === 'email') {
+      allowedKeys = /^[a-zA-Z0-9@._-]*$/;
+    }
+
+    if (allowedKeys && !allowedKeys.test(event.key)) {
       event.preventDefault();
     }
   }
@@ -142,24 +166,46 @@ export class AgregarProfesorComponent implements OnInit {
   onSubmit() {
     if (this.profesorForm.valid && !this.tipoProfesorError) {
       const formData: FormData = new FormData();
-      formData.append('nombre', this.profesorForm.get('nombre')?.value);
-      formData.append('apellido', this.profesorForm.get('apellido')?.value);
-      formData.append('correo', this.profesorForm.get('correo')?.value);
-      formData.append('telefono', this.profesorForm.get('telefono')?.value || '');
-      formData.append('especialidad', this.profesorForm.get('especialidad')?.value || '');
-      formData.append('grado_academico', this.profesorForm.get('grado_academico')?.value || '');
-      formData.append('experiencia', this.profesorForm.get('experiencia')?.value || '');
-  
+      formData.append(
+        'nombre',
+        this.sanitizeInput(this.profesorForm.get('nombre')?.value)
+      );
+      formData.append(
+        'apellido',
+        this.sanitizeInput(this.profesorForm.get('apellido')?.value)
+      );
+      formData.append(
+        'correo',
+        this.sanitizeInput(this.profesorForm.get('correo')?.value)
+      );
+      formData.append(
+        'telefono',
+        this.sanitizeInput(this.profesorForm.get('telefono')?.value || '')
+      );
+      formData.append(
+        'especialidad',
+        this.sanitizeInput(this.profesorForm.get('especialidad')?.value || '')
+      );
+      formData.append(
+        'grado_academico',
+        this.sanitizeInput(
+          this.profesorForm.get('grado_academico')?.value || ''
+        )
+      );
+      formData.append(
+        'experiencia',
+        this.sanitizeInput(this.profesorForm.get('experiencia')?.value || '')
+      );
+
       if (this.fileToUpload) {
         formData.append('foto', this.fileToUpload, this.fileToUpload.name);
       } else {
         formData.append('foto', this.currentFileName);
       }
-  
-      // Asegurarse de enviar el ID en caso de que sea una edición
+
       if (this.currentProfesorId) {
-        formData.append('id', this.currentProfesorId.toString()); // Aquí se añade el ID
-  
+        formData.append('id', this.currentProfesorId.toString());
+
         this.profesorService.updateProfesor(formData).subscribe({
           next: (response: any) => {
             this.updateTipoProfesor(this.currentProfesorId!);
@@ -188,40 +234,53 @@ export class AgregarProfesorComponent implements OnInit {
         });
       }
     } else {
-      this.showToast('warning', 'Por favor, completa todos los campos requeridos.');
+      this.showToast(
+        'warning',
+        'Por favor, completa todos los campos requeridos.'
+      );
     }
   }
-  
+
+  private sanitizeInput(input: string): string {
+    const temp = document.createElement('div');
+    temp.textContent = input;
+    return temp.innerHTML;
+  }
+
   private updateTipoProfesor(profesor_id: number): void {
     const tiposProfesor = this.assignTipoProfesor(profesor_id);
-    
-    // Primero eliminamos los tipos actuales (si existen)
+
     this.profesorService.deleteTiposByProfesorId(profesor_id).subscribe({
       next: () => {
-        // Luego agregamos los nuevos tipos
         this.profesorService.addTipoProfesor(tiposProfesor).subscribe({
           next: () => {
-           //alerta omitida
+            // Alert omitted
           },
           error: (error: any) => {
-            //alerta error omitida
-          }
+            // Alert error omitted
+          },
         });
       },
       error: (error: any) => {
-        this.showToast('error', 'Error al eliminar los tipos de profesor anteriores');
-      }
+        this.showToast(
+          'error',
+          'Error al eliminar los tipos de profesor anteriores'
+        );
+      },
     });
   }
-  
 
   onFileChange(event: any) {
     const file = event.target.files[0];
-    if (file && file.type.startsWith('image/')) {
+    if (file && file.type.startsWith('image/') && file.size < 5000000) {
+      // Limit size to 5MB
       this.fileToUpload = file;
     } else {
       this.profesorForm.get('foto')?.setErrors({ invalidFileType: true });
-      this.showToast('error', 'Solo se permiten archivos de imagen.');
+      this.showToast(
+        'error',
+        'Solo se permiten archivos de imagen menores a 5MB.'
+      );
       this.fileToUpload = null;
     }
   }
@@ -235,6 +294,7 @@ export class AgregarProfesorComponent implements OnInit {
     this.currentFileName = '';
     this.fileToUpload = null;
   }
+
   openModal(profesor?: Profesor) {
     if (profesor) {
       this.currentProfesorId = profesor.id;
@@ -250,7 +310,6 @@ export class AgregarProfesorComponent implements OnInit {
         experiencia: profesor.experiencia ?? '',
       });
 
-      // Obtener los tipos de profesor
       this.profesorService.getTiposProfesor(profesor.id!).subscribe({
         next: (response: any) => {
           if (response && Array.isArray(response.tipos)) {
@@ -359,16 +418,34 @@ export class AgregarProfesorComponent implements OnInit {
         () => {
           const formData: FormData = new FormData();
           formData.append('id', profesorToUpdate.id!.toString());
-          formData.append('nombre', profesorToUpdate.nombre ?? '');
-          formData.append('apellido', profesorToUpdate.apellido ?? '');
-          formData.append('correo', profesorToUpdate.correo ?? '');
-          formData.append('telefono', profesorToUpdate.telefono ?? '');
-          formData.append('especialidad', profesorToUpdate.especialidad ?? '');
+          formData.append(
+            'nombre',
+            this.sanitizeInput(profesorToUpdate.nombre ?? '')
+          );
+          formData.append(
+            'apellido',
+            this.sanitizeInput(profesorToUpdate.apellido ?? '')
+          );
+          formData.append(
+            'correo',
+            this.sanitizeInput(profesorToUpdate.correo ?? '')
+          );
+          formData.append(
+            'telefono',
+            this.sanitizeInput(profesorToUpdate.telefono ?? '')
+          );
+          formData.append(
+            'especialidad',
+            this.sanitizeInput(profesorToUpdate.especialidad ?? '')
+          );
           formData.append(
             'grado_academico',
-            profesorToUpdate.grado_academico ?? ''
+            this.sanitizeInput(profesorToUpdate.grado_academico ?? '')
           );
-          formData.append('experiencia', profesorToUpdate.experiencia ?? '');
+          formData.append(
+            'experiencia',
+            this.sanitizeInput(profesorToUpdate.experiencia ?? '')
+          );
           formData.append('activo', 'true');
 
           this.profesorService.updateProfesor(formData).subscribe({
@@ -424,22 +501,24 @@ export class AgregarProfesorComponent implements OnInit {
       );
     }
   }
-private assignTipoProfesor(profesor_id: number): Array<{ profesor_id: number, tipo_id: number }> {
-  const tiposProfesor: Array<{ profesor_id: number, tipo_id: number }> = [];
 
-  if (this.profesorForm.get('tipoTiempoCompleto')?.value) {
-    tiposProfesor.push({ profesor_id, tipo_id: 1 });
-  }
-  if (this.profesorForm.get('tipoAsignatura')?.value) {
-    tiposProfesor.push({ profesor_id, tipo_id: 2 });
-  }
-  if (this.profesorForm.get('tipoCursos')?.value) {
-    tiposProfesor.push({ profesor_id, tipo_id: 3 });
-  }
+  private assignTipoProfesor(
+    profesor_id: number
+  ): Array<{ profesor_id: number; tipo_id: number }> {
+    const tiposProfesor: Array<{ profesor_id: number; tipo_id: number }> = [];
 
-  return tiposProfesor; // Return the array of tipos
-}
-  
+    if (this.profesorForm.get('tipoTiempoCompleto')?.value) {
+      tiposProfesor.push({ profesor_id, tipo_id: 1 });
+    }
+    if (this.profesorForm.get('tipoAsignatura')?.value) {
+      tiposProfesor.push({ profesor_id, tipo_id: 2 });
+    }
+    if (this.profesorForm.get('tipoCursos')?.value) {
+      tiposProfesor.push({ profesor_id, tipo_id: 3 });
+    }
+
+    return tiposProfesor;
+  }
 
   mostrar(elemento: any): void {
     if (elemento.tagName.toLowerCase() === 'button') {

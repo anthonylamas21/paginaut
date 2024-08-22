@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { map } from 'rxjs/operators';
 
 export interface Profesor {
   id?: number;
@@ -16,7 +15,6 @@ export interface Profesor {
   foto?: string;
   activo?: boolean;
   fecha_creacion?: string;
-  tipo?: string;
 }
 
 export interface TipoProfesor {
@@ -34,7 +32,7 @@ export interface ProfesorResponse {
 })
 export class ProfesorService {
   private apiUrl = 'http://localhost/paginaut/api/profesor.php';
-  private tipoUrl = 'http://localhost/paginaut/api/tipo-pro';
+  private tipoUrl = 'http://localhost/paginaut/api/tipo-pro.php';
 
   constructor(private http: HttpClient) {}
 
@@ -58,7 +56,7 @@ export class ProfesorService {
 
   updateProfesor(profesor: FormData): Observable<any> {
     return this.http
-      .post<any>(this.apiUrl, profesor)  // Usando POST para la actualización
+      .post<any>(this.apiUrl, profesor) // Usando POST para la actualización
       .pipe(catchError(this.handleError));
   }
 
@@ -68,7 +66,7 @@ export class ProfesorService {
       .pipe(catchError(this.handleError));
   }
 
-  //TIPO PROFESORES
+  // TIPOS DE PROFESORES
   getTiposProfesor(profesor_id: number): Observable<TipoProfesor[]> {
     return this.http
       .get<TipoProfesor[]>(`${this.tipoUrl}?profesor_id=${profesor_id}`)
@@ -77,7 +75,7 @@ export class ProfesorService {
 
   addTipoProfesor(tiposProfesor: TipoProfesor[]): Observable<any> {
     return this.http
-      .post<any>(`${this.tipoUrl}`, tiposProfesor)
+      .post<any>(this.tipoUrl, tiposProfesor)
       .pipe(catchError(this.handleError));
   }
 
