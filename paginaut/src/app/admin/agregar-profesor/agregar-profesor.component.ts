@@ -63,6 +63,7 @@ export class AgregarProfesorComponent implements OnInit {
   currentFileName: string = '';
   baseImageUrl = 'http://localhost/paginaut/';
   tipoProfesorError: string = '';
+  fotoValida: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -95,7 +96,7 @@ export class AgregarProfesorComponent implements OnInit {
       especialidad: ['', [Validators.required, Validators.maxLength(100)]],
       grado_academico: ['', [Validators.required, Validators.maxLength(100)]],
       experiencia: ['', [Validators.required]],
-      foto: [''],
+      foto: ['', Validators.required],
       tipoTiempoCompleto: [false],
       tipoAsignatura: [false],
       tipoCursos: [false],
@@ -130,6 +131,12 @@ export class AgregarProfesorComponent implements OnInit {
     if (tipoTiempoCompleto && tipoAsignatura) {
       this.tipoProfesorError =
         'No puedes seleccionar Tiempo Completo y Asignatura al mismo tiempo.';
+    } else if (
+      !tipoTiempoCompleto &&
+      !tipoAsignatura &&
+      !this.profesorForm.get('tipoCursos')?.value
+    ) {
+      this.tipoProfesorError = 'Debe seleccionar al menos un tipo de profesor.';
     } else {
       this.tipoProfesorError = '';
     }
@@ -164,7 +171,7 @@ export class AgregarProfesorComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.profesorForm.valid && !this.tipoProfesorError) {
+    if (this.profesorForm.valid && !this.tipoProfesorError && this.fotoValida) {
       const formData: FormData = new FormData();
       formData.append(
         'nombre',
@@ -275,7 +282,10 @@ export class AgregarProfesorComponent implements OnInit {
     if (file && file.type.startsWith('image/') && file.size < 5000000) {
       // Limit size to 5MB
       this.fileToUpload = file;
+      this.fotoValida = true;
+      this.profesorForm.get('foto')?.setErrors(null);
     } else {
+      this.fotoValida = false;
       this.profesorForm.get('foto')?.setErrors({ invalidFileType: true });
       this.showToast(
         'error',
@@ -293,6 +303,8 @@ export class AgregarProfesorComponent implements OnInit {
     this.currentProfesor = undefined;
     this.currentFileName = '';
     this.fileToUpload = null;
+    this.fotoValida = false;
+    this.tipoProfesorError = '';
   }
 
   openModal(profesor?: Profesor) {
