@@ -7,7 +7,7 @@ class Curso
   public $id;
   public $nombre;
   public $descripcion;
-  public $profesor;
+  public $profesores; // Lista de profesores
   public $activo;
   public $fecha_creacion;
   public $imagen_principal;
@@ -20,63 +20,153 @@ class Curso
 
   function create()
   {
-    $query = "INSERT INTO " . $this->table_name . "
-                  (nombre, descripcion, activo)
-                  VALUES
-                  (:nombre, :descripcion, :activo)";
-
-    $stmt = $this->conn->prepare($query);
-
-    $this->nombre = htmlspecialchars(strip_tags($this->nombre));
-    $this->activo = $this->activo ? 1 : 0;
-    $this->descripcion = htmlspecialchars(strip_tags($this->descripcion));
-
-    $stmt->bindParam(":nombre", $this->nombre);
-    $stmt->bindParam(":descripcion", $this->descripcion);
-    $stmt->bindParam(":activo", $this->activo);
-
-    if ($stmt->execute()) {
-      $this->id = $this->conn->lastInsertId();
-      $this->saveImagenPrincipal();
-      $this->saveCursoProfesor();
-      return true;
-    }
-    return false;
+      $query = "INSERT INTO " . $this->table_name . " (nombre, descripcion, activo) VALUES (:nombre, :descripcion, :activo)";
+      $stmt = $this->conn->prepare($query);
+  
+      $stmt->bindParam(":nombre", $this->nombre);
+      $stmt->bindParam(":descripcion", $this->descripcion);
+      $stmt->bindParam(":activo", $this->activo);
+  
+      if ($stmt->execute()) {
+          $this->id = $this->conn->lastInsertId();
+  
+          // Guardar imagen principal si está disponible
+          if ($this->imagen_principal) {
+              $this->saveImagenPrincipal();
+          }
+  
+          // Guardar imágenes generales si están disponibles
+          if (is_array($this->imagenes_generales) && !empty($this->imagenes_generales)) {
+              $this->saveImagenesGenerales();
+          }
+  
+          // Asignar profesores
+          $this->asignarProfesores();
+  
+          return true;
+      }
+      return false;
   }
+  
 
-  private function saveCursoProfesor(){
-    $query = "INSERT INTO curso_maestro (profesor_id, curso_id)
-                  VALUES (:profesor_id, :curso_id)";
-    $stmt = $this->conn->prepare($query);
-
-    $profesor = htmlspecialchars(strip_tags($this->profesor));
-    $asociado_id = $this->id;
-
-    $stmt->bindParam(":curso_id", $asociado_id);
-    $stmt->bindParam(":profesor_id", $profesor);
-
-    $stmt->execute();
-
-  }
-
-  private function saveImagenPrincipal()
+  function update()
   {
-    $query = "INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal)
-                  VALUES (:titulo, :descripcion, :ruta_imagen, 'Cursos', :asociado_id, TRUE)";
+      $query = "UPDATE " . $this->table_name . " SET nombre = :nombre, descripcion = :descripcion, activo = :activo WHERE id = :id";
+      $stmt = $this->conn->prepare($query);
+  
+      $stmt->bindParam(":nombre", $this->nombre);
+      $stmt->bindParam(":descripcion", $this->descripcion);
+      $stmt->bindParam(":activo", $this->activo);
+      $stmt->bindParam(":id", $this->id);
+  
+      if ($stmt->execute()) {
+          // Eliminar profesores asociados anteriormente
+          $this->eliminarProfesores();
+          
+          // Volver a asignar profesores
+          $this->asignarProfesores();
+  
+          // Actualizar imágenes
+          $this->updateImagenes();
+          return true;
+      }
+      return false;
+  }
+
+  function eliminarProfesores()
+{
+    $query = "DELETE FROM curso_maestro WHERE curso_id = :curso_id";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':curso_id', $this->id);
+    $stmt->execute();
+}
+
+function asignarProfesores()
+{
+    $query = "INSERT INTO curso_maestro (curso_id, profesor_id) VALUES (:curso_id, :profesor_id)";
     $stmt = $this->conn->prepare($query);
 
-    $titulo = $this->nombre;
-    $descripcion = "Galeria imagen";
-    $ruta_imagen = htmlspecialchars(strip_tags($this->imagen_principal));
-    $asociado_id = $this->id;
+    foreach ($this->profesores as $profesor_id) {
+        $stmt->bindParam(':curso_id', $this->id);
+        $stmt->bindParam(':profesor_id', $profesor_id);
+        $stmt->execute();
+    }
+}
 
-    $stmt->bindParam(":titulo", $titulo);
-    $stmt->bindParam(":descripcion", $descripcion);
-    $stmt->bindParam(":ruta_imagen", $ruta_imagen);
-    $stmt->bindParam(":asociado_id", $asociado_id);
 
-    $stmt->execute();
+  function saveImagenPrincipal()
+  {
+    if ($this->imagen_principal) {
+      $ruta = $this->uploadImage($this->imagen_principal, 'principal');
+      $query = "INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal) VALUES (:titulo, :descripcion, :ruta_imagen, 'Cursos', :asociado_id, TRUE)";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(':titulo', $this->nombre);
+      $stmt->bindParam(':descripcion', $this->descripcion);
+      $stmt->bindParam(':ruta_imagen', $ruta);
+      $stmt->bindParam(':asociado_id', $this->id);
+      $stmt->execute();
+    }
   }
+
+  function saveImagenesGenerales()
+  {
+      // Si $_FILES['imagenes_generales'] es un array, procesa cada archivo
+      if (is_array($this->imagenes_generales['tmp_name'])) {
+          foreach ($this->imagenes_generales['tmp_name'] as $index => $tmpName) {
+              $file = [
+                  'name' => $this->imagenes_generales['name'][$index],
+                  'type' => $this->imagenes_generales['type'][$index],
+                  'tmp_name' => $tmpName,
+                  'error' => $this->imagenes_generales['error'][$index],
+                  'size' => $this->imagenes_generales['size'][$index],
+              ];
+              $ruta = $this->uploadImage($file, 'general');
+              $query = "INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal) VALUES (:titulo, :descripcion, :ruta_imagen, 'Cursos', :asociado_id, FALSE)";
+              $stmt = $this->conn->prepare($query);
+              $stmt->bindParam(':titulo', $this->nombre);
+              $stmt->bindParam(':descripcion', $this->descripcion);
+              $stmt->bindParam(':ruta_imagen', $ruta);
+              $stmt->bindParam(':asociado_id', $this->id);
+              $stmt->execute();
+          }
+      }
+  }
+  
+
+  function updateImagenes()
+  {
+    $this->saveImagenPrincipal();
+    $this->saveImagenesGenerales();
+  }
+
+  private function uploadImage($image, $type)
+  {
+    $target_dir = "../../uploads/cursos/";
+    if (!is_dir($target_dir)) {
+      mkdir($target_dir, 0777, true);
+    }
+    $target_file = $target_dir . uniqid() . "_" . basename($image['name']);
+    if (move_uploaded_file($image['tmp_name'], $target_file)) {
+      return "uploads/cursos/" . basename($target_file);
+    }
+    return null;
+  }
+
+  private function saveCursoProfesor() {
+    if ($this->profesores !== null && $this->profesores !== 'null') {
+        $query = "INSERT INTO curso_maestro (profesor_id, curso_id)
+                  VALUES (:profesor_id, :curso_id)";
+        $stmt = $this->conn->prepare($query);
+
+        $profesor = htmlspecialchars(strip_tags($this->profesores));
+        $asociado_id = $this->id;
+
+        $stmt->bindParam(":curso_id", $asociado_id);
+        $stmt->bindParam(":profesor_id", $profesor);
+
+        $stmt->execute();
+    }
+}
 
   public function getImagenesGenerales()
   {
@@ -133,41 +223,6 @@ class Curso
     return false;
   }
 
-  function update()
-  {
-    $query = "UPDATE " . $this->table_name . " SET
-                  nombre = :nombre,
-                  activo = :activo
-                  WHERE id = :id";
-
-    $stmt = $this->conn->prepare($query);
-
-    $this->nombre = htmlspecialchars(strip_tags($this->nombre));
-    $this->activo = $this->activo ? 1 : 0;
-
-    $stmt->bindParam(":nombre", $this->nombre);
-    $stmt->bindParam(":activo", $this->activo);
-    $stmt->bindParam(":id", $this->id);
-
-    if ($stmt->execute()) {
-      $this->updateImagenes();
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public function updateImagenes()
-  {
-    if (isset($_FILES['imagen_principal']) && $_FILES['imagen_principal']['error'] === UPLOAD_ERR_OK) {
-      $this->updateImagenPrincipal($_FILES['imagen_principal']);
-    }
-
-    if (isset($_FILES['imagenes_generales']) && !empty($_FILES['imagenes_generales']['name'][0])) {
-      $this->updateImagenesGenerales($_FILES['imagenes_generales']);
-    }
-  }
-
   private function updateImagenPrincipal($imagen)
 {
     $target_dir = "../../uploads/cursos/";
@@ -196,49 +251,6 @@ class Curso
         $this->imagen_principal = $ruta_relativa;
     }
 }
-
-  private function updateImagenesGenerales($nuevasImagenes)
-  {
-    $target_dir = "../../uploads/cursos/";
-    $nuevasRutas = [];
-
-    foreach ($nuevasImagenes['tmp_name'] as $key => $tmp_name) {
-      if (!empty($tmp_name)) {
-        $target_file = $target_dir . uniqid() . "_" . basename($nuevasImagenes["name"][$key]);
-        if (move_uploaded_file($tmp_name, $target_file)) {
-          $nuevasRutas[] = "uploads/cursos/" . basename($target_file);
-        }
-      }
-    }
-
-    if (!empty($nuevasRutas)) {
-      $imagenesActuales = $this->getImagenesGenerales();
-
-      foreach ($nuevasRutas as $ruta) {
-        $this->saveImagenGeneral($ruta);
-      }
-
-      $this->imagenes_generales = array_merge($imagenesActuales, $nuevasRutas);
-    }
-  }
-
-  public function saveImagenGeneral($ruta_imagen)
-  {
-    $query = "INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal)
-                  VALUES (:titulo, :descripcion, :ruta_imagen, 'Cursos', :asociado_id, FALSE)";
-    $stmt = $this->conn->prepare($query);
-
-    $titulo = $this->nombre;
-    $descripcion = "Galeria imagen";
-    $asociado_id = $this->id;
-
-    $stmt->bindParam(":titulo", $titulo);
-    $stmt->bindParam(":descripcion", $descripcion);
-    $stmt->bindParam(":ruta_imagen", $ruta_imagen);
-    $stmt->bindParam(":asociado_id", $asociado_id);
-
-    $stmt->execute();
-  }
 
   public function deleteImagenGeneral($rutaImagen)
   {
@@ -337,4 +349,5 @@ class Curso
     $stmt->bindParam(":asociado_id", $this->id);
     $stmt->execute();
   }
+
 }

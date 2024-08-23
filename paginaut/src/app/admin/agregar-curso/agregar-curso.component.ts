@@ -49,7 +49,7 @@ class TooltipManager {
   templateUrl: './agregar-curso.component.html',
   styleUrl: './agregar-curso.component.css',
 })
-export class AgregarCursoComponent {
+export class AgregarCursoComponent implements OnInit {
   cursos: Curso[] = [];
   filteredCursos: Curso[] = [];
   papeleraCursos: Curso[] = [];
@@ -65,22 +65,48 @@ export class AgregarCursoComponent {
   modalTitle = '';
   currentImageIndex = 0;
   allImages: string[] = [];
-  nombre?: string;
+  profesores: any[] = [];
+  selectedProfesores: Set<number> = new Set();
 
   constructor(
-    private cursoService: CursoService, // Usar el servicio de Curso
+    private cursoService: CursoService,
     private fb: FormBuilder
   ) {
     this.cursoForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
       descripcion: ['', Validators.maxLength(200)],
-      profesor: [],
       activo: [true],
+      imagenPrincipal: [null],  // Campo para la imagen principal
+      imagenesGenerales: [[]], 
     });
   }
 
   ngOnInit(): void {
     this.loadCursos();
+    this.loadProfesores();
+  }
+
+  loadProfesores(): void {
+    this.cursoService.GetProfesores().subscribe(
+      (res) => {
+        this.profesores = res.records;
+      },
+      (err) => {
+        console.error("Error al cargar profesores:", err);
+      }
+    );
+  }
+
+  toggleSelection(profesorId: number): void {
+    if (this.selectedProfesores.has(profesorId)) {
+      this.selectedProfesores.delete(profesorId);
+    } else {
+      this.selectedProfesores.add(profesorId);
+    }
+  }
+
+  isSelected(profesorId: number): boolean {
+    return this.selectedProfesores.has(profesorId);
   }
 
   loadCursos(): void {
@@ -96,14 +122,11 @@ export class AgregarCursoComponent {
         }));
         this.filterCursos();
       },
-      error: (error) => (error),
+      error: (error) => console.error(error),
     });
   }
 
   getImageUrl(relativePath: string): string {
-    if (relativePath && relativePath.startsWith('../')) {
-      return this.baseImageUrl + relativePath.substring(3);
-    }
     return this.baseImageUrl + relativePath;
   }
 
@@ -154,79 +177,72 @@ export class AgregarCursoComponent {
 
   onSubmit(): void {
     if (this.cursoForm.valid) {
-      this.isLoading = true;
-      const cursoData: Curso = {
-        ...this.cursoForm.value,
-        id: this.currentCursoId,
-        imagen_principal: this.imagenPrincipalPreview as string,
-        imagenes_generales: this.imagenesGeneralesActuales,
+        this.isLoading = true;
+        const formData: FormData = new FormData();
+
+        formData.append('nombre', this.cursoForm.get('nombre')!.value);
+        formData.append('descripcion', this.cursoForm.get('descripcion')!.value);
+        formData.append('activo', this.cursoForm.get('activo')!.value.toString());
+
+        const imagenPrincipal = this.cursoForm.get('imagenPrincipal')?.value;
+        if (imagenPrincipal) {
+            formData.append('imagen_principal', imagenPrincipal);
+        }
+
+        const imagenesGenerales = this.cursoForm.get('imagenesGenerales')?.value;
+        if (imagenesGenerales && imagenesGenerales.length) {
+            // Crear un array en FormData
+            imagenesGenerales.forEach((file: any) => {
+                formData.append('imagenes_generales[]', file);
+            });
+        }
+
+        formData.append('profesores', JSON.stringify(Array.from(this.selectedProfesores)));
+
+        const cursoObservable = this.currentCursoId
+            ? this.cursoService.actualizarCurso(formData, this.currentCursoId)
+            : this.cursoService.crearCursoConProfesores(formData);
+
+        cursoObservable.subscribe({
+            next: () => {
+                this.showToast('success', this.currentCursoId ? 'Curso actualizado con éxito' : 'Curso creado con éxito');
+                this.closeModal();
+                this.loadCursos();
+            },
+            error: (error) => {
+                console.error('Error al procesar el curso:', error);
+                this.showToast('error', 'Error al procesar el curso');
+            },
+            complete: () => {
+                this.isLoading = false;
+            },
+        });
+    } else {
+        this.showToast('warning', 'Por favor, complete todos los campos requeridos correctamente.');
+    }
+}
+
+
+  guardarProfesores(cursoId: number): void {
+    if (this.selectedProfesores.size > 0) {
+      const profesoresData = {
+        cursoId: cursoId,
+        profesores: Array.from(this.selectedProfesores),
       };
 
-      const imagenPrincipalInput = document.getElementById(
-        'imagenPrincipal'
-      ) as HTMLInputElement;
-      const imagenPrincipal = imagenPrincipalInput.files?.[0];
-      const imagenesGeneralesInput = document.getElementById(
-        'imagenesGenerales'
-      ) as HTMLInputElement;
-      const imagenesGenerales = imagenesGeneralesInput.files;
-
-      if (this.currentCursoId) {
-        this.cursoService
-          .actualizarCurso(
-            cursoData,
-            imagenPrincipal,
-            imagenesGenerales ? Array.from(imagenesGenerales) : undefined
-          )
-          .subscribe({
-            next: (response) => {
-              this.showToast('success', 'Curso actualizado con éxito');
-              this.closeModal();
-              this.loadCursos();
-            },
-            error: (error) => {
-              console.error('Error al actualizar el curso:', error);
-              this.showToast(
-                'error',
-                'Error al actualizar el curso: ' +
-                  (error.error?.message || error.message)
-              );
-            },
-            complete: () => {
-              this.isLoading = false;
-            },
-          });
-      } else {
-        this.cursoService
-          .crearCurso(
-            cursoData,
-            imagenPrincipal,
-            imagenesGenerales ? Array.from(imagenesGenerales) : undefined
-          )
-          .subscribe({
-            next: (response) => {
-              this.showToast('success', 'Curso creado con éxito');
-              this.closeModal();
-              this.loadCursos();
-            },
-            error: (error) => {
-              console.error('Error al crear el curso:', error);
-              this.showToast(
-                'error',
-                'Error al crear el curso: ' +
-                  (error.error?.message || error.message)
-              );
-            },
-            complete: () => {
-              this.isLoading = false;
-            },
-          });
-      }
-    } else {
-      this.showToast(
-        'warning',
-        'Por favor, complete todos los campos requeridos correctamente.'
-      );
+      this.cursoService.asignarProfesores(profesoresData).subscribe({
+        next: (response) => {
+          console.log('Profesores asignados con éxito:', response);
+        },
+        error: (error) => {
+          console.error('Error al asignar los profesores:', error);
+          this.showToast(
+            'error',
+            'Error al asignar los profesores: ' +
+              (error.error?.message || error.message)
+          );
+        },
+      });
     }
   }
 
@@ -311,26 +327,32 @@ export class AgregarCursoComponent {
   onFileChangePrincipal(event: any): void {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.imagenPrincipalPreview = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  onFileChangeGenerales(event: any): void {
-    const files = event.target.files;
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
         const reader = new FileReader();
         reader.onload = (e: any) => {
-          this.imagenesGeneralesActuales.push(e.target.result);
+            this.imagenPrincipalPreview = e.target.result;
         };
-        reader.readAsDataURL(files[i]);
-      }
+        // Convertir a Blob y añadir al FormData
+        this.cursoForm.patchValue({
+            imagenPrincipal: file
+        });
     }
-  }
+}
+
+onFileChangeGenerales(event: any): void {
+    const files = event.target.files;
+    if (files) {
+        for (let i = 0; i < files.length; i++) {
+            const reader = new FileReader();
+            reader.onload = (e: any) => {
+                this.imagenesGeneralesActuales.push(e.target.result);
+            };
+            this.cursoForm.patchValue({
+                imagenesGenerales: [...this.cursoForm.get('imagenesGenerales')?.value || [], files[i]]
+            });
+        }
+    }
+}
+
 
   removeImagenGeneral(index: number): void {
     const imagenParaEliminar = this.imagenesGeneralesActuales[index];
@@ -516,4 +538,3 @@ export class AgregarCursoComponent {
     }
   }
 }
-

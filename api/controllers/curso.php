@@ -19,6 +19,41 @@ $data = json_decode(file_get_contents("php://input"));
 switch ($request_method) {
   case 'POST':
     $isUpdate = isset($_GET['id']);
+    
+    if (isset($_POST['nombre'])) {
+      $curso->nombre = $_POST['nombre'];
+      $curso->descripcion = $_POST['descripcion'];
+      $curso->activo = filter_var($_POST['activo'], FILTER_VALIDATE_BOOLEAN);
+      $curso->profesores = json_decode($_POST['profesores']);
+
+      $imagenPrincipal = null;
+      $imagenesGenerales = [];
+      
+      // Verificar si la clave imagen_principal está en $_FILES
+      if (isset($_FILES['imagen_principal'])) {
+          $imagenPrincipal = $_FILES['imagen_principal'];
+      }
+
+      // Verificar si la clave imagenes_generales está en $_FILES
+      if (isset($_FILES['imagenes_generales'])) {
+          $imagenesGenerales = $_FILES['imagenes_generales'];
+      }
+   
+      $curso->imagen_principal = $imagenPrincipal;
+      $curso->imagenes_generales = $imagenesGenerales;
+       
+
+      if ($curso->create()) {
+        http_response_code(201);
+        echo json_encode(array("message" => "Curso creado correctamente.", "id" => $curso->id));
+      } else {
+        http_response_code(503);
+        echo json_encode(array("message" => "No se pudo crear el Curso."));
+      }
+    } else {
+      http_response_code(400);
+      echo json_encode(array("message" => "Datos incompletos."));
+    }
 
     if ($isUpdate) {
       $curso->id = $_GET['id'];
@@ -29,29 +64,6 @@ switch ($request_method) {
       }
     }
 
-    if (!empty($_POST['nombre'])) {
-      $curso->nombre = $_POST['nombre'];
-      $curso->descripcion = $_POST['descripcion'];
-      $curso->profesor = $_POST['profesor'];
-      $curso->activo = isset($_POST['activo']) ? filter_var($_POST['activo'], FILTER_VALIDATE_BOOLEAN) : true;
-
-      $result = $isUpdate ? $curso->update() : $curso->create();
-
-      if ($result) {
-        $curso->updateImagenes();
-        http_response_code($isUpdate ? 200 : 201);
-        echo json_encode(array(
-          "message" => $isUpdate ? "Curso actualizado correctamente." : "Curso creado correctamente.",
-          "id" => $curso->id
-        ));
-      } else {
-        http_response_code(503);
-        echo json_encode(array("message" => $isUpdate ? "No se pudo actualizar el Curso." : "No se pudo crear el Curso."));
-      }
-    } else {
-      http_response_code(400);
-      echo json_encode(array("message" => "Datos incompletos."));
-    }
     break;
 
   case 'GET':
@@ -83,29 +95,32 @@ switch ($request_method) {
     }
     break;
 
-  case 'PUT':
-    if (isset($_GET['id'])) {
-      $curso->id = $_GET['id'];
-      if (isset($_GET['accion']) && $_GET['accion'] == 'activar') {
-        if ($curso->activar()) {
-          http_response_code(200);
-          echo json_encode(array("message" => "Curso activado correctamente."));
-        } else {
-          http_response_code(503);
-          echo json_encode(array("message" => "No se pudo activar el Curso."));
-        }
-      } elseif (isset($_GET['accion']) && $_GET['accion'] == 'desactivar') {
-        if ($curso->desactivar()) {
-          http_response_code(200);
-          echo json_encode(array("message" => "Curso desactivado correctamente."));
-        } else {
-          http_response_code(503);
-          echo json_encode(array("message" => "No se pudo desactivar el Curso."));
-        }
+    case 'PUT':
+    $id = $_GET['id'] ?? null;
+    if ($id && isset($data['nombre'])) {
+      $curso->id = $id;
+      $curso->nombre = $data['nombre'];
+      $curso->descripcion = $data['descripcion'];
+      $curso->activo = filter_var($data['activo'], FILTER_VALIDATE_BOOLEAN);
+      $curso->profesores = $data['profesores'];
+
+      // Manejar imagen principal y generales si se envían
+      $curso->imagen_principal = $_FILES['imagen_principal']['tmp_name'] ?? null;
+      $curso->imagenes_generales = $_FILES['imagenes_generales']['tmp_name'] ?? [];
+
+      if ($curso->update()) {
+        http_response_code(200);
+        echo json_encode(array("message" => "Curso actualizado correctamente."));
+      } else {
+        http_response_code(503);
+        echo json_encode(array("message" => "No se pudo actualizar el Curso."));
       }
+    } else {
+      http_response_code(400);
+      echo json_encode(array("message" => "Datos incompletos."));
     }
     break;
-
+      
   case 'DELETE':
     if (isset($_GET['id']) && !isset($_GET['rutaImagen'])) {
       $curso->id = $_GET['id'];

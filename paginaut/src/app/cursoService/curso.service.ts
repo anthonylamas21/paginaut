@@ -29,32 +29,18 @@ export interface CursoResponse {
 })
 export class CursoService {
   private apiUrl = 'http://localhost/paginaut/api/controllers/curso.php'; // Actualiza esta URL si es necesario
+  private apiUrlProfe = 'http://localhost/paginaut/api/profesor';
 
   constructor(private http: HttpClient) {}
 
-  crearCurso(
-    curso: Curso,
-    imagenPrincipal?: File,
-    imagenesGenerales?: File[]
-  ): Observable<any> {
-    const formData: FormData = new FormData();
-    formData.append('nombre', curso.nombre);
-    formData.append('descripcion', curso.descripcion);
-    formData.append('profesor', curso.profesor);
-    formData.append('activo', curso.activo.toString());
+  // Otros métodos...
 
-    if (imagenPrincipal) {
-      formData.append('imagen_principal', imagenPrincipal);
-    }
+  crearCursoConProfesores(data: FormData): Observable<any> {
+    return this.http.post<any>(this.apiUrl, data).pipe(catchError(this.handleError));
+  }
 
-    if (imagenesGenerales) {
-      imagenesGenerales.forEach((imagen, index) => {
-        formData.append(`imagenes_generales[${index}]`, imagen);
-      });
-    }
-
-    return this.http
-      .post<any>(this.apiUrl, formData)
+  asignarProfesores(profesoresData: { cursoId: number; profesores: number[] }): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/asignar-profesores`, profesoresData)
       .pipe(catchError(this.handleError));
   }
 
@@ -63,6 +49,7 @@ export class CursoService {
       .get<CursoResponse>(this.apiUrl)
       .pipe(catchError(this.handleError));
   }
+
   getCursos(): Observable<Curso[]> {
     return this.http
       .get<CursoResponse>(this.apiUrl)
@@ -71,48 +58,15 @@ export class CursoService {
         catchError(this.handleError)
       );
   }
-  
+
   obtenerCursoPorId(id: number): Observable<Curso> {
     return this.http
       .get<Curso>(`${this.apiUrl}?id=${id}`)
       .pipe(catchError(this.handleError));
   }
 
-  actualizarCurso(
-    curso: Curso,
-    imagenPrincipal?: File,
-    imagenesGenerales?: File[]
-  ): Observable<any> {
-    const formData: FormData = new FormData();
-
-    Object.keys(curso).forEach((key) => {
-      if (
-        curso[key] !== undefined &&
-        curso[key] !== null &&
-        key !== 'imagen_principal' &&
-        key !== 'imagenes_generales'
-      ) {
-        formData.append(key, curso[key].toString());
-      }
-    });
-
-    if (imagenPrincipal) {
-      formData.append(
-        'imagen_principal',
-        imagenPrincipal,
-        imagenPrincipal.name
-      );
-    }
-
-    if (imagenesGenerales && imagenesGenerales.length > 0) {
-      imagenesGenerales.forEach((imagen, index) => {
-        formData.append(`imagenes_generales[]`, imagen, imagen.name);
-      });
-    }
-
-    return this.http
-      .post(`${this.apiUrl}?id=${curso.id}`, formData)
-      .pipe(catchError(this.handleError));
+  actualizarCurso(data: FormData, id: number): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}?id=${id}`, data).pipe(catchError(this.handleError));
   }
 
   eliminarCurso(id: number): Observable<any> {
@@ -143,7 +97,9 @@ export class CursoService {
       .pipe(catchError(this.handleError));
   }
 
-  
+  GetProfesores(): Observable<any> {
+    return this.http.get<any>(this.apiUrlProfe);
+  }
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
