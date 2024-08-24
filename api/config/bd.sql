@@ -191,14 +191,16 @@ CREATE TABLE Taller (
     activo BOOLEAN DEFAULT TRUE
 );
 
-CREATE TABLE Beca (
+CREATE TABLE beca (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
-    archivo VARCHAR(10000) NOT NULL,
     descripcion VARCHAR(100) NOT NULL,
+    archivo VARCHAR(255) NOT NULL,
+    tipo VARCHAR(50) NOT NULL,  
     activo BOOLEAN DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 CREATE TABLE Historial (
     id SERIAL PRIMARY KEY,

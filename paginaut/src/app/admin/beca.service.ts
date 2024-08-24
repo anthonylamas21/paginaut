@@ -8,9 +8,11 @@ export interface Beca {
   nombre: string;
   descripcion: string;
   archivo: string;
+  tipo: string; // Añadir esta línea para manejar el tipo de beca
   activo?: boolean;
   fecha_creacion?: string;
 }
+
 export interface BecaResponse {
   records: Beca[];
 }
@@ -34,6 +36,7 @@ export class BecaService {
       .get<BecaResponse>(this.apiUrl)
       .pipe(catchError(this.handleError));
   }
+
   getBecaById(id: number): Observable<Beca> {
     return this.http
       .get<Beca>(`${this.apiUrl}?id=${id}`)
