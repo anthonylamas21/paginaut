@@ -8,36 +8,21 @@ class TooltipManager {
     button: HTMLElement,
     tooltip: HTMLElement
   ): void {
-    // Obtener dimensiones del botón y del tooltip
     const buttonRect = button.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
-
-    // Obtener dimensiones de la ventana
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
-
-    // Calcular la posición preferida del tooltip
     const preferredLeft =
       buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
-    const preferredTop = buttonRect.top - tooltipRect.height - 10; // Espacio entre el botón y el tooltip
-
-    // Ajustar la posición si se sale de la pantalla hacia la izquierda
+    const preferredTop = buttonRect.top - tooltipRect.height - 10;
     let left = Math.max(preferredLeft, 0);
-
-    // Ajustar la posición si se sale de la pantalla hacia arriba
     let top = Math.max(preferredTop, 0);
-
-    // Ajustar la posición si el tooltip se sale de la pantalla hacia la derecha
     if (left + tooltipRect.width > windowWidth) {
       left = windowWidth - tooltipRect.width;
     }
-
-    // Ajustar la posición si el tooltip se sale de la pantalla hacia abajo
     if (top + tooltipRect.height > windowHeight) {
       top = windowHeight - tooltipRect.height;
     }
-
-    // Aplicar posición al tooltip
     tooltip.style.position = 'fixed';
     tooltip.style.top = `${top}px`;
     tooltip.style.left = `${left}px`;
@@ -47,7 +32,7 @@ class TooltipManager {
 @Component({
   selector: 'app-agregar-curso',
   templateUrl: './agregar-curso.component.html',
-  styleUrl: './agregar-curso.component.css',
+  styleUrls: ['./agregar-curso.component.css'],
 })
 export class AgregarCursoComponent implements OnInit {
   cursos: Curso[] = [];
@@ -177,74 +162,115 @@ export class AgregarCursoComponent implements OnInit {
 
   onSubmit(): void {
     if (this.cursoForm.valid) {
-        this.isLoading = true;
+      this.isLoading = true;
+  
+      const cursoData = {
+        nombre: this.cursoForm.get('nombre')!.value,
+        descripcion: this.cursoForm.get('descripcion')!.value,
+        activo: this.cursoForm.get('activo')!.value,
+        profesores: Array.from(this.selectedProfesores)  // Si necesitas enviar los IDs de los profesores seleccionados
+      };
+  
+      if (this.currentCursoId) {
+        // Actualizar curso existente con JSON
+        this.cursoService.actualizarCurso(cursoData, this.currentCursoId).subscribe({
+          next: (response) => {
+            this.showToast('success', 'Curso actualizado con éxito');
+            this.closeModal();
+            this.loadCursos();
+          },
+          error: (error) => {
+            console.error('Error al procesar el curso:', error);
+            this.showToast('error', 'Error al procesar el curso');
+          },
+          complete: () => {
+            this.isLoading = false;
+          },
+        });
+      } else {
+        // Manejar la creación de un nuevo curso usando FormData para incluir archivos
         const formData: FormData = new FormData();
-
         formData.append('nombre', this.cursoForm.get('nombre')!.value);
         formData.append('descripcion', this.cursoForm.get('descripcion')!.value);
         formData.append('activo', this.cursoForm.get('activo')!.value.toString());
-
+  
         const imagenPrincipal = this.cursoForm.get('imagenPrincipal')?.value;
         if (imagenPrincipal) {
-            formData.append('imagen_principal', imagenPrincipal);
+          formData.append('imagen_principal', imagenPrincipal);
         }
-
+  
         const imagenesGenerales = this.cursoForm.get('imagenesGenerales')?.value;
         if (imagenesGenerales && imagenesGenerales.length) {
-            // Crear un array en FormData
-            imagenesGenerales.forEach((file: any) => {
-                formData.append('imagenes_generales[]', file);
-            });
+          imagenesGenerales.forEach((file: any) => {
+            formData.append('imagenes_generales[]', file);
+          });
         }
+  
+        this.cursoService.crearCursoConProfesores(formData).subscribe({
+          next: (response) => {
+            const id_curso = response.id;
+            this.guardarProfesores(id_curso);
+            this.showToast('success', 'Curso creado con éxito');
+            this.closeModal();
+            this.loadCursos();
+          },
+          error: (error) => {
+            console.error('Error al procesar el curso:', error);
+            this.showToast('error', 'Error al procesar el curso');
+          },
+          complete: () => {
+            this.isLoading = false;
+          },
+        });
+      }
+    } else {
+      this.showToast('warning', 'Por favor, complete todos los campos requeridos correctamente.');
+    }
+  }
+  
+  
+  
 
-        formData.append('profesores', JSON.stringify(Array.from(this.selectedProfesores)));
+eliminarProfesores(cursoId: number): void {
+    this.cursoService.eliminarProfesoresPorCurso(cursoId).subscribe({
+        next: () => {
+            this.guardarProfesores(cursoId);  // Reasigna los profesores después de eliminarlos
+        },
+        error: (error) => {
+            console.error('Error al eliminar los profesores:', error);
+            this.showToast('error', 'Error al eliminar los profesores');
+        }
+    });
+}
 
-        const cursoObservable = this.currentCursoId
-            ? this.cursoService.actualizarCurso(formData, this.currentCursoId)
-            : this.cursoService.crearCursoConProfesores(formData);
+guardarProfesores(cursoId: number): void {
+    if (this.selectedProfesores.size > 0) {
+        const profesoresData = Array.from(this.selectedProfesores).map(profesorId => ({
+            curso_id: cursoId,
+            profesor_id: profesorId,
+            activo: true
+        }));
 
-        cursoObservable.subscribe({
-            next: () => {
-                this.showToast('success', this.currentCursoId ? 'Curso actualizado con éxito' : 'Curso creado con éxito');
-                this.closeModal();
-                this.loadCursos();
+        this.cursoService.asignarProfesores(profesoresData).subscribe({
+            next: (response) => {
+                console.log('Profesores asignados con éxito:', response);
             },
             error: (error) => {
-                console.error('Error al procesar el curso:', error);
-                this.showToast('error', 'Error al procesar el curso');
-            },
-            complete: () => {
-                this.isLoading = false;
-            },
+                console.error('Error al asignar los profesores:', error);
+                this.showToast('error', 'Error al asignar los profesores');
+            }
         });
-    } else {
-        this.showToast('warning', 'Por favor, complete todos los campos requeridos correctamente.');
     }
 }
 
 
-  guardarProfesores(cursoId: number): void {
-    if (this.selectedProfesores.size > 0) {
-      const profesoresData = {
-        cursoId: cursoId,
-        profesores: Array.from(this.selectedProfesores),
-      };
-
-      this.cursoService.asignarProfesores(profesoresData).subscribe({
-        next: (response) => {
-          console.log('Profesores asignados con éxito:', response);
-        },
-        error: (error) => {
-          console.error('Error al asignar los profesores:', error);
-          this.showToast(
-            'error',
-            'Error al asignar los profesores: ' +
-              (error.error?.message || error.message)
-          );
-        },
-      });
-    }
+  getProfesoresArray(): { profesor_id: number; curso_id: number }[] {
+    return Array.from(this.selectedProfesores).map(profesorId => ({
+      profesor_id: profesorId,
+      curso_id: this.currentCursoId || 0  // Asigna el curso_id correctamente en el backend después de la creación
+    }));
   }
+
 
   confirmDeleteCurso(id: number): void {
     this.showConfirmDialog(
@@ -503,7 +529,6 @@ onFileChangeGenerales(event: any): void {
   }
 
   mostrar(elemento: any): void {
-    // Verifica si el elemento recibido es un botón
     if (elemento.tagName.toLowerCase() === 'button') {
       const tooltipElement = elemento.querySelector('.hs-tooltip');
       if (tooltipElement) {
@@ -515,7 +540,6 @@ onFileChangeGenerales(event: any): void {
           tooltipContent.classList.toggle('hidden');
           tooltipContent.classList.toggle('invisible');
           tooltipContent.classList.toggle('visible');
-          // Ajustar la posición del tooltip
           TooltipManager.adjustTooltipPosition(elemento, tooltipContent);
         }
       }
@@ -526,12 +550,10 @@ onFileChangeGenerales(event: any): void {
     const allowedKeys = /^[a-zA-Z0-9 ]*$/;
     const inputElement = event.target as HTMLInputElement;
   
-    // Previene caracteres no permitidos
     if (!allowedKeys.test(event.key)) {
       event.preventDefault();
     }
   
-    // Previene más de un espacio consecutivo
     const value = inputElement.value;
     if (event.key === ' ' && value.endsWith(' ')) {
       event.preventDefault();

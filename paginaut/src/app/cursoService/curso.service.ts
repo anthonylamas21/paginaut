@@ -30,6 +30,7 @@ export interface CursoResponse {
 export class CursoService {
   private apiUrl = 'http://localhost/paginaut/api/controllers/curso.php'; // Actualiza esta URL si es necesario
   private apiUrlProfe = 'http://localhost/paginaut/api/profesor';
+  private apiCursoProfe = 'http://localhost/paginaut/api/curso_maestro';
 
   constructor(private http: HttpClient) {}
 
@@ -39,10 +40,16 @@ export class CursoService {
     return this.http.post<any>(this.apiUrl, data).pipe(catchError(this.handleError));
   }
 
-  asignarProfesores(profesoresData: { cursoId: number; profesores: number[] }): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/asignar-profesores`, profesoresData)
-      .pipe(catchError(this.handleError));
+  eliminarProfesoresPorCurso(cursoId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiCursoProfe}/eliminar-profesores?curso_id=${cursoId}`)
+        .pipe(catchError(this.handleError));
   }
+
+  asignarProfesores(profesoresData: { curso_id: number; profesor_id: number }[]): Observable<any> {
+      return this.http.post<any>(`${this.apiCursoProfe}/asignar-profesores`, profesoresData)
+          .pipe(catchError(this.handleError));
+  }
+
 
   obtenerCurso(): Observable<CursoResponse> {
     return this.http
@@ -65,9 +72,9 @@ export class CursoService {
       .pipe(catchError(this.handleError));
   }
 
-  actualizarCurso(data: FormData, id: number): Observable<any> {
+  actualizarCurso(data: any, id: number): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}?id=${id}`, data).pipe(catchError(this.handleError));
-  }
+  }  
 
   eliminarCurso(id: number): Observable<any> {
     return this.http
