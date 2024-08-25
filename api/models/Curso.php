@@ -17,7 +17,8 @@ class Curso
     $this->conn = $db;
   }
 
-  function create() {
+  function create()
+  {
     $query = "INSERT INTO " . $this->table_name . " (nombre, descripcion, activo) VALUES (:nombre, :descripcion, :activo)";
     $stmt = $this->conn->prepare($query);
 
@@ -26,25 +27,25 @@ class Curso
     $stmt->bindParam(":activo", $this->activo);
 
     if ($stmt->execute()) {
-        $this->id = $this->conn->lastInsertId(); // Obtener el ID del curso recién creado
+      $this->id = $this->conn->lastInsertId();
 
-        // Guardar imagen principal si está disponible
-        if ($this->imagen_principal) {
-            $this->saveImagenPrincipal();
-        }
+      // Guardar imagen principal si está disponible
+      if ($this->imagen_principal) {
+        $this->saveImagenPrincipal();
+      }
 
-        // Guardar imágenes generales si están disponibles
-        if (is_array($this->imagenes_generales) && !empty($this->imagenes_generales)) {
-            $this->saveImagenesGenerales();
-        }
+      // Guardar imágenes generales si están disponibles
+      if (is_array($this->imagenes_generales) && !empty($this->imagenes_generales)) {
+        $this->saveImagenesGenerales();
+      }
 
-        return true;
+      return true;
     }
     return false;
-} 
+  }
 
-function update()
-{
+  function update()
+  {
     $query = "UPDATE " . $this->table_name . " SET nombre = :nombre, descripcion = :descripcion, activo = :activo WHERE id = :id";
     $stmt = $this->conn->prepare($query);
 
@@ -54,15 +55,15 @@ function update()
     $stmt->bindParam(":id", $this->id);
 
     if ($stmt->execute()) {
-        // Actualiza las imágenes si es necesario
-        $this->updateImagenes();
-        return true;
+      // Actualiza las imágenes si es necesario
+      $this->updateImagenes();
+      return true;
     }
     return false;
-}
+  }
 
-function asignarProfesor($profesor_id)
-{
+  function asignarProfesor($profesor_id)
+  {
     $query = "INSERT INTO curso_maestro (curso_id, profesor_id) VALUES (:curso_id, :profesor_id)";
     $stmt = $this->conn->prepare($query);
 
@@ -70,16 +71,15 @@ function asignarProfesor($profesor_id)
     $stmt->bindParam(':profesor_id', $profesor_id);
 
     return $stmt->execute();
-}
+  }
 
   function eliminarProfesores()
-{
+  {
     $query = "DELETE FROM curso_maestro WHERE curso_id = :curso_id";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':curso_id', $this->id);
     $stmt->execute();
-}
-
+  }
 
   function saveImagenPrincipal()
   {
@@ -97,40 +97,37 @@ function asignarProfesor($profesor_id)
 
   function saveImagenesGenerales()
   {
-      // Si $_FILES['imagenes_generales'] es un array, procesa cada archivo
-      if (is_array($this->imagenes_generales['tmp_name'])) {
-          foreach ($this->imagenes_generales['tmp_name'] as $index => $tmpName) {
-              $file = [
-                  'name' => $this->imagenes_generales['name'][$index],
-                  'type' => $this->imagenes_generales['type'][$index],
-                  'tmp_name' => $tmpName,
-                  'error' => $this->imagenes_generales['error'][$index],
-                  'size' => $this->imagenes_generales['size'][$index],
-              ];
-              $ruta = $this->uploadImage($file, 'general');
-              $query = "INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal) VALUES (:titulo, :descripcion, :ruta_imagen, 'Cursos', :asociado_id, FALSE)";
-              $stmt = $this->conn->prepare($query);
-              $stmt->bindParam(':titulo', $this->nombre);
-              $stmt->bindParam(':descripcion', $this->descripcion);
-              $stmt->bindParam(':ruta_imagen', $ruta);
-              $stmt->bindParam(':asociado_id', $this->id);
-              $stmt->execute();
-          }
+    if (is_array($this->imagenes_generales['tmp_name'])) {
+      foreach ($this->imagenes_generales['tmp_name'] as $index => $tmpName) {
+        $file = [
+          'name' => $this->imagenes_generales['name'][$index],
+          'type' => $this->imagenes_generales['type'][$index],
+          'tmp_name' => $tmpName,
+          'error' => $this->imagenes_generales['error'][$index],
+          'size' => $this->imagenes_generales['size'][$index],
+        ];
+        $ruta = $this->uploadImage($file, 'general');
+        $query = "INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal) VALUES (:titulo, :descripcion, :ruta_imagen, 'Cursos', :asociado_id, FALSE)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':titulo', $this->nombre);
+        $stmt->bindParam(':descripcion', $this->descripcion);
+        $stmt->bindParam(':ruta_imagen', $ruta);
+        $stmt->bindParam(':asociado_id', $this->id);
+        $stmt->execute();
       }
+    }
   }
-  
 
   function updateImagenes()
   {
-      if ($this->imagen_principal) {
-          $this->saveImagenPrincipal();
-      }
-  
-      if (is_array($this->imagenes_generales) && isset($this->imagenes_generales['tmp_name']) && !empty($this->imagenes_generales['tmp_name'])) {
-          $this->saveImagenesGenerales();
-      }
+    if ($this->imagen_principal) {
+      $this->saveImagenPrincipal();
+    }
+
+    if (is_array($this->imagenes_generales) && isset($this->imagenes_generales['tmp_name']) && !empty($this->imagenes_generales['tmp_name'])) {
+      $this->saveImagenesGenerales();
+    }
   }
-  
 
   private function uploadImage($image, $type)
   {
@@ -203,7 +200,7 @@ function asignarProfesor($profesor_id)
   private function updateImagenPrincipal($imagen)
 {
     $target_dir = "../../uploads/cursos/";
-    
+
     // Verificar si la carpeta existe, si no, crearla
     if (!is_dir($target_dir)) {
         mkdir($target_dir, 0777, true);
@@ -212,11 +209,14 @@ function asignarProfesor($profesor_id)
     $target_file = $target_dir . uniqid() . "_" . basename($imagen["name"]);
 
     if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
+        // Obtener la ruta de la imagen anterior antes de actualizar
         $imagenAnterior = $this->getImagenPrincipal();
+        
         if ($imagenAnterior && file_exists("../" . $imagenAnterior)) {
-            unlink("../" . $imagenAnterior);
+            unlink("../" . $imagenAnterior); // Eliminar la imagen anterior
         }
 
+        // Actualizar la base de datos con la nueva imagen
         $query = "UPDATE Imagenes SET ruta_imagen = :ruta_imagen
                       WHERE seccion = 'Cursos' AND asociado_id = :asociado_id AND principal = TRUE";
         $stmt = $this->conn->prepare($query);
@@ -228,6 +228,7 @@ function asignarProfesor($profesor_id)
         $this->imagen_principal = $ruta_relativa;
     }
 }
+
 
   public function deleteImagenGeneral($rutaImagen)
   {
@@ -326,5 +327,4 @@ function asignarProfesor($profesor_id)
     $stmt->bindParam(":asociado_id", $this->id);
     $stmt->execute();
   }
-
 }

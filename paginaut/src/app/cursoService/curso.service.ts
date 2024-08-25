@@ -78,7 +78,7 @@ export class CursoService {
   }
 
   actualizarCurso(data: any, id: number): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}?id=${id}`, data).pipe(catchError(this.handleError));
+    return this.http.post<any>(`${this.apiUrl}?id=${id}`, data).pipe(catchError(this.handleError));
   }  
 
   eliminarCurso(id: number): Observable<any> {

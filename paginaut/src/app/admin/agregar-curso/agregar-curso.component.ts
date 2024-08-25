@@ -52,6 +52,7 @@ export class AgregarCursoComponent implements OnInit {
   allImages: string[] = [];
   profesores: any[] = [];
   selectedProfesores: Set<number> = new Set();
+  imagenesGeneralesAEliminar: string[] = [];
 
   constructor(
     private cursoService: CursoService,
@@ -178,16 +179,29 @@ export class AgregarCursoComponent implements OnInit {
     if (this.cursoForm.valid) {
       this.isLoading = true;
   
-      const cursoData = {
-        nombre: this.cursoForm.get('nombre')!.value,
-        descripcion: this.cursoForm.get('descripcion')!.value,
-        activo: this.cursoForm.get('activo')!.value,
-        profesores: Array.from(this.selectedProfesores)  // Si necesitas enviar los IDs de los profesores seleccionados
-      };
+      const formData: FormData = new FormData();
+      formData.append('nombre', this.cursoForm.get('nombre')!.value);
+      formData.append('descripcion', this.cursoForm.get('descripcion')!.value);
+      formData.append('activo', this.cursoForm.get('activo')!.value.toString());
+  
+      const imagenPrincipal = this.cursoForm.get('imagenPrincipal')?.value;
+      if (imagenPrincipal) {
+        formData.append('imagen_principal', imagenPrincipal);
+      }
+  
+      const imagenesGenerales = this.cursoForm.get('imagenesGenerales')?.value;
+      if (imagenesGenerales && imagenesGenerales.length) {
+        imagenesGenerales.forEach((file: any) => {
+          formData.append('imagenes_generales[]', file);
+        });
+      }
+  
+      formData.append('profesores', JSON.stringify(Array.from(this.selectedProfesores)));
   
       if (this.currentCursoId) {
-        // Actualizar curso existente con JSON
-        this.cursoService.actualizarCurso(cursoData, this.currentCursoId).subscribe({
+        // Actualizar curso existente usando POST y FormData
+        formData.append('id', this.currentCursoId.toString()); // Agregar el ID al FormData
+        this.cursoService.actualizarCurso(formData, this.currentCursoId).subscribe({
           next: (response) => {
             this.showToast('success', 'Curso actualizado con éxito');
             this.closeModal();
@@ -202,28 +216,10 @@ export class AgregarCursoComponent implements OnInit {
           },
         });
       } else {
-        // Manejar la creación de un nuevo curso usando FormData para incluir archivos
-        const formData: FormData = new FormData();
-        formData.append('nombre', this.cursoForm.get('nombre')!.value);
-        formData.append('descripcion', this.cursoForm.get('descripcion')!.value);
-        formData.append('activo', this.cursoForm.get('activo')!.value.toString());
-  
-        const imagenPrincipal = this.cursoForm.get('imagenPrincipal')?.value;
-        if (imagenPrincipal) {
-          formData.append('imagen_principal', imagenPrincipal);
-        }
-  
-        const imagenesGenerales = this.cursoForm.get('imagenesGenerales')?.value;
-        if (imagenesGenerales && imagenesGenerales.length) {
-          imagenesGenerales.forEach((file: any) => {
-            formData.append('imagenes_generales[]', file);
-          });
-        }
-  
+        // Crear nuevo curso usando POST y FormData
         this.cursoService.crearCursoConProfesores(formData).subscribe({
           next: (response) => {
             const id_curso = response.id;
-            this.guardarProfesores(id_curso);
             this.showToast('success', 'Curso creado con éxito');
             this.closeModal();
             this.loadCursos();
@@ -241,8 +237,6 @@ export class AgregarCursoComponent implements OnInit {
       this.showToast('warning', 'Por favor, complete todos los campos requeridos correctamente.');
     }
   }
-  
-  
   
 
 eliminarProfesores(cursoId: number): void {
@@ -394,27 +388,26 @@ onFileChangeGenerales(event: any): void {
 }
 
 
-  removeImagenGeneral(index: number): void {
-    const imagenParaEliminar = this.imagenesGeneralesActuales[index];
-    if (
-      this.currentCursoId &&
-      imagenParaEliminar.startsWith(this.baseImageUrl)
-    ) {
-      const relativePath = imagenParaEliminar.replace(this.baseImageUrl, '');
-      this.cursoService
-        .eliminarImagenGeneral(this.currentCursoId, relativePath)
-        .subscribe({
-          next: () => {
-            this.imagenesGeneralesActuales.splice(index, 1);
-          },
-          error: (error) => {
-            console.error('Error al eliminar la imagen:', error);
-          },
-        });
-    } else {
-      this.imagenesGeneralesActuales.splice(index, 1);
-    }
+removeImagenGeneral(index: number): void {
+  const imagenParaEliminar = this.imagenesGeneralesActuales[index];
+  
+  // Si la imagen es de la base de datos, agregarla a la lista de eliminadas
+  if (this.currentCursoId && imagenParaEliminar.startsWith(this.baseImageUrl)) {
+    const relativePath = imagenParaEliminar.replace(this.baseImageUrl, '');
+    this.imagenesGeneralesAEliminar.push(relativePath);
   }
+
+  // Remover la imagen de la vista
+  this.imagenesGeneralesActuales.splice(index, 1);
+
+  // También actualizar el formulario si se estaba subiendo un nuevo archivo
+  const files = this.cursoForm.get('imagenesGenerales')?.value;
+  if (files) {
+    const updatedFiles = Array.from(files);
+    updatedFiles.splice(index, 1);
+    this.cursoForm.patchValue({ imagenesGenerales: updatedFiles });
+  }
+}
 
   openImageModal(curso: Curso, type: 'principal' | 'generales'): void {
     this.isImageModalOpen = true;
