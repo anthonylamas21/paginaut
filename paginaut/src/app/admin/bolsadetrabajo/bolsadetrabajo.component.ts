@@ -161,32 +161,36 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
     const bolsaData = this.bolsaDeTrabajoForm.value;
 
     if (this.currentBolsaDeTrabajoId) {
+      // Actualizar una bolsa de trabajo existente
       this.bolsaDeTrabajoService
         .updateBolsa(this.currentBolsaDeTrabajoId, bolsaData)
         .subscribe({
           next: (response: any) => {
-            this.showToast(
-              'success',
-              'Bolsa de trabajo actualizada correctamente'
-            );
+            this.showToast('success', 'Bolsa de trabajo actualizada correctamente');
             this.loadBolsas();
             this.closeModal();
-            // No abrir el modal de requisitos de nuevo, mantén los requisitos actuales
           },
           error: (error: any) => {
             this.showToast('error', error.message);
           },
         });
     } else {
+      // Crear una nueva bolsa de trabajo
       this.bolsaDeTrabajoService.addBolsa(bolsaData).subscribe(
-        (response) => {
+        (response: any) => {
           this.currentBolsaDeTrabajoId = response.id; // Guardar ID de la bolsa recién creada
           this.showToast('success', 'Bolsa de trabajo agregada correctamente');
           this.loadBolsas();
           this.closeModal();
-          this.openRequisitosModal(); // Abrir modal de requisitos después de crear
+
+          // Abrir modal de requisitos pasando la bolsa recién creada
+          const nuevaBolsa: BolsaDeTrabajo = {
+            ...bolsaData,
+            id: this.currentBolsaDeTrabajoId
+          };
+          this.openRequisitosModal(nuevaBolsa); // Pasar la bolsa recién creada con ID
         },
-        (error) => {
+        (error: any) => {
           this.showToast('error', error.message);
         }
       );
@@ -194,27 +198,38 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
   }
 
   onSubmitRequisitos() {
+    console.log("ID de la bolsa de trabajo en requisitos:", this.currentBolsaDeTrabajoId);
+    console.log("Datos del formulario de requisitos antes de enviar:", this.requisitosForm.value);
+
     if (this.requisitosForm.valid && this.currentBolsaDeTrabajoId) {
       const requisitosData = this.requisitosForm.value.requisitos.map(
         (requisito: any) => ({
           ...requisito,
-          id_bolsadetrabajo: this.currentBolsaDeTrabajoId,
+          id_bolsadetrabajo: this.currentBolsaDeTrabajoId, // Asegurarse de que el ID esté presente
         })
       );
 
-      // Actualizar requisitos existentes y agregar nuevos
+      console.log("Datos de los requisitos a enviar:", requisitosData);
+
       this.bolsaDeTrabajoService.updateRequisitos(requisitosData).subscribe(
-        (response) => {
-          this.showToast('success', 'Requisitos actualizados correctamente');
+        (response: any) => {
+          console.log("Respuesta del servidor al enviar requisitos:", response);
+          this.showToast('success', 'Requisitos guardados correctamente');
           this.closeRequisitosModal(); // Cerrar el modal después de agregar
           this.loadBolsas();
         },
-        (error) => {
+        (error: any) => {
+          console.error("Error al guardar los requisitos:", error);
           this.showToast('error', error.message);
         }
       );
+    } else {
+      console.error("Formulario de requisitos no válido o ID de bolsa de trabajo no establecido.");
+      this.showToast('error', 'Por favor, complete todos los campos de requisitos');
     }
   }
+
+
 
   openModal(bolsa?: BolsaDeTrabajo) {
     if (bolsa) {
@@ -481,7 +496,7 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
         }
       },
       (error) => {
-        this.showToast('error', error.message);
+
       }
     );
   }
