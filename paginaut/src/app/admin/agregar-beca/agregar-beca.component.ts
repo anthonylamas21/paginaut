@@ -66,6 +66,7 @@ export class AgregarBecaComponent implements OnInit {
     this.becaForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
       descripcion: ['', [Validators.required, Validators.maxLength(100)]],
+      tipo: ['', [Validators.required]], // Nuevo campo para tipo de beca
       archivo: [''],
     });
   }
@@ -108,6 +109,7 @@ export class AgregarBecaComponent implements OnInit {
       const formData: FormData = new FormData();
       formData.append('nombre', this.becaForm.get('nombre')?.value);
       formData.append('descripcion', this.becaForm.get('descripcion')?.value);
+      formData.append('tipo', this.becaForm.get('tipo')?.value); // Añadir el tipo de beca
       if (this.fileToUpload) {
         formData.append('archivo', this.fileToUpload, this.fileToUpload.name);
       } else {
@@ -184,6 +186,7 @@ export class AgregarBecaComponent implements OnInit {
       this.becaForm.patchValue({
         nombre: beca.nombre,
         descripcion: beca.descripcion,
+        tipo: beca.tipo, // Set tipo value when editing
       });
     } else {
       this.resetForm();
@@ -267,6 +270,7 @@ export class AgregarBecaComponent implements OnInit {
           formData.append('id', becaToUpdate.id!.toString());
           formData.append('nombre', becaToUpdate.nombre);
           formData.append('descripcion', becaToUpdate.descripcion);
+          formData.append('tipo', becaToUpdate.tipo); // Add tipo in reactivation
           formData.append('activo', 'true');
           this.becaService.updateBeca(formData).subscribe({
             next: (response: any) => {
