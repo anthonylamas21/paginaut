@@ -39,4 +39,13 @@ class CursoMaestro {
         $stmt->bindParam(1, $this->curso_id);
         return $stmt->execute();
     }
+
+    public function obtenerProfesoresPorCurso() {
+        $query = "SELECT profesor_id FROM " . $this->table_name . " WHERE curso_id = :curso_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':curso_id', $this->curso_id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
 }

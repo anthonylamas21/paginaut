@@ -127,6 +127,20 @@ export class AgregarCursoComponent implements OnInit {
       this.cursoForm.patchValue(curso);
       this.imagenPrincipalPreview = curso.imagen_principal || null;
       this.imagenesGeneralesActuales = curso.imagenes_generales || [];
+
+      // Cargar los profesores seleccionados desde la base de datos
+      this.selectedProfesores.clear();
+      this.cursoService.obtenerProfesoresPorCurso(curso.id!).subscribe({
+        next: (response) => {
+          console.log(response.profesores);
+          response.profesores.forEach((profesor: any) => {
+            this.selectedProfesores.add(profesor.profesor_id);
+          });
+        },
+        error: (error) => {
+          console.error('Error al cargar los profesores del curso:', error);
+        }
+      });
     } else {
       this.currentCursoId = null;
       this.cursoForm.reset({ activo: true });

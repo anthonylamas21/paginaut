@@ -54,10 +54,18 @@ switch ($request_method) {
     if (isset($_GET['profesor_id'])) {
       $curso_maestro->profesor_id = $_GET['profesor_id'];
       echo json_encode(array("tipos" => $curso_maestro->read()));
-    } else {
-      http_response_code(400);
-      echo json_encode(array("message" => "No se proporcionó un ID de profesor."));
+    
+    } elseif (isset($_GET['curso_id'])) {
+        $curso_maestro->curso_id = $_GET['curso_id'];
+        $profesores = $curso_maestro->obtenerProfesoresPorCurso();
+        echo json_encode(['profesores' => $profesores]);
+    
+    }else{
+        http_response_code(400);
+      echo json_encode(array("message" => "No se proporcionó un ID"));
     }
+
+
     break;
 
     case 'DELETE':

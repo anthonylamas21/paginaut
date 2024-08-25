@@ -72,6 +72,11 @@ export class CursoService {
       .pipe(catchError(this.handleError));
   }
 
+  obtenerProfesoresPorCurso(cursoId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiCursoProfe}/profesores-por-curso?curso_id=${cursoId}`)
+      .pipe(catchError(this.handleError));
+  }
+
   actualizarCurso(data: any, id: number): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}?id=${id}`, data).pipe(catchError(this.handleError));
   }  
@@ -107,6 +112,8 @@ export class CursoService {
   GetProfesores(): Observable<any> {
     return this.http.get<any>(this.apiUrlProfe);
   }
+
+
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
