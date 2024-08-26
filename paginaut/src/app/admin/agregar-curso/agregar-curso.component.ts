@@ -62,7 +62,7 @@ export class AgregarCursoComponent implements OnInit {
       nombre: ['', [Validators.required, Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9 ]+$')]],
       descripcion: [['',Validators.required, Validators.maxLength(200)]],
       activo: [true],
-      imagenPrincipal: [null],  // Campo para la imagen principal
+      imagenPrincipal: [null, Validators.required],  // Campo para la imagen principal
       imagenesGenerales: [[]], 
     });
   }
@@ -73,7 +73,7 @@ export class AgregarCursoComponent implements OnInit {
   }
 
   loadProfesores(): void {
-    this.cursoService.GetProfesores().subscribe(
+    this.cursoService.ObtenerProfesoresActivos().subscribe(
       (res) => {
         this.profesores = res.records;
       },
@@ -95,6 +95,7 @@ export class AgregarCursoComponent implements OnInit {
     return this.selectedProfesores.has(profesorId);
   }
 
+// Método para cargar los cursos desde el servicio
   loadCursos(): void {
     this.cursoService.obtenerCurso().subscribe({
       next: (response) => {
@@ -116,40 +117,58 @@ export class AgregarCursoComponent implements OnInit {
     return this.baseImageUrl + relativePath;
   }
 
-  filterCursos(): void {
-    this.filteredCursos = this.cursos.filter((curso) => curso.activo !== false);
-    this.papeleraCursos = this.cursos.filter((curso) => curso.activo === false);
-  }
+// Método para filtrar los cursos activos e inactivos
+filterCursos(): void {
+  this.filteredCursos = this.cursos.filter((curso) => curso.activo !== false);
+  this.papeleraCursos = this.cursos.filter((curso) => curso.activo === false);
+}
+
+// Método para filtrar los cursos en función de la búsqueda global
+filterGlobal(event: any): void {
+  const searchValue = event.target.value.toLowerCase();
+  this.filteredCursos = this.cursos.filter(
+    (curso) =>
+      curso.activo === true &&  // Asegúrate de que solo se incluyan los cursos activos
+      (
+        curso.nombre.toLowerCase().includes(searchValue) ||
+        curso.descripcion.toLowerCase().includes(searchValue) ||
+        (curso.fecha_publicacion?.toLowerCase().includes(searchValue) ?? false)
+      )
+  );
+}
 
   openModal(curso?: Curso): void {
     this.isModalOpen = true;
     if (curso) {
-      this.currentCursoId = curso.id!;
-      this.cursoForm.patchValue(curso);
-      this.imagenPrincipalPreview = curso.imagen_principal || null;
-      this.imagenesGeneralesActuales = curso.imagenes_generales || [];
+        this.currentCursoId = curso.id!;
+        this.cursoForm.patchValue(curso);
+        this.imagenPrincipalPreview = curso.imagen_principal || null;
+        this.imagenesGeneralesActuales = curso.imagenes_generales || [];
 
-      // Cargar los profesores seleccionados desde la base de datos
-      this.selectedProfesores.clear();
-      this.cursoService.obtenerProfesoresPorCurso(curso.id!).subscribe({
-        next: (response) => {
-          console.log(response.profesores);
-          response.profesores.forEach((profesor: any) => {
-            this.selectedProfesores.add(profesor.profesor_id);
-          });
-        },
-        error: (error) => {
-          console.error('Error al cargar los profesores del curso:', error);
-        }
-      });
+        // Cargar los profesores seleccionados desde la base de datos
+        this.selectedProfesores.clear();
+        this.cursoService.obtenerProfesoresPorCurso(curso.id!).subscribe({
+            next: (response) => {
+                response.profesores.forEach((profesor: any) => {
+                    this.selectedProfesores.add(profesor.profesor_id);
+                });
+            },
+            error: (error) => {
+                console.error('Error al cargar los profesores del curso:', error);
+            }
+        });
     } else {
-      this.currentCursoId = null;
-      this.cursoForm.reset({ activo: true });
-      this.imagenPrincipalPreview = null;
-      this.imagenesGeneralesActuales = [];
+        this.currentCursoId = null;
+        this.cursoForm.reset({ activo: true });
+        this.imagenPrincipalPreview = null;
+        this.imagenesGeneralesActuales = [];
+
+        // Limpiar la selección de profesores
+        this.selectedProfesores.clear();
     }
     this.clearFileInputs();
-  }
+}
+
 
   closeModal(): void {
     this.isModalOpen = false;
@@ -350,15 +369,6 @@ guardarProfesores(cursoId: number): void {
           },
         });
       }
-    );
-  }
-
-  filterGlobal(event: any): void {
-    const searchValue = event.target.value.toLowerCase();
-    this.filteredCursos = this.cursos.filter(
-      (curso) =>
-        (curso.nombre && curso.nombre.toLowerCase().includes(searchValue)) ||
-        curso.fecha_publicacion.toLowerCase().includes(searchValue)
     );
   }
 
@@ -569,5 +579,21 @@ removeImagenGeneral(index: number): void {
     if (event.key === ' ' && value.endsWith(' ')) {
       event.preventDefault();
     }
+  }
+
+  tooltipVisible = false;
+  selectedProfesor: any;
+  tooltipStyles = {};
+
+  // Método para mostrar el tooltip
+  showTooltip(profesorId: number) {
+    this.selectedProfesor = this.profesores.find(profesor => profesor.id === profesorId);
+    //console.log('Ruta de la imagen:', this.selectedProfesor.foto);
+    this.tooltipVisible = true;
+  }
+
+  // Método para ocultar el tooltip
+  hideTooltip() {
+    this.tooltipVisible = false;
   }
 }

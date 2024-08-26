@@ -133,7 +133,7 @@
             <label
               for="imagenesGenerales"
               class="block text-sm font-medium text-gray-700"
-              >Imágenes Generales</label
+              >Imágenes Complementarias</label
             >
             <input
               type="file"
@@ -167,20 +167,15 @@
       </form>
 
       <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-        <button
-          type="submit"
-          [disabled]="instalacionForm.invalid || isLoading"
-          (click)="onSubmit()"
-          class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm"
-        >
-          {{
-            isLoading
-              ? "Procesando..."
-              : currentInstalacionId
-              ? "Actualizar"
-              : "Agregar Instalación"
-          }}
-        </button>
+        <button type="submit"
+        [disabled]="!instalacionForm.valid || isLoading"
+        (click)="onSubmit()"
+        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm"
+        [ngClass]="{'opacity-50 cursor-not-allowed': !instalacionForm.valid || isLoading}">
+        {{ isLoading ? 'Procesando...' : (currentInstalacionId ? 'Actualizar' : 'Agregar Instalación') }}
+      </button>
+
+
         <button
           type="button"
           (click)="closeModal()"

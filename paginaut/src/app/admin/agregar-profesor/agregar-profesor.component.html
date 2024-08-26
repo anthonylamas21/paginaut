@@ -389,7 +389,8 @@
           <button
             type="submit"
             [disabled]="profesorForm.invalid || tipoProfesorError || isSubmitting"
-            [ngClass]="{'opacity-50 cursor-not-allowed': profesorForm.invalid}"            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm">
+            [ngClass]="{'opacity-50 cursor-not-allowed': profesorForm.invalid}"            
+            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm">
             {{ currentProfesorId ? "Actualizar Profesor" : "Agregar Profesor" }}
           </button>
 
@@ -498,7 +499,7 @@
           <div class="flex flex-col items-center justify-center">
             <h4 class="text-lg font-semibold text-gray-700 mb-4">Foto</h4>
             <img
-              *ngIf="selectedProfesor.foto"
+              *ngIf="selectedProfesor.foto; else defaultImage"
               [src]="
                 sanitizer.bypassSecurityTrustResourceUrl(
                   baseImageUrl + selectedProfesor.foto
@@ -507,10 +508,15 @@
               alt="Foto del profesor"
               class="w-40 h-40 object-cover rounded-md border"
             />
-            <p *ngIf="!selectedProfesor.foto" class="text-gray-500">
-              No disponible
-            </p>
+            <ng-template #defaultImage>
+              <img
+                src="./assets/img/perfil_vacio_2.png"
+                alt="Imagen de perfil vacía"
+                class="w-40 h-40 object-cover rounded-md border"
+              />
+            </ng-template>
           </div>
+          
         </div>
       </div>
     </div>

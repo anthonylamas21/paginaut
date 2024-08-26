@@ -21,7 +21,7 @@
                     </svg>
                 </button>
             </div>
-    
+
             <form [formGroup]="cursoForm" (ngSubmit)="onSubmit()" class="p-4 space-y-4">
                 <div class="space-y-4">
                     <div>
@@ -48,9 +48,9 @@
                             >
                           </p>
                     </div>
-    
+
                     <div>
-                        <label for="descripcion" class="block text-sm font-medium text-gray-700">2. Descripcion</label>
+                        <label for="descripcion" class="block text-sm font-medium text-gray-700">2. Descripción</label>
                         <input type="text" id="descripcion" formControlName="descripcion"
                             class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
                             placeholder="Descripción del curso" maxlength="200" required/>
@@ -70,22 +70,24 @@
                             >
                           </p>
                     </div>
-    
+
                     <div>
-                        <label for="profesor" class="block text-sm font-medium text-gray-700">Profesores</label>
+                        <label for="profesor" class="block text-sm font-medium text-gray-700">3. Profesores</label>
                         <div class="grid grid-cols-5 gap-4">
                             <div *ngFor="let profesor of profesores">
-                              <div 
+                              <div
                                 [ngClass]="{
                                   'bg-[#04847C] text-white': isSelected(profesor.id),
                                   'bg-gray-200 text-gray-900': !isSelected(profesor.id)
                                 }"
                                 (click)="toggleSelection(profesor.id)"
+                                (mouseenter)="showTooltip(profesor.id)"
+                                (mouseleave)="hideTooltip()"
                                 class="cursor-pointer flex items-center justify-center p-1 rounded-md transition-colors duration-300 h-12 w-full"
                               >
-                                <input 
-                                  type="checkbox" 
-                                  [value]="profesor.id" 
+                                <input
+                                  type="checkbox"
+                                  [value]="profesor.id"
                                   [checked]="isSelected(profesor.id)"
                                   class="hidden"
                                 />
@@ -93,27 +95,42 @@
                                   {{ profesor.nombre }} {{ profesor.apellido }}
                                 </label>
                               </div>
+
+                              <!-- Tooltip -->
+                              <div *ngIf="tooltipVisible && selectedProfesor?.id === profesor.id" class="absolute z-10 p-4 bg-white border rounded shadow-lg" [ngStyle]="tooltipStyles">
+                                <img 
+                                    [src]="profesor.foto ? (baseImageUrl + profesor.foto) : baseImageUrl+'paginaut/src/assets/img/perfil_vacio.png'" 
+                                    alt="{{ profesor.nombre }}" 
+                                    class="w-16 h-16 rounded-full object-cover mx-auto mb-2">
+                                <p class="text-sm font-medium">{{ profesor.nombre }} {{ profesor.apellido }}</p> 
+                                <p class="text-xs text-gray-600"><i class="fa-solid fa-envelope"></i> {{ profesor.correo }}</p>
+                                <p class="text-xs text-gray-600"><i class="fa-solid fa-phone"></i> {{ profesor.telefono }}</p>
+                                <p class="text-xs text-gray-600"><i class="fa-solid fa-star"></i> {{ profesor.especialidad }}</p>
+                                <p class="text-xs text-gray-600">Experiencia de {{ profesor.experiencia }} años</p>
+                            </div>
+                            
+                                
                             </div>
                           </div>
-                          
+
                         <p *ngIf="isFieldInvalid('profesor')" class="mt-1 text-xs text-red-600">
                           {{ getErrorMessage('profesor') }}
                         </p>
-                      </div>
+                    </div>
                       
                       
                       
     
                     <div>
-                        <label for="imagenPrincipal" class="block text-sm font-medium text-gray-700">3. Imagen Principal</label>
+                        <label for="imagenPrincipal" class="block text-sm font-medium text-gray-700">4. Imagen Principal</label>
                         <input type="file" id="imagenPrincipal" (change)="onFileChangePrincipal($event)" accept="image/*"
                             class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
                         <img *ngIf="imagenPrincipalPreview" [src]="imagenPrincipalPreview" alt="Preview"
                             class="mt-2 max-w-full h-auto rounded-lg">
                     </div>
-    
+
                     <div>
-                        <label for="imagenesGenerales" class="block text-sm font-medium text-gray-700">4. Imágenes Generales</label>
+                        <label for="imagenesGenerales" class="block text-sm font-medium text-gray-700">5. Imágenes Complementarías (opcional)</label>
                         <input type="file" id="imagenesGenerales" multiple (change)="onFileChangeGenerales($event)" accept="image/*"
                             class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
                         <div class="mt-2 grid grid-cols-4 gap-2">
@@ -127,10 +144,12 @@
                         </div>
                     </div>
                 </div>
-    
+
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="submit" [disabled]="cursoForm.invalid || isLoading"
-                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm">
+                    <button type="submit"
+                    [disabled]="cursoForm.invalid"            
+                    [ngClass]="{'opacity-50 cursor-not-allowed': cursoForm.invalid}"            
+                    class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm">
                         {{ isLoading ? 'Procesando...' : (currentCursoId ? 'Actualizar' : 'Agregar Curso') }}
                     </button>
                     <button type="button" (click)="closeModal()"
@@ -176,22 +195,22 @@
                             <!-- SearchBox -->
                             <div class="relative w-full">
                                 <div class="relative w-full">
-                                    <div
-                                        class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5 w-full">
-                                        <svg class="flex-shrink-0 size-4 text-gray-400"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="11" cy="11" r="8"></circle>
-                                            <path d="m21 21-4.3-4.3"></path>
-                                        </svg>
-                                    </div>
-                                    <input (input)="filterGlobal($event)"
-                                        class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]"
-                                        type="text" placeholder="Ingresa tu búsqueda" />
+                                <div
+                                    class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5 w-full">
+                                    <svg class="flex-shrink-0 size-4 text-gray-400"
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <path d="m21 21-4.3-4.3"></path>
+                                    </svg>
+                                </div>
+                                <input (input)="filterGlobal($event)"
+                                    class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]"
+                                    type="text" placeholder="Ingresa tu búsqueda" />
                                 </div>
                             </div>
-                            <!-- End SearchBox -->
+                            <!-- End SearchBox -->                           
                         </div>
                     </div>
                     <div class="flex flex-col lg:w-5/12 sm:w-12/12 md:w-5/12 text-right w-full">
@@ -364,7 +383,7 @@
                                                         <div
                                                             class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                                             <div
-                                                                class="text-green-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                                                class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
                                                                 <i class="fa fa-check" aria-hidden="true"></i>
                                                                 <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
                                                                     role="tooltip">
@@ -507,7 +526,7 @@
                                                         <div
                                                             class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                                             <div
-                                                                class="text-green-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                                                class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
                                                                 <i class="fa-solid fa-arrow-rotate-left"
                                                                     aria-hidden="true"></i>
                                                                 <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
