@@ -124,32 +124,35 @@ export class AgregarCursoComponent implements OnInit {
   openModal(curso?: Curso): void {
     this.isModalOpen = true;
     if (curso) {
-      this.currentCursoId = curso.id!;
-      this.cursoForm.patchValue(curso);
-      this.imagenPrincipalPreview = curso.imagen_principal || null;
-      this.imagenesGeneralesActuales = curso.imagenes_generales || [];
+        this.currentCursoId = curso.id!;
+        this.cursoForm.patchValue(curso);
+        this.imagenPrincipalPreview = curso.imagen_principal || null;
+        this.imagenesGeneralesActuales = curso.imagenes_generales || [];
 
-      // Cargar los profesores seleccionados desde la base de datos
-      this.selectedProfesores.clear();
-      this.cursoService.obtenerProfesoresPorCurso(curso.id!).subscribe({
-        next: (response) => {
-          console.log(response.profesores);
-          response.profesores.forEach((profesor: any) => {
-            this.selectedProfesores.add(profesor.profesor_id);
-          });
-        },
-        error: (error) => {
-          console.error('Error al cargar los profesores del curso:', error);
-        }
-      });
+        // Cargar los profesores seleccionados desde la base de datos
+        this.selectedProfesores.clear();
+        this.cursoService.obtenerProfesoresPorCurso(curso.id!).subscribe({
+            next: (response) => {
+                response.profesores.forEach((profesor: any) => {
+                    this.selectedProfesores.add(profesor.profesor_id);
+                });
+            },
+            error: (error) => {
+                console.error('Error al cargar los profesores del curso:', error);
+            }
+        });
     } else {
-      this.currentCursoId = null;
-      this.cursoForm.reset({ activo: true });
-      this.imagenPrincipalPreview = null;
-      this.imagenesGeneralesActuales = [];
+        this.currentCursoId = null;
+        this.cursoForm.reset({ activo: true });
+        this.imagenPrincipalPreview = null;
+        this.imagenesGeneralesActuales = [];
+
+        // Limpiar la selección de profesores
+        this.selectedProfesores.clear();
     }
     this.clearFileInputs();
-  }
+}
+
 
   closeModal(): void {
     this.isModalOpen = false;
@@ -578,7 +581,7 @@ removeImagenGeneral(index: number): void {
   // Método para mostrar el tooltip
   showTooltip(profesorId: number) {
     this.selectedProfesor = this.profesores.find(profesor => profesor.id === profesorId);
-    console.log('Ruta de la imagen:', this.selectedProfesor.foto);
+    //console.log('Ruta de la imagen:', this.selectedProfesor.foto);
     this.tooltipVisible = true;
   }
 
