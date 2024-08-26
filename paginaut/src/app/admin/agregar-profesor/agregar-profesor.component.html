@@ -52,7 +52,7 @@
     >
       <div class="flex justify-between items-center p-4 bg-white">
         <h3 class="text-xl font-bold text-gray-900">
-          {{ currentProfesorId ? "Editar Profesor" : "Nuevo Profesor" }}
+          {{ currentProfesorId ? "Actualizar Profesor" : "Nuevo Profesor" }}
         </h3>
         <button
           type="button"
@@ -159,20 +159,22 @@
               required
             />
             <p
-              *ngIf="
-                profesorForm.get('correo')?.invalid &&
-                (profesorForm.get('correo')?.dirty ||
-                  profesorForm.get('correo')?.touched)
-              "
-              class="mt-1 text-xs text-red-600"
-            >
-              <span *ngIf="profesorForm.get('correo')?.errors?.['required']"
-                >El correo electrónico es requerido.</span
-              >
-              <span *ngIf="profesorForm.get('correo')?.errors?.['email']"
-                >El correo electrónico no es válido.</span
-              >
-            </p>
+            *ngIf="
+              profesorForm.get('correo')?.invalid &&
+              (profesorForm.get('correo')?.dirty || profesorForm.get('correo')?.touched)
+            "
+            class="mt-1 text-xs text-red-600"
+          >
+            <span *ngIf="profesorForm.get('correo')?.errors?.['required']">
+              El correo electrónico es requerido.
+            </span>
+            <span *ngIf="profesorForm.get('correo')?.errors?.['email']">
+              El correo electrónico no es válido.
+            </span>
+            <span *ngIf="profesorForm.get('correo')?.errors?.['pattern']">
+              Solo se aceptan correos de gmail.com, hotmail.com o outlook.com.
+            </span>
+          </p>
           </div>
 
           <div>
@@ -192,20 +194,22 @@
               (keypress)="validateInput($event, 'number')"
             />
             <p
-              *ngIf="
-                profesorForm.get('telefono')?.invalid &&
-                (profesorForm.get('telefono')?.dirty ||
-                  profesorForm.get('telefono')?.touched)
-              "
-              class="mt-1 text-xs text-red-600"
-            >
-              <span *ngIf="profesorForm.get('telefono')?.errors?.['required']"
-                >El teléfono es requerido.</span
-              >
-              <span *ngIf="profesorForm.get('telefono')?.errors?.['maxlength']"
-                >El teléfono no puede tener más de 20 caracteres.</span
-              >
-            </p>
+            *ngIf="
+              profesorForm.get('telefono')?.invalid &&
+              (profesorForm.get('telefono')?.dirty || profesorForm.get('telefono')?.touched)
+            "
+            class="mt-1 text-xs text-red-600"
+          >
+            <span *ngIf="profesorForm.get('telefono')?.errors?.['required']">
+              El teléfono es requerido.
+            </span>
+            <span *ngIf="profesorForm.get('telefono')?.errors?.['maxlength']">
+              El teléfono no puede tener más de 10 caracteres.
+            </span>
+            <span *ngIf="profesorForm.get('telefono')?.errors?.['pattern']">
+              Solo se permiten números y caracteres especiales (+, -, (, )).
+            </span>
+          </p>
           </div>
 
           <div>
@@ -249,16 +253,17 @@
               class="block text-sm font-medium text-gray-700"
               >Grado Académico</label
             >
-            <input
-              type="text"
-              id="grado_academico"
-              formControlName="grado_academico"
-              class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
-              placeholder="Grado Académico"
-              maxlength="100"
-              required
-              (keypress)="validateInput($event, 'text')"
-            />
+            <select
+            id="grado_academico"
+            formControlName="grado_academico"
+            class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+            required
+            (keypress)="validateInput($event, 'text')"
+          >
+            <option value="" selected>Seleccione una opción</option>
+            <option value="{{grado.valor}}" *ngFor="let grado of GradoAcademico">{{grado.tipo}}</option>
+          </select>
+
             <p
               *ngIf="
                 profesorForm.get('grado_academico')?.invalid &&
@@ -372,21 +377,20 @@
             </div>
             <p *ngIf="tipoProfesorError" class="mt-1 text-xs text-red-600">
               {{ tipoProfesorError }}
-            </p>
+            </p>            
           </div>
         </div>
 
         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
           <button
             type="submit"
-            [disabled]="
-              profesorForm.invalid || tipoProfesorError
-            "
+            [disabled]="profesorForm.invalid || tipoProfesorError || isSubmitting"
             (click)="onSubmit()"
             class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm"
           >
             {{ currentProfesorId ? "Actualizar Profesor" : "Agregar Profesor" }}
           </button>
+
           <button
             type="button"
             (click)="closeModal()"

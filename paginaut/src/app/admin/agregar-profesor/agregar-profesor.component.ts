@@ -81,9 +81,7 @@ export class AgregarProfesorComponent implements OnInit {
         [
           Validators.required,
           Validators.email,
-          Validators.pattern(
-            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
-          ),
+          Validators.pattern(/^[a-zA-Z0-9._%+-]+@(gmail|hotmail|outlook|utdelacosta)\.com$|^[a-zA-Z0-9._%+-]+@utdelacosta\.edu\.mx$/),
         ],
       ],
       telefono: [
@@ -91,9 +89,10 @@ export class AgregarProfesorComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern(/^[0-9+()-\s]*$/),
-          Validators.maxLength(20),
+          Validators.maxLength(10),
         ],
       ],
+      
       especialidad: ['', [Validators.required, Validators.maxLength(100)]],
       grado_academico: ['', [Validators.required, Validators.maxLength(100)]],
       experiencia: ['', [Validators.required]],
@@ -103,6 +102,20 @@ export class AgregarProfesorComponent implements OnInit {
       tipoCursos: [false],
     });
   }
+
+  GradoAcademico = [
+    { tipo: "Doctorado", valor: "Doctorado" },
+    { tipo: "Maestría", valor: "Maestría" },
+    { tipo: "Especialización", valor: "Especialización" },
+    { tipo: "Licenciatura", valor: "Licenciatura" },
+    { tipo: "Ingeniería", valor: "Ingeniería" },
+    { tipo: "Técnico Superior Universitario", valor: "Técnico Superior Universitario" },
+    { tipo: "Diplomado", valor: "Diplomado" },
+    { tipo: "Bachillerato", valor: "Bachillerato" },
+    { tipo: "Secundaria", valor: "Secundaria" },
+    { tipo: "Primaria", valor: "Primaria" },
+    { tipo: "Preescolar", valor: "Preescolar" }
+  ];
 
   ngOnInit(): void {
     this.loadProfesores();
@@ -128,13 +141,16 @@ export class AgregarProfesorComponent implements OnInit {
     const tipoTiempoCompleto = this.profesorForm.get('tipoTiempoCompleto')?.value;
     const tipoAsignatura = this.profesorForm.get('tipoAsignatura')?.value;
     const tipoCursos = this.profesorForm.get('tipoCursos')?.value;
-
-    if (!tipoTiempoCompleto && !tipoAsignatura && !tipoCursos) {
+  
+    if (tipoTiempoCompleto && tipoAsignatura) {
+      this.tipoProfesorError = 'No puedes seleccionar Tiempo Completo y Asignatura al mismo tiempo.';
+    } else if (!tipoTiempoCompleto && !tipoAsignatura && !tipoCursos) {
       this.tipoProfesorError = 'Debes seleccionar al menos un tipo de profesor.';
     } else {
       this.tipoProfesorError = '';
     }
   }
+  
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
@@ -166,7 +182,8 @@ export class AgregarProfesorComponent implements OnInit {
 
   onSubmit() {
     if (this.isSubmitting) return;
-    this.isSubmitting = true;
+      this.isSubmitting = true; 
+      
 
     const isUpdate = !!this.currentProfesorId;
 
