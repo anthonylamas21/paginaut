@@ -5,7 +5,7 @@ import {
   Renderer2,
   ChangeDetectorRef,
 } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import {
   BolsaDeTrabajoService,
   BolsaDeTrabajo,
@@ -78,17 +78,22 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
   ) {
     this.bolsaDeTrabajoForm = this.fb.group({
       id: [''],
-      nombre_empresa: [''],
-      descripcion_trabajo: [''],
-      puesto_trabajo: [''],
-      direccion: [''],
-      telefono: [''],
-      correo: [''],
+      nombre_empresa: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(/^[a-zA-Z\s]*$/)]],
+      descripcion_trabajo: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(/^[a-zA-Z\s]*$/)]],
+      puesto_trabajo: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\s]*$/)]],
+      direccion: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\s]*$/)]],
+      telefono: ['', [Validators.required, Validators.pattern(/^[0-9+()-\s]*$/), Validators.maxLength(10)]],
+      correo: ['', [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z0-9._%+-]+@(gmail|hotmail|outlook|utdelacosta)\.com$|^[a-zA-Z0-9._%+-]+@utdelacosta\.edu\.mx$/)]],
     });
 
     this.requisitosForm = this.fb.group({
-      requisitos: this.fb.array([]),
+      requisitos: this.fb.array(['', [
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z0-9\s]*$/)  // Solo letras, números y espacios
+        ]
+      ]),
     });
+    
   }
 
   ngOnInit(): void {
