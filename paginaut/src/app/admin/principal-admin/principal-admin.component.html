@@ -1,13 +1,79 @@
-<!--Componente Navbar-->
+<!-- Componente Navbar -->
 <app-navbar-admin></app-navbar-admin>
 <p id="inicio"></p>
-<!--Fin Navbar-->
+<!-- Fin Navbar -->
 
-<div class="p-2 mx-auto">
-  <div class="bg-[#043D3D] text-white mt-28 p-4 rounded-md">
-    <div class="container mx-auto px-4">
-      <h1 class="text-3xl font-bold py-16">Gestión de Usuarios</h1>
-      <p class="text-xl mb-8">Administra y controla tus usuarios.</p>
+<div class="p-4 mx-auto">
+  <div class="bg-gradient-to-r from-[#043D3D] to-[#065555] text-white mt-24 p-8 rounded-md shadow-2xl">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-12 tracking-wide leading-tight break-words">
+        Panel de Administración
+      </h1>
+      <p class="text-lg font-light mb-8">Gestiona todas las secciones administrativas desde un solo lugar.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+        <!-- Botón Noticias -->
+        <a href="/admin/noticia"
+          class="group flex flex-col items-center bg-white text-[#043D3D] p-8 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-newspaper text-6xl mb-4 group-hover:text-[#04847C] transition-colors duration-300"></i>
+          <span class="text-2xl font-bold">Noticias</span>
+        </a>
+
+        <!-- Botón Evento -->
+        <a href="/admin/evento"
+          class="group flex flex-col items-center bg-white text-[#043D3D] p-8 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-calendar-check text-6xl mb-4 group-hover:text-[#04847C] transition-colors duration-300"></i>
+          <span class="text-2xl font-bold">Eventos</span>
+        </a>
+
+        <!-- Botón Becas -->
+        <a href="/admin/agregar-beca"
+          class="group flex flex-col items-center bg-white text-[#043D3D] p-8 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-graduation-cap text-6xl mb-4 group-hover:text-[#04847C] transition-colors duration-300"></i>
+          <span class="text-2xl font-bold">Becas</span>
+        </a>
+
+        <!-- Botón Profesores -->
+        <a href="/admin/agregar-profesor"
+          class="group flex flex-col items-center bg-white text-[#043D3D] p-8 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-chalkboard-teacher text-6xl mb-4 group-hover:text-[#04847C] transition-colors duration-300"></i>
+          <span class="text-2xl font-bold">Profesores</span>
+        </a>
+
+        <!-- Botón Cursos -->
+        <a href="/admin/agregar-curso"
+          class="group flex flex-col items-center bg-white text-[#043D3D] p-8 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-book text-6xl mb-4 group-hover:text-[#04847C] transition-colors duration-300"></i>
+          <span class="text-2xl font-bold">Cursos</span>
+        </a>
+
+        <!-- Botón Galería -->
+        <a href="/admin/instalacion"
+          class="group flex flex-col items-center bg-white text-[#043D3D] p-8 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-images text-6xl mb-4 group-hover:text-[#04847C] transition-colors duration-300"></i>
+          <span class="text-2xl font-bold">Galería</span>
+        </a>
+
+        <!-- Botón Bolsa de Trabajo -->
+        <a href="/admin/agregar-bolsadetrabajo"
+          class="group flex flex-col items-center bg-white text-[#043D3D] p-8 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-briefcase text-6xl mb-4 group-hover:text-[#04847C] transition-colors duration-300"></i>
+          <span class="text-2xl font-bold">Bolsa de Trabajo</span>
+        </a>
+
+        <!-- Botón Calendario -->
+        <a href="/admin/agregar-calendario"
+          class="group flex flex-col items-center bg-white text-[#043D3D] p-8 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-calendar-alt text-6xl mb-4 group-hover:text-[#04847C] transition-colors duration-300"></i>
+          <span class="text-2xl font-bold">Calendario</span>
+        </a>
+
+      </div>
     </div>
   </div>
 </div>
+
+<!-- Pie de página -->
+<footer class="bg-[#043D3D] text-white py-4 text-center mt-auto">
+  <p>&copy; 2024 Universidad Tecnológica de la Costa. Todos los derechos reservados.</p>
+</footer>
