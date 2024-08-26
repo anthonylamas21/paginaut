@@ -21,7 +21,7 @@
                     </svg>
                 </button>
             </div>
-    
+
             <form [formGroup]="cursoForm" (ngSubmit)="onSubmit()" class="p-4 space-y-4">
                 <div class="space-y-4">
                     <div>
@@ -32,7 +32,7 @@
                         <p *ngIf="isFieldInvalid('nombre')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('nombre')
                         }}</p>
                     </div>
-    
+
                     <div>
                         <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripcion</label>
                         <input type="text" id="descripcion" formControlName="descripcion"
@@ -40,12 +40,12 @@
                             placeholder="Descripción del curso" maxlength="50" />
                         <p *ngIf="isFieldInvalid('descripcion')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('descripcion') }}</p>
                     </div>
-    
+
                     <div>
                         <label for="profesor" class="block text-sm font-medium text-gray-700">Profesores</label>
                         <div class="grid grid-cols-5 gap-4">
                             <div *ngFor="let profesor of profesores">
-                              <div 
+                              <div
                                 [ngClass]="{
                                   'bg-[#04847C] text-white': isSelected(profesor.id),
                                   'bg-gray-200 text-gray-900': !isSelected(profesor.id)
@@ -53,9 +53,9 @@
                                 (click)="toggleSelection(profesor.id)"
                                 class="cursor-pointer flex items-center justify-center p-1 rounded-md transition-colors duration-300 h-12 w-full"
                               >
-                                <input 
-                                  type="checkbox" 
-                                  [value]="profesor.id" 
+                                <input
+                                  type="checkbox"
+                                  [value]="profesor.id"
                                   [checked]="isSelected(profesor.id)"
                                   class="hidden"
                                 />
@@ -65,15 +65,15 @@
                               </div>
                             </div>
                           </div>
-                          
+
                         <p *ngIf="isFieldInvalid('profesor')" class="mt-1 text-xs text-red-600">
                           {{ getErrorMessage('profesor') }}
                         </p>
                       </div>
-                      
-                      
-                      
-    
+
+
+
+
                     <div>
                         <label for="imagenPrincipal" class="block text-sm font-medium text-gray-700">Imagen Principal</label>
                         <input type="file" id="imagenPrincipal" (change)="onFileChangePrincipal($event)" accept="image/*"
@@ -81,9 +81,9 @@
                         <img *ngIf="imagenPrincipalPreview" [src]="imagenPrincipalPreview" alt="Preview"
                             class="mt-2 max-w-full h-auto rounded-lg">
                     </div>
-    
+
                     <div>
-                        <label for="imagenesGenerales" class="block text-sm font-medium text-gray-700">Imágenes Generales</label>
+                        <label for="imagenesGenerales" class="block text-sm font-medium text-gray-700">Imágenes Complementarias</label>
                         <input type="file" id="imagenesGenerales" multiple (change)="onFileChangeGenerales($event)" accept="image/*"
                             class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
                         <div class="mt-2 grid grid-cols-4 gap-2">
@@ -97,7 +97,7 @@
                         </div>
                     </div>
                 </div>
-    
+
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                     <button type="submit" [disabled]="cursoForm.invalid || isLoading"
                         class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm">
