@@ -83,23 +83,19 @@ export class CursoService {
 
   eliminarCurso(id: number): Observable<any> {
     return this.http
-      .delete<any>(`${this.apiUrl}?id=${id}`)
+      .delete<any>(`${this.apiUrl}?id=${id}&accion=remover`)
       .pipe(catchError(this.handleError));
   }
 
   eliminarImagenGeneral(cursoId: number, rutaImagen: string): Observable<any> {
-    return this.http
-      .delete<any>(
-        `${this.apiUrl}?cursoId=${cursoId}&rutaImagen=${encodeURIComponent(
-          rutaImagen
-        )}`
-      )
-      .pipe(catchError(this.handleError));
+    return this.http.delete<any>(
+      `${this.apiUrl}?cursoId=${cursoId}&rutaImagen=${encodeURIComponent(rutaImagen)}`
+    ).pipe(catchError(this.handleError));
   }
 
   desactivarCurso(id: number): Observable<any> {
     return this.http
-      .put(`${this.apiUrl}?id=${id}&accion=desactivar`, {})
+      .put(`${this.apiUrl}?id=${id}&accion=desactivar`, null)
       .pipe(catchError(this.handleError));
   }
 

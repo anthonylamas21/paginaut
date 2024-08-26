@@ -177,66 +177,70 @@ export class AgregarCursoComponent implements OnInit {
 
   onSubmit(): void {
     if (this.cursoForm.valid) {
-      this.isLoading = true;
-  
-      const formData: FormData = new FormData();
-      formData.append('nombre', this.cursoForm.get('nombre')!.value);
-      formData.append('descripcion', this.cursoForm.get('descripcion')!.value);
-      formData.append('activo', this.cursoForm.get('activo')!.value.toString());
-  
-      const imagenPrincipal = this.cursoForm.get('imagenPrincipal')?.value;
-      if (imagenPrincipal) {
-        formData.append('imagen_principal', imagenPrincipal);
-      }
-  
-      const imagenesGenerales = this.cursoForm.get('imagenesGenerales')?.value;
-      if (imagenesGenerales && imagenesGenerales.length) {
-        imagenesGenerales.forEach((file: any) => {
-          formData.append('imagenes_generales[]', file);
-        });
-      }
-  
-      formData.append('profesores', JSON.stringify(Array.from(this.selectedProfesores)));
-  
-      if (this.currentCursoId) {
-        // Actualizar curso existente usando POST y FormData
-        formData.append('id', this.currentCursoId.toString()); // Agregar el ID al FormData
-        this.cursoService.actualizarCurso(formData, this.currentCursoId).subscribe({
-          next: (response) => {
-            this.showToast('success', 'Curso actualizado con éxito');
-            this.closeModal();
-            this.loadCursos();
-          },
-          error: (error) => {
-            console.error('Error al procesar el curso:', error);
-            this.showToast('error', 'Error al procesar el curso');
-          },
-          complete: () => {
-            this.isLoading = false;
-          },
-        });
-      } else {
-        // Crear nuevo curso usando POST y FormData
-        this.cursoService.crearCursoConProfesores(formData).subscribe({
-          next: (response) => {
-            const id_curso = response.id;
-            this.showToast('success', 'Curso creado con éxito');
-            this.closeModal();
-            this.loadCursos();
-          },
-          error: (error) => {
-            console.error('Error al procesar el curso:', error);
-            this.showToast('error', 'Error al procesar el curso');
-          },
-          complete: () => {
-            this.isLoading = false;
-          },
-        });
-      }
+        this.isLoading = true;
+
+        const formData: FormData = new FormData();
+        formData.append('nombre', this.cursoForm.get('nombre')!.value);
+        formData.append('descripcion', this.cursoForm.get('descripcion')!.value);
+        formData.append('activo', this.cursoForm.get('activo')!.value.toString());
+
+        const imagenPrincipal = this.cursoForm.get('imagenPrincipal')?.value;
+        if (imagenPrincipal) {
+            formData.append('imagen_principal', imagenPrincipal);
+        }
+
+        const imagenesGenerales = this.cursoForm.get('imagenesGenerales')?.value;
+        if (imagenesGenerales && imagenesGenerales.length) {
+            imagenesGenerales.forEach((file: any) => {
+                formData.append('imagenes_generales[]', file);
+            });
+        }
+
+        // Agregar imágenes generales a eliminar
+        if (this.imagenesGeneralesAEliminar.length > 0) {
+            formData.append('imagenes_a_eliminar', JSON.stringify(this.imagenesGeneralesAEliminar));
+        }
+
+        formData.append('profesores', JSON.stringify(Array.from(this.selectedProfesores)));
+
+        if (this.currentCursoId) {
+            formData.append('id', this.currentCursoId.toString());
+            this.cursoService.actualizarCurso(formData, this.currentCursoId).subscribe({
+                next: (response) => {
+                    this.showToast('success', 'Curso actualizado con éxito');
+                    this.closeModal();
+                    this.loadCursos();
+                },
+                error: (error) => {
+                    console.error('Error al procesar el curso:', error);
+                    this.showToast('error', 'Error al procesar el curso');
+                },
+                complete: () => {
+                    this.isLoading = false;
+                },
+            });
+        } else {
+            this.cursoService.crearCursoConProfesores(formData).subscribe({
+                next: (response) => {
+                    const id_curso = response.id;
+                    this.showToast('success', 'Curso creado con éxito');
+                    this.closeModal();
+                    this.loadCursos();
+                },
+                error: (error) => {
+                    console.error('Error al procesar el curso:', error);
+                    this.showToast('error', 'Error al procesar el curso');
+                },
+                complete: () => {
+                    this.isLoading = false;
+                },
+            });
+        }
     } else {
-      this.showToast('warning', 'Por favor, complete todos los campos requeridos correctamente.');
+        this.showToast('warning', 'Por favor, complete todos los campos requeridos correctamente.');
     }
-  }
+}
+
   
 
 eliminarProfesores(cursoId: number): void {

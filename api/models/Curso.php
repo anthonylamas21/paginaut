@@ -11,6 +11,7 @@ class Curso
   public $fecha_creacion;
   public $imagen_principal;
   public $imagenes_generales;
+  public $imagenesGeneralesAEliminar = [];
 
   public function __construct($db)
   {
@@ -121,11 +122,17 @@ class Curso
   function updateImagenes()
   {
     if ($this->imagen_principal) {
-      $this->saveImagenPrincipal();
+      $this->updateImagenPrincipal($this->imagen_principal);
     }
 
     if (is_array($this->imagenes_generales) && isset($this->imagenes_generales['tmp_name']) && !empty($this->imagenes_generales['tmp_name'])) {
       $this->saveImagenesGenerales();
+    }
+
+    if (!empty($this->imagenesGeneralesAEliminar)) {
+      foreach ($this->imagenesGeneralesAEliminar as $rutaImagen) {
+        $this->deleteImagenGeneral($rutaImagen);
+      }
     }
   }
 
@@ -141,7 +148,7 @@ class Curso
     }
     return null;
   }
-
+  
   public function getImagenesGenerales()
   {
     $query = "SELECT ruta_imagen FROM Imagenes WHERE seccion = 'Cursos' AND asociado_id = :asociado_id AND principal = FALSE";
@@ -292,17 +299,23 @@ class Curso
 
   function delete()
   {
-    $query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
-    $stmt = $this->conn->prepare($query);
-
-    $this->id = htmlspecialchars(strip_tags($this->id));
-    $stmt->bindParam(1, $this->id);
-
-    if ($stmt->execute()) {
+      // Primero, eliminamos las imágenes asociadas
       $this->deleteImagenes();
-      return true;
-    }
-    return false;
+  
+      // Luego, eliminamos las relaciones con los profesores
+      $this->deleteProfesores();
+  
+      // Finalmente, eliminamos el curso
+      $query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
+      $stmt = $this->conn->prepare($query);
+  
+      $this->id = htmlspecialchars(strip_tags($this->id));
+      $stmt->bindParam(1, $this->id);
+  
+      if ($stmt->execute()) {
+          return true;
+      }
+      return false;
   }
 
   public function getImagenPrincipal()
@@ -320,11 +333,21 @@ class Curso
     }
   }
 
+  // Eliminar las imágenes asociadas al curso
   private function deleteImagenes()
   {
-    $query = "DELETE FROM Imagenes WHERE seccion = 'Cursos' AND asociado_id = :asociado_id";
-    $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(":asociado_id", $this->id);
-    $stmt->execute();
+      $query = "DELETE FROM Imagenes WHERE seccion = 'Cursos' AND asociado_id = :asociado_id";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(":asociado_id", $this->id);
+      $stmt->execute();
+  }
+
+  // Eliminar los profesores asociados al curso
+  private function deleteProfesores()
+  {
+      $query = "DELETE FROM curso_maestro WHERE curso_id = :curso_id";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(":curso_id", $this->id);
+      $stmt->execute();
   }
 }
