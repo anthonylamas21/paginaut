@@ -79,12 +79,10 @@ export class InstalacionComponent implements OnInit {
         this.instalaciones = response.records.map((instalacion) => ({
           ...instalacion,
           titulo: instalacion.nombre,
-          imagen_principal: this.getImageUrl(
-            instalacion.imagen_principal || ''
-          ),
-          imagenes_generales: (instalacion.imagenes_generales || []).map(
-            (img: string) => this.getImageUrl(img)
-          ),
+          imagen_principal: this.getImageUrl(instalacion.imagen_principal || ''),
+          imagenes_generales: Array.isArray(instalacion.imagenes_generales)
+            ? instalacion.imagenes_generales.map((img: any) => this.getImageUrl(img))
+            : []
         }));
         this.filterInstalaciones();
       },
@@ -92,12 +90,27 @@ export class InstalacionComponent implements OnInit {
     });
   }
 
-  getImageUrl(relativePath: string): string {
-    if (relativePath && relativePath.startsWith('../')) {
-      return this.baseImageUrl + relativePath.substring(3);
+  getImageUrl(relativePath: string | object): string {
+    if (typeof relativePath === 'string') {
+      // Si ya comienza con la URL base, devuélvela tal cual
+      if (relativePath.startsWith(this.baseImageUrl)) {
+        return relativePath;
+      }
+      // Si comienza con '../', quita eso antes de añadir la URL base
+      if (relativePath.startsWith('../')) {
+        return this.baseImageUrl + relativePath.substring(3);
+      }
+      // En otros casos, simplemente añade la URL base
+      return this.baseImageUrl + relativePath;
+    } else if (typeof relativePath === 'object' && relativePath !== null) {
+      // Asume que el objeto tiene una propiedad 'ruta_imagen'
+      const ruta = (relativePath as any).ruta_imagen;
+      return this.getImageUrl(ruta); // Llama recursivamente con la ruta
     }
-    return this.baseImageUrl + relativePath;
+    return ''; // Retorna una cadena vacía si no se puede obtener la URL
   }
+
+
 
   filterInstalaciones(): void {
     this.filteredInstalaciones = this.instalaciones.filter(
@@ -352,10 +365,7 @@ export class InstalacionComponent implements OnInit {
     }
   }
 
-  openImageModal(
-    instalacion: Instalacion,
-    type: 'principal' | 'generales'
-  ): void {
+  openImageModal(instalacion: Instalacion, type: 'principal' | 'generales'): void {
     this.isImageModalOpen = true;
     this.currentImageIndex = 0;
     if (type === 'principal') {
@@ -372,7 +382,7 @@ export class InstalacionComponent implements OnInit {
   }
 
   getCurrentImage(): string {
-    return this.allImages[this.currentImageIndex];
+    return this.allImages[this.currentImageIndex] || '';
   }
 
   nextImage(): void {
