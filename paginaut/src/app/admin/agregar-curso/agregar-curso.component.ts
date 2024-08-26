@@ -62,7 +62,7 @@ export class AgregarCursoComponent implements OnInit {
       nombre: ['', [Validators.required, Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9 ]+$')]],
       descripcion: [['',Validators.required, Validators.maxLength(200)]],
       activo: [true],
-      imagenPrincipal: [null],  // Campo para la imagen principal
+      imagenPrincipal: [null, Validators.required],  // Campo para la imagen principal
       imagenesGenerales: [[]], 
     });
   }
