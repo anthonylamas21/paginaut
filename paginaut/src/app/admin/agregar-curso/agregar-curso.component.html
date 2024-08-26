@@ -21,7 +21,7 @@
                     </svg>
                 </button>
             </div>
-    
+
             <form [formGroup]="cursoForm" (ngSubmit)="onSubmit()" class="p-4 space-y-4">
                 <div class="space-y-4">
                     <div>
@@ -48,7 +48,7 @@
                             >
                           </p>
                     </div>
-    
+
                     <div>
                         <label for="descripcion" class="block text-sm font-medium text-gray-700">2. Descripción</label>
                         <input type="text" id="descripcion" formControlName="descripcion"
@@ -70,12 +70,12 @@
                             >
                           </p>
                     </div>
-    
+
                     <div>
                         <label for="profesor" class="block text-sm font-medium text-gray-700">3. Profesores</label>
                         <div class="grid grid-cols-5 gap-4">
                             <div *ngFor="let profesor of profesores">
-                              <div 
+                              <div
                                 [ngClass]="{
                                   'bg-[#04847C] text-white': isSelected(profesor.id),
                                   'bg-gray-200 text-gray-900': !isSelected(profesor.id)
@@ -85,9 +85,9 @@
                                 (mouseleave)="hideTooltip()"
                                 class="cursor-pointer flex items-center justify-center p-1 rounded-md transition-colors duration-300 h-12 w-full"
                               >
-                                <input 
-                                  type="checkbox" 
-                                  [value]="profesor.id" 
+                                <input
+                                  type="checkbox"
+                                  [value]="profesor.id"
                                   [checked]="isSelected(profesor.id)"
                                   class="hidden"
                                 />
@@ -112,7 +112,7 @@
                                 
                             </div>
                           </div>
-                          
+
                         <p *ngIf="isFieldInvalid('profesor')" class="mt-1 text-xs text-red-600">
                           {{ getErrorMessage('profesor') }}
                         </p>
@@ -128,7 +128,7 @@
                         <img *ngIf="imagenPrincipalPreview" [src]="imagenPrincipalPreview" alt="Preview"
                             class="mt-2 max-w-full h-auto rounded-lg">
                     </div>
-    
+
                     <div>
                         <label for="imagenesGenerales" class="block text-sm font-medium text-gray-700">5. Imágenes Complementarías (opcional)</label>
                         <input type="file" id="imagenesGenerales" multiple (change)="onFileChangeGenerales($event)" accept="image/*"
@@ -144,7 +144,7 @@
                         </div>
                     </div>
                 </div>
-    
+
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                     <button type="submit"
                     [disabled]="cursoForm.invalid"            

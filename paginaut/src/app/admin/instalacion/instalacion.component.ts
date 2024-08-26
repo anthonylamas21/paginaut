@@ -63,9 +63,10 @@ export class InstalacionComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.instalacionForm = this.fb.group({
-      titulo: ['', [Validators.required, Validators.maxLength(50)]],
-      resumen: ['', Validators.maxLength(200)],
+      titulo: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\s\-]+$/)]],
+      resumen: ['', [Validators.maxLength(200), Validators.pattern(/^[a-zA-Z0-9\s\-.,;:()]+$/)]],
       activo: [true],
+      imagen_principal: [null, Validators.required] // Validación para la imagen principal si es obligatoria
     });
   }
 
@@ -325,10 +326,12 @@ export class InstalacionComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imagenPrincipalPreview = e.target.result;
+        this.instalacionForm.get('imagen_principal')?.setValue(file); // Actualiza el valor del campo de imagen principal
       };
       reader.readAsDataURL(file);
     }
   }
+
 
   onFileChangeGenerales(event: any): void {
     const files = event.target.files;
