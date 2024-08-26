@@ -194,9 +194,9 @@ CREATE TABLE Taller (
 CREATE TABLE beca (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
-    descripcion VARCHAR(100) NOT NULL,
+    descripcion TEXT NOT NULL,
     archivo VARCHAR(255) NOT NULL,
-    tipo VARCHAR(50) NOT NULL,  
+    tipo VARCHAR(50) NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

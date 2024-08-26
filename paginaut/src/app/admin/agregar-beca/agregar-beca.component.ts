@@ -1,5 +1,12 @@
 import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { BecaService, Beca } from '../beca.service';
 import Swal from 'sweetalert2';
@@ -35,6 +42,22 @@ class TooltipManager {
   }
 }
 
+// Validador personalizado para impedir espacios en blanco
+function noWhitespaceValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    return isWhitespace ? { whitespace: true } : null;
+  };
+}
+
+// Validador para prevenir inyección de scripts
+function scriptInjectionValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const scriptPattern = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+    return scriptPattern.test(control.value) ? { scriptInjection: true } : null;
+  };
+}
+
 @Component({
   selector: 'app-agregar-beca',
   templateUrl: './agregar-beca.component.html',
@@ -64,10 +87,26 @@ export class AgregarBecaComponent implements OnInit {
     private renderer: Renderer2
   ) {
     this.becaForm = this.fb.group({
-      nombre: ['', [Validators.required, Validators.maxLength(50)]],
-      descripcion: ['', [Validators.required, Validators.maxLength(100)]],
-      tipo: ['', [Validators.required]], // Nuevo campo para tipo de beca
-      archivo: [''],
+      nombre: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(50),
+          noWhitespaceValidator(),
+          scriptInjectionValidator(),
+        ],
+      ],
+      descripcion: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(100),
+          noWhitespaceValidator(),
+          scriptInjectionValidator(),
+        ],
+      ],
+      tipo: ['', [Validators.required]],
+      archivo: ['', Validators.required],
     });
   }
 
@@ -105,14 +144,15 @@ export class AgregarBecaComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.becaForm.valid) {
+    if (this.becaForm.valid && (this.fileToUpload || this.currentFileName)) {
       const formData: FormData = new FormData();
       formData.append('nombre', this.becaForm.get('nombre')?.value);
       formData.append('descripcion', this.becaForm.get('descripcion')?.value);
-      formData.append('tipo', this.becaForm.get('tipo')?.value); // Añadir el tipo de beca
+      formData.append('tipo', this.becaForm.get('tipo')?.value);
+
       if (this.fileToUpload) {
         formData.append('archivo', this.fileToUpload, this.fileToUpload.name);
-      } else {
+      } else if (this.currentFileName) {
         formData.append('archivo', this.currentFileName);
       }
 
@@ -152,8 +192,19 @@ export class AgregarBecaComponent implements OnInit {
 
   onFileChange(event: any) {
     const file = event.target.files[0];
+    const maxSize = 2 * 1024 * 1024; // 2MB
     if (file && file.type === 'application/pdf') {
-      this.fileToUpload = file;
+      if (file.size <= maxSize) {
+        this.fileToUpload = file;
+        this.becaForm.get('archivo')?.setValue(file.name);
+      } else {
+        this.becaForm.get('archivo')?.setErrors({ fileSizeExceeded: true });
+        this.showToast(
+          'error',
+          'El archivo es demasiado grande. Máximo permitido: 2MB.'
+        );
+        this.fileToUpload = null;
+      }
     } else {
       this.becaForm.get('archivo')?.setErrors({ invalidFileType: true });
       this.showToast('error', 'Solo se permiten archivos en formato PDF.');
@@ -164,6 +215,15 @@ export class AgregarBecaComponent implements OnInit {
   validateInput(event: KeyboardEvent) {
     const allowedKeys = /^[a-zA-Z0-9\s.,]*$/; // Permitir letras, números, espacios, puntos y comas
     if (!allowedKeys.test(event.key)) {
+      event.preventDefault();
+    }
+  }
+
+  @HostListener('paste', ['$event'])
+  handlePaste(event: ClipboardEvent) {
+    const pastedData = event.clipboardData?.getData('text') || '';
+    const allowedPattern = /^[a-zA-Z0-9\s.,]*$/; // Permitir letras, números, espacios, puntos y comas
+    if (!allowedPattern.test(pastedData)) {
       event.preventDefault();
     }
   }
@@ -186,7 +246,8 @@ export class AgregarBecaComponent implements OnInit {
       this.becaForm.patchValue({
         nombre: beca.nombre,
         descripcion: beca.descripcion,
-        tipo: beca.tipo, // Set tipo value when editing
+        tipo: beca.tipo,
+        archivo: beca.archivo, // Mantener el archivo actual
       });
     } else {
       this.resetForm();
@@ -270,7 +331,7 @@ export class AgregarBecaComponent implements OnInit {
           formData.append('id', becaToUpdate.id!.toString());
           formData.append('nombre', becaToUpdate.nombre);
           formData.append('descripcion', becaToUpdate.descripcion);
-          formData.append('tipo', becaToUpdate.tipo); // Add tipo in reactivation
+          formData.append('tipo', becaToUpdate.tipo);
           formData.append('activo', 'true');
           this.becaService.updateBeca(formData).subscribe({
             next: (response: any) => {
