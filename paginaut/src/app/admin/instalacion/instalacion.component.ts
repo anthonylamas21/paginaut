@@ -63,7 +63,7 @@ export class InstalacionComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.instalacionForm = this.fb.group({
-      titulo: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\s\-]+$/)]],
+      titulo: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-ZÀ-ÿ0-9\s\-]+$/)]],
       resumen: ['', [Validators.maxLength(200), Validators.pattern(/^[a-zA-Z0-9\s\-.,;:()]+$/)]],
       activo: [true],
       imagen_principal: [null, Validators.required] // Validación para la imagen principal si es obligatoria
