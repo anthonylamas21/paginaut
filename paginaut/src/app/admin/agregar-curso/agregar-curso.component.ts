@@ -95,6 +95,7 @@ export class AgregarCursoComponent implements OnInit {
     return this.selectedProfesores.has(profesorId);
   }
 
+// Método para cargar los cursos desde el servicio
   loadCursos(): void {
     this.cursoService.obtenerCurso().subscribe({
       next: (response) => {
@@ -116,10 +117,25 @@ export class AgregarCursoComponent implements OnInit {
     return this.baseImageUrl + relativePath;
   }
 
-  filterCursos(): void {
-    this.filteredCursos = this.cursos.filter((curso) => curso.activo !== false);
-    this.papeleraCursos = this.cursos.filter((curso) => curso.activo === false);
-  }
+// Método para filtrar los cursos activos e inactivos
+filterCursos(): void {
+  this.filteredCursos = this.cursos.filter((curso) => curso.activo !== false);
+  this.papeleraCursos = this.cursos.filter((curso) => curso.activo === false);
+}
+
+// Método para filtrar los cursos en función de la búsqueda global
+filterGlobal(event: any): void {
+  const searchValue = event.target.value.toLowerCase();
+  this.filteredCursos = this.cursos.filter(
+    (curso) =>
+      curso.activo === true &&  // Asegúrate de que solo se incluyan los cursos activos
+      (
+        curso.nombre.toLowerCase().includes(searchValue) ||
+        curso.descripcion.toLowerCase().includes(searchValue) ||
+        (curso.fecha_publicacion?.toLowerCase().includes(searchValue) ?? false)
+      )
+  );
+}
 
   openModal(curso?: Curso): void {
     this.isModalOpen = true;
@@ -353,15 +369,6 @@ guardarProfesores(cursoId: number): void {
           },
         });
       }
-    );
-  }
-
-  filterGlobal(event: any): void {
-    const searchValue = event.target.value.toLowerCase();
-    this.filteredCursos = this.cursos.filter(
-      (curso) =>
-        (curso.nombre && curso.nombre.toLowerCase().includes(searchValue)) ||
-        curso.fecha_publicacion.toLowerCase().includes(searchValue)
     );
   }
 
