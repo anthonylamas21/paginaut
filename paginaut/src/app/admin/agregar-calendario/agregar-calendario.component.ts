@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -83,6 +83,7 @@ function scriptInjectionValidator(): ValidatorFn {
   styleUrls: ['./agregar-calendario.component.css'],
 })
 export class AgregarCalendarioComponent implements OnInit {
+  @ViewChild('archivoInput') archivoInput!: ElementRef;
   calendarioForm: FormGroup;
   errorMessage: string = '';
   successMessage: string = '';
@@ -209,6 +210,11 @@ export class AgregarCalendarioComponent implements OnInit {
     this.currentCalendario = undefined;
     this.currentFileName = '';
     this.fileToUpload = null;
+
+    // Resetear el input de archivo manualmente
+    if (this.archivoInput) {
+      this.archivoInput.nativeElement.value = '';
+    }
   }
 
   openModal(calendario?: Calendario) {

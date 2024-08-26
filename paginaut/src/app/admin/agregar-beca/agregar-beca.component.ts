@@ -1,4 +1,11 @@
-import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnInit,
+  Renderer2,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -64,6 +71,7 @@ function scriptInjectionValidator(): ValidatorFn {
   styleUrls: ['./agregar-beca.component.css'],
 })
 export class AgregarBecaComponent implements OnInit {
+  @ViewChild('archivoInput') archivoInput!: ElementRef;
   becaForm: FormGroup;
   errorMessage: string = '';
   successMessage: string = '';
@@ -236,6 +244,11 @@ export class AgregarBecaComponent implements OnInit {
     this.currentBeca = undefined;
     this.currentFileName = '';
     this.fileToUpload = null;
+
+    // Resetear el input de archivo manualmente
+    if (this.archivoInput) {
+      this.archivoInput.nativeElement.value = '';
+    }
   }
 
   openModal(beca?: Beca) {

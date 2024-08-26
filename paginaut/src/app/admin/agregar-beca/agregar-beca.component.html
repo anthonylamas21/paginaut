@@ -111,15 +111,33 @@
               <span *ngIf="becaForm.get('nombre')?.errors?.['required']">
                 El nombre de la beca es requerido.
               </span>
-              <span *ngIf="becaForm.get('nombre')?.errors?.['maxlength']">
-                El nombre de la beca no puede tener más de 50 caracteres.
-              </span>
-              <span *ngIf="becaForm.get('nombre')?.errors?.['whitespace']">
+              <span
+                *ngIf="
+                !becaForm.get('nombre')?.errors?.['required'] &&
+                becaForm.get('nombre')?.errors?.['whitespace']
+              "
+              >
                 El nombre de la beca no puede estar vacío o contener solo
                 espacios en blanco.
               </span>
-              <span *ngIf="becaForm.get('nombre')?.errors?.['scriptInjection']">
+              <span
+                *ngIf="
+                !becaForm.get('nombre')?.errors?.['required'] &&
+                !becaForm.get('nombre')?.errors?.['whitespace'] &&
+                becaForm.get('nombre')?.errors?.['scriptInjection']
+              "
+              >
                 El nombre de la beca contiene caracteres no permitidos.
+              </span>
+              <span
+                *ngIf="
+                !becaForm.get('nombre')?.errors?.['required'] &&
+                !becaForm.get('nombre')?.errors?.['whitespace'] &&
+                !becaForm.get('nombre')?.errors?.['scriptInjection'] &&
+                becaForm.get('nombre')?.errors?.['maxlength']
+              "
+              >
+                El nombre de la beca no puede tener más de 50 caracteres.
               </span>
             </p>
           </div>
@@ -210,6 +228,7 @@
             <input
               type="file"
               id="archivo"
+              #archivoInput
               (change)="onFileChange($event)"
               class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
               accept=".pdf"
