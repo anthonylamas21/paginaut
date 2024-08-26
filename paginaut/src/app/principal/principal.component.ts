@@ -17,13 +17,16 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
   @ViewChild('noticiasSection') noticiasSection!: ElementRef;
   @ViewChild('recorridoSection') recorridoSection!: ElementRef;
   @ViewChild('logosUl') logosUl!: ElementRef;
-  
+
   private secretKey = 'X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg'; // Usa una clave segura en producción
   eventosRecientes: Evento[] = [];
   noticias: Noticia[] = [];
   noticiasVisibles: Noticia[] = [];
+  eventosVisibles: Evento[] = [];
   cantidadInicial = 3;
   incremento = 3;
+  cantidadInicialEvento = 4; // Mostrar los primeros 4 eventos después del principal
+  incrementoEvento = 4;
 
   encryptedToken: string | null;
   encryptedRol: string | null;
@@ -118,17 +121,42 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
 
   cargarEventosRecientes(): void {
     this.eventoService.obtenerEventosRecientes().subscribe({
-      next: (eventos) => {
-        this.eventosRecientes = eventos.map(evento => ({
-          ...evento,
-          imagen_principal: this.getImageUrl(evento.imagen_principal || ''),
-          imagenes_generales: (evento.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
-        }));
-        //console.log(this.eventosRecientes)
-      },
-      error: (error) => console.error(error)
+        next: (eventos) => {
+            this.eventosRecientes = eventos.map(evento => ({
+                ...evento,
+                imagen_principal: this.getImageUrl(evento.imagen_principal || ''),
+                imagenes_generales: (evento.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
+            }));
+
+            // Inicializar eventosVisibles con los primeros 4 eventos adicionales
+            if (this.eventosRecientes.length > 1) {
+                this.eventosVisibles = this.eventosRecientes.slice(1, this.cantidadInicialEvento + 1);
+            } else {
+                this.eventosVisibles = [];
+            }
+        },
+        error: (error) => console.error(error)
     });
+}
+verMasEventos(): void {
+  const nuevaCantidad = this.eventosVisibles.length + this.incrementoEvento;
+
+  if (nuevaCantidad <= this.eventosRecientes.length - 1) {
+      this.eventosVisibles = this.eventosRecientes.slice(1, nuevaCantidad + 1);
+  } else {
+      this.eventosVisibles = this.eventosRecientes.slice(1, this.eventosRecientes.length);
   }
+}
+
+verMenosEventos(): void {
+  const nuevaCantidad = this.eventosVisibles.length - this.incrementoEvento;
+
+  if (nuevaCantidad >= this.cantidadInicialEvento) {
+      this.eventosVisibles = this.eventosRecientes.slice(1, nuevaCantidad + 1);
+  } else {
+      this.eventosVisibles = this.eventosRecientes.slice(1, this.cantidadInicialEvento + 1);
+  }
+}
 
   cargarNoticiasActivas(): void {
     this.noticiaService.obtenerNoticiasActivas().subscribe({
@@ -154,7 +182,27 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
 
   verMasNoticias(): void {
     const nuevaCantidad = this.noticiasVisibles.length + this.incremento;
-    this.noticiasVisibles = this.noticias.slice(0, nuevaCantidad);
+
+    // Asegúrate de no intentar mostrar más noticias de las que existen
+    if (nuevaCantidad <= this.noticias.length) {
+      this.noticiasVisibles = this.noticias.slice(0, nuevaCantidad);
+    } else {
+      this.noticiasVisibles = this.noticias.slice(0, this.noticias.length);
+    }
+
+    // Si ya se mostraron todas las noticias, no se debe mostrar más el botón "Ver más"
+    if (this.noticiasVisibles.length === this.noticias.length) {
+      // No hacer nada, porque el botón "Ver más" ya no aparecerá si se han mostrado todas las noticias
+    }
+  }
+  verMenosNoticias(): void {
+    const nuevaCantidad = this.noticiasVisibles.length - this.incremento;
+
+    if (nuevaCantidad >= this.cantidadInicial) {
+      this.noticiasVisibles = this.noticias.slice(0, nuevaCantidad);
+    } else {
+      this.noticiasVisibles = this.noticias.slice(0, this.cantidadInicial);
+    }
   }
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
@@ -188,8 +236,8 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
   }
 
   setSliceValue(width: number) {
-    this.sliceValue = Math.floor(width / 15); 
-    this.sliceValue = Math.min(Math.max(this.sliceValue, 20), 400); 
+    this.sliceValue = Math.floor(width / 15);
+    this.sliceValue = Math.min(Math.max(this.sliceValue, 20), 400);
   }
   //Fin de recorte de informacion de noticias
 
@@ -212,7 +260,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
     }, {
       threshold: 0.1
     });
-  
+
     // Observar los elementos
     [
       this.carrerasSection,

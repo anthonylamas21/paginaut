@@ -2,7 +2,7 @@
 <app-navbar></app-navbar>
 <p id="inicio"></p>
 <!-- Fin Navbar -->
- 
+
  <!-- Botón de desplazamiento -->
  <button id="scrollTopButton" (click)="scrollToSection('inicio')"
  class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
@@ -25,8 +25,8 @@
 
   <!-- Imagen con transición de movimiento -->
   <div class="absolute inset-x-20 bottom-0 flex justify-end items-end z-20">
-    <img class="h-[70vh] md:h-[80vh] object-contain transform translate-y-20 opacity-0 transition-transform transition-opacity duration-500 ease-out" 
-         src="./assets/img/PORTADA_AUN2.png" 
+    <img class="h-[70vh] md:h-[80vh] object-contain transform translate-y-20 opacity-0 transition-transform transition-opacity duration-500 ease-out"
+         src="./assets/img/PORTADA_AUN2.png"
          alt="University Students"
          onload="this.classList.remove('translate-y-20', 'opacity-0')">
   </div>
@@ -48,13 +48,13 @@
     <div class="text-center">
       <div class="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
         <ul #logosUl class="flex items-center justify-center md:justify-start space-x-10 animate-infinite-scroll transform transition-transform duration-500 ease-in-out">
-         
+
           <li *ngFor="let imagen of imagenes" class="flex-shrink-0 relative group">
             <a href="/carreras">
               <img [src]="imagen.src" [alt]="imagen.alt" class="w-56 h-36 object-cover shadow-lg rounded-md transform hover:scale-105 transition-transform duration-500 ease-out">
             </a>
           </li>
-         
+
         </ul>
       </div>
     </div>
@@ -112,37 +112,49 @@
       <p class="text-gray-600 text-lg">No hay eventos recientes disponibles en este momento. Por favor, vuelve a consultar más tarde.</p>
       </div>
    </div>
-  
 
-  <!-- Mostrar eventos si existen -->
-  <div *ngIf="eventosRecientes.length > 0" class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
-    <!-- Evento más reciente -->
-    <div class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300 flex flex-col">
-      <img [src]="eventosRecientes[0].imagen_principal" [alt]="eventosRecientes[0].titulo" class="w-full h-80 object-cover rounded-t-lg">
+
+<!-- Mostrar eventos si existen -->
+<div *ngIf="eventosRecientes.length > 0" class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
+  <!-- Evento más reciente -->
+  <div class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300 flex flex-col">
+    <img [src]="eventosRecientes[0].imagen_principal" [alt]="eventosRecientes[0].titulo" class="w-full h-80 object-cover rounded-t-lg">
+    <div class="p-6 flex-1 flex flex-col justify-between">
+      <div>
+        <h3 class="text-2xl font-bold text-[#043D3D]">{{ eventosRecientes[0].titulo | slice:0:sliceValue }}</h3>
+        <p class="mt-2 text-gray-600">{{ eventosRecientes[0].informacion_evento | slice:0:sliceValue }}.</p>
+      </div>
+      <a (click)="verEvento(eventosRecientes[0].id)" class="mt-4 text-[#04847C] hover:text-[#032D2D] font-bold cursor-pointer">Leer más</a>
+    </div>
+  </div>
+
+  <!-- Otros eventos recientes -->
+  <ng-container *ngFor="let evento of eventosVisibles">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 flex flex-col">
+      <img [src]="evento.imagen_principal" [alt]="evento.titulo" class="w-full h-32 object-cover rounded-t-lg">
       <div class="p-6 flex-1 flex flex-col justify-between">
         <div>
-          <h3 class="text-2xl font-bold text-[#043D3D]">{{ eventosRecientes[0].titulo | slice:0:sliceValue }}</h3>
-          <p class="mt-2 text-gray-600">{{ eventosRecientes[0].informacion_evento | slice:0:sliceValue }}.</p>
+          <h3 class="text-lg font-bold text-[#043D3D]">{{ evento.titulo | slice:0:sliceValue }}</h3>
+          <p class="text-gray-600">{{ evento.informacion_evento | slice:0:getDynamicSliceValue(evento.informacion_evento) }}.</p>
         </div>
-        <a (click)="verEvento(eventosRecientes[0].id)" class="mt-4 text-[#04847C] hover:text-[#032D2D] font-bold">Leer más</a>
+        <a (click)="verEvento(evento.id)" class="mt-2 text-[#04847C] hover:text-[#032D2D] font-bold cursor-pointer">Leer más</a>
       </div>
     </div>
+  </ng-container>
+</div>
 
-    <!-- Otros 4 eventos recientes -->
-    <ng-container *ngFor="let evento of eventosRecientes.slice(1,  5)">
-      <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 flex flex-col">
-        <img [src]="evento.imagen_principal" [alt]="evento.titulo" class="w-full h-32 object-cover rounded-t-lg">
-        <div class="p-6 flex-1 flex flex-col justify-between">
-          <div>
-            <h3 class="text-lg font-bold text-[#043D3D]">{{ evento.titulo | slice:0:sliceValue }}</h3>
-            <p class="text-gray-600">{{ evento.informacion_evento | slice:0:getDynamicSliceValue(evento.informacion_evento) }}.</p>
-          </div>
-          <a (click)="verEvento(evento.id)" class="mt-2 text-[#04847C] hover:text-[#032D2D] font-bold">Leer más</a>
-        </div>
-      </div>
-    </ng-container>
-  </div>
-</section>
+<!-- Botones de Ver más y Ver menos -->
+<div class="mt-8 text-center">
+  <button *ngIf="eventosVisibles.length < eventosRecientes.length - 1" (click)="verMasEventos()" class="bg-[#043D3D] hover:bg-[#032D2D] text-white font-bold py-3 px-6 rounded-full shadow-lg transition-colors duration-300">
+    Mostrar más eventos <i class="fa-solid fa-angle-down ml-2"></i>
+  </button>
+
+  <!-- Botón Ver menos -->
+  <button *ngIf="eventosVisibles.length > cantidadInicialEvento" (click)="verMenosEventos()" class="bg-[#043D3D] hover:bg-[#032D2D] text-white font-bold py-3 px-6 rounded-full shadow-lg transition-colors duration-300 mt-4">
+    Mostrar menos eventos <i class="fa-solid fa-angle-up ml-2"></i>
+  </button>
+</div>
+<br>
 
 
 <!-- Noticias -->
@@ -150,23 +162,23 @@
   <div class="container mx-auto text-center mb-8">
     <h2 class="text-4xl text-[#043D3D] font-bold uppercase tracking-wide animate-slideIn">Noticias</h2>
   </div>
-  
+
   <div class="container max-w-screen-lg mb-12 space-y-4">
 
     <!-- Iteración de noticias -->
     <div *ngFor="let noticia of noticiasVisibles" class="flex items-stretch bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 h-48">
-  
+
       <!-- Imagen de la noticia -->
       <div class="w-28 lg:w-32 flex-shrink-0">
         <img [src]="noticia.imagen_principal" [alt]="noticia.titulo" class="w-full h-full object-cover rounded-l-lg">
       </div>
-  
+
       <!-- Fecha de la noticia -->
       <div class="flex flex-col items-center justify-center bg-[#04847C] text-white w-20 p-2 text-center">
         <p class="text-lg sm:text-base font-bold">{{ noticia.fecha_publicacion | date:'dd' }}</p>
         <p class="text-lg sm:text-base capitalize">{{ noticia.fecha_publicacion | date:'MMMM yyyy' }}</p>
       </div>
-  
+
       <!-- Contenido de la noticia para pantallas grandes -->
       <div class="flex flex-col justify-between p-4 w-full hidden md:flex">
         <div>
@@ -174,7 +186,7 @@
           <p class="text-gray-600 text-base">{{ noticia.resumen | slice:0:sliceValue }}.</p>
         </div>
         <div class="text-right">
-          <a (click)="verNoticia(noticia.id)" class="text-[#04847C] hover:text-[#043D3D] font-semibold text-sm transition-colors duration-300">
+          <a (click)="verNoticia(noticia.id)" class="cursor-pointer text-[#04847C] hover:text-[#043D3D] font-semibold text-sm transition-colors duration-300">
             Leer más <i class="fa-solid fa-chevron-right ml-1"></i>
           </a>
         </div>
@@ -182,35 +194,41 @@
 
       <!-- Información y flecha (visible solo en pantallas pequeñas) -->
       <div class="flex flex-col justify-center p-4 w-full md:hidden">
-        <a (click)="verNoticia(noticia.id)" class="text-[#04847C] hover:text-[#043D3D] font-semibold text-sm transition-colors duration-300 flex items-center justify-end">
+        <a (click)="verNoticia(noticia.id)" class="cursor-pointer text-[#04847C] hover:text-[#043D3D] font-semibold text-sm transition-colors duration-300 flex items-center justify-end">
           <!-- Icono visible en todas las pantallas -->
           <i class="fa-solid fa-chevron-right text-2xl ml-1"></i>
         </a>
       </div>
-  
+
     </div>
     <!-- Fin de la iteración de noticias -->
-  
+
     <!-- Mensaje cuando no hay noticias -->
     <div *ngIf="noticiasVisibles.length === 0" class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg">
       <p class="text-gray-600 text-lg">No hay noticias recientes disponibles en este momento. Por favor, vuelve a consultar más tarde.</p>
     </div>
-  
-    <!-- Botón Ver más -->
-    <div *ngIf="noticiasVisibles.length < noticias.length" class="mt-8 text-center">
-      <button (click)="verMasNoticias()" class="bg-[#043D3D] hover:bg-[#032D2D] text-white font-bold py-3 px-6 rounded-full shadow-lg transition-colors duration-300">
+
+    <!-- Botón Ver más y Ver menos -->
+    <div class="mt-8 text-center">
+      <button *ngIf="noticiasVisibles.length < noticias.length" (click)="verMasNoticias()" class="bg-[#043D3D] hover:bg-[#032D2D] text-white font-bold py-3 px-6 rounded-full shadow-lg transition-colors duration-300">
         Mostrar más noticias <i class="fa-solid fa-angle-down ml-2"></i>
+      </button>
+
+      <button *ngIf="noticiasVisibles.length > cantidadInicial" (click)="verMenosNoticias()" class="bg-[#043D3D] hover:bg-[#032D2D] text-white font-bold py-3 px-6 rounded-full shadow-lg transition-colors duration-300 mt-4">
+        Mostrar menos noticias <i class="fa-solid fa-angle-up ml-2"></i>
       </button>
     </div>
   </div>
 </section>
+
+
 
 <!-- Recorrido Virtual -->
 <section #recorridoSection id="recorrido" class="py-16 px-16 bg-gray-100 opacity-0 translate-y-10 transition-all duration-1000 ease-out">
   <div class="container mx-auto text-center mb-8">
     <h2 class="text-4xl text-[#043D3D] font-bold uppercase tracking-wide animate-slideIn">Recorrido Virtual</h2>
   </div>
-  
+
   <div class="container mx-auto max-w-4xl bg-white p-8 rounded-lg shadow-lg transform hover:translate-y-1 transition duration-300">
     <div class="overflow-hidden mb-4">
       <a href="https://www.utdelacosta.edu.mx/recorrido_virtual/">
