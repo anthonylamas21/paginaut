@@ -73,7 +73,7 @@ export class AgregarCursoComponent implements OnInit {
   }
 
   loadProfesores(): void {
-    this.cursoService.GetProfesores().subscribe(
+    this.cursoService.ObtenerProfesoresActivos().subscribe(
       (res) => {
         this.profesores = res.records;
       },
@@ -569,5 +569,21 @@ removeImagenGeneral(index: number): void {
     if (event.key === ' ' && value.endsWith(' ')) {
       event.preventDefault();
     }
+  }
+
+  tooltipVisible = false;
+  selectedProfesor: any;
+  tooltipStyles = {};
+
+  // Método para mostrar el tooltip
+  showTooltip(profesorId: number) {
+    this.selectedProfesor = this.profesores.find(profesor => profesor.id === profesorId);
+    console.log('Ruta de la imagen:', this.selectedProfesor.foto);
+    this.tooltipVisible = true;
+  }
+
+  // Método para ocultar el tooltip
+  hideTooltip() {
+    this.tooltipVisible = false;
   }
 }

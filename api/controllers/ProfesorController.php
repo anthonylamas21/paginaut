@@ -121,6 +121,9 @@ switch ($request_method) {
         http_response_code(404);
         echo json_encode(array("message" => "Profesor no encontrado."));
       }
+    }elseif(isset($_GET['accion']) && $_GET['accion'] === 'getprofesores'){
+      echo json_encode(array("records" => $profesor->readProfesores()));
+      
     } else {
       echo json_encode(array("records" => $profesor->read()));
     }

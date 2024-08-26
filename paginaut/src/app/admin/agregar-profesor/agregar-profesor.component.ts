@@ -65,6 +65,7 @@ export class AgregarProfesorComponent implements OnInit {
   tipoProfesorError: string = '';
   fotoValida: boolean = false;
   isSubmitting: boolean = false; // Nueva bandera para prevenir doble envío
+  sinImagen?: "./src/assets/img/perfil_vacio.png";
 
   constructor(
     private fb: FormBuilder,

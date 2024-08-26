@@ -51,6 +51,8 @@
                                   'bg-gray-200 text-gray-900': !isSelected(profesor.id)
                                 }"
                                 (click)="toggleSelection(profesor.id)"
+                                (mouseenter)="showTooltip(profesor.id)"
+                                (mouseleave)="hideTooltip()"
                                 class="cursor-pointer flex items-center justify-center p-1 rounded-md transition-colors duration-300 h-12 w-full"
                               >
                                 <input 
@@ -63,13 +65,29 @@
                                   {{ profesor.nombre }} {{ profesor.apellido }}
                                 </label>
                               </div>
+
+                              <!-- Tooltip -->
+                              <div *ngIf="tooltipVisible && selectedProfesor?.id === profesor.id" class="absolute z-10 p-4 bg-white border rounded shadow-lg" [ngStyle]="tooltipStyles">
+                                <img 
+                                    [src]="profesor.foto ? (baseImageUrl + profesor.foto) : baseImageUrl+'/src/assets/img/perfil_vacio.png'" 
+                                    alt="{{ profesor.nombre }}" 
+                                    class="w-16 h-16 rounded-full mx-auto mb-2">
+                                <p class="text-sm font-medium">{{ profesor.nombre }} {{ profesor.apellido }}</p>
+                                <p class="text-xs text-gray-600">Correo: {{ profesor.correo }}</p>
+                                <p class="text-xs text-gray-600">Teléfono: {{ profesor.telefono }}</p>
+                                <p class="text-xs text-gray-600">Especialidad: {{ profesor.especialidad }}</p>
+                                <p class="text-xs text-gray-600">Grado: {{ profesor.grado_academico }}</p>
+                                <p class="text-xs text-gray-600">Experiencia: {{ profesor.experiencia }} años</p>
+                            </div>
+                            
+                                
                             </div>
                           </div>
                           
                         <p *ngIf="isFieldInvalid('profesor')" class="mt-1 text-xs text-red-600">
                           {{ getErrorMessage('profesor') }}
                         </p>
-                      </div>
+                    </div>
                       
                       
                       
@@ -334,7 +352,7 @@
                                                         <div
                                                             class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                                             <div
-                                                                class="text-green-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                                                class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
                                                                 <i class="fa fa-check" aria-hidden="true"></i>
                                                                 <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
                                                                     role="tooltip">
@@ -477,7 +495,7 @@
                                                         <div
                                                             class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                                             <div
-                                                                class="text-green-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                                                class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
                                                                 <i class="fa-solid fa-arrow-rotate-left"
                                                                     aria-hidden="true"></i>
                                                                 <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"

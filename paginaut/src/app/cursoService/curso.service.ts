@@ -109,7 +109,9 @@ export class CursoService {
     return this.http.get<any>(this.apiUrlProfe);
   }
 
-
+  ObtenerProfesoresActivos(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrlProfe}?accion=getprofesores`);
+  }
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';

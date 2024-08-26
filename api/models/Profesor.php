@@ -51,7 +51,7 @@ class Profesor
     return false;
   }
 
-  function read()
+  function readProfesores()
   {
       $query = "SELECT * FROM " . $this->table_name . " WHERE activo = :activo";
       $stmt = $this->conn->prepare($query);
@@ -63,7 +63,14 @@ class Profesor
       $stmt->execute();
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
-  
+
+  function read()
+  {
+    $query = "SELECT * FROM " . $this->table_name;
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
 
   function readOne()
   {
