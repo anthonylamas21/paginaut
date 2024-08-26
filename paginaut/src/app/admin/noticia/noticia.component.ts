@@ -77,20 +77,28 @@ export class NoticiaComponent implements OnInit, OnDestroy {
   isDetailsModalOpen = false;
   selectedNoticia: Noticia | null = null;
   private unsubscribe$ = new Subject<void>();
+  minDate: string;
+  maxDate: string;
 
   constructor(
     private noticiaService: NoticiaService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {
+    const currentYear = new Date().getFullYear();
+    this.minDate = new Date(currentYear, 0, 1).toISOString().split('T')[0];  // 1 de enero del año actual
+    this.maxDate = new Date(currentYear, 11, 31).toISOString().split('T')[0]; // 31 de diciembre del año actual
+
     this.noticiaForm = this.fb.group({
-      titulo: ['', [Validators.required, Validators.maxLength(50)]],
-      resumen: ['', [Validators.required, Validators.maxLength(200)]],
-      informacion_noticia: ['', Validators.required],
+      titulo: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\s\-]+$/)]],
+      resumen: ['', [Validators.required, Validators.maxLength(200), Validators.pattern(/^[a-zA-Z0-9\s\-.,;:()]+$/)]],
+      informacion_noticia: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\s\-.,;:()]+$/)]],
       activo: [true],
-      lugar_noticia: ['', [Validators.required, Validators.maxLength(50)]],
-      autor: ['', [Validators.required, Validators.maxLength(50)]],
-      fecha_publicacion: ['', Validators.required]
+      lugar_noticia: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\s\-]+$/)]],
+      autor: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\s\-]+$/)]],
+      fecha_publicacion: ['', Validators.required],
+      imagen_principal: [null, Validators.required] // Validación para la imagen principal
     });
+
   }
 
   ngOnInit(): void {
@@ -324,10 +332,12 @@ export class NoticiaComponent implements OnInit, OnDestroy {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imagenPrincipalPreview = e.target.result;
+        this.noticiaForm.get('imagen_principal')?.setValue(file); // Actualiza el control de la imagen principal
       };
       reader.readAsDataURL(file);
     }
   }
+
 
   onFileChangeGenerales(event: any): void {
     const files = event.target.files;
@@ -405,10 +415,11 @@ export class NoticiaComponent implements OnInit, OnDestroy {
       return `Máximo ${field.errors['maxlength'].requiredLength} caracteres.`;
     }
     if (field?.errors?.['pattern']) {
-      return 'Formato no válido. Solo se permiten letras, números y espacios.';
+      return 'Formato no válido. Solo se permiten letras, números y algunos caracteres especiales.';
     }
     return '';
   }
+
 
   private updateNoticiasArray(noticia: Noticia): void {
     const index = this.noticias.findIndex(n => n.id === noticia.id);

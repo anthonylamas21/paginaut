@@ -12,7 +12,7 @@
         </svg>
       </li>
       <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate" aria-current="page">
-          Noticias 
+          Noticias
         </li>
     </ol>
 </div>
@@ -80,7 +80,7 @@
           </div>
           <div>
             <label for="fecha_publicacion" class="block text-sm font-medium text-gray-700">Fecha de Publicación</label>
-            <input type="date" id="fecha_publicacion" formControlName="fecha_publicacion" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
+            <input type="date" id="fecha_publicacion" formControlName="fecha_publicacion" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"  [min]="minDate" [max]="maxDate" />
             <p *ngIf="isFieldInvalid('fecha_publicacion')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('fecha_publicacion') }}</p>
           </div>
         </div>
@@ -110,12 +110,13 @@
 
     <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse sticky bottom-0">
       <button type="submit"
-      [disabled]="!isFormValid() || isLoading"
+      [disabled]="!noticiaForm.valid || isLoading"
       (click)="onSubmit()"
       class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm"
-      [ngClass]="{'opacity-50 cursor-not-allowed': !isFormValid() || isLoading}">
-{{ isLoading ? 'Procesando...' : (currentNoticiaId ? 'Actualizar' : 'Agregar Noticia') }}
-</button>
+      [ngClass]="{'opacity-50 cursor-not-allowed': !noticiaForm.valid || isLoading}">
+      {{ isLoading ? 'Procesando...' : (currentNoticiaId ? 'Actualizar' : 'Agregar Noticia') }}
+    </button>
+
       <button type="button" (click)="closeModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
         Cancelar
       </button>

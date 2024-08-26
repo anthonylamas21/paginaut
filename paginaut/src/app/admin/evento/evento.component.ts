@@ -92,16 +92,17 @@ export class EventoComponent implements OnInit,  OnDestroy {
       this.minTimeInicio = this.getCurrentTime();
       this.minTimeFin = this.minTimeInicio;
       this.eventoForm = this.fb.group({
-        titulo: ['', [Validators.required, Validators.maxLength(50)]],
-        informacion_evento: ['', Validators.required],
+        titulo: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\s\-]+$/)]],
+        informacion_evento: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\s\-.,;:()]+$/)]],
         activo: [true],
-        lugar_evento: ['', [Validators.required, Validators.maxLength(50)]],
+        lugar_evento: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\s\-]+$/)]],
         fecha_inicio: ['', [Validators.required]],
         fecha_fin: ['', [Validators.required]],
         hora_inicio: ['', [Validators.required]],
         hora_fin: ['', [Validators.required]],
-        es_curso: [null, Validators.required], // Inicia con null para representar "Selecciona una opción"
-        curso_id: [null], // Nuevo campo para el ID del curso, opcional
+        es_curso: [null, Validators.required],
+        curso_id: [null],
+        imagen_principal: [null, Validators.required]
       }, { validators: this.fechaHoraValidator() });
     }
 
@@ -147,20 +148,19 @@ export class EventoComponent implements OnInit,  OnDestroy {
 
   loadEventos(): void {
     this.eventoService.obtenerEventos().subscribe({
-      next: (response) => {
-        this.eventos = response.records.map((evento) => ({
-          ...evento,
-          imagen_principal: this.getImageUrl(evento.imagen_principal || ''),
-          imagenes_generales: (evento.imagenes_generales || []).map(
-            (img: string) => this.getImageUrl(img)
-          ),
-          archivos: evento.archivos || [],
-        }));
-        this.filterEventos();
-      },
-      error: (error) => console.error('Error al cargar eventos:', error),
+        next: (response) => {
+            this.eventos = response.records.map(evento => ({
+                ...evento,
+                imagen_principal: this.getImageUrl(evento.imagen_principal || ''),
+                imagenes_generales: (evento.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
+            }));
+            this.filterEventos(); // Esto filtra o realiza otras operaciones necesarias
+        },
+        error: (error) => console.error('Error al cargar eventos:', error)
     });
-  }
+}
+
+
 
   getImageUrl(relativePath: string): string {
     if (relativePath && relativePath.startsWith('../')) {
@@ -350,6 +350,7 @@ export class EventoComponent implements OnInit,  OnDestroy {
 
 
 
+
   isFormValid(): boolean {
     return this.eventoForm.valid;
   }
@@ -439,10 +440,12 @@ export class EventoComponent implements OnInit,  OnDestroy {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imagenPrincipalPreview = e.target.result;
+        this.eventoForm.get('imagen_principal')?.setValue(file); // Actualiza el control de la imagen principal
       };
       reader.readAsDataURL(file);
     }
   }
+
 
   onFileChangeGenerales(event: any): void {
     const files = event.target.files;
