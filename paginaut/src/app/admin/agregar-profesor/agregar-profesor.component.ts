@@ -95,7 +95,7 @@ export class AgregarProfesorComponent implements OnInit {
       
       especialidad: ['', [Validators.required, Validators.maxLength(100)]],
       grado_academico: ['', [Validators.required, Validators.maxLength(100)]],
-      experiencia: ['', [Validators.required]],
+      experiencia: ['', [Validators.required, Validators.pattern(/^[0-9]{1,2}$/)]],
       foto: [''],
       tipoTiempoCompleto: [false],
       tipoAsignatura: [false],
