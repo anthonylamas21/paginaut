@@ -389,9 +389,7 @@
           <button
             type="submit"
             [disabled]="profesorForm.invalid || tipoProfesorError || isSubmitting"
-            (click)="onSubmit()"
-            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm"
-          >
+            [ngClass]="{'opacity-50 cursor-not-allowed': profesorForm.invalid}"            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm">
             {{ currentProfesorId ? "Actualizar Profesor" : "Agregar Profesor" }}
           </button>
 
