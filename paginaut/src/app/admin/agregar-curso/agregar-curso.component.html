@@ -45,26 +45,27 @@
                         <label for="profesor" class="block text-sm font-medium text-gray-700">Profesores</label>
                         <div class="grid grid-cols-5 gap-4">
                             <div *ngFor="let profesor of profesores">
-                                <div 
-                                  [ngClass]="{
-                                    'bg-[#04847C] text-white': isSelected(profesor.id),
-                                    'bg-gray-200 text-gray-900': !isSelected(profesor.id)
-                                  }"
-                                  (click)="toggleSelection(profesor.id)"
-                                  class="cursor-pointer flex items-center justify-center p-1 rounded-md transition-colors duration-300"
-                                >
-                                  <input 
-                                    type="checkbox" 
-                                    [value]="profesor.id" 
-                                    [checked]="isSelected(profesor.id)"
-                                    class="hidden"
-                                  />
-                                  <label class="text-sm">{{ profesor.nombre }} {{ profesor.apellido }}</label>
-                                </div>
+                              <div 
+                                [ngClass]="{
+                                  'bg-[#04847C] text-white': isSelected(profesor.id),
+                                  'bg-gray-200 text-gray-900': !isSelected(profesor.id)
+                                }"
+                                (click)="toggleSelection(profesor.id)"
+                                class="cursor-pointer flex items-center justify-center p-1 rounded-md transition-colors duration-300 h-12 w-full"
+                              >
+                                <input 
+                                  type="checkbox" 
+                                  [value]="profesor.id" 
+                                  [checked]="isSelected(profesor.id)"
+                                  class="hidden"
+                                />
+                                <label class="text-sm truncate w-full text-center">
+                                  {{ profesor.nombre }} {{ profesor.apellido }}
+                                </label>
                               </div>
-                              
-                              
-                        </div>
+                            </div>
+                          </div>
+                          
                         <p *ngIf="isFieldInvalid('profesor')" class="mt-1 text-xs text-red-600">
                           {{ getErrorMessage('profesor') }}
                         </p>

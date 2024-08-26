@@ -53,11 +53,17 @@ class Profesor
 
   function read()
   {
-    $query = "SELECT * FROM " . $this->table_name;
-    $stmt = $this->conn->prepare($query);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $query = "SELECT * FROM " . $this->table_name . " WHERE activo = :activo";
+      $stmt = $this->conn->prepare($query);
+  
+      // Si `activo` es un campo BOOLEAN en la base de datos, puedes pasar el valor `true` directamente.
+      $activo = true;
+      $stmt->bindParam(":activo", $activo, PDO::PARAM_BOOL);
+  
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
+  
 
   function readOne()
   {

@@ -83,12 +83,13 @@
         [formGroup]="becaForm"
         (ngSubmit)="onSubmit()"
         class="p-4 space-y-4"
+        (paste)="handlePaste($event)"
       >
         <div class="space-y-4">
           <div>
-            <label for="nombre" class="block text-sm font-medium text-gray-700"
-              >Nombre de la Beca</label
-            >
+            <label for="nombre" class="block text-sm font-medium text-gray-700">
+              Nombre de la Beca
+            </label>
             <input
               type="text"
               id="nombre"
@@ -107,12 +108,37 @@
               "
               class="mt-1 text-xs text-red-600"
             >
-              <span *ngIf="becaForm.get('nombre')?.errors?.['required']"
-                >El nombre de la beca es requerido.</span
+              <span *ngIf="becaForm.get('nombre')?.errors?.['required']">
+                El nombre de la beca es requerido.
+              </span>
+              <span
+                *ngIf="
+                !becaForm.get('nombre')?.errors?.['required'] &&
+                becaForm.get('nombre')?.errors?.['whitespace']
+              "
               >
-              <span *ngIf="becaForm.get('nombre')?.errors?.['maxlength']"
-                >El nombre de la beca no puede tener más de 50 caracteres.</span
+                El nombre de la beca no puede estar vacío o contener solo
+                espacios en blanco.
+              </span>
+              <span
+                *ngIf="
+                !becaForm.get('nombre')?.errors?.['required'] &&
+                !becaForm.get('nombre')?.errors?.['whitespace'] &&
+                becaForm.get('nombre')?.errors?.['scriptInjection']
+              "
               >
+                El nombre de la beca contiene caracteres no permitidos.
+              </span>
+              <span
+                *ngIf="
+                !becaForm.get('nombre')?.errors?.['required'] &&
+                !becaForm.get('nombre')?.errors?.['whitespace'] &&
+                !becaForm.get('nombre')?.errors?.['scriptInjection'] &&
+                becaForm.get('nombre')?.errors?.['maxlength']
+              "
+              >
+                El nombre de la beca no puede tener más de 50 caracteres.
+              </span>
             </p>
           </div>
 
@@ -120,18 +146,17 @@
             <label
               for="descripcion"
               class="block text-sm font-medium text-gray-700"
-              >Descripción de la beca</label
             >
-            <input
-              type="text"
+              Descripción de la beca
+            </label>
+            <textarea
               id="descripcion"
               formControlName="descripcion"
               class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
               placeholder="Descripción de la beca"
-              maxlength="100"
               required
               (keypress)="validateInput($event)"
-            />
+            ></textarea>
             <p
               *ngIf="
                 becaForm.get('descripcion')?.invalid &&
@@ -140,20 +165,34 @@
               "
               class="mt-1 text-xs text-red-600"
             >
-              <span *ngIf="becaForm.get('descripcion')?.errors?.['required']"
-                >La descripción de la beca es requerida.</span
+              <span *ngIf="becaForm.get('descripcion')?.errors?.['required']">
+                La descripción de la beca es requerida.
+              </span>
+              <span
+                *ngIf="
+                !becaForm.get('descripcion')?.errors?.['required'] &&
+                becaForm.get('descripcion')?.errors?.['whitespace']
+              "
               >
-              <span *ngIf="becaForm.get('descripcion')?.errors?.['maxlength']"
-                >La descripción de la beca no puede tener más de 100
-                caracteres.</span
+                La descripción de la beca no puede estar vacía o contener solo
+                espacios en blanco.
+              </span>
+              <span
+                *ngIf="
+                !becaForm.get('descripcion')?.errors?.['required'] &&
+                !becaForm.get('descripcion')?.errors?.['whitespace'] &&
+                becaForm.get('descripcion')?.errors?.['scriptInjection']
+              "
               >
+                La descripción de la beca contiene caracteres no permitidos.
+              </span>
             </p>
           </div>
 
           <div>
-            <label for="tipo" class="block text-sm font-medium text-gray-700"
-              >Tipo de Beca</label
-            >
+            <label for="tipo" class="block text-sm font-medium text-gray-700">
+              Tipo de Beca
+            </label>
             <select
               id="tipo"
               formControlName="tipo"
@@ -173,19 +212,23 @@
               "
               class="mt-1 text-xs text-red-600"
             >
-              <span *ngIf="becaForm.get('tipo')?.errors?.['required']"
-                >El tipo de beca es requerido.</span
-              >
+              <span *ngIf="becaForm.get('tipo')?.errors?.['required']">
+                El tipo de beca es requerido.
+              </span>
             </p>
           </div>
 
           <div>
-            <label for="archivo" class="block text-sm font-medium text-gray-700"
-              >Archivo PDF</label
+            <label
+              for="archivo"
+              class="block text-sm font-medium text-gray-700"
             >
+              Archivo PDF
+            </label>
             <input
               type="file"
               id="archivo"
+              #archivoInput
               (change)="onFileChange($event)"
               class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
               accept=".pdf"
@@ -199,12 +242,19 @@
               "
               class="mt-1 text-xs text-red-600"
             >
-              <span *ngIf="becaForm.get('archivo')?.errors?.['required']"
-                >El archivo es requerido.</span
+              <span *ngIf="becaForm.get('archivo')?.errors?.['required']">
+                El archivo es requerido.
+              </span>
+              <span
+                *ngIf="becaForm.get('archivo')?.errors?.['invalidFileType']"
               >
-              <span *ngIf="becaForm.get('archivo')?.errors?.['invalidFileType']"
-                >Solo se permiten archivos PDF.</span
+                Solo se permiten archivos PDF.
+              </span>
+              <span
+                *ngIf="becaForm.get('archivo')?.errors?.['fileSizeExceeded']"
               >
+                El archivo es demasiado grande. Máximo permitido: 2MB.
+              </span>
             </p>
           </div>
         </div>
@@ -213,7 +263,11 @@
       <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
         <button
           type="submit"
-          [disabled]="becaForm.invalid"
+          [disabled]="becaForm.invalid || (!fileToUpload && !currentFileName)"
+          [ngClass]="{
+            'opacity-50 cursor-not-allowed':
+              becaForm.invalid || (!fileToUpload && !currentFileName)
+          }"
           (click)="onSubmit()"
           class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm"
         >

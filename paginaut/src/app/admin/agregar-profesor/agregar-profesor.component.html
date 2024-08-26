@@ -84,7 +84,7 @@
         <div class="space-y-4">
           <div>
             <label for="nombre" class="block text-sm font-medium text-gray-700"
-              >Nombre</label
+              >1. Nombre</label
             >
             <input
               type="text"
@@ -117,7 +117,7 @@
             <label
               for="apellido"
               class="block text-sm font-medium text-gray-700"
-              >Apellido</label
+              >2. Apellido</label
             >
             <input
               type="text"
@@ -148,7 +148,7 @@
 
           <div>
             <label for="correo" class="block text-sm font-medium text-gray-700"
-              >Correo Electrónico</label
+              >3. Correo Electrónico</label
             >
             <input
               type="email"
@@ -181,7 +181,7 @@
             <label
               for="telefono"
               class="block text-sm font-medium text-gray-700"
-              >Teléfono</label
+              >4. Teléfono</label
             >
             <input
               type="text"
@@ -216,7 +216,7 @@
             <label
               for="especialidad"
               class="block text-sm font-medium text-gray-700"
-              >Especialidad</label
+              >5. Especialidad</label
             >
             <input
               type="text"
@@ -251,7 +251,7 @@
             <label
               for="grado_academico"
               class="block text-sm font-medium text-gray-700"
-              >Grado Académico</label
+              >6. Grado Académico</label
             >
             <select
             id="grado_academico"
@@ -287,7 +287,7 @@
             <label
               for="experiencia"
               class="block text-sm font-medium text-gray-700"
-              >Experiencia</label
+              >7. Experiencia</label
             >
             <input
               type="text"
@@ -296,7 +296,7 @@
               class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
               placeholder="Años de Experiencia"
               required
-              (keypress)="validateInput($event, 'number')"
+              
             />
             <p
               *ngIf="
@@ -310,12 +310,16 @@
                 *ngIf="profesorForm.get('experiencia')?.errors?.['required']"
                 >La experiencia es requerida.</span
               >
+              <span *ngIf="profesorForm.get('experiencia')?.errors?.['pattern']">
+                Solo se permiten números de 1 o 2 dígitos.
+              </span
+              >
             </p>
           </div>
 
           <div>
             <label for="foto" class="block text-sm font-medium text-gray-700">
-              Foto del Profesor
+              8. Foto del Profesor
             </label>
             <input
               type="file"
@@ -345,7 +349,7 @@
               for="tipo_profesor"
               class="block text-sm font-medium text-gray-700"
             >
-              Tipo de Profesor
+              9. Tipo de Profesor
             </label>
             <div class="flex flex-col space-y-2">
               <label class="inline-flex items-center">
@@ -385,9 +389,7 @@
           <button
             type="submit"
             [disabled]="profesorForm.invalid || tipoProfesorError || isSubmitting"
-            (click)="onSubmit()"
-            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm"
-          >
+            [ngClass]="{'opacity-50 cursor-not-allowed': profesorForm.invalid}"            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm">
             {{ currentProfesorId ? "Actualizar Profesor" : "Agregar Profesor" }}
           </button>
 
