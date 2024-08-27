@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { Router, NavigationEnd  } from '@angular/router';
 import { BecaService, Beca } from '../admin/beca.service';
-import * as CryptoJS from 'crypto-js';
+import Hashids from 'hashids';
 
 @Component({
   selector: 'app-becas',
@@ -13,7 +13,7 @@ export class BecasComponent implements OnInit, AfterViewInit {
   becasInternas: Beca[] = [];
   becasExternas: Beca[] = [];
   error: string | null = null;
-  private secretKey: string = 'X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg';
+  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 10);
 
   constructor(
     private becaService: BecaService,
@@ -41,7 +41,6 @@ export class BecasComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Asegurarse de que el navbar se coloree después de que la vista se haya inicializado
     setTimeout(() => {
       this.setNavbarColor();
       this.cdRef.detectChanges();
@@ -71,10 +70,10 @@ export class BecasComponent implements OnInit, AfterViewInit {
 
   verDetalleBeca(id: number | undefined): void {
     if (id !== undefined) {
-      const encryptedId = CryptoJS.AES.encrypt(id.toString(), this.secretKey).toString();
-      this.router.navigate(['/info-beca', encryptedId]);
+      const encryptedId = this.hashids.encode(id);
+      window.location.href = `/info-beca/${encryptedId}`;
     } else {
-      console.error('ID de beca no disponible');
+      //console.error('ID de instalación no disponible');
     }
   }
 
@@ -97,7 +96,7 @@ export class BecasComponent implements OnInit, AfterViewInit {
       this.renderer.setStyle(navbar, 'right', '0');
       this.renderer.setStyle(navbar, 'z-index', '1000');
     }
-    
+
     const button = document.getElementById('scrollTopButton');
     if (button) {
       this.renderer.addClass(button, 'hidden');

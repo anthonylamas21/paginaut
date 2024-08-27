@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, Renderer2, ChangeDetectorRef } from '
 import { ActivatedRoute } from '@angular/router';
 import { BecaService, Beca } from '../admin/beca.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import * as CryptoJS from 'crypto-js';
+import Hashids from 'hashids';
 
 @Component({
   selector: 'app-info-beca',
@@ -11,7 +11,7 @@ import * as CryptoJS from 'crypto-js';
 })
 export class InfoBecaComponent implements OnInit, AfterViewInit {
 
-  private secretKey: string = 'X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg';
+  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 10);
   idDecrypted: number | undefined;
 
   beca: Beca | null = null;
@@ -21,23 +21,21 @@ export class InfoBecaComponent implements OnInit, AfterViewInit {
   private baseUrl = 'http://localhost/paginaut/';
   isLoading = true;
 
-  constructor( 
+  constructor(
     private renderer: Renderer2,
     private route: ActivatedRoute,
     private becaService: BecaService,
     private sanitizer: DomSanitizer,
     private cdRef: ChangeDetectorRef
   ) {
-    // Desencriptar el ID en el constructor
     const encryptedId = this.route.snapshot.paramMap.get('id');
     if (encryptedId) {
-      const bytes = CryptoJS.AES.decrypt(encryptedId, this.secretKey);
-      this.idDecrypted = parseInt(bytes.toString(CryptoJS.enc.Utf8), 10);
+      this.idDecrypted = this.hashids.decode(encryptedId)[0] as number;
     } else {
       console.error('ID de beca no disponible');
     }
   }
-  
+
   ngOnInit(): void {
     this.cargarDetalleBeca();
     this.setNavbarColor();
@@ -62,7 +60,7 @@ export class InfoBecaComponent implements OnInit, AfterViewInit {
       this.renderer.setStyle(navbar, 'right', '0');
       this.renderer.setStyle(navbar, 'z-index', '1000');
     }
-    
+
     const button = document.getElementById('scrollTopButton');
     if (button) {
       this.renderer.addClass(button, 'hidden');

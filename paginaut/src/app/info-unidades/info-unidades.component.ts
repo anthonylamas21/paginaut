@@ -1,8 +1,7 @@
 import { Component, OnInit, AfterViewInit, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InstalacionService, Instalacion, InstalacionResponse } from '../instalacionService/instalacion.service';
-import * as CryptoJS from 'crypto-js';
-
+import Hashids from 'hashids';
 @Component({
   selector: 'app-info-unidades',
   templateUrl: './info-unidades.component.html',
@@ -10,7 +9,7 @@ import * as CryptoJS from 'crypto-js';
 })
 export class InfoUnidadesComponent implements OnInit, AfterViewInit {
 
-  private secretKey: string = 'X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg';
+  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 16);
   idDecrypted: number | undefined;
 
   isLoading = true;
@@ -30,26 +29,31 @@ export class InfoUnidadesComponent implements OnInit, AfterViewInit {
     // Desencriptar el ID en el constructor
     const encryptedId = this.route.snapshot.paramMap.get('id');
     if (encryptedId) {
-      const bytes = CryptoJS.AES.decrypt(encryptedId, this.secretKey);
-      this.idDecrypted = parseInt(bytes.toString(CryptoJS.enc.Utf8), 10);
+      try {
+        this.idDecrypted = this.hashids.decode(encryptedId)[0] as number;
+        if (!this.idDecrypted) {
+          throw new Error('ID no válido');
+        }
+      } catch (error) {
+        console.error('Error al desencriptar el ID:', error);
+        this.router.navigate(['/not-found']);
+      }
     } else {
-      console.error('ID de beca no disponible');
+      console.error('ID de instalación no disponible');
+      this.router.navigate(['/not-found']);
     }
   }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const encryptedId = params.get('id');
-
       if (encryptedId) {
         try {
-          const decryptedId = CryptoJS.AES.decrypt(encryptedId, this.secretKey).toString(CryptoJS.enc.Utf8);
-          const id = parseInt(decryptedId, 10);
-
-          if (isNaN(id)) {
+          const decryptedId = this.hashids.decode(encryptedId)[0] as number;
+          if (isNaN(decryptedId)) {
             this.redirectToNotFound();
           } else {
-            this.loadInstalacion(id);
+            this.loadInstalacion(decryptedId);
           }
         } catch (error) {
           this.redirectToNotFound();

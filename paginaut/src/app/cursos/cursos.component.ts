@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Curso, CursoService } from '../cursoService/curso.service';
 import { Router } from '@angular/router';
+import Hashids from 'hashids';
 
 @Component({
   selector: 'app-cursos',
@@ -8,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./cursos.component.css']
 })
 export class CursosComponent implements OnInit {
+  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 10);
   isLoading = true;
   searchTerm: string = '';  // Término de búsqueda ingresado por el usuario
   cursos: Curso[] = [];  // Arreglo de todos los cursos
@@ -20,50 +22,46 @@ export class CursosComponent implements OnInit {
     this.setNavbarColor();
   }
 
- // Método para cargar los cursos
-// Método para cargar los cursos
-loadCursos(): void {
-  this.cursoService.getCursos().subscribe({
-    next: (response: Curso[]) => {
-      this.cursos = response
-        .filter(curso => curso.activo) // Filtrar solo los cursos que están activos
-        .map(curso => ({
-          ...curso,
-          title: curso.nombre,
-          description: curso.descripcion,
-          image: curso.imagen_principal, 
-        }));
-      this.filteredCursos = this.cursos;
-      this.isLoading = false;
-    },
-    error: (error) => {
-      console.error('Error al cargar los cursos:', error);
-      this.isLoading = false;
-    },
-  });
-}
-
-
-recortarDescripcion(descripcion: string, maxLength: number = 100): string {
-  if (descripcion.length <= maxLength) {
-    return descripcion;
+  loadCursos(): void {
+    this.cursoService.getCursos().subscribe({
+      next: (response: Curso[]) => {
+        this.cursos = response
+          .filter(curso => curso.activo) // Filtrar solo los cursos que están activos
+          .map(curso => ({
+            ...curso,
+            title: curso.nombre,
+            description: curso.descripcion,
+            image: curso.imagen_principal, 
+          }));
+        this.filteredCursos = this.cursos;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error al cargar los cursos:', error);
+        this.isLoading = false;
+      },
+    });
   }
-  const trimmedText = descripcion.substring(0, maxLength);
-  const lastSpaceIndex = trimmedText.lastIndexOf(' ');
 
-  return lastSpaceIndex > 0 ? trimmedText.substring(0, lastSpaceIndex) + '...' : trimmedText + '...';
-}
+  recortarDescripcion(descripcion: string, maxLength: number = 100): string {
+    if (descripcion.length <= maxLength) {
+      return descripcion;
+    }
+    const trimmedText = descripcion.substring(0, maxLength);
+    const lastSpaceIndex = trimmedText.lastIndexOf(' ');
 
-verDetalleCurso(id: number | undefined): void {
-  //console.log("id", id)
-  if (id) {
-    window.location.href = '/info_curso/'+id;
-  } else {
-    console.error('ID de beca no disponible');
+    return lastSpaceIndex > 0 ? trimmedText.substring(0, lastSpaceIndex) + '...' : trimmedText + '...';
   }
-}
 
-  // Método para filtrar cursos basado en el término de búsqueda
+  verDetalleCurso(id: number | undefined): void {
+    if (id) {
+      const encryptedId = this.hashids.encode(id);
+      window.location.href = '/info_curso/' + encryptedId;
+    } else {
+      console.error('ID del curso no disponible');
+    }
+  }
+
   filterCursos(): void {
     this.filteredCursos = this.cursos.filter(curso => 
       curso.nombre.toLowerCase().includes(this.searchTerm.toLowerCase()) || 

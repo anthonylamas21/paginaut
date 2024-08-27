@@ -29,6 +29,7 @@
     "@preline/overlay": "^2.3.0",
     "@types/crypto-js": "^4.2.2",
     "crypto-js": "^4.2.0",
+    "hashids": "^2.3.0",
     "imagesloaded": "^5.0.0",
     "masonry-layout": "^4.2.2",
     "ngx-masonry": "^14.0.1",

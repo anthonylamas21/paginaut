@@ -1,8 +1,9 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CursoService, Curso } from '../cursoService/curso.service';
 import { Evento, EventoService } from '../evento.service';
 import { Profesor } from './../admin/profesor.service';
+import Hashids from 'hashids';
 
 @Component({
   selector: 'app-info-curso',
@@ -10,6 +11,7 @@ import { Profesor } from './../admin/profesor.service';
   styleUrls: ['./info-curso.component.css']
 })
 export class InfoCursoComponent implements OnInit {
+  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 10);
   curso: Curso | undefined;
   eventos: Evento[] = [];
   profesores: Profesor[] = []; // Inicializar como un array vacío
@@ -17,31 +19,45 @@ export class InfoCursoComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private cursoService: CursoService,
     private eventoService: EventoService
   ) {}
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
-      this.cursoService.obtenerCursoPorId(id).subscribe({
-        next: (curso) => {
-          this.curso = curso;
-          this.curso.imagenes_generales = this.curso.imagenes_generales || []; // Asegura que sea un array
-          this.isLoading = false;
-          this.cargarEventos(id);
-          this.ObtenerProfesoresPorCurso(id);
-        },
-        error: (error) => {
-          console.error('Error al cargar el curso:', error);
-          this.isLoading = false;
-        }
-      });
+    const encryptedId = this.route.snapshot.paramMap.get('id');
+    if (encryptedId) {
+      const id = this.hashids.decode(encryptedId)[0] as number;
+      if (id) {
+        this.cursoService.obtenerCursoPorId(id).subscribe({
+          next: (curso) => {
+            this.curso = curso;
+            this.curso.imagenes_generales = this.curso.imagenes_generales || []; // Asegura que sea un array
+            this.isLoading = false;
+            this.cargarEventos(id);
+            this.ObtenerProfesoresPorCurso(id);
+          },
+          error: (error) => {
+            //console.error('Error al cargar el curso:', error);
+            this.isLoading = false;
+            this.redirectToNotFound();
+          }
+        });
+      } else {
+        //console.error('ID decodificado no válido');
+        this.redirectToNotFound();
+      }
+    } else {
+      //console.error('ID encriptado no disponible');
+      this.redirectToNotFound();
     }
     this.setNavbarColor();
   }
 
-  
+  private redirectToNotFound(): void {
+    this.router.navigate(['/not-found']);
+  }
+
   private cargarEventos(cursoId: number): void {
     this.eventoService.obtenerEventosPorCursoId(cursoId).subscribe({
       next: (eventos) => {
@@ -75,7 +91,6 @@ export class InfoCursoComponent implements OnInit {
       }
     });
   }
-  
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
@@ -109,5 +124,4 @@ export class InfoCursoComponent implements OnInit {
     const baseImageUrl = 'http://localhost/paginaut/';
     return relativePath ? baseImageUrl + relativePath : baseImageUrl + 'paginaut/src/assets/img/perfil_vacio_2.png';
   }
-  
 }
