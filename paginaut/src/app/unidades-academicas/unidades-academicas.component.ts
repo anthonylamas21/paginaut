@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { InstalacionService, Instalacion, InstalacionResponse } from '../instalacionService/instalacion.service';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-unidades-academicas',
@@ -8,6 +9,7 @@ import { InstalacionService, Instalacion, InstalacionResponse } from '../instala
   styleUrls: ['./unidades-academicas.component.css']
 })
 export class UnidadesAcademicasComponent implements OnInit, AfterViewInit {
+  private secretKey: string = 'X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg';
   isLoading = true;
   instalaciones: Instalacion[] = [];
 
@@ -52,11 +54,13 @@ export class UnidadesAcademicasComponent implements OnInit, AfterViewInit {
 
   verGaleria(id: number | undefined): void {
     if (id !== undefined) {
-      this.router.navigate(['/info-unidades', id]);
+      const encryptedId = CryptoJS.AES.encrypt(id.toString(), this.secretKey).toString();
+      this.router.navigate(['/info-unidades', encryptedId]);
     } else {
-      //console.error('ID de instalación no disponible');
+      //console.error('ID de beca no disponible');
     }
   }
+  
 
   private setNavbarColor(): void {
     const navbar = document.getElementById('navbarAccion');

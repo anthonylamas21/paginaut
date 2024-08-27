@@ -119,7 +119,6 @@ const routes: Routes = [
   { path: 'acerca_de', component: AcercaDeComponent },
   { path: 'info_becas', component: InfoBecaComponent },
   { path: 'galeria', component: GaleriaComponent },
-  { path: 'agenda-admin', component: AgendaAdminComponent },
   { path: 'enviar-correo', component: PasswordResetComponent },
   { path: 'biblioteca', component: BibliotecaComponent },
   { path: 'admin/agregar-curso', component: AgregarCursoComponent, canActivate: [guardAuthGuard] },
@@ -166,11 +165,6 @@ const routes: Routes = [
   { path: 'info_horas_recreativas/ajedrez', component: AjedrezComponent },
 
   //Rutas Adminstrador
-  {
-    path: 'admin/navbar_admin',
-    component: NavbarAdminComponent,
-    canActivate: [guardAuthGuard],
-  },
   {
     path: 'admin/principal_admin',
     component: PrincipalAdminComponent,
