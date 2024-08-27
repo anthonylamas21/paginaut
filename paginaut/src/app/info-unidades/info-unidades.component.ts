@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, Renderer2, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { InstalacionService, Instalacion, InstalacionResponse } from '../instalacionService/instalacion.service';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-info-unidades',
@@ -8,6 +9,10 @@ import { InstalacionService, Instalacion, InstalacionResponse } from '../instala
   styleUrls: ['./info-unidades.component.css']
 })
 export class InfoUnidadesComponent implements OnInit, AfterViewInit {
+
+  private secretKey: string = 'X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg';
+  idDecrypted: number | undefined;
+
   isLoading = true;
   instalacion: Instalacion | null = null;
   groupedImages: { [key: string]: any[] } = {};
@@ -19,11 +24,44 @@ export class InfoUnidadesComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private instalacionService: InstalacionService,
     private renderer: Renderer2,
-    private cdRef: ChangeDetectorRef
-  ) {}
+    private cdRef: ChangeDetectorRef,
+    private router: Router
+  ) {
+    // Desencriptar el ID en el constructor
+    const encryptedId = this.route.snapshot.paramMap.get('id');
+    if (encryptedId) {
+      const bytes = CryptoJS.AES.decrypt(encryptedId, this.secretKey);
+      this.idDecrypted = parseInt(bytes.toString(CryptoJS.enc.Utf8), 10);
+    } else {
+      console.error('ID de beca no disponible');
+    }
+  }
 
   ngOnInit(): void {
-    this.cargarInstalacion();
+    this.route.paramMap.subscribe(params => {
+      const encryptedId = params.get('id');
+
+      if (encryptedId) {
+        try {
+          const decryptedId = CryptoJS.AES.decrypt(encryptedId, this.secretKey).toString(CryptoJS.enc.Utf8);
+          const id = parseInt(decryptedId, 10);
+
+          if (isNaN(id)) {
+            this.redirectToNotFound();
+          } else {
+            this.loadInstalacion(id);
+          }
+        } catch (error) {
+          this.redirectToNotFound();
+        }
+      } else {
+        this.redirectToNotFound();
+      }
+    });
+  }
+
+  private redirectToNotFound(): void {
+    this.router.navigate(['/not-found']);
   }
 
   ngAfterViewInit(): void {
@@ -34,22 +72,21 @@ export class InfoUnidadesComponent implements OnInit, AfterViewInit {
     }, 0);
   }
 
-  cargarInstalacion(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.instalacionService.obtenerInstalacionPorId(+id).subscribe({
-        next: (instalacion: Instalacion) => {
+  private loadInstalacion(id: number): void {
+    this.instalacionService.obtenerInstalacionPorId(id).subscribe({
+      next: (instalacion: Instalacion) => {
+        if (instalacion && instalacion.activo) {
           this.instalacion = instalacion;
-          //console.log(this.instalacion);
           this.groupImagesByMonth();
           this.isLoading = false;
-        },
-        error: (error: string) => {
-          //console.error('Error al cargar la instalación:', error);
-          this.isLoading = false;
+        } else {
+          this.redirectToNotFound();
         }
-      });
-    }
+      },
+      error: () => {
+        this.redirectToNotFound();
+      }
+    });
   }
 
   groupImagesByMonth(): void {
