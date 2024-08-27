@@ -47,11 +47,11 @@ export class AcercaDeComponent {
     {
       nombre: "Yahir Nava Gandara", 
       foto:"./assets/img/acercade/YN.jpg", 
-      especialidad: "Diseñador UI", 
-      twitter:{active:true, links: [{ link: "https://twitter.com/aahir" }]}, 
-      github:{active:true, links: [{ link: "" }]}, 
-      linkedn:{active:true, links: [{ link: "" }]},
-      Instagram:{active:true, links: [{ link: "" }]}
+      especialidad: "Diseñador UI y Programador FrontEnd", 
+      twitter:{active:true, links: [{ link: "https://twitter.com/yahir" }]}, 
+      github:{active:true, links: [{ link: "https://github.com/Yahir1217" }]}, 
+      linkedn:{active:true, links: [{ link: "https://www.linkedin.com/in/yahir-nava-b8b598235/" }]},
+      Instagram:{active:true, links: [{ link: "https://www.instagram.com/xxyahir17/" }]}
     },
     {
       nombre: "Anthony Joseph Lamas Castillo", 
