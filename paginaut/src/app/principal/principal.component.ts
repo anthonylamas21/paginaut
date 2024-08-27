@@ -48,16 +48,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
     { src: './assets/img/fotos_por_carrera/turismo.jpg', alt: 'Turismo' },
     { src: './assets/img/fotos_por_carrera/acuicultura.jpg', alt: 'Acuicultura' },
     { src: './assets/img/fotos_por_carrera/procesos-alimenticios.jpg', alt: 'Procesos Alimenticios' },
-    { src: './assets/img/fotos_por_carrera/agrobiotecnologia.jpg', alt: 'Agrobiotecnología' },
-    { src: './assets/img/fotos_por_carrera/desarrollo-software.jpg', alt: 'Desarrollo de Software' },
-    { src: './assets/img/fotos_por_carrera/contaduria.jpg', alt: 'Contaduría' },
-    { src: './assets/img/fotos_por_carrera/gastronomia.jpg', alt: 'Gastronomía' },
-    { src: './assets/img/fotos_por_carrera/administracion.jpg', alt: 'Administración' },
-    { src: './assets/img/fotos_por_carrera/mercadotecnia.jpg', alt: 'Mercadotecnia' },
-    { src: './assets/img/fotos_por_carrera/turismo.jpg', alt: 'Turismo' },
-    { src: './assets/img/fotos_por_carrera/acuicultura.jpg', alt: 'Acuicultura' },
-    { src: './assets/img/fotos_por_carrera/procesos-alimenticios.jpg', alt: 'Procesos Alimenticios' },
-    { src: './assets/img/fotos_por_carrera/agrobiotecnologia.jpg', alt: 'Agrobiotecnología' },
+    { src: './assets/img/fotos_por_carrera/agrobiotecnologia.jpg', alt: 'Agrobiotecnología' }
   ];
 
   constructor(
@@ -98,8 +89,16 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
   ngOnInit() {
     this.cargarEventosRecientes();
     this.cargarNoticiasActivas();
+    this.precargarImagenesCriticas();
   }
-
+  
+  precargarImagenesCriticas() {
+    const imagenesCriticas = this.imagenes.slice(0, 5); // Ajusta según sea necesario
+    imagenesCriticas.forEach(image => {
+      const img = new Image();
+      img.src = image.src;
+    });
+  }
   scrollToSectionCarreras(sectionId: string): void {
     this.router.navigate([], { fragment: sectionId }).then(() => {
       const element = document.getElementById(sectionId);
@@ -253,26 +252,23 @@ verMenosEventos(): void {
         if (entry.isIntersecting) {
           entry.target.classList.remove('opacity-0', 'translate-y-10');
           entry.target.classList.add('opacity-100', 'translate-y-0');
-          // Una vez que el elemento es visible, dejamos de observarlo
           observer.unobserve(entry.target);
         }
       });
-    }, {
-      threshold: 0.1
-    });
-
-    // Observar los elementos
-    [
+    }, { threshold: 0.1 });
+  
+    const sectionsToObserve = [
       this.carrerasSection,
       this.becasSection,
       this.eventosSection,
       this.noticiasSection,
       this.recorridoSection
-    ].forEach(section => {
+    ];
+  
+    sectionsToObserve.forEach(section => {
       if (section && section.nativeElement) {
         observer.observe(section.nativeElement);
       }
     });
   }
-  //Fin de las animaciones de las secciones
 }
