@@ -122,7 +122,7 @@ export class NoticiaService {
     return this.http.get<Noticia>(`${this.apiUrl}?id=${id}`);
   }
 
-  obtenerNoticiasActivas(limit: number = 5): Observable<Noticia[]> {
+  obtenerNoticiasActivas(): Observable<Noticia[]> {
     return this.http.get<NoticiaResponse>(this.apiUrl).pipe(
       map((response) =>
         response.records
@@ -132,7 +132,6 @@ export class NoticiaService {
               new Date(b.fecha_publicacion).getTime() -
               new Date(a.fecha_publicacion).getTime()
           )
-          .slice(0, limit)
       )
     );
   }

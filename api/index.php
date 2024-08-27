@@ -98,6 +98,8 @@ switch ($request_method) {
       include_once $baseDir . '/controllers/ProfesorTipoController.php';
     } elseif (strpos($request_uri, '/api/curso_maestro') !== false) {
       include_once $baseDir . '/controllers/curso_maestro.php';
+    } elseif (strpos($request_uri, '/api/historial') !== false) {
+      include_once $baseDir . '/controllers/historial.php';
     } else {
       header("HTTP/1.0 404 Not Found");
       echo json_encode(array("message" => "Endpoint not found."));

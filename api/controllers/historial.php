@@ -1,7 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Methods: GET, OPTIONS");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
@@ -16,31 +16,8 @@ $db = $database->getConnection();
 $historial = new Historial($db);
 
 $request_method = $_SERVER["REQUEST_METHOD"];
-$data = json_decode(file_get_contents("php://input"));
 
 switch($request_method) {
-    case 'POST':
-        // Crear un registro de historial
-        if (!empty($data->tabla) && !empty($data->operacion) && !empty($data->registro_id) && !empty($data->datos_anteriores) && !empty($data->hora)) {
-            $historial->tabla = $data->tabla;
-            $historial->operacion = $data->operacion;
-            $historial->registro_id = $data->registro_id;
-            $historial->datos_anteriores = $data->datos_anteriores;
-            $historial->hora = $data->hora;
-
-            if ($historial->create()) {
-                http_response_code(201);
-                echo json_encode(array("message" => "Registro de historial creado correctamente.", "id" => $historial->id));
-            } else {
-                http_response_code(503);
-                echo json_encode(array("message" => "No se pudo crear el registro de historial."));
-            }
-        } else {
-            http_response_code(400);
-            echo json_encode(array("message" => "No se pudo crear el registro de historial. Datos incompletos."));
-        }
-        break;
-    
     case 'GET':
         // Leer un registro de historial por ID
         if (isset($_GET['id'])) {
