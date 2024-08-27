@@ -72,6 +72,12 @@ export class CursoService {
       .pipe(catchError(this.handleError));
   }
 
+  obtenerProfesorPorId(profesorId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrlProfe}?profesor_id=${profesorId}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  
   obtenerProfesoresPorCurso(cursoId: number): Observable<any> {
     return this.http.get<any>(`${this.apiCursoProfe}/profesores-por-curso?curso_id=${cursoId}`)
       .pipe(catchError(this.handleError));

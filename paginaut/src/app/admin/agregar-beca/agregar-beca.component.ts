@@ -57,14 +57,6 @@ function noWhitespaceValidator(): ValidatorFn {
   };
 }
 
-// Validador para prevenir inyección de scripts
-function scriptInjectionValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const scriptPattern = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
-    return scriptPattern.test(control.value) ? { scriptInjection: true } : null;
-  };
-}
-
 @Component({
   selector: 'app-agregar-beca',
   templateUrl: './agregar-beca.component.html',
@@ -100,8 +92,8 @@ export class AgregarBecaComponent implements OnInit {
         [
           Validators.required,
           Validators.maxLength(50),
-          noWhitespaceValidator(),
-          scriptInjectionValidator(),
+          Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ()\-_*]+$/), // Permite acentos, paréntesis, guion medio, guion bajo y asterisco
+          noWhitespaceValidator()
         ],
       ],
       descripcion: [
@@ -109,13 +101,13 @@ export class AgregarBecaComponent implements OnInit {
         [
           Validators.required,
           Validators.maxLength(100),
-          noWhitespaceValidator(),
-          scriptInjectionValidator(),
+          Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ()\-_*]+$/), // Permite acentos, paréntesis, guion medio, guion bajo y asterisco
+          noWhitespaceValidator()
         ],
       ],
-      tipo: ['', [Validators.required]],
+      tipo: ['', Validators.required],
       archivo: ['', Validators.required],
-    });
+    });    
   }
 
   ngOnInit(): void {
@@ -217,13 +209,6 @@ export class AgregarBecaComponent implements OnInit {
       this.becaForm.get('archivo')?.setErrors({ invalidFileType: true });
       this.showToast('error', 'Solo se permiten archivos en formato PDF.');
       this.fileToUpload = null;
-    }
-  }
-
-  validateInput(event: KeyboardEvent) {
-    const allowedKeys = /^[a-zA-Z0-9\s.,]*$/; // Permitir letras, números, espacios, puntos y comas
-    if (!allowedKeys.test(event.key)) {
-      event.preventDefault();
     }
   }
 

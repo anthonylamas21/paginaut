@@ -21,15 +21,18 @@ export class CursosComponent implements OnInit {
   }
 
  // Método para cargar los cursos
+// Método para cargar los cursos
 loadCursos(): void {
   this.cursoService.getCursos().subscribe({
     next: (response: Curso[]) => {
-      this.cursos = response.map(curso => ({
-        ...curso,
-        title: curso.nombre,
-        description: curso.descripcion,
-        image: curso.imagen_principal, 
-      }));
+      this.cursos = response
+        .filter(curso => curso.activo) // Filtrar solo los cursos que están activos
+        .map(curso => ({
+          ...curso,
+          title: curso.nombre,
+          description: curso.descripcion,
+          image: curso.imagen_principal, 
+        }));
       this.filteredCursos = this.cursos;
       this.isLoading = false;
     },
@@ -39,6 +42,7 @@ loadCursos(): void {
     },
   });
 }
+
 
 recortarDescripcion(descripcion: string, maxLength: number = 100): string {
   if (descripcion.length <= maxLength) {

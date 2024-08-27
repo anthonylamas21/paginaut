@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CursoService, Curso } from '../cursoService/curso.service';
 import { Evento, EventoService } from '../evento.service';
+import { Profesor } from './../admin/profesor.service';
 
 @Component({
   selector: 'app-info-curso',
@@ -11,9 +12,14 @@ import { Evento, EventoService } from '../evento.service';
 export class InfoCursoComponent implements OnInit {
   curso: Curso | undefined;
   eventos: Evento[] = [];
+  profesores: Profesor[] = []; // Inicializar como un array vacío
   isLoading = true;
 
-  constructor(private route: ActivatedRoute, private cursoService: CursoService, private eventoService: EventoService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private cursoService: CursoService,
+    private eventoService: EventoService
+  ) {}
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -21,8 +27,10 @@ export class InfoCursoComponent implements OnInit {
       this.cursoService.obtenerCursoPorId(id).subscribe({
         next: (curso) => {
           this.curso = curso;
+          this.curso.imagenes_generales = this.curso.imagenes_generales || []; // Asegura que sea un array
           this.isLoading = false;
           this.cargarEventos(id);
+          this.ObtenerProfesoresPorCurso(id);
         },
         error: (error) => {
           console.error('Error al cargar el curso:', error);
@@ -33,6 +41,7 @@ export class InfoCursoComponent implements OnInit {
     this.setNavbarColor();
   }
 
+  
   private cargarEventos(cursoId: number): void {
     this.eventoService.obtenerEventosPorCursoId(cursoId).subscribe({
       next: (eventos) => {
@@ -44,6 +53,29 @@ export class InfoCursoComponent implements OnInit {
       }
     });
   }
+
+  ObtenerProfesoresPorCurso(cursoId: number): void {
+    this.cursoService.obtenerProfesoresPorCurso(cursoId).subscribe({
+      next: (response) => {
+        const profesoresDelCurso = response.profesores.map((p: any) => p.profesor_id);
+  
+        this.cursoService.GetProfesores().subscribe({
+          next: (data) => {
+            this.profesores = data.records.filter((profesor: any) =>
+              profesoresDelCurso.includes(profesor.id)
+            );
+          },
+          error: (error) => {
+            console.error('Error al cargar la información de los profesores:', error);
+          }
+        });
+      },
+      error: (error) => {
+        console.error('Error al cargar los profesores del curso:', error);
+      }
+    });
+  }
+  
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
@@ -73,8 +105,9 @@ export class InfoCursoComponent implements OnInit {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
 
-  getImageUrl(relativePath: string): string {
+  getImageUrl(relativePath: string | undefined): string {
     const baseImageUrl = 'http://localhost/paginaut/';
-    return baseImageUrl + relativePath;
+    return relativePath ? baseImageUrl + relativePath : baseImageUrl + 'paginaut/src/assets/img/perfil_vacio_2.png';
   }
+  
 }

@@ -92,10 +92,10 @@ export class EventoComponent implements OnInit,  OnDestroy {
       this.minTimeInicio = this.getCurrentTime();
       this.minTimeFin = this.minTimeInicio;
       this.eventoForm = this.fb.group({
-        titulo: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\s\-]+$/)]],
-        informacion_evento: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\s\-.,;:()]+$/)]],
+        titulo: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/)]],
+        informacion_evento: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/)]],
         activo: [true],
-        lugar_evento: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\s\-]+$/)]],
+        lugar_evento: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/)]],
         fecha_inicio: ['', [Validators.required]],
         fecha_fin: ['', [Validators.required]],
         hora_inicio: ['', [Validators.required]],

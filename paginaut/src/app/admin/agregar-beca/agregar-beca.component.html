@@ -98,7 +98,6 @@
               placeholder="Nombre de la Beca"
               maxlength="50"
               required
-              (keypress)="validateInput($event)"
             />
             <p
               *ngIf="
@@ -155,7 +154,6 @@
               class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
               placeholder="Descripción de la beca"
               required
-              (keypress)="validateInput($event)"
             ></textarea>
             <p
               *ngIf="

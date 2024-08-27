@@ -89,16 +89,15 @@ export class NoticiaComponent implements OnInit, OnDestroy {
     this.maxDate = new Date(currentYear, 11, 31).toISOString().split('T')[0]; // 31 de diciembre del año actual
 
     this.noticiaForm = this.fb.group({
-      titulo: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\s\-]+$/)]],
-      resumen: ['', [Validators.required, Validators.maxLength(200), Validators.pattern(/^[a-zA-Z0-9\s\-.,;:()]+$/)]],
-      informacion_noticia: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\s\-.,;:()]+$/)]],
+      titulo: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/)]],
+      resumen: ['', [Validators.required, Validators.maxLength(200), Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/)]],
+      informacion_noticia: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/)]],
       activo: [true],
-      lugar_noticia: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\s\-]+$/)]],
-      autor: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\s\-]+$/)]],
+      lugar_noticia: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ\-]+$/)]],
+      autor: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\sñÑáéíóúÁÉÍÓÚ\-]+$/)]],
       fecha_publicacion: ['', Validators.required],
       imagen_principal: [null, Validators.required] // Validación para la imagen principal
     });
-
   }
 
   ngOnInit(): void {
