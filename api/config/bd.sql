@@ -455,6 +455,270 @@ CREATE TRIGGER trigger_direccion
 AFTER INSERT OR UPDATE OR DELETE ON Direccion
 FOR EACH ROW EXECUTE FUNCTION log_modificacion_direccion();
 
+-- Función y trigger para la tabla Instalaciones
+CREATE OR REPLACE FUNCTION log_modificacion_instalaciones()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Instalaciones', 'INSERT', NEW.id, row_to_json(NEW)::jsonb);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Instalaciones', 'UPDATE', OLD.id, row_to_json(OLD)::jsonb);
+    ELSIF (TG_OP = 'DELETE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Instalaciones', 'DELETE', OLD.id, row_to_json(OLD)::jsonb);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_instalaciones
+AFTER INSERT OR UPDATE OR DELETE ON Instalaciones
+FOR EACH ROW EXECUTE FUNCTION log_modificacion_instalaciones();
+
+-- Función y trigger para la tabla NivelesEstudios
+CREATE OR REPLACE FUNCTION log_modificacion_nivelesestudios()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('NivelesEstudios', 'INSERT', NEW.id, row_to_json(NEW)::jsonb);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('NivelesEstudios', 'UPDATE', OLD.id, row_to_json(OLD)::jsonb);
+    ELSIF (TG_OP = 'DELETE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('NivelesEstudios', 'DELETE', OLD.id, row_to_json(OLD)::jsonb);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_nivelesestudios
+AFTER INSERT OR UPDATE OR DELETE ON NivelesEstudios
+FOR EACH ROW EXECUTE FUNCTION log_modificacion_nivelesestudios();
+
+-- Función y trigger para la tabla CampoEstudio
+CREATE OR REPLACE FUNCTION log_modificacion_campoestudio()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('CampoEstudio', 'INSERT', NEW.id, row_to_json(NEW)::jsonb);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('CampoEstudio', 'UPDATE', OLD.id, row_to_json(OLD)::jsonb);
+    ELSIF (TG_OP = 'DELETE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('CampoEstudio', 'DELETE', OLD.id, row_to_json(OLD)::jsonb);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_campoestudio
+AFTER INSERT OR UPDATE OR DELETE ON CampoEstudio
+FOR EACH ROW EXECUTE FUNCTION log_modificacion_campoestudio();
+
+-- Función y trigger para la tabla Imagenes
+CREATE OR REPLACE FUNCTION log_modificacion_imagenes()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Imagenes', 'INSERT', NEW.id, row_to_json(NEW)::jsonb);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Imagenes', 'UPDATE', OLD.id, row_to_json(OLD)::jsonb);
+    ELSIF (TG_OP = 'DELETE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Imagenes', 'DELETE', OLD.id, row_to_json(OLD)::jsonb);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_imagenes
+AFTER INSERT OR UPDATE OR DELETE ON Imagenes
+FOR EACH ROW EXECUTE FUNCTION log_modificacion_imagenes();
+
+-- Función y trigger para la tabla Noticia
+CREATE OR REPLACE FUNCTION log_modificacion_noticia()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Noticia', 'INSERT', NEW.id, row_to_json(NEW)::jsonb);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Noticia', 'UPDATE', OLD.id, row_to_json(OLD)::jsonb);
+    ELSIF (TG_OP = 'DELETE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Noticia', 'DELETE', OLD.id, row_to_json(OLD)::jsonb);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_noticia
+AFTER INSERT OR UPDATE OR DELETE ON Noticia
+FOR EACH ROW EXECUTE FUNCTION log_modificacion_noticia();
+
+-- Función y trigger para la tabla Calendario
+CREATE OR REPLACE FUNCTION log_modificacion_calendario()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Calendario', 'INSERT', NEW.id, row_to_json(NEW)::jsonb);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Calendario', 'UPDATE', OLD.id, row_to_json(OLD)::jsonb);
+    ELSIF (TG_OP = 'DELETE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Calendario', 'DELETE', OLD.id, row_to_json(OLD)::jsonb);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_calendario
+AFTER INSERT OR UPDATE OR DELETE ON Calendario
+FOR EACH ROW EXECUTE FUNCTION log_modificacion_calendario();
+
+-- Función y trigger para la tabla Taller
+CREATE OR REPLACE FUNCTION log_modificacion_taller()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Taller', 'INSERT', NEW.id, row_to_json(NEW)::jsonb);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Taller', 'UPDATE', OLD.id, row_to_json(OLD)::jsonb);
+    ELSIF (TG_OP = 'DELETE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Taller', 'DELETE', OLD.id, row_to_json(OLD)::jsonb);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_taller
+AFTER INSERT OR UPDATE OR DELETE ON Taller
+FOR EACH ROW EXECUTE FUNCTION log_modificacion_taller();
+
+-- Función y trigger para la tabla Beca
+CREATE OR REPLACE FUNCTION log_modificacion_beca()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Beca', 'INSERT', NEW.id, row_to_json(NEW)::jsonb);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Beca', 'UPDATE', OLD.id, row_to_json(OLD)::jsonb);
+    ELSIF (TG_OP = 'DELETE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Beca', 'DELETE', OLD.id, row_to_json(OLD)::jsonb);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_beca
+AFTER INSERT OR UPDATE OR DELETE ON Beca
+FOR EACH ROW EXECUTE FUNCTION log_modificacion_beca();
+
+-- Función y trigger para la tabla TiposProfesores
+CREATE OR REPLACE FUNCTION log_modificacion_tiposprofesores()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('TiposProfesores', 'INSERT', NEW.id, row_to_json(NEW)::jsonb);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('TiposProfesores', 'UPDATE', OLD.id, row_to_json(OLD)::jsonb);
+    ELSIF (TG_OP = 'DELETE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('TiposProfesores', 'DELETE', OLD.id, row_to_json(OLD)::jsonb);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_tiposprofesores
+AFTER INSERT OR UPDATE OR DELETE ON TiposProfesores
+FOR EACH ROW EXECUTE FUNCTION log_modificacion_tiposprofesores();
+
+-- Función y trigger para la tabla Profesores
+CREATE OR REPLACE FUNCTION log_modificacion_profesores()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Profesores', 'INSERT', NEW.id, row_to_json(NEW)::jsonb);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Profesores', 'UPDATE', OLD.id, row_to_json(OLD)::jsonb);
+    ELSIF (TG_OP = 'DELETE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Profesores', 'DELETE', OLD.id, row_to_json(OLD)::jsonb);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_profesores
+AFTER INSERT OR UPDATE OR DELETE ON Profesores
+FOR EACH ROW EXECUTE FUNCTION log_modificacion_profesores();
+
+-- Función y trigger para la tabla ProfesorTipo
+CREATE OR REPLACE FUNCTION log_modificacion_profesortipo()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('ProfesorTipo', 'INSERT', NEW.id, row_to_json(NEW)::jsonb);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('ProfesorTipo', 'UPDATE', OLD.id, row_to_json(OLD)::jsonb);
+    ELSIF (TG_OP = 'DELETE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('ProfesorTipo', 'DELETE', OLD.id, row_to_json(OLD)::jsonb);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_profesortipo
+AFTER INSERT OR UPDATE OR DELETE ON ProfesorTipo
+FOR EACH ROW EXECUTE FUNCTION log_modificacion_profesortipo();
+
+-- Función y trigger para la tabla Curso
+CREATE OR REPLACE FUNCTION log_modificacion_curso()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Curso', 'INSERT', NEW.id, row_to_json(NEW)::jsonb);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Curso', 'UPDATE', OLD.id, row_to_json(OLD)::jsonb);
+    ELSIF (TG_OP = 'DELETE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Curso', 'DELETE', OLD.id, row_to_json(OLD)::jsonb);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_curso
+AFTER INSERT OR UPDATE OR DELETE ON Curso
+FOR EACH ROW EXECUTE FUNCTION log_modificacion_curso();
+
 -- Crear índices
 CREATE INDEX idx_usuario_correo ON Usuario (correo);
 CREATE INDEX idx_carrera_nombre ON Carrera (nombre_carrera);

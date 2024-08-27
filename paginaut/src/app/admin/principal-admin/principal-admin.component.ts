@@ -8,6 +8,9 @@ import { HistorialService } from '../../historial.service'; // Asegúrate de que
 })
 export class PrincipalAdminComponent implements OnInit {
   historial: any[] = [];  // Aquí se almacenarán los datos del historial
+  isModalOpen: boolean = false;
+  selectedItem: any = null;
+  visibleItemsCount: number = 3;  // Número de elementos visibles inicialmente
 
   constructor(private historialService: HistorialService) { }
 
@@ -32,68 +35,34 @@ export class PrincipalAdminComponent implements OnInit {
   }
 
   getDescription(item: any): string {
-    let description = `Operación: ${item.operacion} realizada en la tabla ${item.tabla}. `;
+    return `Operación: ${item.operacion} realizada en la tabla ${item.tabla}.`;
+}
 
-    if (item.operacion === 'INSERT') {
-      description += `Se ha creado un nuevo registro con ID ${item.registro_id}.`;
-    } else if (item.operacion === 'UPDATE') {
-      description += `Se ha actualizado el registro con ID ${item.registro_id}.`;
-    } else if (item.operacion === 'DELETE') {
-      description += `Se ha eliminado el registro con ID ${item.registro_id}.`;
-    }
 
-    description += ` Detalles: ${this.getDetallesEspecificos(item)}`;
+getDetallesEspecificos(item: any): string {
+  let detalles = '';
 
-    return description;
+  if (item.datos_anteriores) {
+      const datos = item.datos_anteriores;
+      for (const campo in datos) {
+          if (datos.hasOwnProperty(campo)) {
+              detalles += `<strong>${this.capitalize(campo.replace('_', ' '))}:</strong> ${datos[campo]}<br>`;
+          }
+      }
   }
 
-  getDetallesEspecificos(item: any): string {
-    switch (item.tabla) {
-      case 'Rol':
-        return `Rol: ${item.datos_anteriores.nombre}`;
-      case 'Departamento':
-        return `Departamento: ${item.datos_anteriores.nombre}`;
-      case 'Instalaciones':
-        return `Instalación: ${item.datos_anteriores.nombre}`;
-      case 'Usuario':
-        return `Correo: ${item.datos_anteriores.correo}, Rol ID: ${item.datos_anteriores.rol_id}`;
-      case 'Direccion':
-        return `Dirección: ${item.datos_anteriores.nombre}`;
-      case 'NivelesEstudios':
-        return `Nivel: ${item.datos_anteriores.nivel}`;
-      case 'CampoEstudio':
-        return `Campo: ${item.datos_anteriores.campo}`;
-      case 'Carrera':
-        return `Carrera: ${item.datos_anteriores.nombre_carrera}`;
-      case 'Cuatrimestre':
-        return `Cuatrimestre: ${item.datos_anteriores.numero}`;
-      case 'Asignatura':
-        return `Asignatura: ${item.datos_anteriores.nombre}`;
-      case 'Imagenes':
-        return `Imagen: ${item.datos_anteriores.titulo}`;
-      case 'Archivos':
-        return `Archivo: ${item.datos_anteriores.nombre_archivo}`;
-      case 'Evento':
-        return `Evento: ${item.datos_anteriores.titulo}, Lugar: ${item.datos_anteriores.lugar_evento}`;
-      case 'Curso':
-        return `Curso: ${item.datos_anteriores.nombre}`;
-      case 'Noticia':
-        return `Noticia: ${item.datos_anteriores.titulo}`;
-      case 'Calendario':
-        return `Calendario: ${item.datos_anteriores.titulo}`;
-      case 'BolsaDeTrabajo':
-        return `Trabajo: ${item.datos_anteriores.titulo_trabajo}`;
-      case 'Taller':
-        return `Taller: ${item.datos_anteriores.nombre}`;
-      case 'beca':
-        return `Beca: ${item.datos_anteriores.nombre}`;
-      case 'TiposProfesores':
-        return `Tipo de Profesor: ${item.datos_anteriores.tipo}`;
-      case 'Profesores':
-        return `Profesor: ${item.datos_anteriores.nombre} ${item.datos_anteriores.apellido}`;
-      default:
-        return `Detalles no disponibles para la tabla ${item.tabla}`;
-    }
+  return detalles || 'No hay detalles disponibles.';
+}
+
+
+  openModal(item: any = null): void {
+    this.selectedItem = item;
+    this.isModalOpen = true;
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false;
+    this.selectedItem = null;
   }
 
   formatDate(dateString: string): string {
@@ -101,9 +70,13 @@ export class PrincipalAdminComponent implements OnInit {
     return date.toLocaleDateString('es-ES', {
       day: 'numeric',
       month: 'long',
-      year: 'numeric'
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
     });
   }
+
 
   capitalize(text: string): string {
     return text.charAt(0).toUpperCase() + text.slice(1);
@@ -113,6 +86,39 @@ export class PrincipalAdminComponent implements OnInit {
   onWindowScroll(): void {
     this.setNavbarColor();
   }
+  showMore(): void {
+    this.visibleItemsCount += 3;  // Aumenta en 3 el número de elementos visibles
+  }
+
+  showLess(): void {
+    if (this.visibleItemsCount > 3) {
+      this.visibleItemsCount -= 3;  // Reduce en 3 el número de elementos visibles, pero no por debajo de 3
+    }
+  }
+  parseDetails(item: any): Array<{ label: string, value: any }> {
+    const details = [];
+    if (item.datos_anteriores) {
+      const datos = item.datos_anteriores;
+      for (const campo in datos) {
+        if (datos.hasOwnProperty(campo)) {
+          let value = datos[campo];
+
+          // Si el campo es una fecha, la formateamos
+          if (campo.includes('fecha') || campo.includes('creacion')) {
+            value = this.formatDate(value);
+          }
+
+          details.push({
+            label: this.capitalize(campo.replace('_', ' ')),
+            value: value
+          });
+        }
+      }
+    }
+    return details;
+  }
+
+
 
   private setNavbarColor(): void {
     const button = document.getElementById('scrollTopButton');
