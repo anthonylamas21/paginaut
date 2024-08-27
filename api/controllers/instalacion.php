@@ -125,8 +125,15 @@ switch($request_method) {
                 }
                 $imagenesGenerales = $instalacion->getImagenesGenerales();
                 foreach ($imagenesGenerales as $imagen) {
-                    if (file_exists("../" . $imagen)) {
-                        unlink("../" . $imagen);
+                // Si $imagen es un array, accede al valor correcto. Por ejemplo:
+                    if (is_array($imagen)) {
+                        $rutaImagen = $imagen['ruta'] ?? ''; // Cambia 'ruta' por el índice correcto si es necesario.
+                    } else {
+                        $rutaImagen = $imagen;
+                    }
+                    // Verifica si $rutaImagen no está vacío y es un archivo válido
+                    if (!empty($rutaImagen) && file_exists("../" . $rutaImagen)) {
+                        unlink("../" . $rutaImagen);
                     }
                 }
                 if ($instalacion->delete()) {
