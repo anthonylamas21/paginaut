@@ -3,108 +3,138 @@
 <p id="inicio"></p>
 <!-- Fin Navbar -->
 
-<!-- Panel de Administración -->
-<div class="p-4 mx-auto min-h-screen flex flex-col">
-  <div class="bg-[#043D3D] text-white mt-24 p-6 rounded-md shadow-lg flex-grow">
-    <div class="container mx-auto px-4">
-      <h1 class="text-4xl font-bold text-center mb-12">Panel de Administración</h1>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-
-        <!-- Botón Inicio -->
-        <a href="/admin/principal_admin"
-          class="flex flex-col items-center bg-white text-[#043D3D] p-6 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-transform duration-300">
-          <i class="fa-solid fa-home text-5xl mb-4"></i>
-          <span class="text-xl font-semibold">Inicio</span>
-        </a>
+<div class="p-4 mx-auto">
+  <div class="bg-gradient-to-r from-[#043D3D] to-[#065555] text-white mt-24 p-8 rounded-md shadow-2xl">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-12 tracking-wide leading-tight break-words">
+        Panel de Administración
+      </h1>
+      <p class="text-lg font-light mb-8">Gestiona todas las secciones administrativas desde un solo lugar.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
         <!-- Botón Noticias -->
         <a href="/admin/noticia"
-          class="flex flex-col items-center bg-white text-[#043D3D] p-6 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-transform duration-300">
-          <i class="fa-solid fa-newspaper text-5xl mb-4"></i>
-          <span class="text-xl font-semibold">Noticias</span>
+          class="group flex flex-col items-center bg-white text-[#043D3D] p-8 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-newspaper text-6xl mb-4 group-hover:text-[#04847C] transition-colors duration-300"></i>
+          <span class="text-2xl font-bold">Noticias</span>
         </a>
 
         <!-- Botón Evento -->
         <a href="/admin/evento"
-          class="flex flex-col items-center bg-white text-[#043D3D] p-6 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-transform duration-300">
-          <i class="fa-solid fa-calendar-check text-5xl mb-4"></i>
-          <span class="text-xl font-semibold">Eventos</span>
+          class="group flex flex-col items-center bg-white text-[#043D3D] p-8 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-calendar-check text-6xl mb-4 group-hover:text-[#04847C] transition-colors duration-300"></i>
+          <span class="text-2xl font-bold">Eventos</span>
         </a>
 
         <!-- Botón Becas -->
         <a href="/admin/agregar-beca"
-          class="flex flex-col items-center bg-white text-[#043D3D] p-6 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-transform duration-300">
-          <i class="fa-solid fa-graduation-cap text-5xl mb-4"></i>
-          <span class="text-xl font-semibold">Becas</span>
+          class="group flex flex-col items-center bg-white text-[#043D3D] p-8 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-graduation-cap text-6xl mb-4 group-hover:text-[#04847C] transition-colors duration-300"></i>
+          <span class="text-2xl font-bold">Becas</span>
         </a>
 
         <!-- Botón Profesores -->
         <a href="/admin/agregar-profesor"
-          class="flex flex-col items-center bg-white text-[#043D3D] p-6 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-transform duration-300">
-          <i class="fa-solid fa-chalkboard-teacher text-5xl mb-4"></i>
-          <span class="text-xl font-semibold">Profesores</span>
+          class="group flex flex-col items-center bg-white text-[#043D3D] p-8 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-chalkboard-teacher text-6xl mb-4 group-hover:text-[#04847C] transition-colors duration-300"></i>
+          <span class="text-2xl font-bold">Profesores</span>
         </a>
 
         <!-- Botón Cursos -->
         <a href="/admin/agregar-curso"
-          class="flex flex-col items-center bg-white text-[#043D3D] p-6 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-transform duration-300">
-          <i class="fa-solid fa-book text-5xl mb-4"></i>
-          <span class="text-xl font-semibold">Cursos</span>
+          class="group flex flex-col items-center bg-white text-[#043D3D] p-8 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-book text-6xl mb-4 group-hover:text-[#04847C] transition-colors duration-300"></i>
+          <span class="text-2xl font-bold">Cursos</span>
         </a>
 
         <!-- Botón Galería -->
         <a href="/admin/instalacion"
-          class="flex flex-col items-center bg-white text-[#043D3D] p-6 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-transform duration-300">
-          <i class="fa-solid fa-images text-5xl mb-4"></i>
-          <span class="text-xl font-semibold">Galería</span>
+          class="group flex flex-col items-center bg-white text-[#043D3D] p-8 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-images text-6xl mb-4 group-hover:text-[#04847C] transition-colors duration-300"></i>
+          <span class="text-2xl font-bold">Galería</span>
         </a>
 
         <!-- Botón Bolsa de Trabajo -->
         <a href="/admin/agregar-bolsadetrabajo"
-          class="flex flex-col items-center bg-white text-[#043D3D] p-6 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-transform duration-300">
-          <i class="fa-solid fa-briefcase text-5xl mb-4"></i>
-          <span class="text-xl font-semibold">Bolsa de Trabajo</span>
+          class="group flex flex-col items-center bg-white text-[#043D3D] p-8 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-briefcase text-6xl mb-4 group-hover:text-[#04847C] transition-colors duration-300"></i>
+          <span class="text-2xl font-bold">Bolsa de Trabajo</span>
         </a>
 
         <!-- Botón Calendario -->
         <a href="/admin/agregar-calendario"
-          class="flex flex-col items-center bg-white text-[#043D3D] p-6 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-transform duration-300">
-          <i class="fa-solid fa-calendar-alt text-5xl mb-4"></i>
-          <span class="text-xl font-semibold">Calendario</span>
+          class="group flex flex-col items-center bg-white text-[#043D3D] p-8 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-calendar-alt text-6xl mb-4 group-hover:text-[#04847C] transition-colors duration-300"></i>
+          <span class="text-2xl font-bold">Calendario</span>
         </a>
 
       </div>
     </div>
   </div>
+</div>
+
 
 <!-- Resumen de Actividad Reciente -->
 <div class="p-6 mt-8 bg-gray-100 rounded-md shadow-md container mx-auto">
   <h2 class="text-3xl font-bold text-center mb-6 text-[#043D3D]">Actividad Reciente</h2>
+
+  <!-- Mostrar los registros visibles -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-    <!-- Itera sobre los datos del historial -->
-    <div *ngFor="let item of historial" class="bg-white p-4 rounded-md shadow hover:shadow-lg transition-shadow duration-300">
-      <h3 class="text-xl font-semibold mb-2">{{ getTitle(item) }}</h3>
-      <p class="text-gray-600">{{ getDescription(item) }}</p>
-      <p class="text-sm text-gray-500 mt-2">{{ formatDate(item.fecha) }}</p>
+    <div *ngFor="let item of historial | slice:0:visibleItemsCount" class="bg-white p-4 rounded-md shadow hover:shadow-lg transition-shadow duration-300">
+      <h3 class="text-xl font-semibold mb-2">{{ getDescription(item) }}</h3>
+      <button class="mt-2 text-blue-500" (click)="openModal(item)">Ver más detalles</button>
     </div>
+  </div>
 
+  <!-- Botones Ver Más y Ver Menos -->
+  <div class="text-center mt-6">
+    <button *ngIf="visibleItemsCount < historial.length" class="bg-[#043D3D] text-white px-4 py-2 rounded mr-2" (click)="showMore()">Ver más</button>
+    <button *ngIf="visibleItemsCount > 3" class="bg-[#043D3D] text-white px-4 py-2 rounded" (click)="showLess()">Ver menos</button>
+  </div>
+
+<!-- Modal -->
+<div class="fixed z-10 inset-0 overflow-y-auto bg-gray-900 bg-opacity-50" *ngIf="isModalOpen">
+  <div class="flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-3xl mx-4">
+      <!-- Header del Modal -->
+      <div class="flex justify-between items-center border-b pb-4 mb-6">
+        <h2 class="text-3xl font-bold text-gray-800">Detalles de la Actividad</h2>
+        <button class="text-gray-500 hover:text-gray-700 text-xl" (click)="closeModal()">
+          &times;
+        </button>
+      </div>
+
+      <div *ngIf="selectedItem">
+        <!-- Título de la Actividad -->
+        <div class="mb-6">
+          <h3 class="text-2xl font-semibold text-[#043D3D] mb-4">{{ getDescription(selectedItem) }}</h3>
+        </div>
+
+        <!-- Información Detallada -->
+        <div class="space-y-6">
+          <div class="bg-gray-100 p-4 rounded-md shadow-inner">
+            <h4 class="text-lg font-semibold mb-3">Detalles del Registro</h4>
+            <ul class="list-disc list-inside space-y-2 text-gray-700">
+              <li *ngFor="let detail of parseDetails(selectedItem)">
+                <strong>{{ detail.label }}:</strong> {{ detail.value }}
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-gray-100 p-4 rounded-md shadow-inner">
+            <p class="text-gray-600">
+              <strong>Fecha de la Operación:</strong> {{ formatDate(selectedItem.fecha) }}<br>
+              <!-- Puedes agregar más detalles adicionales aquí -->
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+<br>
 
 
-
-
-
-  <!-- Espacio de Bienvenida -->
-  <div class="p-6 mt-8 bg-[#2C6975] text-white rounded-md shadow-md container mx-auto text-center">
-    <h2 class="text-3xl font-bold mb-4">¡Bienvenido al Panel de Administración!</h2>
-    <p class="text-lg mb-4">Aquí podrás gestionar todas las secciones administrativas de manera eficiente y organizada. ¡Aprovecha al máximo esta herramienta para mantener todo bajo control!</p>
-    <button class="bg-white text-[#2C6975] px-4 py-2 rounded-full font-semibold hover:bg-gray-200 transition-all duration-300">
-      Empezar a Administrar
-    </button>
-  </div>
-</div>
 
 <!-- Pie de página -->
 <footer class="bg-[#043D3D] text-white py-4 text-center mt-auto">
