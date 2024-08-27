@@ -11,60 +11,68 @@ export class AcercaDeComponent {
     {
       nombre: "Alexis Arath Alatorre Delgadillo", 
       foto:"./assets/img/acercade/AA.jpg", 
-      especialidad: "Desarrollador Full Stack", 
-      twitter:{active:true, links: [{ link: "https://twitter.com/alexis_arath" }]}, 
+      especialidad: "Scrum Master", 
+      twitter:{active:true, links: [{ link: "https://x.com/Alexis_alat" }]}, 
       github:{active:true, links: [{ link: "https://github.com/AlexisAlatorreD" }]}, 
-      linkedn:{active:true, links: [{ link: "" }]}
+      linkedn:{active:true, links: [{ link: "https://www.linkedin.com/in/alexis-alatorre-delgadillo-0952aa236/" }]},
+      Instagram:{active:false, links: [{ link: "" }]}
     },
     {
       nombre: "Mario Imanol Mata Gómez", 
       foto:"./assets/img/acercade/MM.jpg", 
-      especialidad: "Diseñador UI/UX", 
-      twitter:{active:true, links: [{ link: "https://twitter.com/alexis_arath" }]}, 
+      especialidad: "Programador Backend", 
+      twitter:{active:false, links: [{ link: "" }]}, 
       github:{active:true, links: [{ link: "" }]}, 
-      linkedn:{active:true, links: [{ link: "" }]}
+      linkedn:{active:true, links: [{ link: "" }]},
+      Instagram:{active:false, links: [{ link: "" }]}
     },
     {
       nombre: "Alberto Peña Ortíz", 
       foto:"./assets/img/acercade/AP.jpg", 
-      especialidad: "Ingeniero de Software", 
+      especialidad: "Diseñador UX", 
       twitter:{active:true, links: [{ link: "https://twitter.com/alberto" }]}, 
       github:{active:true, links: [{ link: "" }]}, 
-      linkedn:{active:true, links: [{ link: "" }]}
+      linkedn:{active:true, links: [{ link: "" }]},
+      Instagram:{active:true, links: [{ link: "" }]}
     },
     {
       nombre: "Saul Hernández Contreras", 
       foto:"./assets/img/acercade/SH.png", 
-      especialidad: "Administrador de Bases de Datos", 
-      twitter:{active:true, links: [{ link: "https://twitter.com/saul" }]}, 
-      github:{active:true, links: [{ link: "" }]}, 
-      linkedn:{active:true, links: [{ link: "" }]}
+      especialidad: "Analista", 
+      twitter:{active:false, links: [{ link: "" }]}, 
+      github:{active:true, links: [{ link: "https://github.com/saulhdez25" }]}, 
+      linkedn:{active:true, links: [{ link: "https://www.linkedin.com/in/saul-hern%C3%A1ndez-b750a8319/" }]},
+      Instagram:{active:false, links: [{ link: "" }]}
     },
     {
       nombre: "Yahir Nava Gandara", 
       foto:"./assets/img/acercade/YN.jpg", 
-      especialidad: "Desarrollador Backend", 
+      especialidad: "Diseñador UI", 
       twitter:{active:true, links: [{ link: "https://twitter.com/aahir" }]}, 
       github:{active:true, links: [{ link: "" }]}, 
-      linkedn:{active:true, links: [{ link: "" }]}
+      linkedn:{active:true, links: [{ link: "" }]},
+      Instagram:{active:true, links: [{ link: "" }]}
     },
     {
       nombre: "Anthony Joseph Lamas Castillo", 
       foto:"./assets/img/acercade/AL.jpeg", 
-      especialidad: "Especialista en Seguridad Informática", 
+      especialidad: "Programador FrontEnd", 
       twitter:{active:true, links: [{ link: "https://twitter.com/anthony" }]}, 
       github:{active:true, links: [{ link: "" }]}, 
-      linkedn:{active:true, links: [{ link: "" }]}
+      linkedn:{active:true, links: [{ link: "" }]},
+      Instagram:{active:true, links: [{ link: "" }]}
     },
     {
       nombre: "Cesar Geovanny Machuca Pereida", 
       foto:"./assets/img/perfil_vacio.png", 
-      especialidad: "Analista de Datos", 
+      especialidad: "Profesor de 10", 
       twitter:{active:true, links: [{ link: "https://twitter.com/geovanny" }]}, 
       github:{active:true, links: [{ link: "" }]}, 
-      linkedn:{active:true, links: [{ link: "" }]}
+      linkedn:{active:true, links: [{ link: "" }]},
+      Instagram:{active:true, links: [{ link: "" }]}
     },
-  ]
+]
+
   
   ngOnInit(): void {
     this.setNavbarColor();
@@ -120,5 +128,13 @@ export class AcercaDeComponent {
 
   getLinkednLink(hacker: any): string {
     return hacker.linkedn.links[0]?.link || '#';
+  }
+
+  isInstagramActive(hacker: any): boolean {
+    return typeof hacker.Instagram !== 'boolean' && hacker.Instagram.active;
+  }
+
+  getInstagramLink(hacker: any): string {
+    return hacker.Instagram.links[0]?.link || '#';
   }
 }
