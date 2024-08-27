@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, Renderer2, ChangeDetectorRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd  } from '@angular/router';
 import { BecaService, Beca } from '../admin/beca.service';
 import * as CryptoJS from 'crypto-js';
 
@@ -10,7 +10,8 @@ import * as CryptoJS from 'crypto-js';
 })
 export class BecasComponent implements OnInit, AfterViewInit {
   isLoading = true;
-  becas: Beca[] = [];
+  becasInternas: Beca[] = [];
+  becasExternas: Beca[] = [];
   error: string | null = null;
   private secretKey: string = 'X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg';
 
@@ -19,10 +20,24 @@ export class BecasComponent implements OnInit, AfterViewInit {
     private router: Router,
     private renderer: Renderer2,
     private cdRef: ChangeDetectorRef
-  ) {}
+  ) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.resetTabs();
+      }
+    });
+  }
 
   ngOnInit() {
     this.cargarBecas();
+  }
+
+  resetTabs() {
+    // Restablecer el estado de los tabs al regresar a la página
+    const firstTab = document.getElementById('pills-on-gray-color-item-1');
+    if (firstTab) {
+      firstTab.click();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -37,7 +52,9 @@ export class BecasComponent implements OnInit, AfterViewInit {
     this.becaService.getBecas().subscribe({
       next: (response) => {
         if (response && Array.isArray(response.records)) {
-          this.becas = response.records.filter(beca => beca.activo);
+          // Clasificar becas en internas y externas
+          this.becasInternas = response.records.filter(beca => beca.activo && beca.tipo === 'interna');
+          this.becasExternas = response.records.filter(beca => beca.activo && beca.tipo === 'externa');
         } else {
           console.error('La respuesta no tiene la estructura esperada:', response);
           this.error = 'La respuesta del servidor no tiene el formato esperado.';

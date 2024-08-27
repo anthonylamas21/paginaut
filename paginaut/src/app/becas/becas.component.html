@@ -32,47 +32,75 @@
           <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
             Becas
           </h2>
-      </div>
-      </div>
-
-      <div *ngIf="isLoading" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <div *ngFor="let item of [1, 2, 3]" class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 animate-pulse">
-          <div class="h-8 bg-gray-300 rounded mb-4"></div>
-          <div class="h-4 bg-gray-300 rounded mb-2"></div>
-          <div class="h-4 bg-gray-300 rounded mb-2"></div>
-          <div class="h-4 bg-gray-300 rounded mb-4"></div>
-          <a href="/info_becas" class="bg-[#043D3D] text-white text-center p-2 rounded-lg mt-auto transition-transform transform hover:scale-105">
-            <div class="flex items-center justify-center">
-              <div class="h-4 w-4 bg-gray-300 rounded-full mr-2"></div>
-              <span>Cargando...</span>
-            </div>
-          </a>
         </div>
       </div>
 
-      <ng-container *ngIf="!isLoading">
-        <ng-container *ngIf="becas && becas.length > 0; else noBecas">
-          <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <div *ngFor="let beca of becas" class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4">
-              <p class="text-xl font-bold">{{ beca.nombre }}</p>
-              <p class="mt-2 text-black mb-4 flex-grow">{{ beca.descripcion }}</p>
-              <a (click)="verDetalleBeca(beca.id)" class="bg-[#043D3D] text-white text-center p-2 rounded-lg mt-auto transition-transform transform hover:scale-105">
-                Más información
-              </a>
-            </div>
-          </div>
-        </ng-container>
+      <!-- Navegación de pestañas -->
+      <div class="flex m-3 justify-center mt-8">
+        <div class="flex bg-gray-100 hover:bg-gray-200 rounded-full transition px-2 py-2">
+          <nav class="flex w-full" aria-label="Tabs" role="tablist">
+            <button type="button"
+              class="hs-tab-active:bg-[#04847C] hs-tab-active:text-white py-3 px-4 inline-flex items-center justify-center w-1/2 text-sm text-gray-500 font-medium rounded-full hover:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none active"
+              id="pills-on-gray-color-item-1" aria-selected="true" data-hs-tab="#pills-on-gray-color-1" aria-controls="pills-on-gray-color-1" role="tab">
+              Internas
+            </button>
+            <button type="button"
+              class="hs-tab-active:bg-[#04847C] hs-tab-active:text-white py-3 px-4 inline-flex items-center justify-center w-1/2 text-sm text-gray-500 font-medium rounded-full hover:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none"
+              id="pills-on-gray-color-item-2" aria-selected="false" data-hs-tab="#pills-on-gray-color-2" aria-controls="pills-on-gray-color-2" role="tab">
+              Externas
+            </button>
+          </nav>
+        </div>
+      </div>
+         
 
-        <ng-template #noBecas>
-          <div class="flex justify-center text-center">
-            <p class="text-sm">En este momento no hay información sobre becas. Por favor, vuelve a consultar más tarde.</p>
-          </div>
-        </ng-template>
-      </ng-container>
+      <div class="mt-3">
+        <!-- Contenido de Becas Internas -->
+        <div id="pills-on-gray-color-1" role="tabpanel" aria-labelledby="pills-on-gray-color-item-1">
+          <ng-container *ngIf="becasInternas && becasInternas.length > 0; else noBecasInternas">
+            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div *ngFor="let beca of becasInternas" class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4">
+                <p class="text-xl font-bold">{{ beca.nombre }}</p>
+                <p class="mt-2 text-black mb-4 flex-grow">{{ beca.descripcion }}</p>
+                <a (click)="verDetalleBeca(beca.id)" class="bg-[#043D3D] text-white text-center p-2 rounded-lg mt-auto transition-transform transform hover:scale-105">
+                  Más información
+                </a>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-template #noBecasInternas>
+            <div class="flex justify-center text-center">
+              <p class="text-sm">En este momento no hay información sobre becas internas. Por favor, vuelve a consultar más tarde.</p>
+            </div>
+          </ng-template>
+        </div>
+
+        <!-- Contenido de Becas Externas -->
+        <div id="pills-on-gray-color-2" class="hidden" role="tabpanel" aria-labelledby="pills-on-gray-color-item-2">
+          <ng-container *ngIf="becasExternas && becasExternas.length > 0; else noBecasExternas">
+            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div *ngFor="let beca of becasExternas" class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4">
+                <p class="text-xl font-bold">{{ beca.nombre }}</p>
+                <p class="mt-2 text-black mb-4 flex-grow">{{ beca.descripcion }}</p>
+                <a (click)="verDetalleBeca(beca.id)" class="bg-[#043D3D] text-white text-center p-2 rounded-lg mt-auto transition-transform transform hover:scale-105">
+                  Más información
+                </a>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-template #noBecasExternas>
+            <div class="flex justify-center text-center">
+              <p class="text-sm">En este momento no hay información sobre becas externas. Por favor, vuelve a consultar más tarde.</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
     </div>
   </main>
 
-  <!--Inicio componente Footer-->
+  <!-- Inicio componente Footer -->
   <app-footer></app-footer>
-  <!--Fin Footer-->
+  <!-- Fin Footer -->
 </div>
