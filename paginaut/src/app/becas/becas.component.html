@@ -59,10 +59,10 @@
         <div id="pills-on-gray-color-1" role="tabpanel" aria-labelledby="pills-on-gray-color-item-1">
           <ng-container *ngIf="becasInternas && becasInternas.length > 0; else noBecasInternas">
             <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <div *ngFor="let beca of becasInternas" class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4">
+              <div *ngFor="let beca of becasInternas" class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 transition-transform transform hover:scale-105 hover:shadow-2xl hover:border-transparent group duration-300 ease-in-out">
                 <p class="text-xl font-bold">{{ beca.nombre }}</p>
                 <p class="mt-2 text-black mb-4 flex-grow">{{ beca.descripcion }}</p>
-                <a (click)="verDetalleBeca(beca.id)" class="bg-[#043D3D] text-white text-center p-2 rounded-lg mt-auto transition-transform transform hover:scale-105">
+                <a (click)="verDetalleBeca(beca.id)" class="bg-[#04847C] text-white text-center p-2 rounded-lg mt-auto transition-transform transform hover:scale-105">
                   Más información
                 </a>
               </div>
@@ -79,11 +79,11 @@
         <!-- Contenido de Becas Externas -->
         <div id="pills-on-gray-color-2" class="hidden" role="tabpanel" aria-labelledby="pills-on-gray-color-item-2">
           <ng-container *ngIf="becasExternas && becasExternas.length > 0; else noBecasExternas">
-            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <div *ngFor="let beca of becasExternas" class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4">
+            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 py-8">
+              <div *ngFor="let beca of becasExternas" class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 transition-transform transform hover:scale-105 hover:shadow-2xl hover:border-transparent group duration-300 ease-in-out">
                 <p class="text-xl font-bold">{{ beca.nombre }}</p>
                 <p class="mt-2 text-black mb-4 flex-grow">{{ beca.descripcion }}</p>
-                <a (click)="verDetalleBeca(beca.id)" class="bg-[#043D3D] text-white text-center p-2 rounded-lg mt-auto transition-transform transform hover:scale-105">
+                <a (click)="verDetalleBeca(beca.id)" class="bg-[#04847C] text-white text-center p-2 rounded-lg mt-auto transition-transform transform hover:scale-105">
                   Más información
                 </a>
               </div>

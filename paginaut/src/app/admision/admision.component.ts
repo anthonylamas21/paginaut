@@ -19,11 +19,8 @@ export class AdmisionComponent {
   constructor(private bolsaDeTrabajoService: BolsaDeTrabajoService) { }
 
   ngOnInit(): void {
-    setTimeout(() => {
       this.loadInactiveBolsas();
-      this.isLoading = false;
-    }, 1000);
-    this.setNavbarColor();
+      this.setNavbarColor();
   }
 
   // Filtrar las bolsas de trabajo
@@ -44,7 +41,7 @@ export class AdmisionComponent {
       const encryptedId = this.hashids.encode(id);
       window.location.href = '/info_bolsa/' + encryptedId;
     } else {
-      console.error('ID del curso no disponible');
+      //console.error('ID del curso no disponible');
     }
   }
   // OBTENER INFORMACION
@@ -54,15 +51,16 @@ export class AdmisionComponent {
       (response: any) => {
         this.bolsas = response.records;
         this.filteredBolsas = [...this.bolsas]; // Inicializar la lista filtrada con todas las bolsas inactivas
-        console.log('Bolsas de trabajo activas recibidas:', this.bolsas);
+        //console.log('Bolsas de trabajo activas recibidas:', this.bolsas);
   
         // Cargar los requisitos para cada bolsa de trabajo inactiva si es necesario
         this.bolsas.forEach((bolsa: BolsaDeTrabajo) => {
           this.loadRequisitosBolsa(bolsa);
         });
+        this.isLoading = false;
       },
       (error) => {
-        console.error('Error al cargar bolsas de trabajo inactivas:', error);
+        //console.error('Error al cargar bolsas de trabajo inactivas:', error);
       }
     );
   }
@@ -74,14 +72,14 @@ export class AdmisionComponent {
       this.bolsaDeTrabajoService.getRequisitos(id).subscribe(
         (response) => {
           bolsaTrabajo.requisitos = response.details;
-          console.log(`Requisitos recibidos para la bolsa con ID ${id}:`, bolsaTrabajo.requisitos);
+          //console.log(`Requisitos recibidos para la bolsa con ID ${id}:`, bolsaTrabajo.requisitos);
         },
         (error) => {
-          console.error('Error al cargar requisitos:', error);
+          //console.error('Error al cargar requisitos:', error);
         }
       );
     } else {
-      console.error('ID no es un número:', id);
+      //console.error('ID no es un número:', id);
     }
   }
 
