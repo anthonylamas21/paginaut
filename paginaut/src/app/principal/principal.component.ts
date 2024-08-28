@@ -3,6 +3,7 @@ import { EventoService, Evento } from '../evento.service';
 import { NoticiaService, Noticia } from '../noticia.service';
 import * as CryptoJS from 'crypto-js';
 import { Router } from '@angular/router';
+import Hashids from 'hashids';
 
 @Component({
   selector: 'app-principal',
@@ -18,7 +19,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
   @ViewChild('recorridoSection') recorridoSection!: ElementRef;
   @ViewChild('logosUl') logosUl!: ElementRef;
 
-  private secretKey = 'X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg'; // Usa una clave segura en producción
+  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 16);
   eventosRecientes: Evento[] = [];
   noticias: Noticia[] = [];
   noticiasVisibles: Noticia[] = [];
@@ -64,25 +65,21 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
     this.setSliceValue(window.innerWidth);
   }
 
-  private decrypt(encrypted: string): string {
-    return CryptoJS.AES.decrypt(encrypted, this.secretKey).toString(CryptoJS.enc.Utf8);
-  }
-
   verNoticia(id: number | undefined): void {
     if (id !== undefined) {
-      const encryptedId = CryptoJS.AES.encrypt(id.toString(), this.secretKey).toString();
-      this.router.navigate(['/noticia', encryptedId]);
+      const encryptedId = this.hashids.encode(id);
+      window.location.href = `/noticia/${encryptedId}`;
     } else {
-      console.error('ID de noticia no disponible');
+      //console.error('ID de instalación no disponible');
     }
   }
 
   verEvento(id: number | undefined): void {
     if (id !== undefined) {
-      const encryptedId = CryptoJS.AES.encrypt(id.toString(), this.secretKey).toString();
-      this.router.navigate(['/evento', encryptedId]);
+      const encryptedId = this.hashids.encode(id);
+      window.location.href = `/evento/${encryptedId}`;
     } else {
-      console.error('ID de noticia no disponible');
+      //console.error('ID de instalación no disponible');
     }
   }
 

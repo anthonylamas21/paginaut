@@ -9,7 +9,7 @@ import Hashids from 'hashids';
   styleUrls: ['./cursos.component.css']
 })
 export class CursosComponent implements OnInit {
-  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 10);
+  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 16);
   isLoading = true;
   searchTerm: string = '';  // Término de búsqueda ingresado por el usuario
   cursos: Curso[] = [];  // Arreglo de todos los cursos

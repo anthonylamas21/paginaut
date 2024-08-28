@@ -1,6 +1,14 @@
  <!--Componente Navbar-->
  <app-navbar></app-navbar>
 
+ <p id="inicio"></p>
+
+<!--Boton de desplacamiento -->
+<button id="scrollTopButton" (click)="scrollToSection('inicio')"
+    class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+    <i class="fa-solid fa-chevron-up"></i>
+</button>
+
  <!-- Contenedor principal flexible -->
 <div class="flex flex-col min-h-screen">
   <!-- Contenido principal que puede crecer -->
@@ -27,17 +35,17 @@
             </svg>
           </li>
           <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
-            Más información
+            Ubicación
           </li>
       </ol>
 </div>
 
-<div class="flex justify-center">
+<div class="flex justify-center mt-8">
   <div class="max-w-7xl w-full">
     <!-- Sección de Ubicación -->
-    <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden p-8 sm:p-12">
-      <h2 class="text-4xl font-extrabold text-black mb-6 text-center">Visítenos</h2>
-      <p class="text-xl text-black mb-12 text-center">Universidad Tecnológica de la Costa</p>
+   
+      <h2 class="text-4xl font-extrabold text-[#043D3D] mb-6 text-center">Visítenos</h2>
+      <p class="text-xl text-[#043D3D] mb-12 text-center">Universidad Tecnológica de la Costa</p>
       
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div class="rounded-lg overflow-hidden shadow-lg">
@@ -45,27 +53,38 @@
         </div>
         <div class="bg-white bg-opacity-20 rounded-lg overflow-hidden shadow-lg text-black">
           <div class="px-6 py-4">
-            <h3 class="text-lg font-medium">Dirección</h3>
+            <h3 class="text-lg font-medium"><span><i class="fa-solid fa-diamond-turn-right mr-2 text-gray-800"></i></span>Dirección</h3>
             <p class="mt-1">Carretera Santiago entronque internacional no. 15 km 5, Santiago Ixcuintla, Nay.</p>
           </div>
+
+<!-- Sección de Horarios con estado dinámico y div flotante -->
+<div class="border-t border-gray-200 border-opacity-20 px-6 py-4 relative">
+  <div class="flex items-center cursor-pointer" (mouseover)="showHorarioPopup()" (mouseout)="hideHorarioPopup()">
+    <span><i class="fa-solid fa-clock mr-2 text-gray-800"></i></span>
+    <span class="text-lg font-bold" [ngClass]="isOpen ? 'text-green-400' : 'text-red-600'">
+      {{ isOpen ? 'Abierto ahora' : 'Cerrado ahora' }}
+    </span>
+  </div>
+  <!-- Div flotante que muestra los horarios al pasar el mouse -->
+  <div id="horarioPopup" class="absolute top-full left-0 bg-white text-black rounded-lg shadow-lg p-4 mt-2 hidden z-10 w-70">
+    <h4 class="font-bold mb-2">Horarios</h4>
+    <p class="text-sm">Lunes - Viernes: 8:00 a.m. - 4:00 p.m.</p>
+    <p class="text-sm">Sábado: 8:00 a.m. - 5:30 p.m.</p>
+    <p class="text-sm">Domingo: Cerrado</p>
+    <p class="mt-2" [ngClass]="isOpen ? 'text-green-600' : 'text-red-600'">
+      {{ isOpen ? 'Abierto Ahora' : 'Cerrado ahora' }}
+    </p>
+  </div>
+</div>
+
+
           <div class="border-t border-gray-200 border-opacity-20 px-6 py-4">
-            <div class="flex justify-between items-center">
-              <h3 class="text-lg font-medium">Horarios</h3>
-              <span class="font-bold" [ngClass]="isOpen ? 'text-green-400' : 'text-red-400'">
-                <span class="text-black font-normal">Actualmente:</span> {{ isOpen ? 'Abierto' : 'Cerrado' }}
-              </span>
-            </div>
-            <p class="mt-1">Lunes - Viernes: 8am - 4pm</p>
-            <p class="mt-1">Sábado: 8am - 5:30pm</p>
-            <p class="mt-1">Domingo: Cerrado</p>
-          </div>
-          <div class="border-t border-gray-200 border-opacity-20 px-6 py-4">
-            <h3 class="text-lg font-medium">Contacto</h3>
-            <p class="mt-1">Teléfono: +52 (323) 174 3139</p>
+            <h3 class="text-lg font-medium"><span><i class="fa-solid fa-address-book mr-2 text-gray-800"></i></span>Contacto</h3>
+            <p class="mt-1">Teléfono: +52 323 174 3139</p>
           </div>
         </div>
       </div>
-    </div>
+    
 
     <!-- Botón de contacto -->
     <div class="my-12 text-center">

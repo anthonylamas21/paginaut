@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventoService, Evento } from '../evento.service';
-import * as CryptoJS from 'crypto-js';
+import Hashids from 'hashids';
 
 @Component({
   selector: 'app-eventos',
@@ -14,7 +14,7 @@ export class EventosComponent implements OnInit {
   error: string | null = null;
   imagenAmpliada: string | null = null;
 
-  private secretKey: string = 'X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg';
+  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 16);
   idDecrypted: number | undefined;
 
   constructor(
@@ -25,8 +25,7 @@ export class EventosComponent implements OnInit {
     // Desencriptar el ID en el constructor
     const encryptedId = this.route.snapshot.paramMap.get('id');
     if (encryptedId) {
-      const bytes = CryptoJS.AES.decrypt(encryptedId, this.secretKey);
-      this.idDecrypted = parseInt(bytes.toString(CryptoJS.enc.Utf8), 10);
+      this.idDecrypted = this.hashids.decode(encryptedId)[0] as number;
     } else {
       console.error('ID de evento no disponible');
     }

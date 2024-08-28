@@ -14,17 +14,17 @@ export class CarrerasComponent {
   carrerasAgropecuarias = [
     {
       title: 'Ingeniería en Agrobiotecnología',
-      imageUrl: './assets/img/fotos_por_carrera/agrobiotecnologia.jpg',
+      imageUrl: './assets/img/fotos_por_carrera/agrobiotecnologia.webp',
       link: 'info_carreras/agrobiotecnologia'
     },
     {
       title: 'Ingeniería en Procesos Alimentarios',
-      imageUrl: './assets/img/fotos_por_carrera/procesos-alimenticios.jpg',
+      imageUrl: './assets/img/fotos_por_carrera/procesos-alimenticios.webp',
       link: 'info_carreras/procesos-alimentario'
     },
     {
       title: 'Ingeniería en Acuicultura',
-      imageUrl: './assets/img/fotos_por_carrera/acuicultura.jpg',
+      imageUrl: './assets/img/fotos_por_carrera/acuicultura.webp',
       link: 'info_carreras/acuicultura'
     }
   ];
@@ -32,35 +32,35 @@ export class CarrerasComponent {
   carrerasNegocios = [
     {
       title: 'Licenciatura en Turismo',
-      imageUrl: './assets/img/fotos_por_carrera/turismo.jpg',
+      imageUrl: './assets/img/fotos_por_carrera/turismo.webp',
       link: 'info_carreras/turismo'
     },
     {
       title: 'Licenciatura en Administración',
-      imageUrl: './assets/img/fotos_por_carrera/administracion.jpg',
+      imageUrl: './assets/img/fotos_por_carrera/administracion.webp',
       link: 'info_carreras/administracion'
     },
     {
       title: 'Licenciatura en Mercadotecnia',
-      imageUrl: './assets/img/fotos_por_carrera/mercadotecnia.jpg',
+      imageUrl: './assets/img/fotos_por_carrera/mercadotecnia.webp',
       link: 'info_carreras/mercadotecnia'
     },
     {
       title: 'Licenciatura en Gastronomía',
-      imageUrl: './assets/img/fotos_por_carrera/gastronomia.jpg',
+      imageUrl: './assets/img/fotos_por_carrera/gastronomia.webp',
       link: 'info_carreras/gastronomia'
     },
     {
       title: 'TSU. en Contaduría',
-      imageUrl: './assets/img/fotos_por_carrera/contaduria.jpg',
+      imageUrl: './assets/img/fotos_por_carrera/contaduria.webp',
       link: 'info_carreras/contaduria'
     }
   ];
 
   carrerasTecnologica = [
     {
-      title: 'Ingeniería en Desarrollo de Gestión de Software',
-      imageUrl: './assets/img/fotos_por_carrera/desarrollo-software.jpg',
+      title: 'Ingeniería en Desarrollo y Gestión de Software',
+      imageUrl: './assets/img/fotos_por_carrera/desarrollo-software.webp',
       link: 'info_carreras/desarrollo-software'
     }
   ];

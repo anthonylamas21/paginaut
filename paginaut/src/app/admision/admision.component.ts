@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { BolsaDeTrabajo, BolsaDeTrabajoService } from '../admin/bolsa-de-trabajo.service';
+import Hashids from 'hashids';
 
 @Component({
   selector: 'app-admision',
@@ -7,6 +8,7 @@ import { BolsaDeTrabajo, BolsaDeTrabajoService } from '../admin/bolsa-de-trabajo
   styleUrl: './admision.component.css'
 })
 export class AdmisionComponent {
+  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 16);
 
   isLoading = true;
   searchText: string = '';
@@ -37,6 +39,14 @@ export class AdmisionComponent {
     }
   }
 
+  verDetalleBolsa(id: number | undefined): void {
+    if (id) {
+      const encryptedId = this.hashids.encode(id);
+      window.location.href = '/info_bolsa/' + encryptedId;
+    } else {
+      console.error('ID del curso no disponible');
+    }
+  }
   // OBTENER INFORMACION
 
   loadInactiveBolsas() {

@@ -1,7 +1,18 @@
 <!--Componente Navbar-->
 <app-navbar></app-navbar>
 <p id="inicio"></p>
-<!--Fin Navbar-->
+
+<!--Boton de desplacamiento -->
+<button id="scrollTopButton" (click)="scrollToSection('inicio')"
+    class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+    <i class="fa-solid fa-chevron-up"></i>
+</button>
+
+<!-- Contenedor principal flexible -->
+<div class="flex flex-col min-h-screen">
+  <!-- Contenido principal que puede crecer -->
+  <main class="flex-grow">
+    <!-- Fin Navbar -->
 
 <div class=" mt-4">
     <ol class="flex items-center whitespace-nowrap ml-4 mt-24 ">
@@ -28,10 +39,11 @@
 </div>
 
 <div class="container mx-auto py-8 px-4 lg:py-16 lg:px-6 mb-10">
-    <div class="text-center mb-10">
+    <div class="text-center mb-8">
         <div class="bg-[#043D3D] rounded-lg">
             <h2 class="text-3xl font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4">EnfermerÍa</h2>
         </div>
+    </div>
 
 <!-- Todo esto a la derecha -->
 <div class="flex flex-col items-end">
@@ -86,27 +98,27 @@
 
         <div class="flex-1 flex flex-col sm:flex-row flex-wrap -mb-4 -mx-2">
             <div class="w-full sm:w-1/2 mb-4 px-2 ">
-                <div class="h-full py-4 px-6 border border-green-500 border-t-0 border-l-0 rounded-br-xl">
+                <div class="h-full py-4 px-6 border border-[#043D3D] border-t-0 border-l-0 rounded-br-xl">
                     <h3 class="text-2xl font-bold text-md mb-6">Inyecciones:</h3>
                     <p class="text-sm text-justify">Ofrecemos servicios de administración de inyecciones de manera segura y profesional. Nuestro personal de enfermería está altamente capacitado para garantizar que las inyecciones se administren correctamente, minimizando el dolor y asegurando la efectividad del tratamiento.</p>
                 </div>
             </div>
             <div class="w-full sm:w-1/2 mb-4 px-2 ">
-                <div class="h-full py-4 px-6 border border-green-500 border-t-0 border-l-0 rounded-br-xl">
+                <div class="h-full py-4 px-6 border border-[#043D3D] border-t-0 border-l-0 rounded-br-xl">
                     <h3 class="text-2xl font-bold text-md mb-6">Medicina</h3>
                     <p class="text-sm text-justify">Proporcionamos asistencia en la administración y manejo de medicamentos, asegurando que los pacientes sigan sus tratamientos de manera correcta y segura. Nuestro equipo de enfermería trabaja en coordinación con médicos para optimizar los resultados del tratamiento.</p>
                 </div>
             </div>
 
             <div class="w-full sm:w-1/2 mb-4 px-2 ">
-                <div class="h-full py-4 px-6 border border-green-500 border-t-0 border-l-0 rounded-br-xl">
+                <div class="h-full py-4 px-6 border border-[#043D3D] border-t-0 border-l-0 rounded-br-xl">
                     <h3 class="text-2xl font-bold text-md mb-6">Consultas</h3>
                     <p class="text-sm text-justify">Realizamos consultas de enfermería para evaluar el estado de salud de los pacientes, ofrecer recomendaciones sobre el cuidado personal y proporcionar educación sobre la prevención de enfermedades. Nuestras consultas están diseñadas para abordar tanto problemas agudos como crónicos.</p>
                 </div>
             </div>
 
             <div class="w-full sm:w-1/2 mb-4 px-2 ">
-                <div class="h-full py-4 px-6 border border-green-500 border-t-0 border-l-0 rounded-br-xl">
+                <div class="h-full py-4 px-6 border border-[#043D3D] border-t-0 border-l-0 rounded-br-xl">
                     <h3 class="text-2xl font-bold text-md mb-6">Seguro IMSS</h3>
                     <p class="text-sm text-justify">Asistimos a nuestros pacientes en la gestión de su seguro IMSS, proporcionando orientación sobre cómo acceder a los beneficios, realizar trámites y resolver cualquier duda relacionada con el seguro.</p>
                 </div>
@@ -116,9 +128,8 @@
         </div>
     </div>
 </div>
-
-</div>
-
+  </main>
 <!--Inicio componente Footer-->
 <app-footer></app-footer>
 <!--Fin Footer-->
+</div>

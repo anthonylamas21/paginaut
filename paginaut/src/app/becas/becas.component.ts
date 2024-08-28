@@ -13,7 +13,7 @@ export class BecasComponent implements OnInit, AfterViewInit {
   becasInternas: Beca[] = [];
   becasExternas: Beca[] = [];
   error: string | null = null;
-  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 10);
+  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 16);
 
   constructor(
     private becaService: BecaService,

@@ -1,6 +1,18 @@
 <app-navbar></app-navbar>
 <p id="inicio"></p>
 
+<!--Boton de desplacamiento -->
+<button id="scrollTopButton" (click)="scrollToSection('inicio')"
+    class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+    <i class="fa-solid fa-chevron-up"></i>
+</button>
+
+<!-- Contenedor principal flexible -->
+<div class="flex flex-col min-h-screen">
+  <!-- Contenido principal que puede crecer -->
+  <main class="flex-grow">
+    <!-- Fin Navbar -->
+
 <ol class="flex items-center whitespace-nowrap ml-4 mt-24">
     <li class="inline-flex items-center">
       <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/principal">
@@ -49,11 +61,11 @@
     </section>
   </div>
   </div>
-
+  </main>
 <!--Inicio componente Footer-->
 <app-footer></app-footer>
 <!--Fin Footer-->
-
+</div>
 <!-- Modal para imagen ampliada -->
 <div *ngIf="selectedImage"  id="hs-vertically-centered-modal" class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
   <div class="relative max-w-[90vh] w-full">

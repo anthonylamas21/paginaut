@@ -11,7 +11,7 @@ import Hashids from 'hashids';
   styleUrls: ['./info-curso.component.css']
 })
 export class InfoCursoComponent implements OnInit {
-  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 10);
+  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 16);
   curso: Curso | undefined;
   eventos: Evento[] = [];
   profesores: Profesor[] = []; // Inicializar como un array vacío

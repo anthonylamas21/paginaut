@@ -11,7 +11,7 @@ import Hashids from 'hashids';
 })
 export class InfoBecaComponent implements OnInit, AfterViewInit {
 
-  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 10);
+  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 16);
   idDecrypted: number | undefined;
 
   beca: Beca | null = null;
