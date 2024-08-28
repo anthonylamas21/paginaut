@@ -41,15 +41,15 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
   }
 
   imagenes = [
-    { src: './assets/img/fotos_por_carrera/desarrollo-software.jpg', alt: 'Desarrollo de Software' },
-    { src: './assets/img/fotos_por_carrera/contaduria.jpg', alt: 'Contaduría' },
-    { src: './assets/img/fotos_por_carrera/gastronomia.jpg', alt: 'Gastronomía' },
-    { src: './assets/img/fotos_por_carrera/administracion.jpg', alt: 'Administración' },
-    { src: './assets/img/fotos_por_carrera/mercadotecnia.jpg', alt: 'Mercadotecnia' },
-    { src: './assets/img/fotos_por_carrera/turismo.jpg', alt: 'Turismo' },
-    { src: './assets/img/fotos_por_carrera/acuicultura.jpg', alt: 'Acuicultura' },
-    { src: './assets/img/fotos_por_carrera/procesos-alimenticios.jpg', alt: 'Procesos Alimenticios' },
-    { src: './assets/img/fotos_por_carrera/agrobiotecnologia.jpg', alt: 'Agrobiotecnología' }
+    { src: './assets/img/fotos_por_carrera/contaduria.webp', alt: 'Contaduría' },
+    { src: './assets/img/fotos_por_carrera/gastronomia.webp', alt: 'Gastronomía' },
+    { src: './assets/img/fotos_por_carrera/administracion.webp', alt: 'Administración' },
+    { src: './assets/img/fotos_por_carrera/mercadotecnia.webp', alt: 'Mercadotecnia' },
+    { src: './assets/img/fotos_por_carrera/turismo.webp', alt: 'Turismo' },
+    { src: './assets/img/fotos_por_carrera/desarrollo-software.webp', alt: 'Desarrollo de Software' },
+    { src: './assets/img/fotos_por_carrera/acuicultura.webp', alt: 'Acuicultura' },
+    { src: './assets/img/fotos_por_carrera/procesos-alimenticios.webp', alt: 'Procesos Alimenticios' },
+    { src: './assets/img/fotos_por_carrera/agrobiotecnologia.webp', alt: 'Agrobiotecnología' }
   ];
 
   constructor(
