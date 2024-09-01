@@ -57,6 +57,81 @@ function noWhitespaceValidator(): ValidatorFn {
   };
 }
 
+// Validador personalizado para impedir comas dobles
+function noDoubleCommasValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const hasDoubleCommas = (control.value || '').includes(',,');
+    return hasDoubleCommas ? { doubleCommas: true } : null;
+  };
+}
+
+// Validador personalizado para impedir puntos dobles
+function noDoubleDotsValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const hasDoubleDots = (control.value || '').includes('..');
+    return hasDoubleDots ? { doubleDots: true } : null;
+  };
+}
+
+// Validador personalizado para evitar múltiples espacios consecutivos
+function noMultipleSpacesValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const hasMultipleSpaces = (control.value || '').includes('  ');
+    return hasMultipleSpaces ? { multipleSpaces: true } : null;
+  };
+}
+
+// Validador personalizado para evitar caracteres no permitidos o erratas
+function noTypoOrErrataValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const forbiddenPattern = /[\~\^\´\`\¨<>{}]/; // Añadir más caracteres según sea necesario
+    const hasForbiddenChars = forbiddenPattern.test(control.value || '');
+    return hasForbiddenChars ? { forbiddenChars: true } : null;
+  };
+}
+
+// Validador para prevenir inyecciones SQL
+function noSQLInjectionValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const sqlPattern = /(select|insert|update|delete|drop|;|'|"|--)/i;
+    const hasSQLInjection = sqlPattern.test(control.value || '');
+    return hasSQLInjection ? { sqlInjection: true } : null;
+  };
+}
+
+// Validador para prevenir inyecciones JavaScript
+function noJavaScriptInjectionValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const jsPattern = /(<script>|<\/script>|javascript:)/i;
+    const hasJSInjection = jsPattern.test(control.value || '');
+    return hasJSInjection ? { jsInjection: true } : null;
+  };
+}
+
+// Validador para detectar errores ortográficos comunes
+function noCommonTyposValidator(): ValidatorFn {
+  const commonTypos: { [key: string]: string } = {
+    becá: 'beca',
+    descripccion: 'descripción',
+    univercidad: 'universidad',
+    'universidad tecnológica': 'Universidad Tecnológica de La Costa',
+    tituló: 'título',
+    alumnós: 'alumnos',
+    'beca exelencia': 'beca de excelencia',
+    // Agrega más erratas comunes aquí
+  };
+
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value?.toLowerCase() || '';
+    const typo = Object.keys(commonTypos).find((typo) => value.includes(typo));
+    return typo
+      ? {
+          typo: `Error ortográfico detectado: "${typo}" debería ser "${commonTypos[typo]}"`,
+        }
+      : null;
+  };
+}
+
 @Component({
   selector: 'app-agregar-beca',
   templateUrl: './agregar-beca.component.html',
@@ -91,23 +166,36 @@ export class AgregarBecaComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.maxLength(50),
-          Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ()\-_*]+$/), // Permite acentos, paréntesis, guion medio, guion bajo y asterisco
-          noWhitespaceValidator()
+          Validators.maxLength(150), // Se ha actualizado a 150 caracteres
+          Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ(),.*\-_*]+$/), // Permite acentos, paréntesis, guion medio, guion bajo, asterisco, comas y puntos
+          noWhitespaceValidator(),
+          noDoubleCommasValidator(),
+          noDoubleDotsValidator(),
+          noMultipleSpacesValidator(),
+          noTypoOrErrataValidator(),
+          noSQLInjectionValidator(),
+          noJavaScriptInjectionValidator(),
+          noCommonTyposValidator(),
         ],
       ],
       descripcion: [
         '',
         [
           Validators.required,
-          Validators.maxLength(100),
-          Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ()\-_*]+$/), // Permite acentos, paréntesis, guion medio, guion bajo y asterisco
-          noWhitespaceValidator()
+          Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ(),.*\-_*]+$/), // Permite acentos, paréntesis, guion medio, guion bajo, asterisco, comas y puntos
+          noWhitespaceValidator(),
+          noDoubleCommasValidator(),
+          noDoubleDotsValidator(),
+          noMultipleSpacesValidator(),
+          noTypoOrErrataValidator(),
+          noSQLInjectionValidator(),
+          noJavaScriptInjectionValidator(),
+          noCommonTyposValidator(),
         ],
       ],
       tipo: ['', Validators.required],
       archivo: ['', Validators.required],
-    });    
+    });
   }
 
   ngOnInit(): void {
@@ -215,7 +303,7 @@ export class AgregarBecaComponent implements OnInit {
   @HostListener('paste', ['$event'])
   handlePaste(event: ClipboardEvent) {
     const pastedData = event.clipboardData?.getData('text') || '';
-    const allowedPattern = /^[a-zA-Z0-9\s.,]*$/; // Permitir letras, números, espacios, puntos y comas
+    const allowedPattern = /^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ(),.*]*$/; // Permitir letras, números, espacios, puntos y comas
     if (!allowedPattern.test(pastedData)) {
       event.preventDefault();
     }

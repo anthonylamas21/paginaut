@@ -42,7 +42,7 @@ class TooltipManager {
   }
 }
 
-// Validador personalizado para el campo de año
+// Validador para el campo de año
 function yearValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const validYear = /^[0-9]{4}$/;
@@ -74,6 +74,17 @@ function scriptInjectionValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const scriptPattern = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
     return scriptPattern.test(control.value) ? { scriptInjection: true } : null;
+  };
+}
+
+// Validador para evitar títulos duplicados
+function duplicateTitleValidator(calendarios: Calendario[]): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const title = control.value || '';
+    const duplicate = calendarios.some(
+      (calendario) => calendario.titulo === title
+    );
+    return duplicate ? { duplicateTitle: true } : null;
   };
 }
 
@@ -118,7 +129,11 @@ export class AgregarCalendarioComponent implements OnInit {
       ],
       titulo: [
         { value: '', disabled: true },
-        [noWhitespaceValidator(), scriptInjectionValidator()],
+        [
+          noWhitespaceValidator(),
+          scriptInjectionValidator(),
+          duplicateTitleValidator(this.calendarios),
+        ],
       ],
       archivo: [''],
     });

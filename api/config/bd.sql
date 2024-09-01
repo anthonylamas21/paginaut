@@ -16,14 +16,14 @@ CREATE TABLE token_sesion (
 
 CREATE TABLE Departamento (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
+    nombre VARCHAR(150) NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Instalaciones(
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
+    nombre VARCHAR(150) NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -46,7 +46,7 @@ CREATE TABLE Usuario (
 CREATE TABLE Direccion (
     id SERIAL PRIMARY KEY,
     Abreviatura VARCHAR(10) NOT NULL,
-    nombre VARCHAR(100) NOT NULL,
+    nombre VARCHAR(150) NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -62,7 +62,7 @@ CREATE TABLE NivelesEstudios (
 -- Crear la tabla CampoEstudio
 CREATE TABLE CampoEstudio (
     id SERIAL PRIMARY KEY,
-    campo VARCHAR(100) NOT NULL,
+    campo VARCHAR(150) NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -70,7 +70,7 @@ CREATE TABLE CampoEstudio (
 -- Crear la tabla Carrera
 CREATE TABLE Carrera (
     id SERIAL PRIMARY KEY,
-    nombre_carrera VARCHAR(100) NOT NULL,
+    nombre_carrera VARCHAR(150) NOT NULL,
     perfil_profesional TEXT,
     ocupacion_profesional TEXT,
     direccion_id INT,
@@ -94,7 +94,7 @@ CREATE TABLE Cuatrimestre (
 
 CREATE TABLE Asignatura (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
+    nombre VARCHAR(150) NOT NULL,
     cuatrimestre_id INT NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -104,10 +104,10 @@ CREATE TABLE Asignatura (
 -- Crear tabla general para imágenes
 CREATE TABLE Imagenes (
     id SERIAL PRIMARY KEY,
-    titulo VARCHAR(100) NOT NULL,
+    titulo VARCHAR(150) NOT NULL,
     descripcion TEXT,
     ruta_imagen VARCHAR(255) NOT NULL,
-    seccion VARCHAR(50) NOT NULL, -- Identifica a qué sección pertenece la imagen (carrera, evento, taller,Instalaciones etc.)
+    seccion VARCHAR(50) NOT NULL, -- Identifica a qué sección pertenece la imagen (carrera, evento, taller, instalaciones, etc.)
     asociado_id INT, -- ID del registro en la tabla correspondiente
     principal BOOLEAN DEFAULT FALSE, -- Indica si la imagen es principal
     activo BOOLEAN DEFAULT TRUE,
@@ -117,7 +117,7 @@ CREATE TABLE Imagenes (
 -- Crear tabla general para archivos
 CREATE TABLE Archivos (
     id SERIAL PRIMARY KEY,
-    nombre_archivo VARCHAR(255) NOT NULL,
+    nombre_archivo VARCHAR(150) NOT NULL,
     ruta_archivo VARCHAR(255) NOT NULL,
     tipo_archivo VARCHAR(255) NOT NULL,
     seccion VARCHAR(50) NOT NULL, -- Identifica a qué sección pertenece el archivo (asignatura, evento, calendario, etc.)
@@ -128,10 +128,10 @@ CREATE TABLE Archivos (
 
 CREATE TABLE Evento (
     id SERIAL PRIMARY KEY,
-    titulo VARCHAR(50) NOT NULL,
+    titulo VARCHAR(150) NOT NULL,
     informacion_evento TEXT NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
-    lugar_evento VARCHAR(50) NOT NULL,
+    lugar_evento VARCHAR(150) NOT NULL,
     fecha_inicio TIMESTAMP,
     fecha_fin TIMESTAMP,
     hora_inicio TIME,
@@ -141,53 +141,53 @@ CREATE TABLE Evento (
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_curso FOREIGN KEY (curso_id) REFERENCES Curso(id) ON DELETE SET NULL
 );
+
 CREATE TABLE Curso (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL,
-    descripcion VARCHAR(50) NOT NULL,
+    nombre VARCHAR(150) NOT NULL,
+    descripcion TEXT NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
-fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Noticia (
     id SERIAL PRIMARY KEY,
-    titulo VARCHAR(50) NOT NULL,
+    titulo VARCHAR(150) NOT NULL,
     resumen TEXT,
     informacion_noticia TEXT NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
-    lugar_noticia VARCHAR(50) NOT NULL,
+    lugar_noticia VARCHAR(150) NOT NULL,
     autor VARCHAR(50),
     fecha_publicacion DATE DEFAULT CURRENT_DATE NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
 CREATE TABLE Calendario (
     id SERIAL PRIMARY KEY,
-    titulo VARCHAR(50) NOT NULL,
-    archivo VARCHAR(10000) NOT NULL,
+    titulo VARCHAR(150) NOT NULL,
+    archivo TEXT NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE BolsaDeTrabajo (
     id SERIAL PRIMARY KEY,
-    titulo_trabajo VARCHAR(50) NOT NULL,
+    titulo_trabajo VARCHAR(150) NOT NULL,
     informacion_oferta TEXT NOT NULL,
     correo_empresa VARCHAR(100),
     tipo VARCHAR(50) NOT NULL, -- 'EMPRESA' o 'PROFESORES'
     telefono_empresa VARCHAR(20),
     activo BOOLEAN DEFAULT TRUE,
     id_direccion INT,
-    FOREIGN KEY (id_direccion) references Direccion(id),
+    FOREIGN KEY (id_direccion) REFERENCES Direccion(id),
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Taller (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL,
-    descripcion VARCHAR(50) NOT NULL,
-    competencia VARCHAR(50) NOT NULL,
+    nombre VARCHAR(150) NOT NULL,
+    descripcion TEXT NOT NULL,
+    competencia VARCHAR(150) NOT NULL,
     activo BOOLEAN DEFAULT TRUE
 );
 
@@ -201,7 +201,6 @@ CREATE TABLE beca (
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
 CREATE TABLE Historial (
     id SERIAL PRIMARY KEY,
     tabla VARCHAR(50) NOT NULL,
@@ -211,10 +210,12 @@ CREATE TABLE Historial (
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     hora TIME NOT NULL DEFAULT CURRENT_TIME
 );
+
 CREATE TABLE TiposProfesores (
     id SERIAL PRIMARY KEY,
     tipo VARCHAR(50) NOT NULL UNIQUE
 );
+
 CREATE TABLE Profesores (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -228,12 +229,14 @@ CREATE TABLE Profesores (
     activo BOOLEAN DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 CREATE TABLE ProfesorTipo (
     id SERIAL PRIMARY KEY,
     profesor_id INT REFERENCES Profesores(id) ON DELETE CASCADE,
     tipo_id INT REFERENCES TiposProfesores(id) ON DELETE CASCADE,
     UNIQUE (profesor_id, tipo_id)
 );
+
 -- Función y trigger para la tabla Usuario
 CREATE OR REPLACE FUNCTION log_modificacion_usuario()
 RETURNS TRIGGER AS $$
@@ -343,7 +346,6 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trigger_archivo
 AFTER INSERT OR UPDATE OR DELETE ON Archivos
 FOR EACH ROW EXECUTE FUNCTION log_modificacion_archivo();
-
 
 -- Función y trigger para la tabla Evento
 CREATE OR REPLACE FUNCTION log_modificacion_evento()
@@ -724,4 +726,3 @@ CREATE INDEX idx_usuario_correo ON Usuario (correo);
 CREATE INDEX idx_carrera_nombre ON Carrera (nombre_carrera);
 CREATE INDEX idx_evento_fecha ON Evento (fecha_inicio);
 CREATE INDEX idx_bolsadetrabajo_fecha_creacion ON BolsaDeTrabajo (fecha_creacion);
-
