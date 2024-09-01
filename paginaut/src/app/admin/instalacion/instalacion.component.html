@@ -99,13 +99,26 @@
               class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
               placeholder="Título de la instalación"
               maxlength="50"
+              required
             />
             <p
-              *ngIf="isFieldInvalid('titulo')"
-              class="mt-1 text-xs text-red-600"
-            >
-              {{ getErrorMessage("titulo") }}
-            </p>
+                *ngIf="
+                instalacionForm.get('titulo')?.invalid &&
+                (instalacionForm.get('titulo')?.dirty ||
+                instalacionForm.get('titulo')?.touched)
+                  "
+                  class="mt-1 text-xs text-red-600"
+                  >
+                <span *ngIf="instalacionForm.get('titulo')?.errors?.['required']"
+                  >El nombre es requerido.</span
+                >
+                <span *ngIf="instalacionForm.get('titulo')?.errors?.['maxlength']"
+                  >El nombre no puede tener más de 50 caracteres.</span
+                >
+                <span *ngIf="instalacionForm.get('titulo')?.errors?.['pattern']">
+                  Solo se permiten letras y números.</span
+                >
+              </p>
           </div>
 
           <div>

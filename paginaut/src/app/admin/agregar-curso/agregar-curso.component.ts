@@ -59,8 +59,8 @@ export class AgregarCursoComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.cursoForm = this.fb.group({
-      nombre: ['', [Validators.required, Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9 ]+$')]],
-      descripcion: [['',Validators.required, Validators.maxLength(200)]],
+      nombre: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-ZÀ-ÿ0-9\s\-.,()¡!"']+$/)]],
+      descripcion: ['',[Validators.required, Validators.maxLength(200), Validators.pattern(/^[a-zA-ZÀ-ÿ0-9\s\-.,()¡!"']+$/)]],
       activo: [true],
       imagenPrincipal: [null, Validators.required],  // Campo para la imagen principal
       imagenesGenerales: [[]], 
