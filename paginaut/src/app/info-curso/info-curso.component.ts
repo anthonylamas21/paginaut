@@ -124,4 +124,13 @@ export class InfoCursoComponent implements OnInit {
     const baseImageUrl = 'http://localhost/paginaut/';
     return relativePath ? baseImageUrl + relativePath : baseImageUrl + 'paginaut/src/assets/img/perfil_vacio_2.png';
   }
+
+  verEvento(id: number | undefined): void {
+    if (id !== undefined) {
+      const encryptedId = this.hashids.encode(id);
+      window.location.href = `/evento/${encryptedId}`;
+    } else {
+      //console.error('ID de instalación no disponible');
+    }
+  }
 }

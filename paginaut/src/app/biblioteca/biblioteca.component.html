@@ -36,102 +36,66 @@
           Biblioteca
         </li>
       </ol>
-</div>
-
-<div class="container mx-auto py-8 px-4 lg:py-16 lg:px-6 mb-10">
-    <div class="text-center mb-10">
-        <div class="bg-[#043D3D] rounded-lg">
-            <h2 class="text-3xl font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4">Biblioteca</h2>
-        </div>
-
-<!-- Todo esto a la derecha -->
-<div class="flex flex-col items-end">
-    <div class="flex items-center mb-4">
-        <div class="text-right mr-4">
-            <dt class="text-lg leading-6 font-medium text-gray-900">
-                {{correo}}
-            </dt>
-        </div>
-        <div class="flex-shrink-0 items-center">
-            <div class="flex items-center justify-center h-12 w-12 rounded-md bg-[#043D3D] text-white">
-                <!-- Heroicon name: mail -->
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                </svg>
-            </div>
-        </div>
     </div>
 
-    <div class="flex">
-        <div class="ml-4">
-            <dt class="text-lg leading-6 font-medium text-gray-900">
-                (+52) 311-233-1258
-            </dt>
-        </div>
-
-            <div class="flex-shrink-0  ml-4 items-center">
-                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-[#043D3D] text-white">
-                    <!-- Heroicon name: phone -->
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-                    </svg>
-        
-                </div>
-            </div>
-
-        </div>
-    </div>
-
+    <!-- Título de la sección -->
+    <div class="container mx-auto py-8 px-4 lg:py-16 lg:px-6">
     
-
-    <div class="flex flex-col md:flex-row mt-7">
-        <!-- can help image -->
-        <div class="mr-0 md:mr-8 mb-6 md:mb-0">
-            <img class="w- h-96 md:w-full mx-auto" src=".\assets\img\biblioteca_entrada.jpg" alt="can_help_banner">
+      <!-- Sección de imagen de demostración -->
+      <div class="relative w-full h-96 overflow-hidden rounded-lg shadow-md">
+        <img src="./assets/img/biblioteca_entrada.jpg" alt="Biblioteca" class="w-full h-full object-cover opacity-80">
+        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+          <h1 class="text-white text-center text-4xl lg:text-5xl font-bold tracking-wider">Servicio de Biblioteca UTC</h1>
         </div>
-        <!-- end can help image -->
+      </div>
 
-        <div class="flex-1 flex flex-col sm:flex-row flex-wrap -mb-4 -mx-2">
-            <div class="w-full sm:w-1/2 mb-4 px-2 ">
-                <div class="h-full py-4 px-6 border border-green-500 border-t-0 border-l-0 rounded-br-xl">
-                    <h3 class="text-2xl font-bold text-md mb-6">Préstamo de Libros:</h3>
-                    <p class="text-sm text-justify">Este servicio permite a los usuarios tomar prestados libros de la biblioteca para su uso personal durante un período de tiempo determinado. Los usuarios pueden explorar una vasta colección que incluye ficción, no ficción, libros académicos, revistas, y otros materiales. Para acceder a este servicio, generalmente se requiere estar registrado como miembro de la biblioteca.</p>
+      <!-- Información de contacto -->
+        <div class="flex flex-col items-center mb-10 mt-8">
+            <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
+            <!-- Correo -->
+            <div class="flex items-center space-x-2">
+                <div class="flex items-center justify-center h-12 w-12 rounded-full bg-[#04847C] text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                </svg>
                 </div>
+                <p class="text-lg text-gray-800">bibliotecautc.edu.mx</p>
             </div>
-            <div class="w-full sm:w-1/2 mb-4 px-2 ">
-                <div class="h-full py-4 px-6 border border-green-500 border-t-0 border-l-0 rounded-br-xl">
-                    <h3 class="text-2xl font-bold text-md mb-6">Préstamo de Equipo de Cómputo</h3>
-                    <p class="text-sm text-justify">Este servicio permite a los usuarios de la biblioteca acceder a equipos de cómputo, como laptops o tablets, ya sea dentro de las instalaciones o, en algunos casos, para llevar a casa. Este servicio es ideal para aquellos que necesitan acceso temporal a una computadora para trabajos, investigaciones o acceso a internet.
-                    </p>
+        
+            <!-- Teléfono -->
+            <div class="flex items-center space-x-2">
+                <div class="flex items-center justify-center h-12 w-12 rounded-full bg-[#04847C] text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                </svg>
                 </div>
+                <p class="text-lg text-gray-800">(+52) 311-233-1258</p>
             </div>
-
-            <div class="w-full sm:w-1/2 mb-4 px-2 ">
-                <div class="h-full py-4 px-6 border border-green-500 border-t-0 border-l-0 rounded-br-xl">
-                    <h3 class="text-2xl font-bold text-md mb-6">Áreas de Estudio</h3>
-                    <p class="text-sm text-justify">Las áreas de estudio de la biblioteca están diseñadas para proporcionar un ambiente tranquilo y cómodo donde los usuarios pueden leer, estudiar, o trabajar en proyectos. Estas áreas pueden incluir mesas individuales, cubículos, salas de estudio en grupo, y zonas de silencio. Algunas bibliotecas también ofrecen salas de estudio que se pueden reservar para uso privado.</p>
-                </div>
             </div>
-
-            <div class="w-full sm:w-1/2 mb-4 px-2 ">
-                <div class="h-full py-4 px-6 border border-green-500 border-t-0 border-l-0 rounded-br-xl">
-                    <h3 class="text-2xl font-bold text-md mb-6">Papelería</h3>
-                    <p class="text-sm text-justify">El servicio de papelería de una biblioteca proporciona a los usuarios acceso a materiales básicos como hojas, bolígrafos, lápices, carpetas, y otros suministros que pueden ser necesarios para el estudio o la investigación. Algunas bibliotecas también ofrecen servicios de impresión, copiado y encuadernación.</p>
-                </div>
-            </div>
-
-
         </div>
+  
+      <!-- Sección de servicios de la biblioteca -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-white p-6 border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
+          <h3 class="text-2xl font-bold text-[#04847C] mb-4">Préstamo de Libros</h3>
+          <p class="text-gray-700">Explora nuestra vasta colección de libros, que incluye ficción, no ficción, libros académicos y más. Lleva a casa el conocimiento que necesitas para tus estudios.</p>
+        </div>
+        <div class="bg-white p-6 border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
+          <h3 class="text-2xl font-bold text-[#04847C] mb-4">Préstamo de Equipo de Cómputo</h3>
+          <p class="text-gray-700">Accede a laptops y tablets para realizar tus trabajos de investigación y proyectos. Disponibles para uso en la biblioteca o para llevar a casa.</p>
+        </div>
+        <div class="bg-white p-6 border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
+          <h3 class="text-2xl font-bold text-[#04847C] mb-4">Áreas de Estudio</h3>
+          <p class="text-gray-700">Disfruta de un ambiente tranquilo y cómodo en nuestras áreas de estudio, perfectas para leer, estudiar o trabajar en proyectos individuales o en grupo.</p>
+        </div>
+        <div class="bg-white p-6 border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
+          <h3 class="text-2xl font-bold text-[#04847C] mb-4">Papelería</h3>
+          <p class="text-gray-700">Encuentra todos los suministros que necesitas para tus proyectos académicos, incluyendo servicios de impresión, copiado y encuadernación.</p>
+        </div>
+      </div>
     </div>
-</div>
-
-</div>
   </main>
-<!--Inicio componente Footer-->
-<app-footer></app-footer>
-<!--Fin Footer-->
+  <!-- Inicio componente Footer -->
+  <app-footer></app-footer>
+  <!-- Fin Footer -->
 </div>
