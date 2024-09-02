@@ -54,16 +54,27 @@ export class AgregarCursoComponent implements OnInit {
   selectedProfesores: Set<number> = new Set();
   imagenesGeneralesAEliminar: string[] = [];
 
-  constructor(
-    private cursoService: CursoService,
-    private fb: FormBuilder
-  ) {
+  constructor(private cursoService: CursoService, private fb: FormBuilder) {
     this.cursoForm = this.fb.group({
-      nombre: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-ZÀ-ÿ0-9\s\-.,()¡!"']+$/)]],
-      descripcion: ['',[Validators.required, Validators.maxLength(200), Validators.pattern(/^[a-zA-ZÀ-ÿ0-9\s\-.,()¡!"']+$/)]],
+      nombre: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.pattern(/^[a-zA-ZÀ-ÿ0-9\s\-.,()¡!"']+$/),
+        ],
+      ],
+      descripcion: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(/^[a-zA-ZÀ-ÿ0-9\s\-.,()¡!"']+$/),
+        ],
+      ],
       activo: [true],
-      imagenPrincipal: [null, Validators.required],  // Campo para la imagen principal
-      imagenesGenerales: [[]], 
+      imagenPrincipal: [null], // Inicia sin Validators.required
+      imagenesGenerales: [[]],
     });
   }
 
@@ -78,7 +89,7 @@ export class AgregarCursoComponent implements OnInit {
         this.profesores = res.records;
       },
       (err) => {
-        console.error("Error al cargar profesores:", err);
+        console.error('Error al cargar profesores:', err);
       }
     );
   }
@@ -95,7 +106,6 @@ export class AgregarCursoComponent implements OnInit {
     return this.selectedProfesores.has(profesorId);
   }
 
-// Método para cargar los cursos desde el servicio
   loadCursos(): void {
     this.cursoService.obtenerCurso().subscribe({
       next: (response) => {
@@ -117,58 +127,51 @@ export class AgregarCursoComponent implements OnInit {
     return this.baseImageUrl + relativePath;
   }
 
-// Método para filtrar los cursos activos e inactivos
-filterCursos(): void {
-  this.filteredCursos = this.cursos.filter((curso) => curso.activo !== false);
-  this.papeleraCursos = this.cursos.filter((curso) => curso.activo === false);
-}
+  filterCursos(): void {
+    this.filteredCursos = this.cursos.filter((curso) => curso.activo !== false);
+    this.papeleraCursos = this.cursos.filter((curso) => curso.activo === false);
+  }
 
-// Método para filtrar los cursos en función de la búsqueda global
-filterGlobal(event: any): void {
-  const searchValue = event.target.value.toLowerCase();
-  this.filteredCursos = this.cursos.filter(
-    (curso) =>
-      curso.activo === true &&  // Asegúrate de que solo se incluyan los cursos activos
-      (
-        curso.nombre.toLowerCase().includes(searchValue) ||
-        curso.descripcion.toLowerCase().includes(searchValue) ||
-        (curso.fecha_publicacion?.toLowerCase().includes(searchValue) ?? false)
-      )
-  );
-}
+  filterGlobal(event: any): void {
+    const searchValue = event.target.value.toLowerCase();
+    this.filteredCursos = this.cursos.filter(
+      (curso) =>
+        curso.activo === true &&
+        (curso.nombre.toLowerCase().includes(searchValue) ||
+          curso.descripcion.toLowerCase().includes(searchValue) ||
+          (curso.fecha_publicacion?.toLowerCase().includes(searchValue) ??
+            false))
+    );
+  }
 
   openModal(curso?: Curso): void {
     this.isModalOpen = true;
     if (curso) {
-        this.currentCursoId = curso.id!;
-        this.cursoForm.patchValue(curso);
-        this.imagenPrincipalPreview = curso.imagen_principal || null;
-        this.imagenesGeneralesActuales = curso.imagenes_generales || [];
+      this.currentCursoId = curso.id!;
+      this.cursoForm.patchValue(curso);
+      this.imagenPrincipalPreview = curso.imagen_principal || null;
+      this.imagenesGeneralesActuales = curso.imagenes_generales || [];
 
-        // Cargar los profesores seleccionados desde la base de datos
-        this.selectedProfesores.clear();
-        this.cursoService.obtenerProfesoresPorCurso(curso.id!).subscribe({
-            next: (response) => {
-                response.profesores.forEach((profesor: any) => {
-                    this.selectedProfesores.add(profesor.profesor_id);
-                });
-            },
-            error: (error) => {
-                console.error('Error al cargar los profesores del curso:', error);
-            }
-        });
+      this.selectedProfesores.clear();
+      this.cursoService.obtenerProfesoresPorCurso(curso.id!).subscribe({
+        next: (response) => {
+          response.profesores.forEach((profesor: any) => {
+            this.selectedProfesores.add(profesor.profesor_id);
+          });
+        },
+        error: (error) => {
+          console.error('Error al cargar los profesores del curso:', error);
+        },
+      });
     } else {
-        this.currentCursoId = null;
-        this.cursoForm.reset({ activo: true });
-        this.imagenPrincipalPreview = null;
-        this.imagenesGeneralesActuales = [];
-
-        // Limpiar la selección de profesores
-        this.selectedProfesores.clear();
+      this.currentCursoId = null;
+      this.cursoForm.reset({ activo: true });
+      this.imagenPrincipalPreview = null;
+      this.imagenesGeneralesActuales = [];
+      this.selectedProfesores.clear();
     }
     this.clearFileInputs();
-}
-
+  }
 
   closeModal(): void {
     this.isModalOpen = false;
@@ -196,112 +199,119 @@ filterGlobal(event: any): void {
 
   onSubmit(): void {
     if (this.cursoForm.valid) {
-        this.isLoading = true;
+      this.isLoading = true;
 
-        const formData: FormData = new FormData();
-        formData.append('nombre', this.cursoForm.get('nombre')!.value);
-        formData.append('descripcion', this.cursoForm.get('descripcion')!.value);
-        formData.append('activo', this.cursoForm.get('activo')!.value.toString());
+      const formData: FormData = new FormData();
+      formData.append('nombre', this.cursoForm.get('nombre')!.value);
+      formData.append('descripcion', this.cursoForm.get('descripcion')!.value);
+      formData.append('activo', this.cursoForm.get('activo')!.value.toString());
 
-        const imagenPrincipal = this.cursoForm.get('imagenPrincipal')?.value;
-        if (imagenPrincipal) {
-            formData.append('imagen_principal', imagenPrincipal);
-        }
+      const imagenPrincipal = this.cursoForm.get('imagenPrincipal')?.value;
+      if (imagenPrincipal) {
+        formData.append('imagen_principal', imagenPrincipal);
+      }
 
-        const imagenesGenerales = this.cursoForm.get('imagenesGenerales')?.value;
-        if (imagenesGenerales && imagenesGenerales.length) {
-            imagenesGenerales.forEach((file: any) => {
-                formData.append('imagenes_generales[]', file);
-            });
-        }
+      const imagenesGenerales = this.cursoForm.get('imagenesGenerales')?.value;
+      if (imagenesGenerales && imagenesGenerales.length) {
+        imagenesGenerales.forEach((file: any) => {
+          formData.append('imagenes_generales[]', file);
+        });
+      }
 
-        // Agregar imágenes generales a eliminar
-        if (this.imagenesGeneralesAEliminar.length > 0) {
-            formData.append('imagenes_a_eliminar', JSON.stringify(this.imagenesGeneralesAEliminar));
-        }
+      if (this.imagenesGeneralesAEliminar.length > 0) {
+        formData.append(
+          'imagenes_a_eliminar',
+          JSON.stringify(this.imagenesGeneralesAEliminar)
+        );
+      }
 
-        formData.append('profesores', JSON.stringify(Array.from(this.selectedProfesores)));
+      formData.append(
+        'profesores',
+        JSON.stringify(Array.from(this.selectedProfesores))
+      );
 
-        if (this.currentCursoId) {
-            formData.append('id', this.currentCursoId.toString());
-            this.cursoService.actualizarCurso(formData, this.currentCursoId).subscribe({
-                next: (response) => {
-                    this.showToast('success', 'Curso actualizado con éxito');
-                    this.closeModal();
-                    this.loadCursos();
-                },
-                error: (error) => {
-                    console.error('Error al procesar el curso:', error);
-                    this.showToast('error', 'Error al procesar el curso');
-                },
-                complete: () => {
-                    this.isLoading = false;
-                },
-            });
-        } else {
-            this.cursoService.crearCursoConProfesores(formData).subscribe({
-                next: (response) => {
-                    const id_curso = response.id;
-                    this.showToast('success', 'Curso creado con éxito');
-                    this.closeModal();
-                    this.loadCursos();
-                },
-                error: (error) => {
-                    console.error('Error al procesar el curso:', error);
-                    this.showToast('error', 'Error al procesar el curso');
-                },
-                complete: () => {
-                    this.isLoading = false;
-                },
-            });
-        }
-    } else {
-        this.showToast('warning', 'Por favor, complete todos los campos requeridos correctamente.');
-    }
-}
-
-  
-
-eliminarProfesores(cursoId: number): void {
-    this.cursoService.eliminarProfesoresPorCurso(cursoId).subscribe({
-        next: () => {
-            this.guardarProfesores(cursoId);  // Reasigna los profesores después de eliminarlos
-        },
-        error: (error) => {
-            console.error('Error al eliminar los profesores:', error);
-            this.showToast('error', 'Error al eliminar los profesores');
-        }
-    });
-}
-
-guardarProfesores(cursoId: number): void {
-    if (this.selectedProfesores.size > 0) {
-        const profesoresData = Array.from(this.selectedProfesores).map(profesorId => ({
-            curso_id: cursoId,
-            profesor_id: profesorId,
-            activo: true
-        }));
-
-        this.cursoService.asignarProfesores(profesoresData).subscribe({
+      if (this.currentCursoId) {
+        formData.append('id', this.currentCursoId.toString());
+        this.cursoService
+          .actualizarCurso(formData, this.currentCursoId)
+          .subscribe({
             next: (response) => {
-                console.log('Profesores asignados con éxito:', response);
+              this.showToast('success', 'Curso actualizado con éxito');
+              this.closeModal();
+              this.loadCursos();
             },
             error: (error) => {
-                console.error('Error al asignar los profesores:', error);
-                this.showToast('error', 'Error al asignar los profesores');
-            }
+              console.error('Error al procesar el curso:', error);
+              this.showToast('error', 'Error al procesar el curso');
+            },
+            complete: () => {
+              this.isLoading = false;
+            },
+          });
+      } else {
+        this.cursoService.crearCursoConProfesores(formData).subscribe({
+          next: (response) => {
+            this.showToast('success', 'Curso creado con éxito');
+            this.closeModal();
+            this.loadCursos();
+          },
+          error: (error) => {
+            console.error('Error al procesar el curso:', error);
+            this.showToast('error', 'Error al procesar el curso');
+          },
+          complete: () => {
+            this.isLoading = false;
+          },
         });
+      }
+    } else {
+      this.showToast(
+        'warning',
+        'Por favor, complete todos los campos requeridos correctamente.'
+      );
     }
-}
-
-
-  getProfesoresArray(): { profesor_id: number; curso_id: number }[] {
-    return Array.from(this.selectedProfesores).map(profesorId => ({
-      profesor_id: profesorId,
-      curso_id: this.currentCursoId || 0  // Asigna el curso_id correctamente en el backend después de la creación
-    }));
   }
 
+  eliminarProfesores(cursoId: number): void {
+    this.cursoService.eliminarProfesoresPorCurso(cursoId).subscribe({
+      next: () => {
+        this.guardarProfesores(cursoId);
+      },
+      error: (error) => {
+        console.error('Error al eliminar los profesores:', error);
+        this.showToast('error', 'Error al eliminar los profesores');
+      },
+    });
+  }
+
+  guardarProfesores(cursoId: number): void {
+    if (this.selectedProfesores.size > 0) {
+      const profesoresData = Array.from(this.selectedProfesores).map(
+        (profesorId) => ({
+          curso_id: cursoId,
+          profesor_id: profesorId,
+          activo: true,
+        })
+      );
+
+      this.cursoService.asignarProfesores(profesoresData).subscribe({
+        next: (response) => {
+          console.log('Profesores asignados con éxito:', response);
+        },
+        error: (error) => {
+          console.error('Error al asignar los profesores:', error);
+          this.showToast('error', 'Error al asignar los profesores');
+        },
+      });
+    }
+  }
+
+  getProfesoresArray(): { profesor_id: number; curso_id: number }[] {
+    return Array.from(this.selectedProfesores).map((profesorId) => ({
+      profesor_id: profesorId,
+      curso_id: this.currentCursoId || 0,
+    }));
+  }
 
   confirmDeleteCurso(id: number): void {
     this.showConfirmDialog(
@@ -375,53 +385,54 @@ guardarProfesores(cursoId: number): void {
   onFileChangePrincipal(event: any): void {
     const file = event.target.files[0];
     if (file) {
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-            this.imagenPrincipalPreview = e.target.result;
-        };
-        // Convertir a Blob y añadir al FormData
-        this.cursoForm.patchValue({
-            imagenPrincipal: file
-        });
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagenPrincipalPreview = e.target.result;
+      };
+      this.cursoForm.patchValue({
+        imagenPrincipal: file,
+      });
     }
-}
+  }
 
-onFileChangeGenerales(event: any): void {
+  onFileChangeGenerales(event: any): void {
     const files = event.target.files;
     if (files) {
-        for (let i = 0; i < files.length; i++) {
-            const reader = new FileReader();
-            reader.onload = (e: any) => {
-                this.imagenesGeneralesActuales.push(e.target.result);
-            };
-            this.cursoForm.patchValue({
-                imagenesGenerales: [...this.cursoForm.get('imagenesGenerales')?.value || [], files[i]]
-            });
-        }
+      for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.imagenesGeneralesActuales.push(e.target.result);
+        };
+        this.cursoForm.patchValue({
+          imagenesGenerales: [
+            ...(this.cursoForm.get('imagenesGenerales')?.value || []),
+            files[i],
+          ],
+        });
+      }
     }
-}
-
-
-removeImagenGeneral(index: number): void {
-  const imagenParaEliminar = this.imagenesGeneralesActuales[index];
-  
-  // Si la imagen es de la base de datos, agregarla a la lista de eliminadas
-  if (this.currentCursoId && imagenParaEliminar.startsWith(this.baseImageUrl)) {
-    const relativePath = imagenParaEliminar.replace(this.baseImageUrl, '');
-    this.imagenesGeneralesAEliminar.push(relativePath);
   }
 
-  // Remover la imagen de la vista
-  this.imagenesGeneralesActuales.splice(index, 1);
+  removeImagenGeneral(index: number): void {
+    const imagenParaEliminar = this.imagenesGeneralesActuales[index];
 
-  // También actualizar el formulario si se estaba subiendo un nuevo archivo
-  const files = this.cursoForm.get('imagenesGenerales')?.value;
-  if (files) {
-    const updatedFiles = Array.from(files);
-    updatedFiles.splice(index, 1);
-    this.cursoForm.patchValue({ imagenesGenerales: updatedFiles });
+    if (
+      this.currentCursoId &&
+      imagenParaEliminar.startsWith(this.baseImageUrl)
+    ) {
+      const relativePath = imagenParaEliminar.replace(this.baseImageUrl, '');
+      this.imagenesGeneralesAEliminar.push(relativePath);
+    }
+
+    this.imagenesGeneralesActuales.splice(index, 1);
+
+    const files = this.cursoForm.get('imagenesGenerales')?.value;
+    if (files) {
+      const updatedFiles = Array.from(files);
+      updatedFiles.splice(index, 1);
+      this.cursoForm.patchValue({ imagenesGenerales: updatedFiles });
+    }
   }
-}
 
   openImageModal(curso: Curso, type: 'principal' | 'generales'): void {
     this.isImageModalOpen = true;
@@ -570,11 +581,11 @@ removeImagenGeneral(index: number): void {
   validateInput(event: KeyboardEvent) {
     const allowedKeys = /^[a-zA-Z0-9 ]*$/;
     const inputElement = event.target as HTMLInputElement;
-  
+
     if (!allowedKeys.test(event.key)) {
       event.preventDefault();
     }
-  
+
     const value = inputElement.value;
     if (event.key === ' ' && value.endsWith(' ')) {
       event.preventDefault();
@@ -585,14 +596,13 @@ removeImagenGeneral(index: number): void {
   selectedProfesor: any;
   tooltipStyles = {};
 
-  // Método para mostrar el tooltip
   showTooltip(profesorId: number) {
-    this.selectedProfesor = this.profesores.find(profesor => profesor.id === profesorId);
-    //console.log('Ruta de la imagen:', this.selectedProfesor.foto);
+    this.selectedProfesor = this.profesores.find(
+      (profesor) => profesor.id === profesorId
+    );
     this.tooltipVisible = true;
   }
 
-  // Método para ocultar el tooltip
   hideTooltip() {
     this.tooltipVisible = false;
   }
