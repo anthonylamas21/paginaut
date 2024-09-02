@@ -40,9 +40,28 @@ export class NavbarAdminComponent {
       return CryptoJS.AES.decrypt(encrypted, this.secretKey).toString(CryptoJS.enc.Utf8);
     }
 
-  ngOnInit() {
-    
-  }
+    ngOnInit(): void {
+      this.checkToken();
+  
+      // Escuchar el evento storage para detectar cambios en el localStorage
+      window.addEventListener('storage', () => {
+        this.checkToken();
+      });
+    }
+  
+    checkToken(): void {
+      const token = localStorage.getItem('token');
+      const hasReloaded = localStorage.getItem('hasReloaded');
+  
+      if (!token && !hasReloaded) {
+        // Si no hay token y no se ha recargado antes, recargar la página
+        localStorage.setItem('hasReloaded', 'true');  // Marcar como recargado
+        window.location.reload();
+      } else if (token) {
+        // Si hay token, resetear el estado de recarga
+        localStorage.removeItem('hasReloaded');
+      }
+    }
 
   onSubmitLogout() {
     Swal.fire({
