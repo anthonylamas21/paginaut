@@ -66,9 +66,8 @@
         <p>{{ evento.informacion_evento }}</p>    
       </div>
       <div>
-        <p>Hora de inicio: {{ evento.hora_inicio }}</p>
-        <p>Hora de fin: {{ evento.hora_fin }}</p>
-        <p>Fecha de fin: {{ evento.fecha_fin | date:'dd/MM/yyyy' }}</p>
+        <p><i class="fa-regular fa-clock"></i> Hora de inicio: {{ evento.hora_inicio }}</p>
+        <p><i class="fas fa-solid fa-flag-checkered"></i> Fin del evento: {{ evento.fecha_fin | date:'dd/MM/yyyy' }}</p>
       </div>
     </div>
 
