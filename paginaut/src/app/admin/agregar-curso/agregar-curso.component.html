@@ -1016,12 +1016,9 @@
         </svg>
       </button>
     </div>
-    <div class="relative">
-      <img
-        [src]="getCurrentImage()"
-        alt="Imagen del curso"
-        class="w-full h-auto max-h-96 object-contain"
-      />
+    <div *ngIf="allImages.length > 0; else noImagesComplementarias" class="relative">
+      <img [src]="getCurrentImage()" alt="Imagen Complementaria" class="w-full h-auto max-h-96 object-contain">
+      <!-- Botones para navegar entre imágenes si hay más de una -->
       <button
         *ngIf="allImages.length > 1"
         (click)="prevImage()"
@@ -1039,7 +1036,7 @@
             stroke-linejoin="round"
             stroke-width="2"
             d="M15 19l-7-7 7-7"
-          />
+          ></path>
         </svg>
       </button>
       <button
@@ -1059,10 +1056,17 @@
             stroke-linejoin="round"
             stroke-width="2"
             d="M9 5l7 7-7 7"
-          />
+          ></path>
         </svg>
       </button>
     </div>
+    
+    <!-- Template para mostrar el mensaje cuando no hay imágenes complementarias -->
+    <ng-template #noImagesComplementarias>
+      <div class="text-center py-8">
+        <p class="text-gray-500">No hay imágenes disponibles para este curso.</p>
+      </div>
+    </ng-template>
     <div class="mt-4 text-center">
       <p *ngIf="allImages.length > 1">
         Imagen {{ currentImageIndex + 1 }} de {{ getTotalImagesCount() }}
