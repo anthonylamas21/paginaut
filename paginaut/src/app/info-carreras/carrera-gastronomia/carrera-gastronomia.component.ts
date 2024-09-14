@@ -30,6 +30,12 @@ export class CarreraGastronomiaComponent {
   imagenAmpliada: string | null = null;
   selectedImage: Image = { url: '', alt: '' };
   
+  selectedTab: string = 'segment-1'; // La pestaña por defecto al inicio
+
+  selectTab(tabId: string): void {
+    this.selectedTab = tabId;
+  }
+  
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [

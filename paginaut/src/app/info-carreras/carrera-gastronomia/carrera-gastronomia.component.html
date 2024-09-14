@@ -180,24 +180,26 @@
   
   
   <div class="flex m-3 justify-center mt-8">
-    <div class="flex bg-gray-100 hover:bg-gray-200 rounded-full transition px-2 py-2">
-      <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
-        <button type="button"
-          class="hs-tab-active:bg-[#04847C] hs-tab-active:text-white py-3 px-4 inline-flex items-center gap-x-2 bg-transparent text-sm text-gray-500 font-medium rounded-full hover:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none active"
-          id="segment-item-1" data-hs-tab="#segment-1" aria-controls="segment-1" role="tab">
-          T.S.U.
-        </button>
-        <button type="button"
-          class="hs-tab-active:bg-[#04847C] hs-tab-active:text-white py-3 px-4 inline-flex items-center gap-x-2 bg-transparent text-sm text-gray-500 font-medium rounded-full hover:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none "
-          id="segment-item-2" data-hs-tab="#segment-2" aria-controls="segment-2" role="tab">
-          Licenciatura
-        </button>
-      </nav>
-    </div>
+  <div class="flex bg-gray-100 hover:bg-gray-200 rounded-full transition px-2 py-2">
+    <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
+      <button type="button"
+        [ngClass]="{'bg-[#04847C] text-white': selectedTab === 'segment-1', 'text-gray-500': selectedTab !== 'segment-1'}"
+        class="tab-button py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-full"
+        id="segment-item-1" (click)="selectTab('segment-1')">
+        T.S.U.
+      </button>
+      <button type="button"
+        [ngClass]="{'bg-[#04847C] text-white': selectedTab === 'segment-2', 'text-gray-500': selectedTab !== 'segment-2'}"
+        class="tab-button py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-full"
+        id="segment-item-2" (click)="selectTab('segment-2')">
+        Licenciatura
+      </button>
+    </nav>
   </div>
+</div>
 
   <div *ngIf="!isLoading" class="mt-3">
-    <div id="segment-1" role="tabpanel" aria-labelledby="segment-item-1">
+    <div id="segment-1" *ngIf="selectedTab === 'segment-1'" role="tabpanel">
       <div class="flex flex-col mb-5">
         <div class="-m-1.5 overflow-x-auto">
           <div class="p-1.5 min-w-full inline-block align-middle">
@@ -267,7 +269,7 @@
         </div>
       </div>
     </div>
-    <div id="segment-2" class="hidden" role="tabpanel" aria-labelledby="segment-item-2">
+    <div id="segment-2" *ngIf="selectedTab === 'segment-2'" role="tabpanel">
       <div class="flex flex-col mb-5">
         <div class="-m-1.5 overflow-x-auto">
           <div class="p-1.5 min-w-full inline-block align-middle">
