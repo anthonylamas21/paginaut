@@ -8,7 +8,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 @Component({
   selector: 'app-agenda-admin',
   templateUrl: './agenda-admin.component.html',
-  styleUrl: './agenda-admin.component.css'
+  styleUrls: ['./agenda-admin.component.css']
 })
 export class AgendaAdminComponent implements OnInit {
 
@@ -16,14 +16,16 @@ export class AgendaAdminComponent implements OnInit {
   selectedEvent: any = null;
   baseImageUrl = 'http://localhost/paginaut/';
 
+  // Define an array of colors
+  colors = ['#FF6F61', '#6B5B95', '#88B04B', '#F7B32B', '#00A4E4', '#F25F5C', '#3F8EFC', '#C1C8E4', '#C4E17F'];
+
   renderEventContent = (eventInfo: any) => {
-    const backgroundColor = eventInfo.event.backgroundColor || '#043D3D' ; // Color por defecto de FullCalendar
+    const backgroundColor = eventInfo.event.backgroundColor || '#043D3D'; // Default background color
     return { 
       html: `
-        <div class="text-white pl-4 bg-[${backgroundColor}]">
+        <div class="text-white pl-2" style="background-color: ${backgroundColor}; border-radius: 5px">
           <b>${eventInfo.timeText}</b>
           <i>${eventInfo.event.title}</i>
-          
         </div>
       `
     };
@@ -47,26 +49,20 @@ export class AgendaAdminComponent implements OnInit {
   openModal(): void {
     const modal = document.getElementById('hs-slide-down-animation-modal');
     const closeButton = document.getElementById('close-modal-button');
-    //console.log("Intentando abrir modal");
     if (modal && closeButton) {
       modal.classList.remove('hidden');
       modal.classList.add('hs-overlay-open', 'opacity-100', 'duration-500');
       modal.classList.remove('opacity-0', 'ease-out');
-      closeButton.click();  // Simula un clic en el botón que abre el modal
-      //console.log("Modal abierto");
-    } else {
-      //console.error("No se pudo encontrar el modal o el botón de cierre");
+      closeButton.click();  // Simulates a click on the button that opens the modal
     }
   }
 
   closeModal(): void {
     const modal = document.getElementById('hs-slide-down-animation-modal');
-    //console.log("Cerrando modal");
     if (modal) {
       modal.classList.add('hidden');
       modal.classList.remove('hs-overlay-open', 'opacity-100', 'duration-500');
       modal.classList.add('opacity-0', 'ease-out');
-      //console.log("Modal cerrado");
     }
   }
 
@@ -79,20 +75,21 @@ export class AgendaAdminComponent implements OnInit {
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay'
     },
-    events: [], // Se actualizará dinámicamente
-    datesSet: this.handleDatesSet.bind(this), // Llama a la función handleDatesSet cuando se actualizan las fechas
+    events: [], // Will be updated dynamically
+    datesSet: this.handleDatesSet.bind(this), // Calls handleDatesSet when dates are updated
     eventContent: this.renderEventContent,
-    eventClick: this.handleEventClick
+    eventClick: this.handleEventClick,
+    titleFormat: { year: 'numeric', month: 'short' } // Basic title format
   };
-
+  
   handleDatesSet(args: any) {
     const titleElement = document.querySelector('.fc-toolbar-title');
     if (titleElement) {
-      titleElement.classList.add('capitalize');
+      // Replace "De" with "de"
+      titleElement.textContent = titleElement.textContent?.replace('De', 'de') || '';
+      titleElement.classList.add('capitalize'); // Optional: If you need the month to start with a capital letter
     }
   }
-  
-  
   
 
   constructor(private eventoService: EventoService) { }
@@ -105,7 +102,6 @@ export class AgendaAdminComponent implements OnInit {
     this.eventoService.obtenerEventos().subscribe({
       next: (response) => {
         this.eventos = response.records;
-        console.log(this.eventos);
         this.updateCalendarEvents();
       },
       error: (error) => console.error('Error al cargar eventos:', error)
@@ -113,14 +109,19 @@ export class AgendaAdminComponent implements OnInit {
   }
 
   updateCalendarEvents(): void {
-    const calendarEvents = this.eventos.map(evento => {
+    const calendarEvents = this.eventos.map((evento, index) => {
       const startDate = evento.fecha_inicio.split(' ')[0];
       const endDate = evento.fecha_fin.split(' ')[0];
+
+      // Assign a color from the array cyclically
+      const colorIndex = index % this.colors.length;
+      const backgroundColor = this.colors[colorIndex];
 
       return {
         title: evento.titulo,
         start: `${startDate}T${evento.hora_inicio}`,
         end: `${endDate}T${evento.hora_fin}`,
+        backgroundColor: backgroundColor, // Set the background color here
         extendedProps: {
           informacion: evento.informacion_evento,
           lugar: evento.lugar_evento,
