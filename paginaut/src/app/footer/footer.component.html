@@ -1,9 +1,13 @@
-
-<footer class="bg-[#043D3D]">
-  <div class="container px-6 py-10 mx-auto">
+<footer class="bg-[#043D3D] relative">
+  <div class="absolute top-2 left-5">
+    <img src="./assets/img/AGUILA-GARZA.png" alt="Imagen Estática"
+      class="w-[300px] h-[300px] object-cover lg:w-[268px] lg:h-[268px]">
+  </div>
+  <div class="container px-6 py-10 mx-auto relative z-10">
+    <!-- Añadido z-10 para que el contenido esté encima de la imagen -->
     <div class="grid grid-cols-1 gap-6 mx-10 sm:grid-cols-2 lg:grid-cols-4">
       <div class="flex flex-col items-start mt-5 space-y-2">
-        <img class="w-auto h-20 mt-4" src="../../assets/img/logo-ut.png" alt="Logo UT" />
+        <img class="w-auto h-20 mt-4" src="./assets/img/logo-ut.png" alt="Logo UT" />
       </div>
       <div>
         <p class="font-semibold text-white">Encuéntranos en:</p>
@@ -16,21 +20,21 @@
       <div>
         <p class="font-semibold text-white">Contacto:</p>
         <div class="flex flex-col items-start mt-5 space-y-2">
-          <span class="text-white">Teléfono: <a href="https://wa.me/+523231743139" class="hover:underline hover:decoration-white">+52 (323) 174 3139</a></span>
+          <span class="text-white">Teléfono: <a href="https://wa.me/+523231743139"
+              class="hover:underline hover:decoration-white">(+52) 323-174-3139</a></span>
         </div>
         <div class="flex flex-col items-start mt-5 space-y-2">
           <a href="/acerca_de" class="hover:underline hover:decoration-white">
-          <span class="text-white font-semibold">Acerca de</span>
-        </a>
+            <span class="text-white font-semibold">Acerca de</span>
+          </a>
         </div>
       </div>
       <div class="flex flex-col items-start mt-5 space-y-2">
-          <h1 class="max-w-lg text-xl font-semibold tracking-tight xl:text-2xl text-white border p-2 rounded-lg">
+        <h1 class="max-w-lg text-xl font-semibold tracking-tight xl:text-2xl text-white border p-2 rounded-lg">
           INSTITUCIÓN CERTIFICADA BAJO LA NORMA ISO 9001:2015
         </h1>
-      </div>  
+      </div>
     </div>
     <hr class="my-6 border-gray-200 md:my-8" />
-
   </div>
-</footer>  
+</footer>

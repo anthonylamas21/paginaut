@@ -16,6 +16,7 @@ export class InfoCursoComponent implements OnInit {
   eventos: Evento[] = [];
   profesores: Profesor[] = []; // Inicializar como un array vacío
   isLoading = true;
+  mostrarTextoCompleto: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -132,5 +133,15 @@ export class InfoCursoComponent implements OnInit {
     } else {
       //console.error('ID de instalación no disponible');
     }
+  }
+
+  obtenerPrimerasPalabras(texto: string | undefined, numPalabras: number): string {
+    if (!texto) return '';
+    const palabras = texto.split(' ');
+    return palabras.slice(0, numPalabras).join(' ');
+  }
+
+  toggleMostrarTextoCompleto(): void {
+    this.mostrarTextoCompleto = !this.mostrarTextoCompleto;
   }
 }
