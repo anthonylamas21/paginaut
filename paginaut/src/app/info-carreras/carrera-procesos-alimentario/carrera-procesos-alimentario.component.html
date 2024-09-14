@@ -107,18 +107,18 @@
   <div *ngIf="!isLoading" class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
     <div class="w-full">
       <h4 class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg">Perfil profesional</h4>
-      <ul class="text-sm">
-        <li><span class="text-black font-bold">></span> Aplicar herramientas y técnicas para establecer y validar parámetros de control de calidad e inocuidad en el proceso de transformación de materias primas en productos alimenticios con valor agregado, de acuerdo a las normas aplicables y vigentes.</li>
+       <ul class="text-sm list-disc pl-5 space-y-1 mt-2 custom-list">
+        <li>  Aplicar herramientas y técnicas para establecer y validar parámetros de control de calidad e inocuidad en el proceso de transformación de materias primas en productos alimenticios con valor agregado, de acuerdo a las normas aplicables y vigentes.</li>
       </ul>
       <h4 class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg">Ocupación profesional</h4>
-      <ul class="text-sm">
-        <li><span class="text-black font-bold">></span> Ingeniero de proceso en plantas de alimentos.
+       <ul class="text-sm list-disc pl-5 space-y-1 mt-2 custom-list">
+        <li>  Ingeniero de proceso en plantas de alimentos.
         </li>
-        <li><span class="text-black font-bold">></span> Gerente de materias primas de producción e inocuidad.
+        <li>  Gerente de materias primas de producción e inocuidad.
         </li>
-        <li><span class="text-black font-bold">></span> Jefe de control de calidad.
+        <li>  Jefe de control de calidad.
         </li>
-        <li><span class="text-black font-bold">></span> Responsable del desarrollo de nuevos productos en empresas de alimentos.
+        <li>  Responsable del desarrollo de nuevos productos en empresas de alimentos.
         </li>
       </ul>
     </div>
@@ -139,18 +139,18 @@
     </div>
     <div class="w-full">
         <h4 class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg">Perfil profesional</h4>
-        <ul class="text-sm">
-          <li><span class="text-black font-bold">></span> Aplicar herramientas y técnicas para establecer y validar parámetros de control de calidad e inocuidad en el proceso de transformación de materias primas en productos alimenticios con valor agregado, de acuerdo a las normas aplicables y vigentes.</li>
+         <ul class="text-sm list-disc pl-5 space-y-1 mt-2 custom-list">
+          <li>  Aplicar herramientas y técnicas para establecer y validar parámetros de control de calidad e inocuidad en el proceso de transformación de materias primas en productos alimenticios con valor agregado, de acuerdo a las normas aplicables y vigentes.</li>
         </ul>
         <h4 class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg">Ocupación profesional</h4>
-        <ul class="text-sm">
-          <li><span class="text-black font-bold">></span> Ingeniero de proceso en plantas de alimentos.
+         <ul class="text-sm list-disc pl-5 space-y-1 mt-2 custom-list">
+          <li>  Ingeniero de proceso en plantas de alimentos.
           </li>
-          <li><span class="text-black font-bold">></span> Gerente de materias primas de producción e inocuidad.
+          <li>  Gerente de materias primas de producción e inocuidad.
           </li>
-          <li><span class="text-black font-bold">></span> Jefe de control de calidad.
+          <li>  Jefe de control de calidad.
           </li>
-          <li><span class="text-black font-bold">></span> Responsable del desarrollo de nuevos productos en empresas de alimentos.
+          <li>  Responsable del desarrollo de nuevos productos en empresas de alimentos.
           </li>
         </ul>
       </div>
@@ -330,6 +330,6 @@
 <div [class.hidden]="!selectedImage.url" id="hs-vertically-centered-modal" class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
   <div class="relative max-w-[90vh] w-full">
     <img [src]="selectedImage.url" [alt]="selectedImage.alt" class="max-h-[90vh] w-[90vh] mx-auto rounded-md">
-    <button (click)="closeModal()" class="absolute top-0 right-0 bg-red-500 w-8 h-8 rounded-bl-md rounded-tr-md text-white text-2xl">&times;</button>
+    <button (click)="closeModal()" class="absolute top-2 right-2 bg-red-500 w-8 h-8 rounded-full text-white text-2xl flex items-center justify-center">&times;</button>
   </div>
 </div>

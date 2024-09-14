@@ -72,24 +72,24 @@
   <div *ngIf="!isLoading" class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
     <div class="w-full">
       <h4 class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg">Perfil profesional</h4>
-      <ul class="text-sm">
-        <li><span class="text-black font-bold">></span> Valuar las operaciones del ente económico aplicando las Normas de Información Financiera (NIF) para integrar la información financiera que sirvan de base para la toma de decisiones.</li>
-        <li><span class="text-black font-bold">></span> Evaluar la información financiera del ente económico, de acuerdo a las normas, procedimientos y disposiciones fiscales, para contribuir a la toma de decisiones en la optimización de recursos.</li>
+       <ul class="text-sm list-disc pl-5 space-y-1 mt-2 custom-list">
+        <li>  Valuar las operaciones del ente económico aplicando las Normas de Información Financiera (NIF) para integrar la información financiera que sirvan de base para la toma de decisiones.</li>
+        <li>  Evaluar la información financiera del ente económico, de acuerdo a las normas, procedimientos y disposiciones fiscales, para contribuir a la toma de decisiones en la optimización de recursos.</li>
       </ul>
       <h4 class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg">Ocupación profesional</h4>
-      <ul class="text-sm">
-        <li><span class="text-black font-bold">></span> Supervisor del área de contabilidad.</li>
-        <li><span class="text-black font-bold">></span> Coordinador de contraloría interna.
+       <ul class="text-sm list-disc pl-5 space-y-1 mt-2 custom-list">
+        <li>  Supervisor del área de contabilidad.</li>
+        <li>  Coordinador de contraloría interna.
         </li>
-        <li><span class="text-black font-bold">></span> Coordinador de auditoría.
+        <li>  Coordinador de auditoría.
         </li>
-        <li><span class="text-black font-bold">></span> Coordinador en el área de finanzas.
+        <li>  Coordinador en el área de finanzas.
         </li>
-        <li><span class="text-black font-bold">></span> Coordinador de costos.
+        <li>  Coordinador de costos.
         </li>
-        <li><span class="text-black font-bold">></span> Asesor fiscal y contable.
+        <li>  Asesor fiscal y contable.
         </li>
-        <li><span class="text-black font-bold">></span> Coordinador de administración de personal.
+        <li>  Coordinador de administración de personal.
         </li>
       </ul>
     </div>
@@ -204,6 +204,6 @@
 <div [class.hidden]="!selectedImage.url" id="hs-vertically-centered-modal" class="hs-overlay hs-overlay-backdrop-open:bg-gray-900/50 fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
   <div class="relative max-w-[90vh] w-full">
     <img [src]="selectedImage.url" [alt]="selectedImage.alt" class="max-h-[90vh] w-[90vh] mx-auto rounded-md">
-    <button (click)="closeModal()" class="absolute top-0 right-0 bg-red-500 w-8 h-8 rounded-bl-md rounded-tr-md text-white text-2xl">&times;</button>
+    <button (click)="closeModal()" class="absolute top-2 right-2 bg-red-500 w-8 h-8 rounded-full text-white text-2xl flex items-center justify-center">&times;</button>
   </div>
 </div>
