@@ -103,13 +103,16 @@ export class InfoUnidadesComponent implements OnInit, AfterViewInit {
         // Formatea la fecha en mes y año
         const month = date.toLocaleString('default', { month: 'long', year: 'numeric' });
   
+        // Capitaliza la primera letra del mes
+        const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
+  
         // Si no existe un grupo para este mes, se crea
-        if (!this.groupedImages[month]) {
-          this.groupedImages[month] = [];
+        if (!this.groupedImages[capitalizedMonth]) {
+          this.groupedImages[capitalizedMonth] = [];
         }
   
         // Se agrega la imagen al grupo correspondiente
-        this.groupedImages[month].push({
+        this.groupedImages[capitalizedMonth].push({
           url: this.getImageUrl(imagen.ruta_imagen),
           alt: `Imagen ${index + 1} de ${this.instalacion?.nombre || 'la instalación'}`,
           date: date
@@ -117,6 +120,7 @@ export class InfoUnidadesComponent implements OnInit, AfterViewInit {
       });
     }
   }
+  
   
   getImageUrl(path: string): string {
     return `http://localhost/paginaut/${path}`;
