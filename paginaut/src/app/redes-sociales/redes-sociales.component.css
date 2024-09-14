@@ -214,6 +214,11 @@
   .example-1 .icon-content a[data-social="Whatsapp"]~.tooltip {
     background: #27D045;
   }
+
+  .example-1 .icon-content a[data-social="Recorrido"] .filled,
+  .example-1 .icon-content a[data-social="Recorrido"]~.tooltip {
+    background: #043D3D;
+  }
   
   
   .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
@@ -264,3 +269,30 @@
   li:hover svg {
     fill: white;
   }
+
+  
+
+  
+
+  .icon-content .tooltip-text {
+    position: absolute;
+    top: 50%; /* Alinea verticalmente con el icono */
+    left: -250%; /* Mueve el tooltip hacia la izquierda */
+    transform: translateY(-50%); /* Centra verticalmente el tooltip */
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo negro con transparencia */
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    white-space: nowrap; /* Evita que el texto del tooltip se divida en varias líneas */
+    z-index: 100; /* Asegura que el tooltip esté por encima del icono */
+  }
+  
+  .icon-content:hover .tooltip-text {
+    opacity: 1;
+    visibility: visible;
+  }
+  
