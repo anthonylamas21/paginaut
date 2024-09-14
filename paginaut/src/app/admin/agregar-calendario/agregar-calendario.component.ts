@@ -329,8 +329,8 @@ export class AgregarCalendarioComponent implements OnInit {
         this.papeleraCalendarios.length === 1
       ) {
         this.showConfirmDialog(
-          'Reactivar beca',
-          '¿Quieres reactivar esta beca?',
+          'Reactivar Calendario',
+          '¿Quieres reactivar esta Calendario?',
           () => {
             this.actualizarYActivarCalendario(calendarioToUpdate);
           }
