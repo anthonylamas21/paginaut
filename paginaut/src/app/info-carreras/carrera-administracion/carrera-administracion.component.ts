@@ -27,10 +27,11 @@ interface Image {
   styleUrl: './carrera-administracion.component.css'
 })
 export class CarreraAdministracionComponent {
+  currentTab: string = 'segment-1'; // Define el tab inicial
   isLoading = true;
   imagenAmpliada: string | null = null;
   selectedImage: Image = { url: '', alt: '' };
-  
+
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
@@ -49,7 +50,39 @@ export class CarreraAdministracionComponent {
 
   ngOnInit(): void {
     this.setNavbarColor();
+    this.showTab(this.currentTab); // Mostrar el tab inicial
   }
+    // Método para cambiar de pestaña
+    showTab(tabId: string): void {
+      // Oculta todas las pestañas
+      const allTabs = document.querySelectorAll('[role="tabpanel"]');
+      allTabs.forEach(tab => {
+        tab.classList.add('hidden'); // Oculta todas
+      });
+
+      // Muestra la pestaña actual
+      const activeTab = document.getElementById(tabId);
+      if (activeTab) {
+        activeTab.classList.remove('hidden');
+      }
+
+      // Cambiar el tab actual
+      this.currentTab = tabId;
+    }
+
+    // Manejador de clics para los botones de las pestañas
+    onTabClick(event: any, tabId: string): void {
+      this.showTab(tabId);
+
+      // Elimina la clase 'active' de todos los botones
+      const allButtons = document.querySelectorAll('[role="tab"]');
+      allButtons.forEach(button => {
+        button.classList.remove('active');
+      });
+
+      // Agrega la clase 'active' al botón clicado
+      event.target.classList.add('active');
+    }
 
 
   @HostListener('window:scroll', [])
@@ -70,12 +103,12 @@ export class CarreraAdministracionComponent {
       } else {
         button?.classList.add('hidden');
       }
-      
+
       nabvar.classList.remove('bg-transparent');
       nabvar.classList.add('bg-[#043D3D]');
     }
   }
-  
+
   scrollToSection(sectionId: string): void {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
@@ -145,7 +178,7 @@ cerrarImagenAmpliada(): void {
       this.dt.filterGlobal(input.value, 'contains');
     }
   }
-  
+
 
   mostrar(elemento: any): void {
     // Verifica si el elemento recibido es un botón

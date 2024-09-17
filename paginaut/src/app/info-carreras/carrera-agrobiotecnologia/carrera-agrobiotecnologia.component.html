@@ -67,9 +67,9 @@
     </div>
     <div class="w-full mt-10 h-[450px] bg-gray-200 rounded-lg"></div>
   </div>
-  
+
   <div *ngIf="isLoading" class="bg-gray-200 rounded-lg h-10 mb-4 mt-4"></div>
-  
+
   <div *ngIf="isLoading" class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
     <div class="w-full mt-10 h-[450px] bg-gray-200 rounded-lg"></div>
     <div class="w-full">
@@ -101,8 +101,8 @@
       </ul>
     </div>
   </div>
-  
-  
+
+
   <div *ngIf="!isLoading" class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
     <div class="w-full">
       <h4 class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg">Perfil profesional</h4>
@@ -124,13 +124,13 @@
     <div class="w-full mt-10">
       <img src="./assets/img/fotos_por_carrera/agrobiotecnologia.webp" class="max-w-auto bg-cover rounded-lg" alt="">
     </div>
-  </div>  
+  </div>
 
 
   <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg mt-8">
     <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">Ing. en Agrobiotecnología</h2>
-  </div>  
-  
+  </div>
+
   <div *ngIf="!isLoading" class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
     <div class="w-full mt-10">
       <img src="./assets/img/fotos_por_carrera/agrobiotecnologia.webp" class="max-w-auto bg-cover rounded-lg" alt="">
@@ -153,17 +153,17 @@
         </ul>
       </div>
   </div>
-  
-  
+
+
   <div class="flex m-3 justify-center mt-8">
     <div class="flex bg-gray-100 hover:bg-gray-200 rounded-full transition px-2 py-2">
       <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
-        <button type="button"
+        <button type="button" (click)="onTabClick($event, 'segment-1')"
           class="hs-tab-active:bg-[#04847C] hs-tab-active:text-white py-3 px-4 inline-flex items-center gap-x-2 bg-transparent text-sm text-gray-500 font-medium rounded-full hover:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none active"
           id="segment-item-1" data-hs-tab="#segment-1" aria-controls="segment-1" role="tab">
           T.S.U.
         </button>
-        <button type="button"
+        <button type="button"  (click)="onTabClick($event, 'segment-2')"
           class="hs-tab-active:bg-[#04847C] hs-tab-active:text-white py-3 px-4 inline-flex items-center gap-x-2 bg-transparent text-sm text-gray-500 font-medium rounded-full hover:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none "
           id="segment-item-2" data-hs-tab="#segment-2" aria-controls="segment-2" role="tab">
           Ingeniería
@@ -223,7 +223,7 @@
                    >
                       <div class="flex justify-center">
                         6°
-                      </div> 
+                      </div>
                     </th>
                   </tr>
                 </ng-template>
@@ -311,14 +311,14 @@
 
   <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg my-8">
     <h2 class="text-xl font-poppins font-extralight py-2 px-2 text-white uppercase">Galería</h2>
-  </div>  
+  </div>
   <ngx-masonry class="mx-auto">
     <div ngxMasonryItem class="masonry-item p-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5" *ngFor="let image of images">
       <img [src]="image.url" [alt]="image.alt" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out" (click)="openModal(image)">
     </div>
   </ngx-masonry>
-  
-  
+
+
 
 </div><!--fin container-->
 

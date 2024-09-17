@@ -93,7 +93,7 @@ export class AgregarProfesorComponent implements OnInit {
           Validators.maxLength(10),
         ],
       ],
-      
+
       especialidad: ['', [Validators.required, Validators.maxLength(100)]],
       grado_academico: ['', [Validators.required, Validators.maxLength(100)]],
       experiencia: ['', [Validators.required, Validators.pattern(/^[0-9]{1,2}$/)]],
@@ -142,7 +142,7 @@ export class AgregarProfesorComponent implements OnInit {
     const tipoTiempoCompleto = this.profesorForm.get('tipoTiempoCompleto')?.value;
     const tipoAsignatura = this.profesorForm.get('tipoAsignatura')?.value;
     const tipoCursos = this.profesorForm.get('tipoCursos')?.value;
-  
+
     if (tipoTiempoCompleto && tipoAsignatura) {
       this.tipoProfesorError = 'No puedes seleccionar Tiempo Completo y Asignatura al mismo tiempo.';
     } else if (!tipoTiempoCompleto && !tipoAsignatura && !tipoCursos) {
@@ -151,7 +151,7 @@ export class AgregarProfesorComponent implements OnInit {
       this.tipoProfesorError = '';
     }
   }
-  
+
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
@@ -183,8 +183,8 @@ export class AgregarProfesorComponent implements OnInit {
 
   onSubmit() {
     if (this.isSubmitting) return;
-      this.isSubmitting = true; 
-      
+      this.isSubmitting = true;
+
 
     const isUpdate = !!this.currentProfesorId;
 
@@ -265,6 +265,31 @@ export class AgregarProfesorComponent implements OnInit {
       },
     });
   }
+
+  formatTelefono(telefono: string): string {
+    const cleanTelefono = telefono.replace(/\D/g, ''); // Elimina cualquier carácter que no sea número
+
+    // Si el número tiene más de 10 dígitos, asumimos que tiene un código de país
+    if (cleanTelefono.length > 10) {
+      const prefijo = cleanTelefono.slice(0, cleanTelefono.length - 10); // Detectar el prefijo
+      const match = cleanTelefono.slice(prefijo.length).match(/^(\d{3})(\d{3})(\d{4})$/); // Formato para los últimos 10 dígitos
+
+      if (match) {
+        return `+${prefijo} ${match[1]}-${match[2]}-${match[3]}`;
+      }
+    } else if (cleanTelefono.length === 10) {
+      // Formato para números sin prefijo (número de 10 dígitos)
+      const match = cleanTelefono.match(/^(\d{3})(\d{3})(\d{4})$/);
+      if (match) {
+        return `${match[1]}-${match[2]}-${match[3]}`;
+      }
+    }
+
+    // Si el número no tiene el formato esperado, devolver sin cambios
+    return telefono;
+  }
+
+
 
   onFileChange(event: any) {
     const file = event.target.files[0];
