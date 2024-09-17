@@ -76,7 +76,7 @@
     align-items: center;
     width: 50px;
     height: 50px;
-    border-radius: 20%;
+    border-radius: 50%;
     color: #4d4d4d;
     background-color: #ffff;
     transition: all 0.3s ease-in-out;
@@ -174,7 +174,7 @@
     align-items: center;
     width: 50px;
     height: 50px;
-    border-radius: 20%;
+    border-radius: 50%;
     color: #4d4d4d;
     background-color: #ffff;
     transition: all 0.3s ease-in-out;
@@ -279,10 +279,9 @@
     top: 50%; /* Alinea verticalmente con el icono */
     left: -250%; /* Mueve el tooltip hacia la izquierda */
     transform: translateY(-50%); /* Centra verticalmente el tooltip */
-    background-color: rgba(0, 0, 0, 0.8); /* Fondo negro con transparencia */
+    background-color: #043D3D; /* Fondo negro con transparencia */
     color: #fff;
     padding: 5px 10px;
-    border-radius: 4px;
     font-size: 12px;
     opacity: 0;
     visibility: hidden;

@@ -20,7 +20,7 @@ export class AcercaDeComponent {
     {
       nombre: "Mario Imanol Mata Gómez", 
       foto:"./assets/img/acercade/MM.jpg", 
-      especialidad: "Programador Backend", 
+      especialidad: "Programador Backend / Base de datos", 
       twitter:{active:false, links: [{ link: "" }]}, 
       github:{active:true, links: [{ link: "" }]}, 
       linkedn:{active:true, links: [{ link: "" }]},
@@ -29,7 +29,7 @@ export class AcercaDeComponent {
     {
       nombre: "Alberto Peña Ortíz", 
       foto:"./assets/img/acercade/AP.jpg", 
-      especialidad: "Diseñador UX", 
+      especialidad: "Diseñador UX / Programador Backend", 
       twitter:{active:true, links: [{ link: "https://twitter.com/alberto" }]}, 
       github:{active:true, links: [{ link: "" }]}, 
       linkedn:{active:true, links: [{ link: "" }]},
@@ -38,7 +38,7 @@ export class AcercaDeComponent {
     {
       nombre: "Saul Hernández Contreras", 
       foto:"./assets/img/acercade/SH.png", 
-      especialidad: "Analista", 
+      especialidad: "Analista / Programador Backend", 
       twitter:{active:false, links: [{ link: "" }]}, 
       github:{active:true, links: [{ link: "https://github.com/saulhdez25" }]}, 
       linkedn:{active:true, links: [{ link: "https://www.linkedin.com/in/saul-hern%C3%A1ndez-b750a8319/" }]},
@@ -47,7 +47,7 @@ export class AcercaDeComponent {
     {
       nombre: "Yahir Nava Gandara", 
       foto:"./assets/img/acercade/YN.jpg", 
-      especialidad: "Diseñador UI y Programador FrontEnd", 
+      especialidad: "Diseñador UI / Programador FrontEnd", 
       twitter:{active:true, links: [{ link: "https://twitter.com/yahir" }]}, 
       github:{active:true, links: [{ link: "https://github.com/Yahir1217" }]}, 
       linkedn:{active:true, links: [{ link: "https://www.linkedin.com/in/yahir-nava-b8b598235/" }]},
@@ -61,16 +61,19 @@ export class AcercaDeComponent {
       github:{active:true, links: [{ link: "" }]}, 
       linkedn:{active:true, links: [{ link: "" }]},
       Instagram:{active:true, links: [{ link: "" }]}
-    },
-    {
-      nombre: "Cesar Geovanny Machuca Pereida", 
-      foto:"./assets/img/perfil_vacio.png", 
-      especialidad: "Profesor de 10", 
+    }
+];
+
+profesor = [
+  {
+    nombre: "Cesar Geovanny Machuca Pereida", 
+      foto:"./assets/img/acercade/GMP.jpg", 
+      especialidad: "Asesor Académico / Programador Full Stack", 
       twitter:{active:true, links: [{ link: "https://twitter.com/geovanny" }]}, 
       github:{active:true, links: [{ link: "" }]}, 
       linkedn:{active:true, links: [{ link: "" }]},
       Instagram:{active:true, links: [{ link: "" }]}
-    },
+  }
 ]
 
   
