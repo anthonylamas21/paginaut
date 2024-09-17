@@ -29,6 +29,21 @@
         <img class="lg:h-[70vh] lg:h-[80vh] object-contain transform translate-y-20 opacity-0 transition-transform transition-opacity duration-500 ease-out"
             src="./assets/img/PORTADA_AUN2.png" alt="University Students" onload="this.classList.remove('translate-y-20', 'opacity-0')">
     </div>
+
+    <div class="absolute inset-0 bottom-0 flex justify-end items-end z-20 pr-3">
+        <!-- Pantallas grandes: Mostrar el texto completo -->
+        <h3 class="hidden md:block lg:block text-white">
+          <i class="fa-regular fa-eye"></i> Total de vistas: {{viewCount}}
+        </h3>
+        
+        <!-- Pantallas pequeñas (teléfono y tablet): Mostrar solo el icono y el número -->
+        <h3 class="md:hidden lg:hidden text-white flex items-center">
+          <i class="fa-regular fa-eye"></i> 
+          <span class="ml-1">{{viewCount}}</span>
+        </h3>
+      </div>
+      
+      
 </div>
 
 <div class="relative">

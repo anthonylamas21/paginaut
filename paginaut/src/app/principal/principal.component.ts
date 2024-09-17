@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit, AfterViewInit , ElementRef, ViewChild } from '@angular/core';
 import { EventoService, Evento } from '../evento.service';
 import { NoticiaService, Noticia } from '../noticia.service';
+import { VistasService } from '../services/vistas.service';
 import * as CryptoJS from 'crypto-js';
 import { Router } from '@angular/router';
 import Hashids from 'hashids';
@@ -36,6 +37,9 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
   sliceValue: number = 20;  // Default to small screen
   minsliceValue: number = 50;
 
+  viewCount: number = 0;
+  private visitaRegistrada: boolean = false;  // Para evitar múltiples ejecuciones
+
   getDynamicSliceValue(text: string): number {
     return Math.min(text.length, this.minsliceValue);
   }
@@ -55,6 +59,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
   constructor(
     private eventoService: EventoService,
     private noticiaService: NoticiaService,
+    private visitasService: VistasService,
     private router: Router
   ) {
 
@@ -87,6 +92,14 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
     this.cargarEventosRecientes();
     this.cargarNoticiasActivas();
     this.precargarImagenesCriticas();
+    this.getViewCount();
+
+     // Ejecuta RegistrarVisita() después de 5 segundos de cargar la página
+     setTimeout(() => {
+      if (!this.visitaRegistrada) {
+        this.RegistrarVisita();
+      }
+    }, 5000);  // 5000 milisegundos = 5 segundos
   }
   
   precargarImagenesCriticas() {
@@ -268,4 +281,43 @@ verMenosEventos(): void {
       }
     });
   }
+
+  RegistrarVisita(): void {
+    this.visitasService.getIp().subscribe(
+      (ipResponse: any) => {
+        const ip = ipResponse.ip;  // Obtiene la IP desde el servicio externo
+        // Ahora registra la IP en tu API
+        this.visitasService.registrarVisitaConIp(ip).subscribe(
+          (response: any) => {
+            // Solo loguear si no es el mensaje de "IP ya está registrada"
+            if (!response.message || response.message !== 'La IP ya está registrada. No se contará como nueva visita.') {
+              //console.log('Registro exitoso:', response);
+              this.getViewCount();  // Si quieres seguir contando las vistas
+            }
+            this.visitaRegistrada = true;  // Marca que la visita ya ha sido registrada
+          },
+          (error) => {
+            // Mostrar el error solo si ocurre un problema en el proceso
+            console.error('Error al registrar la IP:', error);
+          }
+        );
+      },
+      (error) => {
+        console.error('Error al obtener la IP:', error);
+      }
+    );
+  }
+  
+
+  getViewCount(): any{
+    this.visitasService.ObtenerNumeroVisitas().subscribe(
+      (response: any) =>{
+        this.viewCount = response.views;
+        //console.log('Visitas:', this.viewCount);
+      }
+      ,(error) =>{
+        console.error('Error al obtener el número de visitas:', error);
+      })
+  }
+  
 }

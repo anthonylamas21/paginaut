@@ -237,6 +237,13 @@ CREATE TABLE ProfesorTipo (
     UNIQUE (profesor_id, tipo_id)
 );
 
+CREATE TABLE Visita(
+id SERIAL PRIMARY KEY,
+    ip_address VARCHAR 255,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    hora TIME DEFAULT CURRENT_TIME
+);
+
 -- Función y trigger para la tabla Usuario
 CREATE OR REPLACE FUNCTION log_modificacion_usuario()
 RETURNS TRIGGER AS $$
