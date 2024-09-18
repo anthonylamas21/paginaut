@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { EventoService, Evento } from '../../evento.service';
 import { CursoService, Curso } from '../../cursoService/curso.service';
@@ -110,6 +110,7 @@ export class EventoComponent implements OnInit,  OnDestroy {
       this.loadEventos();
       this.loadCursos(); // Cargar los cursos
       this.setupDateTimeValidation();
+      this.setNavbarColor();
 
       this.eventoForm.get('es_curso')?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(value => {
           if (value === true) {
@@ -123,6 +124,33 @@ export class EventoComponent implements OnInit,  OnDestroy {
               this.eventoForm.get('curso_id')?.updateValueAndValidity();
           }
       });
+  }
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    this.setNavbarColor();
+  }
+
+  scrollToSection(sectionId: string): void {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  private setNavbarColor(): void {
+    const button = document.getElementById('scrollTopButton');
+    const nabvar = document.getElementById('navbarAccion');
+    const inicioSection = document.getElementById('inicio');
+
+    if (inicioSection && nabvar) {
+      const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
+
+      if (window.scrollY > inicioSectionBottom) {
+        button?.classList.remove('hidden');
+      } else {
+        button?.classList.add('hidden');
+      }
+
+      nabvar.classList.remove('bg-transparent');
+      nabvar.classList.add('bg-[#043D3D]');
+    }
   }
 
 

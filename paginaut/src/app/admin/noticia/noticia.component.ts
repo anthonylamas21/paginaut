@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NoticiaService, Noticia } from '../../noticia.service';
 import Swal from 'sweetalert2';
@@ -102,6 +102,7 @@ export class NoticiaComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadNoticias();
+    this.setNavbarColor();
 
     // Suscribirse a los cambios del formulario
     this.noticiaForm.valueChanges
@@ -109,6 +110,33 @@ export class NoticiaComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         // No hacemos nada aquí, solo queremos que se dispare la detección de cambios
       });
+  }
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    this.setNavbarColor();
+  }
+
+  scrollToSection(sectionId: string): void {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  private setNavbarColor(): void {
+    const button = document.getElementById('scrollTopButton');
+    const nabvar = document.getElementById('navbarAccion');
+    const inicioSection = document.getElementById('inicio');
+
+    if (inicioSection && nabvar) {
+      const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
+
+      if (window.scrollY > inicioSectionBottom) {
+        button?.classList.remove('hidden');
+      } else {
+        button?.classList.add('hidden');
+      }
+
+      nabvar.classList.remove('bg-transparent');
+      nabvar.classList.add('bg-[#043D3D]');
+    }
   }
 
   ngOnDestroy(): void {

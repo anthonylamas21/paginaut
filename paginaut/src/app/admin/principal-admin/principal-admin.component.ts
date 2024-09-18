@@ -29,14 +29,30 @@ export class PrincipalAdminComponent implements OnInit {
       }
     );
   }
+  translateOperation(operation: string): string {
+    const traducciones: { [key: string]: string } = {
+      'create': 'Crear',
+      'update': 'Actualizar',
+      'delete': 'Eliminar',
+      'view': 'Ver',
+      // Agrega más traducciones según sea necesario
+    };
+    
+    return traducciones[operation.toLowerCase()] || operation; // Devuelve la traducción o el original si no hay traducción
+  }
+  
 
   getTitle(item: any): string {
-    return `Operación: ${this.capitalize(item.operacion)} en ${this.capitalize(item.tabla)}`;
+    const operacionTraducida = this.translateOperation(item.operacion);
+    return `Operación: ${this.capitalize(operacionTraducida)} en ${this.capitalize(item.tabla)}`;
   }
+  
 
   getDescription(item: any): string {
-    return `Operación: ${item.operacion} realizada en la tabla ${item.tabla}.`;
-}
+    const operacionTraducida = this.translateOperation(item.operacion);
+    return `Operación: ${operacionTraducida} realizada en la tabla ${item.tabla}.`;
+  }
+  
 
 
 getDetallesEspecificos(item: any): string {
