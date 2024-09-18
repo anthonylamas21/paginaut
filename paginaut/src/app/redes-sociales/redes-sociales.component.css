@@ -217,7 +217,12 @@
 
   .example-1 .icon-content a[data-social="Recorrido"] .filled,
   .example-1 .icon-content a[data-social="Recorrido"]~.tooltip {
-    background: #043D3D;
+    
+    background: linear-gradient(45deg,
+        #043D3D,
+        #04847C,
+        #043D3D);
+    
   }
   
   

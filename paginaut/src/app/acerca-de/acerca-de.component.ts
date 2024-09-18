@@ -15,25 +15,25 @@ export class AcercaDeComponent {
       twitter:{active:true, links: [{ link: "https://x.com/Alexis_alat" }]}, 
       github:{active:true, links: [{ link: "https://github.com/AlexisAlatorreD" }]}, 
       linkedn:{active:true, links: [{ link: "https://www.linkedin.com/in/alexis-alatorre-delgadillo-0952aa236/" }]},
-      Instagram:{active:false, links: [{ link: "" }]}
+      Instagram:{active:true, links: [{ link: "https://www.instagram.com/_alexis_alatorre/" }]}
     },
     {
       nombre: "Mario Imanol Mata Gómez", 
       foto:"./assets/img/acercade/MM.jpg", 
       especialidad: "Programador Backend / Base de datos", 
       twitter:{active:false, links: [{ link: "" }]}, 
-      github:{active:true, links: [{ link: "" }]}, 
-      linkedn:{active:true, links: [{ link: "" }]},
+      github:{active:false, links: [{ link: "" }]}, 
+      linkedn:{active:true, links: [{ link: "https://www.linkedin.com/in/mario-imanol-mata-g%C3%B3mez-62515832a" }]},
       Instagram:{active:false, links: [{ link: "" }]}
     },
     {
       nombre: "Alberto Peña Ortíz", 
       foto:"./assets/img/acercade/AP.jpg", 
       especialidad: "Diseñador UX / Programador Backend", 
-      twitter:{active:true, links: [{ link: "https://twitter.com/alberto" }]}, 
-      github:{active:true, links: [{ link: "" }]}, 
-      linkedn:{active:true, links: [{ link: "" }]},
-      Instagram:{active:true, links: [{ link: "" }]}
+      twitter:{active:false, links: [{ link: "" }]}, 
+      github:{active:false, links: [{ link: "" }]}, 
+      linkedn:{active:false, links: [{ link: "" }]},
+      Instagram:{active:true, links: [{ link: "https://www.instagram.com/beto_ortiz798" }]}
     },
     {
       nombre: "Saul Hernández Contreras", 
@@ -47,8 +47,8 @@ export class AcercaDeComponent {
     {
       nombre: "Yahir Nava Gandara", 
       foto:"./assets/img/acercade/YN.jpg", 
-      especialidad: "Diseñador UI / Programador FrontEnd", 
-      twitter:{active:true, links: [{ link: "https://twitter.com/yahir" }]}, 
+      especialidad: "Diseñador UI / Programador Frontend", 
+      twitter:{active:false, links: [{ link: "" }]}, 
       github:{active:true, links: [{ link: "https://github.com/Yahir1217" }]}, 
       linkedn:{active:true, links: [{ link: "https://www.linkedin.com/in/yahir-nava-b8b598235/" }]},
       Instagram:{active:true, links: [{ link: "https://www.instagram.com/xxyahir17/" }]}
@@ -56,11 +56,11 @@ export class AcercaDeComponent {
     {
       nombre: "Anthony Joseph Lamas Castillo", 
       foto:"./assets/img/acercade/AL.jpeg", 
-      especialidad: "Programador FrontEnd", 
-      twitter:{active:true, links: [{ link: "https://twitter.com/anthony" }]}, 
-      github:{active:true, links: [{ link: "" }]}, 
-      linkedn:{active:true, links: [{ link: "" }]},
-      Instagram:{active:true, links: [{ link: "" }]}
+      especialidad: "Programador Frontend", 
+      twitter:{active:true, links: [{ link: "https://www.linkedin.com/in/anthony-joseph-lamas-castillo-63359b235" }]}, 
+      github:{active:false, links: [{ link: "" }]}, 
+      linkedn:{active:false, links: [{ link: "" }]},
+      Instagram:{active:true, links: [{ link: "https://www.instagram.com/anthony_lamas_" }]}
     }
 ];
 
@@ -69,10 +69,10 @@ profesor = [
     nombre: "Cesar Geovanny Machuca Pereida", 
       foto:"./assets/img/acercade/GMP.jpg", 
       especialidad: "Asesor Académico / Programador Full Stack", 
-      twitter:{active:true, links: [{ link: "https://twitter.com/geovanny" }]}, 
-      github:{active:true, links: [{ link: "" }]}, 
-      linkedn:{active:true, links: [{ link: "" }]},
-      Instagram:{active:true, links: [{ link: "" }]}
+      twitter:{active:false, links: [{ link: "" }]}, 
+      github:{active:false, links: [{ link: "" }]}, 
+      linkedn:{active:false, links: [{ link: "" }]},
+      Instagram:{active:false, links: [{ link: "" }]}
   }
 ]
 

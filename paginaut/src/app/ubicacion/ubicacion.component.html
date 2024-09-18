@@ -61,9 +61,14 @@
 <div class="border-t border-gray-200 border-opacity-20 px-6 py-4 relative">
   <div class="flex items-center cursor-pointer" (mouseover)="showHorarioPopup()" (mouseout)="hideHorarioPopup()">
     <span><i class="fa-solid fa-clock mr-2 text-gray-800"></i></span>
-    <span class="text-lg font-bold" [ngClass]="isOpen ? 'text-green-400' : 'text-red-600'">
+    <span class="text-lg font-bold" [ngClass]="isOpen ? 'text-green-500' : 'text-red-600'">
       {{ isOpen ? 'Abierto ahora' : 'Cerrado ahora' }}
     </span>
+    <svg class="flex-shrink-0 ms-2 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
   </div>
   <!-- Div flotante que muestra los horarios al pasar el mouse -->
   <div id="horarioPopup" class="absolute top-full left-0 bg-white text-black rounded-lg shadow-lg p-4 mt-2 hidden z-10 w-70">
