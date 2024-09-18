@@ -38,7 +38,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
   minsliceValue: number = 50;
 
   viewCount: number = 0;
-  private visitaRegistrada: boolean = false;  // Para evitar múltiples ejecuciones
+  visitaRegistrada = false;  // Para evitar múltiples ejecuciones
 
   getDynamicSliceValue(text: string): number {
     return Math.min(text.length, this.minsliceValue);
@@ -94,9 +94,9 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
     this.precargarImagenesCriticas();
     this.getViewCount();
 
-     // Ejecuta RegistrarVisita() después de 5 segundos de cargar la página
-     setTimeout(() => {
-      if (!this.visitaRegistrada) {
+    setTimeout(() => {
+      if (!this.visitaRegistrada && !this.tokenExistente()) {
+        this.limpiarLocalStorage();
         this.RegistrarVisita();
       }
     }, 5000);  // 5000 milisegundos = 5 segundos
@@ -282,42 +282,67 @@ verMenosEventos(): void {
     });
   }
 
+  generarToken(): string {
+    return Math.random().toString(36).substring(2) + Date.now().toString(36);
+  }
+
+  // Función para verificar si el token ya existe en el LocalStorage y si está expirado
+  tokenExistente(): boolean {
+    const token = localStorage.getItem('visita_token');
+    const tokenExpiracion = localStorage.getItem('token_expiracion');
+    
+    if (token && tokenExpiracion) {
+      const now = new Date().getTime();
+      const expiracion = parseInt(tokenExpiracion, 10);
+
+      // Si el token no ha expirado
+      if (now < expiracion) {
+        return true;
+      } else {
+        // Si ha expirado, limpiar el LocalStorage
+        this.limpiarLocalStorage();
+      }
+    }
+    return false;
+  }
+
+  // Función para registrar la visita y generar el token
   RegistrarVisita(): void {
-    this.visitasService.getIp().subscribe(
-      (ipResponse: any) => {
-        const ip = ipResponse.ip;  // Obtiene la IP desde el servicio externo
-        // Ahora registra la IP en tu API
-        this.visitasService.registrarVisitaConIp(ip).subscribe(
+      // Si el registro es exitoso, generar el token y guardarlo en el LocalStorage
+      const token = this.generarToken();
+      const unDiaEnMilisegundos = 24 * 60 * 60 * 1000; // 1 día
+      const expiracion = new Date().getTime() + unDiaEnMilisegundos;
+
+        this.visitasService.registrarVisitaConIp(token).subscribe(
           (response: any) => {
-            // Solo loguear si no es el mensaje de "IP ya está registrada"
-            if (!response.message || response.message !== 'La IP ya está registrada. No se contará como nueva visita.') {
-              //console.log('Registro exitoso:', response);
-              this.getViewCount();  // Si quieres seguir contando las vistas
-            }
-            this.visitaRegistrada = true;  // Marca que la visita ya ha sido registrada
+           
+            localStorage.setItem('visita_token', response.token);
+            localStorage.setItem('token_expiracion', expiracion.toString());
+
+              this.getViewCount();
+            
+            this.visitaRegistrada = true;
           },
           (error) => {
-            // Mostrar el error solo si ocurre un problema en el proceso
             console.error('Error al registrar la IP:', error);
           }
         );
+  }
+
+  // Limpiar todos los elementos del LocalStorage si no existe un token válido
+  limpiarLocalStorage(): void {
+    localStorage.removeItem('visita_token');
+    localStorage.removeItem('token_expiracion');
+  }
+
+  getViewCount(): void {
+    this.visitasService.ObtenerNumeroVisitas().subscribe(
+      (response: any) => {
+        this.viewCount = response.views;
       },
       (error) => {
-        console.error('Error al obtener la IP:', error);
+        console.error('Error al obtener el número de visitas:', error);
       }
     );
   }
-  
-
-  getViewCount(): any{
-    this.visitasService.ObtenerNumeroVisitas().subscribe(
-      (response: any) =>{
-        this.viewCount = response.views;
-        //console.log('Visitas:', this.viewCount);
-      }
-      ,(error) =>{
-        console.error('Error al obtener el número de visitas:', error);
-      })
-  }
-  
 }

@@ -13,7 +13,6 @@ interface Image {
 export class PiedraEstanqueComponent {
 
   images: Image[] = [
-    { url: './assets/img/galeria/extras/lectura/lectura1.jpg', alt: 'Image 1' },
     { url: './assets/img/galeria/extras/lectura/lectura2.jpg', alt: 'Image 2' },
     { url: './assets/img/galeria/extras/lectura/lectura3.jpg', alt: 'Image 3' },
     { url: './assets/img/galeria/extras/lectura/lectura4.jpg', alt: 'Image 4' },

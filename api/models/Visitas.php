@@ -4,7 +4,7 @@ class Visita {
     private $table_name = "Visita";
 
     public $id;
-    public $ip_address;
+    public $visita_token;
     public $fecha_creacion;
     public $hora;
 
@@ -14,31 +14,33 @@ class Visita {
 
     function create() {
       $query = "INSERT INTO " . $this->table_name . " 
-                  (ip_address)
+                  (visita_token)
                 VALUES
-                  (:ip_address)";
+                  (:visita_token)";
       $stmt = $this->conn->prepare($query);
   
-      $this->ip_address = password_hash(htmlspecialchars(strip_tags($this->ip_address)), PASSWORD_DEFAULT);
+      $this->visita_token = password_hash(htmlspecialchars(strip_tags($this->visita_token)), PASSWORD_DEFAULT);
   
-      $stmt->bindParam(":ip_address", $this->ip_address);
+      $stmt->bindParam(":visita_token", $this->visita_token);
   
       if ($stmt->execute()) {
-          return true;
+        return [
+          'visita_token' => $this->visita_token
+        ];
       }
   
       return false;
   }
 
   function findByIpHashed($ipToCheck) {
-    $query = "SELECT ip_address FROM " . $this->table_name;
+    $query = "SELECT visita_token FROM " . $this->table_name;
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
 
     // Recuperar todas las IPs de la base de datos
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         // Usar password_verify para comparar la IP ingresada con los hashes almacenados
-        if (password_verify($ipToCheck, $row['ip_address'])) {
+        if (password_verify($ipToCheck, $row['visita_token'])) {
             return true; // Si se encuentra una coincidencia
         }
     }
