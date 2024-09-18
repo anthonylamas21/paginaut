@@ -21,7 +21,7 @@ $data = json_decode(file_get_contents("php://input"));
 switch($request_method) {
     case 'POST':
         if (!empty($data->direccion)) {
-            $visita->ip_address = $data->direccion;
+            $visita->visita_token = $data->direccion;
 
             // Verificar si la IP ya está registrada
             if ($visita->findByIpHashed($data->direccion)) {
@@ -29,7 +29,7 @@ switch($request_method) {
             } else {
                 // Si la IP no está registrada, crear un nuevo registro
                 if ($visita->create()) {
-                    echo json_encode(array("message" => "Registro creado."));
+                    echo json_encode(array("message" => "Registro creado.", "token" => $visita->visita_token));
                 } else {
                     http_response_code(500);
                     echo json_encode(array("message" => "No se pudo crear el registro."));

@@ -47,10 +47,10 @@ export class LoginComponent implements OnInit {
   onSubmitLogin() {
     if (!this.token) {
       const formData: Usuario = this.LoginForm.value;
-      console.log('Datos de formulario:', this.LoginForm.value);
+      //console.log('Datos de formulario:', this.LoginForm.value);
       this.srvUsuario.IniciarSesion(formData).subscribe(
         res => {
-          console.log('Respuesta del servidor:', res);
+          //console.log('Respuesta del servidor:', res);
           
           if (res && res.token && res.usuario) {
             // Encriptar y almacenar el token

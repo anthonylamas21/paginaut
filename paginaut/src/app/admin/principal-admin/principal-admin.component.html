@@ -6,7 +6,7 @@
 <div class="p-4 mx-auto">
   <div class="bg-gradient-to-r from-[#043D3D] to-[#065555] text-white mt-24 p-8 rounded-md shadow-2xl">
     <div class="container mx-auto px-4 text-center">
-      <h1 class="text-4xl md:text-5xl font-extrabold mb-12 tracking-wide leading-tight break-words">
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-12 tracking-wide leading-tight break-words truncate">
         Panel de Administración
       </h1>
       <p class="text-lg font-light mb-8">Gestiona todas las secciones administrativas desde un solo lugar.</p>
@@ -87,7 +87,7 @@
   </div>
 
   <!-- Botones Ver Más y Ver Menos -->
-  <div class="text-center mt-6">
+  <div class="text-center my-6">
     <button *ngIf="visibleItemsCount < historial.length" class="bg-[#043D3D] text-white px-4 py-2 rounded mr-2" (click)="showMore()">Ver más</button>
     <button *ngIf="visibleItemsCount > 3" class="bg-[#043D3D] text-white px-4 py-2 rounded" (click)="showLess()">Ver menos</button>
   </div>

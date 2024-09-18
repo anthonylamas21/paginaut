@@ -8,13 +8,8 @@ import { Observable } from 'rxjs';
 export class VistasService {
 
 private apiUrl = 'http://localhost/paginaut/api/visitas';
-private ipApiUrl = 'https://api.ipify.org?format=json';
 
 constructor(private http: HttpClient) { }
-
-getIp(): Observable<any> {
-  return this.http.get<any>(this.ipApiUrl);
-}
 
  // Método para registrar la visita con la IP
 registrarVisitaConIp(ip: string): Observable<any> {

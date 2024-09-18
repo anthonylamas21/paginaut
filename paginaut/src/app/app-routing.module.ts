@@ -67,7 +67,6 @@ import { VoleibolComponent } from './info-horas-recreativas/voleibol/voleibol.co
 import { ActivacionFisicaComponent } from './info-horas-recreativas/activacion-fisica/activacion-fisica.component';
 import { DibujoComponent } from './info-horas-recreativas/dibujo/dibujo.component';
 import { DanzaComponent } from './info-horas-recreativas/danza/danza.component';
-import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.component';
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
 import { AgendaAdminComponent } from './admin/agenda-admin/agenda-admin.component';
 import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera.component';
@@ -85,7 +84,6 @@ const routes: Routes = [
   { path: 'carreras', component: CarrerasComponent },
   { path: 'becas', component: BecasComponent },
   { path: 'unidades_academicas', component: UnidadesAcademicasComponent },
-  { path: 'lectura', component: TalleresComponent },
   { path: 'login', component: LoginComponent },
   { path: 'info_carrera', component: InfoCarreraComponent },
   { path: 'eventos', component: EventosComponent },
@@ -101,7 +99,6 @@ const routes: Routes = [
   { path: 'carreras', component: CarrerasComponent },
   { path: 'becas', component: BecasComponent },
   { path: 'unidades_academicas', component: UnidadesAcademicasComponent },
-  { path: 'lectura', component: TalleresComponent },
   { path: 'login', component: LoginComponent },
   { path: 'info_carrera', component: InfoCarreraComponent },
   { path: 'eventos', component: EventosComponent },
@@ -161,7 +158,6 @@ const routes: Routes = [
   },
   { path: 'info_horas_recreativas/dibujo', component: DibujoComponent },
   { path: 'info_horas_recreativas/danza', component: DanzaComponent },
-  { path: 'info_horas_recreativas/lectura', component: LecturaComponent },
   { path: 'info_horas_recreativas/ajedrez', component: AjedrezComponent },
 
   //Rutas Adminstrador
