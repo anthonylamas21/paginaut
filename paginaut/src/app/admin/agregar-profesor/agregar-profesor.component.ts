@@ -66,6 +66,8 @@ export class AgregarProfesorComponent implements OnInit {
   fotoValida: boolean = false;
   isSubmitting: boolean = false; // Nueva bandera para prevenir doble envío
   sinImagen?: "./src/assets/img/perfil_vacio.png";
+  isTiempoCompletoSelected = false;
+  isAsignaturaSelected = false;
 
   constructor(
     private fb: FormBuilder,
@@ -142,15 +144,33 @@ export class AgregarProfesorComponent implements OnInit {
     const tipoTiempoCompleto = this.profesorForm.get('tipoTiempoCompleto')?.value;
     const tipoAsignatura = this.profesorForm.get('tipoAsignatura')?.value;
     const tipoCursos = this.profesorForm.get('tipoCursos')?.value;
-
+  
+    // Verifica si ambos están seleccionados
     if (tipoTiempoCompleto && tipoAsignatura) {
       this.tipoProfesorError = 'No puedes seleccionar Tiempo Completo y Asignatura al mismo tiempo.';
+      // Desmarcar "Asignatura" si "Tiempo Completo" está seleccionado
+      this.profesorForm.get('tipoAsignatura')?.setValue(false);
     } else if (!tipoTiempoCompleto && !tipoAsignatura && !tipoCursos) {
       this.tipoProfesorError = 'Debes seleccionar al menos un tipo de profesor.';
     } else {
       this.tipoProfesorError = '';
     }
+  
+    // Deshabilitar "Asignatura" si "Tiempo Completo" está seleccionado
+    if (tipoTiempoCompleto) {
+      this.profesorForm.get('tipoAsignatura')?.disable();
+    } else {
+      this.profesorForm.get('tipoAsignatura')?.enable();
+    }
+  
+    // Deshabilitar "Tiempo Completo" si "Asignatura" está seleccionada
+    if (tipoAsignatura) {
+      this.profesorForm.get('tipoTiempoCompleto')?.disable();
+    } else {
+      this.profesorForm.get('tipoTiempoCompleto')?.enable();
+    }
   }
+  
 
 
   @HostListener('window:scroll', [])
