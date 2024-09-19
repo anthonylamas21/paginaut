@@ -39,6 +39,15 @@ export class CarreraAdministracionComponent {
     { url: './assets/img/galeria/admin/admin2.jpg', alt: 'Image 2' },
     { url: './assets/img/galeria/admin/admin3.jpg', alt: 'Image 3' },
     { url: './assets/img/galeria/admin/admin4.jpg', alt: 'Image 4' },
+    { url: './assets/img/galeria/admin/admin5.jpg', alt: 'Image 5' },
+    { url: './assets/img/galeria/admin/admin6.jpg', alt: 'Image 6' },
+    { url: './assets/img/galeria/admin/admin7.jpg', alt: 'Image 7' },
+    { url: './assets/img/galeria/admin/admin8.jpg', alt: 'Image 8' },
+    { url: './assets/img/galeria/admin/admin9.jpg', alt: 'Image 9' },
+    { url: './assets/img/galeria/admin/admin10.jpg', alt: 'Image 10' },
+    { url: './assets/img/galeria/admin/admin11.jpg', alt: 'Image 11' },
+    { url: './assets/img/galeria/admin/admin12.jpg', alt: 'Image 12' },
+    { url: './assets/img/galeria/admin/admin13.jpg', alt: 'Image 13' },
     // más imágenes aquí
   ];
 

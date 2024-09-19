@@ -1,40 +1,48 @@
 <app-navbar></app-navbar>
 <p id="inicio"></p>
 
-<button id="scrollTopButton" (click)="scrollToSection('inicio')" class="z-50 hidden fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50">
-    <i class="fa-solid fa-chevron-up"></i>
-  </button>
+<button id="scrollTopButton" (click)="scrollToSection('inicio')"
+  class="z-50 hidden fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50">
+  <i class="fa-solid fa-chevron-up"></i>
+</button>
 
 <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4 mb-8">
-    <li class="inline-flex items-center">
-      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/principal">
-        Inicio
-      </a>
-      <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <li class="inline-flex items-center">
+    <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] "
+      href="/principal">
+      Inicio
+    </a>
+    <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24"
+      height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+      stroke-linejoin="round">
+      <path d="m9 18 6-6-6-6"></path>
+    </svg>
+  </li>
+  <li class="inline-flex items-center">
+    <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] "
+      href="/carreras">
+      Carreras
+      <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+        width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
         <path d="m9 18 6-6-6-6"></path>
       </svg>
-    </li>
-    <li class="inline-flex items-center">
-      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/carreras">
-        Carreras
-        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m9 18 6-6-6-6"></path>
-        </svg>
-      </a>
-    </li>
-    <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
-      Desarrollo de Software
-    </li>
-  </ol>
+    </a>
+  </li>
+  <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
+    Desarrollo de Software
+  </li>
+</ol>
 
-  <div class="container mx-auto"> <!--Inicio container-->
+<div class="container mx-auto"> <!--Inicio container-->
 
-    <div *ngIf="isLoading" class="bg-gray-50 rounded-lg animate-pulse">
-      <div class="bg-gray-200 rounded-lg h-10"></div>
-    </div>
+  <div *ngIf="isLoading" class="bg-gray-50 rounded-lg animate-pulse">
+    <div class="bg-gray-200 rounded-lg h-10"></div>
+  </div>
 
   <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg">
-    <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">TSU En tecnologías de la información área Desarrollo de software multiplataforma</h2>
+    <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">TSU En tecnologías de la
+      información área Desarrollo de software multiplataforma</h2>
   </div>
 
   <div *ngIf="isLoading" class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
@@ -107,30 +115,23 @@
   <div *ngIf="!isLoading" class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
     <div class="w-full">
       <h4 class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg">Perfil profesional</h4>
-       <ul class="text-sm list-disc pl-5 space-y-1 mt-2 custom-list">
-        <li>  Desarrollar soluciones tecnológicas para entornos web mediante fundamentos de programación orientada a objetos, base de datos y redes de área local que atiendan las necesidades de las organizaciones.</li>
-        <li>  Implementar servicios de red con esquemas básicos de seguridad mediante la configuración y soporte de dispositivos de comunicación para su interconexión en una red corporativa pequeña.</li>
-        <li>  Desarrollar sistemas de información empleando frameworks, patrones de diseño y arquitecturas de desarrollo para generar soluciones multiplataforma, en la nube y software embebido.</li>
-        <li>  Administrar información mediante gestores de bases de datos relacionales, no relacionales, orientadas a objetos, orientadas a archivos y distribuidas para la implementación de los sistemas de información.</li>
+      <ul class="text-sm list-disc pl-5 space-y-1 mt-2 custom-list">
+        <li>Desarrollar aplicaciones web básicas utilizando lenguajes de programación orientados a objetos.</li>
+        <li>Implementar y mantener bases de datos relacionales para sistemas de información simples.</li>
+        <li>Configurar redes de área local con esquemas básicos de seguridad.</li>
       </ul>
       <h4 class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg">Ocupación profesional</h4>
-       <ul class="text-sm list-disc pl-5 space-y-1 mt-2 custom-list">
-        <li>  Desarrollador de aplicaciones móviles.</li>
-        <li>  Desarrollador de aplicaciones para la nube.</li>
-        <li>  Desarrollador de aplicaciones para Internet de las Cosas.</li>
-        <li>  Desarrollador de aplicaciones Web.</li>
-        <li>  Ejecutor de Pruebas.</li>
-        <li>  Analista de Sistemas.</li>
-        <li>  Programador de Sistemas.</li>
-        <li>  Administrador de Base de Datos.</li>
-        <li>  Técnico en soporte de Sistemas Informáticos.</li>
-        <li>  Integrador de seguridad en aplicaciones multiplataforma.</li>
+      <ul class="text-sm list-disc pl-5 space-y-1 mt-2 custom-list">
+        <li>Asistente de programador.</li>
+        <li>Técnico en soporte de Sistemas Informáticos.</li>
+        <li>Auxiliar en administración de bases de datos.</li>
       </ul>
     </div>
     <div class="relative w-full mt-10">
       <div class="relative">
         <!-- Imagen principal -->
-        <img src="./assets/img/galeria/desarrollo/desarrollo8.jpg" class="w-full bg-cover rounded-lg pointer-events-none" alt="">
+        <img src="./assets/img/galeria/desarrollo/desarrollo8.jpg"
+          class="w-full bg-cover rounded-lg pointer-events-none" alt="">
         <!-- Pie de imagen (segunda imagen) -->
         <div class="absolute bottom-0 w-full">
           <img src="./assets/img/Plantilla_imagenes_utc.png" class="w-full rounded-b-lg pointer-events-none" alt="">
@@ -141,14 +142,16 @@
 
 
   <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg mt-8">
-    <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white text-right uppercase mb-3">Ing. en desarrollo y gestión de software</h2>
+    <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white text-right uppercase mb-3">Ing. en desarrollo y
+      gestión de software</h2>
   </div>
 
   <div *ngIf="!isLoading" class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
     <div class="relative w-full mt-10">
       <div class="relative">
         <!-- Imagen principal -->
-        <img src="./assets/img/galeria/desarrollo/desarrollo10.jpg" class="w-full bg-cover rounded-lg pointer-events-none" alt="">
+        <img src="./assets/img/galeria/desarrollo/desarrollo10.jpg"
+          class="w-full bg-cover rounded-lg pointer-events-none" alt="">
         <!-- Pie de imagen (segunda imagen) -->
         <div class="absolute bottom-0 w-full">
           <img src="./assets/img/Plantilla_imagenes_utc.png" class="w-full rounded-b-lg pointer-events-none" alt="">
@@ -157,30 +160,27 @@
     </div>
     <div class="w-full">
       <h4 class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg">Perfil profesional</h4>
-       <ul class="text-sm list-disc pl-5 space-y-1 mt-2 custom-list">
-        <li>  Desarrollar aplicaciones WEB, móviles y videojuegos.</li>
-        <li>  Desarrollar tecnología orientada al internet de las cosas.</li>
-        <li>  Integrar seguridad informática en aplicaciones multiplataforma.</li>
-        <li>  Implementar aplicaciones para wearables y pantallas inteligentes.</li>
-        <li>  Establecer arquitecturas para el desarrollo de software.</li>
-        <li>  Administrar Bases de Datos.</li>
-        <li>  Gestionar el proceso de desarrollo de software.</li>
+      <ul class="text-sm list-disc pl-5 space-y-1 mt-2 custom-list">
+        <li>Desarrollar soluciones tecnológicas para entornos web mediante fundamentos de programación orientada a
+          objetos, base de datos y redes de área local que atiendan las necesidades de las organizaciones.</li>
+        <li>Implementar servicios de red con esquemas básicos de seguridad mediante la configuración y soporte de
+          dispositivos de comunicación para su interconexión en una red corporativa pequeña.</li>
+        <li>Desarrollar sistemas de información empleando frameworks, patrones de diseño y arquitecturas de desarrollo
+          para generar soluciones multiplataforma, en la nube y software embebido.</li>
+        <li>Administrar información mediante gestores de bases de datos relacionales, no relacionales, orientadas a
+          objetos, orientadas a archivos y distribuidas para la implementación de los sistemas de información.</li>
       </ul>
       <h4 class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg">Ocupación profesional</h4>
-       <ul class="text-sm list-disc pl-5 space-y-1 mt-2 custom-list">
-        <li>  Desarrollador de aplicaciones web y móviles con servicios en la nube.</li>
-        <li>  Programador independiente para empresas productoras de software.</li>
-        <li>  Desarrollador de tecnología orientada a internet de las cosas.</li>
-        <li>  Programador Full Stack.</li>
-        <li>  Arquitecto de software como gestor en el proceso de desarrollo e implementación de sistemas de información.</li>
-        <li>  Diseñador de interfaces gráficas basadas en UX.</li>
-        <li>  Líder de proyectos de desarrollo de software.</li>
-        <li>  Director de TI.</li>
-        <li>  Jefe de sistemas.</li>
-        <li>  Prestador de servicios de TI en el sector productivo.</li>
-        <li>  Consultor integral orientado a soluciones de TI.</li>
-        <li>  Tester de software.</li>
-        <li>  Jefe de seguridad informática.</li>
+      <ul class="text-sm list-disc pl-5 space-y-1 mt-2 custom-list">
+        <li>Desarrollador de aplicaciones móviles.</li>
+        <li>Desarrollador de aplicaciones para la nube.</li>
+        <li>Desarrollador de aplicaciones para Internet de las Cosas.</li>
+        <li>Desarrollador de aplicaciones Web.</li>
+        <li>Ejecutor de Pruebas.</li>
+        <li>Analista de Sistemas.</li>
+        <li>Programador de Sistemas.</li>
+        <li>Administrador de Base de Datos.</li>
+        <li>Integrador de seguridad en aplicaciones multiplataforma.</li>
       </ul>
     </div>
   </div>
@@ -212,46 +212,40 @@
               <p-table #dt [value]="items">
                 <ng-template pTemplate="header">
                   <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
-                    <th [attr.colSpan]="items.length" scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
-                      >
+                    <th [attr.colSpan]="items.length" scope="col"
+                      class="px-6 py-3 text-xs text-white uppercase bg-table-header-color">
                       <div class="flex justify-center">
                         Mapa cuatrimestral
                       </div>
                     </th>
                   </tr>
                   <tr class="divide-x  divide-gray-200 bg-table-header-color rounded-lg">
-                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
-                      >
+                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color">
                       <div class="flex justify-center">
                         1°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
-                      >
+                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color ">
                       <div class="flex justify-center">
                         2°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
-                      >
+                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color ">
                       <div class="flex justify-center">
                         3°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
-                      >
+                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color ">
                       <div class="flex justify-center">
                         4°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
-                    >
+                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color ">
                       <div class="flex justify-center">
                         5°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
-                   >
+                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color ">
                       <div class="flex justify-center">
                         6°
                       </div>
@@ -260,12 +254,20 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-registro let-index="rowIndex">
                   <tr class="divide-x divide-gray-200 bg-neutral-100 ">
-                    <td (mouseover)="onMouseOver('uno', registro.uno)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.uno}}</td>
-                    <td (mouseover)="onMouseOver('dos', registro.dos)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.dos}}</td>
-                    <td (mouseover)="onMouseOver('tres', registro.tres)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.tres}}</td>
-                    <td (mouseover)="onMouseOver('cuatro', registro.cuatro)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.cuatro}}</td>
-                    <td (mouseover)="onMouseOver('cinco', registro.cinco)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.cinco}}</td>
-                    <td *ngIf="index === 0" [attr.rowSpan]="items.length" (mouseover)="onMouseOver('seis', registro.seis)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.seis}}</td>
+                    <td (mouseover)="onMouseOver('uno', registro.uno)"
+                      class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.uno}}</td>
+                    <td (mouseover)="onMouseOver('dos', registro.dos)"
+                      class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.dos}}</td>
+                    <td (mouseover)="onMouseOver('tres', registro.tres)"
+                      class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.tres}}</td>
+                    <td (mouseover)="onMouseOver('cuatro', registro.cuatro)"
+                      class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.cuatro}}
+                    </td>
+                    <td (mouseover)="onMouseOver('cinco', registro.cinco)"
+                      class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.cinco}}</td>
+                    <td *ngIf="index === 0" [attr.rowSpan]="items.length"
+                      (mouseover)="onMouseOver('seis', registro.seis)"
+                      class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.seis}}</td>
                   </tr>
                 </ng-template>
               </p-table>
@@ -282,40 +284,35 @@
               <p-table #dt [value]="items">
                 <ng-template pTemplate="header">
                   <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
-                    <th [attr.colSpan]="items.length" scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
-                      >
+                    <th [attr.colSpan]="items.length" scope="col"
+                      class="px-6 py-3 text-xs text-white uppercase bg-table-header-color">
                       <div class="flex justify-center">
                         Mapa cuatrimestral
                       </div>
                     </th>
                   </tr>
                   <tr class="divide-x  divide-gray-200  bg-table-header-color rounded-lg">
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                      >
+                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
                       <div class="flex justify-center">
                         7°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                     >
+                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color ">
                       <div class="flex justify-center">
                         8°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      >
+                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color ">
                       <div class="flex justify-center">
                         9°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      >
+                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color ">
                       <div class="flex justify-center">
                         10°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      >
+                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color ">
                       <div class="flex justify-center">
                         11°
                       </div>
@@ -325,11 +322,17 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-registro let-index="rowIndex">
                   <tr class="divide-x  divide-gray-200 bg-neutral-100">
-                    <td (mouseover)="onMouseOver('siete', registro.siete)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.siete}}</td>
-                    <td (mouseover)="onMouseOver('ocho', registro.ocho)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.ocho}}</td>
-                    <td (mouseover)="onMouseOver('nueve', registro.nueve)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.nueve}}</td>
-                    <td (mouseover)="onMouseOver('diez', registro.diez)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.diez}}</td>
-                    <td (mouseover)="onMouseOver('once', registro.once)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black" *ngIf="index === 0" [attr.rowSpan]="items.length">{{registro.once}}</td>
+                    <td (mouseover)="onMouseOver('siete', registro.siete)"
+                      class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.siete}}</td>
+                    <td (mouseover)="onMouseOver('ocho', registro.ocho)"
+                      class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.ocho}}</td>
+                    <td (mouseover)="onMouseOver('nueve', registro.nueve)"
+                      class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.nueve}}</td>
+                    <td (mouseover)="onMouseOver('diez', registro.diez)"
+                      class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.diez}}</td>
+                    <td (mouseover)="onMouseOver('once', registro.once)"
+                      class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black" *ngIf="index === 0"
+                      [attr.rowSpan]="items.length">{{registro.once}}</td>
                   </tr>
                 </ng-template>
               </p-table>
@@ -346,7 +349,9 @@
   </div>
   <ngx-masonry class="mx-auto">
     <div ngxMasonryItem class="masonry-item p-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5" *ngFor="let image of images">
-      <img [src]="image.url" [alt]="image.alt" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out" (click)="openModal(image)">
+      <img [src]="image.url" [alt]="image.alt"
+        class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out"
+        (click)="openModal(image)">
     </div>
   </ngx-masonry>
 
@@ -358,9 +363,11 @@
 <app-footer></app-footer>
 <!--Fin Footer-->
 
-<div [class.hidden]="!selectedImage.url" id="hs-vertically-centered-modal" class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
+<div [class.hidden]="!selectedImage.url" id="hs-vertically-centered-modal"
+  class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
   <div class="relative max-w-[90vh] w-full">
     <img [src]="selectedImage.url" [alt]="selectedImage.alt" class="max-h-[90vh] w-[90vh] mx-auto rounded-md">
-    <button (click)="closeModal()" class="absolute top-2 right-2 bg-red-500 w-8 h-8 rounded-full text-white text-2xl flex items-center justify-center">&times;</button>
+    <button (click)="closeModal()"
+      class="absolute top-2 right-2 bg-red-500 w-8 h-8 rounded-full text-white text-2xl flex items-center justify-center">&times;</button>
   </div>
 </div>
