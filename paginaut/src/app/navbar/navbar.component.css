@@ -1,0 +1,18 @@
+/* Estilo para el cambio de color de fondo al hacer hover en los enlaces */
+a.group:hover {
+    background-color: #e7eef1; /* Color de fondo en hover */
+  }
+  
+  /* Estilo para los SVG que deben cambiar de color en hover */
+  a.group svg.svg-fill-hover {
+    transition: fill 0.3s ease; /* Transición suave */
+  }
+  
+  a.group:hover svg.svg-fill-hover {
+    fill: #04847C; /* Color que deseas en hover */
+  }
+  
+
+  
+
+  
