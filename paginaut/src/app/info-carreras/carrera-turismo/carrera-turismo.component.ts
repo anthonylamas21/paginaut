@@ -35,7 +35,6 @@ export class CarreraTurismoComponent {
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/turismo/turismo1.jpg', alt: 'Image 1' },
     { url: './assets/img/galeria/turismo/turismo2.jpg', alt: 'Image 2' },
     { url: './assets/img/galeria/turismo/turismo3.jpg', alt: 'Image 3' },
     { url: './assets/img/galeria/turismo/turismo4.jpg', alt: 'Image 4' },

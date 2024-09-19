@@ -22,8 +22,8 @@
         </svg>
       </a>
     </li>
-    <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
-        PROCESOS ALIMENTARIOS
+    <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate capitalize" aria-current="page">
+        procesos alimentarios
     </li>
   </ol>
 
@@ -34,7 +34,7 @@
     </div>
 
   <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg">
-    <h2 class="text-xl font-poppins font-extralight py-2 px-2 text-white text-left uppercase">
+    <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
         TSU en Procesos Alimentarios</h2>
   </div>
 
@@ -122,20 +122,34 @@
         </li>
       </ul>
     </div>
-    <div class="w-full mt-10">
-      <img src="./assets/img/galeria/procesos_alimenticios/proces10.jpg" class="max-w-auto bg-cover rounded-lg" alt="">
+    <div class="relative w-full mt-10">
+      <div class="relative">
+        <!-- Imagen principal -->
+        <img src="./assets/img/galeria/procesos_alimenticios/proces10.jpg" class="w-full bg-cover rounded-lg pointer-events-none" alt="">
+        <!-- Pie de imagen (segunda imagen) -->
+        <div class="absolute bottom-0 w-full">
+          <img src="./assets/img/Plantilla_imagenes_utc.png" class="w-full rounded-b-lg pointer-events-none" alt="">
+        </div>
+      </div>
     </div>
   </div>
 
 
   <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg mt-8">
-    <h2 class="text-xl font-poppins font-extralight py-2 px-2 text-white text-right uppercase">Ing. en Procesos Alimentarios
+    <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white text-right uppercase mb-3">Ing. en Procesos Alimentarios
     </h2>
   </div>
 
   <div *ngIf="!isLoading" class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-    <div class="w-full mt-10">
-      <img src="./assets/img/fotos_por_carrera/procesos-alimenticios.webp" class="max-w-auto bg-cover rounded-lg" alt="">
+    <div class="relative w-full mt-10">
+      <div class="relative">
+        <!-- Imagen principal -->
+        <img src="./assets/img/fotos_por_carrera/procesos-alimenticios.webp" class="w-full bg-cover rounded-lg pointer-events-none" alt="">
+        <!-- Pie de imagen (segunda imagen) -->
+        <div class="absolute bottom-0 w-full">
+          <img src="./assets/img/Plantilla_imagenes_utc.png" class="w-full rounded-b-lg pointer-events-none" alt="">
+        </div>
+      </div>
     </div>
     <div class="w-full">
         <h4 class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg">Perfil profesional</h4>
