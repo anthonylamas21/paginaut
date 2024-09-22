@@ -98,6 +98,7 @@ import { BibliotecaComponent } from './biblioteca/biblioteca.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { AgregarBolsaTrabajoComponent } from './admin/bolsadetrabajo/bolsadetrabajo.component';
 import { AgregarCursoComponent } from './admin/agregar-curso/agregar-curso.component';
+import { ConvocatoriaComponent } from './admin/convocatoria/convocatoria.component';
 
 @NgModule({
   declarations: [
@@ -179,6 +180,7 @@ import { AgregarCursoComponent } from './admin/agregar-curso/agregar-curso.compo
     PasswordResetComponent,
     AgregarBolsaTrabajoComponent,
     AgregarCursoComponent,
+    ConvocatoriaComponent,
   ],
   imports: [
     BrowserModule,

@@ -126,7 +126,24 @@ CREATE TABLE Archivos (
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE Evento (
+CREATE TABLE Convocatoria (
+    id SERIAL PRIMARY KEY,
+    titulo VARCHAR(150) NOT NULL,  -- Título de la convocatoria
+    descripcion TEXT NOT NULL,  -- Información o detalles de la convocatoria
+    activo BOOLEAN DEFAULT TRUE,  -- Indica si la convocatoria está activa o no
+    lugar VARCHAR(150) NOT NULL,  -- Lugar donde se realizará la convocatoria
+    fecha_inicio TIMESTAMP,  -- Fecha de inicio de la convocatoria
+    fecha_fin TIMESTAMP,  -- Fecha de finalización de la convocatoria
+    hora_inicio TIME,  -- Hora de inicio del evento de la convocatoria
+    hora_fin TIME,  -- Hora de finalización del evento de la convocatoria
+    es_curso BOOLEAN DEFAULT FALSE,  -- Indica si la convocatoria está asociada a un curso
+    curso_id INT,  -- Referencia al curso relacionado (si aplica)
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Fecha de creación de la convocatoria
+    CONSTRAINT fk_curso FOREIGN KEY (curso_id) REFERENCES Curso(id) ON DELETE SET NULL  -- Clave externa a la tabla Curso
+);
+
+
+CREATE TABLE Convocatoria (
     id SERIAL PRIMARY KEY,
     titulo VARCHAR(150) NOT NULL,
     informacion_evento TEXT NOT NULL,

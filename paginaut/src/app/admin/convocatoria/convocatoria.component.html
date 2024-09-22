@@ -1,0 +1,217 @@
+<app-navbar-admin></app-navbar-admin>
+<p id="inicio"></p>
+<!-- Fin Navbar -->
+
+<div class=" mt-4">
+  <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4">
+      <li class="inline-flex items-center">
+        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]" href="/admin/principal_admin">
+          Panel Administrador
+        </a>
+        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </li>
+      <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate" aria-current="page">
+          Convocatorias
+        </li>
+    </ol>
+</div>
+
+<div class="p-2 mx-auto">
+  <div class="bg-[#043D3D] rounded-lg mt-8 mb-5">
+    <h2
+      class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4"
+    >
+      Convocatorias
+    </h2>
+  </div>
+
+<!-- Modal para Editar/Registrar Convocatoria -->
+<div [ngClass]="{ 'hidden': !isModalOpen }" class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+    <div class="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10">
+      <h3 class="text-xl font-bold text-gray-900">{{ currentConvocatoriaId ? "Editar Convocatoria" : "Nueva Convocatoria" }}</h3>
+      <button type="button" class="text-gray-400 hover:text-gray-500" (click)="closeModal()">
+        <span class="sr-only">Cerrar</span>
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <form [formGroup]="convocatoriaForm" (ngSubmit)="onSubmit()" class="p-4 space-y-4">
+      <div class="space-y-2">
+        <h4 class="font-medium text-gray-700">1. Información básica</h4>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label for="titulo" class="block text-sm font-medium text-gray-700">Título</label>
+            <input type="text" id="titulo" placeholder="Título de la convocatoria" formControlName="titulo" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
+            <p *ngIf="isFieldInvalid('titulo')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('titulo') }}</p>
+          </div>
+          <div>
+            <label for="lugar_convocatoria" class="block text-sm font-medium text-gray-700">Lugar de la Convocatoria</label>
+            <input type="text" id="lugar_convocatoria" placeholder="Lugar de la convocatoria" formControlName="lugar_convocatoria" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
+            <p *ngIf="isFieldInvalid('lugar_convocatoria')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('lugar_convocatoria') }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <h4 class="font-medium text-gray-700">2. Detalles de la convocatoria</h4>
+        <div>
+          <label for="informacion_convocatoria" class="block text-sm font-medium text-gray-700">Información de la Convocatoria</label>
+          <textarea id="informacion_convocatoria" placeholder="Información relevante" formControlName="informacion_convocatoria" rows="4" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"></textarea>
+          <p *ngIf="isFieldInvalid('informacion_convocatoria')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('informacion_convocatoria') }}</p>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <h4 class="font-medium text-gray-700">3. Fecha y hora</h4>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label for="fecha_inicio" class="block text-sm font-medium text-gray-700">Fecha de Inicio</label>
+            <input type="date" id="fecha_inicio" formControlName="fecha_inicio"
+                   [min]="minDate"
+                   [attr.max]="convocatoriaForm.get('fecha_fin')?.value || null"
+                   class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
+            <p *ngIf="isFieldInvalid('fecha_inicio')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('fecha_inicio') }}</p>
+          </div>
+          <div>
+            <label for="fecha_fin" class="block text-sm font-medium text-gray-700">Fecha de Fin</label>
+            <input type="date" id="fecha_fin" formControlName="fecha_fin"
+                   [min]="convocatoriaForm.get('fecha_inicio')?.value || minDate"
+                   class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
+            <p *ngIf="isFieldInvalid('fecha_fin')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('fecha_fin') }}</p>
+          </div>
+          <div>
+            <label for="hora_inicio" class="block text-sm font-medium text-gray-700">Hora de Inicio</label>
+            <input type="time" id="hora_inicio" formControlName="hora_inicio"
+                   [min]="convocatoriaForm.get('fecha_inicio')?.value === minDate ? minTimeInicio : null"
+                   class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
+            <p *ngIf="isFieldInvalid('hora_inicio')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('hora_inicio') }}</p>
+          </div>
+          <div>
+            <label for="hora_fin" class="block text-sm font-medium text-gray-700">Hora de Fin</label>
+            <input type="time" id="hora_fin" formControlName="hora_fin"
+                   [min]="minTimeFin"
+                   class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
+            <p *ngIf="isFieldInvalid('hora_fin')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('hora_fin') }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <h4 class="font-medium text-gray-700">4. Imágenes y archivos</h4>
+        <div>
+          <label for="imagenPrincipal" class="block text-sm font-medium text-gray-700">Imagen Principal</label>
+          <input type="file" id="imagenPrincipal" (change)="onFileChangePrincipal($event)" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
+          <img *ngIf="imagenPrincipalPreview" [src]="imagenPrincipalPreview" alt="Preview" class="mt-2 max-w-full h-auto rounded-lg">
+        </div>
+        <div>
+          <label for="imagenesGenerales" class="block text-sm font-medium text-gray-700">Imágenes Complementarias</label>
+          <input type="file" id="imagenesGenerales" multiple (change)="onFileChangeGenerales($event)" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
+          <div class="mt-2 grid grid-cols-4 gap-2">
+            <div *ngFor="let img of imagenesGeneralesActuales; let i = index" class="relative">
+              <img [src]="img" alt="Imagen General" class="w-full h-20 object-cover rounded-lg">
+              <button type="button" (click)="removeImagenGeneral(i)" class="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 text-xs">
+                X
+              </button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label for="archivos" class="block text-sm font-medium text-gray-700">Archivos</label>
+          <input type="file" id="archivos" multiple (change)="onFileChangeArchivos($event)" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
+          <ul class="mt-2 space-y-1">
+            <li *ngFor="let archivo of archivosActuales; let i = index" class="flex items-center justify-between p-2 bg-gray-50 rounded-md">
+              <a [href]="archivo.ruta_archivo" target="_blank" class="text-indigo-600 hover:text-indigo-900">{{ archivo.nombre_archivo }}</a>
+              <button type="button" (click)="removeArchivo(i)" class="text-red-500 hover:text-red-700">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </form>
+
+    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse sticky bottom-0">
+      <button type="submit"
+      [disabled]="!convocatoriaForm.valid || isLoading"
+      (click)="onSubmit()"
+      class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm"
+      [ngClass]="{'opacity-50 cursor-not-allowed': !convocatoriaForm.valid || isLoading}">
+      {{ isLoading ? 'Procesando...' : (currentConvocatoriaId ? 'Actualizar' : 'Agregar Convocatoria') }}
+    </button>
+
+      <button type="button" (click)="closeModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para visualizar imágenes -->
+<div *ngIf="isImageModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white p-4 rounded-lg max-w-3xl w-full">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-bold">{{ modalTitle }}</h3>
+      <button (click)="closeImageModal()" class="text-gray-500 hover:text-gray-700">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div *ngIf="allImages.length > 0; else noImages" class="relative">
+      <img [src]="getCurrentImage()" alt="Imagen de la convocatoria" class="w-full h-auto max-h-96 object-contain">
+      <button *ngIf="allImages.length > 1" (click)="prevImage()" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </button>
+      <button *ngIf="allImages.length > 1" (click)="nextImage()" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+    </div>
+    <ng-template #noImages>
+      <div class="text-center py-8">
+        <p class="text-gray-500">No hay imágenes disponibles para esta convocatoria.</p>
+      </div>
+    </ng-template>
+    <div class="mt-4 text-center">
+      <p *ngIf="allImages.length > 1">Imagen {{ currentImageIndex + 1 }} de {{ getTotalImagesCount() }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para visualizar archivos -->
+<div *ngIf="isArchivoModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white p-4 rounded-lg max-w-3xl w-full">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-bold">Archivos de la Convocatoria</h3>
+      <button (click)="closeArchivoModal()" class="text-gray-500 hover:text-gray-700">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="mt-4">
+      <div *ngIf="archivosActuales.length > 0; else noArchivos">
+        <div *ngFor="let archivo of archivosActuales; let i = index" class="relative m-1 flex items-center">
+          <a [href]="archivo.ruta_archivo" target="_blank" class="text-blue-500">{{ archivo.nombre_archivo }}</a>
+        </div>
+      </div>
+      <ng-template #noArchivos>
+        <div class="text-center py-8">
+          <p class="text-gray-500">No hay archivos disponibles para esta convocatoria.</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+</div><!-- Cierre del container -->
