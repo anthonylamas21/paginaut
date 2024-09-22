@@ -37,7 +37,7 @@ html {
     border: 3px solid #04827B; /* Cambia el color si es necesario */
     clip-path: inset(0 100% 0 0);
     pointer-events: none; /* Evita interferencia con la interacción del usuario */
-    opacity: 0; /* Oculta las líneas inicialmente */
+    opacity: 1; /* Cambia esto para que siempre sea visible */
     z-index: 20;
 }
 

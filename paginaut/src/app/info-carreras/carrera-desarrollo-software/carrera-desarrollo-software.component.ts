@@ -36,6 +36,14 @@ export class CarreraDesarrolloSoftwareComponent {
   images: Image[] = [
     { url: './assets/img/galeria/desarrollo/desarrollo1.jpg', alt: 'Image 1' },
     { url: './assets/img/galeria/desarrollo/desarrollo2.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/desarrollo/desarrollo3.jpg', alt: 'Image 3' },
+    { url: './assets/img/galeria/desarrollo/desarrollo4.jpg', alt: 'Image 4' },
+    { url: './assets/img/galeria/desarrollo/desarrollo5.jpg', alt: 'Image 5' },
+    { url: './assets/img/galeria/desarrollo/desarrollo6.jpg', alt: 'Image 6' },
+    { url: './assets/img/galeria/desarrollo/desarrollo7.jpg', alt: 'Image 7' },
+    { url: './assets/img/galeria/desarrollo/desarrollo8.jpg', alt: 'Image 8' },
+    { url: './assets/img/galeria/desarrollo/desarrollo9.jpg', alt: 'Image 9' },
+    { url: './assets/img/galeria/desarrollo/desarrollo10.jpg', alt: 'Image 10' },
     // más imágenes aquí
   ];
 

@@ -61,15 +61,14 @@ export class AgregarCursoComponent implements OnInit {
         [
           Validators.required,
           Validators.maxLength(50),
-          Validators.pattern(/^[a-zA-ZÀ-ÿ0-9\s\-.,()¡!"']+$/),
+          Validators.pattern(/^[a-zA-ZÀ-ÿ0-9\s]+$/),
         ],
       ],
       descripcion: [
         '',
         [
           Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(/^[a-zA-ZÀ-ÿ0-9\s\-.,()¡!"']+$/),
+          Validators.maxLength(20000),
         ],
       ],
       activo: [true],

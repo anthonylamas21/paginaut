@@ -62,7 +62,7 @@
               <div *ngFor="let beca of becasInternas" class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 transition-transform transform hover:scale-105 hover:shadow-2xl hover:border-transparent group duration-300 ease-in-out">
                 <p class="text-xl font-bold">{{ beca.nombre }}</p>
                 <p class="mt-2 text-black mb-4 flex-grow">{{ beca.descripcion }}</p>
-                <a (click)="verDetalleBeca(beca.id)" class="bg-[#04847C] text-white text-center p-2 rounded-lg mt-auto transition-transform transform hover:scale-105">
+                <a (click)="verDetalleBeca(beca.id)" class="bg-[#04847C] text-white text-center p-2 rounded-lg mt-auto hover:bg-[#27958e]">
                   Más información
                 </a>
               </div>
@@ -83,7 +83,7 @@
               <div *ngFor="let beca of becasExternas" class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 transition-transform transform hover:scale-105 hover:shadow-2xl hover:border-transparent group duration-300 ease-in-out">
                 <p class="text-xl font-bold">{{ beca.nombre }}</p>
                 <p class="mt-2 text-black mb-4 flex-grow">{{ beca.descripcion }}</p>
-                <a (click)="verDetalleBeca(beca.id)" class="bg-[#04847C] text-white text-center p-2 rounded-lg mt-auto transition-transform transform hover:scale-105">
+                <a (click)="verDetalleBeca(beca.id)" class="bg-[#04847C] text-white text-center p-2 rounded-lg mt-auto hover:bg-[#27958e]">
                   Más información
                 </a>
               </div>

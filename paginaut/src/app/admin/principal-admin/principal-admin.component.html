@@ -6,7 +6,7 @@
 <div class="p-4 mx-auto">
   <div class="bg-gradient-to-r from-[#043D3D] to-[#065555] text-white mt-24 p-8 rounded-md shadow-2xl">
     <div class="container mx-auto px-4 text-center">
-      <h1 class="text-4xl md:text-5xl font-extrabold mb-12 tracking-wide leading-tight break-words truncate">
+      <h1 class="text-3xl md:text-5xl font-extrabold mb-12 text-center">
         Panel de Administración
       </h1>
       <p class="text-lg font-light mb-8">Gestiona todas las secciones administrativas desde un solo lugar.</p>
@@ -82,7 +82,7 @@
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     <div *ngFor="let item of historial | slice:0:visibleItemsCount" class="bg-white p-4 rounded-md shadow hover:shadow-lg transition-shadow duration-300">
       <h3 class="text-xl font-semibold mb-2">{{ getDescription(item) }}</h3>
-      <button class="mt-2 text-blue-500" (click)="openModal(item)">Ver más detalles</button>
+      <button class="mt-2 text-[#04847C]" (click)="openModal(item)">Ver más detalles</button>
     </div>
   </div>
 

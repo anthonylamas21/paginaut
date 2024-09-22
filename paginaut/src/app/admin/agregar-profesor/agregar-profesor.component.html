@@ -356,6 +356,7 @@
                 <input
                   type="checkbox"
                   formControlName="tipoTiempoCompleto"
+                  [disabled]="isAsignaturaSelected"
                   (change)="onTipoProfesorChange()"
                   class="form-checkbox text-indigo-600 h-4 w-4"
                 />
@@ -365,6 +366,7 @@
                 <input
                   type="checkbox"
                   formControlName="tipoAsignatura"
+                  [disabled]="isTiempoCompletoSelected"
                   (change)="onTipoProfesorChange()"
                   class="form-checkbox text-indigo-600 h-4 w-4"
                 />
