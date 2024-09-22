@@ -1,11 +1,11 @@
 <app-navbar-admin></app-navbar-admin>
 <p id="inicio"></p>
-<!-- Fin Navbar -->
+<!--Fin Navbar-->
 
 <div class=" mt-4">
   <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4">
       <li class="inline-flex items-center">
-        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]" href="/admin/principal_admin">
+        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/admin/principal_admin">
           Panel Administrador
         </a>
         <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -19,13 +19,14 @@
 </div>
 
 <div class="p-2 mx-auto">
-  <div class="bg-[#043D3D] rounded-lg mt-8 mb-5">
-    <h2
-      class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4"
-    >
-      Convocatorias
-    </h2>
-  </div>
+<div class="bg-[#043D3D] rounded-lg mt-8 mb-5">
+  <h2
+    class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4"
+  >
+    Convocatorias
+  </h2>
+</div>
+
 
 <!-- Modal para Editar/Registrar Convocatoria -->
 <div [ngClass]="{ 'hidden': !isModalOpen }" class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
@@ -58,7 +59,29 @@
       </div>
 
       <div class="space-y-2">
-        <h4 class="font-medium text-gray-700">2. Detalles de la convocatoria</h4>
+        <h4 class="font-medium text-gray-700">2. Selección de Curso</h4>
+        <div>
+          <label for="esCurso" class="block text-sm font-medium text-gray-700">¿Esta convocatoria es de un curso?</label>
+          <select id="esCurso" formControlName="es_curso" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900">
+            <option [ngValue]="null">Selecciona una opción</option>
+            <option [ngValue]="true">Sí</option>
+            <option [ngValue]="false">No</option>
+          </select>
+        </div>
+
+        <!-- Este select solo se muestra si es_curso es true -->
+        <div *ngIf="convocatoriaForm.get('es_curso')?.value === true" class="mt-4">
+          <label for="curso_id" class="block text-sm font-medium text-gray-700">Selecciona el curso</label>
+          <select id="curso_id" formControlName="curso_id" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900">
+            <option [ngValue]="null">Selecciona un curso</option>
+            <option *ngFor="let curso of cursos" [ngValue]="curso.id">{{ curso.nombre }}</option>
+          </select>
+          <p *ngIf="isFieldInvalid('curso_id')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('curso_id') }}</p>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <h4 class="font-medium text-gray-700">3. Detalles de la convocatoria</h4>
         <div>
           <label for="informacion_convocatoria" class="block text-sm font-medium text-gray-700">Información de la Convocatoria</label>
           <textarea id="informacion_convocatoria" placeholder="Información relevante" formControlName="informacion_convocatoria" rows="4" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"></textarea>
@@ -67,7 +90,7 @@
       </div>
 
       <div class="space-y-2">
-        <h4 class="font-medium text-gray-700">3. Fecha y hora</h4>
+        <h4 class="font-medium text-gray-700">4. Fecha y hora</h4>
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label for="fecha_inicio" class="block text-sm font-medium text-gray-700">Fecha de Inicio</label>
@@ -102,7 +125,7 @@
       </div>
 
       <div class="space-y-2">
-        <h4 class="font-medium text-gray-700">4. Imágenes y archivos</h4>
+        <h4 class="font-medium text-gray-700">5. Imágenes y archivos</h4>
         <div>
           <label for="imagenPrincipal" class="block text-sm font-medium text-gray-700">Imagen Principal</label>
           <input type="file" id="imagenPrincipal" (change)="onFileChangePrincipal($event)" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
@@ -153,7 +176,450 @@
   </div>
 </div>
 
-<!-- Modal para visualizar imágenes -->
+
+    <div *ngIf="responseMessage" class="mt-4 p-4 rounded-md" [ngClass]="{'bg-green-100 text-green-700': !responseMessage.includes('Error'), 'bg-red-100 text-red-700': responseMessage.includes('Error')}">
+      {{ responseMessage }}
+    </div>
+
+
+    <div class="rounded-lg border border-stroke bg-white px-5 pb-2.5 shadow-default sm:px-7.5 xl:pb-1 my-2">
+      <div class="max-w-full">
+        <div class="border-b border-gray-200">
+          <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
+            <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none active" id="tabs-with-icons-item-1" data-hs-tab="#tabs-with-icons-1" aria-controls="tabs-with-icons-1" role="tab" (click)="switchTab('active')">
+              Todas
+            </button>
+            <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none" id="tabs-with-icons-item-2" data-hs-tab="#tabs-with-icons-2" aria-controls="tabs-with-icons-2" role="tab" (click)="switchTab('inactive')">
+              Papelera
+            </button>
+          </nav>
+        </div>
+    
+        <div class="mt-3">
+          <div id="tabs-with-icons-1" role="tabpanel" aria-labelledby="tabs-with-icons-item-1">
+            <div class="flex flex-wrap items-center">
+              <div class="flex flex-col lg:w-7/12 sm:w-12/12 md:w-7/12 w-full">
+                <div class="w-full">
+                  <!-- SearchBox -->
+                  <div class="relative w-full">
+                    <div class="relative w-full">
+                      <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5 w-full">
+                        <svg class="flex-shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="11" cy="11" r="8"></circle>
+                          <path d="m21 21-4.3-4.3"></path>
+                        </svg>
+                      </div>
+                      <input (input)="filterGlobal($event)" class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]" type="text" placeholder="Ingresa tu búsqueda" value="" data-hs-combo-box-input="" />
+                    </div>
+                  </div>
+                  <!-- End SearchBox -->
+                </div>
+              </div>
+              <div class="flex flex-col lg:w-5/12 sm:w-12/12 md:w-5/12 text-right w-full">
+                <div class="w-full">
+                  <button type="button" class="py-3 my-2 px-4 inline-flex button-secondary items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-color text-white hover:bg-primary-color-90 hover:opacity-90 disabled:opacity-50 disabled:pointer-events-none" (click)="openModal()">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    Registrar Convocatoria
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-col mb-5">
+              <div class="-m-1.5 overflow-x-auto">
+                <div class="p-1.5 min-w-full inline-block align-middle">
+                  <div class="border rounded-lg overflow-hidden my-2">
+                    <p-table #dt [value]="filteredConvocatorias" [paginator]="true" [rows]="5"
+                             currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
+                             [showCurrentPageReport]="true"
+                             [globalFilterFields]="['titulo', 'informacion_convocatoria', 'lugar_convocatoria', 'fecha_inicio', 'fecha_fin', 'hora_inicio', 'hora_fin']"
+                             [tableStyleClass]="'min-w-full divide-y'"
+                             [resizableColumns]="true">
+                      <ng-template pTemplate="header">
+                        <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="titulo">
+                            <div class="flex">
+                              Título <p-sortIcon field="titulo"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="informacion_convocatoria">
+                            <div class="flex">
+                              Información <p-sortIcon field="informacion_convocatoria"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="activo">
+                            <div class="flex">
+                              Activo <p-sortIcon field="activo"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="lugar_convocatoria">
+                            <div class="flex">
+                              Lugar <p-sortIcon field="lugar_convocatoria"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_inicio">
+                            <div class="flex">
+                              Fecha de Inicio <p-sortIcon field="fecha_inicio"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_fin">
+                            <div class="flex">
+                              Fecha de Fin <p-sortIcon field="fecha_fin"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="hora_inicio">
+                            <div class="flex">
+                              Hora de Inicio <p-sortIcon field="hora_inicio"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="hora_fin">
+                            <div class="flex">
+                              Hora de Fin <p-sortIcon field="hora_fin"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
+                            <div class="flex">Acciones</div>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-convocatoria>
+                        <tr class="divide-x divide-gray-200 bg-neutral-100">
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.titulo }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.informacion_convocatoria | slice:0:50 }}{{ convocatoria.informacion_convocatoria.length > 50 ? '...' : '' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.activo ? 'Sí' : 'No' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.lugar_convocatoria }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.fecha_inicio | date:'dd/MM/yyyy' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.fecha_fin | date:'dd/MM/yyyy' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.hora_inicio }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.hora_fin }}</td>
+                          <td class="px-3 py-2 text-sm text-black">
+                            <div class="flex items-center space-x-3.5">
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(convocatoria, 'principal')" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-blue-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-image" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Imagen Principal</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Ver imagen principal
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(convocatoria, 'generales')" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-green-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-images" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Imágenes Complementarias</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Ver imágenes complementarias
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openArchivoModal(convocatoria)" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-yellow-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-file" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Archivos</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Ver archivos
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openModal(convocatoria)" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fas fa-edit"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Editar</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Editar esta convocatoria
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button *ngIf="convocatoria.activo" (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="desactivarConvocatoria(convocatoria.id!)" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-ban" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Desactivar</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Desactivar esta convocatoria
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="emptymessage">
+                        <tr>
+                          <td colspan="9">
+                            <div class="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
+                              <svg class="size-10 text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="22" x2="2" y1="12" y2="12"></line>
+                                <path
+                                  d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z">
+                                </path>
+                                <line x1="6" x2="6.01" y1="16" y2="16"></line>
+                                <line x1="10" x2="10.01" y1="16" y2="16"></line>
+                              </svg>
+                              <p class="mt-2 text-sm text-gray-800">
+                                No hay información disponible.
+                              </p>
+                            </div>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="tabs-with-icons-2" class="hidden" role="tabpanel" aria-labelledby="tabs-with-icons-item-2">
+            <div class="flex flex-col mb-5">
+              <div class="-m-1.5 overflow-x-auto">
+                <div class="p-1.5 min-w-full inline-block align-middle">
+                  <div class="border rounded-lg overflow-hidden my-2">
+                    <p-table #dt [value]="papeleraConvocatorias" [paginator]="true" [rows]="5"
+                             currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
+                             [showCurrentPageReport]="true"
+                             [globalFilterFields]="['titulo', 'informacion_convocatoria', 'lugar_convocatoria', 'fecha_inicio', 'fecha_fin', 'hora_inicio', 'hora_fin']"
+                             [tableStyleClass]="'min-w-full divide-y'"
+                             [resizableColumns]="true">
+                      <ng-template pTemplate="header">
+                        <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="titulo">
+                            <div class="flex">
+                              Título <p-sortIcon field="titulo"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="informacion_convocatoria">
+                            <div class="flex">
+                              Información <p-sortIcon field="informacion_convocatoria"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="activo">
+                            <div class="flex">
+                              Activo <p-sortIcon field="activo"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="lugar_convocatoria">
+                            <div class="flex">
+                              Lugar <p-sortIcon field="lugar_convocatoria"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_inicio">
+                            <div class="flex">
+                              Fecha de Inicio <p-sortIcon field="fecha_inicio"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_fin">
+                            <div class="flex">
+                              Fecha de Fin <p-sortIcon field="fecha_fin"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="hora_inicio">
+                            <div class="flex">
+                              Hora de Inicio <p-sortIcon field="hora_inicio"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="hora_fin">
+                            <div class="flex">
+                              Hora de Fin <p-sortIcon field="hora_fin"></p-sortIcon>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
+                            <div class="flex">Acciones</div>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-convocatoria>
+                        <tr class="divide-x divide-gray-200 bg-neutral-100">
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.titulo }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.informacion_convocatoria | slice:0:50 }}{{ convocatoria.informacion_convocatoria.length > 50 ? '...' : '' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.activo ? 'Sí' : 'No' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.lugar_convocatoria }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.fecha_inicio | date:'dd/MM/yyyy' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.fecha_fin | date:'dd/MM/yyyy' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.hora_inicio }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.hora_fin }}</td>
+                          <td class="px-3 py-2 text-sm text-black">
+                            <div class="flex items-center space-x-3.5">
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(convocatoria, 'principal')" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-blue-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-image" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Imagen Principal</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Ver imagen principal
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(convocatoria, 'generales')" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-green-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-images" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Imágenes Generales</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Ver imágenes generales
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openArchivoModal(convocatoria)" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-yellow-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-file" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Archivos</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Ver archivos
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button *ngIf="!convocatoria.activo" (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="activarConvocatoria(convocatoria.id!)" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Activar</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Activar esta convocatoria
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                              <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="confirmDeleteConvocatoria(convocatoria.id!)" class="hover:text-primary">
+                                <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
+                                  <div class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                    <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
+                                      <div class="py-3 px-4 border-b border-gray-200">
+                                        <h4 class="font-semibold text-gray-800">Eliminar</h4>
+                                      </div>
+                                      <ul class="py-3 px-4 space-y-1">
+                                        <li>
+                                          <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
+                                            Eliminar permanentemente esta convocatoria
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="emptymessage">
+                        <tr>
+                          <td colspan="9">
+                            <div class="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
+                              <svg class="size-10 text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="22" x2="2" y1="12" y2="12"></line>
+                                <path
+                                  d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z">
+                                </path>
+                                <line x1="6" x2="6.01" y1="16" y2="16"></line>
+                                <line x1="10" x2="10.01" y1="16" y2="16"></line>
+                              </svg>
+                              <p class="mt-2 text-sm text-gray-800">
+                                No hay información disponible.
+                              </p>
+                            </div>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  <!-- Modal para visualizar imágenes -->
 <div *ngIf="isImageModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
   <div class="bg-white p-4 rounded-lg max-w-3xl w-full">
     <div class="flex justify-between items-center mb-4">
@@ -165,7 +631,7 @@
       </button>
     </div>
     <div *ngIf="allImages.length > 0; else noImages" class="relative">
-      <img [src]="getCurrentImage()" alt="Imagen de la convocatoria" class="w-full h-auto max-h-96 object-contain">
+      <img [src]="getCurrentImage()" alt="Imagen del evento" class="w-full h-auto max-h-96 object-contain">
       <button *ngIf="allImages.length > 1" (click)="prevImage()" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
@@ -179,7 +645,7 @@
     </div>
     <ng-template #noImages>
       <div class="text-center py-8">
-        <p class="text-gray-500">No hay imágenes disponibles para esta convocatoria.</p>
+        <p class="text-gray-500">No hay imágenes disponibles para este evento.</p>
       </div>
     </ng-template>
     <div class="mt-4 text-center">
@@ -192,7 +658,7 @@
 <div *ngIf="isArchivoModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
   <div class="bg-white p-4 rounded-lg max-w-3xl w-full">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xl font-bold">Archivos de la Convocatoria</h3>
+      <h3 class="text-xl font-bold">Archivos del Evento</h3>
       <button (click)="closeArchivoModal()" class="text-gray-500 hover:text-gray-700">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -207,11 +673,11 @@
       </div>
       <ng-template #noArchivos>
         <div class="text-center py-8">
-          <p class="text-gray-500">No hay archivos disponibles para esta convocatoria.</p>
+          <p class="text-gray-500">No hay archivos disponibles para este evento.</p>
         </div>
       </ng-template>
     </div>
   </div>
 </div>
 
-</div><!-- Cierre del container -->
+</div><!--cierre del container-->
