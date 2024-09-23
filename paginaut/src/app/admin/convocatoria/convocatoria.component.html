@@ -51,9 +51,9 @@
             <p *ngIf="isFieldInvalid('titulo')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('titulo') }}</p>
           </div>
           <div>
-            <label for="lugar_convocatoria" class="block text-sm font-medium text-gray-700">Lugar de la Convocatoria</label>
-            <input type="text" id="lugar_convocatoria" placeholder="Lugar de la convocatoria" formControlName="lugar_convocatoria" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
-            <p *ngIf="isFieldInvalid('lugar_convocatoria')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('lugar_convocatoria') }}</p>
+            <label for="lugar" class="block text-sm font-medium text-gray-700">Lugar de la Convocatoria</label>
+            <input type="text" id="lugar" placeholder="Lugar de la convocatoria" formControlName="lugar" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
+            <p *ngIf="isFieldInvalid('lugar')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('lugar') }}</p>
           </div>
         </div>
       </div>
@@ -83,9 +83,9 @@
       <div class="space-y-2">
         <h4 class="font-medium text-gray-700">3. Detalles de la convocatoria</h4>
         <div>
-          <label for="informacion_convocatoria" class="block text-sm font-medium text-gray-700">Información de la Convocatoria</label>
-          <textarea id="informacion_convocatoria" placeholder="Información relevante" formControlName="informacion_convocatoria" rows="4" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"></textarea>
-          <p *ngIf="isFieldInvalid('informacion_convocatoria')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('informacion_convocatoria') }}</p>
+          <label for="descripcion" class="block text-sm font-medium text-gray-700">Información de la Convocatoria</label>
+          <textarea id="descripcion" placeholder="Información relevante" formControlName="descripcion" rows="4" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"></textarea>
+          <p *ngIf="isFieldInvalid('descripcion')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('descripcion') }}</p>
         </div>
       </div>
 
@@ -284,9 +284,9 @@
                       <ng-template pTemplate="body" let-convocatoria>
                         <tr class="divide-x divide-gray-200 bg-neutral-100">
                           <td class="px-3 py-2 text-sm text-black">{{ convocatoria.titulo }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.informacion_convocatoria | slice:0:50 }}{{ convocatoria.informacion_convocatoria.length > 50 ? '...' : '' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.descripcion | slice:0:50 }}{{ convocatoria.descripcion.length > 50 ? '...' : '' }}</td>
                           <td class="px-3 py-2 text-sm text-black">{{ convocatoria.activo ? 'Sí' : 'No' }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.lugar_convocatoria }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.lugar }}</td>
                           <td class="px-3 py-2 text-sm text-black">{{ convocatoria.fecha_inicio | date:'dd/MM/yyyy' }}</td>
                           <td class="px-3 py-2 text-sm text-black">{{ convocatoria.fecha_fin | date:'dd/MM/yyyy' }}</td>
                           <td class="px-3 py-2 text-sm text-black">{{ convocatoria.hora_inicio }}</td>
@@ -427,7 +427,7 @@
                     <p-table #dt [value]="papeleraConvocatorias" [paginator]="true" [rows]="5"
                              currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
                              [showCurrentPageReport]="true"
-                             [globalFilterFields]="['titulo', 'informacion_convocatoria', 'lugar_convocatoria', 'fecha_inicio', 'fecha_fin', 'hora_inicio', 'hora_fin']"
+                             [globalFilterFields]="['titulo', 'descripcion', 'lugar', 'fecha_inicio', 'fecha_fin', 'hora_inicio', 'hora_fin']"
                              [tableStyleClass]="'min-w-full divide-y'"
                              [resizableColumns]="true">
                       <ng-template pTemplate="header">
@@ -437,9 +437,9 @@
                               Título <p-sortIcon field="titulo"></p-sortIcon>
                             </div>
                           </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="informacion_convocatoria">
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="descripcion">
                             <div class="flex">
-                              Información <p-sortIcon field="informacion_convocatoria"></p-sortIcon>
+                              Información <p-sortIcon field="descripcion"></p-sortIcon>
                             </div>
                           </th>
                           <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="activo">
@@ -447,9 +447,9 @@
                               Activo <p-sortIcon field="activo"></p-sortIcon>
                             </div>
                           </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="lugar_convocatoria">
+                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="lugar">
                             <div class="flex">
-                              Lugar <p-sortIcon field="lugar_convocatoria"></p-sortIcon>
+                              Lugar <p-sortIcon field="lugar"></p-sortIcon>
                             </div>
                           </th>
                           <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_inicio">
@@ -480,9 +480,9 @@
                       <ng-template pTemplate="body" let-convocatoria>
                         <tr class="divide-x divide-gray-200 bg-neutral-100">
                           <td class="px-3 py-2 text-sm text-black">{{ convocatoria.titulo }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.informacion_convocatoria | slice:0:50 }}{{ convocatoria.informacion_convocatoria.length > 50 ? '...' : '' }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.descripcion | slice:0:50 }}{{ convocatoria.descripcion.length > 50 ? '...' : '' }}</td>
                           <td class="px-3 py-2 text-sm text-black">{{ convocatoria.activo ? 'Sí' : 'No' }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.lugar_convocatoria }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ convocatoria.lugar }}</td>
                           <td class="px-3 py-2 text-sm text-black">{{ convocatoria.fecha_inicio | date:'dd/MM/yyyy' }}</td>
                           <td class="px-3 py-2 text-sm text-black">{{ convocatoria.fecha_fin | date:'dd/MM/yyyy' }}</td>
                           <td class="px-3 py-2 text-sm text-black">{{ convocatoria.hora_inicio }}</td>

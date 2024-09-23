@@ -94,7 +94,7 @@ export class ConvocatoriaComponent implements OnInit, OnDestroy {
           Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/),
         ],
       ],
-      informacion_convocatoria: [
+      descripcion: [
         '',
         [
           Validators.required,
@@ -102,7 +102,7 @@ export class ConvocatoriaComponent implements OnInit, OnDestroy {
         ],
       ],
       activo: [true],
-      lugar_convocatoria: [
+      lugar: [
         '',
         [
           Validators.required,

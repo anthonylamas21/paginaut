@@ -103,13 +103,17 @@ export class ConvocatoriaService {
     return this.http.delete<any>(`${this.apiUrl}?id=${id}`);
   }
 
-  eliminarImagenGeneral(convocatoriaId: number, rutaImagen: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}?convocatoriaId=${convocatoriaId}&rutaImagen=${encodeURIComponent(rutaImagen)}`);
-  }
-
   eliminarArchivo(convocatoriaId: number, rutaArchivo: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}?convocatoriaId=${convocatoriaId}&rutaArchivo=${encodeURIComponent(rutaArchivo)}`);
+    // Asegúrate de usar 'eventoId' en lugar de 'convocatoriaId' en la URL
+    return this.http.delete<any>(`${this.apiUrl}?eventoId=${convocatoriaId}&rutaArchivo=${encodeURIComponent(rutaArchivo)}`);
   }
+  
+  eliminarImagenGeneral(convocatoriaId: number, rutaImagen: string): Observable<any> {
+    // Asegúrate de usar 'eventoId' en lugar de 'convocatoriaId' en la URL
+    return this.http.delete<any>(`${this.apiUrl}?eventoId=${convocatoriaId}&rutaImagen=${encodeURIComponent(rutaImagen)}`);
+  }
+  
+  
 
   desactivarConvocatoria(id: number): Observable<any> {
     return this.http.put(`${this.apiUrl}?id=${id}&accion=desactivar`, {});
