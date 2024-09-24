@@ -1,0 +1,128 @@
+import { Component, HostListener, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { ConvocatoriaService, Convocatoria } from '../convocatoria.service';
+import Hashids from 'hashids';
+import { filter } from 'rxjs/operators'; // Importar operador filter para detectar eventos de navegación
+
+@Component({
+  selector: 'app-convocatorias',
+  templateUrl: './convocatorias.component.html',
+  styleUrls: ['./convocatorias.component.css']
+})
+export class ConvocatoriasComponent implements OnInit {
+  isLoading = true;
+  convocatoria: Convocatoria | null = null;
+  convocatorias: Convocatoria[] = [];
+  convocatoriasVisibles: Convocatoria[] = [];
+  cantidadInicial = 5; // Mostrar inicialmente 5 convocatorias
+  error: string | null = null;
+  imagenAmpliada: string | null = null;
+  idDecrypted: number | undefined;
+
+  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 16);
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private convocatoriaService: ConvocatoriaService
+  ) {
+    const encryptedId = this.route.snapshot.paramMap.get('id');
+    if (encryptedId) {
+      this.idDecrypted = this.hashids.decode(encryptedId)[0] as number;
+    }
+
+    // Detectar eventos de navegación
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      // Forzar la actualización del color del navbar después de un pequeño retraso
+      setTimeout(() => {
+        this.setNavbarColor();
+      }, 10);
+    });
+  }
+
+  ngOnInit(): void {
+    this.setNavbarColor();
+
+    if (this.idDecrypted !== undefined) {
+      this.loadConvocatoria();
+    } else {
+      this.loadConvocatorias();
+    }
+  }
+
+  // Cambia el color del navbar directamente al iniciar el componente o tras navegar
+  private setNavbarColor(): void {
+    const navbar = document.getElementById('navbarAccion');
+    if (navbar) {
+      navbar.classList.remove('bg-transparent');
+      navbar.classList.add('bg-[#043D3D]'); // Aplicar el color verde
+    }
+  }
+
+  loadConvocatoria(): void {
+    this.convocatoriaService.obtenerConvocatoria(this.idDecrypted!).subscribe({
+      next: (convocatoria: Convocatoria) => {
+        this.convocatoria = convocatoria;
+        this.isLoading = false;
+      },
+      error: (error: any) => {
+        console.error('Error al cargar la convocatoria:', error);
+        this.error = 'No se pudo cargar la convocatoria. Por favor, inténtalo de nuevo más tarde.';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  loadConvocatorias(): void {
+    this.convocatoriaService.obtenerConvocatorias().subscribe({
+      next: (response) => {
+        this.convocatorias = response.records;
+        this.convocatoriasVisibles = this.convocatorias.slice(0, this.cantidadInicial);
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.error = 'No se pudieron cargar las convocatorias. Inténtalo más tarde.';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  verMasConvocatorias(): void {
+    const newLimit = this.convocatoriasVisibles.length + this.cantidadInicial;
+    this.convocatoriasVisibles = this.convocatorias.slice(0, newLimit);
+  }
+
+  verMenosConvocatorias(): void {
+    this.convocatoriasVisibles = this.convocatorias.slice(0, this.cantidadInicial);
+  }
+
+  verConvocatoria(id: number): void {
+    const encryptedId = this.hashids.encode(id);
+    this.router.navigate(['/convocatorias', encryptedId]);
+  }
+
+  getFileExtension(filename: string): string {
+    return filename.split('.').pop()?.toLowerCase() || '';
+  }
+
+  getImageUrl(relativePath: string | undefined): string {
+    if (!relativePath) {
+      return 'assets/img/default-convocatoria-image.jpg'; // Imagen por defecto para convocatorias
+    }
+    const baseImageUrl = 'http://localhost/paginaut/';
+    if (relativePath.startsWith('../')) {
+      return baseImageUrl + relativePath.substring(3);
+    }
+    return baseImageUrl + relativePath;
+  }
+
+  ampliarImagen(imagenUrl: string): void {
+    this.imagenAmpliada = imagenUrl;
+  }
+
+  closeModal(): void {
+    this.imagenAmpliada = null;
+  }
+}
