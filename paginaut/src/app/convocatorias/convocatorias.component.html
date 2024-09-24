@@ -34,42 +34,50 @@
       </div>
     </div>
 
-    <!-- Mostrar lista de convocatorias si no hay un ID -->
-    <div *ngIf="!isLoading && !idDecrypted">
-      <section id="convocatorias" class="py-10 bg-white px-4 sm:px-8">
-        <div class="container mx-auto text-center mb-6">
-          <h2 class="text-lg sm:text-4xl text-[#043D3D] font-bold uppercase">Convocatorias</h2>
+<!-- Mostrar lista de convocatorias si no hay un ID -->
+<div *ngIf="!isLoading && !idDecrypted">
+  <section id="convocatorias" class="py-10 bg-white px-4 sm:px-8">
+    <div class="container mx-auto text-center mb-6">
+      <h2 class="text-lg sm:text-4xl text-[#043D3D] font-bold uppercase">Convocatorias</h2>
+    </div>
+
+    <div class="container max-w-screen-lg mb-8 space-y-4">
+      <div *ngFor="let convocatoria of convocatoriasVisibles"
+          class="flex flex-col sm:flex-row items-stretch bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105">
+
+        <!-- Imagen de la convocatoria -->
+        <div class="w-full sm:w-28 lg:w-32 flex-shrink-0">
+          <img [src]="getImageUrl(convocatoria.imagen_principal)" [alt]="convocatoria.titulo"
+            class="w-full h-32 sm:h-32 object-cover rounded-t-lg sm:rounded-l-lg pointer-events-none">
         </div>
 
-        <div class="container max-w-screen-lg mb-8 space-y-4">
-          <div *ngFor="let convocatoria of convocatoriasVisibles"
-              class="flex flex-col sm:flex-row items-stretch bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105">
+        <!-- Fecha de la convocatoria -->
+        <div class="flex sm:flex-col items-center justify-center bg-[#04847C] text-white w-full sm:w-28 p-2 sm:text-center">
+          <p class="text-sm sm:text-lg font-bold">{{ convocatoria.fecha_inicio | date:'dd' }}</p>
+          <p class="text-sm sm:text-lg mx-1 block sm:hidden">de</p> <!-- Visible en pantallas pequeñas, oculto en grandes -->
+          <p class="text-sm sm:text-lg capitalize">{{ convocatoria.fecha_inicio | date:'MMMM' }}</p>
+          <p class="text-sm sm:text-lg capitalize mx-1">{{ convocatoria.fecha_inicio | date:'yyyy' }}</p>
+        </div>
 
-            <!-- Imagen de la convocatoria -->
-            <div class="w-full sm:w-28 lg:w-32 flex-shrink-0">
-              <img [src]="getImageUrl(convocatoria.imagen_principal)" [alt]="convocatoria.titulo"
-                class="w-full h-32 sm:h-32 object-cover rounded-t-lg sm:rounded-l-lg pointer-events-none">
-            </div>
-
-            <!-- Contenido de la convocatoria -->
-            <div class="flex flex-col justify-between p-4 w-full">
-              <div>
-                <h3 class="font-bold text-lg sm:text-xl text-gray-800 mb-1">{{ convocatoria.titulo }}</h3>
-                <p class="text-sm sm:text-base text-gray-600">{{ convocatoria.descripcion | slice:0:100 }}...</p>
-              </div>
-              <div class="text-right">
-                <a *ngIf="convocatoria.id !== undefined" (click)="verConvocatoria(convocatoria.id!)"
-                class="cursor-pointer text-[#04847C] hover:text-[#043D3D] font-semibold text-sm transition-colors duration-300">
-                Leer más <i class="fa-solid fa-chevron-right ml-1"></i>
-              </a>
-              
-              </div>
-            </div>
-
+        <!-- Contenido de la convocatoria -->
+        <div class="flex flex-col justify-between p-4 w-full">
+          <div>
+            <h3 class="font-bold text-lg sm:text-xl text-gray-800 mb-1">{{ convocatoria.titulo }}</h3>
+            <p class="text-sm sm:text-base text-gray-600">{{ convocatoria.descripcion | slice:0:100 }}...</p>
+          </div>
+          <div class="text-right">
+            <a *ngIf="convocatoria.id !== undefined" (click)="verConvocatoria(convocatoria.id!)"
+              class="cursor-pointer text-[#04847C] hover:text-[#043D3D] font-semibold text-sm transition-colors duration-300">
+              Leer más <i class="fa-solid fa-chevron-right ml-1"></i>
+            </a>
           </div>
         </div>
-      </section>
+
+      </div>
     </div>
+  </section>
+</div>
+
 
     <!-- Mostrar detalles de la convocatoria si hay un ID -->
     <div *ngIf="!isLoading && idDecrypted && convocatoria">
