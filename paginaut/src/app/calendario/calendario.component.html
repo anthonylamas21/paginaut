@@ -48,10 +48,16 @@
   </li>
 </ol>
 
+<div class="relative">
+  <!-- Imagen fija en la pantalla -->
+  <img src="./assets/img/AGUILA-GARZA.png" alt="Imagen Estática"
+  class="fixed top-20 right-0 object-cover z-10 pointer-events-none">
+</div>
+
 <div class="container mx-auto mt-8 mb-10">
 
 
-  <div class="bg-[#043D3D] rounded-lg">
+  <div class="bg-[#043D3D] rounded-lg relative z-20">
     <h2
       class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4"
     >
@@ -62,7 +68,7 @@
 
     <ng-container *ngIf="pdfUrl; else calendarioTemplate">
                 
-      <div class="container"> 
+      <div class="container relative z-20"> 
         <div class="pdf-container bg-white">
           <iframe
           [src]="pdfUrl"
@@ -74,7 +80,7 @@
 
     </ng-container>
     <ng-template #calendarioTemplate>
-      <div class="container flex justify-center">
+      <div class="container flex justify-center relative z-20">
         <div class="w-4/12 sm:w-10/12 flex justify-center">
           <!-- Aquí puedes colocar el SVG -->
           <svg id="aa03ddf9-f8f2-4819-a4ce-be9b0a220741" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="1119.60911" height="200" viewBox="0 0 1119.60911 699">

@@ -68,8 +68,8 @@ export class ConvocatoriasComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error: any) => {
-        console.error('Error al cargar la convocatoria:', error);
-        this.error = 'No se pudo cargar la convocatoria. Por favor, inténtalo de nuevo más tarde.';
+        //console.error('Error al cargar la convocatoria:', error);
+        this.error = 'No se pudieron cargar las convocatorias. Inténtalo más tarde.';
         this.isLoading = false;
       }
     });

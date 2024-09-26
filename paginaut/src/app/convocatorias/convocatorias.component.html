@@ -27,13 +27,12 @@
       </li>
     </ol>
 
-    <!-- Si hay error -->
-    <div *ngIf="error" class="text-center p-8 rounded-lg">
-      <div class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg">
-        <p class="text-gray-600 text-lg">{{ error }}</p>
-      </div>
-    </div>
-
+    <div class="relative">
+      <!-- Imagen fija en la pantalla -->
+      <img src="./assets/img/AGUILA-GARZA.png" alt="Imagen Estática"
+      class="fixed top-20 right-0 object-cover z-10 pointer-events-none">
+  </div>
+  
 <!-- Mostrar lista de convocatorias si no hay un ID -->
 <div *ngIf="!isLoading && !idDecrypted">
   <section id="convocatorias" class="py-10 bg-white px-4 sm:px-8">
@@ -41,6 +40,13 @@
       <h2 class="text-lg sm:text-4xl text-[#043D3D] font-bold uppercase">Convocatorias</h2>
     </div>
 
+        <!-- Si hay error -->
+        <div *ngIf="error" class="text-center p-8 rounded-lg">
+          <div class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg">
+            <p class="text-gray-600 text-lg">{{ error }}</p>
+          </div>
+        </div>
+        
     <div class="container max-w-screen-lg mb-8 space-y-4">
       <div *ngFor="let convocatoria of convocatoriasVisibles"
           class="flex flex-col sm:flex-row items-stretch bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105">
