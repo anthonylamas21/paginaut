@@ -87,7 +87,8 @@ export class ConvocatoriasComponent implements OnInit {
   }
 
   verMenosConvocatorias(): void {
-    this.convocatoriasVisibles = this.convocatorias.slice(0, this.cantidadInicial);
+    const newLimit = this.convocatoriasVisibles.length - this.cantidadInicial;
+    this.convocatoriasVisibles = this.convocatorias.slice(0, newLimit);
   }
 
   verConvocatoria(id: number): void {

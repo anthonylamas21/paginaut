@@ -87,8 +87,19 @@
                     </a>
                   </div>
                 </div>
-
               </div>
+                                        <!-- Botón Ver más y Ver menos -->
+          <div class="mt-6 sm:mt-8 text-center">
+            <button *ngIf="convocatoriasVisibles.length < convocatorias.length" (click)="verMasConvocatorias()"
+                class="bg-[#043D3D] hover:bg-[#032D2D] text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full shadow-lg transition-colors duration-300">
+                Mostrar más convocatorias<i class="fa-solid fa-angle-down ml-2"></i>
+            </button>
+
+            <button *ngIf="convocatoriasVisibles.length > cantidadInicial" (click)="verMenosConvocatorias()"
+                class="bg-[#043D3D] hover:bg-[#032D2D] text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full shadow-lg transition-colors duration-300 mt-4">
+                Mostrar menos convocatorias <i class="fa-solid fa-angle-up ml-2"></i>
+            </button>
+        </div>
             </div>
           </div>
         </section>
