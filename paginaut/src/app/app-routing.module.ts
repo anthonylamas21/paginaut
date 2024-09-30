@@ -77,6 +77,7 @@ import { BibliotecaComponent } from './biblioteca/biblioteca.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { guardAuthGuard } from './Guard/guard-auth.guard';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { InfoConvocatoriaComponent } from './info-convocatoria/info-convocatoria.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/principal', pathMatch: 'full' },
@@ -94,7 +95,7 @@ const routes: Routes = [
   { path: 'direccion', component: AgregarDireccionComponent },
   { path: 'piedra_estanque', component: PiedraEstanqueComponent },
   { path: 'convocatorias', component: ConvocatoriasComponent },
-  { path: 'convocatorias/:id', component: ConvocatoriasComponent },
+  { path: 'info-convocatoria/:id', component: InfoConvocatoriaComponent },
 
   //Rutas
   { path: 'principal', component: PrincipalComponent },

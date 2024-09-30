@@ -100,9 +100,10 @@ import { AgregarBolsaTrabajoComponent } from './admin/bolsadetrabajo/bolsadetrab
 import { AgregarCursoComponent } from './admin/agregar-curso/agregar-curso.component';
 import { ConvocatoriaComponent } from './admin/convocatoria/convocatoria.component';
 import { ConvocatoriasComponent } from './convocatorias/convocatorias.component';
+import { InfoConvocatoriaComponent } from './info-convocatoria/info-convocatoria.component';
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     TallerComponent,
     PrincipalComponent,
@@ -183,7 +184,8 @@ import { ConvocatoriasComponent } from './convocatorias/convocatorias.component'
     AgregarCursoComponent,
     ConvocatoriaComponent,
     ConvocatoriasComponent,
-  ],
+      InfoConvocatoriaComponent
+   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

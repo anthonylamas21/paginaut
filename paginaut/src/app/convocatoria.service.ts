@@ -71,6 +71,10 @@ export class ConvocatoriaService {
     return this.http.get<ConvocatoriaResponse>(this.apiUrl);
   }
 
+  GetConvocatorias(id: number): Observable<Convocatoria> {
+    return this.http.get<Convocatoria>(`${this.apiUrl}?id=${id}`);
+  }
+
   actualizarConvocatoria(convocatoria: Convocatoria, imagenPrincipal?: File, imagenesGenerales?: File[], archivos?: File[]): Observable<any> {
     const formData: FormData = new FormData();
 

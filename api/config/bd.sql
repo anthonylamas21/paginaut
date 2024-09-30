@@ -146,9 +146,9 @@ CREATE TABLE Convocatoria (
 CREATE TABLE Convocatoria (
     id SERIAL PRIMARY KEY,
     titulo VARCHAR(150) NOT NULL,
-    informacion_evento TEXT NOT NULL,
+    descripcion TEXT NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
-    lugar_evento VARCHAR(150) NOT NULL,
+    lugar VARCHAR(150) NOT NULL,
     fecha_inicio TIMESTAMP,
     fecha_fin TIMESTAMP,
     hora_inicio TIME,

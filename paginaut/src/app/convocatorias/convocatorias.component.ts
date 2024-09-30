@@ -52,14 +52,6 @@ export class ConvocatoriasComponent implements OnInit {
     }
   }
 
-  // Cambia el color del navbar directamente al iniciar el componente o tras navegar
-  private setNavbarColor(): void {
-    const navbar = document.getElementById('navbarAccion');
-    if (navbar) {
-      navbar.classList.remove('bg-transparent');
-      navbar.classList.add('bg-[#043D3D]'); // Aplicar el color verde
-    }
-  }
 
   loadConvocatoria(): void {
     this.convocatoriaService.obtenerConvocatoria(this.idDecrypted!).subscribe({
@@ -100,7 +92,7 @@ export class ConvocatoriasComponent implements OnInit {
 
   verConvocatoria(id: number): void {
     const encryptedId = this.hashids.encode(id);
-    this.router.navigate(['/convocatorias', encryptedId]);
+    this.router.navigate(['/info-convocatoria', encryptedId]);
   }
 
   getFileExtension(filename: string): string {
@@ -124,5 +116,33 @@ export class ConvocatoriasComponent implements OnInit {
 
   closeModal(): void {
     this.imagenAmpliada = null;
+  }
+
+  scrollToSection(sectionId: string): void {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    this.setNavbarColor();
+  }
+
+  private setNavbarColor(): void {
+    const button = document.getElementById('scrollTopButton');
+    const nabvar = document.getElementById('navbarAccion');
+    const inicioSection = document.getElementById('inicio');
+
+    if (inicioSection && nabvar) {
+      const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
+
+      if (window.scrollY > inicioSectionBottom) {
+        button?.classList.remove('hidden');
+      } else {
+        button?.classList.add('hidden');
+      }
+
+      nabvar.classList.remove('bg-transparent');
+      nabvar.classList.add('bg-[#043D3D]');
+    }
   }
 }
