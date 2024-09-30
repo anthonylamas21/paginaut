@@ -87,10 +87,10 @@ export class ConvocatoriasComponent implements OnInit {
   }
 
   verMenosConvocatorias(): void {
-    const newLimit = this.convocatoriasVisibles.length - this.cantidadInicial;
+    // Asegurarse de que no se muestren menos de 5 convocatorias
+    const newLimit = Math.max(this.convocatoriasVisibles.length - 5, 5);
     this.convocatoriasVisibles = this.convocatorias.slice(0, newLimit);
   }
-
   verConvocatoria(id: number): void {
     const encryptedId = this.hashids.encode(id);
     this.router.navigate(['/info-convocatoria', encryptedId]);
