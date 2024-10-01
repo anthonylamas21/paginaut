@@ -34,12 +34,28 @@ export class CarreraMercadotecniaComponent {
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/merca/merca1.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/merca/merca2.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/merca/merca3.jpg', alt: 'Image 3' },
-    { url: './assets/img/galeria/merca/merca4.jpg', alt: 'Image 4' },
-    { url: './assets/img/galeria/merca/merca5.jpg', alt: 'Image 5' },
-    { url: './assets/img/galeria/merca/merca6.jpg', alt: 'Image 6' },
+    { url: './assets/img/galeria/merca/merca1.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/merca2.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/merca3.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/merca4.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/merca5.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/merca6.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/MERCA_1.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/MERCA_2.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/MERCA_3.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/MERCA_4.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/MERCA_5.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/MERCA_6.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/MERCA_7.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/MERCA_8.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/MERCA_9.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/MERCA_10.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/MERCA_11.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/MERCA_12.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/MERCA_13.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/MERCA_14.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/MERCA_15.jpg', alt: '' },
+    { url: './assets/img/galeria/merca/MERCA_16.jpg', alt: '' },
     // más imágenes aquí
   ];
 

@@ -35,19 +35,24 @@ export class CarreraAdministracionComponent {
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/admin/admin1.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/admin/admin2.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/admin/admin3.jpg', alt: 'Image 3' },
-    { url: './assets/img/galeria/admin/admin4.jpg', alt: 'Image 4' },
-    { url: './assets/img/galeria/admin/admin5.jpg', alt: 'Image 5' },
-    { url: './assets/img/galeria/admin/admin6.jpg', alt: 'Image 6' },
-    { url: './assets/img/galeria/admin/admin7.jpg', alt: 'Image 7' },
-    { url: './assets/img/galeria/admin/admin8.jpg', alt: 'Image 8' },
-    { url: './assets/img/galeria/admin/admin9.jpg', alt: 'Image 9' },
-    { url: './assets/img/galeria/admin/admin10.jpg', alt: 'Image 10' },
-    { url: './assets/img/galeria/admin/admin11.jpg', alt: 'Image 11' },
-    { url: './assets/img/galeria/admin/admin12.jpg', alt: 'Image 12' },
-    { url: './assets/img/galeria/admin/admin13.jpg', alt: 'Image 13' },
+    { url: './assets/img/galeria/admin/admin1.jpg', alt: '' },
+    { url: './assets/img/galeria/admin/admin2.jpg', alt: '' },
+    { url: './assets/img/galeria/admin/admin3.jpg', alt: '' },
+    { url: './assets/img/galeria/admin/admin4.jpg', alt: '' },
+    { url: './assets/img/galeria/admin/admin5.jpg', alt: '' },
+    { url: './assets/img/galeria/admin/admin6.jpg', alt: '' },
+    { url: './assets/img/galeria/admin/admin7.jpg', alt: '' },
+    { url: './assets/img/galeria/admin/admin8.jpg', alt: '' },
+    { url: './assets/img/galeria/admin/admin9.jpg', alt: '' },
+    { url: './assets/img/galeria/admin/admin10.jpg', alt: '' },
+    { url: './assets/img/galeria/admin/admin11.jpg', alt: '' },
+    { url: './assets/img/galeria/admin/admin12.jpg', alt: '' },
+    { url: './assets/img/galeria/admin/admin13.jpg', alt: '' },
+    { url: './assets/img/galeria/admin/ADMIN_1.jpg', alt: '' },
+    { url: './assets/img/galeria/admin/ADMIN_2.jpg', alt: '' },
+    { url: './assets/img/galeria/admin/ADMIN_3.jpg', alt: '' },
+    { url: './assets/img/galeria/admin/ADMIN_4.jpg', alt: '' },
+    { url: './assets/img/galeria/admin/ADMIN_5.jpg', alt: '' },
     // más imágenes aquí
   ];
 
