@@ -34,7 +34,9 @@ export class CarreraContaduriaComponent {
 
   images: Image[] = [
     { url: './assets/img/galeria/contaduria/contaduria1.jpg', alt: 'Image 1' },
+     { url: './assets/img/galeria/contaduria/CONTA_2.jpg', alt: 'Image 2' },
     { url: './assets/img/galeria/contaduria/contaduria2.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/contaduria/CONTA_1.webp', alt: 'Image 1' },
     // más imágenes aquí
   ];
 

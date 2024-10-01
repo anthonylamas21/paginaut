@@ -196,7 +196,7 @@
           [ngClass]="{'bg-[#04847C] text-white': selectedTab === 'segment-1', 'text-gray-500': selectedTab !== 'segment-1'}"
           class="tab-button py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-full"
           id="segment-item-1" (click)="selectTab('segment-1')">
-          T.S.U.
+          Técnico Superior Universitario
         </button>
         <button type="button" (click)="onTabClick($event, 'segment-2')"
           [ngClass]="{'bg-[#04847C] text-white': selectedTab === 'segment-2', 'text-gray-500': selectedTab !== 'segment-2'}"
@@ -370,8 +370,8 @@
 
 <div [class.hidden]="!selectedImage.url" id="hs-vertically-centered-modal"
   class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
-  <div class="relative max-w-[90vh] w-full">
-    <img [src]="selectedImage.url" [alt]="selectedImage.alt" class="max-h-[90vh] w-[90vh] mx-auto rounded-md">
+  <div class="relative max-w-[90vw] max-h-[90vh] w-auto h-auto">
+    <img [src]="selectedImage.url" [alt]="selectedImage.alt" class="max-w-[90vw] max-h-[90vh] object-contain mx-auto rounded-lg">
     <button (click)="closeModal()"
       class="absolute top-2 right-2 bg-red-500 w-8 h-8 rounded-full text-white text-2xl flex items-center justify-center">&times;</button>
   </div>
