@@ -275,10 +275,6 @@
     fill: white;
   }
 
-  
-
-  
-
   .icon-content .tooltip-text {
     position: absolute;
     top: 50%; /* Alinea verticalmente con el icono */
@@ -298,5 +294,43 @@
   .icon-content:hover .tooltip-text {
     opacity: 1;
     visibility: visible;
+  }
+  
+  .tooltip {
+    position: absolute;
+    z-index: 999;
+    padding: 6px 12px;
+    color: white;
+    background-color: black;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  }
+  
+  /* Aparece a la izquierda */
+  .tooltip-left {
+    right: 100%;
+    margin-right: 10px;
+  }
+  
+  /* Aparece a la derecha */
+  .tooltip-right {
+    left: 100%;
+    margin-left: 10px;
+  }
+  
+  /* Mostrar tooltip */
+  .icon-content:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Ocultar tooltip cuando no está en hover */
+  .icon-content .tooltip {
+    opacity: 0;
+    visibility: hidden;
   }
   
