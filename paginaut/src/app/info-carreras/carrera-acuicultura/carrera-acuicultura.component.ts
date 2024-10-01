@@ -36,9 +36,29 @@ export class CarreraAcuiculturaComponent {
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/acui/acui1.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/acui/acui2.jpg', alt: 'Image 2' },
-    // más imágenes aquí
+    { url: './assets/img/galeria/acui/ACUI_1.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_2.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_3.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_4.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_5.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_6.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_7.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_8.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_9.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_10.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_11.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_12.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_13.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_14.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_15.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_16.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_17.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_18.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_19.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_20.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_21.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_22.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/acui/ACUI_23.jpeg', alt: 'Image 1' },
   ];
 
   openModal(image: Image): void {
