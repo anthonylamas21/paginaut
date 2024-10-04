@@ -13,7 +13,6 @@ interface Item {
   ocho: string;
   nueve: string;
   diez: string;
-  once: string;
 }
 
 interface Image {
@@ -138,25 +137,20 @@ export class CarreraAgrobiotecnologiaComponent {
   @ViewChild('dt') dt: Table | undefined;
 
   items: Item[] = [
-    {uno: 'Algebra lineal',  dos: 'Funciones matemáticas',  tres: 'Calculo diferencial',  cuatro: 'Cálculo Integral',  cinco: 'Diseños Experimentales	',  seis: 'Estadia',  siete: 'Matematicas para ingenieria I',  ocho: 'Matemáticas para ingenieria II',  nueve: 'Operaciones Unitarias II',  diez: 'Ingeniería Genética	',  once: 'Estadia'},
+    {uno: 'QUÍMICA AGRÍCOLA',  dos: 'PROBABILIDAD Y ESTADÍSTICA',  tres: 'PROYECTO INTEGRADOR I',  cuatro: 'METODOLOGÍA DE LA INVESTIGACIÓN',  cinco: 'PROYECTO INTEGRADOR II',  seis: 'Estadia',  siete: 'SISTEMAS DE INFORMACIÓN GEOGRÁFICA',  ocho: 'SISTEMAS DE PRODUCCIÓN AGRÍCOLA',  nueve: 'PROYECTO INTEGRADOR III',  diez: 'ESTADIA'},
 
-    {uno: 'Química Básica',  dos: 'Química Orgánica',  tres: 'Química Analítica',  cuatro: 'Probabilidad Y Estadística',  cinco: 'Biorremediación',  seis: 'Estadia',  siete: 'Termodinámica',  ocho: 'Bioestadística',  nueve: 'Biología Molecular',  diez: 'Ingeniería Económica',  once: 'Estadia'},
+    {uno: 'INGLÉS I',  dos: 'MICROBIOLOGÍA AGRÍCOLA',  tres: 'INGLÉS III',  cuatro: 'INGLÉS IV',  cinco: 'MANEJO INTEGRADO DE PLAGAS, ENFERMEDADES Y ARVENSES',  seis: 'Estadia',  siete: 'NUTRICIÓN VEGETAL',  ocho: 'INGLÉS VII',  nueve: 'INOCUIDAD Y CALIDAD AGRÍCOLA',  diez: 'ESTADIA'},
 
-    {uno: 'Biología Agrícola',  dos: 'Física',  tres: 'Electricidad Y Magnetismo',  cuatro: 'Agricultura Sostenible',  cinco: 'Extracción De Metabolitos',  seis: 'Estadia',  siete: 'Fisicoquímica',  ocho: 'Operaciones Unitarias I',  nueve: '',  diez: '',  once: 'Estadia'},
+    {uno: 'FUNDAMENTOS MATEMÁTICOS',  dos: 'INGLÉS II',  tres: 'ENTOMOLOGÍA AGRÍCOLA',  cuatro: 'FITOPATOLOGÍA',  cinco: 'LIDERAZGO DE EQUIPOS DE ALTO DESEMPEÑO',  seis: 'Estadia',  siete: 'INVENTARIO DE RECURSOS NATURALES',  ocho: 'INGENIERÍA ECONÓMICA',  nueve: 'INGLÉS VIII',  diez: 'ESTADIA'},
 
-    {uno: 'Informática',  dos: 'Microbiología',  tres: 'Genética Vegetal',  cuatro: 'Propagación Vegetativa',  cinco: 'Abonos Orgánicos',  seis: 'Estadia',  siete: 'Metodología De La Investigación',  ocho: 'Administración De La Calidad',  nueve: 'Conservación De Bioproductos',  diez: 'Caracterización De Bioproductos',  once: 'Estadia'},
+    {uno: 'DESARROLLO HUMANO Y VALORES',  dos: 'HABILIDADES SOCIOEMOCIONALES Y MANEJO DE CONFLICTOS',  tres: 'EDAFOLOGÍA',  cuatro: 'EXTRACCIÓN DE METABOLITOS',  cinco: 'INGLÉS V',  seis: 'Estadia',  siete: 'INGLÉS VI',  ocho: 'EXTENSIONISMO',  nueve: 'INGENIERÍA GENÉTICA',  diez: 'ESTADIA'},
 
-    {uno: 'Botánica Sistemática',  dos: 'Bioquímica',  tres: 'Agrobiotecnología',  cuatro: 'Integradora I',  cinco: 'Biofertilizantes',  seis: 'Estadia',  siete: 'Administración De La Producción Agrobiotecnológica',  ocho: 'Inglés VII',  nueve: 'Bioingeniería',  diez: 'Integradora',  once: 'Estadia'},
+    {uno: 'COMUNICACIÓN Y HABILIDADES DIGITALES',  dos: 'FISIOLOGÍA VEGETAL',  tres: 'DESARROLLO DEL PENSAMIENTO Y TOMA DE DECISIONES',  cuatro: 'ÉTICA PROFESIONAL',  cinco: 'ECUACIONES DIFERENCIALES',  seis: 'Estadia',  siete: 'HABILIDADES GERENCIALES',  ocho: 'BIORREMEDIACIÓN',  nueve: 'INDUSTRIALIZACIÓN DE PRODUCTOS AGROBIOTECNOLÓGICOS',  diez: 'ESTADIA'},
 
-    {uno: 'Fisiología Vegetal',  dos: 'Biotecnología Vegetal',  tres: 'Agrometeorología',  cuatro: 'Ecología Microbiana',  cinco: 'Control Biológico',  seis: 'Estadia',  siete: 'Inglés VI',  ocho: 'Planeación y Organización del trabajo',  nueve: 'Inglés VIII',  diez: 'Inglés IX',  once: 'Estadia'},
+    {uno: 'BIOLOGÍA AGRÍCOLA',  dos: 'FÍSICA',  tres: 'CÁLCULO INTEGRAL',  cuatro: 'CONTROL BIOLÓGICO',  cinco: 'BIOTECNOLOGÍA VEGETAL',  seis: 'Estadia',  siete: 'DISEÑOS EXPERIMENTALES',  ocho: 'BIOLOGÍA MOLECULAR',  nueve: 'FORMULACIÓN Y EVALUACIÓN DE PROYECTOS',  diez: 'ESTADIA'},
 
-    {uno: 'Inglés I',  dos: 'Edafología',  tres: 'Herramientas De Planeación Y Costos',  cuatro: 'Fitopatología',  cinco: 'Integradora II',  seis: 'Estadia',  siete: 'Administración del tiempo',  ocho: '',  nueve: 'Dirección De Equipos De Alto Rendimiento',  diez: 'Negociación Empresarial',  once: 'Estadia'},
+    {uno: 'AGROECOLOGÍA',  dos: 'CÁLCULO DIFERENCIAL',  tres: 'AGROCLIMATOLOGÍA',  cuatro: 'CÁLCULO DE VARIAS VARIABLES',  cinco: 'BIOFERTILIZANTES',  seis: 'Estadia',  siete: 'BIOINGENIERÍA',  ocho: 'AGRICULTURA ORGÁNICA',  nueve: 'AGRICULTURA PROTEGIDA',  diez: 'ESTADIA'},
 
-    {uno: 'Expresión Oral Y Escrita I',  dos: 'Inglés II',  tres: 'Inglés III',  cuatro: 'Control De Plagas Y Malezas', cinco: 'Inglés V',  seis: 'Estadia',  siete: '',  ocho: '',  nueve: '',  diez: '',  once: 'Estadia'},
-
-    {uno: '',  dos: 'Formación Sociocultural I',  tres: 'Formación Sociocultural II',  cuatro: 'Inglés IV', cinco: 'Expresión Oral Y Escrita II',  seis: 'Estadia',  siete: '',  ocho: '',  nueve: '',  diez: '',  once: 'Estadia'},
-
-    {uno: '',  dos: '',  tres: '',  cuatro: 'Formación Sociocultural III', cinco: 'Formación Sociocultural IV',  seis: 'Estadia',  siete: '',  ocho: '',  nueve: '',  diez: '',  once: 'Estadia'}
 ];
 
 //INICIO TABLA CUATRIMESTRES
