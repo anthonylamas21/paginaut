@@ -51,7 +51,7 @@ export class CarrerasComponent {
       link: 'info_carreras/gastronomia'
     },
     {
-      title: 'TSU. en Contaduría',
+      title: 'Técnico Superior Universitario en Contaduría',
       imageUrl: './assets/img/fotos_por_carrera/contaduria.webp',
       link: 'info_carreras/contaduria'
     }

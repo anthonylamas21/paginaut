@@ -5,7 +5,7 @@ class Database
   private $db_name = "UTC";
   private $username = "postgres";
   private $password = "Alexis14";
-  private $port = "5433"; // Especifica el puerto aquí
+  private $port = "5432"; // Especifica el puerto aquí
   public $conn;
 
   public function getConnection()

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class LoginService {
 
-  URL = 'http://127.0.0.1:8000/api/controller';
+  URL = 'http://localhost/api/controller';
 
   reqHeader =  new HttpHeaders({
     'Authorization': 'Bearer '

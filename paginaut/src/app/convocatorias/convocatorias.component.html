@@ -36,17 +36,17 @@
 
     <div class="container mx-auto">
       <!-- Mostrar lista de convocatorias si no hay un ID -->
-      <div *ngIf="!isLoading && !idDecrypted">
+      
         <section id="convocatorias" class=" bg-white px-4 sm:px-8 py-12">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-10">
-              <div class="bg-[#043D3D] rounded-lg">
+              <div class="bg-[#043D3D] rounded-lg relative z-20">
                 <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
                   Convocatorias
                 </h2>
               </div>
             </div>
-
+        <div *ngIf="!isLoading && !idDecrypted">
             <!-- Si hay error -->
             <div *ngIf="error" class="text-center p-8 rounded-lg">
               <div class="p-4 bg-gray-100 rounded-lg text-center shadow-lg">
@@ -102,8 +102,9 @@
         </div>
             </div>
           </div>
+     </div>     
         </section>
-      </div>
+      
 
 
       <!-- Mostrar detalles de la convocatoria si hay un ID -->

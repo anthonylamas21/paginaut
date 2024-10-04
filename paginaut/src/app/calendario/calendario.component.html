@@ -69,10 +69,10 @@
     <ng-container *ngIf="pdfUrl; else calendarioTemplate">
                 
       <div class="container relative z-20"> 
-        <div class="pdf-container bg-white">
+        <div class="pdf-container bg-white flex justify-center my-4 flex-1">
           <iframe
           [src]="pdfUrl"
-          class="w-full h-[600px] bg-white"
+          class="w-10/12 h-[500px] bg-white rounded-lg"
           frameborder="0">
         </iframe>
         </div>

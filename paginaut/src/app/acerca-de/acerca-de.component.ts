@@ -20,7 +20,7 @@ export class AcercaDeComponent {
     {
       nombre: "Mario Imanol Mata Gómez", 
       foto:"./assets/img/acercade/MM.jpg", 
-      especialidad: "Programador Backend / Base de datos", 
+      especialidad: "Programador Back-end", 
       twitter:{active:false, links: [{ link: "" }]}, 
       github:{active:false, links: [{ link: "" }]}, 
       linkedn:{active:true, links: [{ link: "https://www.linkedin.com/in/mario-imanol-mata-g%C3%B3mez-62515832a" }]},
@@ -29,7 +29,7 @@ export class AcercaDeComponent {
     {
       nombre: "Alberto Peña Ortíz", 
       foto:"./assets/img/acercade/AP.jpg", 
-      especialidad: "Diseñador UX / Programador Backend", 
+      especialidad: "Programador Back-end", 
       twitter:{active:false, links: [{ link: "" }]}, 
       github:{active:false, links: [{ link: "" }]}, 
       linkedn:{active:false, links: [{ link: "" }]},
@@ -38,7 +38,7 @@ export class AcercaDeComponent {
     {
       nombre: "Saul Hernández Contreras", 
       foto:"./assets/img/acercade/SH.png", 
-      especialidad: "Analista / Programador Backend", 
+      especialidad: "Analista", 
       twitter:{active:false, links: [{ link: "" }]}, 
       github:{active:true, links: [{ link: "https://github.com/saulhdez25" }]}, 
       linkedn:{active:true, links: [{ link: "https://www.linkedin.com/in/saul-hern%C3%A1ndez-b750a8319/" }]},
@@ -46,8 +46,8 @@ export class AcercaDeComponent {
     },
     {
       nombre: "Yahir Nava Gandara", 
-      foto:"./assets/img/acercade/YN.jpeg", 
-      especialidad: "Diseñador UI / Programador Frontend", 
+      foto:"./assets/img/acercade/YN.jpg", 
+      especialidad: "Diseñador UXI", 
       twitter:{active:false, links: [{ link: "" }]}, 
       github:{active:true, links: [{ link: "https://github.com/Yahir1217" }]}, 
       linkedn:{active:true, links: [{ link: "https://www.linkedin.com/in/yahir-nava-b8b598235/" }]},
@@ -56,7 +56,7 @@ export class AcercaDeComponent {
     {
       nombre: "Anthony Joseph Lamas Castillo", 
       foto:"./assets/img/acercade/AL.jpeg", 
-      especialidad: "Programador Frontend", 
+      especialidad: "Programador Front-end", 
       twitter:{active:true, links: [{ link: "https://www.linkedin.com/in/anthony-joseph-lamas-castillo-63359b235" }]}, 
       github:{active:false, links: [{ link: "" }]}, 
       linkedn:{active:false, links: [{ link: "" }]},
@@ -68,7 +68,7 @@ profesor = [
   {
     nombre: "Cesar Geovanny Machuca Pereida", 
       foto:"./assets/img/acercade/GMP.jpg", 
-      especialidad: "Asesor Académico / Programador Full Stack", 
+      especialidad: "Asesor Académico", 
       twitter:{active:false, links: [{ link: "" }]}, 
       github:{active:false, links: [{ link: "" }]}, 
       linkedn:{active:false, links: [{ link: "" }]},

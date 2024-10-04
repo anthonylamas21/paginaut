@@ -7,6 +7,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 })
 export class UbicacionComponent implements OnInit {
 
+  isPopupVisible = false;
   isOpen: boolean = false;
   currentTime: Date = new Date();
   
@@ -75,6 +76,7 @@ export class UbicacionComponent implements OnInit {
     const popup = document.getElementById('horarioPopup');
     if (popup) {
       popup.style.display = 'block';
+      this.isPopupVisible = true;
     }
   }
 
@@ -82,6 +84,7 @@ export class UbicacionComponent implements OnInit {
     const popup = document.getElementById('horarioPopup');
     if (popup) {
       popup.style.display = 'none';
+      this.isPopupVisible = false;
     }
   }
 }

@@ -1,0 +1,11 @@
+@media (max-width: 640px) {
+    #horarioPopup {
+      bottom: 100%; /* Muestra el div flotante hacia arriba si el espacio es insuficiente */
+      left: 0;
+      right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      z-index: 9999;
+    }
+  }
+  

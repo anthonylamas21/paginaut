@@ -34,8 +34,11 @@
   </li>
 </ol>
 <div class="container mx-auto my-4 flex-1 flex flex-col">
-  <div class="bg-[#043D3D] rounded-lg">
-    <h2 class="text-3xl font-poppins py-2 px-2 font-bold text-white uppercase">{{ nombreBeca }}</h2>
+  <div class="mb-4">
+    <div class="bg-[#043D3D] rounded-lg relative z-20">
+      <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
+        {{nombreBeca}}</h2>
+    </div>
   </div>
 
   <div class="flex justify-center my-4">
@@ -44,7 +47,7 @@
 
   <ng-container *ngIf="safeArchivoUrl; else noArchivo">
     <div class="flex justify-center my-4 flex-1">
-      <iframe [src]="safeArchivoUrl" class="w-10/12 h-[500px]"></iframe>
+      <iframe [src]="safeArchivoUrl" class="w-10/12 h-[500px] rounded-lg"></iframe>
     </div>
   </ng-container>
   
