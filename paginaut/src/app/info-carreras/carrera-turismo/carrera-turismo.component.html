@@ -42,7 +42,7 @@
 
   <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg">
     <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
-      Técnico Superior Universitario en Turismo</h2>
+      TSU en Turismo</h2>
   </div>
 
   <div *ngIf="isLoading" class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
@@ -140,7 +140,7 @@
 
 
   <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg mt-8">
-    <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white text-right uppercase mb-3">Licenciatura en Desarrollo
+    <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white text-right uppercase mb-3">Lic. En Desarrollo
       Turístico Sustentable</h2>
   </div>
 
@@ -148,7 +148,7 @@
     <div class="relative w-full mt-10">
       <div class="relative">
         <!-- Imagen principal -->
-        <img src="./assets/img/galeria/turismo/TUR_5.jpg" class="w-full bg-cover rounded-lg pointer-events-none"
+        <img src="./assets/img/fotos_por_carrera/turismo.webp" class="w-full bg-cover rounded-lg pointer-events-none"
           alt="">
         <!-- Pie de imagen (segunda imagen) -->
         <div class="absolute bottom-0 w-full">
@@ -244,7 +244,7 @@
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-registro let-index="rowIndex">
-                  <tr class="divide-x divide-gray-200 bg-neutral-100 ">
+                  <tr class="divide-x divide-gray-200 bg-neutral-100 uppercase">
                     <td (mouseover)="onMouseOver('uno', registro.uno)"
                       class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.uno}}</td>
                     <td (mouseover)="onMouseOver('dos', registro.dos)"
@@ -303,16 +303,11 @@
                         10°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color ">
-                      <div class="flex justify-center">
-                        11°
-                      </div>
-                    </th>
                   </tr>
 
                 </ng-template>
                 <ng-template pTemplate="body" let-registro let-index="rowIndex">
-                  <tr class="divide-x  divide-gray-200 bg-neutral-100">
+                  <tr class="divide-x  divide-gray-200 bg-neutral-100 uppercase">
                     <td (mouseover)="onMouseOver('siete', registro.siete)"
                       class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.siete}}</td>
                     <td (mouseover)="onMouseOver('ocho', registro.ocho)"
@@ -320,10 +315,8 @@
                     <td (mouseover)="onMouseOver('nueve', registro.nueve)"
                       class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.nueve}}</td>
                     <td (mouseover)="onMouseOver('diez', registro.diez)"
-                      class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.diez}}</td>
-                    <td (mouseover)="onMouseOver('once', registro.once)"
                       class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black" *ngIf="index === 0"
-                      [attr.rowSpan]="items.length">{{registro.once}}</td>
+                      [attr.rowSpan]="items.length">{{registro.diez}}</td>
                   </tr>
                 </ng-template>
               </p-table>
@@ -354,8 +347,8 @@
 
 <div [class.hidden]="!selectedImage.url" id="hs-vertically-centered-modal"
   class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
-  <div class="relative max-w-[90vw] max-h-[90vh] w-auto h-auto">
-    <img [src]="selectedImage.url" [alt]="selectedImage.alt" class="max-w-[90vw] max-h-[90vh] object-contain mx-auto rounded-lg">
+  <div class="relative max-w-[90vh] w-full">
+    <img [src]="selectedImage.url" [alt]="selectedImage.alt" class="max-h-[90vh] w-[90vh] mx-auto rounded-md">
     <button (click)="closeModal()"
       class="absolute top-2 right-2 bg-red-500 w-8 h-8 rounded-full text-white text-2xl flex items-center justify-center">&times;</button>
   </div>

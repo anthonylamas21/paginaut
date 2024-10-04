@@ -13,7 +13,6 @@ interface Item {
   ocho: string;
   nueve: string;
   diez: string;
-  once: string;
 }
 
 interface Image {
@@ -159,23 +158,14 @@ export class CarreraGastronomiaComponent {
   @ViewChild('dt') dt: Table | undefined;
 
   items: Item[] = [
-    {uno: 'Matemáticas Aplicadas a la Gastronomía', dos: 'Estadística Aplicada a la Gastronomía', tres: 'Costos y Presupuestos', cuatro: 'Mercadotecnia de Servicios Gastronómicos', cinco: 'Métodos y Técnicas De Investigación Aplicadas a la Gastronomía', seis: 'Estadia', siete: 'Cocina Mexicana I', ocho: 'Cocina Mexicana II', nueve: 'Contabilidad', diez: 'Análisis e Interpretación Financiera', once: 'Estadia'},
-
-    {uno: 'Informática', dos: 'Fundamentos de Nutrición', tres: 'Operación de Bar', cuatro: 'Fundamentos de Vitivinicultura', cinco: 'Evaluación de Servicios Gastronómicos', seis: 'Estadia', siete: 'Patrimonio Culinario de México', ocho: 'Cocina Europea', nueve: 'Cocina Asiática', diez: 'Cocina Contemporánea', once: 'Estadia'},
-
-    {uno: 'Seguridad e Higiene en Alimentos', dos: 'Servicios de Alimentos y Bebidas', tres: 'Estandarización de Platillos', cuatro: 'Administración de Alimentos y Bebidas', cinco: 'Conformación de Menús', seis: 'Estadia', siete: 'Administración de Procesos Gastronómicos', ocho: 'Ingeniería de Menú', nueve: 'Conceptos Gastronómicos', diez: 'Gestión de la Calidad en Establecimientos de Alimentos y Bebidas', once: 'Estadia'},
-
-    {uno: 'Introducción a la Gastronomía', dos: 'Métodos y Técnicas Culinarias', tres: 'Gestión de Compras y Almacén', cuatro: 'Repostería', cinco: 'Logística de Eventos', seis: 'Estadia', siete: 'Bebidas Destiladas Mexicanas', ocho: 'Inglés VII', nueve: 'Mixología', diez: 'Desarrollo de Negocios Gastronómicos', once: 'Estadia'},
-
-    {uno: 'Bases Culinarias', dos: 'Panadería', tres: 'Pastelería', cuatro: 'Integradora I', cinco: 'Integradora II', seis: 'Estadia', siete: 'Inglés VI', ocho: 'Planeación y Organización del Trabajo', nueve: 'Inglés VIII', diez: 'Integradora', once: 'Estadia'},
-
-    {uno: 'Inglés I', dos: 'Inglés II', tres: 'Inglés III', cuatro: 'Inglés IV', cinco: 'Inglés V', seis: 'Estadia', siete: 'Administración del tiempo', ocho: 'Dirección de Equipos de Alto Rendimiento', nueve: 'Inglés IX', diez: 'Negociación Empresarial', once: 'Estadia'},
-
-    {uno: 'Expresión Oral Y Escrita I', dos: 'Formación Sociocultural II', tres: 'Formación Sociocultural III', cuatro: 'Francés I', cinco: 'Francés II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'},
-
-    {uno: 'Formación Sociocultural I', dos: '', tres: '', cuatro: 'Formación Sociocultural IV', cinco: 'Expresión Oral Y Escrita II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'}
-]
-;
+    {uno: 'Inglés I', dos: 'Inglés II', tres: 'Inglés III', cuatro: 'Inglés IV', cinco: 'Inglés V', seis: 'Estadía', siete: 'Inglés VI', ocho: 'Inglés VII', nueve: 'Inglés VIII', diez: 'Estadía'},
+    {uno: 'Desarrollo Humano y Valores', dos: 'Habilidades Socioemocionales y Manejo de Conflictos', tres: 'Desarrollo del Pensamiento y Toma de Decisiones', cuatro: 'Ética Profesional', cinco: 'Liderazgo de Equipos de Alto Desempeño', seis: 'Estadía', siete: 'Habilidades Gerenciales', ocho: 'Planeación y Administración del Trabajo', nueve: 'Desarrollo de Negocios Gastronómicos', diez: 'Estadía'},
+    {uno: 'Introducción a la Gastronomía', dos: 'Estandarización de Platillos', tres: 'Costos y Presupuestos', cuatro: 'Francés I', cinco: 'Francés II', seis: 'Estadía', siete: 'Contabilidad', ocho: 'Análisis e Interpretación Financiera', nueve: 'Gestión de la Calidad en Procesos Gastronómicos', diez: 'Estadía'},
+    {uno: 'Matemáticas Aplicadas a la Gastronomía', dos: 'Fundamentos de Nutrición', tres: 'Operación de Bar', cuatro: 'Administración de Alimentos y Bebidas', cinco: 'Metodología de la Investigación Aplicada a la Gastronomía', seis: 'Estadía', siete: 'Administración de Procesos Gastronómicos', ocho: 'Bebidas Destiladas Mexicanas', nueve: 'Mixología', diez: 'Estadía'},
+    {uno: 'Seguridad e Higiene en los Alimentos', dos: 'Servicio de Alimentos y Bebidas', tres: 'Pastelería', cuatro: 'Mercadotecnia de Servicios Gastronómicos', cinco: 'Logística de Eventos', seis: 'Estadía', siete: 'Patrimonio Gastronómico de México', ocho: 'Ingeniería de Menú', nueve: 'Cocina Contemporánea', diez: 'Estadía'},
+    {uno: 'Bases Culinarias I', dos: 'Bases Culinarias II', tres: 'Bases Culinarias III', cuatro: 'Fundamentos de Vitivinicultura', cinco: 'Conformación de Menús', seis: 'Estadía', siete: 'Cocina Asiática', ocho: 'Cocina Europea', nueve: 'Optativa', diez: 'Estadía'},
+    {uno: 'Comunicación y Habilidades Digitales', dos: 'Panadería', tres: 'Proyecto Integrador I', cuatro: 'Repostería', cinco: 'Proyecto Integrador II', seis: 'Estadía', siete: 'Cocina Mexicana I', ocho: 'Cocina Mexicana II', nueve: 'Proyecto Integrador III', diez: 'Estadía'}
+  ];
 
 //INICIO TABLA CUATRIMESTRES
 onMouseOver(columna: string, valor: any) {

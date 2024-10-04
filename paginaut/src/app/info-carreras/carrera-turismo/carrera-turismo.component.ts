@@ -13,7 +13,6 @@ interface Item {
   ocho: string;
   nueve: string;
   diez: string;
-  once: string;
 }
 
 interface Image {
@@ -149,22 +148,14 @@ export class CarreraTurismoComponent {
   @ViewChild('dt') dt: Table | undefined;
 
   items: Item[] = [
-    {uno: 'Matemáticas I', dos: 'Estadística', tres: 'Métodos y técnicas de investigación', cuatro: 'Cadenas de valor de productos y servicios turísticos', cinco: 'Diseño de experiencias turísticas', seis: 'Estadia', siete: 'Economía Para El Turismo', ocho: 'Finanzas Para El Turismo', nueve: 'Desarrollo De Proyectos Para El Turismo I', diez: 'Desarrollo De Proyectos Para El Turismo II', once: 'Estadia'},
-
-    {uno: 'Informática I', dos: 'Sustentabilidad en el Turismo', tres: 'Servicios de viaje', cuatro: 'Patrimonio y desarrollo turístico regional', cinco: 'Investigación aplicada al turismo', seis: 'Estadia', siete: 'Análisis E Interpretación De Información Para El Sector Turístico', ocho: 'Gestión Y Planificación Turística', nueve: 'Innovación Y Turismo Responsable', diez: 'Instrumentos Para El Desarrollo Sustentable', once: 'Estadia'},
-
-    {uno: 'Introducción Al Turismo', dos: 'Servicios de Turismo cultural y de naturaleza', tres: 'Capital humano', cuatro: 'Turismo de naturaleza', cinco: 'Cultura y desarrollo turístico', seis: 'Estadia', siete: 'Calidad Y Responsabilidad Social', ocho: 'Control Administrativo En El Turismo', nueve: 'Mercadotecnia Estratégica', diez: 'Destinos Turísticos Inteligentes', once: 'Estadia'},
-
-    {uno: 'Patrimonio natural y cultural', dos: 'Servicios de hospedaje y alimentos y bebidas', tres: 'Operaciones contables y financieras', cuatro: 'Capacitación y talento humano', cinco: 'Comercialización y herramientas digitales', seis: 'Estadia', siete: 'Desarrollo Del Capital Humano En La Organización', ocho: 'Inglés VII', nueve: 'Inglés VIII', diez: 'Integradora', once: 'Estadia'},
-
-    {uno: 'Administración', dos: 'Gestión de la calidad', tres: 'Mercadotecnia de productos y servicios turísticos', cuatro: 'Animación sociocultural', cinco: 'Integradora II', seis: 'Estadia', siete: 'Inglés VI', ocho: 'Planeación y organización para el trabajo', nueve: 'Dirección De Equipos De Alto Rendimiento', diez: 'Inglés IX', once: 'Estadia'},
-
-    {uno: 'Inglés I', dos: 'Inglés II', tres: 'Integradora I', cuatro: 'Inglés IV', cinco: 'Inglés V', seis: 'Estadia', siete: 'Administración Del Tiempo', ocho: '', nueve: '', diez: 'Negociación Empresarial', once: 'Estadia'},
-
-    {uno: 'Expresión Oral Y Escrita I', dos: 'Formación Sociocultural II', tres: 'Inglés III', cuatro: 'Francés I', cinco: 'Francés II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'},
-
-    {uno: 'Formación Sociocultural I', dos: '', tres: 'Formación Sociocultural III', cuatro: 'Formación Sociocultural IV', cinco: 'Expresión Oral Y Escrita II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'}
-];
+    {uno: 'Inglés I', dos: 'Inglés II', tres: 'Inglés III', cuatro: 'Inglés IV', cinco: 'Inglés V', seis: 'Estadía', siete: 'Inglés VI', ocho: 'Inglés VII', nueve: 'Inglés VIII', diez: 'Estadía'},
+    {uno: 'Desarrollo Humano y Valores', dos: 'Habilidades Socioemocionales y Manejo de Conflictos', tres: 'Desarrollo del Pensamiento y Toma de Decisiones', cuatro: 'Ética Profesional', cinco: 'Liderazgo de Equipos de Alto Desempeño', seis: 'Estadía', siete: 'Habilidades Gerenciales', ocho: 'Finanzas para el Turismo', nueve: 'Seminario de Investigación Aplicada al Turismo', diez: 'Estadía'},
+    {uno: 'Matemáticas Aplicadas en el Turismo', dos: 'Probabilidad y Estadística', tres: 'Contabilidad Aplicada al Turismo', cuatro: 'Diagnóstico Turístico', cinco: 'Diseño de Experiencias Turísticas', seis: 'Estadía', siete: 'Análisis e Interpretación de Información para el Sector Turístico', ocho: 'Calidad y Responsabilidad Social', nueve: 'Destinos Turísticos Inteligentes', diez: 'Estadía'},
+    {uno: 'Fundamentos de Economía', dos: 'Administración', tres: 'Gestión de la Calidad', cuatro: 'Mercadotecnia y Comercialización', cinco: 'Plan de Negocios', seis: 'Estadía', siete: 'Economía para el Turismo', ocho: 'Desarrollo de Proyectos Emprendedores para el Turismo I', nueve: 'Desarrollo de Proyectos Emprendedores para el Turismo II', diez: 'Estadía'},
+    {uno: 'Introducción al Turismo', dos: 'Servicios de Viaje y Transportación', tres: 'Hospitalidad y Alojamiento', cuatro: 'Operación de Servicios de Hospedaje', cinco: 'Animación Turística y Sociocultural', seis: 'Estadía', siete: 'Desarrollo Regional', ocho: 'Mercadotecnia Digital', nueve: 'Dirección y Logística de Eventos', diez: 'Estadía'},
+    {uno: 'Geografía y Patrimonio', dos: 'Sustentabilidad en el Turismo', tres: 'Capital Humano', cuatro: 'Turismo Cultural y de Naturaleza', cinco: 'Capacitación de Capital Humano', seis: 'Estadía', siete: 'Instrumentos para el Desarrollo Sustentable', ocho: 'Consultoría Turística I', nueve: 'Consultoría Turística II', diez: 'Estadía'},
+    {uno: 'Comunicación y Habilidades Digitales', dos: 'Servicios de Alimentos y Bebidas', tres: 'Proyecto Integrador I', cuatro: 'Operación de Servicios de Alimentos y Bebidas', cinco: 'Proyecto Integrador II', seis: 'Estadía', siete: 'Gestión y Planificación del Turismo', ocho: 'Tendencias del Turismo', nueve: 'Proyecto Integrador III', diez: 'Estadía'}
+  ];
 
 //INICIO TABLA CUATRIMESTRES
 onMouseOver(columna: string, valor: any) {

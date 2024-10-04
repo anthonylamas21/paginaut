@@ -34,7 +34,7 @@
     </div>
 
   <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg">
-    <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">Técnico Superior Universitario en Contaduría	</h2>
+    <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">TSU en Contaduría	</h2>
   </div>
 
   <div *ngIf="isLoading" class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
@@ -103,10 +103,15 @@
   <div class="flex m-3 justify-center mt-8">
     <div class="flex bg-gray-100 hover:bg-gray-200 rounded-full transition px-2 py-2">
       <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
-        <button type="button"
+        <button type="button" (click)="onTabClick($event, 'segment-1')"
           class="hs-tab-active:bg-[#04847C] hs-tab-active:text-white py-3 px-4 inline-flex items-center gap-x-2 bg-transparent text-sm text-gray-500 font-medium rounded-full hover:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none active"
           id="segment-item-1" data-hs-tab="#segment-1" aria-controls="segment-1" role="tab">
           Técnico Superior Universitario
+        </button>
+        <button type="button" (click)="onTabClick($event, 'segment-2')"
+          class="hs-tab-active:bg-[#04847C] hs-tab-active:text-white py-3 px-4 inline-flex items-center gap-x-2 bg-transparent text-sm text-gray-500 font-medium rounded-full hover:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none "
+          id="segment-item-2" data-hs-tab="#segment-2" aria-controls="segment-2" role="tab">
+          Licenciatura
         </button>
       </nav>
     </div>
@@ -121,46 +126,40 @@
               <p-table #dt [value]="items">
                 <ng-template pTemplate="header">
                   <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
-                    <th [attr.colSpan]="items.length" scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
-                      >
+                    <th [attr.colSpan]="items.length" scope="col"
+                      class="px-6 py-3 text-xs text-white uppercase bg-table-header-color">
                       <div class="flex justify-center">
                         Mapa cuatrimestral
                       </div>
                     </th>
                   </tr>
                   <tr class="divide-x  divide-gray-200 bg-table-header-color rounded-lg">
-                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
-                      >
+                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color">
                       <div class="flex justify-center">
                         1°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
-                      >
+                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color ">
                       <div class="flex justify-center">
                         2°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
-                      >
+                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color ">
                       <div class="flex justify-center">
                         3°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
-                      >
+                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color ">
                       <div class="flex justify-center">
                         4°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
-                    >
+                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color ">
                       <div class="flex justify-center">
                         5°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
-                   >
+                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color ">
                       <div class="flex justify-center">
                         6°
                       </div>
@@ -168,13 +167,79 @@
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-registro let-index="rowIndex">
-                  <tr class="divide-x divide-gray-200 bg-neutral-100 ">
-                    <td (mouseover)="onMouseOver('uno', registro.uno)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.uno}}</td>
-                    <td (mouseover)="onMouseOver('dos', registro.dos)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.dos}}</td>
-                    <td (mouseover)="onMouseOver('tres', registro.tres)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.tres}}</td>
-                    <td (mouseover)="onMouseOver('cuatro', registro.cuatro)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.cuatro}}</td>
-                    <td (mouseover)="onMouseOver('cinco', registro.cinco)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.cinco}}</td>
-                    <td *ngIf="index === 0" [attr.rowSpan]="items.length" (mouseover)="onMouseOver('seis', registro.seis)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.seis}}</td>
+                  <tr class="divide-x divide-gray-200 bg-neutral-100 uppercase">
+                    <td (mouseover)="onMouseOver('uno', registro.uno)"
+                      class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.uno}}</td>
+                    <td (mouseover)="onMouseOver('dos', registro.dos)"
+                      class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.dos}}</td>
+                    <td (mouseover)="onMouseOver('tres', registro.tres)"
+                      class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.tres}}</td>
+                    <td (mouseover)="onMouseOver('cuatro', registro.cuatro)"
+                      class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.cuatro}}
+                    </td>
+                    <td (mouseover)="onMouseOver('cinco', registro.cinco)"
+                      class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.cinco}}</td>
+                    <td *ngIf="index === 0" [attr.rowSpan]="items.length"
+                      (mouseover)="onMouseOver('seis', registro.seis)"
+                      class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.seis}}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="segment-2" class="hidden" role="tabpanel" aria-labelledby="segment-item-2">
+      <div class="flex flex-col mb-5">
+        <div class="-m-1.5 overflow-x-auto">
+          <div class="p-1.5 min-w-full inline-block align-middle">
+            <div class="border rounded-lg overflow-hidden my-2">
+              <p-table #dt [value]="items">
+                <ng-template pTemplate="header">
+                  <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
+                    <th [attr.colSpan]="items.length" scope="col"
+                      class="px-6 py-3 text-xs text-white uppercase bg-table-header-color">
+                      <div class="flex justify-center">
+                        Mapa cuatrimestral
+                      </div>
+                    </th>
+                  </tr>
+                  <tr class="divide-x  divide-gray-200  bg-table-header-color rounded-lg">
+                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
+                      <div class="flex justify-center">
+                        7°
+                      </div>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color ">
+                      <div class="flex justify-center">
+                        8°
+                      </div>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color ">
+                      <div class="flex justify-center">
+                        9°
+                      </div>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color ">
+                      <div class="flex justify-center">
+                        10°
+                      </div>
+                    </th>
+                  </tr>
+
+                </ng-template>
+                <ng-template pTemplate="body" let-registro let-index="rowIndex">
+                  <tr class="divide-x  divide-gray-200 bg-neutral-100 uppercase">
+                    <td (mouseover)="onMouseOver('siete', registro.siete)"
+                      class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.siete}}</td>
+                    <td (mouseover)="onMouseOver('ocho', registro.ocho)"
+                      class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.ocho}}</td>
+                    <td (mouseover)="onMouseOver('nueve', registro.nueve)"
+                      class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.nueve}}</td>
+                    <td (mouseover)="onMouseOver('diez', registro.diez)"
+                      class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black" *ngIf="index === 0"
+                      [attr.rowSpan]="items.length">{{registro.diez}}</td>
                   </tr>
                 </ng-template>
               </p-table>
@@ -202,11 +267,9 @@
 <app-footer></app-footer>
 <!--Fin Footer-->
 
-<div [class.hidden]="!selectedImage.url" id="hs-vertically-centered-modal"
-  class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
-  <div class="relative max-w-[90vw] max-h-[90vh] w-auto h-auto">
-    <img [src]="selectedImage.url" [alt]="selectedImage.alt" class="max-w-[90vw] max-h-[90vh] object-contain mx-auto rounded-lg">
-    <button (click)="closeModal()"
-      class="absolute top-2 right-2 bg-red-500 w-8 h-8 rounded-full text-white text-2xl flex items-center justify-center">&times;</button>
+<div [class.hidden]="!selectedImage.url" id="hs-vertically-centered-modal" class="hs-overlay hs-overlay-backdrop-open:bg-gray-900/50 fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
+  <div class="relative max-w-[90vh] w-full">
+    <img [src]="selectedImage.url" [alt]="selectedImage.alt" class="max-h-[90vh] w-[90vh] mx-auto rounded-md">
+    <button (click)="closeModal()" class="absolute top-2 right-2 bg-red-500 w-8 h-8 rounded-full text-white text-2xl flex items-center justify-center">&times;</button>
   </div>
 </div>
