@@ -312,11 +312,6 @@
                         10°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color ">
-                      <div class="flex justify-center">
-                        11°
-                      </div>
-                    </th>
                   </tr>
 
                 </ng-template>
@@ -328,8 +323,6 @@
                       class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.ocho}}</td>
                     <td (mouseover)="onMouseOver('nueve', registro.nueve)"
                       class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.nueve}}</td>
-                    <td (mouseover)="onMouseOver('diez', registro.diez)"
-                      class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.diez}}</td>
                     <td (mouseover)="onMouseOver('once', registro.once)"
                       class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black" *ngIf="index === 0"
                       [attr.rowSpan]="items.length">{{registro.once}}</td>
