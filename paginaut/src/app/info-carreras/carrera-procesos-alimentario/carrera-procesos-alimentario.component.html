@@ -5,7 +5,7 @@
   class="z-50 hidden fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50">
   <i class="fa-solid fa-chevron-up"></i>
 </button>
-
+ 
 <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4 mb-8">
   <li class="inline-flex items-center">
     <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] "
@@ -300,11 +300,7 @@
                         10°
                       </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color ">
-                      <div class="flex justify-center">
-                        11°
-                      </div>
-                    </th>
+                   
                   </tr>
 
                 </ng-template>
@@ -316,11 +312,10 @@
                       class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.ocho}}</td>
                     <td (mouseover)="onMouseOver('nueve', registro.nueve)"
                       class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.nueve}}</td>
-                    <td (mouseover)="onMouseOver('diez', registro.diez)"
-                      class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.diez}}</td>
-                    <td (mouseover)="onMouseOver('once', registro.once)"
+                    
+                    <td (mouseover)="onMouseOver('once', registro.diez)"
                       class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black" *ngIf="index === 0"
-                      [attr.rowSpan]="items.length">{{registro.once}}</td>
+                      [attr.rowSpan]="items.length">{{registro.diez}}</td>
                   </tr>
                 </ng-template>
               </p-table>

@@ -13,7 +13,7 @@ interface Item {
   ocho: string;
   nueve: string;
   diez: string;
-  once: string;
+
 }
 
 interface Image {
@@ -118,25 +118,25 @@ export class CarreraProcesosAlimentarioComponent {
 
   items: Item[] = [
 
-    {uno: 'Algebra Lineal', dos: 'Funciones Matemáticas', tres: 'Cálculo Diferencial', cuatro: 'Cálculo Integral', cinco: 'Diseños Experimentales', seis: 'Estadia', siete: 'Matemáticas para Ingeniería I', ocho: 'Matemáticas para Ingeniería II', nueve: 'Operaciones Unitarias II', diez: 'Ingeniería Genética', once: 'Estadia'},
+    {uno: 'BIOLOGÍA', dos: 'CÁLCULO DIFERENCIAL', tres: 'CÁLCULO INTEGRAL', cuatro: 'ANÁLISIS DE ALIMENTOS', cinco: 'ADMINISTRACIÓN DE LA PRODUCCIÓN', seis: 'Estadia', siete: 'BALANCE DE MATERIA Y ENERGÍA', ocho: '', nueve: 'BIOINGENIERÍA', diez: 'Estadia'},
 
-    {uno: 'Química Básica', dos: 'Química Orgánica', tres: 'Química Analítica', cuatro: 'Probabilidad y Estadística', cinco: 'Biorremediación', seis: 'Estadia', siete: 'Termodinámica', ocho: 'Bioestadística', nueve: 'Biología Molecular', diez: 'Ingeniería Económica', once: 'Estadia'},
+    {uno: 'COMUNICACIÓN Y HABILIDADES DIGITALES', dos: 'FÍSICA', tres: 'DESARROLLO DEL PENSAMIENTO Y TOMA DE DECISIONES', cuatro: 'CÁLCULO DE VARIAS VARIABLES', cinco: 'ECUACIONES DIFERENCIALES', seis: 'Estadia', siete: 'BIOQUÍMICA', ocho: '', nueve: 'CONSULTORÍA Y CAPACITACIÓN A EMPRESAS', diez: 'Estadia'},
 
-    {uno: 'Biología Agrícola', dos: 'Física', tres: 'Electricidad y Magnetismo', cuatro: 'Agricultura Sostenible', cinco: 'Extracción de Metabolitos', seis: 'Estadia', siete: 'Fisicoquímica', ocho: 'Operaciones Unitarias I', nueve: '', diez: '', once: 'Estadia'},
+    {uno: 'DESARROLLO HUMANO Y VALORES', dos: 'HABILIDADES SOCIOEMOCIONALES Y MANEJO DE CONFLICTOS', tres: 'INGLÉS III', cuatro: 'ÉTICA PROFESIONAL', cinco: 'INGLÉS V', seis: 'Estadia', siete: 'DISEÑO DE EXPERIMENTOS', ocho: '', nueve: 'DISEÑO DE PLANTAS', diez: 'Estadia'},
 
-    {uno: 'Informática', dos: 'Microbiología', tres: 'Genética Vegetal', cuatro: 'Propagación Vegetativa', cinco: 'Abonos Orgánicos', seis: 'Estadia', siete: 'Metodología de la Investigación', ocho: 'Administración de la Calidad', nueve: 'Conservación de Bioproductos', diez: 'Caracterización de Bioproductos', once: 'Estadia'},
+    {uno: 'FUNDAMENTOS MATEMÁTICOS', dos: 'INGLÉS II', tres: 'PROYECTO INTEGRADOR I', cuatro: 'INGLÉS IV', cinco: 'LIDERAZGO DE EQUIPOS DE ALTO DESEMPEÑO', seis: 'Estadia', siete: 'HABILIDADES GERENCIALES', ocho: '', nueve: 'DISEÑO DE PROCESOS', diez: 'Estadia'},
 
-    {uno: 'Botánica Sistemática', dos: 'Bioquímica', tres: 'Agrobiotecnología', cuatro: 'Integradora I', cinco: 'Biofertilizantes', seis: 'Estadia', siete: 'Administración de la Producción Agrobiotecnológica', ocho: 'Inglés VII', nueve: 'Bioingeniería', diez: 'Integradora', once: 'Estadia'},
+    {uno: 'INGLÉS I', dos: 'MICROBIOLOGIA', tres: 'QUÍMICA DE ALIMENTOS', cuatro: 'INOCUIDAD ALIMENTARIA ALIMENTOS', cinco: 'PROYECTO INTEGRADOR II', seis: 'Estadia', siete: 'INGLÉS VI', ocho: '', nueve: 'INGLÉS VIII', diez: 'Estadia'},
 
-    {uno: 'Fisiología Vegetal', dos: 'Biotecnología Vegetal', tres: 'Agrometeorología', cuatro: 'Ecología Microbiana', cinco: 'Control Biológico', seis: 'Estadia', siete: 'Inglés VI', ocho: 'Planeación y Organización del Trabajo', nueve: 'Inglés VIII', diez: 'Inglés IX', once: 'Estadia'},
+    {uno: 'METODOLOGÍA DE LA INVESTIGACIÓN', dos: 'PROBABILIDAD Y ESTADÍSTICA', tres: 'QUÍMICA DE ALIMENTOS', cuatro: 'MICROBIOLOGÍA DE ALIMENTOS', cinco: 'SISTEMAS DE CALIDAD', seis: 'Estadia', siete: 'OPERACIONES UNITARIAS I', ocho: '', nueve: 'OPERACIONES UNITARIAS III', diez: 'Estadia'},
 
-    {uno: 'Inglés I', dos: 'Edafología', tres: 'Herramientas de Planeación y Costos', cuatro: 'Fitopatología', cinco: 'Integradora II', seis: 'Estadia', siete: 'Administración del Tiempo', ocho: '', nueve: 'Dirección De Equipos De Alto Rendimiento', diez: 'Negociación Empresarial', once: 'Estadia'},
+    {uno: 'QUÍMICA GENERAL', dos: 'QUÍMICA ANÁLITICA', tres: 'TECNOLOGÍAS DE CONSERVACIÓN DE ALIMENTOS', cuatro: 'TECNOLOGÍA DE ALIMENTOS II', cinco: 'TECNOLOGÍA DE ALIMENTOS III', seis: 'Estadia', siete: 'TERMODINÁMICA', ocho: '', nueve: 'PROYECTO INTEGRADOR III', diez: 'Estadia'},
 
-    {uno: 'Expresión Oral y Escrita I', dos: 'Inglés II', tres: 'Inglés III', cuatro: 'Control de Plagas y Malezas', cinco: 'Inglés V', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'},
+    {uno: '', dos: '', tres: '', cuatro: '', cinco: '', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: ''},
 
-    {uno: '', dos: 'Formación Sociocultural I', tres: 'Formación Sociocultural II', cuatro: 'Inglés IV', cinco: 'Expresión Oral Y Escrita II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'},
+    {uno: '', dos: '', tres: '', cuatro: '', cinco: '', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: ''},
 
-    {uno: '', dos: '', tres: '', cuatro: 'Formación Sociocultural III	', cinco: 'Formación Sociocultural IV', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'},
+    {uno: '', dos: '', tres: '', cuatro: '', cinco: '', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: ''},
 
 ];
 
