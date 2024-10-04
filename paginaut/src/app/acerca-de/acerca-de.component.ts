@@ -46,7 +46,7 @@ export class AcercaDeComponent {
     },
     {
       nombre: "Yahir Nava Gandara", 
-      foto:"./assets/img/acercade/YN.jpg", 
+      foto:"./assets/img/acercade/YN.jpeg", 
       especialidad: "Diseñador UI / Programador Frontend", 
       twitter:{active:false, links: [{ link: "" }]}, 
       github:{active:true, links: [{ link: "https://github.com/Yahir1217" }]}, 
