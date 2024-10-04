@@ -93,6 +93,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
     this.cargarNoticiasActivas();
     this.precargarImagenesCriticas();
     this.getViewCount();
+    this.iniciarCicloDeVisitas();
 
     setTimeout(() => {
       if (!this.visitaRegistrada && !this.tokenExistente()) {
@@ -282,67 +283,93 @@ verMenosEventos(): void {
     });
   }
 
-  generarToken(): string {
-    return Math.random().toString(36).substring(2) + Date.now().toString(36);
-  }
+ // Generar un token único
+generarToken(): string {
+  return Math.random().toString(36).substring(2) + Date.now().toString(36);
+}
 
-  // Función para verificar si el token ya existe en el LocalStorage y si está expirado
-  tokenExistente(): boolean {
-    const token = localStorage.getItem('visita_token');
-    const tokenExpiracion = localStorage.getItem('token_expiracion');
-    
-    if (token && tokenExpiracion) {
-      const now = new Date().getTime();
-      const expiracion = parseInt(tokenExpiracion, 10);
+// Función para verificar si el token ya existe en el LocalStorage y si está expirado
+tokenExistente(): boolean {
+  const token = localStorage.getItem('visita_token');
+  const tokenExpiracion = localStorage.getItem('token_expiracion');
+  
+  if (token && tokenExpiracion) {
+    const now = new Date().getTime();
+    const expiracion = parseInt(tokenExpiracion, 10);
 
-      // Si el token no ha expirado
-      if (now < expiracion) {
-        return true;
-      } else {
-        // Si ha expirado, limpiar el LocalStorage
-        this.limpiarLocalStorage();
-      }
+    // Si el token no ha expirado
+    if (now < expiracion) {
+      return true;  // El token es válido
+    } else {
+      // Si ha expirado, limpiar el LocalStorage
+      this.limpiarLocalStorage();
     }
-    return false;
   }
+  return false;
+}
 
-  // Función para registrar la visita y generar el token
-  RegistrarVisita(): void {
-      // Si el registro es exitoso, generar el token y guardarlo en el LocalStorage
-      const token = this.generarToken();
-      const unDiaEnMilisegundos = 24 * 60 * 60 * 1000; // 1 día
-      const expiracion = new Date().getTime() + unDiaEnMilisegundos;
+// Función para registrar la visita y generar el token
+RegistrarVisita(): void {
+  if (!this.tokenExistente()) {
+    // Si el token no existe o ha expirado, generar uno nuevo
+    const token = this.generarToken();
+    
+   // Definir la duración del token en milisegundos (1 día)
+   const unDiaEnMilisegundos = 24 * 60 * 60 * 1000; // 1 día en milisegundos
+   const expiracion = new Date().getTime() + unDiaEnMilisegundos;
 
-        this.visitasService.registrarVisitaConIp(token).subscribe(
-          (response: any) => {
-           
-            localStorage.setItem('visita_token', response.token);
-            localStorage.setItem('token_expiracion', expiracion.toString());
+    // Guardar el token y su expiración en el LocalStorage
+    localStorage.setItem('visita_token', token);
+    localStorage.setItem('token_expiracion', expiracion.toString());
 
-              this.getViewCount();
-            
-            this.visitaRegistrada = true;
-          },
-          (error) => {
-            console.error('Error al registrar la IP:', error);
-          }
-        );
-  }
-
-  // Limpiar todos los elementos del LocalStorage si no existe un token válido
-  limpiarLocalStorage(): void {
-    localStorage.removeItem('visita_token');
-    localStorage.removeItem('token_expiracion');
-  }
-
-  getViewCount(): void {
-    this.visitasService.ObtenerNumeroVisitas().subscribe(
-      (response: any) => {
-        this.viewCount = response.views;
+    // Registrar la visita en el backend (si es necesario)
+    this.visitasService.registrarVisitaConIp(token).subscribe({
+      next: (response) => {
+        console.log('Visita registrada con éxito', response);
+        this.getViewCount();
+        this.visitaRegistrada = true; // Evitar múltiples registros
       },
-      (error) => {
-        console.error('Error al obtener el número de visitas:', error);
+      error: (error) => {
+        console.error('Error al registrar la visita', error);
       }
-    );
+    });
+  } else {
+    console.log('El token aún es válido, no se registra una nueva visita');
   }
+}
+
+// Función para limpiar el LocalStorage (llamada si el token ha expirado)
+limpiarLocalStorage(): void {
+  localStorage.removeItem('visita_token');
+  localStorage.removeItem('token_expiracion');
+}
+
+// Función para obtener el número de visitas
+getViewCount(): void {
+  this.visitasService.ObtenerNumeroVisitas().subscribe(
+    (response: any) => {
+      this.viewCount = response.views;
+    },
+    (error) => {
+      console.error('Error al obtener el número de visitas:', error);
+    }
+  );
+}
+
+// Función para iniciar el ciclo de registro de visitas cada 10 segundos
+iniciarCicloDeVisitas(): void {
+  // Registrar visita inicialmente solo si no hay un token válido
+  this.RegistrarVisita();
+
+  // Usar setInterval para verificar y generar un nuevo token cada 10 segundos
+  setInterval(() => {
+    // Si el token ha expirado, limpiar el LocalStorage y generar uno nuevo
+    if (!this.tokenExistente()) {
+      this.limpiarLocalStorage();  // Limpiar el token anterior
+      this.RegistrarVisita();      // Registrar una nueva visita
+    }
+  }, 10 * 1000); // Verificar cada 10 segundos (10 * 1000 ms)
+}
+
+
 }

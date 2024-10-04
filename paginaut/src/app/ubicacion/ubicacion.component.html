@@ -68,10 +68,13 @@
                   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                   stroke-linejoin="round">
                   <path d="m6 9 6 6 6-6" />
-                </svg>
+    </svg>
   </div>
+
   <!-- Div flotante que muestra los horarios al pasar el mouse -->
-  <div id="horarioPopup" class="absolute top-full left-0 bg-white text-black rounded-lg shadow-lg p-4 mt-2 hidden z-10 w-70">
+  <div id="horarioPopup" 
+       class="absolute bg-gray-50 text-black rounded-lg shadow-lg p-4 mt-2 z-50 w-70 hidden" 
+       [ngClass]="{'block': isPopupVisible, 'hidden': !isPopupVisible}">
     <h4 class="font-bold mb-2">Horarios</h4>
     <p class="text-sm">Lunes - Viernes: 8:00 a.m. - 4:00 p.m.</p>
     <p class="text-sm">Sábado: 8:00 a.m. - 5:30 p.m.</p>
@@ -81,6 +84,7 @@
     </p>
   </div>
 </div>
+
 
 
           <div class="border-t border-gray-200 border-opacity-20 px-6 py-4">
