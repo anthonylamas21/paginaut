@@ -745,6 +745,28 @@ CREATE TRIGGER trigger_curso
 AFTER INSERT OR UPDATE OR DELETE ON Curso
 FOR EACH ROW EXECUTE FUNCTION log_modificacion_curso();
 
+CREATE OR REPLACE FUNCTION log_modificacion_convocatoria()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Convocatoria', 'INSERT', NEW.id, row_to_json(NEW)::jsonb);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Convocatoria', 'UPDATE', OLD.id, row_to_json(OLD)::jsonb);
+    ELSIF (TG_OP = 'DELETE') THEN
+        INSERT INTO Historial (tabla, operacion, registro_id, datos_anteriores)
+        VALUES ('Convocatoria', 'DELETE', OLD.id, row_to_json(OLD)::jsonb);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_convocatoria
+AFTER INSERT OR UPDATE OR DELETE ON Convocatoria
+FOR EACH ROW EXECUTE FUNCTION log_modificacion_convocatoria();
+
+
 -- Crear índices
 CREATE INDEX idx_usuario_correo ON Usuario (correo);
 CREATE INDEX idx_carrera_nombre ON Carrera (nombre_carrera);
