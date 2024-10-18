@@ -325,16 +325,16 @@ RegistrarVisita(): void {
     // Registrar la visita en el backend (si es necesario)
     this.visitasService.registrarVisitaConIp(token).subscribe({
       next: (response) => {
-        console.log('Visita registrada con éxito', response);
+        //console.log('Visita registrada con éxito', response);
         this.getViewCount();
         this.visitaRegistrada = true; // Evitar múltiples registros
       },
       error: (error) => {
-        console.error('Error al registrar la visita', error);
+        //console.error('Error al registrar la visita', error);
       }
     });
   } else {
-    console.log('El token aún es válido, no se registra una nueva visita');
+    //console.log('El token aún es válido, no se registra una nueva visita');
   }
 }
 
@@ -351,7 +351,7 @@ getViewCount(): void {
       this.viewCount = response.views;
     },
     (error) => {
-      console.error('Error al obtener el número de visitas:', error);
+      //console.error('Error al obtener el número de visitas:', error);
     }
   );
 }
