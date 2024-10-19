@@ -53,6 +53,8 @@ export class NavbarComponent  implements OnInit {
     window.addEventListener('storage', () => {
       this.checkToken();
     });
+
+    
   }
 
   checkToken(): void {

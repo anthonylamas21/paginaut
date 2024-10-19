@@ -103,11 +103,13 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
     }, 5000);  // 5000 milisegundos = 5 segundos
   }
   
+  todasCargadas = false;
   precargarImagenesCriticas() {
-    const imagenesCriticas = this.imagenes.slice(0, 5); // Ajusta según sea necesario
-    imagenesCriticas.forEach(image => {
-      const img = new Image();
-      img.src = image.src;
+    const promesas = this.imagenes.map((imagen) => this.cargarImagen(imagen.src));
+
+    // Esperamos que todas las imágenes se hayan cargado
+    Promise.all(promesas).then(() => {
+      this.todasCargadas = true;
     });
   }
   scrollToSectionCarreras(sectionId: string): void {
@@ -119,13 +121,12 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
     });
   }
 
-  preloadImages() {
-    this.imagenes.forEach(image => {
+  cargarImagen(src: string) {
+    return new Promise((resolve, reject) => {
       const img = new Image();
-      img.src = image.src;
-      img.onload = () => {
-        //console.log(`Imagen ${image.alt} cargada.`);
-      };
+      img.src = src;
+      img.onload = resolve;
+      img.onerror = reject;
     });
   }
 
@@ -254,7 +255,7 @@ verMenosEventos(): void {
   //Inicio de las animaciones de las secciones
   ngAfterViewInit() {
     this.setupIntersectionObserver();
-    this.preloadImages();
+
   }
 
   setupIntersectionObserver() {
