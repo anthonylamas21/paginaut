@@ -4,7 +4,7 @@ class Database
   private $host = "localhost";
   private $db_name = "UTC";
   private $username = "postgres";
-  private $password = "Alexis14";
+  private $password = "2003";
   private $port = "5432"; // Especifica el puerto aquí
   public $conn;
 
