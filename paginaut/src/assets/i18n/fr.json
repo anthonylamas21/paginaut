@@ -1,0 +1,256 @@
+{
+    "Inicio": {
+        "InicioPrincipal": {
+            "universidad": "Université Technologique de",
+            "universidad1": "la Côte",
+            "slogan": "Connaissance qui transforme des vies",
+            "vistas": "Total des visites :"
+        },
+        "InicioCarrera": {
+            "titulo": "Découvrez nos carrières universitaires",
+            "descripcion": "Choisissez parmi une large gamme de programmes conçus pour développer votre avenir professionnel.",
+            "descripcion2": "Nos programmes académiques sont conçus pour vous doter des compétences nécessaires pour briller dans le monde du travail. De la science et de la technologie aux arts et aux sciences humaines, vous trouverez le programme parfait pour vous.",
+            "boton": "Explorez toutes nos carrières"
+        },
+        "InicioBecas": {
+            "titulo": "BÉCAS INCROYABLES !",
+            "descripcion": "Profitez de nos bourses exclusives pour faire avancer votre carrière. Ne les manquez pas !",
+            "boton": "Explorez les bourses"
+        },
+        "InicioCursos": {
+            "titulo": "EXPLOREZ NOS COURS",
+            "descripcion": "Des cours conçus pour élargir vos connaissances et accélérer votre carrière professionnelle.",
+            "boton": "Inscrivez-vous maintenant"
+        },
+        "InicioEventos": {
+            "titulo": "DERNIERS ÉVÉNEMENTS",
+            "boton": "Lire la suite",
+            "validacion": "Aucun événement récent disponible pour le moment. Veuillez revenir plus tard."
+        },
+        "InicioNoticia": {
+            "titulo": "Nouvelles",
+            "boton": "Lire la suite",
+            "botonHidden1": "Afficher plus de nouvelles",
+            "botonHidden2": "Afficher moins de nouvelles",
+            "validacion": "Aucune nouvelle récente disponible pour le moment. Veuillez revenir plus tard."
+        },
+        "InicioRecorrido": {
+            "titulo": "Visite Virtuelle",
+            "descripcion": "Explorez nos installations depuis le confort de votre domicile grâce à notre visite virtuelle interactive.",
+            "boton": "Aller à la Visite Virtuelle"
+        }
+    },
+    "Menu": {
+        "item1": "Principal",
+        "item2": "Carrières",
+        "item3": "Cours",
+        "item4": "Bourses",
+        "item5": "Galerie",
+        "item6": {
+            "titulo": "UTC",
+            "sub1": {
+                "titulo": "Philosophie",
+                "data": {
+                    "item1": "Mission, vision et valeurs",
+                    "item2": "Objectif, buts et principes de l'institution."
+                }
+            },
+            "sub2": {
+                "titulo": "Appels",
+                "data": {
+                    "item1": "Appels",
+                    "item2": "Consultez les appels en cours et leurs détails."
+                }
+            },
+            "sub3": {
+                "titulo": "Services",
+                "data1": {
+                    "item1": "Gestion de documents",
+                    "item2": "Gestion des dossiers académiques et administratifs."
+                },
+                "data2": {
+                    "item1": "Bourse d'emploi",
+                    "item2": "Opportunités d'emploi pour les étudiants et les diplômés."
+                },
+                "data3": {
+                    "item1": "Service de Santé",
+                    "item2": "Soins médicaux de base pour la communauté universitaire."
+                },
+                "data4": {
+                    "item1": "Service de Psychologie",
+                    "item2": "Soutien émotionnel et orientation pour les étudiants."
+                },
+                "data5": {
+                    "item1": "Service de Bibliothèque",
+                    "item2": "Prêt de livres et service de bibliothèque."
+                },
+                "data6": {
+                    "item1": "Salle de Lecture",
+                    "item2": "Opportunités d'emploi pour les étudiants et les diplômés."
+                }
+            },
+            "sub4": {
+                "titulo": "Contact",
+                "data1": {
+                    "item1": "Envoyez-nous un message",
+                    "item2": "Système de communication officiel de l'université."
+                },
+                "data2": {
+                    "item1": "Emplacement",
+                    "item2": "Adresse et comment se rendre au campus."
+                }
+            }
+        },
+        "item7": {
+            "titulo": "Extrascolaires",
+            "sub1": {
+                "titulo": "Sports",
+                "data1": {
+                    "item1": "Football",
+                    "item2": "Sport d'équipe, frapper le ballon vers le but adverse."
+                },
+                "data2": {
+                    "item1": "Baseball",
+                    "item2": "Jeu avec une batte et une balle, les équipes alternent entre attaque et défense."
+                },
+                "data3": {
+                    "item1": "Basketball",
+                    "item2": "Marquer le ballon dans un anneau élevé, cinq joueurs par équipe."
+                },
+                "data4": {
+                    "item1": "Volley-ball",
+                    "item2": "Faire passer le ballon au-dessus du filet sans qu'il touche le sol."
+                },
+                "data5": {
+                    "item1": "Activité physique",
+                    "item2": "Exercices pour améliorer la condition physique et la santé générale."
+                }
+            },
+            "sub2": {
+                "titulo": "Art et créativité",
+                "data1": {
+                    "item1": "Dessin",
+                    "item2": "Art de créer des images en utilisant des lignes et des ombres."
+                },
+                "data2": {
+                    "item1": "Danse",
+                    "item2": "Expression artistique par des mouvements corporels coordonnés avec la musique."
+                }
+            },
+            "sub3": {
+                "titulo": "Intellectuel et académique",
+                "data1": {
+                    "item1": "Lecture",
+                    "item2": "Activité d'interpréter un texte écrit pour acquérir des connaissances."
+                },
+                "data2": {
+                    "item1": "Échecs",
+                    "item2": "Jeu de stratégie sur un plateau avec 64 cases."
+                }
+            }
+        },
+        "item8": {
+            "titulo": "Transparence",
+            "sub1": {
+                "titulo": "Portail de transparence",
+                "data1": {
+                    "item1": "Informations fondamentales Article 33",
+                    "item2": "Objectifs et principes clés de l'institution."
+                },
+                "data2": {
+                    "item1": "Règlement sur la loi de transparence",
+                    "item2": "Normes et directives pour garantir la transparence institutionnelle."
+                },
+                "data3": {
+                    "item1": "Demande d'information",
+                    "item2": "Processus pour demander des données et de la documentation officielle."
+                },
+                "data4": {
+                    "item1": "Ressource fédérale par convention",
+                    "item2": "Attribution et gestion des ressources fédérales pour des projets."
+                },
+                "data5": {
+                    "item1": "Portail national de transparence",
+                    "item2": "Accès à l'information publique et aux ressources de transparence."
+                },
+                "data6": {
+                    "item1": "Secrétariat de la Contrôle Générale",
+                    "item2": "Surveillance et réglementation de l'administration publique."
+                },
+                "data7": {
+                    "item1": "INAI",
+                    "item2": "Institut national de transparence et d'accès à l'information."
+                },
+                "data8": {
+                    "item1": "ITAI",
+                    "item2": "Institut de Transparence, d'Accès à l'Information et de Protection des Données."
+                }
+            }
+        },
+        "item9": {
+            "titulo": "Siest",
+            "sub1": {
+                "titulo1": "Interne",
+                "titulo2": "Externe"
+            }
+        },
+        "item11": "Calendrier",
+        "item12": "Se connecter",
+        "item13": {
+            "titulo": "Langue",
+            "sub1": {
+                "es": "Espagnol",
+                "en": "Anglais",
+                "fr": "Français"
+            }
+        }
+    },
+    "Pie": {
+        "item1": "Trouvez-nous à",
+        "item2": "Route de Santiago, jonction internationale no. 15 km 5, Santiago Ixcuintla, Nay.",
+        "item3": "Contact",
+        "item4": "Téléphone",
+        "item5": "À propos",
+        "item6": "INSTITUTION CERTIFIÉE SELON LA NORME ISO 9001:2015"
+    },
+    "Carreras": {
+        "item1": "Accueil",
+        "item2": "Carrières",
+        "direccion": {
+            "item1": "DIRECTION DES SCIENCES AGRICOLES",
+            "item2": "DIRECTION DES AFFAIRES",
+            "item3": "DIRECTION DES TECHNOLOGIES DE L'INFORMATION",
+            "item4": "Cliquez ici",
+            "agro": {
+                "item1": "Ingénierie en Agrobiotechnologie",
+                "item2": "Ingénierie en Processus Alimentaires",
+                "item3": "Ingénierie en Aquaculture"
+            },
+            "negocios": {
+                "item1": "Licence en Tourisme",
+                "item2": "Licence en Administration",
+                "item3": "Licence en Marketing",
+                "item4": "Licence en Gastronomie",
+                "item5": "Technicien Supérieur Universitaire en Comptabilité"
+            },
+            "tecnologia": {
+                "item1": "Ingénierie en Développement et Gestion de Logiciels"
+            }
+        }
+    },
+    "Cursos": {
+        "item1": "Accueil",
+        "item2": "Cours",
+        "item3": "Entrez votre recherche",
+        "item4": "Plus d'informations",
+        "validacion": "Désolé, nous n'avons pas trouvé ce que vous cherchiez."
+    },
+    "Becas": {
+        "item1": "Accueil",
+        "item2": "Bourses",
+        "item3": "Plus d'informations",
+        "item4": "Interne",
+        "item5": "Externe",
+        "validacion": "Il n'y a actuellement aucune information sur les bourses. Veuillez revenir plus tard."
+    }
+}

@@ -25,6 +25,8 @@
     "@fullcalendar/list": "^6.1.14",
     "@fullcalendar/timegrid": "^6.1.14",
     "@ngneat/tailwind": "^7.0.3",
+    "@ngx-translate/core": "^15.0.0",
+    "@ngx-translate/http-loader": "^8.0.0",
     "@preline/dropdown": "^2.3.0",
     "@preline/overlay": "^2.3.0",
     "@types/crypto-js": "^4.2.2",

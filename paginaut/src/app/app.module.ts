@@ -2,7 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
@@ -102,6 +102,14 @@ import { ConvocatoriaComponent } from './admin/convocatoria/convocatoria.compone
 import { ConvocatoriasComponent } from './convocatorias/convocatorias.component';
 import { InfoConvocatoriaComponent } from './info-convocatoria/info-convocatoria.component';
 
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+// Función para cargar los archivos de traducción
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
 @NgModule({
   declarations: [	
     AppComponent,
@@ -200,6 +208,13 @@ import { InfoConvocatoriaComponent } from './info-convocatoria/info-convocatoria
     DropdownModule,
     NgxMasonryModule,
     FullCalendarModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [{ provide: LOCALE_ID, useValue: 'es' }],

@@ -1,0 +1,256 @@
+{
+  "Inicio": {
+    "InicioPrincipal": {
+      "universidad": "Universidad Tecnológica de",
+      "universidad1": "la Costa",
+      "slogan": "Conocimiento que tranforma vidas",
+      "vistas": "Total de visitas:"
+    },
+    "InicioCarrera": {
+      "titulo": "Descubre nuestras carreras universitarias",
+      "descripcion": "Elige entre una amplia gama de programas diseñados para desarrollar tu futuro profesional.",
+      "descripcion2": "Nuestros programas académicos están diseñados para equiparte con las habilidades necesarias para destacar en el mundo laboral. Desde la ciencia y la tecnología hasta las artes y las humanidades, encontrarás el programa perfecto para ti.",
+      "boton": "Explora todas nuestras carreras"
+    },
+    "InicioBecas": {
+      "titulo": "¡BECAS INCREÍBLES!",
+      "descripcion": "Aprovecha nuestras becas exclusivas para avanzar en tu carrera. ¡No te las pierdas!.",
+      "boton": "Explora las becas"
+    },
+    "InicioCursos": {
+      "titulo": "EXPLORA NUESTROS CURSOS",
+      "descripcion": "Cursos diseñados para expandir tu conocimiento y acelerar tu carrera profesional.",
+      "boton": "Incríbete Ahora"
+    },
+    "InicioEventos": {
+      "titulo": "EVENTOS MÁS RECIENTES",
+      "boton": "Leer más",
+      "validacion": "No hay eventos recientes disponibles en este momento. Por favor, vuelve a consultar más tarde."
+    },
+    "InicioNoticia": {
+      "titulo": "Noticias",
+      "boton": "Leer más",
+      "botonHidden1": "Mostrar más noticias",
+      "botonHidden2": "Mostrar menos noticias",
+      "validacion": "No hay noticias recientes disponibles en este momento. Por favor, vuelve a consultar más tarde."
+    },
+    "InicioRecorrido": {
+      "titulo": "Recorrido Virtual",
+      "descripcion": "Explora nuestras instalaciones desde la comodidad de tu hogar con nuestro recorrido virtual interactivo.",
+      "boton": "Ir al Recorrido Virtual"
+    }
+  },
+  "Menu": {
+    "item1": "Principal",
+    "item2": "Carreras",
+    "item3": "Cursos",
+    "item4": "Becas",
+    "item5": "Galería",
+    "item6": {
+      "titulo": "UTC",
+      "sub1": {
+        "titulo": "Filosofía",
+        "data": {
+          "item1": "Misión, visión y valores",
+          "item2": "Propósito, metas y principios de la institución."
+        }
+      },
+      "sub2": {
+        "titulo": "Convocatorias",
+        "data": {
+          "item1": "Convocatorias",
+          "item2": "Consulta las convocatorias vigentes y sus detalles."
+        }
+      },
+      "sub3": {
+        "titulo": "Servicios",
+        "data1": {
+          "item1": "Control de documentos",
+          "item2": "Gestión de registros académicos y administrativos."
+        },
+        "data2": {
+          "item1": "Bolsa de trabajo",
+          "item2": "Oportunidades laborales para estudiantes y egresados."
+        },
+        "data3": {
+          "item1": "Servicio de Enfermería",
+          "item2": "Atención médica básica para la comunidad universitaria."
+        },
+        "data4": {
+          "item1": "Servicio de Psicología",
+          "item2": "Apoyo emocional y orientación para estudiantes."
+        },
+        "data5": {
+          "item1": "Servicio de Biblioteca",
+          "item2": "Préstamo y libros y servicio de palería."
+        },
+        "data6": {
+          "item1": "Sala de Lectura",
+          "item2": "Oportunidades laborales para estudiantes y egresados."
+        }
+      },
+      "sub4": {
+        "titulo": "Contacto",
+        "data1": {
+          "item1": "Envíanos un mensaje",
+          "item2": "Sistema de comunicación oficial de la universidad."
+        },
+        "data2": {
+          "item1": "Ubicación",
+          "item2": "Dirección y cómo llegar al campus."
+        }
+      }
+    },
+    "item7": {
+      "titulo": "Extracurriculares",
+      "sub1": {
+        "titulo": "Deportes",
+        "data1": {
+          "item1": "Futbol",
+          "item2": "Deporte de equipo, patear balón hacia la portería contraria."
+        },
+        "data2": {
+          "item1": "Béisbol",
+          "item2": "Juego con bate y pelota, equipos alternan ataque y defensa."
+        },
+        "data3": {
+          "item1": "Basquetbol",
+          "item2": "Encestar balón en aro elevado, cinco jugadores por equipo."
+        },
+        "data4": {
+          "item1": "Voleibol",
+          "item2": "Pasar pelota sobre red sin que toque el suelo."
+        },
+        "data5": {
+          "item1": "Activación física",
+          "item2": "Ejercicios para mejorar condición física y salud general."
+        }
+      },
+      "sub2": {
+        "titulo": "Arte y creatividad",
+        "data1": {
+          "item1": "Dibujo",
+          "item2": "Arte de crear imágenes usando líneas y sombras."
+        },
+        "data2": {
+          "item1": "Danza",
+          "item2": "Expresión artística mediante movimientos corporales coordinados con música."
+        }
+      },
+      "sub3": {
+        "titulo": "Intelectual y Academico",
+        "data1": {
+          "item1": "Lectura",
+          "item2": "Actividad de interpretar texto escrito para adquirir conocimientos."
+        },
+        "data2": {
+          "item1": "Ajedrez",
+          "item2": "Juego de estrategia en tablero con 64 casillas."
+        }
+      }
+    },
+    "item8": {
+      "titulo": "Transparencia",
+      "sub1": {
+        "titulo": "Portal de transparencia",
+        "data1": {
+          "item1": "Información Fundamental Articulo 33",
+          "item2": "Propósito y principios clave de la institución."
+        },
+        "data2": {
+          "item1": "Reglamento Ley de Transparencia",
+          "item2": "Normas y directrices para garantizar la transparencia institucional."
+        },
+        "data3": {
+          "item1": "Solicitud de Información",
+          "item2": "Proceso para solicitar datos y documentación oficial."
+        },
+        "data4": {
+          "item1": "Recurso Federal por Convenio",
+          "item2": "Asignación y administración de recursos federales para proyectos."
+        },
+        "data5": {
+          "item1": "Portal Nacional de Transparencia",
+          "item2": "Acceso a información pública y recursos de transparencia."
+        },
+        "data6": {
+          "item1": "Secretaría de la Controlaría General",
+          "item2": "ervisión y regulación de la administración pública."
+        },
+        "data7": {
+          "item1": "INAI",
+          "item2": "Instituto Nacional de Transparencia y Acceso a la Información."
+        },
+        "data8": {
+          "item1": "ITAI",
+          "item2": "tuto de Transparencia, Acceso a la Información y Protección de Datos."
+        }
+      }
+    },
+    "item9": {
+      "titulo": "Siest",
+      "sub1": {
+        "titulo1": "Interno",
+        "titulo2": "Externo"
+      }
+    },
+    "item11": "Calendario",
+    "item12": "Iniciar Sesión",
+    "item13": {
+      "titulo": "Idioma",
+      "sub1": {
+        "es": "Español",
+        "en": "Inglés",
+        "fr": "Francés"
+      }
+    }
+  },
+  "Pie": {
+    "item1": "Encuéntranos en",
+    "item2": "Carretera Santiago entronque internacional no. 15 km 5, Santiago Ixcuintla, Nay.",
+    "item3": "Contacto",
+    "item4": "Teléfono",
+    "item5": "Acerca de",
+    "item6": "INSTITUCIÓN CERTIFICADA BAJO LA NORMA ISO 9001:2015"
+  },
+  "Carreras": { 
+    "item1": "Inicio",
+    "item2": "Carreras",
+    "direccion": {
+      "item1": "DIRECCIÓN EN CIENCIAS AGROPECUARIAS",
+      "item2": "DIRECCIÓN DE NEGOCIOS",
+      "item3": "DIRECCIÓN DE TECNOLOGÍAS DE LA INFORMACIÓN",
+      "item4": "Haz clic",
+      "agro": {
+        "item1": "Ingeniería en Agrobiotecnología",
+        "item2": "Ingeniería en Procesos Alimentarios",
+        "item3": "Ingeniería en Acuicultura"
+      },
+      "negocios": {
+        "item1": "Licenciatura en Turismo",
+        "item2": "Licenciatura en Administración",
+        "item3": "Licenciatura en Mercadotecnia",
+        "item4": "Licenciatura en Gastronomía",
+        "item5": "Técnico Superior Universitario en Contaduría"
+      },
+      "tecnologia": {
+        "item1": "Ingeniería en Desarrollo y Gestión de Software"
+      }
+    }
+  },
+  "Cursos": {
+    "item1": "Inicio",
+    "item2": "Cursos",
+    "item3": "Ingresa tu búsqueda",
+    "item4": "Más información",
+    "validacion": "Lo sentimos, no encontramos lo que buscabas."
+  },
+  "Becas": {
+    "item1": "Inicio",
+    "item2": "Becas",
+    "item3": "Más información",
+    "item4": "Interno",
+    "item5": "Externo",
+    "validacion": "En este momento no hay información sobre becas. Por favor, vuelve a consultar más tarde."
+  }
+}

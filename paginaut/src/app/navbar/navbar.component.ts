@@ -4,6 +4,7 @@ import { Table,TableModule } from 'primeng/table';
 import Swal from 'sweetalert2';
 import { UsuarioService, Usuario, Logout } from '../usuario.service';
 import * as CryptoJS from 'crypto-js';
+import { TranslateService } from '@ngx-translate/core';
 
 interface Item {
   nombre: string;
@@ -23,9 +24,10 @@ export class NavbarComponent  implements OnInit {
   LogoutForm: FormGroup;
   selectedCustomers: any;
   token: string | null;
- 
+  currentLanguage?: string; // Para almacenar el idioma actual
 
-  constructor(private formulario: FormBuilder, private srvUsuario: UsuarioService) {
+
+  constructor(private formulario: FormBuilder, private srvUsuario: UsuarioService, private translate: TranslateService) {
     this.myForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
       age: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]+$/)]),
@@ -40,21 +42,41 @@ export class NavbarComponent  implements OnInit {
     });
 
     this.token = localStorage.getItem('token');
-  }
-
-  private decrypt(encrypted: string): string {
-    return CryptoJS.AES.decrypt(encrypted, this.secretKey).toString(CryptoJS.enc.Utf8);
+    this.currentLanguage = localStorage.getItem('lang') || 'es'; // Cargar el idioma del localStorage o usar 'es' por defecto
   }
 
   ngOnInit(): void {
     this.checkToken();
-
-    // Escuchar el evento storage para detectar cambios en el localStorage
     window.addEventListener('storage', () => {
       this.checkToken();
     });
 
-    
+    const validLanguages = ['es', 'en', 'fr'];
+
+    // Verificar si el idioma es válido
+    if (!this.currentLanguage || !validLanguages.includes(this.currentLanguage)) {
+      this.currentLanguage = 'es'; // Establecer a 'es' si no hay idioma o es inválido
+      localStorage.setItem('lang', this.currentLanguage); // Guardar el idioma por defecto en localStorage
+    }
+
+    this.translate.setDefaultLang('es');
+    this.translate.use(this.currentLanguage); // Usar el idioma actual
+  }
+
+  changeLanguage(event: Event): void {
+    const target = event.target as HTMLSelectElement; 
+    const selectedLanguage = target.value; 
+    const validLanguages = ['es', 'en', 'fr'];
+    const langToUse = validLanguages.includes(selectedLanguage) ? selectedLanguage : 'es';
+  
+    this.translate.use(langToUse); 
+    localStorage.setItem('lang', langToUse); 
+    this.currentLanguage = langToUse; // Actualiza el idioma actual
+  }
+  
+  
+  private decrypt(encrypted: string): string {
+    return CryptoJS.AES.decrypt(encrypted, this.secretKey).toString(CryptoJS.enc.Utf8);
   }
 
   checkToken(): void {

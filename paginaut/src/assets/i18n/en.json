@@ -1,0 +1,256 @@
+{
+  "Inicio": {
+    "InicioPrincipal": {
+      "universidad": "Technological University of",
+      "universidad1": "the Coast",
+      "slogan": "Knowledge that transforms lives",
+      "vistas": "Total visits:"
+    },
+    "InicioCarrera": {
+      "titulo": "Discover our university degrees",
+      "descripcion": "Choose from a wide range of programs designed to develop your professional future.",
+      "descripcion2": "Our academic programs are designed to equip you with the skills needed to excel in the workforce. From science and technology to arts and humanities, you will find the perfect program for you.",
+      "boton": "Explore all our degrees"
+    },
+    "InicioBecas": {
+      "titulo": "AMAZING SCHOLARSHIPS!",
+      "descripcion": "Take advantage of our exclusive scholarships to advance your career. Don’t miss out!",
+      "boton": "Explore scholarships"
+    },
+    "InicioCursos": {
+      "titulo": "EXPLORE OUR COURSES",
+      "descripcion": "Courses designed to expand your knowledge and accelerate your professional career.",
+      "boton": "Sign Up Now"
+    },
+    "InicioEventos": {
+      "titulo": "MOST RECENT EVENTS",
+      "boton": "Read more"
+    },
+    "InicioNoticia": {
+      "titulo": "News",
+      "boton": "Read more",
+      "botonHidden1": "Show more news",
+      "botonHidden2": "Show less news",
+      "validacion": "There is no recent news available at this time. Please check back later."
+    },
+    "InicioRecorrido": {
+      "titulo": "Virtual Tour",
+      "descripcion": "Explore our facilities from the comfort of your home with our interactive virtual tour.",
+      "boton": "Go to Virtual Tour"
+    }
+  },
+  "Menu": {
+    "item1": "Home",
+    "item2": "Careers",
+    "item3": "Courses",
+    "item4": "Scholarships",
+    "item5": "Gallery",
+    "item6": {
+      "titulo": "UTC",
+      "sub1": {
+        "titulo": "Philosophy",
+        "data": {
+          "item1": "Mission, vision, and values",
+          "item2": "Purpose, goals, and principles of the institution."
+        }
+      },
+      "sub2": {
+        "titulo": "Calls",
+        "data": {
+          "item1": "Calls",
+          "item2": "Check the current calls and their details."
+        }
+      },
+      "sub3": {
+        "titulo": "Services",
+        "data1": {
+          "item1": "Document Control",
+          "item2": "Management of academic and administrative records."
+        },
+        "data2": {
+          "item1": "Job Board",
+          "item2": "Job opportunities for students and graduates."
+        },
+        "data3": {
+          "item1": "Nursing Service",
+          "item2": "Basic medical care for the university community."
+        },
+        "data4": {
+          "item1": "Psychology Service",
+          "item2": "Emotional support and guidance for students."
+        },
+        "data5": {
+          "item1": "Library Service",
+          "item2": "Book loans and library services."
+        },
+        "data6": {
+          "item1": "Reading Room",
+          "item2": "Job opportunities for students and graduates."
+        }
+      },
+      "sub4": {
+        "titulo": "Contact",
+        "data1": {
+          "item1": "Send us a message",
+          "item2": "Official communication system of the university."
+        },
+        "data2": {
+          "item1": "Location",
+          "item2": "Address and how to get to the campus"
+        }
+      }
+    },
+    "item7": {
+      "titulo": "Extracurriculars",
+      "sub1": {
+        "titulo": "Sports",
+        "data1": {
+          "item1": "Soccer",
+          "item2": "Team sport, kicking the ball into the opposing goal."
+        },
+        "data2": {
+          "item1": "Baseball",
+          "item2": "Game with bat and ball, teams alternate offense and defense."
+        },
+        "data3": {
+          "item1": "Basketball",
+          "item2": "Shooting the ball into a raised hoop, five players per team."
+        },
+        "data4": {
+          "item1": "Volleyball",
+          "item2": "Passing the ball over the net without touching the ground."
+        },
+        "data5": {
+          "item1": "Physical Activation",
+          "item2": "Exercises to improve physical condition and overall health."
+        }
+      },
+      "sub2": {
+        "titulo": "Art and Creativity",
+        "data1": {
+          "item1": "Drawing",
+          "item2": "Art of creating images using lines and shadows."
+        },
+        "data2": {
+          "item1": "Dance",
+          "item2": "Artistic expression through coordinated body movements to music."
+        }
+      },
+      "sub3": {
+        "titulo": "Intellectual and Academic",
+        "data1": {
+          "item1": "Reading",
+          "item2": "Activity of interpreting written text to acquire knowledge."
+        },
+        "data2": {
+          "item1": "Chess",
+          "item2": "Strategy game on a board with 64 squares."
+        }
+      }
+    },
+    "item8": {
+      "titulo": "Transparency",
+      "sub1": {
+        "titulo": "Transparency Portal",
+        "data1": {
+          "item1": "Fundamental Information Article 33",
+          "item2": "Purpose and key principles of the institution."
+        },
+        "data2": {
+          "item1": "Transparency Law Regulations",
+          "item2": "Rules and guidelines to ensure institutional transparency."
+        },
+        "data3": {
+          "item1": "Information Request",
+          "item2": "Process to request data and official documentation."
+        },
+        "data4": {
+          "item1": "Federal Resources by Agreement",
+          "item2": "Allocation and management of federal resources for projects."
+        },
+        "data5": {
+          "item1": "National Transparency Portal",
+          "item2": "Access to public information and transparency resources."
+        },
+        "data6": {
+          "item1": "Secretary of the General Comptroller",
+          "item2": "Supervision and regulation of public administration."
+        },
+        "data7": {
+          "item1": "INAI",
+          "item2": "National Institute of Transparency and Access to Information."
+        },
+        "data8": {
+          "item1": "ITAI",
+          "item2": "Institute of Transparency, Access to Information, and Data Protection."
+        }
+      }
+    },
+    "item9": {
+      "titulo": "Siest",
+      "sub1": {
+        "titulo1": "Internal",
+        "titulo2": "External"
+      }
+    },
+    "item10": "Calendar",
+    "item11": "Log In",
+    "item12": "Log out",
+    "item13": {
+      "titulo": "Language",
+      "sub1": {
+        "es": "Spanish",
+        "en": "English",
+        "fr": "French"
+      }
+    }
+  },
+  "Pie": {
+    "item1": "Find us at",
+    "item2": "Santiago highway international junction no. 15 km 5, Santiago Ixcuintla, Nay.",
+    "item3": "Contact",
+    "item4": "Phone",
+    "item5": "About",
+    "item6": "CERTIFIED INSTITUTION UNDER ISO 9001:2015"
+  },
+  "Carreras": {
+    "item1": "Home",
+    "item2": "Careers",
+    "direccion": {
+      "item1": "DIRECTION IN AGRICULTURAL SCIENCES",
+      "item2": "BUSINESS DIRECTION",
+      "item3": "INFORMATION TECHNOLOGY DIRECTION",
+      "item4": "Click here",
+      "agro": {
+        "item1": "Engineering in Agrobiotechnology",
+        "item2": "Engineering in Food Processes",
+        "item3": "Engineering in Aquaculture"
+      },
+      "negocios": {
+        "item1": "Bachelor's in Tourism",
+        "item2": "Bachelor's in Administration",
+        "item3": "Bachelor's in Marketing",
+        "item4": "Bachelor's in Gastronomy",
+        "item5": "University Higher Technician in Accounting"
+      },
+      "tecnologia": {
+        "item1": "Engineering in Software Development and Management"
+      }
+    }
+  },
+  "Cursos": {
+    "item1": "Home",
+    "item2": "Courses",
+    "item3": "Enter your search",
+    "item4": "More information",
+    "validacion": "Sorry, we couldn't find what you were looking for."
+  },
+  "Becas": {
+    "item1": "Home",
+    "item2": "Scholarships",
+    "item3": "More information",
+    "item4": "Internal",
+    "item5": "External",
+    "validacion": "There is currently no information on scholarships. Please check back later."
+  }
+}
