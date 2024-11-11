@@ -32,7 +32,7 @@ export class InfoBecaComponent implements OnInit, AfterViewInit {
     if (encryptedId) {
       this.idDecrypted = this.hashids.decode(encryptedId)[0] as number;
     } else {
-      console.error('ID de beca no disponible');
+      // console.error('ID de beca no disponible');
     }
   }
 
@@ -80,21 +80,22 @@ export class InfoBecaComponent implements OnInit, AfterViewInit {
         next: (beca) => {
           this.beca = beca;
           this.actualizarSafeArchivoUrl();
+          this.isLoading = false;
         },
         error: (error) => {
-          console.error('Error al cargar el detalle de la beca:', error);
+          // console.error('Error al cargar el detalle de la beca:', error);
           this.error = 'No se pudo cargar el detalle de la beca. Por favor, intente más tarde.';
         }
       });
     } else {
-      console.error('ID de beca no disponible');
+      // console.error('ID de beca no disponible');
     }
   }
 
   private actualizarSafeArchivoUrl(): void {
     if (this.beca && this.beca.archivo) {
       const fullUrl = this.getFullUrl(this.beca.archivo);
-      console.log('URL completa del archivo:', fullUrl); // Log para depuración
+      // console.log('URL completa del archivo:', fullUrl); // Log para depuración
       this.safeArchivoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fullUrl);
     } else {
       this.safeArchivoUrl = null;

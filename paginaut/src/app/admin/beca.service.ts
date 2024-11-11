@@ -21,7 +21,7 @@ export interface BecaResponse {
   providedIn: 'root',
 })
 export class BecaService {
-  private apiUrl = 'http://localhost/paginaut/api/beca.php';
+  private apiUrl = 'http://localhost/paginaut/api/beca';
 
   constructor(private http: HttpClient) {}
 

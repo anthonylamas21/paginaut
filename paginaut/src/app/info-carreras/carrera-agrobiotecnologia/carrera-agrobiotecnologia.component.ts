@@ -34,35 +34,35 @@ export class CarreraAgrobiotecnologiaComponent {
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/agro/AGRO_1.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_2.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_3.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_4.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_5.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_6.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_7.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_8.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_9.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_10.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_11.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_12.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_13.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_14.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_15.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_16.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_17.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_18.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_19.jpg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_20.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_21.png', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_22.jpg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_23.jpg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_24.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_25.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_26.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_27.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_28.jpeg', alt: '' },
-    { url: './assets/img/galeria/agro/AGRO_29.jpeg', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_1.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_2.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_3.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_4.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_5.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_6.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_7.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_8.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_9.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_10.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_11.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_12.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_13.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_14.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_15.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_16.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_17.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_18.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_19.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_20.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_21.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_22.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_23.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_24.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_25.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_26.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_27.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_28.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_29.webp', alt: '' },
     
     // más imágenes aquí
   ];
@@ -156,9 +156,9 @@ export class CarreraAgrobiotecnologiaComponent {
 //INICIO TABLA CUATRIMESTRES
 onMouseOver(columna: string, valor: any) {
   if(valor == ""){
-    //console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
+    // console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
   }else{
-    //console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
+    // console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
   }
 }
 

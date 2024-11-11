@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class LoginService {
 
-  URL = 'http://localhost/api/controller';
+  URL = 'http://localhost/paginaut/api/controller';
 
   reqHeader =  new HttpHeaders({
     'Authorization': 'Bearer '
@@ -20,6 +20,6 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   AccessLogin(data: FormData): Observable<any> {
-    return this.http.post<any>(this.URL+'login.php/', data, {headers:this.reqHeader});
+    return this.http.post<any>(this.URL+'login/', data, {headers:this.reqHeader});
   }
 }

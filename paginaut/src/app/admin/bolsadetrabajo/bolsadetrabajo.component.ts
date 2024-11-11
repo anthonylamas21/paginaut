@@ -203,8 +203,8 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
   }
 
   onSubmitRequisitos() {
-    console.log("ID de la bolsa de trabajo en requisitos:", this.currentBolsaDeTrabajoId);
-    console.log("Datos del formulario de requisitos antes de enviar:", this.requisitosForm.value);
+    // console.log("ID de la bolsa de trabajo en requisitos:", this.currentBolsaDeTrabajoId);
+    // console.log("Datos del formulario de requisitos antes de enviar:", this.requisitosForm.value);
 
     if (this.requisitosForm.valid && this.currentBolsaDeTrabajoId) {
       const requisitosData = this.requisitosForm.value.requisitos.map(
@@ -214,11 +214,11 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
         })
       );
 
-      console.log("Datos de los requisitos a enviar:", requisitosData);
+      // console.log("Datos de los requisitos a enviar:", requisitosData);
 
       this.bolsaDeTrabajoService.updateRequisitos(requisitosData).subscribe(
         (response: any) => {
-          console.log("Respuesta del servidor al enviar requisitos:", response);
+          // console.log("Respuesta del servidor al enviar requisitos:", response);
           this.showToast('success', 'Requisitos guardados correctamente');
           this.closeRequisitosModal(); // Cerrar el modal después de agregar
           this.loadBolsas();
@@ -229,7 +229,7 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
         }
       );
     } else {
-      console.error("Formulario de requisitos no válido o ID de bolsa de trabajo no establecido.");
+      // console.error("Formulario de requisitos no válido o ID de bolsa de trabajo no establecido.");
       this.showToast('error', 'Por favor, complete todos los campos de requisitos');
     }
   }
@@ -307,7 +307,7 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
   }
 
   moveToTrash(id: number) {
-    //console.log('id ', id);
+    // console.log('id ', id);
     this.showConfirmDialog(
       '¿Estás seguro?',
       '¿Quieres mover esta bolsa de trabajo a la papelera?',
@@ -384,7 +384,7 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
 
   openDetailsModal(bolsaTrabajo: BolsaDeTrabajo): void {
     this.selectedBolsa = bolsaTrabajo;
-    console.log(this.selectedBolsa);
+    // console.log(this.selectedBolsa);
     this.isDetailsModalOpen = true;
   }
 
@@ -394,14 +394,14 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
       this.bolsaDeTrabajoService.getRequisitos(id).subscribe(
         (response) => {
           this.getrequisitos = response.details;
-          console.log('Requisitos recibidos:', this.getrequisitos);
+          // console.log('Requisitos recibidos:', this.getrequisitos);
         },
         (error) => {
           this.showToast('error', error.message);
         }
       );
     } else {
-      console.error('ID no es un número:', id);
+      // console.error('ID no es un número:', id);
     }
   }
 

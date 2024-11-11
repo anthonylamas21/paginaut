@@ -13,8 +13,8 @@ interface Image {
 export class ActivacionFisicaComponent {
 
   images: Image[] = [
-    { url: './assets/img/galeria/extras/activacion/activacion1.jpeg', alt: 'Image 1' },
-    { url: './assets/img/galeria/extras/activacion/activacion2.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/extras/activacion/activacion1.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/activacion/activacion2.webp', alt: 'Image 2' },
     { url: './assets/img/galeria/extras/activacion/activacion3.webp', alt: 'Image 3' },
     // más imágenes aquí
   ];

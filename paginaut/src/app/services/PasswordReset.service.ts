@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class PasswordResetService {
 
-  private apiUrl = 'http://localhost/paginaut/api/send_reset_email.php';
-  private apiUrlPass = 'http://localhost/paginaut/api/reset_password.php';
+  private apiUrl = 'http://localhost/paginaut/api/send_reset_email';
+  private apiUrlPass = 'http://localhost/paginaut/api/reset_password';
 
   constructor(private http: HttpClient) { }
 

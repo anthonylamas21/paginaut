@@ -27,7 +27,7 @@ export class EventosComponent implements OnInit {
     if (encryptedId) {
       this.idDecrypted = this.hashids.decode(encryptedId)[0] as number;
     } else {
-      console.error('ID de evento no disponible');
+      // console.error('ID de evento no disponible');
     }
   }
 
@@ -43,8 +43,8 @@ export class EventosComponent implements OnInit {
           this.evento = evento;
           this.isLoading = false;
         },
-        error: (error: any) => {
-          console.error('Error al cargar el evento:', error);
+        error: (error) => {
+          // console.error('Error al cargar el evento:', error);
           this.error = 'No se pudo cargar el evento. Por favor, inténtalo de nuevo más tarde.';
           this.isLoading = false;
         }

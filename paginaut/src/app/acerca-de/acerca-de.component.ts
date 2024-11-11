@@ -10,7 +10,7 @@ export class AcercaDeComponent {
   programador = [
     {
       nombre: "Alexis Arath Alatorre Delgadillo", 
-      foto:"./assets/img/acercade/AA.jpg", 
+      foto:"./assets/img/acercade/AA.webp", 
       especialidad: "Scrum Master", 
       twitter:{active:true, links: [{ link: "https://x.com/Alexis_alat" }]}, 
       github:{active:true, links: [{ link: "https://github.com/AlexisAlatorreD" }]}, 
@@ -19,7 +19,7 @@ export class AcercaDeComponent {
     },
     {
       nombre: "Mario Imanol Mata Gómez", 
-      foto:"./assets/img/acercade/MM.jpg", 
+      foto:"./assets/img/acercade/MM.webp", 
       especialidad: "Programador Back-end", 
       twitter:{active:false, links: [{ link: "" }]}, 
       github:{active:false, links: [{ link: "" }]}, 
@@ -28,7 +28,7 @@ export class AcercaDeComponent {
     },
     {
       nombre: "Alberto Peña Ortíz", 
-      foto:"./assets/img/acercade/AP.jpg", 
+      foto:"./assets/img/acercade/AP.webp", 
       especialidad: "Programador Back-end", 
       twitter:{active:false, links: [{ link: "" }]}, 
       github:{active:false, links: [{ link: "" }]}, 
@@ -37,7 +37,7 @@ export class AcercaDeComponent {
     },
     {
       nombre: "Saul Hernández Contreras", 
-      foto:"./assets/img/acercade/SH.png", 
+      foto:"./assets/img/acercade/SH.webp", 
       especialidad: "Analista", 
       twitter:{active:false, links: [{ link: "" }]}, 
       github:{active:true, links: [{ link: "https://github.com/saulhdez25" }]}, 
@@ -46,7 +46,7 @@ export class AcercaDeComponent {
     },
     {
       nombre: "Yahir Nava Gandara", 
-      foto:"./assets/img/acercade/YN.jpg", 
+      foto:"./assets/img/acercade/YN.webp", 
       especialidad: "Diseñador UXI", 
       twitter:{active:false, links: [{ link: "" }]}, 
       github:{active:true, links: [{ link: "https://github.com/Yahir1217" }]}, 
@@ -55,7 +55,7 @@ export class AcercaDeComponent {
     },
     {
       nombre: "Anthony Joseph Lamas Castillo", 
-      foto:"./assets/img/acercade/AL.jpeg", 
+      foto:"./assets/img/acercade/AL.webp", 
       especialidad: "Programador Front-end", 
       twitter:{active:true, links: [{ link: "https://www.linkedin.com/in/anthony-joseph-lamas-castillo-63359b235" }]}, 
       github:{active:false, links: [{ link: "" }]}, 
@@ -66,9 +66,18 @@ export class AcercaDeComponent {
 
 profesor = [
   {
-    nombre: "Cesar Geovanny Machuca Pereida", 
-      foto:"./assets/img/acercade/GMP.jpg", 
+    nombre: "César Geovanni Machuca Pereida", 
+      foto:"./assets/img/acercade/GMP.webp", 
       especialidad: "Asesor Académico", 
+      twitter:{active:false, links: [{ link: "" }]}, 
+      github:{active:false, links: [{ link: "" }]}, 
+      linkedn:{active:false, links: [{ link: "" }]},
+      Instagram:{active:false, links: [{ link: "" }]}
+  },
+  {
+    nombre: "Marco Fabian Gómez Bautista", 
+      foto:"./assets/img/acercade/berpy.webp", 
+      especialidad: "Full stack, Tester", 
       twitter:{active:false, links: [{ link: "" }]}, 
       github:{active:false, links: [{ link: "" }]}, 
       linkedn:{active:false, links: [{ link: "" }]},

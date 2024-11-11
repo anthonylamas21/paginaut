@@ -60,7 +60,7 @@ export class ConvocatoriasComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error: any) => {
-        //console.error('Error al cargar la convocatoria:', error);
+        // console.error('Error al cargar la convocatoria:', error);
         this.error = 'No se pudieron cargar las convocatorias. Inténtalo más tarde.';
         this.isLoading = false;
       }
@@ -93,7 +93,7 @@ export class ConvocatoriasComponent implements OnInit {
   }
   verConvocatoria(id: number): void {
     const encryptedId = this.hashids.encode(id);
-    this.router.navigate(['/info-convocatoria', encryptedId]);
+    window.location.href = '/info-convocatoria/'+encryptedId;
   }
 
   getFileExtension(filename: string): string {

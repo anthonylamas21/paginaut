@@ -30,8 +30,8 @@ export interface BolsaDeTrabajoResponse {
   providedIn: 'root',
 })
 export class BolsaDeTrabajoService {
-  private apiUrl = 'http://localhost/paginaut/api/bolsa_de_trabajo.php';
-  private apiUrlRequisitos = 'http://localhost/paginaut/api/bolsa_requisitos.php';
+  private apiUrl = 'http://localhost/paginaut/api/bolsa_de_trabajo';
+  private apiUrlRequisitos = 'http://localhost/paginaut/api/bolsa_requisitos';
 
   constructor(private http: HttpClient) {}
 
@@ -106,7 +106,7 @@ export class BolsaDeTrabajoService {
         error.error.message || error.statusText
       }`;
     }
-    console.error(errorMessage);
+    //console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
 }

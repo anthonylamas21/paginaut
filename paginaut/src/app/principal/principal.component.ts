@@ -75,7 +75,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
       const encryptedId = this.hashids.encode(id);
       window.location.href = `/noticia/${encryptedId}`;
     } else {
-      //console.error('ID de instalación no disponible');
+      // console.error('ID de instalación no disponible');
     }
   }
 
@@ -84,7 +84,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
       const encryptedId = this.hashids.encode(id);
       window.location.href = `/evento/${encryptedId}`;
     } else {
-      //console.error('ID de instalación no disponible');
+      // console.error('ID de instalación no disponible');
     }
   }
 
@@ -145,8 +145,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
             } else {
                 this.eventosVisibles = [];
             }
-        },
-        error: (error) => console.error(error)
+        }
     });
 }
 verMasEventos(): void {
@@ -326,16 +325,16 @@ RegistrarVisita(): void {
     // Registrar la visita en el backend (si es necesario)
     this.visitasService.registrarVisitaConIp(token).subscribe({
       next: (response) => {
-        //console.log('Visita registrada con éxito', response);
+        // console.log('Visita registrada con éxito', response);
         this.getViewCount();
         this.visitaRegistrada = true; // Evitar múltiples registros
       },
       error: (error) => {
-        //console.error('Error al registrar la visita', error);
+        // console.error('Error al registrar la visita', error);
       }
     });
   } else {
-    //console.log('El token aún es válido, no se registra una nueva visita');
+    // console.log('El token aún es válido, no se registra una nueva visita');
   }
 }
 
@@ -352,7 +351,7 @@ getViewCount(): void {
       this.viewCount = response.views;
     },
     (error) => {
-      //console.error('Error al obtener el número de visitas:', error);
+      // console.error('Error al obtener el número de visitas:', error);
     }
   );
 }

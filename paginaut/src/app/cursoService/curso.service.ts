@@ -28,7 +28,7 @@ export interface CursoResponse {
   providedIn: 'root',
 })
 export class CursoService {
-  private apiUrl = 'http://localhost/paginaut/api/controllers/curso.php'; // Actualiza esta URL si es necesario
+  private apiUrl = 'http://localhost/paginaut/api/curso'; // Actualiza esta URL si es necesario
   private apiUrlProfe = 'http://localhost/paginaut/api/profesor';
   private apiCursoProfe = 'http://localhost/paginaut/api/curso_maestro';
 
@@ -79,8 +79,7 @@ export class CursoService {
 
   
   obtenerProfesoresPorCurso(cursoId: number): Observable<any> {
-    return this.http.get<any>(`${this.apiCursoProfe}/profesores-por-curso?curso_id=${cursoId}`)
-      .pipe(catchError(this.handleError));
+    return this.http.get<any>(`${this.apiCursoProfe}/profesores-por-curso?curso_id=${cursoId}`);
   }
 
   actualizarCurso(data: any, id: number): Observable<any> {
@@ -126,7 +125,7 @@ export class CursoService {
     } else {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    console.error(errorMessage);
+    //console.error(errorMessage);
     return throwError(() => errorMessage);
   }
 }

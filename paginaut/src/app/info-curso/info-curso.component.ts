@@ -66,12 +66,13 @@ export class InfoCursoComponent implements OnInit {
         this.eventos = eventos.filter(evento => evento.es_curso && evento.curso_id === cursoId);
       },
       error: (error) => {
-        console.error('Error al cargar los eventos:', error);
+        // console.error('Error al cargar los eventos:', error);
       }
     });
   }
 
   ObtenerProfesoresPorCurso(cursoId: number): void {
+    console.log("id", cursoId)
     this.cursoService.obtenerProfesoresPorCurso(cursoId).subscribe({
       next: (response) => {
         const profesoresDelCurso = response.profesores.map((p: any) => p.profesor_id);
@@ -83,12 +84,12 @@ export class InfoCursoComponent implements OnInit {
             );
           },
           error: (error) => {
-            console.error('Error al cargar la información de los profesores:', error);
+            // console.error('Error al cargar la información de los profesores:', error);
           }
         });
       },
       error: (error) => {
-        console.error('Error al cargar los profesores del curso:', error);
+        // console.error('Error al cargar los profesores del curso:', error);
       }
     });
   }

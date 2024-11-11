@@ -14,10 +14,10 @@ interface Image {
 export class AjedrezComponent {
 
   images: Image[] = [
-    { url: './assets/img/galeria/extras/ajedrez/ajedrez1.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/extras/ajedrez/ajedrez2.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/extras/ajedrez/ajedrez3.jpg', alt: 'Image 3' },
-    { url: './assets/img/galeria/extras/ajedrez/ajedrez4.jpg', alt: 'Image 4' },
+    { url: './assets/img/galeria/extras/ajedrez/ajedrez1.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/ajedrez/ajedrez2.webp', alt: 'Image 2' },
+    { url: './assets/img/galeria/extras/ajedrez/ajedrez3.webp', alt: 'Image 3' },
+    { url: './assets/img/galeria/extras/ajedrez/ajedrez4.webp', alt: 'Image 4' },
     // más imágenes aquí
   ];
 

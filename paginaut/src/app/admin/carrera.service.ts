@@ -61,9 +61,7 @@ export class CarreraService {
     return this.http
         .post<any>(this.apiUrl, formData)
         .pipe(
-            catchError(this.handleError),
-            tap(response => console.log("Respuesta del servidor:", response))
-        );
+            catchError(this.handleError));
 }
 
 getCuatrimestresYAsignaturas(carreraId: number): Observable<any> {
@@ -100,7 +98,7 @@ getCuatrimestresYAsignaturas(carreraId: number): Observable<any> {
         error.error.message || error.statusText
       }`;
     }
-    console.error(errorMessage);
+    //console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
 }

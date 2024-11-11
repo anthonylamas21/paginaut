@@ -27,9 +27,9 @@ export class InfoConvocatoriaComponent implements OnInit {
     const encryptedId = this.route.snapshot.paramMap.get('id');
     if (encryptedId) {
       this.idDecrypted = this.hashids.decode(encryptedId)[0] as number;
-      console.log(this.idDecrypted);
+      // console.log(this.idDecrypted);
     } else {
-      console.log('ID de la convocatoria no disponible');
+      // console.log('ID de la convocatoria no disponible');
     }
   }
 
@@ -46,7 +46,7 @@ export class InfoConvocatoriaComponent implements OnInit {
           this.isLoading = false;
         },
         error: (error: any) => {
-          console.error('Error al cargar la convocatoria:', error);
+          // console.error('Error al cargar la convocatoria:', error);
           this.error = 'No se pudo cargar el convocatoria. Por favor, inténtalo de nuevo más tarde.';
           this.isLoading = false;
         }

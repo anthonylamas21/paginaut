@@ -101,3 +101,7 @@ input[type="radio"] {
 ::-webkit-scrollbar-vertical {
   width: 8px;
 }
+
+tr > .p-element svg{
+  color: white !important;
+}

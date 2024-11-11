@@ -29,8 +29,8 @@ export class AsignaturaService {
   deleteAsignatura(id: number): Observable<any> {
     const url = `${this.apiUrl}`;  // No incluir el ID en la URL
     const body = { id };  // Pasar el ID en el cuerpo de la solicitud
-    console.log('URL de eliminación:', url);  // Solo muestra la URL base
-    console.log('ID en el cuerpo de la solicitud:', body);  // Verificar que el cuerpo contiene el ID
+    //console.log('URL de eliminación:', url);  // Solo muestra la URL base
+    //console.log('ID en el cuerpo de la solicitud:', body);  // Verificar que el cuerpo contiene el ID
     return this.http.request('DELETE', url, { body });  // Usar el método request para enviar el cuerpo
 }
 
@@ -47,8 +47,8 @@ export class AsignaturaService {
   updateAsignatura(id: number, data: any): Observable<any> {
     const url = `${this.apiUrl}`;  // No incluir el ID en la URL
     const body = { id, ...data };  // Incluir el ID junto con los datos en el cuerpo de la solicitud
-    console.log('URL de actualización:', url);  // Mostrar la URL base
-    console.log('Datos en el cuerpo de la solicitud:', body);  // Verificar que el cuerpo contiene el ID y los datos
+    //console.log('URL de actualización:', url);  // Mostrar la URL base
+    //console.log('Datos en el cuerpo de la solicitud:', body);  // Verificar que el cuerpo contiene el ID y los datos
     return this.http.request('PUT', url, { body });  // Usar el método request para enviar el cuerpo
   }
 

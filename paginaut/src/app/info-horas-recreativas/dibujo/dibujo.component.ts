@@ -13,11 +13,11 @@ interface Image {
 export class DibujoComponent {
 
   images: Image[] = [
-    { url: './assets/img/galeria/extras/dibujo/dibujo1.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/extras/dibujo/dibujo2.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/extras/dibujo/dibujo3.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/extras/dibujo/dibujo4.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/extras/dibujo/dibujo5.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/dibujo/dibujo1.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/dibujo/dibujo2.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/dibujo/dibujo3.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/dibujo/dibujo4.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/dibujo/dibujo5.webp', alt: 'Image 1' },
     // más imágenes aquí
   ];
 

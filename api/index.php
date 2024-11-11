@@ -90,7 +90,7 @@ switch ($request_method) {
       include_once $baseDir . '/controllers/cuatrimestre.php';
     } elseif (strpos($request_uri, '/api/send_reset_email') !== false) {
       include_once $baseDir . '/controllers/send_reset_email.php';
-    } elseif (strpos($request_uri, '/api/bolsa_requisitos.php') !== false) {
+    } elseif (strpos($request_uri, '/api/bolsa_requisitos') !== false) {
       include_once $baseDir . '/controllers/bolsa_requisitos.php';
     } elseif (strpos($request_uri, '/api/profesor') !== false) {
       include_once $baseDir . '/controllers/ProfesorController.php';
@@ -98,7 +98,10 @@ switch ($request_method) {
       include_once $baseDir . '/controllers/ProfesorTipoController.php';
     } elseif (strpos($request_uri, '/api/curso_maestro') !== false) {
       include_once $baseDir . '/controllers/curso_maestro.php';
-    } elseif (strpos($request_uri, '/api/historial') !== false) {
+    }elseif (strpos($request_uri, '/api/curso') !== false) {
+      include_once $baseDir . '/controllers/curso.php';
+    }  
+    elseif (strpos($request_uri, '/api/historial') !== false) {
       include_once $baseDir . '/controllers/historial.php';
     } elseif (strpos($request_uri, '/api/visita') !== false) {
       include_once $baseDir . '/controllers/visitas.php';

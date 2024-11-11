@@ -55,13 +55,13 @@ export class BecasComponent implements OnInit, AfterViewInit {
           this.becasInternas = response.records.filter(beca => beca.activo && beca.tipo === 'interna');
           this.becasExternas = response.records.filter(beca => beca.activo && beca.tipo === 'externa');
         } else {
-          console.error('La respuesta no tiene la estructura esperada:', response);
+          // console.error('La respuesta no tiene la estructura esperada:', response);
           this.error = 'La respuesta del servidor no tiene el formato esperado.';
         }
         this.isLoading = false;
       },
       error: (error) => {
-        console.error('Error al cargar becas:', error);
+        // console.error('Error al cargar becas:', error);
         this.error = 'No se pudieron cargar las becas. Por favor, intente más tarde.';
         this.isLoading = false;
       }
@@ -73,7 +73,7 @@ export class BecasComponent implements OnInit, AfterViewInit {
       const encryptedId = this.hashids.encode(id);
       window.location.href = `/info-beca/${encryptedId}`;
     } else {
-      //console.error('ID de instalación no disponible');
+      // console.error('ID de instalación no disponible');
     }
   }
 

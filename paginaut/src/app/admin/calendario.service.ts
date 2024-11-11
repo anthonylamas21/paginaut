@@ -15,7 +15,7 @@ export interface Calendario {
   providedIn: 'root',
 })
 export class CalendarioService {
-  private apiUrl = 'http://localhost/paginaut/api/calendario.php'; // Ajusta esta URL según tu configuración
+  private apiUrl = 'http://localhost/paginaut/api/calendario'; // Ajusta esta URL según tu configuración
 
   constructor(private http: HttpClient) {}
 
@@ -59,7 +59,7 @@ export class CalendarioService {
         error.error.message || error.statusText
       }`;
     }
-    console.error(errorMessage);
+    //console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
 }

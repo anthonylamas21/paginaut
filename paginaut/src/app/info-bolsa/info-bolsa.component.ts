@@ -23,7 +23,7 @@ export class InfoBolsaComponent implements OnInit, AfterViewInit {
     if (encryptedId) {
       this.idDecrypted = this.hashids.decode(encryptedId)[0] as number;
     } else {
-      console.error('ID de beca no disponible');
+      // console.error('ID de beca no disponible');
     }
   }
 
@@ -35,7 +35,7 @@ export class InfoBolsaComponent implements OnInit, AfterViewInit {
         if (id) {
           this.loadBolsa(id);
         } else {
-          //console.error('ID de bolsa de trabajo no válido');
+          // console.error('ID de bolsa de trabajo no válido');
           this.redirectToNotFound();
         }
       }else{
@@ -55,10 +55,10 @@ export class InfoBolsaComponent implements OnInit, AfterViewInit {
     this.bolsaDeTrabajoService.getBolsaById(id).subscribe(
       (response: BolsaDeTrabajo) => {
         this.bolsa = response;
-        console.log('Bolsa de trabajo recibida:', this.bolsa);
+        // console.log('Bolsa de trabajo recibida:', this.bolsa);
       },
       (error) => {
-        console.error('Error al cargar la bolsa de trabajo:', error);
+        // console.error('Error al cargar la bolsa de trabajo:', error);
       }
     );
   }

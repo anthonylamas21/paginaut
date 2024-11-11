@@ -47,10 +47,10 @@ export class LoginComponent implements OnInit {
   onSubmitLogin() {
     if (!this.token) {
       const formData: Usuario = this.LoginForm.value;
-      //console.log('Datos de formulario:', this.LoginForm.value);
+      // console.log('Datos de formulario:', this.LoginForm.value);
       this.srvUsuario.IniciarSesion(formData).subscribe(
         res => {
-          //console.log('Respuesta del servidor:', res);
+          // console.log('Respuesta del servidor:', res);
           
           if (res && res.token && res.usuario) {
             // Encriptar y almacenar el token
@@ -72,11 +72,11 @@ export class LoginComponent implements OnInit {
               window.location.href = "/admin/principal_admin";
             },2000)
           } else {
-            //console.error('La respuesta del servidor no tiene la estructura esperada');
+            // console.error('La respuesta del servidor no tiene la estructura esperada');
           }
         },
         err => {
-        //console.error('Error al iniciar sesión', err);
+        // console.error('Error al iniciar sesión', err);
           this.showToast(
             'warning',
             'Credenciales incorrectas'
@@ -90,6 +90,9 @@ export class LoginComponent implements OnInit {
         'info',
         'Ya tienes una sesión activa'
       );
+      setInterval(()=>{
+        window.location.href = "/admin/principal_admin";
+      },1000)
     }
   }
 

@@ -273,7 +273,7 @@ export class ComponentesComponent implements OnInit {
 
   scrollToSection(sectionId: string): void {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-    console.log('se mira');
+    // console.log('se mira');
   }
   @HostListener('window:scroll', [])
   onWindowScroll(): void {

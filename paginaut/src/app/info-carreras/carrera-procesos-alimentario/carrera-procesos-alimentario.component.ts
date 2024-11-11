@@ -34,13 +34,13 @@ export class CarreraProcesosAlimentarioComponent {
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/procesos_alimenticios/proces1.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/procesos_alimenticios/proces2.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/procesos_alimenticios/proces3.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/procesos_alimenticios/proces4.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/procesos_alimenticios/proces5.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/procesos_alimenticios/proces6.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/procesos_alimenticios/proces7.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/procesos_alimenticios/proces1.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/procesos_alimenticios/proces2.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/procesos_alimenticios/proces3.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/procesos_alimenticios/proces4.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/procesos_alimenticios/proces5.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/procesos_alimenticios/proces6.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/procesos_alimenticios/proces7.webp', alt: 'Image 1' },
     // más imágenes aquí
   ];
 
@@ -143,9 +143,9 @@ export class CarreraProcesosAlimentarioComponent {
 //INICIO TABLA CUATRIMESTRES
 onMouseOver(columna: string, valor: any) {
   if(valor == ""){
-    //console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
+    // console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
   }else{
-    //console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
+    // console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
   }
 }
 

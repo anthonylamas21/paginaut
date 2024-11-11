@@ -12,10 +12,10 @@ interface Image {
 export class DanzaComponent {
 
   images: Image[] = [
-    { url: './assets/img/galeria/extras/danza/danza1.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/extras/danza/danza2.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/extras/danza/danza3.jpg', alt: 'Image 3' },
-    { url: './assets/img/galeria/extras/danza/danza4.jpg', alt: 'Image 3' },
+    { url: './assets/img/galeria/extras/danza/danza1.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/danza/danza2.webp', alt: 'Image 2' },
+    { url: './assets/img/galeria/extras/danza/danza3.webp', alt: 'Image 3' },
+    { url: './assets/img/galeria/extras/danza/danza4.webp', alt: 'Image 3' },
     // más imágenes aquí
   ];
 

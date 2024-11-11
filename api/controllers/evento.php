@@ -82,46 +82,54 @@ switch($request_method) {
 
 
     case 'GET':
-        if (isset($_GET['id'])) {
-            $evento->id = $_GET['id'];
-            if ($evento->readOne()) {
-                $evento_arr = array(
-                    "id" => $evento->id,
-                    "titulo" => $evento->titulo,
-                    "informacion_evento" => $evento->informacion_evento,
-                    "activo" => $evento->activo,
-                    "lugar_evento" => $evento->lugar_evento,
-                    "fecha_inicio" => $evento->fecha_inicio,
-                    "fecha_fin" => $evento->fecha_fin,
-                    "hora_inicio" => $evento->hora_inicio,
-                    "hora_fin" => $evento->hora_fin,
-                    "imagen_principal" => $evento->imagen_principal,
-                    "imagenes_generales" => $evento->getImagenesGenerales(),
-                    "archivos" => $evento->getArchivos()
-                );
-                echo json_encode($evento_arr);
-            }elseif (isset($_GET['recent'])) {
-                $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 5;
-                $eventos_arr = $evento->readRecent($limit);
-                if (!empty($eventos_arr)) {
-                    echo json_encode(array("records" => $eventos_arr));
-                } else {
-                    http_response_code(404);
-                    echo json_encode(array("message" => "No se encontraron eventos recientes."));
-                }
-            } else {
-                http_response_code(404);
-                echo json_encode(array("message" => "Evento no encontrado."));
-            }
+    try {
+    if (isset($_GET['id'])) {
+        $evento->id = $_GET['id'];
+        if ($evento->readOne()) {
+            $evento_arr = array(
+                "id" => $evento->id,
+                "titulo" => $evento->titulo,
+                "informacion_evento" => $evento->informacion_evento,
+                "activo" => $evento->activo,
+                "lugar_evento" => $evento->lugar_evento,
+                "fecha_inicio" => $evento->fecha_inicio,
+                "fecha_fin" => $evento->fecha_fin,
+                "hora_inicio" => $evento->hora_inicio,
+                "hora_fin" => $evento->hora_fin,
+                "imagen_principal" => $evento->imagen_principal,
+                "imagenes_generales" => $evento->getImagenesGenerales(),
+                "archivos" => $evento->getArchivos()
+            );
+            echo json_encode($evento_arr);
         } else {
-            $eventos_arr = $evento->read();
-            if (!empty($eventos_arr)) {
-                echo json_encode(array("records" => $eventos_arr));
-            } else {
-                http_response_code(404);
-                echo json_encode(array("message" => "No se encontraron eventos."));
-            }
+            http_response_code(404);
+            echo json_encode(array("message" => "Evento no encontrado."));
         }
+    } elseif (isset($_GET['recent'])) {
+        $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 5;
+        $eventos_arr = $evento->readRecent($limit);
+        if (!empty($eventos_arr)) {
+            echo json_encode(array("records" => $eventos_arr));
+        } else {
+            http_response_code(404);
+            echo json_encode(array("message" => "No se encontraron eventos recientes."));
+        }
+    } else {
+        $eventos_arr = $evento->read();
+        if (!empty($eventos_arr)) {
+            echo json_encode(array("records" => $eventos_arr));
+        } else {
+            http_response_code(404);
+            echo json_encode(array("message" => "No se encontraron eventos."));
+        }
+    }
+} catch (Exception $e) {
+    // Establecer el código de respuesta HTTP a 500 (error del servidor)
+    http_response_code(500);
+    // Enviar el mensaje de error en formato JSON
+    echo json_encode(array("message" => "Ocurrió un error en el servidor.", "error" => $e->getMessage()));
+}
+
         break;
 
     case 'PUT':

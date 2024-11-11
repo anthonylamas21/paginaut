@@ -34,43 +34,43 @@ export class CarreraTurismoComponent {
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/turismo/turismo2.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/turismo3.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/turismo4.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/turismo5.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/turismo6.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/turismo7.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/turismo8.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/turismo9.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/turismo10.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_1.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_2.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_3.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_4.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_5.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_6.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_7.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_8.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_9.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_10.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_11.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_12.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_13.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_14.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_15.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_16.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_17.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_18.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_19.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_20.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_21.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_22.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_23.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_24.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_25.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_26.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_27.jpg', alt: '' },
-    { url: './assets/img/galeria/turismo/TUR_28.jpg', alt: '' },
+    { url: './assets/img/galeria/turismo/turismo2.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/turismo3.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/turismo4.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/turismo5.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/turismo6.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/turismo7.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/turismo8.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/turismo9.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/turismo10.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_1.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_2.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_3.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_4.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_5.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_6.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_7.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_8.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_9.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_10.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_11.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_12.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_13.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_14.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_15.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_16.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_17.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_18.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_19.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_20.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_21.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_22.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_23.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_24.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_25.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_26.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_27.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_28.webp', alt: '' },
 
     // más imágenes aquí
   ];
@@ -160,9 +160,9 @@ export class CarreraTurismoComponent {
 //INICIO TABLA CUATRIMESTRES
 onMouseOver(columna: string, valor: any) {
   if(valor == ""){
-    //console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
+    // console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
   }else{
-    //console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
+    // console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
   }
 }
 

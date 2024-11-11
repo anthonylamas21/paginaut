@@ -370,14 +370,14 @@ export class AgregarProfesorComponent implements OnInit {
               tipoCursos: tipoIds.includes(3),
             });
           } else {
-            console.error(
-              'Error: la respuesta de tipos no es un array',
-              response
-            );
+            // console.error(
+            //   'Error: la respuesta de tipos no es un array',
+            //   response
+            // );
           }
         },
         error: (error: any) => {
-          console.error('Error al obtener los tipos de profesor:', error);
+          // console.error('Error al obtener los tipos de profesor:', error);
         },
       });
     } else {

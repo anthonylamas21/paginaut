@@ -39,7 +39,7 @@ export class UnidadesAcademicasComponent implements OnInit, AfterViewInit {
         this.isLoading = false;
       },
       error: (error: string) => {
-        console.error('Error al cargar instalaciones:', error);
+        // console.error('Error al cargar instalaciones:', error);
         this.isLoading = false;
       }
     });
@@ -57,7 +57,7 @@ export class UnidadesAcademicasComponent implements OnInit, AfterViewInit {
       const encryptedId = this.hashids.encode(id);
       window.location.href = `/info-unidades/${encryptedId}`;
     } else {
-      //console.error('ID de instalación no disponible');
+      // console.error('ID de instalación no disponible');
     }
   }
   

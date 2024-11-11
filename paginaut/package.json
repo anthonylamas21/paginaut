@@ -30,6 +30,7 @@
     "@types/crypto-js": "^4.2.2",
     "crypto-js": "^4.2.0",
     "hashids": "^2.3.0",
+    "http-server": "^14.1.1",
     "imagesloaded": "^5.0.0",
     "masonry-layout": "^4.2.2",
     "ngx-masonry": "^14.0.1",

@@ -153,8 +153,7 @@ export class NoticiaComponent implements OnInit, OnDestroy {
           imagenes_generales: (noticia.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
         }));
         this.filterNoticias();
-      },
-      error: (error) => console.error('Error al cargar noticias:', error)
+      }    
     });
   }
 
@@ -256,7 +255,7 @@ export class NoticiaComponent implements OnInit, OnDestroy {
             this.loadNoticias();
           })
           .catch(error => {
-            console.error('Error al actualizar la noticia:', error);
+            // console.error('Error al actualizar la noticia:', error);
             this.showToast('error', 'Error al actualizar la noticia: ' + (error.error?.message || error.message));
           })
           .finally(() => {
@@ -275,7 +274,7 @@ export class NoticiaComponent implements OnInit, OnDestroy {
             this.loadNoticias();
           },
           error: (error) => {
-            console.error('Error al crear la noticia:', error);
+            // console.error('Error al crear la noticia:', error);
             this.showToast('error', 'Error al crear la noticia: ' + (error.error?.message || error.message));
           },
           complete: () => {
@@ -306,7 +305,7 @@ export class NoticiaComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           this.showToast('error', 'Error al eliminar la noticia: ' + (error.error?.message || error.message));
-          console.error('Error:', error);
+          // console.error('Error:', error);
         }
       });
     });
@@ -321,7 +320,7 @@ export class NoticiaComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           this.showToast('error', 'Error al desactivar la noticia: ' + (error.error?.message || error.message));
-          console.error('Error:', error);
+          // console.error('Error:', error);
         }
       });
     });
@@ -336,7 +335,7 @@ export class NoticiaComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           this.showToast('error', 'Error al activar la noticia: ' + (error.error?.message || error.message));
-          console.error('Error:', error);
+          // console.error('Error:', error);
         }
       });
     });

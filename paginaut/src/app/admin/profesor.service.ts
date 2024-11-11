@@ -31,8 +31,8 @@ export interface ProfesorResponse {
   providedIn: 'root',
 })
 export class ProfesorService {
-  private apiUrl = 'http://localhost/paginaut/api/profesor.php';
-  private tipoUrl = 'http://localhost/paginaut/api/tipo-pro.php';
+  private apiUrl = 'http://localhost/paginaut/api/profesor';
+  private tipoUrl = 'http://localhost/paginaut/api/tipo-pro';
 
   constructor(private http: HttpClient) {}
 
@@ -98,7 +98,7 @@ export class ProfesorService {
       }`;
     }
 
-    console.error(errorMessage);
+    //console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
 }

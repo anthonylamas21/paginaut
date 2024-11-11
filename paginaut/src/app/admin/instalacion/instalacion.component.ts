@@ -115,8 +115,7 @@ export class InstalacionComponent implements OnInit {
             : []
         }));
         this.filterInstalaciones();
-      },
-      error: (error) => console.error('Error al cargar instalaciones:', error),
+      }
     });
   }
 
@@ -224,7 +223,7 @@ export class InstalacionComponent implements OnInit {
               this.loadInstalaciones();
             },
             error: (error) => {
-              console.error('Error al actualizar la instalación:', error);
+              // console.error('Error al actualizar la instalación:', error);
               this.showToast(
                 'error',
                 'Error al actualizar la instalación: ' +
@@ -249,7 +248,7 @@ export class InstalacionComponent implements OnInit {
               this.loadInstalaciones();
             },
             error: (error) => {
-              console.error('Error al crear la instalación:', error);
+              // console.error('Error al crear la instalación:', error);
               this.showToast(
                 'error',
                 'Error al crear la instalación: ' +
@@ -285,7 +284,7 @@ export class InstalacionComponent implements OnInit {
               'Error al eliminar la instalación: ' +
                 (error.error?.message || error.message)
             );
-            console.error('Error:', error);
+            // console.error('Error:', error);
           },
         });
       }
@@ -308,7 +307,7 @@ export class InstalacionComponent implements OnInit {
               'Error al desactivar la instalación: ' +
                 (error.error?.message || error.message)
             );
-            console.error('Error:', error);
+            // console.error('Error:', error);
           },
         });
       }
@@ -331,7 +330,7 @@ export class InstalacionComponent implements OnInit {
               'Error al activar la instalación: ' +
                 (error.error?.message || error.message)
             );
-            console.error('Error:', error);
+            // console.error('Error:', error);
           },
         });
       }
@@ -387,10 +386,7 @@ export class InstalacionComponent implements OnInit {
         .subscribe({
           next: () => {
             this.imagenesGeneralesActuales.splice(index, 1);
-          },
-          error: (error) => {
-            console.error('Error al eliminar la imagen:', error);
-          },
+          }
         });
     } else {
       this.imagenesGeneralesActuales.splice(index, 1);

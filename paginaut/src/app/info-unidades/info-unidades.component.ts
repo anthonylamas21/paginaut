@@ -35,11 +35,11 @@ export class InfoUnidadesComponent implements OnInit, AfterViewInit {
           throw new Error('ID no válido');
         }
       } catch (error) {
-        console.error('Error al desencriptar el ID:', error);
+        // console.error('Error al desencriptar el ID:', error);
         this.router.navigate(['/not-found']);
       }
     } else {
-      console.error('ID de instalación no disponible');
+      // console.error('ID de instalación no disponible');
       this.router.navigate(['/not-found']);
     }
   }

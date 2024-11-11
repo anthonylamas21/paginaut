@@ -65,8 +65,6 @@ export class PasswordResetComponent {
 
     this.passwordResetService.sendResetEmail(requestData).subscribe(
       response => {
-      // Ahora desactiva el loader
-      this.isLoading = false;
 
         this.showToast(
           'success',
@@ -83,9 +81,9 @@ export class PasswordResetComponent {
           this.passwordResetService.VerifyCodeEmail(email).subscribe(
             (result)=>{
             this.showcodigo = result.code.token_recuperacion;
-            //console.log("Obtuve el codigo: " + this.showcodigo)
+            // console.log("Obtuve el codigo: " + this.showcodigo)
             }, (error)=>{
-              //console.log("Error: " + error)
+              // console.log("Error: " + error)
             });
           }
 
@@ -261,7 +259,7 @@ export class PasswordResetComponent {
       },
       error => {
         this.isLoading = false;
-        console.error('Error', error);
+        // console.error('Error', error);
         // Muestra un mensaje de error al usuario
       }
     );
@@ -273,7 +271,7 @@ export class PasswordResetComponent {
   
     if (password !== confirmPassword) {
       // Muestra un mensaje de error al usuario si las contraseñas no coinciden
-      console.error('Las contraseñas no coinciden');
+      // console.error('Las contraseñas no coinciden');
       return; // Detiene el proceso si no coinciden
     }
   
@@ -284,7 +282,7 @@ export class PasswordResetComponent {
         //logica para reslablecer contraseña
       },
       error => {
-        console.error('Error', error);
+        // console.error('Error', error);
         // Muestra un mensaje de error al usuario
       }
     );

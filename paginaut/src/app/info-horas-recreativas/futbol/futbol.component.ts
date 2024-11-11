@@ -13,11 +13,11 @@ interface Image {
 export class FutbolComponent {
 
   images: Image[] = [
-    { url: './assets/img/galeria/extras/futbol/futbol1.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/extras/futbol/futbol2.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/extras/futbol/futbol3.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/extras/futbol/futbol4.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/extras/futbol/futbol5.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/futbol/futbol1.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/futbol/futbol2.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/futbol/futbol3.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/futbol/futbol4.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/futbol/futbol5.webp', alt: 'Image 1' },
 
     // más imágenes aquí
   ];

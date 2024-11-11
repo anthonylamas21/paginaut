@@ -185,16 +185,14 @@
       </ul>
     </div>
     <div class="relative w-full mt-10">
-      <img
-        src="./assets/img/galeria/admin/ADMIN_1.jpg"
-        class="w-full bg-cover rounded-lg pointer-events-none"
-        alt=""
-      />
-      <img
-        src="./assets/img/Plantilla_imagenes_utc.png"
-        class="absolute bottom-0 w-full rounded-b-lg"
-        alt=""
-      />
+      <div class="relative">
+        <!-- Imagen principal -->
+        <img src="./assets/img/galeria/admin/ADMIN_1.webp" class="w-full bg-cover rounded-lg pointer-events-none" alt="">
+        <!-- Pie de imagen (segunda imagen) -->
+        <div class="absolute bottom-0 w-full">
+          <img src="./assets/img/Plantilla_imagenes_utc.png" class="w-full rounded-b-lg pointer-events-none" alt="">
+        </div>
+      </div>
     </div>
   </div>
 
@@ -210,18 +208,17 @@
     *ngIf="!isLoading"
     class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2"
   >
-    <div class="relative w-full mt-10">
-      <img
-        src="./assets/img/galeria/admin/ADMIN_5.jpg"
-        class="w-full bg-cover rounded-lg pointer-events-none"
-        alt=""
-      />
-      <img
-        src="./assets/img/Plantilla_imagenes_utc.png"
-        class="absolute bottom-0 w-full rounded-b-lg"
-        alt=""
-      />
+  <div class="relative w-full mt-10">
+    <div class="relative">
+      <!-- Imagen principal -->
+      <img src="./assets/img/galeria/admin/ADMIN_5.webp" class="w-full bg-cover rounded-lg pointer-events-none" alt="">
+      <!-- Pie de imagen (segunda imagen) -->
+      <div class="absolute bottom-0 w-full">
+        <img src="./assets/img/Plantilla_imagenes_utc.png" class="w-full rounded-b-lg pointer-events-none" alt="">
+      </div>
     </div>
+  </div>
+
     <div class="w-full">
       <h4
         class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg"

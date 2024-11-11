@@ -28,7 +28,7 @@ export class NoticiasComponent implements OnInit {
     if (encryptedId) {
       this.idDecrypted = this.hashids.decode(encryptedId)[0] as number;
     } else {
-      console.error('ID de noticia no disponible');
+      // console.error('ID de noticia no disponible');
     }
   }
 
@@ -45,7 +45,7 @@ export class NoticiasComponent implements OnInit {
           this.isLoading = false;
         },
         error: (error: any) => {
-          console.error('Error al cargar la noticia:', error);
+          // console.error('Error al cargar la noticia:', error);
           this.error = 'No se pudo cargar la noticia. Por favor, inténtalo de nuevo más tarde.';
           this.isLoading = false;
         }
@@ -105,7 +105,7 @@ export class NoticiasComponent implements OnInit {
 
   ampliarImagen(imagenUrl: string): void {
     this.imagenAmpliada = imagenUrl;
-    console.log("Imagen ampliada:", imagenUrl);
+    // console.log("Imagen ampliada:", imagenUrl);
   }
 
   cerrarImagenAmpliada(): void {

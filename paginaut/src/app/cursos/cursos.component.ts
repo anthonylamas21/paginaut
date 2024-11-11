@@ -37,7 +37,7 @@ export class CursosComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error) => {
-        console.error('Error al cargar los cursos:', error);
+        // console.error('Error al cargar los cursos:', error);
         this.isLoading = false;
       },
     });
@@ -58,7 +58,7 @@ export class CursosComponent implements OnInit {
       const encryptedId = this.hashids.encode(id);
       window.location.href = '/info_curso/' + encryptedId;
     } else {
-      console.error('ID del curso no disponible');
+      // console.error('ID del curso no disponible');
     }
   }
 

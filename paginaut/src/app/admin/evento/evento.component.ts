@@ -164,7 +164,7 @@ export class EventoComponent implements OnInit,  OnDestroy {
         this.cursos = cursos;
       },
       error: (error) => {
-        console.error('Error al cargar los cursos:', error);
+        // console.error('Error al cargar los cursos:', error);
         this.showToast('error', 'Error al cargar los cursos');
       }
     });
@@ -183,8 +183,7 @@ export class EventoComponent implements OnInit,  OnDestroy {
                 imagenes_generales: (evento.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
             }));
             this.filterEventos(); // Esto filtra o realiza otras operaciones necesarias
-        },
-        error: (error) => console.error('Error al cargar eventos:', error)
+        }
     });
 }
 
@@ -337,7 +336,7 @@ export class EventoComponent implements OnInit,  OnDestroy {
                     this.loadEventos();
                 })
                 .catch(error => {
-                    console.error('Error al actualizar el evento:', error);
+                    // console.error('Error al actualizar el evento:', error);
                     this.showToast('error', 'Error al actualizar el evento: ' + (error.error?.message || error.message));
                 })
                 .finally(() => {
@@ -359,7 +358,7 @@ export class EventoComponent implements OnInit,  OnDestroy {
                     this.loadEventos();
                 },
                 error: (error) => {
-                    console.error('Error al crear el evento:', error);
+                    // console.error('Error al crear el evento:', error);
                     this.showToast('error', 'Error al crear el evento: ' + (error.error?.message || error.message));
                 },
                 complete: () => {
@@ -399,7 +398,7 @@ export class EventoComponent implements OnInit,  OnDestroy {
               'Error al eliminar el evento: ' +
                 (error.error?.message || error.message)
             );
-            console.error('Error:', error);
+            // console.error('Error:', error);
           },
         });
       }
@@ -422,7 +421,7 @@ export class EventoComponent implements OnInit,  OnDestroy {
               'Error al desactivar el evento: ' +
                 (error.error?.message || error.message)
             );
-            console.error('Error:', error);
+            // console.error('Error:', error);
           },
         });
       }
@@ -445,7 +444,7 @@ export class EventoComponent implements OnInit,  OnDestroy {
               'Error al activar el evento: ' +
                 (error.error?.message || error.message)
             );
-            console.error('Error:', error);
+            // console.error('Error:', error);
           },
         });
       }

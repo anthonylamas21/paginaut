@@ -69,7 +69,7 @@ export class DireccionService {
         error.error.message || error.statusText
       }`;
     }
-    console.error(errorMessage);
+    //console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
 }

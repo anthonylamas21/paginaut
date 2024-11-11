@@ -27,7 +27,6 @@ export class TallerService {
 
   registrarTaller(formData: FormData): Observable<any> {
     return this.http.post(this.apiUrl, formData).pipe(
-      tap(response => console.log('Respuesta completa del servidor:', response)),
       map(response => {
         if (response === null) {
           throw new Error('La respuesta del servidor es nula');
@@ -94,7 +93,7 @@ export class TallerService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    console.error('Error detallado:', error);
+    //console.error('Error detallado:', error);
     let errorMessage = 'Ocurrió un error desconocido';
     if (error.error instanceof ErrorEvent) {
       errorMessage = `Error: ${error.error.message}`;

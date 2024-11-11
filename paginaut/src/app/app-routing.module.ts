@@ -76,21 +76,13 @@ import { BibliotecaComponent } from './biblioteca/biblioteca.component';
 
 import { NotFoundComponent } from './not-found/not-found.component';
 import { guardAuthGuard } from './Guard/guard-auth.guard';
+import { loginGuard } from './Guard/login.guard';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { InfoConvocatoriaComponent } from './info-convocatoria/info-convocatoria.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/principal', pathMatch: 'full' },
-  { path: 'principal', component: PrincipalComponent },
-  { path: 'navbar', component: NavbarComponent },
-  { path: 'componentes', component: ComponentesComponent },
-  { path: 'carreras', component: CarrerasComponent },
-  { path: 'becas', component: BecasComponent },
-  { path: 'unidades_academicas', component: UnidadesAcademicasComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'info_carrera', component: InfoCarreraComponent },
-  { path: 'eventos', component: EventosComponent },
-  { path: 'calendario', component: CalendarioComponent },
+
   { path: 'taller', component: TallerComponent },
   { path: 'direccion', component: AgregarDireccionComponent },
   { path: 'piedra_estanque', component: PiedraEstanqueComponent },
@@ -104,7 +96,7 @@ const routes: Routes = [
   { path: 'carreras', component: CarrerasComponent },
   { path: 'becas', component: BecasComponent },
   { path: 'unidades_academicas', component: UnidadesAcademicasComponent },
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent, canActivate: [loginGuard]},
   { path: 'info_carrera', component: InfoCarreraComponent },
   { path: 'eventos', component: EventosComponent },
   { path: 'calendario', component: CalendarioComponent },
@@ -262,6 +254,7 @@ const routes: Routes = [
     canActivate: [guardAuthGuard],
   },
   { path: '**', component: NotFoundComponent },
+  { path: 'acceso-denegado', component: NotFoundComponent },
 ];
 
 @NgModule({

@@ -56,24 +56,30 @@ switch($request_method) {
         break;
 
     case 'PUT':
+  try {
         if ($data && isset($data->email) && isset($data->reset_token)) {
             $usuario->correo = $data->email;
             $usuario->token_recuperacion = $data->reset_token;
-
+    
             if ($usuario->update()) {
                 include_once "./Mail/send_email.php";
-
                 http_response_code(200);
+                // echo json_encode(array("message" => "Token generado y correo enviado."));
             } else {
                 http_response_code(401);
-                echo json_encode(array("message" => "No se pudo generar el token el usuario."));
+                echo json_encode(array("message" => "No se pudo generar el token del usuario."));
             }
         } else {
             http_response_code(400);
             echo json_encode(array("message" => "Datos incompletos."));
         }
-        
-        break;
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(array("message" => "Ocurrió un error en el servidor.", "error" => $e->getMessage()));
+    }
+    
+    break;
+
 
     case 'DELETE':
         if (isset($_GET['id'])) {

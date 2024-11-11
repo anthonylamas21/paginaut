@@ -23,9 +23,6 @@ export class PrincipalAdminComponent implements OnInit {
     this.historialService.getHistorial().subscribe(
       data => {
         this.historial = data;  // Carga todos los registros de historial
-      },
-      error => {
-        console.error('Error al obtener el historial', error);
       }
     );
   }

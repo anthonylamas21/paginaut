@@ -33,24 +33,24 @@ export class CarreraAdministracionComponent {
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/admin/admin1.jpg', alt: '' },
-    { url: './assets/img/galeria/admin/admin2.jpg', alt: '' },
-    { url: './assets/img/galeria/admin/admin3.jpg', alt: '' },
-    { url: './assets/img/galeria/admin/admin4.jpg', alt: '' },
-    { url: './assets/img/galeria/admin/admin5.jpg', alt: '' },
-    { url: './assets/img/galeria/admin/admin6.jpg', alt: '' },
-    { url: './assets/img/galeria/admin/admin7.jpg', alt: '' },
-    { url: './assets/img/galeria/admin/admin8.jpg', alt: '' },
-    { url: './assets/img/galeria/admin/admin9.jpg', alt: '' },
-    { url: './assets/img/galeria/admin/admin10.jpg', alt: '' },
-    { url: './assets/img/galeria/admin/admin11.jpg', alt: '' },
-    { url: './assets/img/galeria/admin/admin12.jpg', alt: '' },
-    { url: './assets/img/galeria/admin/admin13.jpg', alt: '' },
-    { url: './assets/img/galeria/admin/ADMIN_1.jpg', alt: '' },
-    { url: './assets/img/galeria/admin/ADMIN_2.jpg', alt: '' },
-    { url: './assets/img/galeria/admin/ADMIN_3.jpg', alt: '' },
-    { url: './assets/img/galeria/admin/ADMIN_4.jpg', alt: '' },
-    { url: './assets/img/galeria/admin/ADMIN_5.jpg', alt: '' },
+    { url: './assets/img/galeria/admin/admin1.webp', alt: '' },
+    { url: './assets/img/galeria/admin/admin2.webp', alt: '' },
+    { url: './assets/img/galeria/admin/admin3.webp', alt: '' },
+    { url: './assets/img/galeria/admin/admin4.webp', alt: '' },
+    { url: './assets/img/galeria/admin/admin5.webp', alt: '' },
+    { url: './assets/img/galeria/admin/admin6.webp', alt: '' },
+    { url: './assets/img/galeria/admin/admin7.webp', alt: '' },
+    { url: './assets/img/galeria/admin/admin8.webp', alt: '' },
+    { url: './assets/img/galeria/admin/admin9.webp', alt: '' },
+    { url: './assets/img/galeria/admin/admin10.webp', alt: '' },
+    { url: './assets/img/galeria/admin/admin11.webp', alt: '' },
+    { url: './assets/img/galeria/admin/admin12.webp', alt: '' },
+    { url: './assets/img/galeria/admin/admin13.webp', alt: '' },
+    { url: './assets/img/galeria/admin/ADMIN_1.webp', alt: '' },
+    { url: './assets/img/galeria/admin/ADMIN_2.webp', alt: '' },
+    { url: './assets/img/galeria/admin/ADMIN_3.webp', alt: '' },
+    { url: './assets/img/galeria/admin/ADMIN_4.webp', alt: '' },
+    { url: './assets/img/galeria/admin/ADMIN_5.webp', alt: '' },
     // más imágenes aquí
   ];
 
@@ -216,9 +216,9 @@ export class CarreraAdministracionComponent {
   //INICIO TABLA CUATRIMESTRES
   onMouseOver(columna: string, valor: any) {
     if (valor == '') {
-      //console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
+      // console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
     } else {
-      //console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
+      // console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
     }
   }
 

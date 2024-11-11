@@ -116,15 +116,15 @@ export class NavbarComponent  implements OnInit {
             this.token = null;
             window.location.href = "/principal";
           }, err => {
-            console.log('Error al eliminar token de la base de datos', err);
+            // console.log('Error al eliminar token de la base de datos', err);
           });
         },
         err => {
-          console.log('Error al cerrar sesión', err);
+          // console.log('Error al cerrar sesión', err);
         }
       );
     } else {
-      console.log('No hay token para cerrar sesión');
+      // console.log('No hay token para cerrar sesión');
     }
   }
   

@@ -10,10 +10,10 @@ ini_set('log_errors', 1);
 error_reporting(E_ALL);
 ini_set('error_log', 'C:/xampp/htdocs/paginaut/api/logs/php-error.log');
 
-$root = dirname(__DIR__, 2);  // Obtiene el directorio raíz del proyecto
+$root = dirname(__DIR__);  // Obtiene el directorio raíz del proyecto
 
-require_once $root . '/api/config/database.php';
-require_once $root . '/api/models/Profesor.php';
+require_once 'config/database.php';
+require_once 'models/Profesor.php';
 
 $database = new Database();
 $db = $database->getConnection();

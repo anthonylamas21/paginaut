@@ -103,8 +103,7 @@ export class AgendaAdminComponent implements OnInit {
       next: (response) => {
         this.eventos = response.records;
         this.updateCalendarEvents();
-      },
-      error: (error) => console.error('Error al cargar eventos:', error)
+      }
     });
   }
 

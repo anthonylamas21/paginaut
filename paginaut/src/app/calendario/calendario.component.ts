@@ -56,17 +56,17 @@ export class CalendarioComponent implements OnInit {
           const activeCalendario = calendarios.find((cal) => cal.activo);
           if (activeCalendario) {
             this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-              `http://localhost/paginaut${activeCalendario.archivo}`
+              `http://localhost/paginaut/paginaut${activeCalendario.archivo}`
             );
           } else {
-            console.error('No active calendar found');
+            // console.error('No active calendar found');
           }
         } else {
-          console.error('Unexpected response format:', response);
+          // console.error('Unexpected response format:', response);
         }
       },
       error: (error) => {
-        console.error('Error loading PDF URL:', error);
+        // console.error('Error loading PDF URL:', error);
       },
     });
   }

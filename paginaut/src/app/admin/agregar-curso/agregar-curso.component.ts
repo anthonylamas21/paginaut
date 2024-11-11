@@ -117,7 +117,7 @@ export class AgregarCursoComponent implements OnInit {
         this.profesores = res.records;
       },
       (err) => {
-        console.error('Error al cargar profesores:', err);
+        // console.error('Error al cargar profesores:', err);
       }
     );
   }
@@ -146,8 +146,7 @@ export class AgregarCursoComponent implements OnInit {
           ),
         }));
         this.filterCursos();
-      },
-      error: (error) => console.error(error),
+      }
     });
   }
 
@@ -188,7 +187,7 @@ export class AgregarCursoComponent implements OnInit {
           });
         },
         error: (error) => {
-          console.error('Error al cargar los profesores del curso:', error);
+          // console.error('Error al cargar los profesores del curso:', error);
         },
       });
     } else {
@@ -269,7 +268,7 @@ export class AgregarCursoComponent implements OnInit {
               this.loadCursos();
             },
             error: (error) => {
-              console.error('Error al procesar el curso:', error);
+              // console.error('Error al procesar el curso:', error);
               this.showToast('error', 'Error al procesar el curso');
             },
             complete: () => {
@@ -284,7 +283,7 @@ export class AgregarCursoComponent implements OnInit {
             this.loadCursos();
           },
           error: (error) => {
-            console.error('Error al procesar el curso:', error);
+            // console.error('Error al procesar el curso:', error);
             this.showToast('error', 'Error al procesar el curso');
           },
           complete: () => {
@@ -306,7 +305,7 @@ export class AgregarCursoComponent implements OnInit {
         this.guardarProfesores(cursoId);
       },
       error: (error) => {
-        console.error('Error al eliminar los profesores:', error);
+        // console.error('Error al eliminar los profesores:', error);
         this.showToast('error', 'Error al eliminar los profesores');
       },
     });
@@ -327,7 +326,7 @@ export class AgregarCursoComponent implements OnInit {
           console.log('Profesores asignados con éxito:', response);
         },
         error: (error) => {
-          console.error('Error al asignar los profesores:', error);
+          // console.error('Error al asignar los profesores:', error);
           this.showToast('error', 'Error al asignar los profesores');
         },
       });
@@ -357,7 +356,7 @@ export class AgregarCursoComponent implements OnInit {
               'Error al eliminar el curso: ' +
                 (error.error?.message || error.message)
             );
-            console.error('Error:', error);
+            // console.error('Error:', error);
           },
         });
       }
@@ -380,7 +379,7 @@ export class AgregarCursoComponent implements OnInit {
               'Error al desactivar el curso: ' +
                 (error.error?.message || error.message)
             );
-            console.error('Error:', error);
+            // console.error('Error:', error);
           },
         });
       }
@@ -403,7 +402,7 @@ export class AgregarCursoComponent implements OnInit {
               'Error al activar el curso: ' +
                 (error.error?.message || error.message)
             );
-            console.error('Error:', error);
+            // console.error('Error:', error);
           },
         });
       }

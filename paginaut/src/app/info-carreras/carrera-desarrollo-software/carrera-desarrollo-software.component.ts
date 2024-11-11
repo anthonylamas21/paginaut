@@ -34,38 +34,37 @@ export class CarreraDesarrolloSoftwareComponent {
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/desarrollo/desarrollo1.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/desarrollo/desarrollo2.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/desarrollo/desarrollo3.jpg', alt: 'Image 3' },
-    { url: './assets/img/galeria/desarrollo/desarrollo4.jpg', alt: 'Image 4' },
-    { url: './assets/img/galeria/desarrollo/desarrollo5.jpg', alt: 'Image 5' },
-    { url: './assets/img/galeria/desarrollo/desarrollo6.jpg', alt: 'Image 6' },
-    { url: './assets/img/galeria/desarrollo/desarrollo7.jpg', alt: 'Image 7' },
-    { url: './assets/img/galeria/desarrollo/desarrollo8.jpg', alt: 'Image 8' },
-    { url: './assets/img/galeria/desarrollo/desarrollo9.jpg', alt: 'Image 9' },
-    { url: './assets/img/galeria/desarrollo/desarrollo10.jpg', alt: 'Image 10' },
-    { url: './assets/img/galeria/desarrollo/TIC_1.jpg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_3.jpg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_4.jpg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_5.jpg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_6.jpg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_7.jpg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_8.jpg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_9.jpg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_10.jpg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_11.jpg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_12.jpg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_13.jpg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_14.jpg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_15.jpg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_16.jpg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_17.jpg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_26.jpeg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_27.jpg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_33.jpeg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_34.jpeg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_35.jpeg', alt: '' },
-    { url: './assets/img/galeria/desarrollo/TIC_37.png', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo1.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo2.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo3.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo4.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo5.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo6.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo7.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo8.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo9.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo10.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_1.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_3.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_4.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_5.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_6.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_7.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_8.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_9.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_10.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_11.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_12.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_13.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_14.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_15.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_16.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_17.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_26.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_33.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_34.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_35.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_37.webp', alt: '' },
   ];
 
   ngAfterViewInit(): void {
@@ -230,9 +229,9 @@ export class CarreraDesarrolloSoftwareComponent {
 //INICIO TABLA CUATRIMESTRES
 onMouseOver(columna: string, valor: any) {
   if(valor == ""){
-    //console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
+    // console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
   }else{
-    //console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
+    // console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
   }
 }
 

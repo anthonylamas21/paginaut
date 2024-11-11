@@ -13,10 +13,10 @@ interface Image {
 export class BasquetbolComponent {
 
   images: Image[] = [
-    { url: './assets/img/galeria/extras/basquet/basquet1.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/extras/basquet/basquet2.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/extras/basquet/basquet3.jpg', alt: 'Image 3' },
-    { url: './assets/img/galeria/extras/basquet/basquet4.jpg', alt: 'Image 3' },
+    { url: './assets/img/galeria/extras/basquet/basquet1.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/basquet/basquet2.webp', alt: 'Image 2' },
+    { url: './assets/img/galeria/extras/basquet/basquet3.webp', alt: 'Image 3' },
+    { url: './assets/img/galeria/extras/basquet/basquet4.webp', alt: 'Image 3' },
     // más imágenes aquí
   ];
 

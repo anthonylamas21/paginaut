@@ -217,7 +217,8 @@ class Evento
   // Leer todos los eventos
   function read()
   {
-    $query = "SELECT * FROM " . $this->table_name . " ORDER BY fecha_creacion DESC";
+   try{
+        $query = "SELECT * FROM " . $this->table_name ." ORDER BY fecha_creacion DESC";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
 
@@ -232,12 +233,16 @@ class Evento
     }
 
     return $eventos_arr;
+   } catch (PDOException $e) {
+       return $e;
+   }
   }
 
   // Leer un evento por ID
   function readOne()
   {
-    $query = "SELECT * FROM " . $this->table_name . " WHERE id = ?";
+    try{
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = ?";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(1, $this->id);
     $stmt->execute();
@@ -257,6 +262,9 @@ class Evento
       return true;
     }
     return false;
+    }catch(PDOStatement $e){
+        return $e;
+    }
   }
 
   // Actualizar evento

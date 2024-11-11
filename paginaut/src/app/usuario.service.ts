@@ -94,7 +94,7 @@ export class UsuarioService {
       errorMessage = `Código de error ${error.status}, ` +
                      `mensaje: ${error.error.message || error.statusText}`;
     }
-    console.error(errorMessage);
+    //console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
 

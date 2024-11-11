@@ -14,7 +14,7 @@ export class CarrerasComponent {
   carrerasAgropecuarias = [
     {
       title: 'Ingeniería en Agrobiotecnología',
-      imageUrl: './assets/img/galeria/agro/AGRO_17.jpeg',
+      imageUrl: './assets/img/galeria/agro/AGRO_17.webp',
       link: 'info_carreras/agrobiotecnologia'
     },
     {
@@ -24,7 +24,7 @@ export class CarrerasComponent {
     },
     {
       title: 'Ingeniería en Acuicultura',
-      imageUrl: './assets/img/galeria/acui/ACUI_8.jpg',
+      imageUrl: './assets/img/galeria/acui/ACUI_8.webp',
       link: 'info_carreras/acuicultura'
     }
   ];
@@ -32,12 +32,12 @@ export class CarrerasComponent {
   carrerasNegocios = [
     {
       title: 'Licenciatura en Turismo',
-      imageUrl: './assets/img/galeria/turismo/TUR_2.jpg',
+      imageUrl: './assets/img/galeria/turismo/TUR_2.webp',
       link: 'info_carreras/turismo'
     },
     {
       title: 'Licenciatura en Administración',
-      imageUrl: './assets/img/galeria/admin/admin13.jpg',
+      imageUrl: './assets/img/galeria/admin/admin13.webp',
       link: 'info_carreras/administracion'
     },
     {
@@ -47,7 +47,7 @@ export class CarrerasComponent {
     },
     {
       title: 'Licenciatura en Gastronomía',
-      imageUrl: './assets/img/galeria/gastro/GASTRO_17.jpg',
+      imageUrl: './assets/img/galeria/gastro/GASTRO_17.webp',
       link: 'info_carreras/gastronomia'
     },
     {
@@ -60,7 +60,7 @@ export class CarrerasComponent {
   carrerasTecnologica = [
     {
       title: 'Ingeniería en Desarrollo y Gestión de Software',
-      imageUrl: './assets/img/galeria/desarrollo/TIC_4.jpg',
+      imageUrl: './assets/img/galeria/desarrollo/TIC_4.webp',
       link: 'info_carreras/desarrollo-software'
     }
   ];

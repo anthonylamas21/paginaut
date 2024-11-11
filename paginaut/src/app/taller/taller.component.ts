@@ -149,10 +149,10 @@ export class TallerComponent implements OnInit, AfterViewInit {
 
       observable.subscribe({
         next: (response: any) => {
-          console.log(
-            this.currentTallerId ? 'Taller actualizado' : 'Taller creado',
-            response
-          );
+          // console.log(
+          //   this.currentTallerId ? 'Taller actualizado' : 'Taller creado',
+          //   response
+          // );
           this.responseMessage = this.currentTallerId
             ? 'Taller actualizado con éxito'
             : 'Taller creado con éxito';
@@ -160,7 +160,7 @@ export class TallerComponent implements OnInit, AfterViewInit {
           this.closeModal();
         },
         error: (error: any) => {
-          console.error('Error en la operación del taller', error);
+          // console.error('Error en la operación del taller', error);
           this.responseMessage = `Error: ${
             error.message || 'Ha ocurrido un error desconocido'
           }`;
@@ -188,12 +188,9 @@ export class TallerComponent implements OnInit, AfterViewInit {
           }));
           this.filterTalleres();
         } else {
-          console.error('Formato de respuesta inesperado:', response);
+          // console.error('Formato de respuesta inesperado:', response);
         }
-      },
-      error: (error: Error) => {
-        console.error('Error al cargar los talleres', error);
-      },
+      }
     });
   }
 
@@ -269,11 +266,11 @@ export class TallerComponent implements OnInit, AfterViewInit {
 
       this.tallerService.actualizarTaller(tallerToUpdate).subscribe({
         next: (response) => {
-          console.log('Taller actualizado con éxito', response);
+          // console.log('Taller actualizado con éxito', response);
           this.loadTalleres();
         },
         error: (error) => {
-          console.error('Error al actualizar el taller', error);
+          // console.error('Error al actualizar el taller', error);
           this.responseMessage = error.message;
         },
       });

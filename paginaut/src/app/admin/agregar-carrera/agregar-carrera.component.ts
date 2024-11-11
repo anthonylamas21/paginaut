@@ -167,11 +167,11 @@ export class AgregarCarreraComponent implements OnInit {
         activo: true,
       };
 
-      console.log("Enviando datos de carrera:", formData);
+      // console.log("Enviando datos de carrera:", formData);
 
       this.carreraService.saveCarrera(formData, this.imagenPrincipal, this.imagenesGenerales).subscribe({
         next: (response: any) => {
-          console.log("Respuesta del servidor:", response);
+          // console.log("Respuesta del servidor:", response);
           if (response.id) {
             this.currentCarreraId = response.id; // Actualiza la ID de la carrera
           }
@@ -186,7 +186,7 @@ export class AgregarCarreraComponent implements OnInit {
           this.closeModal();
         },
         error: (error: any) => {
-          console.error("Error al guardar la carrera:", error);
+          // console.error("Error al guardar la carrera:", error);
           this.showToast('error', error.message);
         },
       });
@@ -198,18 +198,18 @@ export class AgregarCarreraComponent implements OnInit {
     }
   }
   findAsignaturaById(asignaturaId: number) {
-    console.log('Buscando asignatura con ID:', asignaturaId);
+    // console.log('Buscando asignatura con ID:', asignaturaId);
     for (const cuatrimestreNum of this.cuatrimestresOrdenados) {
       const asignaturas = this.cuatrimestresConAsignaturas[cuatrimestreNum];
       if (asignaturas) {
         const asignatura = asignaturas.find(a => a.id === asignaturaId);
         if (asignatura) {
-          console.log('Asignatura encontrada:', asignatura);
+          // console.log('Asignatura encontrada:', asignatura);
           return asignatura;
         }
       }
     }
-    console.log('Asignatura no encontrada');
+    // console.log('Asignatura no encontrada');
     return null;
   }
   openImageModal(carrera: Carrera, type: 'principal' | 'generales'): void {
@@ -264,17 +264,17 @@ export class AgregarCarreraComponent implements OnInit {
   }
 
   onEditAsignatura(asignaturaId: number) {
-    console.log('Intentando editar asignatura con ID:', asignaturaId);
+    // console.log('Intentando editar asignatura con ID:', asignaturaId);
 
     const asignatura = this.findAsignaturaById(asignaturaId);
 
     if (!asignatura) {
-      console.error(`Asignatura con ID ${asignaturaId} no encontrada.`);
+      // console.error(`Asignatura con ID ${asignaturaId} no encontrada.`);
       this.showToast('error', 'Asignatura no encontrada.');
       return;
     }
 
-    console.log('Asignatura encontrada:', asignatura);
+    // console.log('Asignatura encontrada:', asignatura);
 
     this.asignaturaForm.patchValue({
       nombre: asignatura.nombre,
@@ -447,7 +447,7 @@ onSubmitAsignatura() {
         cuatrimestreInicio = 7;
         cuatrimestreFin = 11;
       } else {
-        console.error('Nivel de estudio no reconocido');
+        // console.error('Nivel de estudio no reconocido');
         return;
       }
 
@@ -459,7 +459,7 @@ onSubmitAsignatura() {
 
       this.isMapaModalOpen = true;
     } else {
-      console.error("La carrera no tiene un ID válido o no se proporcionó una carrera.");
+      // console.error("La carrera no tiene un ID válido o no se proporcionó una carrera.");
     }
   }
 

@@ -182,7 +182,7 @@ export class ConvocatoriaComponent implements OnInit, OnDestroy {
         this.cursos = cursos;
       },
       error: (error) => {
-        console.error('Error al cargar los cursos:', error);
+        // console.error('Error al cargar los cursos:', error);
         this.showToast('error', 'Error al cargar los cursos');
       },
     });
@@ -197,8 +197,7 @@ export class ConvocatoriaComponent implements OnInit, OnDestroy {
           imagenes_generales: (convocatoria.imagenes_generales || []).map((img: string) => this.getImageUrl(img)),
         }));
         this.filterConvocatorias();
-      },
-      error: (error) => console.error('Error al cargar convocatorias:', error),
+      }
     });
   }
 
@@ -355,7 +354,7 @@ export class ConvocatoriaComponent implements OnInit, OnDestroy {
             this.loadConvocatorias();
           })
           .catch((error) => {
-            console.error('Error al actualizar la convocatoria:', error);
+            // console.error('Error al actualizar la convocatoria:', error);
             this.showToast(
               'error',
               'Error al actualizar la convocatoria: ' +
@@ -382,7 +381,7 @@ export class ConvocatoriaComponent implements OnInit, OnDestroy {
               this.loadConvocatorias();
             },
             error: (error) => {
-              console.error('Error al crear la convocatoria:', error);
+              // console.error('Error al crear la convocatoria:', error);
               this.showToast(
                 'error',
                 'Error al crear la convocatoria: ' +
@@ -426,7 +425,7 @@ export class ConvocatoriaComponent implements OnInit, OnDestroy {
               'Error al eliminar la convocatoria: ' +
                 (error.error?.message || error.message)
             );
-            console.error('Error:', error);
+            // console.error('Error:', error);
           },
         });
       }
@@ -449,7 +448,7 @@ export class ConvocatoriaComponent implements OnInit, OnDestroy {
               'Error al desactivar la convocatoria: ' +
                 (error.error?.message || error.message)
             );
-            console.error('Error:', error);
+            // console.error('Error:', error);
           },
         });
       }
@@ -472,7 +471,7 @@ export class ConvocatoriaComponent implements OnInit, OnDestroy {
               'Error al activar la convocatoria: ' +
                 (error.error?.message || error.message)
             );
-            console.error('Error:', error);
+            // console.error('Error:', error);
           },
         });
       }
