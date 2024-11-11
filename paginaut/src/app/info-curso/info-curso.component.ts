@@ -4,6 +4,7 @@ import { CursoService, Curso } from '../cursoService/curso.service';
 import { Evento, EventoService } from '../evento.service';
 import { Profesor } from './../admin/profesor.service';
 import Hashids from 'hashids';
+import { BASEIMAGEN } from '../constans';
 
 @Component({
   selector: 'app-info-curso',
@@ -123,7 +124,7 @@ export class InfoCursoComponent implements OnInit {
   }
 
   getImageUrl(relativePath: string | undefined): string {
-    const baseImageUrl = 'http://localhost/paginaut/';
+    const baseImageUrl = BASEIMAGEN+'/';
     return relativePath ? baseImageUrl + relativePath : baseImageUrl + 'paginaut/src/assets/img/perfil_vacio_2.png';
   }
 

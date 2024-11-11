@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { ConvocatoriaService, Convocatoria } from '../convocatoria.service';
 import Hashids from 'hashids';
 import { filter } from 'rxjs/operators'; // Importar operador filter para detectar eventos de navegación
+import { BASEIMAGEN } from '../constans';
 
 @Component({
   selector: 'app-convocatorias',
@@ -104,7 +105,7 @@ export class ConvocatoriasComponent implements OnInit {
     if (!relativePath) {
       return 'assets/img/default-convocatoria-image.jpg'; // Imagen por defecto para convocatorias
     }
-    const baseImageUrl = 'http://localhost/paginaut/';
+    const baseImageUrl = BASEIMAGEN+'/';
     if (relativePath.startsWith('../')) {
       return baseImageUrl + relativePath.substring(3);
     }

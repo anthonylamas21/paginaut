@@ -123,7 +123,7 @@ export class InfoUnidadesComponent implements OnInit, AfterViewInit {
   
   
   getImageUrl(path: string): string {
-    return `http://localhost/paginaut/${path}`;
+    return `https://api-paginaut.codigopcp.online/${path}`;
   }
   
 

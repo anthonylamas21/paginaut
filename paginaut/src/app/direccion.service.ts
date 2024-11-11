@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { API } from './constans';
 
 export interface Direccion {
   id?: number;
@@ -19,7 +20,7 @@ export interface DireccionResponse {
   providedIn: 'root',
 })
 export class DireccionService {
-  private apiUrl = 'http://localhost/paginaut/api/direccion.php';
+  private apiUrl = API+'/api/direccion.php';
 
   constructor(private http: HttpClient) {}
 

@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ProfesorService, Profesor, TipoProfesor } from '../profesor.service';
 import Swal from 'sweetalert2';
+import { BASEIMAGEN } from '../../constans';
 
 class TooltipManager {
   static adjustTooltipPosition(
@@ -61,7 +62,7 @@ export class AgregarProfesorComponent implements OnInit {
   currentTab: 'active' | 'inactive' = 'active';
   fileToUpload: File | null = null;
   currentFileName: string = '';
-  baseImageUrl = 'http://localhost/paginaut/';
+  baseImageUrl = BASEIMAGEN+'/';
   tipoProfesorError: string = '';
   fotoValida: boolean = false;
   isSubmitting: boolean = false; // Nueva bandera para prevenir doble envío

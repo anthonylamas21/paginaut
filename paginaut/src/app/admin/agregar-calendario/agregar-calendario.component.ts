@@ -10,6 +10,7 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { CalendarioService, Calendario } from '../calendario.service';
 import Swal from 'sweetalert2';
+import { BASEIMAGEN } from '../../constans';
 
 class TooltipManager {
   static adjustTooltipPosition(
@@ -110,7 +111,7 @@ export class AgregarCalendarioComponent implements OnInit {
   fileToUpload: File | null = null;
   currentFileName: string = '';
   hasActiveCalendario: boolean = false;
-  baseImageUrl = 'http://localhost/paginaut/';
+  baseImageUrl = BASEIMAGEN+'/';
 
   constructor(
     private fb: FormBuilder,

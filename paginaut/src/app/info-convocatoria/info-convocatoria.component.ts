@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConvocatoriaService, Convocatoria } from '../convocatoria.service';
 import Hashids from 'hashids';
+import { BASEIMAGEN } from '../constans';
 
 @Component({
   selector: 'app-info-convocatoria',
@@ -65,7 +66,7 @@ export class InfoConvocatoriaComponent implements OnInit {
     if (!relativePath) {
       return 'assets/img/default-event-image.jpg'; // Asegúrate de tener una imagen por defecto
     }
-    const baseImageUrl = 'http://localhost/paginaut/';
+    const baseImageUrl = BASEIMAGEN+'/';
     if (relativePath.startsWith('../')) {
       return baseImageUrl + relativePath.substring(3);
     }

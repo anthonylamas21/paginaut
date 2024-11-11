@@ -4,6 +4,7 @@ import { NoticiaService, Noticia } from '../../noticia.service';
 import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { BASEIMAGEN } from '../../constans';
 
 class TooltipManager {
   static adjustTooltipPosition(
@@ -65,7 +66,7 @@ export class NoticiaComponent implements OnInit, OnDestroy {
   currentNoticiaId: number | null = null;
   isLoading = false;
   responseMessage = '';
-  baseImageUrl = 'http://localhost/paginaut/';
+  baseImageUrl = BASEIMAGEN+'/';
   imagenPrincipalPreview: string | ArrayBuffer | null = null;
   imagenesGeneralesActuales: string[] = [];
   isImageModalOpen = false;

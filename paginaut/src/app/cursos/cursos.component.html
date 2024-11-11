@@ -71,7 +71,7 @@
             <div *ngFor="let curso of filteredCursos" 
                  class="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition duration-300 flex flex-col justify-between h-full">
               
-              <img [src]="'http://localhost/paginaut/'+curso.imagen_principal" 
+              <img [src]="baseImageUrl+curso.imagen_principal" 
                    [alt]="curso.nombre" 
                    class="w-full max-h-60 object-cover rounded-t-lg mb-4 transition-transform duration-300 transform group-hover:scale-105">
               

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { API } from '../constans';
 
 export interface Beca {
   id?: number;
@@ -21,7 +22,7 @@ export interface BecaResponse {
   providedIn: 'root',
 })
 export class BecaService {
-  private apiUrl = 'http://localhost/paginaut/api/beca';
+  private apiUrl = API+'/api/beca';
 
   constructor(private http: HttpClient) {}
 

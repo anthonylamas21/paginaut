@@ -5,6 +5,7 @@ import {
   InstalacionService,
 } from '../../instalacionService/instalacion.service';
 import Swal from 'sweetalert2';
+import { BASEIMAGEN } from '../../constans';
 
 class TooltipManager {
   static adjustTooltipPosition(
@@ -49,7 +50,7 @@ export class InstalacionComponent implements OnInit {
   currentInstalacionId: number | null = null;
   isLoading = false;
   responseMessage = '';
-  baseImageUrl = 'http://localhost/paginaut/';
+  baseImageUrl = BASEIMAGEN+'/';
   imagenPrincipalPreview: string | ArrayBuffer | null = null;
   imagenesGeneralesActuales: string[] = [];
   isImageModalOpen = false;

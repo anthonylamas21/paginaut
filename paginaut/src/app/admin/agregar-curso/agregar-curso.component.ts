@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { CursoService, Curso } from '../../cursoService/curso.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { BASEIMAGEN } from '../../constans';
 
 class TooltipManager {
   static adjustTooltipPosition(
@@ -43,7 +44,7 @@ export class AgregarCursoComponent implements OnInit {
   currentCursoId: number | null = null;
   isLoading = false;
   responseMessage = '';
-  baseImageUrl = 'http://localhost/paginaut/';
+  baseImageUrl = BASEIMAGEN+'/';
   imagenPrincipalPreview: string | ArrayBuffer | null = null;
   imagenesGeneralesActuales: string[] = [];
   isImageModalOpen = false;

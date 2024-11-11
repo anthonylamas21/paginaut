@@ -8,6 +8,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TallerService, Taller, TallerResponse } from '../taller.service';
 import { Observable } from 'rxjs';
+import { BASEIMAGEN } from '../constans';
 
 @Component({
   selector: 'app-taller',
@@ -32,7 +33,7 @@ export class TallerComponent implements OnInit, AfterViewInit {
   currentTallerId?: number;
   isModalOpen = false;
   currentTab: 'active' | 'inactive' = 'active';
-  baseImageUrl = 'http://localhost/paginaut/';
+  baseImageUrl = BASEIMAGEN+'/';
   selectedTaller: Taller | null = null;
   isImageModalOpen = false;
   currentImageIndex = 0;

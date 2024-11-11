@@ -67,13 +67,9 @@ export class CarrerasComponent {
 
   ngOnInit(): void {
     this.setNavbarColor();
-  }
-
-  ngAfterViewInit(): void {
-    this.renderer.listen('window', 'load', () => {
-       this.isLoading = false;
-
-    }); 
+      this.renderer.listen('window', 'load', () => {
+      this.isLoading = false;
+   }); 
   }
 
   @HostListener('window:scroll', [])

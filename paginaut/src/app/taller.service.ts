@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
+import { API } from './constans';
 
 export interface Taller {
   id?: number;
@@ -21,7 +22,7 @@ export interface TallerResponse {
   providedIn: 'root'
 })
 export class TallerService {
-  private apiUrl = 'http://localhost/paginaut/api/taller.php'; // Asegúrate de que esta URL sea correcta
+  private apiUrl = API+'/api/taller.php'; // Asegúrate de que esta URL sea correcta
 
   constructor(private http: HttpClient) {}
 

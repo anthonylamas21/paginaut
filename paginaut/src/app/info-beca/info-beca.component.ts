@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BecaService, Beca } from '../admin/beca.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import Hashids from 'hashids';
+import { BASEIMAGEN } from '../constans';
 
 @Component({
   selector: 'app-info-beca',
@@ -18,7 +19,7 @@ export class InfoBecaComponent implements OnInit, AfterViewInit {
   error: string | null = null;
   safeArchivoUrl: SafeResourceUrl | null = null;
   archivoDisponible: boolean = false;
-  private baseUrl = 'http://localhost/paginaut/';
+  private baseUrl = BASEIMAGEN+'/';
   isLoading = true;
 
   constructor(

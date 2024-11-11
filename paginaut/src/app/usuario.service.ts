@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, tap, throwError } from 'rxjs';
 import * as CryptoJS from 'crypto-js';
+import { API } from './constans';
 
 export interface Usuario {
   id?: number;
@@ -31,10 +32,10 @@ export class UsuarioService {
   rol:  string | null;
   depa:  string | null;
 
-  private URL = 'http://localhost/paginaut/api/usuario.php';  // Ajusta esta URL según tu configuración
-  private URL_Login = 'http://localhost/paginaut/api/login.php';
-  private URL_Logout = 'http://localhost/paginaut/api/deleteToken.php';
-  private URL_DeleteToken = 'http://localhost/paginaut/api/logout.php';
+  private URL = API+'/api/usuario.php';  // Ajusta esta URL según tu configuración
+  private URL_Login = API+'/api/login.php';
+  private URL_Logout = API+'/api/deleteToken.php';
+  private URL_DeleteToken = API+'/api/logout.php';
 
   constructor(private http: HttpClient) {
     this.token = localStorage.getItem('token');

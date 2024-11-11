@@ -5,6 +5,7 @@ import { VistasService } from '../services/vistas.service';
 import * as CryptoJS from 'crypto-js';
 import { Router } from '@angular/router';
 import Hashids from 'hashids';
+import { BASEIMAGEN } from '../constans';
 
 @Component({
   selector: 'app-principal',
@@ -183,7 +184,7 @@ verMenosEventos(): void {
   }
 
   getImageUrl(relativePath: string): string {
-    const baseImageUrl = 'http://localhost/paginaut/';
+    const baseImageUrl = BASEIMAGEN+'/';
     if (relativePath && relativePath.startsWith('../')) {
       return baseImageUrl + relativePath.substring(3);
     }

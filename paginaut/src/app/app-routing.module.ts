@@ -119,40 +119,22 @@ const routes: Routes = [
 
 
   // Info Carreras
-  {
-    path: 'info_carreras/agrobiotecnologia',
-    component: CarreraAgrobiotecnologiaComponent,
-  },
-  {
-    path: 'info_carreras/procesos-alimentario',
-    component: CarreraProcesosAlimentarioComponent,
-  },
+  { path: 'info_carreras/agrobiotecnologia',component: CarreraAgrobiotecnologiaComponent},
+  { path: 'info_carreras/procesos-alimentario', component: CarreraProcesosAlimentarioComponent},
   { path: 'info_carreras/acuicultura', component: CarreraAcuiculturaComponent },
   { path: 'info_carreras/turismo', component: CarreraTurismoComponent },
-  {
-    path: 'info_carreras/administracion',
-    component: CarreraAdministracionComponent,
-  },
-  {
-    path: 'info_carreras/mercadotecnia',
-    component: CarreraMercadotecniaComponent,
-  },
+  { path: 'info_carreras/administracion', component: CarreraAdministracionComponent},
+  { path: 'info_carreras/mercadotecnia', component: CarreraMercadotecniaComponent},
   { path: 'info_carreras/gastronomia', component: CarreraGastronomiaComponent },
   { path: 'info_carreras/contaduria', component: CarreraContaduriaComponent },
-  {
-    path: 'info_carreras/desarrollo-software',
-    component: CarreraDesarrolloSoftwareComponent,
-  },
+  { path: 'info_carreras/desarrollo-software', component: CarreraDesarrolloSoftwareComponent},
 
   // Info Horas Recreativas
   { path: 'info_horas_recreativas/futbol', component: FutbolComponent },
   { path: 'info_horas_recreativas/beisbol', component: BeisbolComponent },
   { path: 'info_horas_recreativas/basquetbol', component: BasquetbolComponent },
   { path: 'info_horas_recreativas/voleibol', component: VoleibolComponent },
-  {
-    path: 'info_horas_recreativas/activacion-fisica',
-    component: ActivacionFisicaComponent,
-  },
+  { path: 'info_horas_recreativas/activacion-fisica', component: ActivacionFisicaComponent},
   { path: 'info_horas_recreativas/dibujo', component: DibujoComponent },
   { path: 'info_horas_recreativas/danza', component: DanzaComponent },
   { path: 'info_horas_recreativas/ajedrez', component: AjedrezComponent },

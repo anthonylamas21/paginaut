@@ -2,119 +2,111 @@
 // Configurar la zona horaria a America/Mazatlan
 date_default_timezone_set('America/Mazatlan');
 
-// Allow from any origin
+// Permitir origen desde cualquier origen (CORS)
 if (isset($_SERVER['HTTP_ORIGIN'])) {
-  header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
-  header('Access-Control-Allow-Credentials: true');
-  header('Access-Control-Max-Age: 86400');    // cache for 1 day
+    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Max-Age: 86400'); // cache for 1 day
 }
 
-// Access-Control headers are received during OPTIONS requests
+// Manejar solicitudes OPTIONS para CORS
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-  if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
-    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-
-  if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
-    header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
-
-  exit(0);
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'])) {
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+    }
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
+        header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+    }
+    exit(0);
 }
+
+// Función para validar el token
+function validarToken($token) {
+    // Aquí debes implementar la lógica de validación del token.
+    // Por ejemplo, podrías comprobar si el token existe en una base de datos o es válido de alguna manera.
+    // Para efectos de este ejemplo, vamos a considerar el token "token_secreto" como válido.
+    return $token === "token_secreto";
+}
+
+// Verificar si se requiere un token para ciertos métodos
+$request_method = $_SERVER["REQUEST_METHOD"];
+$token = isset($_SERVER['HTTP_AUTHORIZATION']) ? trim(str_replace('Bearer ', '', $_SERVER['HTTP_AUTHORIZATION'])) : null;
+$current_route = $_SERVER['REQUEST_URI'];
 
 // Definir el directorio base
-$baseDir = dirname(__FILE__);  // Obtiene el directorio actual donde está ubicado el index.php
+$baseDir = dirname(__FILE__);
 
-// Definir las rutas disponibles en la API
-$request_method = $_SERVER["REQUEST_METHOD"];
-$request_uri = $_SERVER['REQUEST_URI'];
-
-switch ($request_method) {
-  case 'POST':
-  case 'GET':
-  case 'PUT':
-  case 'DELETE':
-    if (strpos($request_uri, '/api/usuario') !== false) {
-      include_once $baseDir . '/controllers/usuario.php';
-    } elseif (strpos($request_uri, '/api/rol') !== false) {
-      include_once $baseDir . '/controllers/rol.php';
-    } elseif (strpos($request_uri, '/api/departamento') !== false) {
-      include_once $baseDir . '/controllers/departamento.php';
-    } elseif (strpos($request_uri, '/api/direccion') !== false) {
-      include_once $baseDir . '/controllers/direccion.php';
-    } elseif (strpos($request_uri, '/api/carrera') !== false) {
-      include_once $baseDir . '/controllers/carrera.php';
-    } elseif (strpos($request_uri, '/api/cuatrimestre') !== false) {
-      include_once $baseDir . '/controllers/cuatrimestre.php';
-    } elseif (strpos($request_uri, '/api/asignatura') !== false) {
-      include_once $baseDir . '/controllers/asignatura.php';
-    } elseif (strpos($request_uri, '/api/evento') !== false) {
-      include_once $baseDir . '/controllers/evento.php';
-    } elseif (strpos($request_uri, '/api/imagenevento') !== false) {
-      include_once $baseDir . '/controllers/imagenevento.php';
-    } elseif (strpos($request_uri, '/api/taller') !== false) {
-      include_once $baseDir . '/controllers/taller.php';
-    } elseif (strpos($request_uri, '/api/bolsa_de_trabajo') !== false) {
-      include_once $baseDir . '/controllers/bolsa_de_trabajo.php';
-    } elseif (strpos($request_uri, '/api/login') !== false) {
-      include_once $baseDir . '/controllers/login.php';
-    } elseif (strpos($request_uri, '/api/logout') !== false) {
-      include_once $baseDir . '/controllers/logout.php';
-    } elseif (strpos($request_uri, '/api/recover_password') !== false) {
-      include_once $baseDir . '/controllers/recover_password.php';
-    } elseif (strpos($request_uri, '/api/reset_password') !== false) {
-      include_once $baseDir . '/controllers/reset_password.php';
-    } elseif (strpos($request_uri, '/api/deleteToken') !== false) {
-      include_once $baseDir . '/controllers/deleteToken.php';
-    } elseif (strpos($request_uri, '/api/talleres') !== false) {
-      include_once $baseDir . '/controllers/taller.php';
-    } elseif (strpos($request_uri, '/api/calendario') !== false) {
-      include_once $baseDir . '/controllers/calendario.php';
-    } elseif (strpos($request_uri, '/api/beca') !== false) {
-      include_once $baseDir . '/controllers/beca.php';
-    } elseif (strpos($request_uri, '/api/noticia') !== false) {
-      include_once $baseDir . '/controllers/noticia.php';
-    } elseif (strpos($request_uri, '/api/instalacion') !== false) {
-      include_once $baseDir . '/controllers/instalacion.php';
-    } elseif (strpos($request_uri, '/api/status') !== false) {
-      header('Content-Type: application/json');
-      echo json_encode(array("message" => "API is working."));
-    } elseif (strpos($request_uri, '/api/niveles-estudios') !== false) { // Nueva ruta para NivelesEstudios
-      include_once $baseDir . '/controllers/NivelesEstudiosController.php';
-    } elseif (strpos($request_uri, '/api/campo-estudio') !== false) { // Nueva ruta para CampoEstudio
-      include_once $baseDir . '/controllers/CampoEstudioController.php';
-    } elseif (strpos($request_uri, '/api/cuatrimestre') !== false) {
-      include_once $baseDir . '/controllers/cuatrimestre.php';
-    } elseif (strpos($request_uri, '/api/asignaturas') !== false) {
-      include_once $baseDir . '/controllers/asignatura.php';
-    } // Manejo de la ruta /api/cuatrimestres/carrera/{carrera_id}/asignaturas
-    elseif (strpos($request_uri, '/api/cuatrimestres/carrera/') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
-      include_once $baseDir . '/controllers/cuatrimestre.php';
-    } elseif (strpos($request_uri, '/api/send_reset_email') !== false) {
-      include_once $baseDir . '/controllers/send_reset_email.php';
-    } elseif (strpos($request_uri, '/api/bolsa_requisitos') !== false) {
-      include_once $baseDir . '/controllers/bolsa_requisitos.php';
-    } elseif (strpos($request_uri, '/api/profesor') !== false) {
-      include_once $baseDir . '/controllers/ProfesorController.php';
-    } elseif (strpos($request_uri, '/api/tipo-pro') !== false) {
-      include_once $baseDir . '/controllers/ProfesorTipoController.php';
-    } elseif (strpos($request_uri, '/api/curso_maestro') !== false) {
-      include_once $baseDir . '/controllers/curso_maestro.php';
-    }elseif (strpos($request_uri, '/api/curso') !== false) {
-      include_once $baseDir . '/controllers/curso.php';
-    }  
-    elseif (strpos($request_uri, '/api/historial') !== false) {
-      include_once $baseDir . '/controllers/historial.php';
-    } elseif (strpos($request_uri, '/api/visita') !== false) {
-      include_once $baseDir . '/controllers/visitas.php';
-    } elseif (strpos($request_uri, '/api/convocatoria') !== false) {
-      include_once $baseDir . '/controllers/convocatoria.php';
-    }  else {
-      header("HTTP/1.0 404 Not Found");
-      echo json_encode(array("message" => "Endpoint not found."));
+// Función para incluir el controlador correspondiente
+function loadController($route, $controllerFile) {
+    global $baseDir;
+    if (strpos($_SERVER['REQUEST_URI'], $route) !== false) {
+        include_once $baseDir . '/controllers/' . $controllerFile;
+        return true;
     }
-    break;
-
-  default:
-    header("HTTP/1.0 405 Method Not Allowed");
-    echo json_encode(array("message" => "Method not allowed."));
-    break;
+    return false;
 }
+
+// Definir las rutas disponibles
+$routes = [
+    '/api/usuario' => 'usuario.php',
+    '/api/rol' => 'rol.php',
+    '/api/departamento' => 'departamento.php',
+    '/api/direccion' => 'direccion.php',
+    '/api/carrera' => 'carrera.php',
+    '/api/cuatrimestre' => 'cuatrimestre.php',
+    '/api/asignatura' => 'asignatura.php',
+    '/api/evento' => 'evento.php',
+    '/api/imagenevento' => 'imagenevento.php',
+    '/api/taller' => 'taller.php',
+    '/api/bolsa_de_trabajo' => 'bolsa_de_trabajo.php',
+    '/api/login' => 'login.php',
+    '/api/logout' => 'logout.php',
+    '/api/recover_password' => 'recover_password.php',
+    '/api/reset_password' => 'reset_password.php',
+    '/api/deleteToken' => 'deleteToken.php',
+    '/api/talleres' => 'taller.php',
+    '/api/calendario' => 'calendario.php',
+    '/api/beca' => 'beca.php',
+    '/api/noticia' => 'noticia.php',
+    '/api/instalacion' => 'instalacion.php',
+    '/api/status' => '',
+    '/api/niveles-estudios' => 'NivelesEstudiosController.php',
+    '/api/campo-estudio' => 'CampoEstudioController.php',
+    '/api/asignaturas' => 'asignatura.php',
+    '/api/send_reset_email' => 'send_reset_email.php',
+    '/api/bolsa_requisitos' => 'bolsa_requisitos.php',
+    '/api/profesor' => 'ProfesorController.php',
+    '/api/tipo-pro' => 'ProfesorTipoController.php',
+    '/api/curso_maestro' => 'curso_maestro.php',
+    '/api/curso' => 'curso.php',
+    '/api/historial' => 'historial.php',
+    '/api/visita' => 'visitas.php',
+    '/api/convocatoria' => 'convocatoria.php',
+];
+
+$found = false;
+foreach ($routes as $route => $controller) {
+    if ($route == '/api/status' && strpos($_SERVER['REQUEST_URI'], '/api/status') !== false) {
+        header('Content-Type: application/json');
+        echo json_encode(["message" => "API is working."]);
+        $found = true;
+        break;
+    }
+
+    if (loadController($route, $controller)) {
+        $found = true;
+        break;
+    }
+}
+
+// Ruta adicional para /api/cuatrimestres/carrera/{carrera_id}/asignaturas
+if (!$found && strpos($_SERVER['REQUEST_URI'], '/api/cuatrimestres/carrera/') !== false && $request_method == 'GET') {
+    include_once $baseDir . '/controllers/cuatrimestre.php';
+    $found = true;
+}
+
+if (!$found) {
+    header("HTTP/1.0 404 Not Found");
+    echo json_encode(["message" => "Endpoint not found."]);
+}
+?>

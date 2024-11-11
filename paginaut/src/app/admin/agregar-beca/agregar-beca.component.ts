@@ -17,6 +17,7 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { BecaService, Beca } from '../beca.service';
 import Swal from 'sweetalert2';
+import { BASEIMAGEN } from '../../constans';
 
 class TooltipManager {
   static adjustTooltipPosition(
@@ -153,7 +154,7 @@ export class AgregarBecaComponent implements OnInit {
   currentTab: 'active' | 'inactive' = 'active';
   fileToUpload: File | null = null;
   currentFileName: string = '';
-  baseImageUrl = 'http://localhost/paginaut/';
+  baseImageUrl = BASEIMAGEN+'/';
 
   constructor(
     private fb: FormBuilder,

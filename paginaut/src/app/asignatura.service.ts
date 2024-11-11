@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API } from './constans';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AsignaturaService {
-  private apiUrl = 'http://localhost/paginaut/api/asignaturas';
+  private apiUrl = API+'/api/asignaturas';
 
   constructor(private http: HttpClient) {}
 

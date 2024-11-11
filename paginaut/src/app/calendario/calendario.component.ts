@@ -56,7 +56,7 @@ export class CalendarioComponent implements OnInit {
           const activeCalendario = calendarios.find((cal) => cal.activo);
           if (activeCalendario) {
             this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-              `http://localhost/paginaut/paginaut${activeCalendario.archivo}`
+              `https://api-paginaut.codigopcp.online/paginaut${activeCalendario.archivo}`
             );
           } else {
             // console.error('No active calendar found');

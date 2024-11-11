@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { API } from '../constans';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VistasService {
 
-private apiUrl = 'http://localhost/paginaut/api/visitas';
+private apiUrl = API+'/api/visitas';
 
 constructor(private http: HttpClient) { }
 

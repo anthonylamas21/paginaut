@@ -7,6 +7,7 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
+import { API } from '../constans';
 
 export interface Curso {
   id?: number;
@@ -28,9 +29,9 @@ export interface CursoResponse {
   providedIn: 'root',
 })
 export class CursoService {
-  private apiUrl = 'http://localhost/paginaut/api/curso'; // Actualiza esta URL si es necesario
-  private apiUrlProfe = 'http://localhost/paginaut/api/profesor';
-  private apiCursoProfe = 'http://localhost/paginaut/api/curso_maestro';
+  private apiUrl = API+'/api/curso'; // Actualiza esta URL si es necesario
+  private apiUrlProfe = API+'/api/profesor';
+  private apiCursoProfe = API+'/api/curso_maestro';
 
   constructor(private http: HttpClient) {}
 

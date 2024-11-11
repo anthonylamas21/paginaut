@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { API } from '../constans';
 
 export interface Requisito {
   id?: number;
@@ -30,8 +31,8 @@ export interface BolsaDeTrabajoResponse {
   providedIn: 'root',
 })
 export class BolsaDeTrabajoService {
-  private apiUrl = 'http://localhost/paginaut/api/bolsa_de_trabajo';
-  private apiUrlRequisitos = 'http://localhost/paginaut/api/bolsa_requisitos';
+  private apiUrl = API+'/api/bolsa_de_trabajo';
+  private apiUrlRequisitos = API+'/api/bolsa_requisitos';
 
   constructor(private http: HttpClient) {}
 

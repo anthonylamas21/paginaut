@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { API } from '../constans';
 
 export interface Profesor {
   id?: number;
@@ -31,8 +32,8 @@ export interface ProfesorResponse {
   providedIn: 'root',
 })
 export class ProfesorService {
-  private apiUrl = 'http://localhost/paginaut/api/profesor';
-  private tipoUrl = 'http://localhost/paginaut/api/tipo-pro';
+  private apiUrl = API+'/api/profesor';
+  private tipoUrl = API+'/api/tipo-pro';
 
   constructor(private http: HttpClient) {}
 

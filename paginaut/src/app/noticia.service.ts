@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { API } from './constans';
 
 export interface Noticia {
   id?: number;
@@ -25,7 +26,7 @@ export interface NoticiaResponse {
   providedIn: 'root',
 })
 export class NoticiaService {
-  private apiUrl = 'http://localhost/paginaut/api/noticia';
+  private apiUrl = API+'/api/noticia';
 
   constructor(private http: HttpClient) {}
 

@@ -7,6 +7,7 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { tap } from 'rxjs/operators';
+import { API } from '../constans';
 
 export interface Carrera {
   id?: number;
@@ -30,7 +31,7 @@ export interface CarreraResponse {
   providedIn: 'root',
 })
 export class CarreraService {
-  private apiUrl = 'http://localhost/paginaut/api/carrera.php';
+  private apiUrl = API+'/api/carrera.php';
 
   constructor(private http: HttpClient) {}
 

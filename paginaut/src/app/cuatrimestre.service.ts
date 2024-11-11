@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API } from './constans';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CuatrimestreService {
-  private apiUrl = 'http://localhost/paginaut/api/cuatrimestres';
+  private apiUrl = API+'/api/cuatrimestres';
 
   constructor(private http: HttpClient) {}
 

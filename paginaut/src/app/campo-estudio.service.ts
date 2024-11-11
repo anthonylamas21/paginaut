@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { API } from './constans';
 
 export interface CampoEstudio {
   id?: number;
@@ -18,7 +19,7 @@ export interface CampoEstudioResponse {
   providedIn: 'root',
 })
 export class CampoEstudioService {
-  private apiUrl = 'http://localhost/paginaut/api/campo-estudio.php';
+  private apiUrl = API+'/api/campo-estudio.php';
 
   constructor(private http: HttpClient) {}
 

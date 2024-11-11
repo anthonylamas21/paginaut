@@ -4,6 +4,7 @@ import esLocale from '@fullcalendar/core/locales/es';
 import * as FullCalendar from '@fullcalendar/core';
 import { EventoService, Evento } from '../../evento.service';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import { BASEIMAGEN } from '../../constans';
 
 @Component({
   selector: 'app-agenda-admin',
@@ -14,7 +15,7 @@ export class AgendaAdminComponent implements OnInit {
 
   eventos: Evento[] = [];
   selectedEvent: any = null;
-  baseImageUrl = 'http://localhost/paginaut/';
+  baseImageUrl = BASEIMAGEN+'/';
 
   // Define an array of colors
   colors = ['#FF6F61', '#6B5B95', '#88B04B', '#F7B32B', '#00A4E4', '#F25F5C', '#3F8EFC', '#C1C8E4', '#C4E17F'];

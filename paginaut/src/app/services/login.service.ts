@@ -1,13 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { API } from '../constans';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  URL = 'http://localhost/paginaut/api/controller';
+  URL = API+'/api/controller';
 
   reqHeader =  new HttpHeaders({
     'Authorization': 'Bearer '

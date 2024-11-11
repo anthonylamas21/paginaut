@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { API } from '../constans';
 
 export interface Calendario {
   id?: number;
@@ -15,7 +16,7 @@ export interface Calendario {
   providedIn: 'root',
 })
 export class CalendarioService {
-  private apiUrl = 'http://localhost/paginaut/api/calendario'; // Ajusta esta URL según tu configuración
+  private apiUrl = API+'/api/calendario'; // Ajusta esta URL según tu configuración
 
   constructor(private http: HttpClient) {}
 

@@ -47,7 +47,7 @@ export class UnidadesAcademicasComponent implements OnInit, AfterViewInit {
 
   getImageUrl(path: string | undefined): string {
     if (path) {
-      return `http://localhost/paginaut/${path}`;
+      return `https://api-paginaut.codigopcp.online/${path}`;
     }
     return 'path/to/default/image.jpg';
   }

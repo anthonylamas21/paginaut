@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { API } from './constans';
 
 export interface NivelesEstudios {
   id?: number;
@@ -18,7 +19,7 @@ export interface NivelesEstudiosResponse {
   providedIn: 'root',
 })
 export class NivelesEstudiosService {
-  private apiUrl = 'http://localhost/paginaut/api/niveles-estudios.php';
+  private apiUrl = API+'/api/niveles-estudios.php';
 
   constructor(private http: HttpClient) {}
 

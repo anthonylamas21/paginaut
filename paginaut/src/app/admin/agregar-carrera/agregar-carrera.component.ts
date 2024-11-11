@@ -8,6 +8,7 @@ import { CuatrimestreService } from '../../cuatrimestre.service';  // Importa el
 import { AsignaturaService } from '../../asignatura.service';  // Importa el servicio de Asignaturas
 import Swal from 'sweetalert2';
 import { KeyValuePipe } from '@angular/common';
+import { BASEIMAGEN } from '../../constans';
 interface CarreraTemporal extends Carrera {
   imagenesGeneralesOriginales?: string[];
   imagenPrincipalOriginal?: string;
@@ -77,7 +78,7 @@ export class AgregarCarreraComponent implements OnInit {
   modalTitle = '';
   currentImageIndex = 0;
   allImages: string[] = [];
-  baseImageUrl = 'http://localhost/paginaut/';
+  baseImageUrl = BASEIMAGEN+'/';
 
 
 

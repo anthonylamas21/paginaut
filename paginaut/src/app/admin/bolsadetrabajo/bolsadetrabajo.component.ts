@@ -12,6 +12,7 @@ import {
   Requisito,
 } from '../bolsa-de-trabajo.service';
 import Swal from 'sweetalert2';
+import { BASEIMAGEN } from '../../constans';
 
 class TooltipManager {
   static adjustTooltipPosition(
@@ -65,7 +66,7 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
   selectedBolsa?: BolsaDeTrabajo;
   currentTab: 'active' | 'inactive' = 'active';
   fileToUpload: File | null = null;
-  baseImageUrl = 'http://localhost/paginaut/';
+  baseImageUrl = BASEIMAGEN+'/';
   isDetailsModalOpen = false;
   getrequisitos?: Array<{ requisito: string }>;
   IDMostrarRequisitos?: number;

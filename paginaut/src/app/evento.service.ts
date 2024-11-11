@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { API } from './constans';
 
 export interface Evento {
   id?: number;
@@ -30,7 +31,7 @@ export interface EventoResponse {
   providedIn: 'root'
 })
 export class EventoService {
-  private apiUrl = 'http://localhost/paginaut/api/evento';
+  private apiUrl = API+'/api/evento';
 
   constructor(private http: HttpClient) {}
 

@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { API } from '../constans';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PasswordResetService {
 
-  private apiUrl = 'http://localhost/paginaut/api/send_reset_email';
-  private apiUrlPass = 'http://localhost/paginaut/api/reset_password';
+  private apiUrl = API+'/api/send_reset_email';
+  private apiUrlPass = API+'/api/reset_password';
 
   constructor(private http: HttpClient) { }
 

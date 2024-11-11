@@ -3,7 +3,7 @@
 <p id="inicio"></p>
 <!-- Fin Navbar -->
 
-<div class="p-4 mx-auto">
+<div class="p-4 mb-4 mx-auto">
   <div class="bg-gradient-to-r from-[#043D3D] to-[#065555] text-white mt-24 p-8 rounded-md shadow-2xl">
     <div class="container mx-auto px-4 text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold mb-12 text-center">
@@ -80,78 +80,3 @@
     </div>
   </div>
 </div>
-
-
-<!-- Resumen de Actividad Reciente -->
-<div class="p-6 mt-8 bg-gray-100 rounded-md shadow-md container mx-auto">
-  <h2 class="text-3xl font-bold text-center mb-6 text-[#043D3D]">Actividad Reciente</h2>
-
-  <!-- Mostrar los registros visibles -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div *ngFor="let item of historial | slice:0:visibleItemsCount" class="bg-white p-4 rounded-md shadow hover:shadow-lg transition-shadow duration-300">
-      <h3 class="text-xl font-semibold mb-2">{{ getDescription(item) }}</h3>
-      <button class="mt-2 text-[#04847C]" (click)="openModal(item)">Ver más detalles</button>
-    </div>
-  </div>
-
-  <!-- Botones Ver Más y Ver Menos -->
-  <div class="text-center my-6">
-    <button *ngIf="visibleItemsCount < historial.length" class="bg-[#043D3D] text-white px-4 py-2 rounded mr-2" (click)="showMore()">Ver más</button>
-    <button *ngIf="visibleItemsCount > 3" class="bg-[#043D3D] text-white px-4 py-2 rounded" (click)="showLess()">Ver menos</button>
-  </div>
-
-<!-- Modal -->
-<div class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4" *ngIf="isModalOpen">
-  <div class="bg-white shadow-xl w-full max-w-2xl rounded">
-    <div class="flex  items-center p-4 border-b sticky top-0 bg-white z-10 rounded-lg">
-      <!-- Header del Modal -->
-      <div class="absolute top-0 right-0 left-0 flex justify-between items-center py-3 px-4 border-b bg-white">
-        <h2 class="text-3xl font-bold text-gray-800">Detalles de la Actividad</h2>
-        <button class="inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200" (click)="closeModal()" aria-label="Close">
-          <span class="sr-only">Close</span>
-          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 6 6 18"></path>
-            <path d="m6 6 12 12"></path>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Contenedor para el contenido -->
-      <div class="pt-16 pb-4 overflow-y-auto max-h-[calc(100vh-4rem)]">
-        <div *ngIf="selectedItem">
-          <!-- Título de la Actividad -->
-          <div class="mb-6">
-            <h3 class="text-2xl font-semibold text-[#043D3D] mb-4">{{ getDescription(selectedItem) }}</h3>
-          </div>
-
-          <!-- Información Detallada -->
-          <div class="space-y-6">
-            <div class="bg-gray-100 p-4 rounded-md shadow-inner">
-              <h4 class="text-lg font-semibold mb-3">Detalles del Registro</h4>
-              <ul class="list-disc list-inside space-y-2 text-gray-700">
-                <li *ngFor="let detail of parseDetails(selectedItem)">
-                  <strong>{{ detail.label }}:</strong> {{ detail.value }}
-                </li>
-              </ul>
-            </div>
-
-            <div class="bg-gray-100 p-4 rounded-md shadow-inner">
-              <p class="text-gray-600">
-                <strong>Fecha de la Operación:</strong> {{ formatDate(selectedItem.fecha) }}<br>
-                <!-- Puedes agregar más detalles adicionales aquí -->
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-<!-- Pie de página -->
-<footer class="bg-[#043D3D] text-white py-4 text-center mt-auto">
-  <p>&copy; 2024 Universidad Tecnológica de la Costa. Todos los derechos reservados.</p>
-</footer>

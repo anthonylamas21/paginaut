@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, Renderer2, ChangeDetectorRef } from '
 import { Router, NavigationEnd  } from '@angular/router';
 import { BecaService, Beca } from '../admin/beca.service';
 import Hashids from 'hashids';
+import { BASEIMAGEN } from '../constans';
 
 @Component({
   selector: 'app-becas',
@@ -78,7 +79,7 @@ export class BecasComponent implements OnInit, AfterViewInit {
   }
 
   getFileUrl(relativePath: string): string {
-    const baseUrl = 'http://localhost/paginaut/';
+    const baseUrl = BASEIMAGEN+'/';
     if (relativePath && relativePath.startsWith('../')) {
       return baseUrl + relativePath.substring(3);
     }

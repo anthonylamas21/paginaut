@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventoService, Evento } from '../evento.service';
 import Hashids from 'hashids';
+import { BASEIMAGEN } from '../constans';
 
 @Component({
   selector: 'app-eventos',
@@ -63,7 +64,7 @@ export class EventosComponent implements OnInit {
     if (!relativePath) {
       return 'assets/img/default-event-image.jpg'; // Asegúrate de tener una imagen por defecto
     }
-    const baseImageUrl = 'http://localhost/paginaut/';
+    const baseImageUrl = BASEIMAGEN+'/';
     if (relativePath.startsWith('../')) {
       return baseImageUrl + relativePath.substring(3);
     }

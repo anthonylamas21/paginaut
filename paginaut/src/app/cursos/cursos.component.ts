@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Curso, CursoService } from '../cursoService/curso.service';
 import { Router } from '@angular/router';
 import Hashids from 'hashids';
+import { BASEIMAGEN } from '../constans';
 
 @Component({
   selector: 'app-cursos',
@@ -14,6 +15,7 @@ export class CursosComponent implements OnInit {
   searchTerm: string = '';  // Término de búsqueda ingresado por el usuario
   cursos: Curso[] = [];  // Arreglo de todos los cursos
   filteredCursos: Curso[] = [];  // Arreglo de cursos filtrados
+  baseImageUrl = BASEIMAGEN+'/';
 
   constructor(private cursoService: CursoService, private router: Router) {}
 
