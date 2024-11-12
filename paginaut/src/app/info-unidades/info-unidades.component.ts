@@ -2,6 +2,8 @@ import { Component, OnInit, AfterViewInit, Renderer2, ChangeDetectorRef } from '
 import { ActivatedRoute, Router } from '@angular/router';
 import { InstalacionService, Instalacion, InstalacionResponse } from '../instalacionService/instalacion.service';
 import Hashids from 'hashids';
+import { BASEIMAGEN } from '../constans';
+
 @Component({
   selector: 'app-info-unidades',
   templateUrl: './info-unidades.component.html',
@@ -11,7 +13,7 @@ export class InfoUnidadesComponent implements OnInit, AfterViewInit {
 
   private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 16);
   idDecrypted: number | undefined;
-
+  hasImages?: boolean = false;
   isLoading = true;
   instalacion: Instalacion | null = null;
   groupedImages: { [key: string]: any[] } = {};
@@ -77,17 +79,25 @@ export class InfoUnidadesComponent implements OnInit, AfterViewInit {
   }
 
   private loadInstalacion(id: number): void {
+    this.isLoading = true;
     this.instalacionService.obtenerInstalacionPorId(id).subscribe({
       next: (instalacion: Instalacion) => {
         if (instalacion && instalacion.activo) {
           this.instalacion = instalacion;
-          this.groupImagesByMonth();
+          // Verificar si hay imágenes antes de agruparlas
+          this.hasImages = instalacion.imagenes_generales && 
+                          instalacion.imagenes_generales.length > 0;
+          
+          if (this.hasImages) {
+            this.groupImagesByMonth();
+          }
           this.isLoading = false;
         } else {
           this.redirectToNotFound();
         }
       },
       error: () => {
+        this.isLoading = false;
         this.redirectToNotFound();
       }
     });
@@ -123,7 +133,7 @@ export class InfoUnidadesComponent implements OnInit, AfterViewInit {
   
   
   getImageUrl(path: string): string {
-    return `https://api-paginaut.codigopcp.online/${path}`;
+    return BASEIMAGEN+`/${path}`;
   }
   
 

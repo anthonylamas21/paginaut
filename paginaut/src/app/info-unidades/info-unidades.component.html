@@ -7,17 +7,23 @@
 
     <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4 mb-8">
       <li class="inline-flex items-center">
-        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]" href="/principal">
+        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]"
+          href="/principal">
           Inicio
         </a>
-        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+          width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
           <path d="m9 18 6-6-6-6"></path>
         </svg>
       </li>
       <li class="inline-flex items-center">
-        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]" href="/unidades_academicas">
+        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]"
+          href="/unidades_academicas">
           Instalaciones Académicas
-          <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
             <path d="m9 18 6-6-6-6"></path>
           </svg>
         </a>
@@ -34,17 +40,50 @@
         </h3>
       </div>
 
-      <div *ngFor="let month of groupedImages | keyvalue: sortByMonth">
-        <h4 class="text-sm mt-4 p-2 font-poppins font-bold text-black">{{ month.key }}</h4>
-        <hr>
-        
-        <ngx-masonry class="mx-auto">
-          <div ngxMasonryItem class="masonry-item p-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5" *ngFor="let image of month.value">
-            <img [src]="image.url" [alt]="image.alt" (click)="openModal(image)"
-                 class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out cursor-pointer">
+      <!-- Skeleton Loader cuando está cargando -->
+      <div *ngIf="isLoading && hasImages" class="container max-w-screen-lg mb-12 space-y-4">
+        <div class="bg-gray-200 h-6 w-32 mb-2 animate-pulse rounded"></div>
+        <hr class="bg-gray-200 animate-pulse h-0.5 mb-4">
+
+        <div class="grid grid-cols-2 sm:grid-cols-5 md:grid-cols-5 lg:grid-cols-5 gap-2 p-2">
+          <div *ngFor="let _ of [1,2,3,4,5]" class="bg-gray-50 rounded-lg p-1 animate-pulse">
+            <ul class="space-y-3">
+              <li class="w-full h-32 bg-gray-300 rounded-lg flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-gray-400" fill="currentColor"
+                  viewBox="0 0 512 512">
+                  <path
+                    d="M448 80c8.8 0 16 7.2 16 16l0 319.8-5-6.5-136-176c-4.5-5.9-11.6-9.3-19-9.3s-14.4 3.4-19 9.3L202 340.7l-30.5-42.7C167 291.7 159.8 288 152 288s-15 3.7-19.5 10.1l-80 112L48 416.3l0-.3L48 96c0-8.8 7.2-16 16-16l384 0zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zm80 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z" />
+                </svg>
+              </li>
+            </ul>
           </div>
-        </ngx-masonry>
+        </div>
       </div>
+
+      <!-- Mostrar mensaje cuando no hay imágenes -->
+      <div *ngIf="!isLoading && !hasImages" class="container max-w-screen-lg mb-12 space-y-4">
+        <div class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg relative z-20">
+          <p class="text-gray-600 text-lg">En este momento no hay información sobre las imágenes.</p>
+        </div>
+      </div>
+
+      <!-- Mostrar las imágenes cuando hay datos -->
+      <div *ngIf="!isLoading && hasImages" class="container max-w-screen-lg mb-12 space-y-4">
+        <div *ngFor="let month of groupedImages | keyvalue: sortByMonth">
+          <h4 class="text-sm mt-4 p-2 font-poppins font-bold text-black">{{ month.key }}</h4>
+          <hr>
+
+          <ngx-masonry class="mx-auto">
+            <div ngxMasonryItem class="masonry-item p-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5"
+              *ngFor="let image of month.value">
+              <img [src]="image.url" [alt]="image.alt" (click)="openModal(image)"
+                class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out cursor-pointer">
+            </div>
+          </ngx-masonry>
+        </div>
+      </div>
+
+
     </div>
 
   </main>
@@ -52,10 +91,11 @@
   <app-footer></app-footer>
 </div>
 
-<div *ngIf="selectedImage" id="hs-vertically-centered-modal" class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
+<div *ngIf="selectedImage" id="hs-vertically-centered-modal"
+  class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
   <div class="relative max-w-[90vh] w-full">
     <img [src]="selectedImage.url" [alt]="selectedImage.alt" class="max-h-[90vh] w-[90vh] mx-auto rounded-md">
-    <button (click)="closeModal()" class="absolute top-2 right-2 bg-red-500 w-8 h-8 rounded-full text-white text-2xl flex items-center justify-center">&times;</button>
+    <button (click)="closeModal()"
+      class="absolute top-2 right-2 bg-red-500 w-8 h-8 rounded-full text-white text-2xl flex items-center justify-center">&times;</button>
   </div>
 </div>
-

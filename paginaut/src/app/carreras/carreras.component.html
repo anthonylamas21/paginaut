@@ -41,19 +41,29 @@
 <!-- Carreras en Ciencias Agropecuarias -->
 <div class="container mt-4">
   
+  <div *ngIf="isLoading" class="rounded animate-pulse">
+    <div class="h-8 bg-gray-200 rounded-full mt-6 mb-4"></div>
+  </div>
+
     <div *ngIf="!isLoading" class="bg-[#043D3D] mt-4 rounded-lg sm:w-auto wl-20 relative z-20">
       <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">Dirección en ciencias agropecuarias</h2>
     </div>
   
     <div class="flex flex-wrap justify-center relative z-20">
-      <div *ngIf="isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 animate-pulse">
-        <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-80 h-80 mx-auto relative"></div>
-        <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-80 h-80 mx-auto relative"></div>
-        <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-80 h-80 mx-auto relative"></div>
+      <div *ngIf="isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 animate-pulse p-4 bg-gray-50">
+        <div *ngFor="let _ of [1, 2, 3]" class="flex flex-col items-center justify-center bg-gray-200 border shadow-sm rounded-xl w-80 h-80 mx-auto relative">
+          <!-- Espacio central para el SVG -->
+          <div class="flex items-center justify-center w-12 h-12">
+            <!-- Agrega tu SVG aquí -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full text-gray-400" fill="currentColor" viewBox="0 0 512 512">
+              <path d="M0 96C0 60.7 28.7 32 64 32l384 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM323.8 202.5c-4.5-6.6-11.9-10.5-19.8-10.5s-15.4 3.9-19.8 10.5l-87 127.6L170.7 297c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4s12.4 13.6 21.6 13.6l96 0 32 0 208 0c8.9 0 17.1-4.9 21.2-12.8s3.6-17.4-1.4-24.7l-120-176zM112 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"/></svg>
+          </div>
+        </div>
       </div>
+      
   
       <div *ngIf="!isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        <div *ngFor="let carrera of carrerasAgropecuarias" class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-80 h-80 mx-auto relative overflow-hidden group">
+        <div *ngFor="let carrera of carrerasAgropecuarias" class="flex flex-col border shadow-sm rounded-xl w-80 h-80 mx-auto relative overflow-hidden group">
           <div class="absolute top-0 left-0 m-2 z-10">
             <span class="relative flex items-center text-white px-2 py-1 rounded text-lg">{{ carrera.title }}</span>
           </div>
@@ -71,23 +81,15 @@
   
   <!-- Carreras en Dirección de Negocios -->
   <div class="container mt-4">
-    <div *ngIf="isLoading" class="bg-[#043D3D] rounded animate-pulse">
-      <div class="h-8 bg-gray-200 rounded mt-6 mb-4"></div>
-    </div>
   
     <div *ngIf="!isLoading" class="bg-[#043D3D] mt-4 rounded-lg sm:w-auto wl-20 relative z-20">
       <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">Dirección de negocios</h2>
     </div>
   
     <div class="flex flex-wrap justify-center relative z-20">
-      <div *ngIf="isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 animate-pulse">
-        <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-80 h-80 mx-auto relative"></div>
-        <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-80 h-80 mx-auto relative"></div>
-        <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-80 h-80 mx-auto relative"></div>
-      </div>
   
       <div *ngIf="!isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-        <div *ngFor="let carrera of carrerasNegocios" class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-80 h-80 mx-auto relative overflow-hidden group">
+        <div *ngFor="let carrera of carrerasNegocios" class="flex flex-col border shadow-sm rounded-xl w-80 h-80 mx-auto relative overflow-hidden group">
           <div class="absolute top-0 left-0 m-2 z-10">
             <span class="relative flex items-center text-white px-2 py-1 rounded text-lg">{{ carrera.title }}</span>
           </div>
@@ -106,23 +108,15 @@
   
   <!-- Carreras en Dirección de Tecnologías de la Información -->
   <div class="container mt-4">
-    <div *ngIf="isLoading" class="bg-[#043D3D] rounded animate-pulse">
-      <div class="h-8 bg-gray-200 rounded mt-6 mb-4"></div>
-    </div>
   
     <div *ngIf="!isLoading" class="bg-[#043D3D] mt-4 rounded-lg sm:w-auto wl-20 relative z-20">
       <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">Dirección de Tecnologías de la información</h2>
     </div>
   
     <div class="flex flex-wrap justify-center relative z-20">
-      <div *ngIf="isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 animate-pulse">
-        <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-80 h-80 mx-auto relative"></div>
-        <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-80 h-80 mx-auto relative"></div>
-        <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-80 h-80 mx-auto relative"></div>
-      </div>
   
       <div *ngIf="!isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-        <div *ngFor="let carrera of carrerasTecnologica" class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-80 h-80 mx-auto relative overflow-hidden group">
+        <div *ngFor="let carrera of carrerasTecnologica" class="flex flex-col border shadow-sm rounded-xl w-80 h-80 mx-auto relative overflow-hidden group">
           <div class="absolute top-0 left-0 m-2 z-10">
             <span class="relative flex items-center text-white px-2 py-1 rounded text-lg">{{ carrera.title }}</span>
           </div>

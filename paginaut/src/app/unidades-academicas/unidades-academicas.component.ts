@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, Renderer2, ChangeDetectorRef } from '
 import { Router } from '@angular/router';
 import { InstalacionService, Instalacion, InstalacionResponse } from '../instalacionService/instalacion.service';
 import Hashids from 'hashids';
+import { BASEIMAGEN } from '../constans';
 
 @Component({
   selector: 'app-unidades-academicas',
@@ -12,6 +13,7 @@ export class UnidadesAcademicasComponent implements OnInit, AfterViewInit {
   private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 16);
   isLoading = true;
   instalaciones: Instalacion[] = [];
+  
 
   constructor(
     private renderer: Renderer2,
@@ -47,7 +49,7 @@ export class UnidadesAcademicasComponent implements OnInit, AfterViewInit {
 
   getImageUrl(path: string | undefined): string {
     if (path) {
-      return `https://api-paginaut.codigopcp.online/${path}`;
+      return BASEIMAGEN+`/${path}`;
     }
     return 'path/to/default/image.jpg';
   }

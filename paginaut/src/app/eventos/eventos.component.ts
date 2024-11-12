@@ -14,6 +14,7 @@ export class EventosComponent implements OnInit {
   evento: Evento | null = null;
   error: string | null = null;
   imagenAmpliada: string | null = null;
+  documento: string | null = null;
 
   private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 16);
   idDecrypted: number | undefined;
@@ -58,6 +59,11 @@ export class EventosComponent implements OnInit {
 
   getFileExtension(filename: string): string {
     return filename.split('.').pop()?.toLowerCase() || '';
+  }
+  
+  isValidImageExtension(filename: string): boolean {
+    const validExtensions = ['jpg', 'png', 'jpeg', 'webp'];
+    return validExtensions.includes(this.getFileExtension(filename));
   }
 
   getImageUrl(relativePath: string | undefined): string {
@@ -111,4 +117,5 @@ export class EventosComponent implements OnInit {
     }
     this.imagenAmpliada = null;
   }
+
 }

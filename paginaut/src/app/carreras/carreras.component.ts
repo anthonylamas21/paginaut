@@ -7,10 +7,11 @@ import { Component, HostListener, Renderer2 } from '@angular/core';
 })
 export class CarrerasComponent {
 
-  constructor(private renderer: Renderer2){}
-
   isLoading = true;
-  
+
+  constructor(private renderer: Renderer2){
+  }
+
   carrerasAgropecuarias = [
     {
       title: 'Ingeniería en Agrobiotecnología',
@@ -68,7 +69,9 @@ export class CarrerasComponent {
   ngOnInit(): void {
     this.setNavbarColor();
       this.renderer.listen('window', 'load', () => {
-      this.isLoading = false;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 10);
    }); 
   }
 

@@ -60,45 +60,71 @@
       </div>
 
       <div *ngIf="isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-        <!-- Aquí van los placeholders de carga -->
-        <!-- Código omitido por brevedad -->
+        <!-- Placeholder de carga para cada curso -->
+        <div *ngFor="let _ of [1, 2, 3, 4]" class="bg-white border border-gray-200 rounded-xl p-6 shadow-lg flex flex-col justify-between h-full animate-pulse">
+          <!-- Imagen de carga -->
+          <div class="w-full h-60 bg-gray-200 rounded-t-lg mb-4"></div>
+      
+          <!-- Título de carga -->
+          <div class="h-6 bg-gray-200 rounded-full mb-4"></div>
+      
+          <!-- Descripción de carga -->
+          <div class="space-y-3 mb-6">
+            <div class="h-4 bg-gray-200 rounded-full"></div>
+            <div class="h-4 bg-gray-200 rounded-full"></div>
+            <div class="h-4 bg-gray-200 rounded-full w-3/4"></div>
+          </div>
+      
+          <!-- Botón de carga -->
+          <div class="w-full h-10 bg-gray-200 rounded-md"></div>
+        </div>
       </div>
-
+      
       <!-- Sección de cursos -->
       <div *ngIf="!isLoading">
-        <ng-container *ngIf="cursos && filteredCursos && filteredCursos.length > 0; else noCursos">
-          <div class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-            <div *ngFor="let curso of filteredCursos" 
-                 class="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition duration-300 flex flex-col justify-between h-full">
-              
-              <img [src]="baseImageUrl+curso.imagen_principal" 
-                   [alt]="curso.nombre" 
-                   class="w-full max-h-60 object-cover rounded-t-lg mb-4 transition-transform duration-300 transform group-hover:scale-105">
-              
-              <div class="flex flex-col flex-grow">
-                <h3 class="text-center text-xl font-bold text-[#04847C] mb-4 transition-colors duration-300 hover:text-[#036d62]">
+        <div *ngIf="cursos && filteredCursos && filteredCursos.length > 0" class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+          <div *ngFor="let curso of filteredCursos" 
+               class="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition duration-300 flex flex-col justify-between h-full">
+            
+            <img [src]="baseImageUrl + curso.imagen_principal" 
+                 [alt]="curso.nombre" 
+                 class="w-full max-h-60 object-cover rounded-t-lg mb-4 transition-transform duration-300 transform group-hover:scale-105">
+            
+            <div class="flex flex-col flex-grow">
+              <!-- Título -->
+              <div class="text-center">
+                <h3 class="text-xl font-bold text-[#04847C] mb-4 transition-colors duration-300 hover:text-[#036d62] truncate">
                   {{ curso.nombre }}
                 </h3>
-                <p class="text-gray-700 text-sm mb-6 flex-grow">
-                  {{ recortarDescripcion(curso.descripcion) }}
+              </div>
+        
+              <!-- Descripción -->
+              <div class="flex-grow">
+                <p class="text-gray-700 text-sm mb-6 line-clamp-3">
+                  {{ curso.descripcion }}
                 </p>
-                
+              </div>
+        
+              <!-- Botón -->
+              <div class="mt-auto">
                 <a (click)="verDetalleCurso(curso.id)" 
-                   class="bg-[#04847C] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium hover:bg-[#036d62] transition-colors duration-300 cursor-pointer">
+                   class="bg-[#04847C] block w-full py-3 px-6 text-center rounded-md text-white font-medium hover:bg-[#036d62] transition-colors duration-300 cursor-pointer">
                   Más información
                 </a>
               </div>
             </div>
           </div>
-        </ng-container>
-        <ng-template #noCursos>
-          <div class="container max-w-screen-lg mb-12 space-y-4">
+        </div>
+        
+
+          <div *ngIf="!isLoading && filteredCursos.length === 0;" class="container max-w-screen-lg mb-12 space-y-4">
             <div class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg relative z-20">
-            <p class="text-gray-600 text-lg">Lo sentimos, no encontramos lo que buscabas.</p>
+              <p class="text-gray-600 text-lg">Lo sentimos, no encontramos lo que buscabas.</p>
             </div>
-         </div>
-        </ng-template>
+          </div>
+
       </div>
+      
 
     </div>
   </main>

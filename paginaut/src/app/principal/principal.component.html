@@ -32,17 +32,26 @@
 
     <div class="absolute inset-0 bottom-0 flex justify-end items-end z-20 pr-3">
         <!-- Pantallas grandes: Mostrar el texto completo -->
-        <h3 class="hidden md:block lg:block text-white">
-          <i class="fa-regular fa-eye"></i> Total de vistas: {{viewCount}}
-        </h3>
-        
+        <div *ngIf="isLoading; else loadedLargeView" class="hidden md:block lg:block animate-pulse flex items-center space-x-2">
+            <div class="my-1 w-24 h-4 bg-gray-200 rounded-md"></div>
+        </div>
+        <ng-template #loadedLargeView>
+            <h3 class="hidden md:block lg:block text-white">
+                <i class="fa-regular fa-eye"></i> Total de vistas: {{viewCount}}
+            </h3>
+        </ng-template>
+
         <!-- Pantallas pequeñas (teléfono y tablet): Mostrar solo el icono y el número -->
-        <h3 class="md:hidden lg:hidden text-white flex items-center">
-          <i class="fa-regular fa-eye"></i> 
-          <span class="ml-1">{{viewCount}}</span>
-        </h3>
+        <div *ngIf="isLoading; else loadedSmallView" class="md:hidden lg:hidden animate-pulse flex items-center space-x-2">
+            <div class="my-1 w-24 h-4 bg-gray-200 rounded-md"></div>
+        </div>
+        <ng-template #loadedSmallView>
+            <h3 class="md:hidden lg:hidden text-white flex items-center">
+                <i class="fa-regular fa-eye"></i> 
+                <span class="ml-1">{{viewCount}}</span>
+            </h3>
+        </ng-template>
       </div>
-      
       
 </div>
 
@@ -152,34 +161,48 @@
 </section>
 
 <!-- Eventos Recientes -->
-<section #eventosSection id="eventos" class="relative py-16 bg-white px-4 sm:px-8 md:px-16 opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+<section #eventosSection id="eventos" class="relative z-20  py-16 bg-transparent px-4 sm:px-8 md:px-16 opacity-0 translate-y-10 transition-all duration-1000 ease-out">
     <div class="container mx-auto text-center mb-6 sm:mb-8">
         <h2
             class="text-lg sm:text-4xl text-[#043D3D] font-bold uppercase tracking-wide animate-slideIn">Eventos más recientes</h2>
     </div>
 
+    <!-- Skeleton loading para los eventos recientes -->
+    <div class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8" *ngIf="isLoading && eventosRecientes.length > 0">
+
+        <!-- Skeletons para los otros eventos -->
+        <div *ngFor="let _ of [1, 2, 3, 4]" class="bg-gray-200 animate-pulse rounded-lg shadow-lg overflow-hidden flex flex-col">
+            <div class="w-full h-20 sm:h-32 bg-gray-300"></div>
+            <div class="p-4 sm:p-6 flex-1 flex flex-col justify-between">
+                <div class="space-y-2">
+                    <div class="h-4 bg-gray-300 rounded w-3/4"></div>
+                    <div class="h-3 bg-gray-300 rounded w-full"></div>
+                </div>
+                <div class="h-4 bg-gray-300 rounded w-1/4 mt-4"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Mostrar mensaje si no hay eventos -->
     <div class="container max-w-screen-lg mb-8 sm:mb-12 space-y-4">
         <div *ngIf="eventosRecientes.length === 0" class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg">
-            <p class="text-gray-600 text-sm sm:text-lg">No hay eventos recientes disponibles en este momento. Por favor,
-                vuelve a consultar más tarde.</p>
+            <p class="text-gray-600 text-sm sm:text-lg">No hay eventos disponibles en este momento.</p>
         </div>
     </div>
 
     <!-- Mostrar eventos si existen -->
-    <div *ngIf="eventosRecientes.length > 0" class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <div *ngIf="!isLoading && eventosRecientes.length > 0" class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8 ">
         <!-- Evento más reciente -->
         <div
-            class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300 flex flex-col">
+            class="col-span-1 lg:col-span-4 bg-white relative z-20 rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300 flex flex-col">
             <img [src]="eventosRecientes[0].imagen_principal" [alt]="eventosRecientes[0].titulo"
-                class="w-full h-56 sm:h-80 object-cover rounded-t-lg pointer-events-none">
+                class="w-full h-20 md:h-32 lg:h-80 object-cover rounded-t-lg pointer-events-none">
             <div class="p-4 sm:p-6 flex-1 flex flex-col justify-between">
                 <div>
                     <h3 class="text-lg sm:text-2xl font-bold text-[#043D3D]">{{ eventosRecientes[0].titulo | slice:0:sliceValue }}</h3>
                     <p class="mt-2 text-gray-600 text-sm sm:text-base">{{ eventosRecientes[0].informacion_evento | slice:0:sliceValue }}.</p>
                 </div>
-                <a (click)="verEvento(eventosRecientes[0].id)"
-                    class="mt-2 sm:mt-4 text-[#04847C] hover:text-[#032D2D] font-bold cursor-pointer">Leer más</a>
+                <a (click)="verEvento(eventosRecientes[0].id)" class="text-sm sm:text-sm md:text-base lg:text-base mt-2 text-[#04847C] hover:text-[#032D2D] font-bold cursor-pointer">Leer más</a>
             </div>
         </div>
 
@@ -192,10 +215,10 @@
                 <div class="p-4 sm:p-6 flex-1 flex flex-col justify-between">
                     <div>
                         <h3 class="text-lg font-bold text-[#043D3D]">{{ evento.titulo | slice:0:sliceValue }}</h3>
-                        <p class="text-gray-600 text-sm sm:text-base">
-                        {{ evento.informacion_evento | slice:0:getDynamicSliceValue(evento.informacion_evento) }}.</p>
+                        <p class="text-gray-600 text-sm sm:text-base line-clamp-2">
+                        {{ evento.informacion_evento }}</p>
                       </div>
-                      <a (click)="verEvento(evento.id)" class="mt-2 text-[#04847C] hover:text-[#032D2D] font-bold cursor-pointer">Leer más</a>
+                      <a (click)="verEvento(evento.id)" class="text-sm sm:text-sm md:text-base lg:text-base mt-2 text-[#04847C] hover:text-[#032D2D] font-semibold cursor-pointer">Leer más</a>
                   </div>
               </div>
         </ng-container>
@@ -204,79 +227,95 @@
       <!-- Botones de Ver más y Ver menos -->
       <div class="mt-6 sm:mt-8 text-center z-20">
           <button *ngIf="eventosVisibles.length < eventosRecientes.length - 1" (click)="verMasEventos()"
-              class="bg-[#043D3D] hover:bg-[#032D2D] text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full shadow-lg transition-colors duration-300">
-              Mostrar más eventos <i class="fa-solid fa-angle-down ml-2"></i>
+              class="bg-[#04837B] hover:bg-[#032D2D] text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full shadow-lg transition-colors duration-300 text-sm sm:text-sm md:text-base lg:text-base">
+              Mostrar más <i class="fa-solid fa-angle-down ml-2"></i>
           </button>
   
           <!-- Botón Ver menos -->
           <button *ngIf="eventosVisibles.length > cantidadInicialEvento" (click)="verMenosEventos()"
-              class="bg-[#043D3D] hover:bg-[#032D2D] text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full shadow-lg transition-colors duration-300 mt-4 z-20">
-              Mostrar menos eventos <i class="fa-solid fa-angle-up ml-2"></i>
+              class="bg-[#04837B] hover:bg-[#032D2D] text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full shadow-lg transition-colors duration-300 mt-4 z-20 text-sm sm:text-sm md:text-base lg:text-base">
+              Mostrar menos <i class="fa-solid fa-angle-up ml-2"></i>
           </button>
       </div>
   </section>
   
   <!-- Noticias -->
   <section #noticiasSection id="noticias"
-      class="relative py-10 bg-white px-4 sm:px-8 md:px-16 opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+      class="relative bg-transparent z-20 px-4 sm:px-8 md:px-16 opacity-0 translate-y-10 transition-all duration-1000 ease-out">
       <div class="container mx-auto text-center mb-6 sm:mb-8 ">
           <h2 class="text-lg sm:text-4xl text-[#043D3D] font-bold uppercase tracking-wide animate-slideIn">Noticias</h2>
       </div>
   
-      <div class="container max-w-screen-lg mb-8 sm:mb-12 space-y-4 ">
-          <!-- Iteración de noticias -->
-          <div *ngFor="let noticia of noticiasVisibles"
-              class="flex flex-col sm:flex-row items-stretch bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105">
-  
-              <!-- Imagen de la noticia -->
-              <div class="w-full sm:w-28 lg:w-32 flex-shrink-0">
-                  <img [src]="noticia.imagen_principal" [alt]="noticia.titulo"
-                      class="w-full h-32 sm:h-32 object-cover rounded-t-lg sm:rounded-l-lg pointer-events-none">
-              </div>
-  
-              <!-- Fecha de la noticia -->
-            <div class="flex sm:flex-col items-center justify-center bg-[#04847C] text-white w-full sm:w-28 p-2 sm:text-center">
-                <p class="text-sm sm:text-lg font-bold">{{ noticia.fecha_publicacion | date:'dd' }}</p>
-                <p class="text-sm sm:text-lg mx-1 block sm:hidden">de</p> <!-- Visible en pantallas pequeñas, oculto en grandes -->
-                <p class="text-sm sm:text-lg capitalize">{{ noticia.fecha_publicacion | date:'MMMM' }}</p>
-                <p class="text-sm sm:text-lg capitalize mx-1">{{ noticia.fecha_publicacion | date:'yyyy' }}</p>
+      <div class="container max-w-screen-lg mb-8 sm:mb-12 space-y-4">
+        <div *ngIf="isLoading" class="space-y-4">
+            <div *ngFor="let _ of [1, 2, 3]" class="flex animate-pulse relative z-20">
+                <div class="shrink-0 w-28 h-36 bg-gray-200 rounded-lg"></div>
+            
+                <div class="ms-4 mt-2 w-full">
+                    <p class="h-4 bg-gray-200 rounded-full  mb-4" style="width: 40%;"></p>
+                    <ul class="mt-5 space-y-3">
+                        <li class="w-full h-4 bg-gray-200 rounded-full "></li>
+                        <li class="w-full h-4 bg-gray-200 rounded-full "></li>
+                        <li class="w-full h-4 bg-gray-200 rounded-full "></li>
+                        <li class="w-full h-4 bg-gray-200 rounded-full "></li>
+                    </ul>
+                </div>
             </div>
-            
-            
-  
-              <!-- Contenido de la noticia para pantallas grandes -->
-              <div class="flex flex-col justify-between p-4 w-full">
-                  <div>
-                      <h3 class="font-bold text-lg sm:text-xl text-gray-800 mb-1">{{ noticia.titulo }}</h3>
-                      <p class="text-sm sm:text-base text-gray-600">{{ noticia.resumen | slice:0:sliceValue }}.</p>
-                  </div>
-                  <div class="text-right">
-                      <a (click)="verNoticia(noticia.id)"
-                          class="cursor-pointer text-[#04847C] hover:text-[#043D3D] font-semibold text-sm transition-colors duration-300">
-                          Leer más <i class="fa-solid fa-chevron-right ml-1"></i>
-                      </a>
-                  </div>
-              </div>
-  
-          </div>
-          <!-- Fin de la iteración de noticias -->
-  
-          <!-- Mensaje cuando no hay noticias -->
-          <div *ngIf="noticiasVisibles.length === 0" class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg">
-              <p class="text-gray-600 text-sm sm:text-lg">No hay noticias recientes disponibles en este momento. Por
-                  favor, vuelve a consultar más tarde.</p>
-          </div>
+        </div>
+
+<!-- Sección de Noticias cuando cargan -->
+<div *ngIf="!isLoading && noticiasVisibles.length > 0" class="space-y-4">
+    <div *ngFor="let noticia of noticiasVisibles" class="flex flex-col sm:flex-row items-stretch bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105">
+        <!-- Imagen de la noticia -->
+        <div class="w-full sm:w-28 lg:w-32 flex-shrink-0">
+            <img [src]="noticia.imagen_principal" [alt]="noticia.titulo"
+         class="w-full h-36 object-cover 
+                rounded-t-lg sm:rounded-l-lg sm:rounded-none 
+                pointer-events-none">
+        </div>
+
+        <!-- Fecha de la noticia -->
+      <div class="flex sm:flex-col items-center justify-center bg-[#04847C] text-white w-full sm:w-28 p-2 sm:text-center rounded-b-lg sm:rounded-r-lg sm:rounded-none">
+          <p class="text-sm sm:text-lg font-bold">{{ noticia.fecha_publicacion | date:'dd' }}</p>
+          <p class="text-sm sm:text-lg mx-1 block sm:hidden">de</p> <!-- Visible en pantallas pequeñas, oculto en grandes -->
+          <p class="text-sm sm:text-lg capitalize">{{ noticia.fecha_publicacion | date:'MMMM' }}</p>
+          <p class="text-sm sm:text-lg capitalize mx-1">{{ noticia.fecha_publicacion | date:'yyyy' }}</p>
+      </div>
+      
+      
+
+        <!-- Contenido de la noticia para pantallas grandes -->
+        <div class="flex flex-col justify-between p-4 w-full">
+            <div>
+                <h3 class="font-semibold text-lg sm:text-xl text-gray-800 mb-1">{{ noticia.titulo }}</h3>
+                <p class="text-sm sm:text-base text-gray-600 line-clamp-2">{{ noticia.resumen }}</p>
+            </div>
+            <div class="text-right">
+                <a (click)="verNoticia(noticia.id)"
+                    class="cursor-pointer font-semibold text-[#04847C] hover:text-[#043D3D] transition-colors duration-300 text-sm sm:text-sm md:text-base lg:text-base">
+                    Leer más <i class="fa-solid fa-chevron-right ml-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mensaje cuando no hay noticias -->
+<div *ngIf="!isLoading && noticiasVisibles.length === 0" class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg">
+    <p class="text-gray-600 text-sm sm:text-lg">No hay noticias disponibles en este momento.</p>
+</div>
+
   
           <!-- Botón Ver más y Ver menos -->
           <div class="mt-6 sm:mt-8 text-center">
               <button *ngIf="noticiasVisibles.length < noticias.length" (click)="verMasNoticias()"
-                  class="bg-[#043D3D] hover:bg-[#032D2D] text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full shadow-lg transition-colors duration-300">
-                  Mostrar más noticias <i class="fa-solid fa-angle-down ml-2"></i>
+                  class="bg-[#04837B] mx-1 hover:bg-[#032D2D] text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full shadow-lg transition-colors duration-300 text-sm sm:text-sm md:text-base lg:text-base">
+                  Mostrar más <i class="fa-solid fa-angle-down ml-2"></i>
               </button>
   
               <button *ngIf="noticiasVisibles.length > cantidadInicial" (click)="verMenosNoticias()"
-                  class="bg-[#043D3D] hover:bg-[#032D2D] text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full shadow-lg transition-colors duration-300 mt-4">
-                  Mostrar menos noticias <i class="fa-solid fa-angle-up ml-2"></i>
+                  class="bg-[#04837B] mx-1 hover:bg-[#032D2D] text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full shadow-lg transition-colors duration-300 mt-4 text-sm sm:text-sm md:text-base lg:text-base">
+                  Mostrar menos <i class="fa-solid fa-angle-up ml-2"></i>
               </button>
           </div>
       </div>
@@ -284,7 +323,7 @@
   
   <!-- Recorrido Virtual -->
   <section #recorridoSection id="recorrido"
-      class="relative py-10 sm:py-16 px-4 sm:px-8 md:px-16 bg-gray-100 opacity-0 translate-y-10 transition-all duration-1000 ease-out z-20">
+      class="relative py-10 sm:py-16 px-4 sm:px-8 md:px-16 bg-gradient-to-b from-transparent to-gray-100 opacity-0 translate-y-10 transition-all duration-1000 ease-out z-20">
       <div class="container mx-auto text-center mb-6 sm:mb-8 z-20">
           <h2 class="text-lg sm:text-4xl text-[#043D3D] font-bold uppercase tracking-wide animate-slideIn">Recorrido
               Virtual</h2>
@@ -303,7 +342,7 @@
           <div class="flex justify-center">
               <a href="https://www.utdelacosta.edu.mx/recorrido_virtual/" target="_blank" rel="noopener noreferrer">
                   <div
-                      class="text-center max-w-48 sm:max-w-72 bg-[#043D3D] hover:bg-[#032D2D] text-white font-bold py-2 sm:py-3 px-4 sm:px-6 text-xs sm:text-sm rounded-full transition duration-300">
+                      class="text-center max-w-48 sm:max-w-72 bg-[#04837B] hover:bg-[#032D2D] text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full transition duration-300">
                       Ir a Recorrido Virtual
                   </div>
               </a>

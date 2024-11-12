@@ -73,7 +73,7 @@ input[type="radio"] {
 /* Personaliza el 'thumb' (parte que se mueve) del scrollbar */
 ::-webkit-scrollbar-thumb {
   background: #043D3D;
-  border-radius: 6px;
+  border-radius: 1px;
 }
 
 /* Personaliza el 'thumb' cuando está en hover */

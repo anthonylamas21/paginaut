@@ -61,10 +61,28 @@
          
 
       <div class="mt-3">
+        <!-- Skeleton de carga para Becas Internas -->
+        <div *ngIf="isLoading" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 py-8 relative z-20">
+          <div *ngFor="let _ of [1, 2, 3]" class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 animate-pulse">
+            <!-- Título de carga -->
+            <div class="h-6 bg-gray-200 rounded-full mb-4"></div>
+            
+            <!-- Descripción de carga -->
+            <div class="space-y-3 flex-grow">
+              <div class="h-4 bg-gray-200 rounded-full mb-2"></div>
+              <div class="h-4 bg-gray-200 rounded-full mb-2"></div>
+              <div class="h-4 bg-gray-200 rounded-full w-3/4"></div>
+            </div>
+            
+            <!-- Botón de carga -->
+            <div class="h-10 bg-gray-200 rounded-md mt-4"></div>
+          </div>
+        </div>
+      
         <!-- Contenido de Becas Internas -->
         <div id="pills-on-gray-color-1" role="tabpanel" aria-labelledby="pills-on-gray-color-item-1">
-          <ng-container *ngIf="becasInternas && becasInternas.length > 0; else noBecasInternas">
-            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 py-8 relative z-20">
+         
+            <div *ngIf="!isLoading && becasInternas && becasInternas.length > 0;" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 py-8 relative z-20">
               <div *ngFor="let beca of becasInternas" class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 transition-transform transform hover:scale-105 hover:shadow-2xl hover:border-transparent group duration-300 ease-in-out">
                 <p class="text-xl font-bold">{{ beca.nombre }}</p>
                 <p class="mt-2 text-black mb-4 flex-grow">{{ beca.descripcion }}</p>
@@ -73,21 +91,18 @@
                 </a>
               </div>
             </div>
-          </ng-container>
 
-          <ng-template #noBecasInternas>
-            <div class="container max-w-screen-lg mb-12 space-y-4">
+      
+            <div *ngIf="!isLoading && becasInternas.length === 0" class="container max-w-screen-lg mb-12 space-y-4">
               <div class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg relative z-20">
-              <p class="text-gray-600 text-lg">En este momento no hay información sobre becas. Por favor, vuelve a consultar más tarde.</p>
+                <p class="text-gray-600 text-lg">En este momento no hay información sobre becas.</p>
               </div>
-           </div>
-          </ng-template>
+            </div>
         </div>
-
+      
         <!-- Contenido de Becas Externas -->
         <div id="pills-on-gray-color-2" class="hidden" role="tabpanel" aria-labelledby="pills-on-gray-color-item-2">
-          <ng-container *ngIf="becasExternas && becasExternas.length > 0; else noBecasExternas">
-            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 py-8 relative z-20">
+            <div *ngIf="!isLoading && becasExternas && becasExternas.length > 0;" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 py-8 relative z-20">
               <div *ngFor="let beca of becasExternas" class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 transition-transform transform hover:scale-105 hover:shadow-2xl hover:border-transparent group duration-300 ease-in-out">
                 <p class="text-xl font-bold">{{ beca.nombre }}</p>
                 <p class="mt-2 text-black mb-4 flex-grow">{{ beca.descripcion }}</p>
@@ -96,17 +111,15 @@
                 </a>
               </div>
             </div>
-          </ng-container>
-
-          <ng-template #noBecasExternas>
-            <div class="container max-w-screen-lg mb-12 space-y-4">
+      
+            <div *ngIf="!isLoading && becasExternas.length === 0" class="container max-w-screen-lg mb-12 space-y-4">
               <div class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg">
-              <p class="text-gray-600 text-lg">En este momento no hay información sobre becas. Por favor, vuelve a consultar más tarde.</p>
+                <p class="text-gray-600 text-lg">En este momento no hay información sobre becas.</p>
               </div>
-           </div>
-          </ng-template>
+            </div>
         </div>
       </div>
+      
     </div>
   </main>
 

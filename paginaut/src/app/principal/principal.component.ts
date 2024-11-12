@@ -41,6 +41,8 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
   viewCount: number = 0;
   visitaRegistrada = false;  // Para evitar múltiples ejecuciones
 
+  isLoading = true;
+
   getDynamicSliceValue(text: string): number {
     return Math.min(text.length, this.minsliceValue);
   }
@@ -69,6 +71,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
     this.encryptedDepa = localStorage.getItem('depa');
 
     this.setSliceValue(window.innerWidth);
+    
   }
 
   verNoticia(id: number | undefined): void {
@@ -178,8 +181,12 @@ verMenosEventos(): void {
           imagenes_generales: (noticia.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
         }));
         this.noticiasVisibles = this.noticias.slice(0, this.cantidadInicial);
+        this.isLoading = false;
       },
-      error: (error) => console.error(error)
+      error: (error) => {
+        //console.error(error),
+        this.isLoading = false;
+      }
     });
   }
 
