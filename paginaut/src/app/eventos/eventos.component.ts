@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventoService, Evento } from '../evento.service';
 import Hashids from 'hashids';
-import { BASEIMAGEN } from '../constans';
+import { BASEIMAGEN, Información } from '../constans';
 
 @Component({
   selector: 'app-eventos',
@@ -15,6 +15,7 @@ export class EventosComponent implements OnInit {
   error: string | null = null;
   imagenAmpliada: string | null = null;
   documento: string | null = null;
+  informacion = Información;
 
   private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 16);
   idDecrypted: number | undefined;

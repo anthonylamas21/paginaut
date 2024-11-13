@@ -27,7 +27,7 @@
     <!-- Imagen con transición de movimiento (solo en pantallas grandes) -->
     <div class="absolute inset-x-4 sm:inset-x-20 bottom-0 flex justify-end items-end z-20 hidden lg:flex">
         <img class="lg:h-[70vh] lg:h-[80vh] object-contain transform translate-y-20 opacity-0 transition-transform transition-opacity duration-500 ease-out pointer-events-none"
-            src="./assets/img/PORTADA_AUN2.webp" alt="University Students" onload="this.classList.remove('translate-y-20', 'opacity-0')">
+            src="./assets/img/PORTADA_AUN2.png" alt="University Students" onload="this.classList.remove('translate-y-20', 'opacity-0')">
     </div>
 
     <div class="absolute inset-0 bottom-0 flex justify-end items-end z-20 pr-3">
@@ -168,7 +168,7 @@
     </div>
 
     <!-- Skeleton loading para los eventos recientes -->
-    <div class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8" *ngIf="isLoading && eventosRecientes.length > 0">
+    <div class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8" *ngIf="isLoading">
 
         <!-- Skeletons para los otros eventos -->
         <div *ngFor="let _ of [1, 2, 3, 4]" class="bg-gray-200 animate-pulse rounded-lg shadow-lg overflow-hidden flex flex-col">
@@ -184,7 +184,7 @@
     </div>
 
     <!-- Mostrar mensaje si no hay eventos -->
-    <div class="container max-w-screen-lg mb-8 sm:mb-12 space-y-4">
+    <div *ngInf="!isLoading" class="container max-w-screen-lg mb-8 sm:mb-12 space-y-4">
         <div *ngIf="eventosRecientes.length === 0" class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg">
             <p class="text-gray-600 text-sm sm:text-lg">No hay eventos disponibles en este momento.</p>
         </div>
@@ -333,7 +333,7 @@
           class="container mx-auto max-w-4xl bg-white p-6 sm:p-8 rounded-lg shadow-lg transform hover:translate-y-1 transition duration-300 z-20">
           <div class="overflow-hidden mb-4">
               <a href="https://www.utdelacosta.edu.mx/recorrido_virtual/">
-                  <img class="w-full h-40 sm:h-60 object-cover pointer-events-none" src="../../assets/img/universidad.webp"
+                  <img class="w-full h-40 sm:h-60 object-cover pointer-events-none" src="./assets/img/universidad.webp"
                       alt="Recorrido Virtual">
               </a>
           </div>

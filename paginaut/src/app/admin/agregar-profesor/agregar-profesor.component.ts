@@ -9,7 +9,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ProfesorService, Profesor, TipoProfesor } from '../profesor.service';
 import Swal from 'sweetalert2';
-import { BASEIMAGEN } from '../../constans';
+import * as CryptoJS from 'crypto-js';
+import { BASEIMAGEN, ENCRYP } from '../../constans';
 
 class TooltipManager {
   static adjustTooltipPosition(
@@ -62,13 +63,22 @@ export class AgregarProfesorComponent implements OnInit {
   currentTab: 'active' | 'inactive' = 'active';
   fileToUpload: File | null = null;
   currentFileName: string = '';
-  baseImageUrl = BASEIMAGEN+'/';
+  baseImageUrl = BASEIMAGEN;
   tipoProfesorError: string = '';
   fotoValida: boolean = false;
   isSubmitting: boolean = false; // Nueva bandera para prevenir doble envío
   sinImagen?: "./src/assets/img/perfil_vacio.png";
   isTiempoCompletoSelected = false;
   isAsignaturaSelected = false;
+
+  // Clave secreta (debe coincidir con la del backend)
+  private claveSecreta = ENCRYP;
+
+  // Desencripta la respuesta
+  private desencriptar(cifrado: string): any {
+  const bytes = CryptoJS.AES.decrypt(cifrado, this.claveSecreta);
+  return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -401,16 +411,25 @@ export class AgregarProfesorComponent implements OnInit {
   }
 
   loadProfesores() {
+    console.log('Iniciando carga de profesores');
     this.profesorService.getProfesores().subscribe({
-      next: (response: any) => {
-        this.profesores = response.records;
+      next: (decryptedData: any) => {
+        console.log('Datos recibidos:', decryptedData);
+        if (decryptedData.records) {
+          this.profesores = decryptedData.records;
+          console.log('Profesores cargados:', this.profesores);
+        } else {
+          console.warn('No se encontraron records en:', decryptedData);
+        }
         this.filterProfesores();
       },
       error: (error: any) => {
-        this.showToast('error', error.message);
-      },
+        console.error('Error completo:', error);
+        this.showToast('error', 'Error al cargar los profesores: ' + error.message);
+      }
     });
   }
+   
 
   deleteProfesor(id: number) {
     this.showConfirmDialog(

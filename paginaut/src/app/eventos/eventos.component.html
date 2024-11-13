@@ -84,7 +84,7 @@
 
         <div class="grid grid-cols-2 gap-4 mt-8">
           <div>
-            <p>{{ evento.informacion_evento }}</p>
+            <p class="text-gray-900 whitespace-pre-line">{{ evento.informacion_evento }}</p>
           </div>
           <div>
             <p><i class="fa-regular fa-clock"></i> Hora de inicio: {{ evento.hora_inicio }}</p>
@@ -160,9 +160,7 @@
 
         <div class="mt-8 pt-6 border-t border-gray-300">
           <p class="text-sm text-gray-600 text-center">
-            Toda la información, recursos y eventos anunciados en este sitio web son de uso exclusivo para la comunidad
-            de la universidad. Todos los materiales, incluidos textos, imágenes, y cualquier otro contenido, están
-            protegidos por las leyes de propiedad intelectual y son propiedad de la universidad.
+            {{ this.informacion }}
           </p>
         </div>
       </div>

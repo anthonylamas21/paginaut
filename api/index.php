@@ -1,4 +1,5 @@
 <?php
+
 // Configurar la zona horaria a America/Mazatlan
 date_default_timezone_set('America/Mazatlan');
 
@@ -18,14 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
         header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
     }
     exit(0);
-}
-
-// Función para validar el token
-function validarToken($token) {
-    // Aquí debes implementar la lógica de validación del token.
-    // Por ejemplo, podrías comprobar si el token existe en una base de datos o es válido de alguna manera.
-    // Para efectos de este ejemplo, vamos a considerar el token "token_secreto" como válido.
-    return $token === "token_secreto";
 }
 
 // Verificar si se requiere un token para ciertos métodos
@@ -48,7 +41,7 @@ function loadController($route, $controllerFile) {
 
 // Definir las rutas disponibles
 $routes = [
-    '/api/usuario' => 'usuario.php',
+    // '/api/usuario' => 'usuario.php',
     '/api/rol' => 'rol.php',
     '/api/departamento' => 'departamento.php',
     '/api/direccion' => 'direccion.php',

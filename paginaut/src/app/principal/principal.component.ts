@@ -92,6 +92,10 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
     }
   }
 
+  redirect(){
+    window.location.href = "/carreras";
+  }
+
   ngOnInit() {
     this.cargarEventosRecientes();
     this.cargarNoticiasActivas();

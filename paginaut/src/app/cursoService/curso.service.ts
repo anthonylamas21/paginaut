@@ -8,6 +8,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { API } from '../constans';
+import { EncryptionService } from '../admin/encryption.service';
 
 export interface Curso {
   id?: number;
@@ -33,7 +34,7 @@ export class CursoService {
   private apiUrlProfe = API+'/api/profesor';
   private apiCursoProfe = API+'/api/curso_maestro';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private encryptionService: EncryptionService) {}
 
   // Otros métodos...
 
@@ -75,7 +76,17 @@ export class CursoService {
 
   obtenerProfesorPorId(profesorId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrlProfe}?profesor_id=${profesorId}`)
-      .pipe(catchError(this.handleError));
+      .pipe(
+        map(response => {
+          if (response.data) {
+            const decryptedData = this.encryptionService.decrypt(response.data);
+            return decryptedData;
+          } else {
+            throw new Error('Formato de respuesta inválido');
+          }
+        }),
+        catchError(this.handleError)
+      );
   }
 
   
@@ -112,11 +123,33 @@ export class CursoService {
   }
 
   GetProfesores(): Observable<any> {
-    return this.http.get<any>(this.apiUrlProfe);
+    return this.http.get<any>(this.apiUrlProfe)
+      .pipe(
+        map(response => {
+          if (response.data) {
+            const decryptedData = this.encryptionService.decrypt(response.data);
+            return decryptedData;
+          } else {
+            throw new Error('Formato de respuesta inválido');
+          }
+        }),
+        catchError(this.handleError)
+      );
   }
 
   ObtenerProfesoresActivos(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrlProfe}?accion=getprofesores`);
+    return this.http.get<any>(`${this.apiUrlProfe}?accion=getprofesores`)
+      .pipe(
+        map(response => {
+          if (response.data) {
+            const decryptedData = this.encryptionService.decrypt(response.data);
+            return decryptedData;
+          } else {
+            throw new Error('Formato de respuesta inválido');
+          }
+        }),
+        catchError(this.handleError)
+      );
   }
 
   private handleError(error: HttpErrorResponse) {

@@ -18,6 +18,7 @@ export class InfoCursoComponent implements OnInit {
   profesores: Profesor[] = []; // Inicializar como un array vacío
   isLoading = true;
   mostrarTextoCompleto: boolean = false;
+  base = BASEIMAGEN;
 
   constructor(
     private route: ActivatedRoute,
@@ -124,7 +125,7 @@ export class InfoCursoComponent implements OnInit {
   }
 
   getImageUrl(relativePath: string | undefined): string {
-    const baseImageUrl = BASEIMAGEN+'/';
+    const baseImageUrl = BASEIMAGEN+'api';
     return relativePath ? baseImageUrl + relativePath : baseImageUrl + 'paginaut/src/assets/img/perfil_vacio_2.png';
   }
 

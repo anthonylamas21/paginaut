@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NoticiaService, Noticia } from '../noticia.service';
 import Hashids from 'hashids';
-import { BASEIMAGEN } from '../constans';
+import { BASEIMAGEN, Información } from '../constans';
 
 @Component({
   selector: 'app-noticias',
@@ -18,6 +18,7 @@ export class NoticiasComponent implements OnInit {
   noticia: Noticia | null = null;
   error: string | null = null;
   imagenAmpliada: string | null = null;
+  informacion = Información;
 
   constructor(
     private route: ActivatedRoute,
