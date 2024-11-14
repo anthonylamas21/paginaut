@@ -657,10 +657,6 @@ onFileChangeArchivos(event: any): void {
     }
   }
 
-  isFieldInvalid(fieldName: string): boolean {
-    const field = this.eventoForm.get(fieldName);
-    return field ? field.invalid && (field.dirty || field.touched) : false;
-  }
 
   fechaHoraValidator(): ValidatorFn {
     return (group: AbstractControl): {[key: string]: any} | null => {
