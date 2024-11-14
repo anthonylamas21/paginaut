@@ -2,15 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { API } from '../constans';
 
 export interface Beca {
   id?: number;
   nombre: string;
   descripcion: string;
   archivo: string;
+  tipo: string; // Añadir esta línea para manejar el tipo de beca
   activo?: boolean;
   fecha_creacion?: string;
 }
+
 export interface BecaResponse {
   records: Beca[];
 }
@@ -19,7 +22,7 @@ export interface BecaResponse {
   providedIn: 'root',
 })
 export class BecaService {
-  private apiUrl = 'http://localhost/paginaut/api/beca.php';
+  private apiUrl = API+'/api/beca';
 
   constructor(private http: HttpClient) {}
 
@@ -34,6 +37,7 @@ export class BecaService {
       .get<BecaResponse>(this.apiUrl)
       .pipe(catchError(this.handleError));
   }
+
   getBecaById(id: number): Observable<Beca> {
     return this.http
       .get<Beca>(`${this.apiUrl}?id=${id}`)

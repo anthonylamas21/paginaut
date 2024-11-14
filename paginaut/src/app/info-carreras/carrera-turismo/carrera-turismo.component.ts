@@ -13,62 +13,109 @@ interface Item {
   ocho: string;
   nueve: string;
   diez: string;
-  once: string;
-} 
+}
 
 interface Image {
   url: string;
   alt: string;
 }
+
 @Component({
   selector: 'app-carrera-turismo',
   templateUrl: './carrera-turismo.component.html',
   styleUrl: './carrera-turismo.component.css'
 })
 export class CarreraTurismoComponent {
+  currentTab: string = 'segment-1'; // Define el tab inicial
   isLoading = true;
-  
+  imagenAmpliada: string | null = null;
+  selectedImage: Image = { url: '', alt: '' };
+
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/turismo/turismo1.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/turismo/turismo2.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/turismo/turismo3.jpg', alt: 'Image 3' },
-    { url: './assets/img/galeria/turismo/turismo4.jpg', alt: 'Image 4' },
-    { url: './assets/img/galeria/turismo/turismo5.jpg', alt: 'Image 5' },
-    { url: './assets/img/galeria/turismo/turismo6.jpg', alt: 'Image 6' },
-    { url: './assets/img/galeria/turismo/turismo7.jpg', alt: 'Image 7' },
-    { url: './assets/img/galeria/turismo/turismo8.jpg', alt: 'Image 8' },
-    { url: './assets/img/galeria/turismo/turismo9.jpg', alt: 'Image 9' },
-    { url: './assets/img/galeria/turismo/turismo10.jpg', alt: 'Image 210' },
+    { url: './assets/img/galeria/turismo/turismo2.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/turismo3.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/turismo4.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/turismo5.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/turismo6.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/turismo7.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/turismo8.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/turismo9.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/turismo10.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_1.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_2.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_3.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_4.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_5.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_6.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_7.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_8.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_9.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_10.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_11.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_12.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_13.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_14.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_15.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_16.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_17.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_18.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_19.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_20.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_21.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_22.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_23.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_24.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_25.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_26.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_27.webp', alt: '' },
+    { url: './assets/img/galeria/turismo/TUR_28.webp', alt: '' },
 
     // más imágenes aquí
   ];
 
-  selectedImage: Image = { url: '', alt: '' };
-
-  openModal(image: Image): void {
-    if (image) {
-      this.selectedImage = image;
-      const modal = document.getElementById('hs-vertically-centered-modal');
-      if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('pointer-events-auto');
-      }
-    }
-  }
-  
   ngAfterViewInit(): void {
     this.renderer.listen('window', 'load', () => {
-      setInterval(() => {
-        this.isLoading = false
-      }, 3000);  
-      
+      this.isLoading = false
+
     });
   }
   ngOnInit(): void {
     this.setNavbarColor();
+    this.showTab(this.currentTab); // Mostrar el tab inicial
   }
+    // Método para cambiar de pestaña
+    showTab(tabId: string): void {
+      // Oculta todas las pestañas
+      const allTabs = document.querySelectorAll('[role="tabpanel"]');
+      allTabs.forEach(tab => {
+        tab.classList.add('hidden'); // Oculta todas
+      });
+
+      // Muestra la pestaña actual
+      const activeTab = document.getElementById(tabId);
+      if (activeTab) {
+        activeTab.classList.remove('hidden');
+      }
+
+      // Cambiar el tab actual
+      this.currentTab = tabId;
+    }
+
+    // Manejador de clics para los botones de las pestañas
+    onTabClick(event: any, tabId: string): void {
+      this.showTab(tabId);
+
+      // Elimina la clase 'active' de todos los botones
+      const allButtons = document.querySelectorAll('[role="tab"]');
+      allButtons.forEach(button => {
+        button.classList.remove('active');
+      });
+
+      // Agrega la clase 'active' al botón clicado
+      event.target.classList.add('active');
+    }
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
@@ -88,12 +135,12 @@ export class CarreraTurismoComponent {
       } else {
         button?.classList.add('hidden');
       }
-      
+
       nabvar.classList.remove('bg-transparent');
       nabvar.classList.add('bg-[#043D3D]');
     }
   }
-  
+
   scrollToSection(sectionId: string): void {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
@@ -101,30 +148,47 @@ export class CarreraTurismoComponent {
   @ViewChild('dt') dt: Table | undefined;
 
   items: Item[] = [
-    {uno: 'Matemáticas I', dos: 'Estadística', tres: 'Métodos y técnicas de investigación', cuatro: 'Cadenas de valor de productos y servicios turísticos', cinco: 'Diseño de experiencias turísticas', seis: 'Estadia', siete: 'Economía Para El Turismo', ocho: 'Finanzas Para El Turismo', nueve: 'Desarrollo De Proyectos Para El Turismo I', diez: 'Desarrollo De Proyectos Para El Turismo II', once: 'Estadia'},
-
-    {uno: 'Informática I', dos: 'Sustentabilidad en el Turismo', tres: 'Servicios de viaje', cuatro: 'Patrimonio y desarrollo turístico regional', cinco: 'Investigación aplicada al turismo', seis: 'Estadia', siete: 'Análisis E Interpretación De Información Para El Sector Turístico', ocho: 'Gestión Y Planificación Turística', nueve: 'Innovación Y Turismo Responsable', diez: 'Instrumentos Para El Desarrollo Sustentable', once: 'Estadia'},
-
-    {uno: 'Introducción Al Turismo', dos: 'Servicios de Turismo cultural y de naturaleza', tres: 'Capital humano', cuatro: 'Turismo de naturaleza', cinco: 'Cultura y desarrollo turístico', seis: 'Estadia', siete: 'Calidad Y Responsabilidad Social', ocho: 'Control Administrativo En El Turismo', nueve: 'Mercadotecnia Estratégica', diez: 'Destinos Turísticos Inteligentes', once: 'Estadia'},
-
-    {uno: 'Patrimonio natural y cultural', dos: 'Servicios de hospedaje y alimentos y bebidas', tres: 'Operaciones contables y financieras', cuatro: 'Capacitación y talento humano', cinco: 'Comercialización y herramientas digitales', seis: 'Estadia', siete: 'Desarrollo Del Capital Humano En La Organización', ocho: 'Inglés VII', nueve: 'Inglés VIII', diez: 'Integradora', once: 'Estadia'},
-
-    {uno: 'Administración', dos: 'Gestión de la calidad', tres: 'Mercadotecnia de productos y servicios turísticos', cuatro: 'Animación sociocultural', cinco: 'Integradora II', seis: 'Estadia', siete: 'Inglés VI', ocho: 'Planeación y organización para el trabajo', nueve: 'Dirección De Equipos De Alto Rendimiento', diez: 'Inglés IX', once: 'Estadia'},
-
-    {uno: 'Inglés I', dos: 'Inglés II', tres: 'Integradora I', cuatro: 'Inglés IV', cinco: 'Inglés V', seis: 'Estadia', siete: 'Administración Del Tiempo', ocho: '', nueve: '', diez: 'Negociación Empresarial', once: 'Estadia'},
-
-    {uno: 'Expresión Oral Y Escrita I', dos: 'Formación Sociocultural II', tres: 'Inglés III', cuatro: 'Francés I', cinco: 'Francés II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'},
-
-    {uno: 'Formación Sociocultural I', dos: '', tres: 'Formación Sociocultural III', cuatro: 'Formación Sociocultural IV', cinco: 'Expresión Oral Y Escrita II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: 'Estadia'}
-];
+    {uno: 'Inglés I', dos: 'Inglés II', tres: 'Inglés III', cuatro: 'Inglés IV', cinco: 'Inglés V', seis: 'Estadía', siete: 'Inglés VI', ocho: 'Inglés VII', nueve: 'Inglés VIII', diez: 'Estadía'},
+    {uno: 'Desarrollo Humano y Valores', dos: 'Habilidades Socioemocionales y Manejo de Conflictos', tres: 'Desarrollo del Pensamiento y Toma de Decisiones', cuatro: 'Ética Profesional', cinco: 'Liderazgo de Equipos de Alto Desempeño', seis: 'Estadía', siete: 'Habilidades Gerenciales', ocho: 'Finanzas para el Turismo', nueve: 'Seminario de Investigación Aplicada al Turismo', diez: 'Estadía'},
+    {uno: 'Matemáticas Aplicadas en el Turismo', dos: 'Probabilidad y Estadística', tres: 'Contabilidad Aplicada al Turismo', cuatro: 'Diagnóstico Turístico', cinco: 'Diseño de Experiencias Turísticas', seis: 'Estadía', siete: 'Análisis e Interpretación de Información para el Sector Turístico', ocho: 'Calidad y Responsabilidad Social', nueve: 'Destinos Turísticos Inteligentes', diez: 'Estadía'},
+    {uno: 'Fundamentos de Economía', dos: 'Administración', tres: 'Gestión de la Calidad', cuatro: 'Mercadotecnia y Comercialización', cinco: 'Plan de Negocios', seis: 'Estadía', siete: 'Economía para el Turismo', ocho: 'Desarrollo de Proyectos Emprendedores para el Turismo I', nueve: 'Desarrollo de Proyectos Emprendedores para el Turismo II', diez: 'Estadía'},
+    {uno: 'Introducción al Turismo', dos: 'Servicios de Viaje y Transportación', tres: 'Hospitalidad y Alojamiento', cuatro: 'Operación de Servicios de Hospedaje', cinco: 'Animación Turística y Sociocultural', seis: 'Estadía', siete: 'Desarrollo Regional', ocho: 'Mercadotecnia Digital', nueve: 'Dirección y Logística de Eventos', diez: 'Estadía'},
+    {uno: 'Geografía y Patrimonio', dos: 'Sustentabilidad en el Turismo', tres: 'Capital Humano', cuatro: 'Turismo Cultural y de Naturaleza', cinco: 'Capacitación de Capital Humano', seis: 'Estadía', siete: 'Instrumentos para el Desarrollo Sustentable', ocho: 'Consultoría Turística I', nueve: 'Consultoría Turística II', diez: 'Estadía'},
+    {uno: 'Comunicación y Habilidades Digitales', dos: 'Servicios de Alimentos y Bebidas', tres: 'Proyecto Integrador I', cuatro: 'Operación de Servicios de Alimentos y Bebidas', cinco: 'Proyecto Integrador II', seis: 'Estadía', siete: 'Gestión y Planificación del Turismo', ocho: 'Tendencias del Turismo', nueve: 'Proyecto Integrador III', diez: 'Estadía'}
+  ];
 
 //INICIO TABLA CUATRIMESTRES
 onMouseOver(columna: string, valor: any) {
   if(valor == ""){
-    console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
+    // console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
   }else{
-    console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
+    // console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
   }
+}
+
+openModal(image: Image): void {
+  this.selectedImage = image;
+  const modal = document.getElementById('hs-vertically-centered-modal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    modal.classList.add('pointer-events-auto');
+  }
+}
+closeModal(): void {
+  const modal = document.getElementById('hs-vertically-centered-modal');
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.classList.remove('pointer-events-auto');
+  }
+  this.selectedImage = { url: '', alt: '' };
+}
+
+ampliarImagen(imagenUrl: string): void {
+  this.imagenAmpliada = imagenUrl;
+}
+
+cerrarImagenAmpliada(): void {
+  this.imagenAmpliada = null;
 }
 
 //FIN TABLA CUATRIMESTRES
@@ -135,7 +199,7 @@ onMouseOver(columna: string, valor: any) {
       this.dt.filterGlobal(input.value, 'contains');
     }
   }
-  
+
 
   mostrar(elemento: any): void {
     // Verifica si el elemento recibido es un botón

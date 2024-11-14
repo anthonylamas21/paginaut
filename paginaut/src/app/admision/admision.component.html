@@ -1,186 +1,124 @@
-<!--Componente Navbar-->
-<app-navbar class="min-h-screen"></app-navbar>
+<!-- Componente Navbar -->
+<app-navbar></app-navbar>
 <p id="inicio"></p>
-<!--Fin Navbar-->
 
-<div class=" mt-4">
-  <ol class="flex items-center whitespace-nowrap ml-4 mt-24">
-      <li class="inline-flex items-center">
-        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="#">
-          Inicio
-        </a>
-        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m9 18 6-6-6-6"></path>
-        </svg>
-      </li>
-      <li class="inline-flex items-center">
-          <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="#">
+<!-- Botón de desplazamiento -->
+<button id="scrollTopButton" (click)="scrollToSection('inicio')"
+    class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50">
+    <i class="fa-solid fa-chevron-up"></i>
+</button>
+
+
+    <div class="mt-4">
+      <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4">
+        <li class="inline-flex items-center">
+          <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]" href="/principal">
+            Inicio
+          </a>
+          <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6"></path>
+          </svg>
+        </li>
+        <li class="inline-flex items-center">
+          <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]" href="#">
             UTC
           </a>
           <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="m9 18 6-6-6-6"></path>
           </svg>
         </li>
-      <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate" aria-current="page">
+        <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
           Bolsa de trabajo
         </li>
-    </ol>
-</div>
+      </ol>
+    </div>
 
-<div class="container h-screen max-w-screen-lg mb-10 "> <!-- Agregamos un margen inferior de 8 unidades -->
-    <section class=" py-12">
+    <div class="relative">
+      <!-- Imagen fija en la pantalla -->
+      <img src="./assets/img/AGUILA-GARZA.png" alt="Imagen Estática"
+      class="fixed top-20 right-0 object-cover z-10 pointer-events-none">
+  </div>
+  
+    <div class="container mx-auto">
+      <section class="py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center mb-5">
-            <h2 class="text-4xl font-extrabold text-black sm:text-5xl">
-              Bolsa de trabajo
-            </h2>
-            <p class="mt-4 text-xl text-gray-400">
-              Universidad tecnologica de la costa
-            </p>
+          <div class="mb-10">
+            <div class="bg-[#043D3D] rounded-lg">
+              <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
+                Bolsa de trabajo
+              </h2>
+            </div>
           </div>
 
           <div class="relative w-full mb-5">
             <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5 w-full">
-              <svg class="flex-shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24"
-                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
+              <svg class="flex-shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8"></circle>
                 <path d="m21 21-4.3-4.3"></path>
               </svg>
             </div>
             <input
               class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]"
-              type="text" placeholder="Ingresa tu busqueda" value="" data-hs-combo-box-input="">
+              type="text" placeholder="Ingresa tu búsqueda" [(ngModel)]="searchText" (input)="filterBolsas()">
           </div>
 
-          <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            <!-- Free Plan -->
-            <div class="bg-[#EEEEEE]  rounded-lg p-4 transform hover:scale-105 transition duration-300">
-              <div class="mb-8">
-                <h3 class="text-center text-5xl font-extrabold text-[#043D3D]">IBM</h3>
-                <p class="text-black text-xl mt-4">Ayudante de redes.</p>
+          <!-- Sección de trabajos -->
+          <div *ngIf="isLoading">
+            <div class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+              <div *ngFor="let i of [1,2,3,4]" class="bg-[#EEEEEE] rounded-lg p-4 transform transition duration-300 flex flex-col justify-between h-full animate-pulse">
+                <div class="w-full max-h-72 bg-gray-300 rounded-t-lg mb-4"></div>
+                <div class="flex flex-col flex-grow">
+                  <div class="mb-8">
+                    <div class="h-6 bg-gray-300 rounded w-3/4 mb-4 mx-auto"></div>
+                    <div class="h-4 bg-gray-300 rounded mb-2"></div>
+                    <div class="h-4 bg-gray-300 rounded mb-2"></div>
+                    <div class="h-4 bg-gray-300 rounded mb-2"></div>
+                    <div class="h-4 bg-gray-300 rounded mb-4"></div>
+                  </div>
+                  <a href="#" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium">
+                    <div class="flex items-center justify-center">
+                      <div class="h-4 w-4 bg-gray-300 rounded-full mr-1"></div>
+                      <span class="text-white">Cargando...</span>
+                    </div>
+                  </a>
+                </div>
               </div>
-              <ul class="mb-8 space-y-4 text-gray-400">
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">Experiencia en redes</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">5 años de experiencia laboral</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">Ingles</span>
-                </li>
-              </ul>
-              <a href="/info_bolsa" class="bg-[#043D3D] block w-full py-3 px-6 text-center rounded-md text-white font-medium">
-                Aplicar
-              </a>
-            </div>
-      
-            <!-- Starter Plan -->
-            <div class="bg-[#EEEEEE]  rounded-lg p-4 transform hover:scale-105 transition duration-300">
-              <div class="mb-8">
-                <h3 class="text-center text-5xl font-extrabold text-[#043D3D]">IBM</h3>
-                <p class="text-black text-xl mt-4">Ayudante de redes.</p>
-              </div>
-              <ul class="mb-8 space-y-4 text-gray-400">
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">Experiencia en redes</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">5 años de experiencia laboral</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">Ingles</span>
-                </li>
-              </ul>
-              <a href="#" class="bg-[#043D3D] block w-full py-3 px-6 text-center rounded-md text-white font-medium">
-                Aplicar
-              </a>
-            </div>
-      
-            <!-- Pro Plan -->
-            <div class="bg-[#EEEEEE]  rounded-lg p-4 transform hover:scale-105 transition duration-300">
-              <div class="mb-8">
-                <h3 class="text-center text-5xl font-extrabold text-[#043D3D]">IBM</h3>
-                <p class="text-black text-xl mt-4">Ayudante de redes.</p>
-              </div>
-              <ul class="mb-8 space-y-4 text-gray-400">
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">Experiencia en redes</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">5 años de experiencia laboral</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">Ingles</span>
-                </li>
-              </ul>
-              <a href="#" class="bg-[#043D3D] block w-full py-3 px-6 text-center rounded-md text-white font-medium">
-                Aplicar
-              </a>
-            </div>
-      
-            <!-- Enterprise Plan -->
-            <div class="bg-[#EEEEEE]  rounded-lg p-4 transform hover:scale-105 transition duration-300">
-              <div class="mb-8">
-                <h3 class="text-center text-5xl font-extrabold text-[#043D3D]">IBM</h3>
-                <p class="text-black text-xl mt-4">Ayudante de redes.</p>
-              </div>
-              <ul class="mb-8 space-y-4 text-gray-400">
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">Experiencia en redes</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">5 años de experiencia laboral</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-black">Ingles</span>
-                </li>
-              </ul>
-              <a href="#" class="bg-[#043D3D] block w-full py-3 px-6 text-center rounded-md text-white font-medium">
-                Aplicar
-              </a>
             </div>
           </div>
+
+          <div *ngIf="!isLoading">
+            <div *ngIf="filteredBolsas.length > 0; else noResults">
+              <div class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 py-6">
+                <div *ngFor="let bolsa of filteredBolsas" class="bg-[#EEEEEE] rounded-lg p-4 transform hover:scale-105 transition duration-300 flex flex-col justify-between h-full">
+                  <div class="flex flex-col flex-grow">
+                    <div class="mb-8">
+                      <h3 class="text-center text-2xl font-extrabold text-[#043D3D] mb-6">{{ bolsa.nombre_empresa }}</h3>
+
+                      <!-- Mostrar los requisitos -->
+                      <div *ngIf="bolsa.requisitos && bolsa.requisitos.length > 0">
+                        <h4 class="text-lg font-bold text-gray-700">Requisitos:</h4>
+                        <ul class="list-disc pl-5 text-gray-600">
+                          <li *ngFor="let req of bolsa.requisitos">{{ req.requisito }}</li>
+                        </ul>
+                      </div>
+
+                    </div>
+                    <a (click)="verDetalleBolsa(bolsa.id)" class="bg-[#043D3D] mt-auto block w-full py-3 px-6 text-center rounded-md text-white font-medium cursor-pointer">
+                      Más información
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ng-template #noResults>
+              <div class="container max-w-screen-lg mb-12 space-y-4">
+                <div class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg">
+                <p class="text-gray-600 text-lg">Lo sentimos, no encontramos lo que buscabas.</p>
+                </div>
+             </div>
+            </ng-template>
+          </div>
+
         </div>
       </section>
-</div>
-<!--Inicio componente Footer-->
-<app-footer></app-footer>
-<!--Fin Footer-->
+    </div>

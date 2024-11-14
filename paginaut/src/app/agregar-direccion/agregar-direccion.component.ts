@@ -1,76 +1,149 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DireccionService, Direccion } from '../direccion.service';
+import Swal from 'sweetalert2';
+
+class TooltipManager {
+  static adjustTooltipPosition(
+    button: HTMLElement,
+    tooltip: HTMLElement
+  ): void {
+    const buttonRect = button.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    const preferredLeft =
+      buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
+    const preferredTop = buttonRect.top - tooltipRect.height - 10;
+
+    let left = Math.max(preferredLeft, 0);
+    let top = Math.max(preferredTop, 0);
+
+    if (left + tooltipRect.width > windowWidth) {
+      left = windowWidth - tooltipRect.width;
+    }
+
+    if (top + tooltipRect.height > windowHeight) {
+      top = windowHeight - tooltipRect.height;
+    }
+
+    tooltip.style.position = 'fixed';
+    tooltip.style.top = `${top}px`;
+    tooltip.style.left = `${left}px`;
+  }
+}
 
 @Component({
   selector: 'app-agregar-direccion',
   templateUrl: './agregar-direccion.component.html',
-  styleUrls: ['./agregar-direccion.component.css']
+  styleUrls: ['./agregar-direccion.component.css'],
 })
 export class AgregarDireccionComponent implements OnInit {
   direccionForm: FormGroup;
   errorMessage: string = '';
   successMessage: string = '';
   isModalOpen: boolean = false;
+  isViewModalOpen: boolean = false; // Añadido esta línea
   direcciones: Direccion[] = [];
   filteredDirecciones: Direccion[] = [];
   papeleraDirecciones: Direccion[] = [];
   currentDireccionId?: number;
   currentDireccion?: Direccion;
+  selectedDireccion?: Direccion;
   currentTab: 'active' | 'inactive' = 'active';
 
   constructor(
     private fb: FormBuilder,
-    private direccionService: DireccionService
+    private direccionService: DireccionService,
+    private renderer: Renderer2
   ) {
     this.direccionForm = this.fb.group({
       abreviatura: ['', [Validators.required, Validators.maxLength(10)]],
-
       nombre: ['', [Validators.required, Validators.maxLength(100)]],
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadDirecciones();
+    this.setNavbarColor();
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    this.setNavbarColor();
+  }
+
+  scrollToSection(sectionId: string): void {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  private setNavbarColor(): void {
+    const button = document.getElementById('scrollTopButton');
+    const nabvar = document.getElementById('navbarAccion');
+    const inicioSection = document.getElementById('inicio');
+
+    if (inicioSection && nabvar) {
+      const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
+
+      if (window.scrollY > inicioSectionBottom) {
+        button?.classList.remove('hidden');
+      } else {
+        button?.classList.add('hidden');
+      }
+
+      nabvar.classList.remove('bg-transparent');
+      nabvar.classList.add('bg-[#043D3D]');
+    }
   }
 
   onSubmit() {
     if (this.direccionForm.valid) {
-      const direccionData: Direccion = { ...this.direccionForm.value };
+      const formData: FormData = new FormData();
+      formData.append(
+        'abreviatura',
+        this.direccionForm.get('abreviatura')?.value
+      );
+      formData.append('nombre', this.direccionForm.get('nombre')?.value);
+
       if (this.currentDireccionId) {
-        direccionData.id = this.currentDireccionId;
-        direccionData.activo = this.currentDireccion?.activo ?? true;
-        this.direccionService.actualizarDireccion(direccionData).subscribe({
-          next: (response) => {
-            console.log('Dirección actualizada con éxito', response);
-            this.successMessage = 'Dirección actualizada correctamente';
+        formData.append('id', this.currentDireccionId.toString());
+        this.direccionService.updateDireccion(formData).subscribe({
+          next: (response: any) => {
+            this.showToast('success', 'Dirección actualizada correctamente');
             this.loadDirecciones();
             this.resetForm();
             this.closeModal();
           },
-          error: (error) => {
-            console.error('Error al actualizar la dirección', error);
-            this.errorMessage = error.message;
+          error: (error: any) => {
+            this.showToast('error', error.message);
           },
         });
       } else {
-        direccionData.activo = true; // Set activo to true by default for new addresses
-        this.direccionService.agregarDireccion(direccionData).subscribe({
-          next: (response) => {
-            console.log('Dirección agregada con éxito', response);
-            this.successMessage = 'Dirección agregada correctamente';
+        this.direccionService.addDireccion(formData).subscribe({
+          next: (response: any) => {
+            this.showToast('success', 'Dirección agregada correctamente');
             this.loadDirecciones();
             this.resetForm();
             this.closeModal();
           },
-          error: (error) => {
-            console.error('Error al agregar la dirección', error);
-            this.errorMessage = error.message;
+          error: (error: any) => {
+            this.showToast('error', error.message);
           },
         });
       }
     } else {
-      this.errorMessage = 'Por favor, completa todos los campos requeridos.';
+      this.showToast(
+        'warning',
+        'Por favor, completa todos los campos requeridos.'
+      );
+    }
+  }
+
+  validateInput(event: KeyboardEvent) {
+    const allowedKeys = /^[a-zA-Z0-9\s]*$/;
+    if (!allowedKeys.test(event.key)) {
+      event.preventDefault();
     }
   }
 
@@ -86,7 +159,10 @@ export class AgregarDireccionComponent implements OnInit {
     if (direccion) {
       this.currentDireccionId = direccion.id;
       this.currentDireccion = direccion;
-      this.direccionForm.patchValue(direccion);
+      this.direccionForm.patchValue({
+        abreviatura: direccion.abreviatura,
+        nombre: direccion.nombre,
+      });
     } else {
       this.resetForm();
     }
@@ -98,72 +174,94 @@ export class AgregarDireccionComponent implements OnInit {
   }
 
   loadDirecciones() {
-    this.direccionService.obtenerDirecciones().subscribe({
+    this.direccionService.getDirecciones().subscribe({
       next: (response: any) => {
         this.direcciones = response.records;
         this.filterDirecciones();
-        this.initializeTooltips();
       },
-      error: (error) => {
-        console.error('Error al cargar las direcciones', error);
-        this.errorMessage = error.message;
+      error: (error: any) => {
+        this.showToast('error', error.message);
       },
     });
   }
 
-  confirmDeleteDireccion(id: number | undefined) {
-    if (id !== undefined) {
-      this.changeDireccionStatus(id, false);
-    }
+  deleteDireccion(id: number) {
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres eliminar esta dirección? Esta acción no se puede deshacer.',
+      () => {
+        this.direccionService.deleteDireccion(id).subscribe({
+          next: (response: any) => {
+            this.showToast('success', 'Dirección eliminada correctamente');
+            this.loadDirecciones();
+          },
+          error: (error: any) => {
+            this.showToast('error', error.message);
+          },
+        });
+      }
+    );
   }
 
-  changeDireccionStatus(id: number, status: boolean) {
-    const direccionToUpdate = this.direcciones.find((d) => d.id === id);
+  moveToTrash(id: number) {
+    this.showConfirmDialog(
+      '¿Estás seguro?',
+      '¿Quieres mover esta dirección a la papelera?',
+      () => {
+        this.direccionService.updateDireccionStatus(id, false).subscribe({
+          next: (response: any) => {
+            this.showToast(
+              'success',
+              'Dirección movida a la papelera correctamente'
+            );
+            this.loadDirecciones();
+          },
+          error: (error: any) => {
+            this.showToast('error', error.message);
+          },
+        });
+      }
+    );
+  }
+
+  activateDireccion(id: number) {
+    const direccionToUpdate = this.direcciones.find(
+      (direccion) => direccion.id === id
+    );
     if (direccionToUpdate) {
-      direccionToUpdate.activo = status;
-      this.direccionService.actualizarDireccion(direccionToUpdate).subscribe({
-        next: (response) => {
-          console.log('Dirección actualizada con éxito', response);
-          this.successMessage = status
-            ? 'Dirección activada correctamente'
-            : 'Dirección enviada a la papelera correctamente';
+      direccionToUpdate.activo = true;
+      const formData: FormData = new FormData();
+      formData.append('id', direccionToUpdate.id!.toString());
+      formData.append('abreviatura', direccionToUpdate.abreviatura);
+      formData.append('nombre', direccionToUpdate.nombre);
+      formData.append('activo', 'true');
+      this.direccionService.updateDireccion(formData).subscribe({
+        next: (response: any) => {
+          this.showToast('success', 'Dirección activada correctamente');
           this.loadDirecciones();
-          this.initializeTooltips();
         },
-        error: (error) => {
-          console.error('Error al actualizar la dirección', error);
-          this.errorMessage = error.message;
+        error: (error: any) => {
+          this.showToast('error', error.message);
         },
       });
     }
   }
 
-  deleteDireccion(id: number) {
-    this.direccionService.eliminarDireccion(id).subscribe({
-      next: (response) => {
-        console.log('Dirección eliminada con éxito', response);
-        this.successMessage = 'Dirección eliminada correctamente';
-        this.loadDirecciones(); // Vuelve a cargar las direcciones después de eliminar
-        this.initializeTooltips();
-      },
-      error: (error) => {
-        console.error('Error al eliminar la dirección', error);
-        this.errorMessage = error.message;
-      },
-    });
-  }
-
-  activateDireccion(id: number) {
-    this.changeDireccionStatus(id, true);
+  switchTab(tab: 'active' | 'inactive') {
+    this.currentTab = tab;
+    this.filterDirecciones();
   }
 
   filterDirecciones() {
-    this.filteredDirecciones = this.direcciones.filter(
-      (direccion) => direccion.activo
-    );
-    this.papeleraDirecciones = this.direcciones.filter(
-      (direccion) => !direccion.activo
-    );
+    if (this.currentTab === 'active') {
+      this.filteredDirecciones = this.direcciones.filter(
+        (direccion) => direccion.activo
+      );
+    } else {
+      this.papeleraDirecciones = this.direcciones.filter(
+        (direccion) => !direccion.activo
+      );
+    }
   }
 
   filterGlobal(event: Event) {
@@ -189,29 +287,20 @@ export class AgregarDireccionComponent implements OnInit {
     }
   }
 
-  switchTab(tab: 'active' | 'inactive') {
-    this.currentTab = tab;
-    this.filterDirecciones();
-    this.initializeTooltips();
+  viewDireccion(direccion: Direccion) {
+    this.selectedDireccion = direccion;
+    this.isViewModalOpen = true;
   }
 
-  initializeTooltips() {
-    setTimeout(() => {
-      const tooltips = document.querySelectorAll('.hs-tooltip');
-      tooltips.forEach((tooltip) => {
-        const trigger = tooltip as HTMLElement;
-        trigger.addEventListener('mouseenter', () => this.mostrar(trigger));
-        trigger.addEventListener('mouseleave', () => this.mostrar(trigger));
-      });
-    }, 0);
+  closeViewModal() {
+    this.isViewModalOpen = false;
   }
 
-  // Tooltip Methods
   mostrar(elemento: any): void {
-    // Verifica si el elemento recibido es un botón
     if (elemento.tagName.toLowerCase() === 'button') {
       const tooltipElement = elemento.querySelector('.hs-tooltip');
       if (tooltipElement) {
+        tooltipElement.classList.toggle('show');
         const tooltipContent = tooltipElement.querySelector(
           '.hs-tooltip-content'
         );
@@ -219,51 +308,52 @@ export class AgregarDireccionComponent implements OnInit {
           tooltipContent.classList.toggle('hidden');
           tooltipContent.classList.toggle('invisible');
           tooltipContent.classList.toggle('visible');
-          // Ajustar la posición del tooltip
           TooltipManager.adjustTooltipPosition(elemento, tooltipContent);
         }
       }
     }
   }
-}
 
-class TooltipManager {
-  static adjustTooltipPosition(
-    button: HTMLElement,
-    tooltip: HTMLElement
+  private showToast(
+    icon: 'success' | 'warning' | 'error' | 'info' | 'question',
+    title: string
   ): void {
-    // Obtener dimensiones del botón y del tooltip
-    const buttonRect = button.getBoundingClientRect();
-    const tooltipRect = tooltip.getBoundingClientRect();
+    const Toast = Swal.mixin({
+      toast: true,iconColor: '#008779',
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
 
-    // Obtener dimensiones de la ventana
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+  }
 
-    // Calcular la posición preferida del tooltip
-    const preferredLeft =
-      buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
-    const preferredTop = buttonRect.top - tooltipRect.height - 10; // Espacio entre el botón y el tooltip
-
-    // Ajustar la posición si se sale de la pantalla hacia la izquierda
-    let left = Math.max(preferredLeft, 0);
-
-    // Ajustar la posición si se sale de la pantalla hacia arriba
-    let top = Math.max(preferredTop, 0);
-
-    // Ajustar la posición si el tooltip se sale de la pantalla hacia la derecha
-    if (left + tooltipRect.width > windowWidth) {
-      left = windowWidth - tooltipRect.width;
-    }
-
-    // Ajustar la posición si el tooltip se sale de la pantalla hacia abajo
-    if (top + tooltipRect.height > windowHeight) {
-      top = windowHeight - tooltipRect.height;
-    }
-
-    // Aplicar posición al tooltip
-    tooltip.style.position = 'fixed';
-    tooltip.style.top = `${top}px`;
-    tooltip.style.left = `${left}px`;
+  private showConfirmDialog(
+    title: string,
+    text: string,
+    onConfirm: () => void
+  ): void {
+    Swal.fire({
+      title: title,
+      text: text,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, confirmar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        onConfirm();
+      }
+    });
   }
 }

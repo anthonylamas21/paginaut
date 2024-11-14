@@ -12,14 +12,14 @@ interface Image {
 export class DanzaComponent {
 
   images: Image[] = [
-    { url: './assets/img/galeria/extras/danza/danza1.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/extras/danza/danza2.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/extras/danza/danza3.jpg', alt: 'Image 3' },
-    { url: './assets/img/galeria/extras/danza/danza4.jpg', alt: 'Image 3' },
+    { url: './assets/img/galeria/extras/danza/danza1.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/danza/danza2.webp', alt: 'Image 2' },
+    { url: './assets/img/galeria/extras/danza/danza3.webp', alt: 'Image 3' },
+    { url: './assets/img/galeria/extras/danza/danza4.webp', alt: 'Image 3' },
     // más imágenes aquí
   ];
 
-  selectedImage: Image = { url: '', alt: '' };
+  selectedImage: Image | null = null;
 
   openModal(image: Image): void {
     if (image) {
@@ -31,6 +31,16 @@ export class DanzaComponent {
       }
     }
   }
+
+  closeModal(): void {
+    const modal = document.getElementById('hs-vertically-centered-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('pointer-events-auto');
+    }
+    this.selectedImage = null;  // Cambiar de objeto vacío a null
+  }
+  
   ngOnInit(): void {
     this.setNavbarColor();
   }

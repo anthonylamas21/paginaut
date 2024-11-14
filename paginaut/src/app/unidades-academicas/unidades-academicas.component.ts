@@ -1,7 +1,8 @@
-import { Component, OnInit, AfterViewInit, Renderer2, HostListener } from '@angular/core';
-import { InstalacionService, Instalacion, InstalacionResponse } from '../instalacionService/instalacion.service';
+import { Component, OnInit, AfterViewInit, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { InstalacionService, Instalacion, InstalacionResponse } from '../instalacionService/instalacion.service';
+import Hashids from 'hashids';
+import { BASEIMAGEN } from '../constans';
 
 @Component({
   selector: 'app-unidades-academicas',
@@ -9,26 +10,28 @@ import { Router } from '@angular/router';
   styleUrls: ['./unidades-academicas.component.css']
 })
 export class UnidadesAcademicasComponent implements OnInit, AfterViewInit {
+  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 16);
   isLoading = true;
   instalaciones: Instalacion[] = [];
+  
 
   constructor(
     private renderer: Renderer2,
     private instalacionService: InstalacionService,
-    private router: Router
+    private router: Router,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.setNavbarColor();
     this.cargarInstalaciones();
   }
 
   ngAfterViewInit(): void {
-    this.renderer.listen('window', 'load', () => {
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 1000);
-    });
+    // Asegurarse de que el navbar se coloree después de que la vista se haya inicializado
+    setTimeout(() => {
+      this.setNavbarColor();
+      this.cdRef.detectChanges();
+    }, 0);
   }
 
   cargarInstalaciones(): void {
@@ -38,7 +41,7 @@ export class UnidadesAcademicasComponent implements OnInit, AfterViewInit {
         this.isLoading = false;
       },
       error: (error: string) => {
-        console.error('Error al cargar instalaciones:', error);
+        // console.error('Error al cargar instalaciones:', error);
         this.isLoading = false;
       }
     });
@@ -46,44 +49,43 @@ export class UnidadesAcademicasComponent implements OnInit, AfterViewInit {
 
   getImageUrl(path: string | undefined): string {
     if (path) {
-      return `http://localhost/paginaut/${path}`;
+      return BASEIMAGEN+`/${path}`;
     }
-    return 'path/to/default/image.jpg'; // Proporciona una imagen por defecto
+    return 'path/to/default/image.jpg';
   }
+
   verGaleria(id: number | undefined): void {
     if (id !== undefined) {
-      this.router.navigate(['/info-unidades', id]);
+      const encryptedId = this.hashids.encode(id);
+      window.location.href = `/info-unidades/${encryptedId}`;
     } else {
-      console.error('ID de instalación no disponible');
-      // Aquí puedes manejar el caso cuando el ID no está disponible,
-      // por ejemplo, mostrando un mensaje al usuario.
+      // console.error('ID de instalación no disponible');
     }
   }
-
-  @HostListener('window:scroll', [])
-  onWindowScroll(): void {
-    this.setNavbarColor();
-  }
+  
 
   private setNavbarColor(): void {
-    const button = document.getElementById('scrollTopButton');
     const navbar = document.getElementById('navbarAccion');
-    const scrollY = window.scrollY;
-  
     if (navbar) {
-      if (scrollY > 50) {
-        navbar.classList.remove('bg-transparent');
-        navbar.classList.add('bg-[#043D3D]');
-        button?.classList.remove('hidden');
-      } else {
-        navbar.classList.add('bg-transparent');
-        navbar.classList.remove('bg-[#043D3D]');
-        button?.classList.add('hidden');
-      }
+      this.renderer.removeClass(navbar, 'bg-transparent');
+      this.renderer.addClass(navbar, 'bg-[#043D3D]');
+      this.renderer.setStyle(navbar, 'position', 'fixed');
+      this.renderer.setStyle(navbar, 'top', '0');
+      this.renderer.setStyle(navbar, 'left', '0');
+      this.renderer.setStyle(navbar, 'right', '0');
+      this.renderer.setStyle(navbar, 'z-index', '1000');
+    }
+
+    const button = document.getElementById('scrollTopButton');
+    if (button) {
+      this.renderer.addClass(button, 'hidden');
     }
   }
-  
+
   scrollToSection(sectionId: string): void {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { API } from '../constans';
 
 export interface Instalacion {
   id?: number;
@@ -23,7 +24,7 @@ export interface InstalacionResponse {
   providedIn: 'root'
 })
 export class InstalacionService {
-  private apiUrl = 'http://localhost/paginaut/api/instalacion';
+  private apiUrl = API+'/api/instalacion';
 
   constructor(private http: HttpClient) {}
 
@@ -117,7 +118,7 @@ export class InstalacionService {
       // Server-side errors
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    console.error(errorMessage);
+    //console.error(errorMessage);
     return throwError(() => errorMessage);
   }
 }

@@ -13,7 +13,6 @@ interface Item {
   ocho: string;
   nueve: string;
   diez: string;
-  once: string; 
 }
 
 interface Image {
@@ -26,61 +25,85 @@ interface Image {
   styleUrl: './carrera-agrobiotecnologia.component.css'
 })
 export class CarreraAgrobiotecnologiaComponent {
+  currentTab: string = 'segment-1'; // Define el tab inicial
 
   isLoading = true;
-  
+  imagenAmpliada: string | null = null;
+  selectedImage: Image = { url: '', alt: '' };
+
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/agro/agro1.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/agro/agro2.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/agro/agro3.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/agro/agro4.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/agro/agro5.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/agro/agro6.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/agro/agro7.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/agro/agro8.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/agro/agro9.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/agro/agro10.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/agro/agro11.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/agro/agro12.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/agro/agro13.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/agro/agro14.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/agro/agro15.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/agro/agro16.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/agro/agro17.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/agro/agro18.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/agro/agro19.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/agro/agro20.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/agro/agro21.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/agro/agro22.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/agro/AGRO_1.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_2.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_3.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_4.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_5.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_6.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_7.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_8.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_9.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_10.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_11.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_12.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_13.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_14.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_15.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_16.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_17.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_18.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_19.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_20.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_21.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_22.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_23.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_24.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_25.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_26.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_27.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_28.webp', alt: '' },
+    { url: './assets/img/galeria/agro/AGRO_29.webp', alt: '' },
+    
     // más imágenes aquí
   ];
 
-  selectedImage: Image = { url: '', alt: '' };
-
-  openModal(image: Image): void {
-    if (image) {
-      this.selectedImage = image;
-      const modal = document.getElementById('hs-vertically-centered-modal');
-      if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('pointer-events-auto');
-      }
-    }
-  }
-
   ngAfterViewInit(): void {
     this.renderer.listen('window', 'load', () => {
-      setInterval(() => {
         this.isLoading = false
-      }, 3000);  
-      
     });
   }
 
   ngOnInit(): void {
     this.setNavbarColor();
+    this.showTab(this.currentTab); // Mostrar el tab inicial
+  }
+  showTab(tabId: string): void {
+    // Oculta todas las pestañas
+    const allTabs = document.querySelectorAll('[role="tabpanel"]');
+    allTabs.forEach(tab => {
+      tab.classList.add('hidden'); // Oculta todas
+    });
+
+    // Muestra la pestaña actual
+    const activeTab = document.getElementById(tabId);
+    if (activeTab) {
+      activeTab.classList.remove('hidden');
+    }
+
+    // Cambiar el tab actual
+    this.currentTab = tabId;
+  }
+  onTabClick(event: any, tabId: string): void {
+    this.showTab(tabId);
+
+    // Elimina la clase 'active' de todos los botones
+    const allButtons = document.querySelectorAll('[role="tab"]');
+    allButtons.forEach(button => {
+      button.classList.remove('active');
+    });
+
+    // Agrega la clase 'active' al botón clicado
+    event.target.classList.add('active');
   }
 
   @HostListener('window:scroll', [])
@@ -101,12 +124,12 @@ export class CarreraAgrobiotecnologiaComponent {
       } else {
         button?.classList.add('hidden');
       }
-      
+
       nabvar.classList.remove('bg-transparent');
       nabvar.classList.add('bg-[#043D3D]');
     }
   }
-  
+
   scrollToSection(sectionId: string): void {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
@@ -114,33 +137,28 @@ export class CarreraAgrobiotecnologiaComponent {
   @ViewChild('dt') dt: Table | undefined;
 
   items: Item[] = [
-    {uno: 'Algebra lineal',  dos: 'Funciones matemáticas',  tres: 'Calculo diferencial',  cuatro: 'Cálculo Integral',  cinco: 'Diseños Experimentales	',  seis: 'Estadia',  siete: 'Matematicas para ingenieria I',  ocho: 'Matemáticas para ingenieria II',  nueve: 'Operaciones Unitarias II',  diez: 'Ingeniería Genética	',  once: 'Estadia'},
+    {uno: 'QUÍMICA AGRÍCOLA',  dos: 'PROBABILIDAD Y ESTADÍSTICA',  tres: 'PROYECTO INTEGRADOR I',  cuatro: 'METODOLOGÍA DE LA INVESTIGACIÓN',  cinco: 'PROYECTO INTEGRADOR II',  seis: 'Estadia',  siete: 'SISTEMAS DE INFORMACIÓN GEOGRÁFICA',  ocho: 'SISTEMAS DE PRODUCCIÓN AGRÍCOLA',  nueve: 'PROYECTO INTEGRADOR III',  diez: 'ESTADIA'},
 
-    {uno: 'Química Básica',  dos: 'Química Orgánica',  tres: 'Química Analítica',  cuatro: 'Probabilidad Y Estadística',  cinco: 'Biorremediación',  seis: 'Estadia',  siete: 'Termodinámica',  ocho: 'Bioestadística',  nueve: 'Biología Molecular',  diez: 'Ingeniería Económica',  once: 'Estadia'},
+    {uno: 'INGLÉS I',  dos: 'MICROBIOLOGÍA AGRÍCOLA',  tres: 'INGLÉS III',  cuatro: 'INGLÉS IV',  cinco: 'MANEJO INTEGRADO DE PLAGAS, ENFERMEDADES Y ARVENSES',  seis: 'Estadia',  siete: 'NUTRICIÓN VEGETAL',  ocho: 'INGLÉS VII',  nueve: 'INOCUIDAD Y CALIDAD AGRÍCOLA',  diez: 'ESTADIA'},
 
-    {uno: 'Biología Agrícola',  dos: 'Física',  tres: 'Electricidad Y Magnetismo',  cuatro: 'Agricultura Sostenible',  cinco: 'Extracción De Metabolitos',  seis: 'Estadia',  siete: 'Fisicoquímica',  ocho: 'Operaciones Unitarias I',  nueve: '',  diez: '',  once: 'Estadia'},
+    {uno: 'FUNDAMENTOS MATEMÁTICOS',  dos: 'INGLÉS II',  tres: 'ENTOMOLOGÍA AGRÍCOLA',  cuatro: 'FITOPATOLOGÍA',  cinco: 'LIDERAZGO DE EQUIPOS DE ALTO DESEMPEÑO',  seis: 'Estadia',  siete: 'INVENTARIO DE RECURSOS NATURALES',  ocho: 'INGENIERÍA ECONÓMICA',  nueve: 'INGLÉS VIII',  diez: 'ESTADIA'},
 
-    {uno: 'Informática',  dos: 'Microbiología',  tres: 'Genética Vegetal',  cuatro: 'Propagación Vegetativa',  cinco: 'Abonos Orgánicos',  seis: 'Estadia',  siete: 'Metodología De La Investigación',  ocho: 'Administración De La Calidad',  nueve: 'Conservación De Bioproductos',  diez: 'Caracterización De Bioproductos',  once: 'Estadia'},
+    {uno: 'DESARROLLO HUMANO Y VALORES',  dos: 'HABILIDADES SOCIOEMOCIONALES Y MANEJO DE CONFLICTOS',  tres: 'EDAFOLOGÍA',  cuatro: 'EXTRACCIÓN DE METABOLITOS',  cinco: 'INGLÉS V',  seis: 'Estadia',  siete: 'INGLÉS VI',  ocho: 'EXTENSIONISMO',  nueve: 'INGENIERÍA GENÉTICA',  diez: 'ESTADIA'},
 
-    {uno: 'Botánica Sistemática',  dos: 'Bioquímica',  tres: 'Agrobiotecnología',  cuatro: 'Integradora I',  cinco: 'Biofertilizantes',  seis: 'Estadia',  siete: 'Administración De La Producción Agrobiotecnológica',  ocho: 'Inglés VII',  nueve: 'Bioingeniería',  diez: 'Integradora',  once: 'Estadia'},
+    {uno: 'COMUNICACIÓN Y HABILIDADES DIGITALES',  dos: 'FISIOLOGÍA VEGETAL',  tres: 'DESARROLLO DEL PENSAMIENTO Y TOMA DE DECISIONES',  cuatro: 'ÉTICA PROFESIONAL',  cinco: 'ECUACIONES DIFERENCIALES',  seis: 'Estadia',  siete: 'HABILIDADES GERENCIALES',  ocho: 'BIORREMEDIACIÓN',  nueve: 'INDUSTRIALIZACIÓN DE PRODUCTOS AGROBIOTECNOLÓGICOS',  diez: 'ESTADIA'},
 
-    {uno: 'Fisiología Vegetal',  dos: 'Biotecnología Vegetal',  tres: 'Agrometeorología',  cuatro: 'Ecología Microbiana',  cinco: 'Control Biológico',  seis: 'Estadia',  siete: 'Inglés VI',  ocho: 'Planeación y Organización del trabajo',  nueve: 'Inglés VIII',  diez: 'Inglés IX',  once: 'Estadia'},
+    {uno: 'BIOLOGÍA AGRÍCOLA',  dos: 'FÍSICA',  tres: 'CÁLCULO INTEGRAL',  cuatro: 'CONTROL BIOLÓGICO',  cinco: 'BIOTECNOLOGÍA VEGETAL',  seis: 'Estadia',  siete: 'DISEÑOS EXPERIMENTALES',  ocho: 'BIOLOGÍA MOLECULAR',  nueve: 'FORMULACIÓN Y EVALUACIÓN DE PROYECTOS',  diez: 'ESTADIA'},
 
-    {uno: 'Inglés I',  dos: 'Edafología',  tres: 'Herramientas De Planeación Y Costos',  cuatro: 'Fitopatología',  cinco: 'Integradora II',  seis: 'Estadia',  siete: 'Administración del tiempo',  ocho: '',  nueve: 'Dirección De Equipos De Alto Rendimiento',  diez: 'Negociación Empresarial',  once: 'Estadia'},
+    {uno: 'AGROECOLOGÍA',  dos: 'CÁLCULO DIFERENCIAL',  tres: 'AGROCLIMATOLOGÍA',  cuatro: 'CÁLCULO DE VARIAS VARIABLES',  cinco: 'BIOFERTILIZANTES',  seis: 'Estadia',  siete: 'BIOINGENIERÍA',  ocho: 'AGRICULTURA ORGÁNICA',  nueve: 'AGRICULTURA PROTEGIDA',  diez: 'ESTADIA'},
 
-    {uno: 'Expresión Oral Y Escrita I',  dos: 'Inglés II',  tres: 'Inglés III',  cuatro: 'Control De Plagas Y Malezas', cinco: 'Inglés V',  seis: 'Estadia',  siete: '',  ocho: '',  nueve: '',  diez: '',  once: 'Estadia'},
-
-    {uno: '',  dos: 'Formación Sociocultural I',  tres: 'Formación Sociocultural II',  cuatro: 'Inglés IV', cinco: 'Expresión Oral Y Escrita II',  seis: 'Estadia',  siete: '',  ocho: '',  nueve: '',  diez: '',  once: 'Estadia'},
-
-    {uno: '',  dos: '',  tres: '',  cuatro: 'Formación Sociocultural III', cinco: 'Formación Sociocultural IV',  seis: 'Estadia',  siete: '',  ocho: '',  nueve: '',  diez: '',  once: 'Estadia'}
 ];
 
 //INICIO TABLA CUATRIMESTRES
 onMouseOver(columna: string, valor: any) {
   if(valor == ""){
-    console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
+    // console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
   }else{
-    console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
+    // console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
   }
 }
 
@@ -152,7 +170,7 @@ onMouseOver(columna: string, valor: any) {
       this.dt.filterGlobal(input.value, 'contains');
     }
   }
-  
+
 
   mostrar(elemento: any): void {
     // Verifica si el elemento recibido es un botón
@@ -170,6 +188,31 @@ onMouseOver(columna: string, valor: any) {
             }
         }
     }
+  }
+
+  openModal(image: Image): void {
+    this.selectedImage = image;
+    const modal = document.getElementById('hs-vertically-centered-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.classList.add('pointer-events-auto');
+    }
+  }
+  closeModal(): void {
+    const modal = document.getElementById('hs-vertically-centered-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('pointer-events-auto');
+    }
+    this.selectedImage = { url: '', alt: '' };
+  }
+
+  ampliarImagen(imagenUrl: string): void {
+    this.imagenAmpliada = imagenUrl;
+  }
+
+  cerrarImagenAmpliada(): void {
+    this.imagenAmpliada = null;
   }
 
 }

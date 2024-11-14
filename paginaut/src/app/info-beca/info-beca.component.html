@@ -1,14 +1,18 @@
 <!--Componente Navbar-->
 <app-navbar></app-navbar>
+<!-- Contenedor principal flexible -->
+<div class="flex flex-col min-h-screen">
+  <!-- Contenido principal que puede crecer -->
+  <main class="flex-grow">
 <p id="inicio"></p>
 <!--Fin Navbar-->
 
 <button id="scrollTopButton" (click)="scrollToSection('inicio')"
-  class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+  class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50">
   <i class="fa-solid fa-chevron-up"></i>
 </button>
 
-<ol class="flex items-center whitespace-nowrap ml-4 mt-24 mb-8">
+<ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4 mb-8">
   <li class="inline-flex items-center">
     <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]" href="/principal">
       Inicio
@@ -30,28 +34,37 @@
   </li>
 </ol>
 <div class="container mx-auto my-4 flex-1 flex flex-col">
-  <div class="bg-[#043D3D] rounded-lg">
-    <h2 class="text-3xl font-poppins py-2 px-2 font-bold text-white uppercase">{{ nombreBeca }}</h2>
+  <div class="mb-4">
+    <div class="bg-[#043D3D] rounded-lg relative z-20">
+      <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
+        {{nombreBeca}}</h2>
+    </div>
   </div>
 
   <div class="flex justify-center my-4">
     <p class="text-lg text-gray-700">{{ descripcionBeca }}</p>
   </div>
 
-  <div class="flex justify-center my-4 flex-1">
-    <iframe *ngIf="safeArchivoUrl" [src]="safeArchivoUrl" class="w-10/12 h-[500px]"></iframe>
-  </div>
+  <ng-container *ngIf="safeArchivoUrl; else noArchivo">
+    <div class="flex justify-center my-4 flex-1">
+      <iframe [src]="safeArchivoUrl" class="w-10/12 h-[500px] rounded-lg"></iframe>
+    </div>
+  </ng-container>
+  
+  <ng-template #noArchivo>
+    <div class="flex justify-center my-4 flex-1">
+      <app-not-found class="w-10/12 h-[500px]"></app-not-found>
+    </div>
+  </ng-template>
 
   <div class="flex justify-center space-x-4 mb-4">
     <a *ngIf="archivoBeca" [href]="archivoBeca" target="_blank" class="bg-[#043D3D] text-white py-2 px-4 rounded-lg flex items-center">
       <i class="fa-solid fa-file-pdf mr-2"></i> Ir al PDF
     </a>
-    <a href="#results" class="bg-[#043D3D] text-white py-2 px-4 rounded-lg flex items-center">
-      <i class="fa-solid fa-file-alt mr-2"></i> Ver resultados
-    </a>
   </div>
 </div>
-
+  </main>
 <!--Inicio componente Footer-->
-<app-footer class="mt-auto"></app-footer>
+<app-footer></app-footer>
 <!--Fin Footer-->
+</div>

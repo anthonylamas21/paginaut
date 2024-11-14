@@ -1,0 +1,137 @@
+
+  
+  .hs-tooltip-toggle>.fa.fa-eye {
+    color: #008779 !important;
+  }
+  
+  .hs-tooltip-toggle>.fa.fa-eye:hover {
+    color: #003C3D !important;
+    /* Green 600 */
+  
+  }
+  
+  
+  tr>.p-element svg {
+    color: white !important;
+  }
+  
+
+  .example-3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+    
+  }
+  
+  .example-3 .icon-content {
+    margin: 0 1px;
+    position: relative;
+    
+  }
+  
+  
+  
+  .example-3 .icon-content:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    top: 6px;
+  }
+  
+  .example-3 .icon-content a {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 20%;
+    color: white;
+    background: #27D045;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .example-3 .icon-content a:hover {
+    box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 50%);
+  }
+  
+  .example-3 .icon-content a svg {
+    position: relative;
+    z-index: 1;
+    width: 70px;
+    height: 70px;
+    fill: white;
+  }
+  
+  .example-3 .icon-content a:hover {
+    background: #27D045;
+  }
+  
+  .example-3 .icon-content a .filled {
+    position: absolute;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    color: white;
+    background-color: white;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .example-3 .icon-content a:hover .filled {
+    height: 100%;
+  }
+  
+  .example-3 .icon-content a[data-social="Whatsapp"] .filled,
+  .example-3 .icon-content a[data-social="Whatsapp"]~.tooltip {
+    background: #27D045;
+  }
+  
+  
+  .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background: #47b0a4;
+    border-color: #EFF6FF;
+    color: white;
+  }
+  
+  #portada-imagen {
+      height: 100vh;
+      background: white;
+      position: relative;
+  }
+  
+  #portada-imagen>img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      cursor: default;
+      position: absolute;
+  }
+  .date-container {
+    height: 100%;
+  }
+  
+  .container-eventos {
+    width: 100%;
+    padding-right: 8rem;
+    padding-left: 8rem;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  
+  
+  
+  /* Iconos cambio a blanco */
+  svg {
+    transition: fill 0.3s ease; /* Transición suave para el cambio de color */
+    
+  }
+
+  /* Cambio de color del SVG cuando el cursor está sobre el li */
+  li:hover svg {
+    fill: white;
+  }
+

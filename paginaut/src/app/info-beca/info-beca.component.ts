@@ -1,84 +1,102 @@
-import { Component, OnInit, HostListener, Renderer2 } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BecaService, Beca } from '../admin/beca.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import Hashids from 'hashids';
+import { BASEIMAGEN } from '../constans';
 
 @Component({
   selector: 'app-info-beca',
   templateUrl: './info-beca.component.html',
   styleUrls: ['./info-beca.component.css']
 })
-export class InfoBecaComponent implements OnInit {
+export class InfoBecaComponent implements OnInit, AfterViewInit {
+
+  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 16);
+  idDecrypted: number | undefined;
+
   beca: Beca | null = null;
   error: string | null = null;
   safeArchivoUrl: SafeResourceUrl | null = null;
-  private baseUrl = 'http://localhost/paginaut/'; // Asegúrate de que esto coincida con la base de tu API
-isLoading = true;
+  archivoDisponible: boolean = false;
+  private baseUrl = BASEIMAGEN+'/';
+  isLoading = true;
+
   constructor(
     private renderer: Renderer2,
     private route: ActivatedRoute,
     private becaService: BecaService,
-    private sanitizer: DomSanitizer
-    ) {}
-
-  ngAfterViewInit(): void {
-    this.renderer.listen('window', 'load', () => {
-       this.isLoading = false;
-    }); 
+    private sanitizer: DomSanitizer,
+    private cdRef: ChangeDetectorRef
+  ) {
+    const encryptedId = this.route.snapshot.paramMap.get('id');
+    if (encryptedId) {
+      this.idDecrypted = this.hashids.decode(encryptedId)[0] as number;
+    } else {
+      // console.error('ID de beca no disponible');
+    }
   }
 
   ngOnInit(): void {
-    this.setNavbarColor();
     this.cargarDetalleBeca();
-  }
-  @HostListener('window:scroll', [])
-  onWindowScroll(): void {
     this.setNavbarColor();
-  } 
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.setNavbarColor();
+      this.isLoading = false;
+      this.cdRef.detectChanges();
+    }, 0);
+  }
 
   private setNavbarColor(): void {
+    const navbar = document.getElementById('navbarAccion');
+    if (navbar) {
+      this.renderer.removeClass(navbar, 'bg-transparent');
+      this.renderer.addClass(navbar, 'bg-[#043D3D]');
+      this.renderer.setStyle(navbar, 'position', 'fixed');
+      this.renderer.setStyle(navbar, 'top', '0');
+      this.renderer.setStyle(navbar, 'left', '0');
+      this.renderer.setStyle(navbar, 'right', '0');
+      this.renderer.setStyle(navbar, 'z-index', '1000');
+    }
+
     const button = document.getElementById('scrollTopButton');
-    const nabvar = document.getElementById('navbarAccion');
-    const inicioSection = document.getElementById('inicio');
-
-    if (inicioSection && nabvar) {
-      const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
-
-      if (window.scrollY > inicioSectionBottom) {
-        button?.classList.remove('hidden');
-      } else {
-        button?.classList.add('hidden');
-      }
-      
-      nabvar.classList.remove('bg-transparent');
-      nabvar.classList.add('bg-[#043D3D]');
+    if (button) {
+      this.renderer.addClass(button, 'hidden');
     }
   }
-  
+
   scrollToSection(sectionId: string): void {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   cargarDetalleBeca(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.becaService.getBecaById(Number(id)).subscribe({
+    if (this.idDecrypted !== undefined) {
+      this.becaService.getBecaById(this.idDecrypted).subscribe({
         next: (beca) => {
           this.beca = beca;
           this.actualizarSafeArchivoUrl();
+          this.isLoading = false;
         },
         error: (error) => {
-          console.error('Error al cargar el detalle de la beca:', error);
+          // console.error('Error al cargar el detalle de la beca:', error);
           this.error = 'No se pudo cargar el detalle de la beca. Por favor, intente más tarde.';
         }
       });
+    } else {
+      // console.error('ID de beca no disponible');
     }
   }
 
   private actualizarSafeArchivoUrl(): void {
     if (this.beca && this.beca.archivo) {
       const fullUrl = this.getFullUrl(this.beca.archivo);
-      console.log('URL completa del archivo:', fullUrl); // Log para depuración
+      // console.log('URL completa del archivo:', fullUrl); // Log para depuración
       this.safeArchivoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fullUrl);
     } else {
       this.safeArchivoUrl = null;
@@ -103,6 +121,4 @@ isLoading = true;
   get archivoBeca(): string | null {
     return this.beca?.archivo ? this.getFullUrl(this.beca.archivo) : null;
   }
-
- 
 }

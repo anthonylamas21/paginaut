@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { API } from './constans';
 
 export interface Noticia {
   id?: number;
@@ -22,14 +23,18 @@ export interface NoticiaResponse {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NoticiaService {
-  private apiUrl = 'http://localhost/paginaut/api/noticia';
+  private apiUrl = API+'/api/noticia';
 
   constructor(private http: HttpClient) {}
 
-  crearNoticia(noticia: Noticia, imagenPrincipal?: File, imagenesGenerales?: File[]): Observable<any> {
+  crearNoticia(
+    noticia: Noticia,
+    imagenPrincipal?: File,
+    imagenesGenerales?: File[]
+  ): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('titulo', noticia.titulo);
     formData.append('resumen', noticia.resumen);
@@ -56,17 +61,30 @@ export class NoticiaService {
     return this.http.get<NoticiaResponse>(this.apiUrl);
   }
 
-  actualizarNoticia(noticia: Noticia, imagenPrincipal?: File, imagenesGenerales?: File[]): Observable<any> {
+  actualizarNoticia(
+    noticia: Noticia,
+    imagenPrincipal?: File,
+    imagenesGenerales?: File[]
+  ): Observable<any> {
     const formData: FormData = new FormData();
-    
-    Object.keys(noticia).forEach(key => {
-      if (noticia[key] !== undefined && noticia[key] !== null && key !== 'imagen_principal' && key !== 'imagenes_generales') {
+
+    Object.keys(noticia).forEach((key) => {
+      if (
+        noticia[key] !== undefined &&
+        noticia[key] !== null &&
+        key !== 'imagen_principal' &&
+        key !== 'imagenes_generales'
+      ) {
         formData.append(key, noticia[key].toString());
       }
     });
 
     if (imagenPrincipal) {
-      formData.append('imagen_principal', imagenPrincipal, imagenPrincipal.name);
+      formData.append(
+        'imagen_principal',
+        imagenPrincipal,
+        imagenPrincipal.name
+      );
     }
 
     if (imagenesGenerales && imagenesGenerales.length > 0) {
@@ -82,21 +100,40 @@ export class NoticiaService {
     return this.http.delete<any>(`${this.apiUrl}?id=${id}`);
   }
 
-  eliminarImagenGeneral(noticiaId: number, rutaImagen: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}?noticiaId=${noticiaId}&rutaImagen=${encodeURIComponent(rutaImagen)}`);
-}
+  eliminarImagenGeneral(
+    noticiaId: number,
+    rutaImagen: string
+  ): Observable<any> {
+    return this.http.delete<any>(
+      `${this.apiUrl}?noticiaId=${noticiaId}&rutaImagen=${encodeURIComponent(
+        rutaImagen
+      )}`
+    );
+  }
 
-desactivarNoticia(id: number): Observable<any> {
-  return this.http.put(`${this.apiUrl}?id=${id}&accion=desactivar`, {});
-}
+  desactivarNoticia(id: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}?id=${id}&accion=desactivar`, {});
+  }
 
-activarNoticia(id: number): Observable<any> {
-  return this.http.put(`${this.apiUrl}?id=${id}&accion=activar`, {});
-}
+  activarNoticia(id: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}?id=${id}&accion=activar`, {});
+  }
 
-obtenerNoticia(id: number): Observable<Noticia> {
-  return this.http.get<Noticia>(`${this.apiUrl}?id=${id}`);
-}
+  obtenerNoticia(id: number): Observable<Noticia> {
+    return this.http.get<Noticia>(`${this.apiUrl}?id=${id}`);
+  }
 
-
+  obtenerNoticiasActivas(): Observable<Noticia[]> {
+    return this.http.get<NoticiaResponse>(this.apiUrl).pipe(
+      map((response) =>
+        response.records
+          .filter((noticia) => noticia.activo)
+          .sort(
+            (a, b) =>
+              new Date(b.fecha_publicacion).getTime() -
+              new Date(a.fecha_publicacion).getTime()
+          )
+      )
+    );
+  }
 }

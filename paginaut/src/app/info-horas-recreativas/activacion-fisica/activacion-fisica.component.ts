@@ -13,15 +13,13 @@ interface Image {
 export class ActivacionFisicaComponent {
 
   images: Image[] = [
-    { url: 'https://placehold.co/600x400', alt: 'Image 1' },
-    { url: 'https://placehold.co/600x400', alt: 'Image 1' },
-    { url: 'https://placehold.co/600x400', alt: 'Image 1' },
-    { url: 'https://placehold.co/600x400', alt: 'Image 1' },
-    { url: 'https://placehold.co/600x400', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/activacion/activacion1.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/activacion/activacion2.webp', alt: 'Image 2' },
+    { url: './assets/img/galeria/extras/activacion/activacion3.webp', alt: 'Image 3' },
     // más imágenes aquí
   ];
 
-  selectedImage: Image = { url: '', alt: '' };
+  selectedImage: Image | null = null;
 
   openModal(image: Image): void {
     if (image) {
@@ -32,6 +30,15 @@ export class ActivacionFisicaComponent {
         modal.classList.add('pointer-events-auto');
       }
     }
+  }
+
+  closeModal(): void {
+    const modal = document.getElementById('hs-vertically-centered-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('pointer-events-auto');
+    }
+    this.selectedImage = null;  // Cambiar de objeto vacío a null
   }
 
   ngOnInit(): void {

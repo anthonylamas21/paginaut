@@ -1,7 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, tap, throwError } from 'rxjs';
-
+import * as CryptoJS from 'crypto-js';
+import { API } from './constans';
 
 export interface Usuario {
   id?: number;
@@ -25,12 +26,48 @@ export interface Logout {
 })
 export class UsuarioService {
 
-  private URL = 'http://localhost/paginaut/api/usuario.php';  // Ajusta esta URL según tu configuración
-  private URL_Login = 'http://localhost/paginaut/api/login.php';
-  private URL_Logout = 'http://localhost/paginaut/api/deleteToken.php';
-  private URL_DeleteToken = 'http://localhost/paginaut/api/logout.php';
+  private secretKey = 'X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg'; // Usa una clave segura en producción
 
-  constructor(private http: HttpClient) { }
+  token:  string | null;
+  rol:  string | null;
+  depa:  string | null;
+
+  private URL = API+'/api/usuario.php';  // Ajusta esta URL según tu configuración
+  private URL_Login = API+'/api/login.php';
+  private URL_Logout = API+'/api/deleteToken.php';
+  private URL_DeleteToken = API+'/api/logout.php';
+
+  constructor(private http: HttpClient) {
+    this.token = localStorage.getItem('token');
+    this.rol = localStorage.getItem('rol');
+    this.depa = localStorage.getItem('depa');
+  }
+
+  private decrypt(encrypted: string): string {
+    return CryptoJS.AES.decrypt(encrypted, this.secretKey).toString(CryptoJS.enc.Utf8);
+  }
+
+  isAuth() {
+    const encryptedToken = localStorage.getItem('token');
+    const encryptedRol = localStorage.getItem('rol');
+    const encryptedDepa = localStorage.getItem('depa');
+  
+    if (!encryptedToken || !encryptedRol) {
+      return { isAuthenticated: false, rol: null, departamento: null };
+    }
+  
+    const token = this.decrypt(encryptedToken);
+    const rol = this.decrypt(encryptedRol);
+  
+    const isAuthenticated = token && token.length > 0;
+    const isAdmin = rol === '1';
+  
+    return { 
+      isAuthenticated, 
+      isAdmin
+    };
+  }
+  
 
   crearUsuario(data: Usuario): Observable<any>{
     return this.http.post<any>(this.URL, data);
@@ -58,7 +95,7 @@ export class UsuarioService {
       errorMessage = `Código de error ${error.status}, ` +
                      `mensaje: ${error.error.message || error.statusText}`;
     }
-    console.error(errorMessage);
+    //console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
 

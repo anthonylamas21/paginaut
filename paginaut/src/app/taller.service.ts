@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
+import { API } from './constans';
 
 export interface Taller {
   id?: number;
@@ -21,13 +22,12 @@ export interface TallerResponse {
   providedIn: 'root'
 })
 export class TallerService {
-  private apiUrl = 'http://localhost/paginaut/api/taller.php'; // Asegúrate de que esta URL sea correcta
+  private apiUrl = API+'/api/taller.php'; // Asegúrate de que esta URL sea correcta
 
   constructor(private http: HttpClient) {}
 
   registrarTaller(formData: FormData): Observable<any> {
     return this.http.post(this.apiUrl, formData).pipe(
-      tap(response => console.log('Respuesta completa del servidor:', response)),
       map(response => {
         if (response === null) {
           throw new Error('La respuesta del servidor es nula');
@@ -94,7 +94,7 @@ export class TallerService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    console.error('Error detallado:', error);
+    //console.error('Error detallado:', error);
     let errorMessage = 'Ocurrió un error desconocido';
     if (error.error instanceof ErrorEvent) {
       errorMessage = `Error: ${error.error.message}`;

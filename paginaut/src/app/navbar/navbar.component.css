@@ -1,0 +1,17 @@
+a.group:hover {
+    background-color: #e7eef1; /* Fondo */
+  }
+  
+ 
+  a.group svg.svg-fill-hover {
+    transition: fill 0.3s ease; 
+  }
+  
+  a.group:hover svg.svg-fill-hover {
+    fill: #04847C; /* Color  */
+  }
+  
+
+  
+
+  

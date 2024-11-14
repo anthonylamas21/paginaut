@@ -13,7 +13,6 @@ interface Item {
   ocho: string;
   nueve: string;
   diez: string;
-  once: string;
 } 
 
 interface Image {
@@ -26,44 +25,66 @@ interface Image {
   styleUrl: './carrera-contaduria.component.css'
 })
 export class CarreraContaduriaComponent {
+  currentTab: string = 'segment-1'; // Define el tab inicial
   isLoading = true;
+  imagenAmpliada: string | null = null;
+  selectedImage: Image = { url: '', alt: '' };
   
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/prueba.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/prueba.jpg', alt: 'Image 2' },
+    { url: './assets/img/galeria/contaduria/contaduria1.webp', alt: 'Image 1' },
+     { url: './assets/img/galeria/contaduria/CONTA_2.webp', alt: 'Image 2' },
+    { url: './assets/img/galeria/contaduria/contaduria2.webp', alt: 'Image 2' },
+    { url: './assets/img/galeria/contaduria/CONTA_1.webp', alt: 'Image 1' },
     // más imágenes aquí
   ];
 
-  selectedImage: Image = { url: '', alt: '' };
-
-  openModal(image: Image): void {
-    if (image) {
-      this.selectedImage = image;
-      const modal = document.getElementById('hs-vertically-centered-modal');
-      if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('pointer-events-auto');
-      }
-    }
-  }
   ngAfterViewInit(): void {
     this.renderer.listen('window', 'load', () => {
-      setInterval(() => {
         this.isLoading = false
-      }, 3000);  
-      
     });
   }
   ngOnInit(): void {
     this.setNavbarColor();
+    this.showTab(this.currentTab); // Mostrar el tab inicial
   }
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     this.setNavbarColor();
   }
+      // Método para cambiar de pestaña
+      showTab(tabId: string): void {
+        // Oculta todas las pestañas
+        const allTabs = document.querySelectorAll('[role="tabpanel"]');
+        allTabs.forEach(tab => {
+          tab.classList.add('hidden'); // Oculta todas
+        });
+  
+        // Muestra la pestaña actual
+        const activeTab = document.getElementById(tabId);
+        if (activeTab) {
+          activeTab.classList.remove('hidden');
+        }
+  
+        // Cambiar el tab actual
+        this.currentTab = tabId;
+      }
+  
+      // Manejador de clics para los botones de las pestañas
+      onTabClick(event: any, tabId: string): void {
+        this.showTab(tabId);
+  
+        // Elimina la clase 'active' de todos los botones
+        const allButtons = document.querySelectorAll('[role="tab"]');
+        allButtons.forEach(button => {
+          button.classList.remove('active');
+        });
+  
+        // Agrega la clase 'active' al botón clicado
+        event.target.classList.add('active');
+      }
 
   private setNavbarColor(): void {
     const button = document.getElementById('scrollTopButton');
@@ -91,36 +112,47 @@ export class CarreraContaduriaComponent {
   @ViewChild('dt') dt: Table | undefined;
 
   items: Item[] = [
-    {uno: 'Matemáticas', dos: 'Estadística', tres: 'Matemáticas Financieras', cuatro: 'Fundamentos de Auditoría', cinco: 'Auditoría Financiera', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: ''},
-
-    {uno: 'Informática I', dos: 'Informática II', tres: 'Contabilidad de Sociedades', cuatro: 'Contabilidad de Costos I', cinco: 'Contabilidad de Costos II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: ''},
-
-    {uno: 'Derecho Civil', dos: 'Derecho Mercantil', tres: 'Contabilidad Superior', cuatro: 'Administración Financiera', cinco: 'Contribuciones de Personas Físicas', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: ''},
-
-    {uno: 'Contabilidad Básica', dos: 'Contabilidad Intermedia', tres: 'Introducción al Derecho Fiscal', cuatro: 'Calidad', cinco: 'Sueldos y Salarios', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: ''},
-
-    {uno: 'Fundamentos de Administración', dos: 'Derecho Laboral', tres: 'Análisis e Interpretación de Estados Financieros', cuatro: 'Contribuciones de Personas Morales', cinco: 'Integradora II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: ''},
-
-    {uno: 'Inglés I', dos: 'Economía', tres: 'Presupuestos', cuatro: 'Comercio Exterior', cinco: 'Inglés V', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: ''},
-
-    {uno: 'Expresión Oral y Escrita I', dos: 'Inglés II', tres: 'Integradora I', cuatro: 'Evaluación Financiera de Proyectos', cinco: 'Expresión Oral y Escrita II', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: ''},
-
-
-
-    {uno: 'Formación Sociocultural I', dos: 'Formación Sociocultural II', tres: 'Inglés III', cuatro: 'Inglés IV', cinco: '', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: ''},
-
-    {uno: '', dos: '', tres: 'Formación Sociocultural III', cuatro: 'Evaluación Financiera de Proyectos', cinco: '', seis: 'Estadia', siete: '', ocho: '', nueve: '', diez: '', once: ''},
-]
-
-;
+    {uno: 'Inglés I', dos: 'Inglés II', tres: 'Inglés III', cuatro: 'Inglés IV', cinco: 'Inglés V', seis: 'Estadía', siete: 'Inglés VI', ocho: 'Inglés VII', nueve: 'Inglés VIII', diez: 'Estadía'},
+    {uno: 'Desarrollo Humano y Valores', dos: 'Habilidades Socioemocionales y Manejo de Conflictos', tres: 'Desarrollo del Pensamiento y Toma de Decisiones', cuatro: 'Ética Profesional', cinco: 'Liderazgo de Equipos de Alto Desempeño', seis: 'Estadía', siete: 'Habilidades Gerenciales', ocho: 'Contabilidad Gubernamental', nueve: 'Auditoría Gubernamental', diez: 'Estadía'},
+    {uno: 'Matemáticas para Negocios', dos: 'Estadística para Negocios', tres: 'Matemáticas Financieras', cuatro: 'Análisis e Interpretación de Estados Financieros', cinco: 'Fundamentos de Auditoría', seis: 'Estadía', siete: 'Mercado de Valores', ocho: 'Estructura de Capital', nueve: 'Evaluación Financiera', diez: 'Estadía'},
+    {uno: 'Informática', dos: 'Derecho Laboral', tres: 'Derecho Fiscal', cuatro: 'Contribuciones de Personas Morales', cinco: 'Contribuciones de Personas Físicas', seis: 'Estadía', siete: 'Administración Financiera', ocho: 'Contabilidades Especiales', nueve: 'Auditoría Fiscal', diez: 'Estadía'},
+    {uno: 'Fundamentos de Administración', dos: 'Derecho Mercantil y Civil', tres: 'Contabilidad de Sociedades', cuatro: 'Presupuestos', cinco: 'Sueldos y Salarios', seis: 'Estadía', siete: 'Seminario Fiscal de Personas Morales', ocho: 'Seminario Fiscal de Personas Físicas', nueve: 'Seminario de Defensa Fiscal', diez: 'Estadía'},
+    {uno: 'Contabilidad Básica', dos: 'Contabilidad Intermedia', tres: 'Contabilidad Superior', cuatro: 'Contabilidad de Costos I', cinco: 'Contabilidad de Costos II', seis: 'Estadía', siete: 'Seminario Fiscal de Asociaciones y Sociedades Civiles', ocho: 'Seguridad Social', nueve: 'Administración de Costos e Inventarios para la Toma de Decisiones', diez: 'Estadía'},
+    {uno: 'Comunicación y Habilidades Digitales', dos: 'Economía', tres: 'Proyecto Integrador I', cuatro: 'Comercio Exterior', cinco: 'Proyecto Integrador II', seis: 'Estadía', siete: 'Auditoría Financiera', ocho: 'Desarrollo Organizacional', nueve: 'Proyecto Integrador III', diez: 'Estadía'}
+  ];
 
 //INICIO TABLA CUATRIMESTRES
 onMouseOver(columna: string, valor: any) {
   if(valor == ""){
-    console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
+    // console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
   }else{
-    console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
+    // console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
   }
+}
+
+openModal(image: Image): void {
+  this.selectedImage = image;
+  const modal = document.getElementById('hs-vertically-centered-modal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    modal.classList.add('pointer-events-auto');
+  }
+}
+closeModal(): void {
+  const modal = document.getElementById('hs-vertically-centered-modal');
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.classList.remove('pointer-events-auto');
+  }
+  this.selectedImage = { url: '', alt: '' };
+}
+
+ampliarImagen(imagenUrl: string): void {
+  this.imagenAmpliada = imagenUrl;
+}
+
+cerrarImagenAmpliada(): void {
+  this.imagenAmpliada = null;
 }
 
 //FIN TABLA CUATRIMESTRES
@@ -131,6 +163,7 @@ onMouseOver(columna: string, valor: any) {
       this.dt.filterGlobal(input.value, 'contains');
     }
   }
+
   
 
   mostrar(elemento: any): void {

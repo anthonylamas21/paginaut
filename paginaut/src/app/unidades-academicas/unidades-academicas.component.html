@@ -1,112 +1,87 @@
 <app-navbar></app-navbar>
-<p id="inicio"></p>
-<!--Fin Navbar-->
 
-<button id="scrollTopButton" (click)="scrollToSection('inicio')"
-    class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
-    <i class="fa-solid fa-chevron-up"></i>
-</button>
+    <p id="inicio"></p>
+    <!--Fin Navbar-->
 
-<ol class="flex items-center whitespace-nowrap ml-4 mt-24 mb-8">
-    <li class="inline-flex items-center">
-        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] "
-            href="/principal">
-            Inicio
-        </a>
-        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg"
-            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="m9 18 6-6-6-6"></path>
-        </svg>
-    </li>
-    <li class="inline-flex items-center">
-        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] "
-            href="/becas">
-            UTC
-        </a>
-        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg"
-            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="m9 18 6-6-6-6"></path>
-        </svg>
-    </li>
-    <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
-        Unidades Académicas
-    </li>
-</ol>
+    <button id="scrollTopButton" (click)="scrollToSection('inicio')"
+        class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50">
+        <i class="fa-solid fa-chevron-up"></i>
+    </button>
 
-<!--Contenedor de Cards Unidades Academicas -->
-<div class="container mt-2">
+    <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4 mb-8">
+        <li class="inline-flex items-center">
+            <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] "
+                href="/principal">
+                Inicio
+            </a>
+            <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+                width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 18 6-6-6-6"></path>
+            </svg>
+        </li>
+    
+        <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
+            Instalaciones Académicas
+        </li>
+    </ol>
 
-  <div *ngIf="isLoading" class="bg-[#043D3D] rounded-lg animate-pulse">
-    <div class="h-8 bg-gray-200 rounded mt-6 mb-4"></div>
+    <div class="relative">
+      <!-- Imagen fija en la pantalla -->
+      <img src="./assets/img/AGUILA-GARZA.png" alt="Imagen Estática"
+      class="fixed top-20 right-0 object-cover z-10 pointer-events-none">
   </div>
-
-
-   <div *ngIf="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-    <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
-      <ul class="space-y-3">
-        <li class="w-full h-60 bg-gray-300 rounded-lg"></li>
-      </ul>
-    </div>
-    <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
-      <ul class="space-y-3">
-        <li class="w-full h-60 bg-gray-300 rounded-lg"></li>
-      </ul>
-    </div>
-    <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
-      <ul class="space-y-3">
-        <li class="w-full h-60 bg-gray-300 rounded-lg"></li>
-      </ul>
-    </div>
-  </div>
-
-  <div *ngIf="isLoading" class="bg-[#043D3D] rounded-lg animate-pulse">
-    <div class="h-8 bg-gray-200 rounded mt-6 mb-4"></div>
-  </div>
-
-  <div *ngIf="!isLoading" class="bg-[#043D3D] w-full rounded-lg">
-    <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
-      Instalaciones Académicas</h2>
-  </div>
-
-  <div *ngIf="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-    <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
-      <ul class="space-y-3">
-        <li class="w-full h-60 bg-gray-300 rounded-lg"></li>
-      </ul>
-    </div>
-    <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
-      <ul class="space-y-3">
-        <li class="w-full h-60 bg-gray-300 rounded-lg"></li>
-      </ul>
-    </div>
-    <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
-      <ul class="space-y-3">
-        <li class="w-full h-60 bg-gray-300 rounded-lg"></li>
-      </ul>
-    </div>
-  </div>
-
   
+    <!--Contenedor de Cards Unidades Academicas -->
+    <div class="container mt-2">
 
-<!--INFORMACION DE LAS CARDS UNA VEZ CARGADAS-->
+      <div class="bg-[#043D3D] w-full rounded-lg">
+        <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
+          Instalaciones Académicas</h2>
+      </div>
 
-<div *ngIf="!isLoading" id="cardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-  <div *ngFor="let instalacion of instalaciones" class="bg-white rounded-lg shadow-lg p-4 relative cursor-pointer" (click)="verGaleria(instalacion?.id)">
-    <img [src]="getImageUrl(instalacion.imagen_principal)" [alt]="instalacion.nombre"
-      class="w-full h-full object-cover rounded-t-lg">
-    <div class="absolute inset-1 flex items-center justify-center w-full">
-      <h3 class="text-2xl font-poppins font-bold text-white">
-        {{ instalacion.nombre }}
-      </h3>
+       <div *ngIf="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+        <div *ngFor="let _ of [1, 2, 3]" class="bg-gray-50 rounded-lg p-4 animate-pulse">
+          <ul class="space-y-3">
+            <li class="w-full h-60 bg-gray-300 rounded-lg flex items-center justify-center">
+              <!-- SVG de imagen placeholder -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-gray-400" fill="currentColor" viewBox="0 0 512 512">
+                <path d="M448 80c8.8 0 16 7.2 16 16l0 319.8-5-6.5-136-176c-4.5-5.9-11.6-9.3-19-9.3s-14.4 3.4-19 9.3L202 340.7l-30.5-42.7C167 291.7 159.8 288 152 288s-15 3.7-19.5 10.1l-80 112L48 416.3l0-.3L48 96c0-8.8 7.2-16 16-16l384 0zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zm80 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"/>
+              </svg>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    <!--INFORMACION DE LAS CARDS UNA VEZ CARGADAS-->
+
+    <div *ngIf="!isLoading" id="cardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+      <div *ngFor="let instalacion of instalaciones" class="relative bg-white border shadow-sm rounded-xl overflow-hidden cursor-pointer group" (click)="verGaleria(instalacion?.id)">
+        <!-- Imagen con efecto de zoom y oscurecimiento -->
+        <img [src]="getImageUrl(instalacion.imagen_principal)" [alt]="instalacion.nombre" class="w-full h-full object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-105 rounded-t-lg">
+        <div class="absolute inset-0 flex items-center justify-center transition-opacity duration-500">
+          <h3 class="text-2xl font-poppins font-bold text-white">
+            {{ instalacion.nombre }}
+          </h3>
+        </div>
+    
+        <!-- Capa oscura que aparece al hacer hover -->
+        <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+    
+        <!-- Título centrado -->
+        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+          <h3 class="text-2xl font-poppins font-bold text-white">
+            {{ instalacion.nombre }}
+          </h3>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-  
-</div>
 
-
-<!--Inicio componente Footer-->
-<app-footer></app-footer>
-<!--Fin Footer-->
+      <!-- Mensaje cuando no hay contenido -->
+    <div *ngIf="!isLoading && instalaciones.length === 0" class="container max-w-screen-lg mb-12 space-y-4">
+      <div class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg relative z-20">
+        <p class="text-gray-600 text-lg">En este momento no hay información. Por favor, vuelve a consultar más tarde.</p>
+      </div>
+    </div>
+    
+    </div>

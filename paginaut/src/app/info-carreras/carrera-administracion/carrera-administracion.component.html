@@ -1,43 +1,88 @@
 <app-navbar></app-navbar>
 <p id="inicio"></p>
 
-<button id="scrollTopButton" (click)="scrollToSection('inicio')" class="z-50 hidden fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
-    <i class="fa-solid fa-chevron-up"></i>
-  </button>
+<button
+  id="scrollTopButton"
+  (click)="scrollToSection('inicio')"
+  class="z-50 hidden fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50"
+>
+  <i class="fa-solid fa-chevron-up"></i>
+</button>
 
-<ol class="flex items-center whitespace-nowrap ml-4 mt-24 mb-8">
-    <li class="inline-flex items-center">
-      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/principal">
-        Inicio
-      </a>
-      <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<ol
+  class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4 mb-8"
+>
+  <li class="inline-flex items-center">
+    <a
+      class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]"
+      href="/principal"
+    >
+      Inicio
+    </a>
+    <svg
+      class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="m9 18 6-6-6-6"></path>
+    </svg>
+  </li>
+  <li class="inline-flex items-center">
+    <a
+      class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]"
+      href="/carreras"
+    >
+      Carreras
+      <svg
+        class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
         <path d="m9 18 6-6-6-6"></path>
       </svg>
-    </li>
-    <li class="inline-flex items-center">
-      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/carreras">
-        Carreras
-        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m9 18 6-6-6-6"></path>
-        </svg>
-      </a>
-    </li>
-    <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
-        ADMINISTRACIÓN
-    </li>
-  </ol>
+    </a>
+  </li>
+  <li
+    class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate capitalize"
+    aria-current="page"
+  >
+    administración
+  </li>
+</ol>
 
-  <div class="container mx-auto"> <!--Inicio container-->
+<div class="container mx-auto">
+  <!--Inicio container-->
 
   <div *ngIf="isLoading" class="bg-gray-50 rounded-lg animate-pulse">
     <div class="bg-gray-200 rounded-lg h-10"></div>
   </div>
 
   <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg">
-    <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">TSU en Administración</h2>
+    <h2
+      class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3"
+    >
+      Técnico Superior Universitario en Administración
+    </h2>
   </div>
 
-  <div *ngIf="isLoading" class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+  <div
+    *ngIf="isLoading"
+    class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2"
+  >
     <div class="w-full">
       <div class="h-6 bg-gray-200 rounded mt-8 mb-4"></div>
       <ul class="space-y-2">
@@ -68,10 +113,13 @@
     </div>
     <div class="w-full mt-10 h-[450px] bg-gray-200 rounded-lg"></div>
   </div>
-  
+
   <div *ngIf="isLoading" class="bg-gray-200 rounded-lg h-10 mb-4 mt-4"></div>
-  
-  <div *ngIf="isLoading" class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+
+  <div
+    *ngIf="isLoading"
+    class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2"
+  >
     <div class="w-full mt-10 h-[450px] bg-gray-200 rounded-lg"></div>
     <div class="w-full">
       <div class="h-6 bg-gray-200 rounded mt-8 mb-4"></div>
@@ -102,70 +150,132 @@
       </ul>
     </div>
   </div>
-  
-  
-  <div *ngIf="!isLoading" class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+
+  <div
+    *ngIf="!isLoading"
+    class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2"
+  >
     <div class="w-full">
-      <h4 class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg">Perfil profesional</h4>
-      <ul class="text-sm">
-        <li><span class="text-black font-bold">></span> Dirigir y gestionar el capital humano a través de estrategias de desarrollo organizacional, modelos de trabajo, servicios de consultoría, administración de sistemas de calidad y buenas prácticas organizacionales conforme al marco normativo vigente, ética y valores para contribuir al bienestar del personal y al incremento de la productividad de la organización.</li>
+      <h4
+        class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg"
+      >
+        Perfil profesional
+      </h4>
+      <ul class="text-sm list-disc pl-5 space-y-1 mt-2 custom-list">
+        <li>
+          Apoyar los procesos de administración de los recursos de manera sostenible y con visión social, para el funcionamiento óptimo de una organización, a través de: la planeación de la organización, gestión de recursos financieros, ejecución de estrategías mercadológicas, gestión de capital humano, de
+          operaciones y de calidad; para lograr los objetivos de las organizaciones públicas, privadas o sociales.
+        </li>
+        <li>
+          Administrar el Capital Humano, a través de: la planeación y ejecución de estrategias de integración, gestión del capital humano y desarrollo del personal, en apego al marco normativo vigente y los principios de responsabilidad social; para la contribución del bienestar de los trabajadores, al incremento de la
+          productividad y al logro de los objetivos de organizaciones públicas, privadas y sociales.
+        </li>
       </ul>
-      <h4 class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg">Ocupación profesional</h4>
-      <ul class="text-sm">
-        <li><span class="text-black font-bold">></span> Jefe de reclutamiento y selección.</li>
-        <li><span class="text-black font-bold">></span> Jefe de capacitación y adiestramiento.</li>
-        <li><span class="text-black font-bold">></span> Jefe de nómina.</li>
-        <li><span class="text-black font-bold">></span> Consultor de organizaciones en el área de capital humano.</li>
-        <li><span class="text-black font-bold">></span> Generalista de capital humano.</li>
-        <li><span class="text-black font-bold">></span> Coordinador de gestión de calidad.</li>
+      <h4
+        class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg"
+      >
+        Ocupación profesional
+      </h4>
+      <ul class="text-sm list-disc pl-5 space-y-1 mt-2 custom-list">
+        <li>Administrador de Proyectos.</li>
+        <li>Coordinador de Programas de Apoyo a Emprendedores.</li>
+        <li>Coordinador de Proyectos Sociales.</li>
+        <li>Consultor de Proyectos.</li>
+        <li>Emprendedor.</li>
       </ul>
     </div>
     <div class="relative w-full mt-10">
-      <img src="./assets/img/fotos_por_carrera/mercadotecnia.jpg" class="w-full bg-cover rounded-lg" alt="">
-      <img src="./assets/img/Plantilla_imagenes_utc.png" class="absolute bottom-0 w-full rounded-b-lg" alt="">
+      <div class="relative">
+        <!-- Imagen principal -->
+        <img src="./assets/img/galeria/admin/ADMIN_1.webp" class="w-full bg-cover rounded-lg pointer-events-none" alt="">
+        <!-- Pie de imagen (segunda imagen) -->
+        <div class="absolute bottom-0 w-full">
+          <img src="./assets/img/Plantilla_imagenes_utc.png" class="w-full rounded-b-lg pointer-events-none" alt="">
+        </div>
+      </div>
     </div>
-    
-  </div>  
-
+  </div>
 
   <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg mt-8">
-    <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">Lic. En Gestión Del Capital Humano
+    <h2
+      class="text-xl font-semibold font-poppins py-2 px-2 text-white text-right uppercase mb-3"
+    >
+      Licenciatura En Gestión Del Capital Humano
     </h2>
-  </div>  
-  
-  <div *ngIf="!isLoading" class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-    <div class="w-full mt-10">
-      <img src="./assets/img/fotos_por_carrera/mercadotecnia.jpg" class="max-w-auto bg-cover rounded-lg" alt="">
-    </div>
-    <div class="w-full">
-        <h4 class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg">Perfil profesional</h4>
-        <ul class="text-sm">
-          <li><span class="text-black font-bold">></span> Dirigir y gestionar el capital humano a través de estrategias de desarrollo organizacional, modelos de trabajo, servicios de consultoría, administración de sistemas de calidad y buenas prácticas organizacionales conforme al marco normativo vigente, ética y valores para contribuir al bienestar del personal y al incremento de la productividad de la organización.</li>
-        </ul>
-        <h4 class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg">Ocupación profesional</h4>
-        <ul class="text-sm">
-          <li><span class="text-black font-bold">></span> Jefe de reclutamiento y selección.</li>
-          <li><span class="text-black font-bold">></span> Jefe de capacitación y adiestramiento.</li>
-          <li><span class="text-black font-bold">></span> Jefe de nómina.</li>
-          <li><span class="text-black font-bold">></span> Consultor de organizaciones en el área de capital humano.</li>
-          <li><span class="text-black font-bold">></span> Generalista de capital humano.</li>
-          <li><span class="text-black font-bold">></span> Coordinador de gestión de calidad.</li>
-        </ul>
-      </div>
   </div>
-  
-  
+
+  <div
+    *ngIf="!isLoading"
+    class="grid grid-cols-1 gap-4 px-6 py-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2"
+  >
+  <div class="relative w-full mt-10">
+    <div class="relative">
+      <!-- Imagen principal -->
+      <img src="./assets/img/galeria/admin/ADMIN_5.webp" class="w-full bg-cover rounded-lg pointer-events-none" alt="">
+      <!-- Pie de imagen (segunda imagen) -->
+      <div class="absolute bottom-0 w-full">
+        <img src="./assets/img/Plantilla_imagenes_utc.png" class="w-full rounded-b-lg pointer-events-none" alt="">
+      </div>
+    </div>
+  </div>
+
+    <div class="w-full">
+      <h4
+        class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg"
+      >
+        Perfil profesional
+      </h4>
+      <ul class="text-sm list-disc pl-5 space-y-1 mt-2 custom-list">
+        <li>
+          Desarrollar la capacidad de dirigir y liderar eficazmente organizaciones; mediante el diseño y la implementación de modelos estratégicos innovadores, resolviendo problemas administrativos de manera proactiva y aplicando técnicas de consultoría para mejorar el desempeño empresarial. 4. Gestionar la
+          creación de nuevas empresas del sector de economía social y solidaria (ESS), así como proyectos sociales, garantizando el cumplimiento de las normas, en un contexto internacional y de la industria 4.0 e IA.
+        </li>
+      </ul>
+      <h4
+        class="text-base font-poppins font-bold text-black mt-8 sm:text-base md:text-lg"
+      >
+        Ocupación profesional
+      </h4>
+      <ul class="text-sm list-disc pl-5 space-y-1 mt-2 custom-list">
+        <li>Gerente de Proyectos.</li>
+        <li>Director de Desarrollo de Negocios.</li>
+        <li>Jefe de nómina.</li>
+        <li>Director de Planeación.</li>
+        <li>Analista Financiero.</li>
+        <li>Especialista en Desarrollo de Negocios.</li>
+        <li>Analista de Riesgos Financieros.</li>
+        <li>Asesor de Proyectos Gubernamentales.</li>
+        <li>Consultor en Desarrollo Sostenible.</li>
+        <li>Especialista en Evaluación Socioeconómica y Ambiental.</li>
+      </ul>
+    </div>
+  </div>
+
   <div class="flex m-3 justify-center mt-8">
-    <div class="flex bg-gray-100 hover:bg-gray-200 rounded-full transition px-2 py-2">
+    <div
+      class="flex bg-gray-100 hover:bg-gray-200 rounded-full transition px-2 py-2"
+    >
       <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
-        <button type="button"
+        <button
+          type="button"
+          (click)="onTabClick($event, 'segment-1')"
           class="hs-tab-active:bg-[#04847C] hs-tab-active:text-white py-3 px-4 inline-flex items-center gap-x-2 bg-transparent text-sm text-gray-500 font-medium rounded-full hover:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none active"
-          id="segment-item-1" data-hs-tab="#segment-1" aria-controls="segment-1" role="tab">
-          T.S.U.
+          id="segment-item-1"
+          data-hs-tab="#segment-1"
+          aria-controls="segment-1"
+          role="tab"
+        >
+          Técnico Superior Universitario
         </button>
-        <button type="button"
-          class="hs-tab-active:bg-[#04847C] hs-tab-active:text-white py-3 px-4 inline-flex items-center gap-x-2 bg-transparent text-sm text-gray-500 font-medium rounded-full hover:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none "
-          id="segment-item-2" data-hs-tab="#segment-2" aria-controls="segment-2" role="tab">
+        <button
+          type="button"
+          (click)="onTabClick($event, 'segment-2')"
+          class="hs-tab-active:bg-[#04847C] hs-tab-active:text-white py-3 px-4 inline-flex items-center gap-x-2 bg-transparent text-sm text-gray-500 font-medium rounded-full hover:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none"
+          id="segment-item-2"
+          data-hs-tab="#segment-2"
+          aria-controls="segment-2"
+          role="tab"
+        >
           Licenciatura
         </button>
       </nav>
@@ -180,61 +290,98 @@
             <div class="border rounded-lg overflow-hidden my-2">
               <p-table #dt [value]="items">
                 <ng-template pTemplate="header">
-                  <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
-                    <th [attr.colSpan]="items.length" scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
-                      >
-                      <div class="flex justify-center">
-                        Mapa cuatrimestral
-                      </div>
+                  <tr
+                    class="divide-x divide-gray-200 bg-table-header-color rounded-lg"
+                  >
+                    <th
+                      [attr.colSpan]="items.length"
+                      scope="col"
+                      class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
+                    >
+                      <div class="flex justify-center">Mapa cuatrimestral</div>
                     </th>
                   </tr>
-                  <tr class="divide-x  divide-gray-200 bg-table-header-color rounded-lg">
-                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
-                      >
-                      <div class="flex justify-center">
-                        1°
-                      </div>
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
-                      >
-                      <div class="flex justify-center">
-                        2°
-                      </div>
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
-                      >
-                      <div class="flex justify-center">
-                        3°
-                      </div>
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
-                      >
-                      <div class="flex justify-center">
-                        4°
-                      </div>
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
+                  <tr
+                    class="divide-x divide-gray-200 bg-table-header-color rounded-lg"
+                  >
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
                     >
-                      <div class="flex justify-center">
-                        5°
-                      </div>
+                      <div class="flex justify-center">1°</div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color "
-                   >
-                      <div class="flex justify-center">
-                        6°
-                      </div>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
+                    >
+                      <div class="flex justify-center">2°</div>
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
+                    >
+                      <div class="flex justify-center">3°</div>
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
+                    >
+                      <div class="flex justify-center">4°</div>
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
+                    >
+                      <div class="flex justify-center">5°</div>
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
+                    >
+                      <div class="flex justify-center">6°</div>
                     </th>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-registro let-index="rowIndex">
-                  <tr class="divide-x divide-gray-200 bg-neutral-100 ">
-                    <td (mouseover)="onMouseOver('uno', registro.uno)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.uno}}</td>
-                    <td (mouseover)="onMouseOver('dos', registro.dos)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.dos}}</td>
-                    <td (mouseover)="onMouseOver('tres', registro.tres)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.tres}}</td>
-                    <td (mouseover)="onMouseOver('cuatro', registro.cuatro)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.cuatro}}</td>
-                    <td (mouseover)="onMouseOver('cinco', registro.cinco)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.cinco}}</td>
-                    <td *ngIf="index === 0" [attr.rowSpan]="items.length" (mouseover)="onMouseOver('seis', registro.seis)" class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black">{{registro.seis}}</td>
+                  <tr class="divide-x divide-gray-200 bg-neutral-100 uppercase">
+                    <td
+                      (mouseover)="onMouseOver('uno', registro.uno)"
+                      class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black"
+                    >
+                      {{ registro.uno }}
+                    </td>
+                    <td
+                      (mouseover)="onMouseOver('dos', registro.dos)"
+                      class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black"
+                    >
+                      {{ registro.dos }}
+                    </td>
+                    <td
+                      (mouseover)="onMouseOver('tres', registro.tres)"
+                      class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black"
+                    >
+                      {{ registro.tres }}
+                    </td>
+                    <td
+                      (mouseover)="onMouseOver('cuatro', registro.cuatro)"
+                      class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black"
+                    >
+                      {{ registro.cuatro }}
+                    </td>
+                    <td
+                      (mouseover)="onMouseOver('cinco', registro.cinco)"
+                      class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black"
+                    >
+                      {{ registro.cinco }}
+                    </td>
+                    <td
+                      *ngIf="index === 0"
+                      [attr.rowSpan]="items.length"
+                      (mouseover)="onMouseOver('seis', registro.seis)"
+                      class="hover:bg-gray-300 w-[16%] px-3 py-2 text-sm text-center text-black"
+                    >
+                      {{ registro.seis }}
+                    </td>
                   </tr>
                 </ng-template>
               </p-table>
@@ -243,62 +390,87 @@
         </div>
       </div>
     </div>
-    <div id="segment-2" class="hidden" role="tabpanel" aria-labelledby="segment-item-2">
+    <div
+      id="segment-2"
+      class="hidden"
+      role="tabpanel"
+      aria-labelledby="segment-item-2"
+    >
       <div class="flex flex-col mb-5">
         <div class="-m-1.5 overflow-x-auto">
           <div class="p-1.5 min-w-full inline-block align-middle">
             <div class="border rounded-lg overflow-hidden my-2">
               <p-table #dt [value]="items">
                 <ng-template pTemplate="header">
-                  <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
-                    <th [attr.colSpan]="items.length" scope="col" class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
-                      >
-                      <div class="flex justify-center">
-                        Mapa cuatrimestral
-                      </div>
+                  <tr
+                    class="divide-x divide-gray-200 bg-table-header-color rounded-lg"
+                  >
+                    <th
+                      [attr.colSpan]="items.length"
+                      scope="col"
+                      class="px-6 py-3 text-xs text-white uppercase bg-table-header-color"
+                    >
+                      <div class="flex justify-center">Mapa cuatrimestral</div>
                     </th>
                   </tr>
-                  <tr class="divide-x  divide-gray-200  bg-table-header-color rounded-lg">
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                      >
-                      <div class="flex justify-center">
-                        7°
-                      </div>
+                  <tr
+                    class="divide-x divide-gray-200 bg-table-header-color rounded-lg"
+                  >
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                    >
+                      <div class="flex justify-center">7°</div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                     >
-                      <div class="flex justify-center">
-                        8°
-                      </div>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                    >
+                      <div class="flex justify-center">8°</div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      >
-                      <div class="flex justify-center">
-                        9°
-                      </div>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                    >
+                      <div class="flex justify-center">9°</div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      >
-                      <div class="flex justify-center">
-                        10°
-                      </div>
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color "
-                      >
-                      <div class="flex justify-center">
-                        11°
-                      </div>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                    >
+                      <div class="flex justify-center">10°</div>
                     </th>
                   </tr>
-
                 </ng-template>
                 <ng-template pTemplate="body" let-registro let-index="rowIndex">
-                  <tr class="divide-x  divide-gray-200 bg-neutral-100">
-                    <td (mouseover)="onMouseOver('siete', registro.siete)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.siete}}</td>
-                    <td (mouseover)="onMouseOver('ocho', registro.ocho)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.ocho}}</td>
-                    <td (mouseover)="onMouseOver('nueve', registro.nueve)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.nueve}}</td>
-                    <td (mouseover)="onMouseOver('diez', registro.diez)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black">{{registro.diez}}</td>
-                    <td (mouseover)="onMouseOver('once', registro.once)" class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black" *ngIf="index === 0" [attr.rowSpan]="items.length">{{registro.once}}</td>
+                  <tr class="divide-x divide-gray-200 bg-neutral-100 uppercase">
+                    <td
+                      (mouseover)="onMouseOver('siete', registro.siete)"
+                      class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black"
+                    >
+                      {{ registro.siete }}
+                    </td>
+                    <td
+                      (mouseover)="onMouseOver('ocho', registro.ocho)"
+                      class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black"
+                    >
+                      {{ registro.ocho }}
+                    </td>
+                    <td
+                      (mouseover)="onMouseOver('nueve', registro.nueve)"
+                      class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black"
+                    >
+                      {{ registro.nueve }}
+                    </td>
+
+                    <td
+                      (mouseover)="onMouseOver('diez', registro.diez)"
+                      class="hover:bg-gray-300 w-[20%] px-3 py-2 text-sm text-center text-black"
+                      *ngIf="index === 0"
+                      [attr.rowSpan]="items.length"
+                    >
+                      {{ registro.diez }}
+                    </td>
                   </tr>
                 </ng-template>
               </p-table>
@@ -310,30 +482,49 @@
   </div>
 
   <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg my-8">
-    <h2 class="text-xl font-poppins font-extralight py-2 px-2 text-white uppercase">Galería</h2>
-  </div>  
-        <ngx-masonry class="mx-auto">
-          <div ngxMasonryItem class="masonry-item p-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5" *ngFor="let image of images">
-            <img [src]="image.url" [alt]="image.alt" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out" data-hs-overlay="#hs-slide-down-animation-modal" (click)=" openModal(image)">
-          </div>
-        </ngx-masonry>
-
-</div><!--fin container-->
+    <h2
+      class="text-xl font-poppins font-extralight py-2 px-2 text-white uppercase"
+    >
+      Galería
+    </h2>
+  </div>
+  <ngx-masonry class="mx-auto">
+    <div
+      ngxMasonryItem
+      class="masonry-item p-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5"
+      *ngFor="let image of images"
+    >
+      <img
+        [src]="image.url"
+        [alt]="image.alt"
+        class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out cursor-pointer"
+        (click)="openModal(image)"
+      />
+    </div>
+  </ngx-masonry>
+</div>
+<!--fin container-->
 
 <!--Inicio componente Footer-->
 <app-footer></app-footer>
 <!--Fin Footer-->
 
-
-<div id="hs-slide-down-animation-modal" class="hs-overlay hs-overlay-backdrop-open:bg-gray-900/50 hidden fixed inset-0 z-[80] flex items-center justify-center pointer-events-none" data-hs-overlay-keyboard="false">
-  <div class="bg-white shadow-sm rounded-xl pointer-events-auto w-[75%] h-[75%] flex items-center justify-center relative">
-      <img [src]="selectedImage.url" [alt]="selectedImage.alt" class="w-full h-full border-2 border-white object-cover rounded-lg">
-    <button type="button" class="absolute top-3 right-3 flex justify-center items-center w-8 h-8 text-sm font-semibold rounded-full border border-transparent text-gray-200 bg-gray-900 hover:bg-gray-700 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-slide-down-animation-modal">
-      <span class="sr-only">Close</span>
-      <svg class="flex-shrink-0 w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 6 6 18"></path>
-        <path d="m6 6 12 12"></path>
-      </svg>
+<div
+  [class.hidden]="!selectedImage.url"
+  id="hs-vertically-centered-modal"
+  class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4"
+>
+  <div class="relative max-w-[90vw] max-h-[90vh] w-auto h-auto">
+    <img
+      [src]="selectedImage.url"
+      [alt]="selectedImage.alt"
+      class="max-w-[90vw] max-h-[90vh] object-contain mx-auto rounded-lg"
+    />
+    <button
+      (click)="closeModal()"
+      class="absolute top-2 right-2 bg-red-500 w-8 h-8 rounded-full text-white text-2xl flex items-center justify-center"
+    >
+      &times;
     </button>
   </div>
 </div>

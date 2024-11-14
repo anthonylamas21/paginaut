@@ -1,110 +1,126 @@
-<!--Componente Navbar-->
+<!-- Componente Navbar -->
 <app-navbar></app-navbar>
+
 <p id="inicio"></p>
-<!--Fin Navbar-->
 
 <!--Boton de desplacamiento -->
 <button id="scrollTopButton" (click)="scrollToSection('inicio')"
-  class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
-  <i class="fa-solid fa-chevron-up"></i>
+    class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50">
+    <i class="fa-solid fa-chevron-up"></i>
 </button>
 
-<ol class="flex items-center whitespace-nowrap ml-4 mt-24 mb-8">
-    <li class="inline-flex items-center">
-      <a class="flex items-center text-sm text-black hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="#">
-        Home
-      </a>
-      <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m9 18 6-6-6-6"></path>
-      </svg>
-    </li>
-    <li class="inline-flex items-center">
-      <a class="flex items-center text-sm text-black hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="#">
-        Cursos
-        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m9 18 6-6-6-6"></path>
-        </svg>
-      </a>
-    </li>
-    <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
-      Nombre del curso
-    </li>
-  </ol>
-<div class="container mt-10 mb-10">
+    <p id="inicio"></p>
+    <!-- Fin Navbar -->
 
-    <div class="bg-[#043D3D] rounded-lg">
-        <h2 class="text-3xl font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4">Cursos</h2>
+    <div class="mt-4">
+      <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4">
+          <li class="inline-flex items-center">
+            <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/principal">
+              Inicio
+            </a>
+            <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </li>
+          <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate" aria-current="page">
+              Cursos
+            </li>
+        </ol>
     </div>
 
-    <div class="container justify-center">
-    <div class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-      <a class="flex flex-col bg-white border shadow-sm rounded-xl hover:shadow-lg transition" href="/info_curso">
-        <img class="w-full h-auto rounded-t-xl" src="./assets/img/BANNER INGLES ADULTO E INFANTIL.jpg" alt="Image Description">
-        <div class="p-4 md:p-5">
-          <h3 class="text-lg font-bold text-black">
-            Ingles
-          </h3>
-          <p class="mt-1 text-black">
-            Aprende inglés de manera efectiva con nuestras clases sabatinas, diseñadas para niños, adolescentes y adultos.
-          </p>
-          <button class="w-full bg-[#043D3D] text-white rounded-lg mt-3">Ver más información 
-            <i class="fa-solid fa-eye"></i>
-          </button>
-        </div>
-      </a>
-  
-      <a class="flex flex-col bg-white border shadow-sm rounded-xl hover:shadow-lg transition" href="/info_curso">
-        <img class="w-full h-auto rounded-t-xl" src="./assets/img/TOELF.jpg" alt="Image Description">
-        <div class="p-4 md:p-5">
-          <h3 class="text-lg font-bold text-black">
-            Ingles
-          </h3>
-          <p class="mt-1 text-black">
-            Aprende inglés de manera efectiva con nuestras clases sabatinas, diseñadas para niños, adolescentes y adultos.
-          </p>
-          <button class="w-full bg-[#043D3D] text-white rounded-lg mt-3">Ver más información 
-            <i class="fa-solid fa-eye"></i>
-          </button>
-        </div>
-      </a>
-  
-      <a class="flex flex-col bg-white border shadow-sm rounded-xl hover:shadow-lg transition" href="/info_curso">
-        <img class="w-full h-auto rounded-t-xl" src="./assets/img/CLENN.jpg" alt="Image Description">
-        <div class="p-4 md:p-5">
-          <h3 class="text-lg font-bold text-black">
-            Ingles
-          </h3>
-          <p class="mt-1 text-black">
-            Aprende inglés de manera efectiva con nuestras clases sabatinas, diseñadas para niños, adolescentes y adultos.
-          </p>
-          <button class="w-full bg-[#043D3D] text-white rounded-lg mt-3">Ver más información 
-            <i class="fa-solid fa-eye"></i>
-          </button>
-        </div>
-      </a>
-  
-      <a class="flex flex-col bg-white border shadow-sm rounded-xl hover:shadow-lg transition" href="/info_curso">
-        <img class="w-full h-auto rounded-t-xl" src="./assets/img/BANNER INGLES ADULTO E INFANTIL.jpg" alt="Image Description">
-        <div class="p-4 md:p-5">
-          <h3 class="text-lg font-bold text-black">
-            Ingles
-          </h3>
-          <p class="mt-1 text-black">
-            Aprende inglés de manera efectiva con nuestras clases sabatinas, diseñadas para niños, adolescentes y adultos.
-          </p>
-          <button class="w-full bg-[#043D3D] text-white rounded-lg mt-3">Ver más información 
-            <i class="fa-solid fa-eye"></i>
-          </button>
-        </div>
-      </a>
-  
-    </div>
-</div>
+    <div class="relative">
+      <!-- Imagen fija en la pantalla -->
+      <img src="./assets/img/AGUILA-GARZA.png" alt="Imagen Estática"
+      class="fixed top-20 right-0 object-cover z-10 pointer-events-none">
   </div>
   
+    <div class="container mx-auto">
 
+      <div class="mb-10 my-8">
+        <div class="bg-[#043D3D] rounded-lg relative z-20">
+          <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
+            Cursos</h2>
+        </div>
+      </div>
 
+      <div class="relative w-full mb-5">
+        <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5 w-full">
+          <svg class="flex-shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24"
+            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+        </div>
+        <input
+          class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]"
+          type="text" placeholder="Ingresa tu búsqueda" [(ngModel)]="searchTerm" (input)="filterCursos()">
+      </div>
 
-<!--Inicio componente Footer-->
-<app-footer></app-footer>
-<!--Fin Footer-->
+      <div *ngIf="isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        <!-- Placeholder de carga para cada curso -->
+        <div *ngFor="let _ of [1, 2, 3, 4]" class="bg-white border border-gray-200 rounded-xl p-6 shadow-lg flex flex-col justify-between h-full animate-pulse">
+          <!-- Imagen de carga -->
+          <div class="w-full h-60 bg-gray-200 rounded-t-lg mb-4"></div>
+      
+          <!-- Título de carga -->
+          <div class="h-6 bg-gray-200 rounded-full mb-4"></div>
+      
+          <!-- Descripción de carga -->
+          <div class="space-y-3 mb-6">
+            <div class="h-4 bg-gray-200 rounded-full"></div>
+            <div class="h-4 bg-gray-200 rounded-full"></div>
+            <div class="h-4 bg-gray-200 rounded-full w-3/4"></div>
+          </div>
+      
+          <!-- Botón de carga -->
+          <div class="w-full h-10 bg-gray-200 rounded-md"></div>
+        </div>
+      </div>
+      
+      <!-- Sección de cursos -->
+      <div *ngIf="!isLoading">
+        <div *ngIf="cursos && filteredCursos && filteredCursos.length > 0" class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+          <div *ngFor="let curso of filteredCursos" 
+               class="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition duration-300 flex flex-col justify-between h-full">
+            
+            <img [src]="baseImageUrl + curso.imagen_principal" 
+                 [alt]="curso.nombre" 
+                 class="w-full max-h-60 object-cover rounded-t-lg mb-4 transition-transform duration-300 transform group-hover:scale-105">
+            
+            <div class="flex flex-col flex-grow">
+              <!-- Título -->
+              <div class="text-center">
+                <h3 class="text-xl font-bold text-[#04847C] mb-4 transition-colors duration-300 hover:text-[#036d62] truncate">
+                  {{ curso.nombre }}
+                </h3>
+              </div>
+        
+              <!-- Descripción -->
+              <div class="flex-grow">
+                <p class="text-gray-700 text-sm mb-6 line-clamp-3">
+                  {{ curso.descripcion }}
+                </p>
+              </div>
+        
+              <!-- Botón -->
+              <div class="mt-auto">
+                <a (click)="verDetalleCurso(curso.id)" 
+                   class="bg-[#04847C] block w-full py-3 px-6 text-center rounded-md text-white font-medium hover:bg-[#036d62] transition-colors duration-300 cursor-pointer">
+                  Más información
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
+          <div *ngIf="!isLoading && filteredCursos.length === 0;" class="container max-w-screen-lg mb-12 space-y-4">
+            <div class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg relative z-20">
+              <p class="text-gray-600 text-lg">Lo sentimos, no encontramos lo que buscabas.</p>
+            </div>
+          </div>
+
+      </div>
+</div>
+

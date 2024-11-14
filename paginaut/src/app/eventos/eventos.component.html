@@ -1,116 +1,186 @@
 <!--Componente Navbar-->
 <app-navbar></app-navbar>
-<p id="inicio"></p>
-<!--Fin Navbar-->
 
-<!--Boton de desplacamiento -->
-<button id="scrollTopButton" (click)="scrollToSection('inicio')"
-  class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
-  <i class="fa-solid fa-chevron-up"></i>
-</button>
-<!--Fin Boton de desplacamiento-->
+<!-- Contenedor principal flexible -->
+<div class="flex flex-col min-h-screen">
+  <!-- Contenido principal que puede crecer -->
+  <main class="flex-grow">
+    <p id="inicio"></p>
+    <!--Fin Navbar-->
 
-
-<div class="container mx-auto mt-20">
-  <ol class="flex items-center whitespace-nowrap ml-4 mt-24 mb-8">
-    <li class="inline-flex items-center">
-      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]" href="#">
-        Home
-      </a>
-      <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m9 18 6-6-6-6"></path>
-      </svg>
-    </li>
-    <li class="inline-flex items-center">
-      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]" (click)="volverAEventos()">
-        Eventos
-      </a>
-      <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m9 18 6-6-6-6"></path>
-      </svg>
-    </li>
-    <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
-      {{ evento?.titulo || 'Cargando...' }}
-    </li>
-  </ol>
-
-  <div *ngIf="isLoading" class="text-center p-8">
-    <p class="text-lg">Cargando evento...</p>
-  </div>
-
-
-  <div *ngIf="error" class="text-center p-8 bg-red-100 text-red-700 rounded-lg">
-    <p>{{ error }}</p>
-    <button (click)="volverAEventos()" class="mt-4 px-4 py-2 bg-[#04847C] text-white rounded-lg hover:bg-opacity-90">
-      Volver a la lista de eventos
+    <!--Boton de desplacamiento -->
+    <button id="scrollTopButton" (click)="scrollToSection('inicio')"
+      class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50 translate-y-10 transition-all duration-1000 ease-out">
+      <i class="fa-solid fa-chevron-up"></i>
     </button>
-  </div>
+    <!--Fin Boton de desplacamiento-->
 
-  <div *ngIf="!isLoading && !error && evento" class="container sm p-4 bg-white rounded-lg shadow-lg">
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
-      <!-- Imagen principal del evento -->
-      <div class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow-lg relative">
-        <img [src]="getImageUrl(evento.imagen_principal)" [alt]="evento.titulo" class="w-full h-80 object-cover rounded-t-lg">
-        <div class="absolute inset-0 flex flex-col justify-between p-4 bg-black bg-opacity-50 text-white">
-          <h3 class="text-2xl font-poppins font-bold">{{ evento.titulo }}</h3>
-          <div>
-            <p class="text-xl">{{ evento.lugar_evento }}</p>
-            <p class="text-lg">{{ evento.fecha_inicio | date:'dd/MM/yyyy' }}</p>
+    <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4 mb-8">
+      <li class="inline-flex items-center">
+        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]"
+          href="/principal">
+          Inicio
+        </a>
+        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+          width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </li>
+      <li class="inline-flex items-center">
+        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]"
+          href="/principal#eventos">
+          Eventos
+        </a>
+        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+          width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </li>
+      <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
+        {{ evento?.titulo || 'Cargando...' }}
+      </li>
+    </ol>
+
+    <div class="container mx-auto mt-8">
+
+      <div *ngIf="error" class="text-center p-8 rounded-lg">
+        <div class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg">
+          <p class="text-gray-600 text-lg">¡Ups! No hemos encontrado la información que necesitas</p>
+        </div>
+      </div>
+
+
+      <div *ngIf="!error && evento" class="container sm p-4 bg-white shadow-lg ">
+        <div class="lg:col-span-4 relative rounded-lg overflow-hidden shadow-md">
+
+          <div *ngIf="isLoading" class="container sm p-4 bg-white shadow-lg">
+            <div class="bg-gray-50 rounded-lg p-4 animate-pulse">
+              <ul class="space-y-3">
+                <li class="w-full h-60 bg-gray-300 rounded-lg flex items-center justify-center">
+                  <!-- SVG de imagen placeholder -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-gray-400" fill="currentColor"
+                    viewBox="0 0 512 512">
+                    <path
+                      d="M448 80c8.8 0 16 7.2 16 16l0 319.8-5-6.5-136-176c-4.5-5.9-11.6-9.3-19-9.3s-14.4 3.4-19 9.3L202 340.7l-30.5-42.7C167 291.7 159.8 288 152 288s-15 3.7-19.5 10.1l-80 112L48 416.3l0-.3L48 96c0-8.8 7.2-16 16-16l384 0zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zm80 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z" />
+                  </svg>
+                </li>
+              </ul>
+            </div>
           </div>
+
+          <img *ngIf="!isLoading" [src]="getImageUrl(evento.imagen_principal)" [alt]="evento.titulo"
+            class="w-full h-80 object-cover">
+          <div class="absolute inset-0 flex flex-col justify-between p-4 bg-black bg-opacity-40 text-white">
+            <h3 class="text-3xl font-semibold">{{ evento.titulo }}</h3>
+            <div class="flex justify-between text-sm">
+              <span>{{ evento.lugar_evento }}</span>
+              <span>Duración del evento del <span class="font-semibold">{{ evento.fecha_inicio | date:'dd/MM/yyyy'
+                  }}</span> al <span class="font-semibold">{{ evento.fecha_fin | date:'dd/MM/yyyy' }}</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mt-8">
+          <div>
+            <p class="text-gray-900 whitespace-pre-line">{{ evento.informacion_evento }}</p>
+          </div>
+          <div>
+            <p><i class="fa-regular fa-clock"></i> Hora de inicio: {{ evento.hora_inicio }}</p>
+          </div>
+        </div>
+
+        <div class="my-8">
+          <div class="bg-[#043D3D] rounded-lg">
+            <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white mb-3">Galería de imágenes</h2>
+          </div>
+
+          <ngx-masonry class="mx-auto">
+            <!-- Loop through images with skeleton loader -->
+            <div ngxMasonryItem class="masonry-item p-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5"
+              *ngFor="let imagen of evento.imagenes_generales">
+
+              <!-- Skeleton loader shown while images are loading -->
+              <div *ngIf="isLoading"
+                class="w-full h-32 bg-gray-300 rounded-lg flex items-center justify-center animate-pulse">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-gray-400" fill="currentColor"
+                  viewBox="0 0 512 512">
+                  <path
+                    d="M448 80c8.8 0 16 7.2 16 16l0 319.8-5-6.5-136-176c-4.5-5.9-11.6-9.3-19-9.3s-14.4 3.4-19 9.3L202 340.7l-30.5-42.7C167 291.7 159.8 288 152 288s-15 3.7-19.5 10.1l-80 112L48 416.3l0-.3L48 96c0-8.8 7.2-16 16-16l384 0zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zm80 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z" />
+                </svg>
+              </div>
+
+              <!-- Image shown when loading is complete -->
+              <img *ngIf="!isLoading" [src]="getImageUrl(imagen)" [alt]="'Imagen del evento'"
+                class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out cursor-pointer"
+                (click)="ampliarImagen(getImageUrl(imagen))">
+            </div>
+          </ngx-masonry>
+          <!-- Mostrar mensaje cuando no hay imágenes -->
+          <div *ngIf="!isLoading && evento.imagenes_generales?.length === 0"
+            class="container max-w-screen-lg mb-12 space-y-4">
+            <div class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg relative z-20">
+              <p class="text-gray-600 text-lg">No hay imagenes de galería para este evento.</p>
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- Archivos del evento -->
+        <div *ngIf="evento.archivos && evento.archivos.length > 0" class="max-w-2xl mx-auto mt-5">
+          <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 sm:gap-12 md:gap-16">
+            <div *ngFor="let archivo of evento.archivos">
+              <a [href]="getImageUrl(archivo.ruta_archivo)" [download]="archivo.nombre_archivo" title="Descargar archivo"
+                class="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                <!--Pdf-->
+                <svg *ngIf="getFileExtension(archivo.nombre_archivo) === 'pdf'" class="w-12 h-12 text-red-600"
+                  fill="currentColor" viewBox="0 0 384 512">
+                  <path
+                    d="M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 62.9-21.9-12.7-9.6-24.9-23.4-34.5-40.8zM86.1 428.1c0 .8 13.2-5.4 34.9-40.2-6.7 6.3-29.1 24.5-34.9 40.2zM248 160h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V24C0 10.7 10.7 0 24 0h200v136c0 13.2 10.8 24 24 24zm-8 171.8c-20-12.2-33.3-29-42.7-53.8 4.5-18.5 11.6-46.6 6.2-64.2-4.7-29.4-42.4-26.5-47.8-6.8-5 18.3-.4 44.1 8.1 77-11.6 27.6-28.7 64.6-40.8 85.8-.1 0-.1.1-.2.1-27.1 13.9-73.6 44.5-54.5 68 5.6 6.9 16 10 21.5 10 17.9 0 35.7-18 61.1-61.8 25.8-8.5 54.1-19.1 79-23.2 21.7 11.8 47.1 19.5 64 19.5 29.2 0 31.2-32 19.7-43.4-13.9-13.6-54.3-9.7-73.6-7.2zM377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-74.1 255.3c4.1-2.7-2.5-11.9-42.8-9 37.1 15.8 42.8 9 42.8 9z" />
+                </svg>
+                <!--Excel-->
+                <svg *ngIf="getFileExtension(archivo.nombre_archivo) === 'xlsx'" class="w-12 h-12 text-green-600"
+                fill="currentColor" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="50px" height="50px"><path d="M 28.8125 0.03125 L 0.8125 5.34375 C 0.339844 5.433594 0 5.863281 0 6.34375 L 0 43.65625 C 0 44.136719 0.339844 44.566406 0.8125 44.65625 L 28.8125 49.96875 C 28.875 49.980469 28.9375 50 29 50 C 29.230469 50 29.445313 49.929688 29.625 49.78125 C 29.855469 49.589844 30 49.296875 30 49 L 30 1 C 30 0.703125 29.855469 0.410156 29.625 0.21875 C 29.394531 0.0273438 29.105469 -0.0234375 28.8125 0.03125 Z M 32 6 L 32 13 L 34 13 L 34 15 L 32 15 L 32 20 L 34 20 L 34 22 L 32 22 L 32 27 L 34 27 L 34 29 L 32 29 L 32 35 L 34 35 L 34 37 L 32 37 L 32 44 L 47 44 C 48.101563 44 49 43.101563 49 42 L 49 8 C 49 6.898438 48.101563 6 47 6 Z M 36 13 L 44 13 L 44 15 L 36 15 Z M 6.6875 15.6875 L 11.8125 15.6875 L 14.5 21.28125 C 14.710938 21.722656 14.898438 22.265625 15.0625 22.875 L 15.09375 22.875 C 15.199219 22.511719 15.402344 21.941406 15.6875 21.21875 L 18.65625 15.6875 L 23.34375 15.6875 L 17.75 24.9375 L 23.5 34.375 L 18.53125 34.375 L 15.28125 28.28125 C 15.160156 28.054688 15.035156 27.636719 14.90625 27.03125 L 14.875 27.03125 C 14.8125 27.316406 14.664063 27.761719 14.4375 28.34375 L 11.1875 34.375 L 6.1875 34.375 L 12.15625 25.03125 Z M 36 20 L 44 20 L 44 22 L 36 22 Z M 36 27 L 44 27 L 44 29 L 36 29 Z M 36 35 L 44 35 L 44 37 L 36 37 Z"/></svg>
+                <!--Word-->
+                <svg *ngIf="getFileExtension(archivo.nombre_archivo) === 'docx'" class="w-12 h-12 text-blue-600"
+                fill="currentColor" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="50px" height="50px"><path d="M 28.8125 0.03125 L 0.8125 5.34375 C 0.339844 5.433594 0 5.863281 0 6.34375 L 0 43.65625 C 0 44.136719 0.339844 44.566406 0.8125 44.65625 L 28.8125 49.96875 C 28.875 49.980469 28.9375 50 29 50 C 29.230469 50 29.445313 49.929688 29.625 49.78125 C 29.855469 49.589844 30 49.296875 30 49 L 30 1 C 30 0.703125 29.855469 0.410156 29.625 0.21875 C 29.394531 0.0273438 29.105469 -0.0234375 28.8125 0.03125 Z M 32 6 L 32 13 L 44 13 L 44 15 L 32 15 L 32 20 L 44 20 L 44 22 L 32 22 L 32 27 L 44 27 L 44 29 L 32 29 L 32 35 L 44 35 L 44 37 L 32 37 L 32 44 L 47 44 C 48.101563 44 49 43.101563 49 42 L 49 8 C 49 6.898438 48.101563 6 47 6 Z M 4.625 15.65625 L 8.1875 15.65625 L 10.21875 28.09375 C 10.308594 28.621094 10.367188 29.355469 10.40625 30.25 L 10.46875 30.25 C 10.496094 29.582031 10.613281 28.855469 10.78125 28.0625 L 13.40625 15.65625 L 16.90625 15.65625 L 19.28125 28.21875 C 19.367188 28.679688 19.433594 29.339844 19.5 30.21875 L 19.53125 30.21875 C 19.558594 29.53125 19.632813 28.828125 19.75 28.125 L 21.75 15.65625 L 25.0625 15.65625 L 21.21875 34.34375 L 17.59375 34.34375 L 15.1875 22.375 C 15.058594 21.75 14.996094 21.023438 14.96875 20.25 L 14.9375 20.25 C 14.875 21.101563 14.769531 21.824219 14.65625 22.375 L 12.1875 34.34375 L 8.4375 34.34375 Z"/></svg>
+                <!--Image-->
+                <svg *ngIf="isValidImageExtension(archivo.nombre_archivo)" class="w-12 h-12 text-gray-600"
+                  fill="currentColor" viewBox="0 0 384 512">
+                  <path
+                    d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48zm32-48h224V288l-23.5-23.5c-4.7-4.7-12.3-4.7-17 0L176 352l-39.5-39.5c-4.7-4.7-12.3-4.7-17 0L80 352v64zm48-240c-26.5 0-48 21.5-48 48s21.5 48 48 48 48-21.5 48-48-21.5-48-48-48z" />
+                </svg>
+                <span class="mt-2 text-sm font-medium">{{ archivo.nombre_archivo }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-gray-300">
+          <p class="text-sm text-gray-600 text-center">
+            {{ this.informacion }}
+          </p>
         </div>
       </div>
     </div>
-
-    <div class="grid grid-cols-2 gap-4 mt-8">
-      <div>
-        <p>{{ evento.informacion_evento }}</p>    
-      </div>
-      <div>
-        <p>Hora de inicio: {{ evento.hora_inicio }}</p>
-        <p>Hora de fin: {{ evento.hora_fin }}</p>
-        <p>Fecha de fin: {{ evento.fecha_fin | date:'dd/MM/yyyy' }}</p>
-      </div>
-    </div>
-
-    <!-- Imágenes generales del evento -->
-    <div *ngIf="evento.imagenes_generales && evento.imagenes_generales.length > 0" class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow-lg relative mt-8">
-      <img [src]="getImageUrl(evento.imagenes_generales[0])" alt="Imagen del evento" class="w-full h-60 object-cover rounded-t-lg">
-      <div class="absolute inset-0 flex items-center">
-        <h3 class="text-2xl font-poppins font-bold text-white">Imagen del Tema</h3>
-      </div>
-    </div>
-
-    <!-- Archivos del evento -->
-    <div *ngIf="evento.archivos && evento.archivos.length > 0" class="max-w-2xl mx-auto mt-5">
-      <div class="grid grid-cols-2 gap-8 sm:gap-12 md:gap-16">
-        <ng-container *ngFor="let archivo of evento.archivos">
-          <a [href]="getImageUrl(archivo.ruta_archivo)" download class="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <svg *ngIf="getFileExtension(archivo.nombre_archivo) === 'pdf'" class="w-16 h-16 text-red-600" fill="currentColor" viewBox="0 0 384 512">
-              <path d="M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 62.9-21.9-12.7-9.6-24.9-23.4-34.5-40.8zM86.1 428.1c0 .8 13.2-5.4 34.9-40.2-6.7 6.3-29.1 24.5-34.9 40.2zM248 160h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V24C0 10.7 10.7 0 24 0h200v136c0 13.2 10.8 24 24 24zm-8 171.8c-20-12.2-33.3-29-42.7-53.8 4.5-18.5 11.6-46.6 6.2-64.2-4.7-29.4-42.4-26.5-47.8-6.8-5 18.3-.4 44.1 8.1 77-11.6 27.6-28.7 64.6-40.8 85.8-.1 0-.1.1-.2.1-27.1 13.9-73.6 44.5-54.5 68 5.6 6.9 16 10 21.5 10 17.9 0 35.7-18 61.1-61.8 25.8-8.5 54.1-19.1 79-23.2 21.7 11.8 47.1 19.5 64 19.5 29.2 0 31.2-32 19.7-43.4-13.9-13.6-54.3-9.7-73.6-7.2zM377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-74.1 255.3c4.1-2.7-2.5-11.9-42.8-9 37.1 15.8 42.8 9 42.8 9z"/>
-            </svg>
-            <svg *ngIf="getFileExtension(archivo.nombre_archivo) === 'xlsx'" class="w-16 h-16 text-green-600" fill="currentColor" viewBox="0 0 384 512">
-              <path d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm60.1 106.5L224 336l60.1 93.5c5.1 8-.6 18.5-10.1 18.5h-34.9c-4.4 0-8.5-2.4-10.6-6.3C208.9 405.5 192 373 192 373c-6.4 14.8-10 20-36.6 68.8-2.1 3.9-6.1 6.3-10.5 6.3H110c-9.5 0-15.2-10.5-10.1-18.5l60.3-93.5-60.3-93.5c-5.2-8 .6-18.5 10.1-18.5h34.8c4.4 0 8.5 2.4 10.6 6.3 26.1 48.8 20 33.6 36.6 68.5 0 0 6.1-11.7 36.6-68.5 2.1-3.9 6.2-6.3 10.6-6.3H274c9.5-.1 15.2 10.4 10.1 18.4zM384 121.9v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"/>
-            </svg>
-            <svg *ngIf="getFileExtension(archivo.nombre_archivo) === 'docx'" class="w-16 h-16 text-blue-600" fill="currentColor" viewBox="0 0 384 512">
-              <path d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm57.1 120H208c-6.6 0-12-5.4-12-12v-6.2c0-6.6 5.4-12 12-12h73.1c6.6 0 12 5.4 12 12v6.2c0 6.6-5.4 12-12 12zm-20 64H208c-6.6 0-12-5.4-12-12v-6.2c0-6.6 5.4-12 12-12h53.1c6.6 0 12 5.4 12 12v6.2c0 6.6-5.4 12-12 12zm66 80H208c-6.6 0-12-5.4-12-12v-6.2c0-6.6 5.4-12 12-12h119.1c6.6 0 12 5.4 12 12v6.2c0 6.6-5.4 12-12 12zM384 121.9v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"/>
-            </svg>
-            <svg *ngIf="getFileExtension(archivo.nombre_archivo) === 'jpg'" class="w-16 h-16 text-gray-600" fill="currentColor" viewBox="0 0 384 512">
-              <path d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48zm32-48h224V288l-23.5-23.5c-4.7-4.7-12.3-4.7-17 0L176 352l-39.5-39.5c-4.7-4.7-12.3-4.7-17 0L80 352v64zm48-240c-26.5 0-48 21.5-48 48s21.5 48 48 48 48-21.5 48-48-21.5-48-48-48z"/>
-            </svg>
-            <span class="mt-2 text-sm font-medium">{{ archivo.nombre_archivo }}</span>
-          </a>
-        </ng-container>
-      </div>
-    </div>
-
-    <div class="mt-8 pt-6 border-t border-gray-300">
-      <p class="text-base text-gray-600 text-center">
-        Toda la información, recursos y eventos anunciados en este sitio web son de uso exclusivo para la comunidad de la universidad. Todos los materiales, incluidos textos, imágenes, y cualquier otro contenido, están protegidos por las leyes de propiedad intelectual y son propiedad de la universidad.
-      </p>
-    </div>
-  </div>
+    
+  </main>
+  <!--Inicio componente Footer-->
+  <app-footer></app-footer>
+  <!--Fin Footer-->
 </div>
 
-<!--Inicio componente Footer-->
-<app-footer></app-footer>
-<!--Fin Footer-->
+<!-- Modal para imagen ampliada -->
+<div *ngIf="imagenAmpliada"
+  class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
+  <div class="relative max-w-[90vw] max-h-[90vh] w-auto h-auto">
+    <img [src]="imagenAmpliada" alt="Imagen ampliada"
+      class="max-w-[90vw] max-h-[90vh] object-contain mx-auto rounded-lg">
+    <button (click)="closeModal()"
+      class="absolute top-2 right-2 bg-red-500 w-8 h-8 rounded-full text-white text-2xl flex items-center justify-center">
+      &times;
+    </button>
+  </div>
+</div>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { API } from './constans';
 
 export interface Evento {
   id?: number;
@@ -13,11 +14,14 @@ export interface Evento {
   fecha_fin: string;
   hora_inicio: string;
   hora_fin: string;
+  es_curso: boolean;
+  curso_id?: number;
   imagen_principal?: string;
   imagenes_generales?: string[];
   archivos?: any[];
   [key: string]: any;
 }
+
 
 export interface EventoResponse {
   records: Evento[];
@@ -27,7 +31,7 @@ export interface EventoResponse {
   providedIn: 'root'
 })
 export class EventoService {
-  private apiUrl = 'http://localhost/paginaut/api/evento';
+  private apiUrl = API+'/api/evento';
 
   constructor(private http: HttpClient) {}
 
@@ -41,6 +45,10 @@ export class EventoService {
     formData.append('fecha_fin', evento.fecha_fin);
     formData.append('hora_inicio', evento.hora_inicio);
     formData.append('hora_fin', evento.hora_fin);
+    formData.append('es_curso', evento.es_curso.toString());
+    if (evento.curso_id !== undefined && evento.curso_id !== null) {
+      formData.append('curso_id', evento.curso_id.toString());
+    }
 
     if (imagenPrincipal) {
       formData.append('imagen_principal', imagenPrincipal);
@@ -67,7 +75,7 @@ export class EventoService {
 
   actualizarEvento(evento: Evento, imagenPrincipal?: File, imagenesGenerales?: File[], archivos?: File[]): Observable<any> {
     const formData: FormData = new FormData();
-    
+
     Object.keys(evento).forEach(key => {
       if (evento[key] !== undefined && evento[key] !== null && key !== 'imagen_principal' && key !== 'imagenes_generales' && key !== 'archivos') {
         formData.append(key, evento[key].toString());
@@ -76,7 +84,7 @@ export class EventoService {
 
     if (imagenPrincipal) {
       formData.append('imagen_principal', imagenPrincipal, imagenPrincipal.name);
-      console.log('Imagen Principal añadida al FormData:', imagenPrincipal.name);
+      //console.log('Imagen Principal añadida al FormData:', imagenPrincipal.name);
     }
 
     if (imagenesGenerales && imagenesGenerales.length > 0) {
@@ -90,9 +98,9 @@ export class EventoService {
         formData.append(`archivos[]`, archivo, archivo.name);
       });
     }
-    console.log('Contenido del FormData:');
+    //console.log('Contenido del FormData:');
     formData.forEach((value, key) => {
-      console.log(key, value);
+      //console.log(key, value);
     });
 
     return this.http.post(`${this.apiUrl}?id=${evento.id}`, formData);
@@ -117,12 +125,11 @@ export class EventoService {
   activarEvento(id: number): Observable<any> {
     return this.http.put(`${this.apiUrl}?id=${id}&accion=activar`, {});
   }
-  obtenerEventosRecientes(limit: number = 5): Observable<Evento[]> {
+  obtenerEventosRecientes(): Observable<Evento[]> {
     return this.http.get<EventoResponse>(this.apiUrl).pipe(
       map(response => response.records
         .filter(evento => evento.activo)
         .sort((a, b) => new Date(b.fecha_inicio).getTime() - new Date(a.fecha_inicio).getTime())
-        .slice(0, limit)
       )
     );
   }
@@ -130,5 +137,10 @@ export class EventoService {
     return this.http.get<Evento>(`${this.apiUrl}?id=${id}`);
   }
 
+  obtenerEventosPorCursoId(cursoId: number): Observable<Evento[]> {
+    return this.http.get<EventoResponse>(`${this.apiUrl}?curso_id=${cursoId}`).pipe(
+      map((response: EventoResponse) => response.records)
+    );
+  }
 
 }

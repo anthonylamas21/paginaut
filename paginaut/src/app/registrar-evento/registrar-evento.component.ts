@@ -89,18 +89,18 @@ export class RegistrarEventoComponent implements OnInit {
 
       this.http.post('/api/evento', formData).subscribe(
         response => {
-          console.log('Evento registrado con éxito', response);
+          // console.log('Evento registrado con éxito', response);
           // Aquí puedes agregar lógica adicional después de un registro exitoso
           // Por ejemplo, mostrar un mensaje de éxito o redirigir a otra página
         },
         error => {
-          console.error('Error al registrar el evento', error);
+          // console.error('Error al registrar el evento', error);
           // Aquí puedes manejar los errores, por ejemplo mostrando un mensaje al usuario
         }
       );
     } else {
       // El formulario no es válido, muestra errores o realiza otras acciones
-      console.log('Formulario inválido');
+      // console.log('Formulario inválido');
     }
   }
 }

@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { EventoService, Evento } from '../../evento.service';
+import { CursoService, Curso } from '../../cursoService/curso.service';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { BASEIMAGEN } from '../../constans';
 
 class TooltipManager {
   static adjustTooltipPosition(
@@ -55,16 +59,17 @@ interface EventoTemporal extends Evento {
   templateUrl: './evento.component.html',
   styleUrls: ['./evento.component.css'],
 })
-export class EventoComponent implements OnInit {
+export class EventoComponent implements OnInit,  OnDestroy {
   eventos: Evento[] = [];
   filteredEventos: Evento[] = [];
   papeleraEventos: Evento[] = [];
+  cursos: Curso[] = []; // Lista de cursos
   eventoForm: FormGroup;
   isModalOpen = false;
   currentEventoId: number | null = null;
   isLoading = false;
   responseMessage = '';
-  baseImageUrl = 'http://localhost/paginaut/';
+  baseImageUrl = BASEIMAGEN+'/';
   imagenPrincipalPreview: string | ArrayBuffer | null = null;
   imagenesGeneralesActuales: string[] = [];
   archivosActuales: any[] = [];
@@ -80,48 +85,110 @@ export class EventoComponent implements OnInit {
   minTimeInicio: string;
   minTimeFin: string;
   timeZone: string = 'America/Mazatlan';
-  
+    private unsubscribe$ = new Subject<void>();
 
-  constructor(private eventoService: EventoService, private fb: FormBuilder) {
-    this.minDate = this.getTodayDate();
-    this.minTimeInicio = this.getCurrentTime();
-    this.minTimeFin = this.minTimeInicio;
-    this.eventoForm = this.fb.group({
-      titulo: ['', [Validators.required, Validators.maxLength(50)]],
-      informacion_evento: ['', Validators.required],
-      activo: [true],
-      lugar_evento: ['', [Validators.required, Validators.maxLength(50)]],
-      fecha_inicio: ['', [Validators.required]],
-      fecha_fin: ['', [Validators.required]],
-      hora_inicio: ['', [Validators.required]],
-      hora_fin: ['', [Validators.required]],
-    }, { validators: this.fechaHoraValidator() });
+
+    constructor(private eventoService: EventoService,  private cursoService: CursoService,  private fb: FormBuilder) {
+      this.minDate = this.getTodayDate();
+      this.minTimeInicio = this.getCurrentTime();
+      this.minTimeFin = this.minTimeInicio;
+      this.eventoForm = this.fb.group({
+        titulo: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/)]],
+        informacion_evento: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/)]],
+        activo: [true],
+        lugar_evento: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/)]],
+        fecha_inicio: ['', [Validators.required]],
+        fecha_fin: ['', [Validators.required]],
+        hora_inicio: ['', [Validators.required]],
+        hora_fin: ['', [Validators.required]],
+        es_curso: [null, Validators.required],
+        curso_id: [null],
+        imagen_principal: [null, Validators.required]
+      }, { validators: this.fechaHoraValidator() });
+    }
+
+    ngOnInit(): void {
+      this.loadEventos();
+      this.loadCursos(); // Cargar los cursos
+      this.setupDateTimeValidation();
+      this.setNavbarColor();
+
+      this.eventoForm.get('es_curso')?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(value => {
+          if (value === true) {
+              // Si selecciona "Sí", hacer que curso_id sea obligatorio
+              this.eventoForm.get('curso_id')?.setValidators([Validators.required]);
+              this.eventoForm.get('curso_id')?.updateValueAndValidity();
+          } else {
+              // Si selecciona "No", limpiar curso_id y remover validación
+              this.eventoForm.get('curso_id')?.clearValidators();
+              this.eventoForm.get('curso_id')?.setValue(null);
+              this.eventoForm.get('curso_id')?.updateValueAndValidity();
+          }
+      });
+  }
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    this.setNavbarColor();
+  }
+
+  scrollToSection(sectionId: string): void {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  private setNavbarColor(): void {
+    const button = document.getElementById('scrollTopButton');
+    const nabvar = document.getElementById('navbarAccion');
+    const inicioSection = document.getElementById('inicio');
+
+    if (inicioSection && nabvar) {
+      const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
+
+      if (window.scrollY > inicioSectionBottom) {
+        button?.classList.remove('hidden');
+      } else {
+        button?.classList.add('hidden');
+      }
+
+      nabvar.classList.remove('bg-transparent');
+      nabvar.classList.add('bg-[#043D3D]');
+    }
   }
 
 
-  ngOnInit(): void {
-    this.loadEventos();
-    this.setupDateTimeValidation();
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
+  loadCursos(): void {
+    this.cursoService.getCursos().subscribe({
+      next: (cursos: Curso[]) => {
+        this.cursos = cursos;
+      },
+      error: (error) => {
+        // console.error('Error al cargar los cursos:', error);
+        this.showToast('error', 'Error al cargar los cursos');
+      }
+    });
+  }
+
+
 
 
 
   loadEventos(): void {
     this.eventoService.obtenerEventos().subscribe({
-      next: (response) => {
-        this.eventos = response.records.map((evento) => ({
-          ...evento,
-          imagen_principal: this.getImageUrl(evento.imagen_principal || ''),
-          imagenes_generales: (evento.imagenes_generales || []).map(
-            (img: string) => this.getImageUrl(img)
-          ),
-          archivos: evento.archivos || [],
-        }));
-        this.filterEventos();
-      },
-      error: (error) => console.error('Error al cargar eventos:', error),
+        next: (response) => {
+            this.eventos = response.records.map(evento => ({
+                ...evento,
+                imagen_principal: this.getImageUrl(evento.imagen_principal || ''),
+                imagenes_generales: (evento.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
+            }));
+            this.filterEventos(); // Esto filtra o realiza otras operaciones necesarias
+        }
     });
-  }
+}
+
+
 
   getImageUrl(relativePath: string): string {
     if (relativePath && relativePath.startsWith('../')) {
@@ -156,6 +223,8 @@ export class EventoComponent implements OnInit {
         ...evento,
         fecha_inicio: fechaInicio,
         fecha_fin: fechaFin,
+        es_curso: evento.es_curso || false,
+        curso_id: evento.curso_id || null,
       });
 
       this.imagenPrincipalPreview = evento.imagen_principal || null;
@@ -224,106 +293,94 @@ export class EventoComponent implements OnInit {
 
   onSubmit(): void {
     if (this.eventoForm.valid) {
-      this.isLoading = true;
-      const eventoData: Evento = {
-        ...this.eventoForm.value,
-        id: this.currentEventoId,
-        imagen_principal: this.imagenPrincipalPreview as string,
-        imagenes_generales: this.imagenesGeneralesActuales,
-        archivos: this.archivosActuales,
-      };
+        this.isLoading = true;
+        const eventoData: Evento = {
+            ...this.eventoForm.value,
+            id: this.currentEventoId,
+            imagen_principal: this.imagenPrincipalPreview as string,
+            imagenes_generales: this.imagenesGeneralesActuales,
+            archivos: this.archivosActuales,
+            es_curso: this.eventoForm.get('es_curso')?.value,
+            curso_id: this.eventoForm.get('curso_id')?.value
+        };
 
-      const imagenPrincipalInput = document.getElementById(
-        'imagenPrincipal'
-      ) as HTMLInputElement;
-      const imagenPrincipal = imagenPrincipalInput.files?.[0];
-      const imagenesGeneralesInput = document.getElementById(
-        'imagenesGenerales'
-      ) as HTMLInputElement;
-      const imagenesGenerales = imagenesGeneralesInput.files;
-      const archivosInput = document.getElementById(
-        'archivos'
-      ) as HTMLInputElement;
-      const archivos = archivosInput.files;
+        const imagenPrincipalInput = document.getElementById('imagenPrincipal') as HTMLInputElement;
+        const imagenPrincipal = imagenPrincipalInput.files?.[0];
+        const imagenesGeneralesInput = document.getElementById('imagenesGenerales') as HTMLInputElement;
+        const imagenesGenerales = imagenesGeneralesInput.files;
+        const archivosInput = document.getElementById('archivos') as HTMLInputElement;
+        const archivos = archivosInput.files;
 
-      if (this.currentEventoId) {
-        // Primero, elimina las imágenes y archivos marcados
-        const deletePromises: Promise<any>[] = [
-          ...this.imagenesParaEliminar.map((ruta) =>
-            this.eventoService
-              .eliminarImagenGeneral(this.currentEventoId!, ruta)
-              .toPromise()
-          ),
-          ...this.archivosParaEliminar.map((ruta) =>
-            this.eventoService
-              .eliminarArchivo(this.currentEventoId!, ruta)
-              .toPromise()
-          ),
-        ];
+        if (this.currentEventoId) {
+            // Primero, elimina las imágenes y archivos marcados
+            const deleteImagenesPromises: Promise<any>[] = this.imagenesParaEliminar.map(ruta =>
+                this.eventoService.eliminarImagenGeneral(this.currentEventoId!, ruta).toPromise()
+            );
 
-        Promise.all(deletePromises)
-          .then(() => {
-            // Luego, actualiza el evento
-            return this.eventoService
-              .actualizarEvento(
+            const deleteArchivosPromises: Promise<any>[] = this.archivosParaEliminar.map(ruta =>
+                this.eventoService.eliminarArchivo(this.currentEventoId!, ruta).toPromise()
+            );
+
+            Promise.all([...deleteImagenesPromises, ...deleteArchivosPromises])
+                .then(() => {
+                    // Luego, actualiza el evento
+                    return this.eventoService.actualizarEvento(
+                        eventoData,
+                        imagenPrincipal,
+                        imagenesGenerales ? Array.from(imagenesGenerales) : undefined,
+                        archivos ? Array.from(archivos) : undefined
+                    ).toPromise();
+                })
+                .then(() => {
+                    this.showToast('success', 'Evento actualizado con éxito');
+                    this.closeModal();
+                    this.loadEventos();
+                })
+                .catch(error => {
+                    // console.error('Error al actualizar el evento:', error);
+                    this.showToast('error', 'Error al actualizar el evento: ' + (error.error?.message || error.message));
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                    this.imagenesParaEliminar = [];
+                    this.archivosParaEliminar = [];
+                });
+        } else {
+            // Crear nuevo evento
+            this.eventoService.crearEvento(
                 eventoData,
                 imagenPrincipal,
                 imagenesGenerales ? Array.from(imagenesGenerales) : undefined,
                 archivos ? Array.from(archivos) : undefined
-              )
-              .toPromise();
-          })
-          .then(() => {
-            this.showToast('success', 'Evento actualizado con éxito');
-            this.closeModal();
-            this.loadEventos();
-          })
-          .catch((error) => {
-            console.error('Error al actualizar el evento:', error);
-            this.showToast(
-              'error',
-              'Error al actualizar el evento: ' +
-                (error.error?.message || error.message)
-            );
-          })
-          .finally(() => {
-            this.isLoading = false;
-            this.imagenesParaEliminar = [];
-            this.archivosParaEliminar = [];
-          });
-      } else {
-        this.eventoService
-          .crearEvento(
-            eventoData,
-            imagenPrincipal,
-            imagenesGenerales ? Array.from(imagenesGenerales) : undefined,
-            archivos ? Array.from(archivos) : undefined
-          )
-          .subscribe({
-            next: (response) => {
-              this.showToast('success', 'Evento creado con éxito');
-              this.closeModal();
-              this.loadEventos();
-            },
-            error: (error) => {
-              console.error('Error al crear el evento:', error);
-              this.showToast(
-                'error',
-                'Error al crear el evento: ' +
-                  (error.error?.message || error.message)
-              );
-            },
-            complete: () => {
-              this.isLoading = false;
-            },
-          });
-      }
+            ).subscribe({
+                next: (response) => {
+                    this.showToast('success', 'Evento creado con éxito');
+                    this.closeModal();
+                    this.loadEventos();
+                },
+                error: (error) => {
+                    // console.error('Error al crear el evento:', error);
+                    this.showToast('error', 'Error al crear el evento: ' + (error.error?.message || error.message));
+                },
+                complete: () => {
+                    this.isLoading = false;
+                }
+            });
+        }
     } else {
-      this.showToast(
-        'warning',
-        'Por favor, complete todos los campos requeridos correctamente.'
-      );
+        this.showToast('warning', 'Por favor, complete todos los campos requeridos correctamente.');
+        Object.keys(this.eventoForm.controls).forEach(key => {
+            const control = this.eventoForm.get(key);
+            control?.markAsTouched();
+        });
     }
+}
+
+
+
+
+  isFormValid(): boolean {
+    return this.eventoForm.valid;
   }
 
   confirmDeleteEvento(id: number): void {
@@ -342,7 +399,7 @@ export class EventoComponent implements OnInit {
               'Error al eliminar el evento: ' +
                 (error.error?.message || error.message)
             );
-            console.error('Error:', error);
+            // console.error('Error:', error);
           },
         });
       }
@@ -365,7 +422,7 @@ export class EventoComponent implements OnInit {
               'Error al desactivar el evento: ' +
                 (error.error?.message || error.message)
             );
-            console.error('Error:', error);
+            // console.error('Error:', error);
           },
         });
       }
@@ -388,7 +445,7 @@ export class EventoComponent implements OnInit {
               'Error al activar el evento: ' +
                 (error.error?.message || error.message)
             );
-            console.error('Error:', error);
+            // console.error('Error:', error);
           },
         });
       }
@@ -411,10 +468,12 @@ export class EventoComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imagenPrincipalPreview = e.target.result;
+        this.eventoForm.get('imagen_principal')?.setValue(file); // Actualiza el control de la imagen principal
       };
       reader.readAsDataURL(file);
     }
   }
+
 
   onFileChangeGenerales(event: any): void {
     const files = event.target.files;
@@ -499,41 +558,6 @@ export class EventoComponent implements OnInit {
     return field ? field.invalid && (field.dirty || field.touched) : false;
   }
 
-  setupDateTimeValidation(): void {
-    const fechaInicioControl = this.eventoForm.get('fecha_inicio');
-    const fechaFinControl = this.eventoForm.get('fecha_fin');
-    const horaInicioControl = this.eventoForm.get('hora_inicio');
-    const horaFinControl = this.eventoForm.get('hora_fin');
-
-    fechaInicioControl?.valueChanges.subscribe(() => {
-      fechaFinControl?.updateValueAndValidity();
-      horaInicioControl?.updateValueAndValidity();
-      horaFinControl?.updateValueAndValidity();
-      this.updateMinTimeFin();
-    });
-
-    horaInicioControl?.valueChanges.subscribe(() => {
-      this.updateMinTimeFin();
-      horaFinControl?.updateValueAndValidity();
-    });
-  }
-
-  updateMinTimeFin(): void {
-    const fechaInicio = this.eventoForm.get('fecha_inicio')?.value;
-    const horaInicio = this.eventoForm.get('hora_inicio')?.value;
-    
-    if (fechaInicio && horaInicio) {
-      const fechaHoraInicio = new Date(`${fechaInicio}T${horaInicio}`);
-      if (this.isSameDay(fechaHoraInicio, this.getToday())) {
-        this.minTimeFin = horaInicio;
-      } else {
-        this.minTimeFin = '00:00';
-      }
-    } else {
-      this.minTimeFin = this.minTimeInicio;
-    }
-  }
-
   fechaHoraValidator(): ValidatorFn {
     return (group: AbstractControl): {[key: string]: any} | null => {
       const fechaInicio = group.get('fecha_inicio')?.value;
@@ -554,6 +578,43 @@ export class EventoComponent implements OnInit {
     };
   }
 
+  setupDateTimeValidation(): void {
+    const fechaInicioControl = this.eventoForm.get('fecha_inicio');
+    const fechaFinControl = this.eventoForm.get('fecha_fin');
+    const horaInicioControl = this.eventoForm.get('hora_inicio');
+    const horaFinControl = this.eventoForm.get('hora_fin');
+
+    fechaInicioControl?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+      fechaFinControl?.updateValueAndValidity();
+      horaInicioControl?.updateValueAndValidity();
+      horaFinControl?.updateValueAndValidity();
+      this.updateMinTimeFin();
+    });
+
+    horaInicioControl?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+      this.updateMinTimeFin();
+      horaFinControl?.updateValueAndValidity();
+    });
+  }
+
+  updateMinTimeFin(): void {
+    const fechaInicio = this.eventoForm.get('fecha_inicio')?.value;
+    const fechaFin = this.eventoForm.get('fecha_fin')?.value;
+    const horaInicio = this.eventoForm.get('hora_inicio')?.value;
+
+    if (fechaInicio && fechaFin && this.isSameDay(new Date(fechaInicio), new Date(fechaFin))) {
+      this.minTimeFin = horaInicio;
+    } else {
+      this.minTimeFin = '00:00';
+    }
+  }
+
+  isSameDay(date1: Date, date2: Date): boolean {
+    return date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getDate() === date2.getDate();
+  }
+
   getErrorMessage(fieldName: string): string {
     const field = this.eventoForm.get(fieldName);
     if (field?.errors?.['required']) {
@@ -562,11 +623,15 @@ export class EventoComponent implements OnInit {
     if (field?.errors?.['maxlength']) {
       return `Máximo ${field.errors['maxlength'].requiredLength} caracteres.`;
     }
+    if (field?.errors?.['pattern']) {
+      return 'Formato no válido. Solo se permiten letras, números y espacios.';
+    }
     if (this.eventoForm.errors?.['fechaHoraInvalida']) {
       return 'La fecha y hora de fin deben ser posteriores a la fecha y hora de inicio.';
     }
     return '';
   }
+
 
   isDateDisabled = (date: Date): boolean => {
     return date < this.getToday();
@@ -595,11 +660,7 @@ export class EventoComponent implements OnInit {
     return date.toTimeString().slice(0, 5);
   }
 
-  private isSameDay(date1: Date, date2: Date): boolean {
-    return date1.getFullYear() === date2.getFullYear() &&
-           date1.getMonth() === date2.getMonth() &&
-           date1.getDate() === date2.getDate();
-  }
+
 
   private updateEventosArray(evento: Evento): void {
     const index = this.eventos.findIndex((e) => e.id === evento.id);
@@ -687,7 +748,7 @@ export class EventoComponent implements OnInit {
   }
 
 
-  
+
   mostrar(elemento: any): void {
     // Verifica si el elemento recibido es un botón
     if (elemento.tagName.toLowerCase() === 'button') {
@@ -732,6 +793,7 @@ export class EventoComponent implements OnInit {
       this.archivosActuales = [];
     }
   }
+
 
   closeAllModals(): void {
     this.isImageModalOpen = false;

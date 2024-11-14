@@ -1,8 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ElementRef, ViewChild, HostListener } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CalendarioService, Calendario } from '../calendario.service';
 import Swal from 'sweetalert2';
+import { BASEIMAGEN } from '../../constans';
 
 class TooltipManager {
   static adjustTooltipPosition(
@@ -13,6 +21,7 @@ class TooltipManager {
     const tooltipRect = tooltip.getBoundingClientRect();
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
+
     const preferredLeft =
       buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
     const preferredTop = buttonRect.top - tooltipRect.height - 10;
@@ -34,12 +43,59 @@ class TooltipManager {
   }
 }
 
+// Validador para el campo de año
+function yearValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const validYear = /^[0-9]{4}$/;
+    return validYear.test(control.value) ? null : { invalidYear: true };
+  };
+}
+
+// Validador para el rango de año
+function yearRangeValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const year = parseInt(control.value, 10);
+    const currentYear = new Date().getFullYear();
+    return isNaN(year) || year < 1900 || year > currentYear
+      ? { outOfRange: true }
+      : null;
+  };
+}
+
+// Validador para impedir espacios en blanco en el título
+function noWhitespaceValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    return isWhitespace ? { whitespace: true } : null;
+  };
+}
+
+// Validador para prevenir inyección de scripts
+function scriptInjectionValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const scriptPattern = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+    return scriptPattern.test(control.value) ? { scriptInjection: true } : null;
+  };
+}
+
+// Validador para evitar títulos duplicados
+function duplicateTitleValidator(calendarios: Calendario[]): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const title = control.value || '';
+    const duplicate = calendarios.some(
+      (calendario) => calendario.titulo === title
+    );
+    return duplicate ? { duplicateTitle: true } : null;
+  };
+}
+
 @Component({
   selector: 'app-agregar-calendario',
   templateUrl: './agregar-calendario.component.html',
   styleUrls: ['./agregar-calendario.component.css'],
 })
 export class AgregarCalendarioComponent implements OnInit {
+  @ViewChild('archivoInput') archivoInput!: ElementRef;
   calendarioForm: FormGroup;
   errorMessage: string = '';
   successMessage: string = '';
@@ -55,7 +111,7 @@ export class AgregarCalendarioComponent implements OnInit {
   fileToUpload: File | null = null;
   currentFileName: string = '';
   hasActiveCalendario: boolean = false;
-  baseImageUrl = 'http://localhost/paginaut/';
+  baseImageUrl = BASEIMAGEN+'/';
 
   constructor(
     private fb: FormBuilder,
@@ -63,13 +119,58 @@ export class AgregarCalendarioComponent implements OnInit {
     public sanitizer: DomSanitizer
   ) {
     this.calendarioForm = this.fb.group({
-      titulo: ['', [Validators.required, Validators.maxLength(50)]],
+      anio: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(4),
+          yearValidator(),
+          yearRangeValidator(),
+        ],
+      ],
+      titulo: [
+        { value: '', disabled: true },
+        [
+          noWhitespaceValidator(),
+          scriptInjectionValidator(),
+          duplicateTitleValidator(this.calendarios),
+        ],
+      ],
       archivo: [''],
     });
   }
 
   ngOnInit() {
     this.loadCalendarios();
+    this.setNavbarColor();
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    this.setNavbarColor();
+  }
+
+  scrollToSection(sectionId: string): void {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  private setNavbarColor(): void {
+    const button = document.getElementById('scrollTopButton');
+    const nabvar = document.getElementById('navbarAccion');
+    const inicioSection = document.getElementById('inicio');
+
+    if (inicioSection && nabvar) {
+      const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
+
+      if (window.scrollY > inicioSectionBottom) {
+        button?.classList.remove('hidden');
+      } else {
+        button?.classList.add('hidden');
+      }
+
+      nabvar.classList.remove('bg-transparent');
+      nabvar.classList.add('bg-[#043D3D]');
+    }
   }
 
   onSubmit() {
@@ -85,7 +186,7 @@ export class AgregarCalendarioComponent implements OnInit {
       if (this.currentCalendarioId) {
         formData.append('id', this.currentCalendarioId.toString());
         this.calendarioService.updateCalendario(formData).subscribe({
-          next: (response: any) => {
+          next: () => {
             this.showToast('success', 'Calendario actualizado correctamente');
             this.loadCalendarios();
             this.resetForm();
@@ -97,7 +198,7 @@ export class AgregarCalendarioComponent implements OnInit {
         });
       } else {
         this.calendarioService.addCalendario(formData).subscribe({
-          next: (response: any) => {
+          next: () => {
             this.showToast('success', 'Calendario agregado correctamente');
             this.loadCalendarios();
             this.resetForm();
@@ -120,15 +221,28 @@ export class AgregarCalendarioComponent implements OnInit {
     const file = event.target.files[0];
     if (file && file.type === 'application/pdf') {
       this.fileToUpload = file;
+      this.calendarioForm.get('archivo')?.setValue(file.name); // Asigna valor al control
     } else {
       this.calendarioForm.get('archivo')?.setErrors({ invalidFileType: true });
+      this.showToast('error', 'Solo se permiten archivos en formato PDF.');
       this.fileToUpload = null;
     }
   }
 
   validateInput(event: KeyboardEvent) {
-    const allowedKeys = /^[a-zA-Z0-9\s]*$/;
+    const allowedKeys = /^[0-9]*$/;
     if (!allowedKeys.test(event.key)) {
+      event.preventDefault();
+    }
+  }
+
+  onPaste(event: ClipboardEvent) {
+    const clipboardData =
+      event.clipboardData || (window as any)['clipboardData'];
+    const pastedText = clipboardData.getData('text');
+    const allowedPattern = /^[0-9]{0,4}$/;
+
+    if (!allowedPattern.test(pastedText)) {
       event.preventDefault();
     }
   }
@@ -141,6 +255,11 @@ export class AgregarCalendarioComponent implements OnInit {
     this.currentCalendario = undefined;
     this.currentFileName = '';
     this.fileToUpload = null;
+
+    // Resetear el input de archivo manualmente
+    if (this.archivoInput) {
+      this.archivoInput.nativeElement.value = '';
+    }
   }
 
   openModal(calendario?: Calendario) {
@@ -149,8 +268,9 @@ export class AgregarCalendarioComponent implements OnInit {
       this.currentCalendario = calendario;
       this.currentFileName = calendario.archivo;
       this.calendarioForm.patchValue({
-        titulo: calendario.titulo,
+        anio: calendario.titulo.replace('Calendario Escolar ', ''),
       });
+      this.updateTitulo();
     } else {
       this.resetForm();
     }
@@ -185,11 +305,11 @@ export class AgregarCalendarioComponent implements OnInit {
 
   deleteCalendario(id: number) {
     this.showConfirmDialog(
-      '¿Estás seguro?',
-      '¿Quieres eliminar este calendario? Esta acción no se puede deshacer.',
+      'Eliminar calendario',
+      'Esta acción eliminará permanentemente el calendario seleccionado. No podrás recuperarlo. ¿Estás seguro de que deseas continuar?',
       () => {
         this.calendarioService.deleteCalendario(id).subscribe({
-          next: (response: any) => {
+          next: () => {
             this.showToast('success', 'Calendario eliminado correctamente');
             this.loadCalendarios();
           },
@@ -203,11 +323,11 @@ export class AgregarCalendarioComponent implements OnInit {
 
   moveToTrash(id: number) {
     this.showConfirmDialog(
-      '¿Estás seguro?',
-      '¿Quieres mover este calendario a la papelera?',
+      'Mover a papelera',
+      'Este calendario será movido a la papelera. Podrás restaurarlo más tarde si lo deseas. ¿Quieres mover este calendario a la papelera?',
       () => {
         this.calendarioService.updateCalendarioStatus(id, false).subscribe({
-          next: (response: any) => {
+          next: () => {
             this.showToast(
               'success',
               'Calendario movido a la papelera correctamente'
@@ -224,22 +344,84 @@ export class AgregarCalendarioComponent implements OnInit {
 
   activateCalendario(id: number) {
     const calendarioToUpdate = this.calendarios.find((cal) => cal.id === id);
-    if (calendarioToUpdate) {
-      calendarioToUpdate.activo = true;
-      const formData: FormData = new FormData();
-      formData.append('id', calendarioToUpdate.id!.toString());
-      formData.append('titulo', calendarioToUpdate.titulo);
-      formData.append('activo', 'true');
-      this.calendarioService.updateCalendario(formData).subscribe({
-        next: (response: any) => {
-          this.showToast('success', 'Calendario activado correctamente');
-          this.loadCalendarios();
-        },
-        error: (error: any) => {
-          this.showToast('error', error.message);
-        },
-      });
+
+    if (calendarioToUpdate && calendarioToUpdate.id !== undefined) {
+      if (this.hasActiveCalendario && this.papeleraCalendarios.length >= 1) {
+        this.showConfirmDialog(
+          'Confirmar activación de calendario',
+          'Actualmente tienes un calendario activo. Si activas este nuevo calendario, el anterior se desactivará automáticamente y se moverá a la papelera. ¿Deseas continuar?',
+          () => {
+            this.desactivarYActivar(calendarioToUpdate);
+          }
+        );
+      } else if (
+        !this.hasActiveCalendario &&
+        this.papeleraCalendarios.length === 1
+      ) {
+        this.showConfirmDialog(
+          'Reactivar Calendario',
+          '¿Quieres reactivar esta Calendario?',
+          () => {
+            this.actualizarYActivarCalendario(calendarioToUpdate);
+          }
+        );
+      } else if (
+        !this.hasActiveCalendario &&
+        this.papeleraCalendarios.length >= 2
+      ) {
+        this.showConfirmDialog(
+          'Confirmar activación de calendario',
+          'Tienes más de un calendario en la papelera. ¿Estás seguro de que deseas activar este calendario?',
+          () => {
+            this.actualizarYActivarCalendario(calendarioToUpdate);
+          }
+        );
+      } else {
+        this.actualizarYActivarCalendario(calendarioToUpdate);
+      }
+    } else {
+      this.showToast('error', 'No se pudo encontrar el calendario a activar.');
     }
+  }
+
+  desactivarYActivar(calendarioToUpdate: Calendario) {
+    const activeCalendario = this.calendarios.find((cal) => cal.activo);
+
+    if (activeCalendario && activeCalendario.id !== undefined) {
+      this.calendarioService
+        .updateCalendarioStatus(activeCalendario.id, false)
+        .subscribe({
+          next: () => {
+            this.actualizarYActivarCalendario(calendarioToUpdate);
+          },
+          error: (error: any) => {
+            this.showToast(
+              'error',
+              'Error al desactivar el calendario anterior'
+            );
+          },
+        });
+    } else {
+      this.actualizarYActivarCalendario(calendarioToUpdate);
+    }
+  }
+
+  actualizarYActivarCalendario(calendarioToUpdate: Calendario) {
+    calendarioToUpdate.activo = true;
+    const formData: FormData = new FormData();
+    formData.append('id', calendarioToUpdate.id!.toString());
+    formData.append('titulo', calendarioToUpdate.titulo);
+    formData.append('activo', 'true');
+
+    this.calendarioService.updateCalendario(formData).subscribe({
+      next: () => {
+        this.showToast('success', 'Calendario activado correctamente');
+        this.loadCalendarios();
+      },
+      error: (error: any) => {
+        this.showToast('error', error.message);
+      },
+    });
   }
 
   switchTab(tab: 'active' | 'inactive') {
@@ -306,6 +488,7 @@ export class AgregarCalendarioComponent implements OnInit {
   ): void {
     const Toast = Swal.mixin({
       toast: true,
+      iconColor: '#008779',
       position: 'top-end',
       showConfirmButton: false,
       timer: 3000,
@@ -331,21 +514,45 @@ export class AgregarCalendarioComponent implements OnInit {
       title: title,
       text: text,
       icon: 'warning',
+      iconColor: '#FD9B63',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#EF4444',
+      cancelButtonColor: '#E5E7EB',
+      reverseButtons: true,
+      focusCancel: true,
       confirmButtonText: 'Sí, confirmar',
       cancelButtonText: 'Cancelar',
+      didOpen: () => {
+        const confirmButton = Swal.getConfirmButton();
+        if (confirmButton) {
+          confirmButton.style.color = 'white';
+        }
+        const cancelButton = Swal.getCancelButton();
+        if (cancelButton) {
+          cancelButton.style.color = 'black';
+        }
+      },
     }).then((result) => {
       if (result.isConfirmed) {
         onConfirm();
       }
     });
   }
+
   updateTitulo() {
     const anio = this.calendarioForm.get('anio')?.value;
     if (anio) {
       this.calendarioForm.patchValue({ titulo: `Calendario Escolar ${anio}` });
+    }
+  }
+
+  // Validación de duplicados
+  validateDuplicate(calendarioForm: FormGroup): void {
+    const anio = calendarioForm.get('anio')?.value;
+    const titulo = `Calendario Escolar ${anio}`;
+
+    if (this.calendarios.some((cal) => cal.titulo === titulo)) {
+      calendarioForm.setErrors({ duplicate: true });
     }
   }
 }

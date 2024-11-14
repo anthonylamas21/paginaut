@@ -1,13 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { API } from '../constans';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  URL = 'http://127.0.0.1:8000/api/controller';
+  URL = API+'/api/controller';
 
   reqHeader =  new HttpHeaders({
     'Authorization': 'Bearer '
@@ -20,6 +21,6 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   AccessLogin(data: FormData): Observable<any> {
-    return this.http.post<any>(this.URL+'login.php/', data, {headers:this.reqHeader});
+    return this.http.post<any>(this.URL+'login/', data, {headers:this.reqHeader});
   }
 }

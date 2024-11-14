@@ -14,7 +14,7 @@ interface Item {
   nueve: string;
   diez: string;
   once: string;
-} 
+}
 
 interface Image {
   url: string;
@@ -26,38 +26,87 @@ interface Image {
   styleUrl: './carrera-desarrollo-software.component.css'
 })
 export class CarreraDesarrolloSoftwareComponent {
+  currentTab: string = 'segment-1'; // Define el tab inicial
   isLoading = true;
-  
+  imagenAmpliada: string | null = null;
+  selectedImage: Image = { url: '', alt: '' };
+
   constructor(private renderer: Renderer2) {}
 
   images: Image[] = [
-    { url: './assets/img/galeria/prueba.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/prueba.jpg', alt: 'Image 2' },
-    // más imágenes aquí
+    { url: './assets/img/galeria/desarrollo/desarrollo1.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo2.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo3.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo4.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo5.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo6.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo7.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo8.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo9.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/desarrollo10.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_1.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_3.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_4.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_5.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_6.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_7.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_8.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_9.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_10.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_11.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_12.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_13.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_14.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_15.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_16.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_17.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_26.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_33.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_34.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_35.webp', alt: '' },
+    { url: './assets/img/galeria/desarrollo/TIC_37.webp', alt: '' },
   ];
 
-  selectedImage: Image = { url: '', alt: '' };
-
-  openModal(image: Image): void {
-    if (image) {
-      this.selectedImage = image;
-      const modal = document.getElementById('hs-vertically-centered-modal');
-      if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('pointer-events-auto');
-      }
-    }
-  }
   ngAfterViewInit(): void {
     this.renderer.listen('window', 'load', () => {
-      setInterval(() => {
-        this.isLoading = false
-      }, 3000);  
-      
+      this.isLoading = false
     });
   }
   ngOnInit(): void {
     this.setNavbarColor();
+    this.showTab(this.currentTab); // Mostrar el tab inicial
+  }
+
+  // Método para cambiar de pestaña
+  showTab(tabId: string): void {
+    // Oculta todas las pestañas
+    const allTabs = document.querySelectorAll('[role="tabpanel"]');
+    allTabs.forEach(tab => {
+      tab.classList.add('hidden'); // Oculta todas
+    });
+
+    // Muestra la pestaña actual
+    const activeTab = document.getElementById(tabId);
+    if (activeTab) {
+      activeTab.classList.remove('hidden');
+    }
+
+    // Cambiar el tab actual
+    this.currentTab = tabId;
+  }
+
+  // Manejador de clics para los botones de las pestañas
+  onTabClick(event: any, tabId: string): void {
+    this.showTab(tabId);
+
+    // Elimina la clase 'active' de todos los botones
+    const allButtons = document.querySelectorAll('[role="tab"]');
+    allButtons.forEach(button => {
+      button.classList.remove('active');
+    });
+
+    // Agrega la clase 'active' al botón clicado
+    event.target.classList.add('active');
   }
 
   @HostListener('window:scroll', [])
@@ -78,12 +127,12 @@ export class CarreraDesarrolloSoftwareComponent {
       } else {
         button?.classList.add('hidden');
       }
-      
+
       nabvar.classList.remove('bg-transparent');
       nabvar.classList.add('bg-[#043D3D]');
     }
   }
-  
+
   scrollToSection(sectionId: string): void {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
@@ -91,23 +140,124 @@ export class CarreraDesarrolloSoftwareComponent {
   @ViewChild('dt') dt: Table | undefined;
 
   items: Item[] = [
-    {uno: 'Algebra lineal',  dos: 'Funciones matemáticas',  tres: 'Calculo diferencial',  cuatro: 'Estandares y metricas para el desarrollo de software',  cinco: 'Aplicaciones de IoT',  seis: 'Estadia',  siete: 'Matematicas para ingenieria I',  ocho: 'Matemáticas para ingenieria II',  nueve: 'Administracion de proyectos de TI',  diez: 'Gestion del proceso de desarrollo de software',  once: 'Estadia'},
-    {uno: 'Desarrollo de habilidades del pensamiento lógico',  dos: 'Metodologías y modelado de desarrollo de software',  tres: 'Probabilidad y estadística',  cuatro: 'Principios de IoT',  cinco: 'Desarrollo móvil multiplataforma',  seis: 'Estadia',  siete: 'Metodologías para el desarrollo de proyectos',  ocho: 'Administración de bases de datos',  nueve: 'Extracción de conocimiento en bases de datos',  diez: 'Aplicaciones WEB progresivas',  once: 'Estadia'},
-    {uno: 'Fundamentos de TI',  dos: 'Interconexión de redes',  tres: 'Sistemas Operativos',  cuatro: 'Diseño de Apps',  cinco: 'Integradora II',  seis: 'Estadia',  siete: 'Arquitecturas de software',  ocho: 'Desarrollo Web profesional',  nueve: 'Desarrollo WEB Integral',  diez: 'Integradora',  once: 'Estadia'},
-    {uno: 'Fundamentos de redes',  dos: 'Programación Orientada a Objetos',  tres: 'Integradora I',  cuatro: 'Estructuras de datos Aplicadas',  cinco: 'Aplicaciones Web para I4.0',  seis: 'Estadia',  siete: 'Experiencia de usuario',  ocho: 'Seguridad en el desarrollo de aplicaciones',  nueve: 'Desarrollo para dispositivos inteligentes',  diez: 'Desarrollo móvil integral',  once: 'Estadia'},
-    {uno: 'Metodología de la programación',  dos: 'Introducción al diseño digital',  tres: 'Aplicaciones Web',  cuatro: 'Aplicaciones Web orientadas a servicios',  cinco: 'Bases de datos para cómputo en la nube',  seis: 'Estadia',  siete: 'Seguridad informática',  ocho: 'Inglés VII',  nueve: 'Inglés VIII',  diez: 'Optativa II: Creación de Videojuegos',  once: 'Estadia'},
-    {uno: 'Expresión oral y escrita I',  dos: 'Base de datos para aplicaciones',  tres: 'Bases de datos para aplicaciones',  cuatro: 'Evaluación y mejora para el desarrollo de software',  cinco: 'Expresión oral y escrita II',  seis: 'Estadia',  siete: 'Inglés VI',  ocho: 'Planeación y Organización del trabajo',  nueve: 'Dirección de Equipos de Alto Rendimiento',  diez: 'Inglés IX',  once: 'Estadia'},
-    {uno: 'Inglés I',  dos: 'Inglés II',  tres: 'Inglés III',  cuatro: 'Inglés IV',  cinco: 'Inglés V',  seis: 'Estadia',  siete: 'Administración del tiempo',  ocho: '',  nueve: '',  diez: 'Negociación empresarial',  once: 'Estadia'},
-    {uno: 'Formación Sociocultural I',  dos: 'Formación Sociocultural II',  tres: 'Formación Sociocultural III',  cuatro: 'Formación Sociocultural IV', cinco: '',  seis: 'Estadia',  siete: '',  ocho: '',  nueve: '',  diez: '',  once: 'Estadia'}
+    {uno: 'FUNDAMENTOS DE REDES',
+        dos: 'SISTEMAS OPERATIVOS',
+        tres: 'TÓPICOS DE CALIDAD PARA EL DISEÑO DE SOFTWARE',
+        cuatro: 'ÉTICA PROFESIONAL',
+        cinco: 'INGLÉS V',
+        seis: 'ESTADÍA',
+        siete: 'HABILIDADES GERENCIALES',
+        ocho: 'PROGRAMACIÓN PARA INTELIGENCIA ARTIFICIAL',
+        nueve: 'TECNOLOGÍAS DISRUPTIVAS',
+        diez: '',
+        once: 'ESTADÍA'},
+
+    {uno: 'FUNDAMENTOS DE PROGRAMACIÓN',
+        dos: 'CONMUTACIÓN Y ENRUTAMIENTO DE REDES',
+        tres: 'PROGRAMACIÓN ORIENTADA A OBJETOS',
+        cuatro: 'INGLÉS IV',
+        cinco: 'APLICACIONES WEB ORIENTADAS A SERVICIOS',
+        seis: 'ESTADÍA',
+        siete: 'FORMULACIÓN DE PROYECTOS DE TECNOLOGÍA',
+        ocho: 'PROGRAMACIÓN MÓVIL AVANZADA',
+        nueve: 'INTERNET DE LAS COSAS',
+        diez: '',
+        once: 'ESTADÍA'},
+
+    {uno: 'DESARROLLO HUMANO Y VALORES',
+        dos: 'INGLÉS II',
+        tres: 'BASES DE DATOS',
+        cuatro: 'ESTRUCTURA DE DATOS',
+        cinco: 'LIDERAZGO DE EQUIPOS DE ALTO DESEMPEÑO',
+        seis: 'ESTADÍA',
+        siete: 'INGLÉS VI',
+        ocho: 'INFORMÁTICA FORENSE',
+        nueve: 'EVALUACIÓN DE PROYECTOS DE TECNOLOGÍA',
+        diez: '',
+        once: 'ESTADÍA'},
+
+    {uno: 'FUNDAMENTOS MATEMÁTICOS',
+        dos: 'HABILIDADES SOCIOEMOCIONALES Y MANEJO DE CONFLICTOS',
+        tres: 'PROYECTO INTEGRADOR I',
+        cuatro: 'DESARROLLO DE APLICACIONES MÓVILES',
+        cinco: 'BASES DE DATOS AVANZADAS',
+        seis: 'ESTADÍA',
+        siete: 'FUNDAMENTOS DE INTELIGENCIA ARTIFICIAL',
+        ocho: 'GESTIÓN DE PROYECTOS DE TECNOLOGÍA',
+        nueve: 'CIENCIA DE DATOS',
+        diez: '',
+        once: 'ESTADÍA'},
+
+    {uno: 'INGLÉS I',
+        dos: 'PROGRAMACIÓN ESTRUCTURADA',
+        tres: 'DESARROLLO DEL PENSAMIENTO Y TOMA DE DECISIONES',
+        cuatro: 'CÁLCULO DE VARIAS VARIABLES',
+        cinco: 'PROYECTO INTEGRADOR II',
+        seis: 'ESTADÍA',
+        siete: 'ÉTICA Y LEGISLACIÓN EN TECNOLOGÍAS DE LA INFORMACIÓN',
+        ocho: 'ELECTRÓNICA DIGITAL',
+        nueve: 'PROYECTO INTEGRADOR III',
+        diez: '',
+        once: 'ESTADÍA'},
+
+    {uno: 'COMUNICACIÓN Y HABILIDADES DIGITALES',
+        dos: 'PROBABILIDAD Y ESTADÍSTICA',
+        tres: 'INGLÉS III',
+        cuatro: 'APLICACIONES WEB',
+        cinco: 'ECUACIONES DIFERENCIALES',
+        seis: 'ESTADÍA',
+        siete: 'SEGURIDAD INFORMÁTICA',
+        ocho: 'PROGRAMACIÓN PARA INTELIGENCIA ARTIFICIAL',
+        nueve: 'FRAMEWORKS PARA EL DESARROLLO MULTIPLATAFORMA',
+        diez: '',
+        once: 'ESTADÍA'},
+
+    {uno: 'FÍSICA',
+        dos: 'CÁLCULO DIFERENCIAL',
+        tres: 'CÁLCULO INTEGRAL',
+        cuatro: 'ANÁLISIS Y DISEÑO DE SOFTWARE',
+        cinco: 'ESTÁNDARES Y MÉTRICAS PARA EL DESARROLLO DE SOFTWARE',
+        seis: 'ESTADÍA',
+        siete: 'BASES DE DATOS EN LA NUBE',
+        ocho: 'INGLÉS VII',
+        nueve: 'INGLÉS VIII',
+        diez: '',
+        once: 'ESTADÍA'},
+
 ];
 
 //INICIO TABLA CUATRIMESTRES
 onMouseOver(columna: string, valor: any) {
   if(valor == ""){
-    console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
+    // console.log(`El elemento de la columna ${columna} con valor "NULO" fue seleccionado`);
   }else{
-    console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
+    // console.log(`El elemento de la columna ${columna} con valor "${valor}" fue seleccionado`);
   }
+}
+
+openModal(image: Image): void {
+  this.selectedImage = image;
+  const modal = document.getElementById('hs-vertically-centered-modal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    modal.classList.add('pointer-events-auto');
+  }
+}
+closeModal(): void {
+  const modal = document.getElementById('hs-vertically-centered-modal');
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.classList.remove('pointer-events-auto');
+  }
+  this.selectedImage = { url: '', alt: '' };
+}
+
+ampliarImagen(imagenUrl: string): void {
+  this.imagenAmpliada = imagenUrl;
+}
+
+cerrarImagenAmpliada(): void {
+  this.imagenAmpliada = null;
 }
 
 //FIN TABLA CUATRIMESTRES
@@ -118,7 +268,7 @@ onMouseOver(columna: string, valor: any) {
       this.dt.filterGlobal(input.value, 'contains');
     }
   }
-  
+
 
   mostrar(elemento: any): void {
     // Verifica si el elemento recibido es un botón

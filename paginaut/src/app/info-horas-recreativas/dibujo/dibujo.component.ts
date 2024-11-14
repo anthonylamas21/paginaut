@@ -13,15 +13,15 @@ interface Image {
 export class DibujoComponent {
 
   images: Image[] = [
-    { url: 'https://placehold.co/600x400', alt: 'Image 1' },
-    { url: 'https://placehold.co/600x400', alt: 'Image 1' },
-    { url: 'https://placehold.co/600x400', alt: 'Image 1' },
-    { url: 'https://placehold.co/600x400', alt: 'Image 1' },
-    { url: 'https://placehold.co/600x400', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/dibujo/dibujo1.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/dibujo/dibujo2.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/dibujo/dibujo3.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/dibujo/dibujo4.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/dibujo/dibujo5.webp', alt: 'Image 1' },
     // más imágenes aquí
   ];
 
-  selectedImage: Image = { url: '', alt: '' };
+  selectedImage: Image | null = null;
 
   openModal(image: Image): void {
     if (image) {
@@ -33,6 +33,16 @@ export class DibujoComponent {
       }
     }
   }
+
+  closeModal(): void {
+    const modal = document.getElementById('hs-vertically-centered-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('pointer-events-auto');
+    }
+    this.selectedImage = null;  // Cambiar de objeto vacío a null
+  }
+
   ngOnInit(): void {
     this.setNavbarColor();
   }

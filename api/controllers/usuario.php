@@ -9,14 +9,35 @@ $root = dirname(__DIR__);  // Obtiene el directorio raíz del proyecto
 
 include_once $root . '/config/database.php';
 include_once $root . '/models/Usuario.php';
+include_once $root . '/models/AuthModel.php'; // Nuevo controlador para verificar el token
 
 $database = new Database();
 $db = $database->getConnection();
 
 $usuario = new Usuario($db);
+$authModel = new AuthModel($db); // Crear instancia del controlador de autenticación
 
 $request_method = $_SERVER["REQUEST_METHOD"];
 $data = json_decode(file_get_contents("php://input"));
+
+// Función para verificar el token
+function verificarToken($authModel) {
+    $headers = getallheaders();
+    if (isset($headers['Authorization'])) {
+        $token = str_replace('Bearer ', '', $headers['Authorization']);
+        return $authModel->VerifyTokenExist($token);
+    }
+    return false;
+}
+
+// Validar token solo para métodos POST, PUT, DELETE
+if (in_array($request_method, ['POST', 'PUT', 'DELETE'])) {
+    if (!verificarToken($authModel)) {
+        http_response_code(403);
+        echo json_encode(array("message" => "Acceso denegado. Token inválido o no proporcionado."));
+        exit();
+    }
+}
 
 switch($request_method) {
     case 'POST':

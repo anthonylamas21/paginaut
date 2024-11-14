@@ -1,209 +1,130 @@
-<!--Componente Navbar-->
+<!-- Navbar -->
 <app-navbar></app-navbar>
 <p id="inicio"></p>
-<!--Fin Navbar-->
 
+<!--Boton de desplacamiento -->
 <button id="scrollTopButton" (click)="scrollToSection('inicio')"
-  class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
-  <i class="fa-solid fa-chevron-up"></i>
+    class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50">
+    <i class="fa-solid fa-chevron-up"></i>
 </button>
 
-<div class=" mt-4">
-    <ol class="flex items-center whitespace-nowrap ml-4 mt-24 mb-8">
-        <li class="inline-flex items-center">
-          <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="#">
-            Inicio
+
+<!-- Breadcrumb -->
+<div class="mt-4">
+  <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4 mb-8">
+    <li class="inline-flex items-center">
+      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]" href="/principal">
+        Inicio
+      </a>
+      <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6"></path>
+      </svg>
+    </li>
+    <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
+      Carreras
+    </li>
+  </ol>
+</div>
+
+<div class="relative">
+  <!-- Imagen fija en la pantalla -->
+  <img src="./assets/img/AGUILA-GARZA.png" alt="Imagen Estática"
+  class="fixed top-20 right-0 object-cover z-10 pointer-events-none">
+</div>
+
+<div class="my-8">
+<!-- Carreras en Ciencias Agropecuarias -->
+<div class="container mt-4">
+  
+  <div *ngIf="isLoading" class="rounded animate-pulse">
+    <div class="h-8 bg-gray-200 rounded-full mt-6 mb-4"></div>
+  </div>
+
+    <div *ngIf="!isLoading" class="bg-[#043D3D] mt-4 rounded-lg sm:w-auto wl-20 relative z-20">
+      <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">Dirección en ciencias agropecuarias</h2>
+    </div>
+  
+    <div class="flex flex-wrap justify-center relative z-20">
+      <div *ngIf="isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 animate-pulse p-4 bg-gray-50">
+        <div *ngFor="let _ of [1, 2, 3]" class="flex flex-col items-center justify-center bg-gray-200 border shadow-sm rounded-xl w-80 h-80 mx-auto relative">
+          <!-- Espacio central para el SVG -->
+          <div class="flex items-center justify-center w-12 h-12">
+            <!-- Agrega tu SVG aquí -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full text-gray-400" fill="currentColor" viewBox="0 0 512 512">
+              <path d="M0 96C0 60.7 28.7 32 64 32l384 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM323.8 202.5c-4.5-6.6-11.9-10.5-19.8-10.5s-15.4 3.9-19.8 10.5l-87 127.6L170.7 297c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4s12.4 13.6 21.6 13.6l96 0 32 0 208 0c8.9 0 17.1-4.9 21.2-12.8s3.6-17.4-1.4-24.7l-120-176zM112 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"/></svg>
+          </div>
+        </div>
+      </div>
+      
+  
+      <div *ngIf="!isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div *ngFor="let carrera of carrerasAgropecuarias" class="flex flex-col border shadow-sm rounded-xl w-80 h-80 mx-auto relative overflow-hidden group">
+          <div class="absolute top-0 left-0 m-2 z-10">
+            <span class="relative flex items-center text-white px-2 py-1 rounded text-lg">{{ carrera.title }}</span>
+          </div>
+          <a [href]="carrera.link" class="relative w-full h-full group">
+            <img [src]="carrera.imageUrl" alt="Image Description" class="w-full h-full rounded-lg object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-110">
+            <div class="absolute inset-0 bg-black/30 opacity-100 group-hover:opacity-80 transition-opacity duration-500"></div>
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+              <span class="text-white text-xl font-bold">Haz clic</span>
+            </div>
           </a>
-          <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m9 18 6-6-6-6"></path>
-          </svg> 
-        </li>
-        <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate" aria-current="page">
-            Carreras
-          </li>
-      </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Carreras en Dirección de Negocios -->
+  <div class="container mt-10">
+  
+    <div *ngIf="!isLoading" class="bg-[#043D3D] mt-4 rounded-lg sm:w-auto wl-20 relative z-20">
+      <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">Dirección de negocios</h2>
+    </div>
+  
+    <div class="flex flex-wrap justify-center relative z-20">
+  
+      <div *ngIf="!isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+        <div *ngFor="let carrera of carrerasNegocios" class="flex flex-col border shadow-sm rounded-xl w-80 h-80 mx-auto relative overflow-hidden group">
+          <div class="absolute top-0 left-0 m-2 z-10">
+            <span class="relative flex items-center text-white px-2 py-1 rounded text-lg">{{ carrera.title }}</span>
+          </div>
+          <a [href]="carrera.link" class="relative w-full h-full group">
+            <img [src]="carrera.imageUrl" alt="Image Description" class="w-full h-full rounded-lg object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-110">
+            <div class="absolute inset-0 bg-black/30 opacity-100 group-hover:opacity-80 transition-opacity duration-500"></div>
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+              <span class="text-white text-xl font-bold">Haz clic</span>
+            </div>
+            
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Carreras en Dirección de Tecnologías de la Información -->
+  <div class="container mt-10">
+  
+    <div *ngIf="!isLoading" class="bg-[#043D3D] mt-4 rounded-lg sm:w-auto wl-20 relative z-20">
+      <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">Dirección de Tecnologías de la información</h2>
+    </div>
+  
+    <div class="flex flex-wrap justify-center relative z-20">
+  
+      <div *ngIf="!isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+        <div *ngFor="let carrera of carrerasTecnologica" class="flex flex-col border shadow-sm rounded-xl w-80 h-80 mx-auto relative overflow-hidden group">
+          <div class="absolute top-0 left-0 m-2 z-10">
+            <span class="relative flex items-center text-white px-2 py-1 rounded text-lg">{{ carrera.title }}</span>
+          </div>
+          <a [href]="carrera.link" class="relative w-full h-full group">
+            <img [src]="carrera.imageUrl" alt="Image Description" class="w-full h-full rounded-lg object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-110">
+            <div class="absolute inset-0 bg-black/30 opacity-100 group-hover:opacity-80 transition-opacity duration-500"></div>
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+              <span class="text-white text-xl font-bold">Haz clic</span>
+            </div>
+            
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-<div class="container mt-4">    
-    <div *ngIf="isLoading" class="bg-[#043D3D] rounded animate-pulse">
-        <div class="h-8 bg-gray-200 rounded mt-6 mb-4"></div>
-    </div>
-
-    <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg">
-        <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
-          Dirección en ciencias agropecuarias</h2>
-    </div>
-
-    <div class="flex flex-wrap justify-center"> 
-        <div *ngIf="isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 animate-pulse">
-            <!-- Skeleton Loaders for the first set of cards -->
-            <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-64 h-64 mx-auto relative"></div>
-            <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-64 h-64 mx-auto relative"></div>
-            <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-64 h-64 mx-auto relative"></div>
-        </div>
-        <div *ngIf="!isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
-                <div class="absolute top-0 left-0 m-2 z-10">
-                    <span class="relative flex items-center text-white">Ingeniería en Agrobiotecnología</span>
-                </div>
-                <a href="info_carreras/agrobiotecnologia" class="relative w-full h-full">
-                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/agrobiotecnologia.jpg" alt="Image Description">
-                    <div class="absolute bottom-0 right-0 m-2">
-                        <span class="relative flex items-center text-white">
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </a>
-            </div>
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
-                <div class="absolute top-0 left-0 m-2 z-10">
-                    <span class="relative flex items-center text-white">Ingeniería en Procesos Alimentario</span>
-                </div>
-                <a href="info_carreras/procesos-alimentario" class="relative w-full h-full">
-                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/procesos-alimenticios.jpg" alt="Image Description">
-                    <div class="absolute bottom-0 right-0 m-2">
-                        <span class="relative flex items-center text-white">
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </a>
-            </div>
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
-                <div class="absolute top-0 left-0 m-2 z-10">
-                    <span class="relative flex items-center text-white">Ingeniería en Acuicultura</span>
-                </div>
-                <a href="info_carreras/acuicultura" class="relative w-full h-full">
-                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/acuicultura.jpg" alt="Image Description">
-                    <div class="absolute bottom-0 right-0 m-2">
-                        <span class="relative flex items-center text-white">
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-
-
-    <div *ngIf="isLoading" class="bg-[#043D3D] rounded animate-pulse">
-        <div class="h-8 bg-gray-200 rounded mt-6 mb-4"></div>
-    </div>
-
-    <div *ngIf="!isLoading" class="bg-[#043D3D] mt-4 rounded-lg sm:w-auto wl-20">
-        <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">Dirección de negocios</h2>
-    </div>
-    <div class="flex flex-wrap justify-center">
-        <div *ngIf="isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 animate-pulse">
-            <!-- Skeleton Loaders for the first set of cards -->
-            <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-64 h-64 mx-auto relative"></div>
-            <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-64 h-64 mx-auto relative"></div>
-            <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-64 h-64 mx-auto relative"></div>
-        </div>
-        <div *ngIf="!isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
-                <div class="absolute top-0 left-0 m-2 z-10">
-                    <span class="relative flex items-center text-white">Licenciatura en turismo</span>
-                </div>
-                <a href="info_carreras/turismo" class="relative w-full h-full">
-                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/turismo.jpg" alt="Image Description">
-                    <div class="absolute bottom-0 right-0 m-2">
-                        <span class="relative flex items-center text-white">
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </a>
-            </div>
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
-                <div class="absolute top-0 left-0 m-2 z-10">
-                    <span class="relative flex items-center text-white">Licenciatura en administración</span>
-                </div>
-                <a href="info_carreras/administracion" class="relative w-full h-full">
-                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/mercadotecnia.jpg" alt="Image Description">
-                    <div class="absolute bottom-0 right-0 m-2">
-                        <span class="relative flex items-center text-white">
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </a>
-            </div>
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
-                <div class="absolute top-0 left-0 m-2 z-10">
-                  <span class="relative flex items-center text-white">Licenciatura en mercadotecnia</span>
-                </div>
-                <a href="info_carreras/mercadotecnia" class="relative w-full h-full">
-                  <img class="absolute inset-0 w-full h-full object-cover" src="./assets/img/fotos_por_carrera/administracion.jpg" alt="Image Description">
-                  <div class="absolute bottom-0 right-0 m-2 z-10">
-                    <span class="relative flex items-center text-white">
-                      <i class="fa-solid fa-arrow-right"></i>
-                    </span>
-                  </div>
-                </a>
-              </div>              
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
-                <div class="absolute top-0 left-0 m-2 z-10">
-                    <span class="relative flex items-center text-white">Licenciatura en gastronomía</span>
-                </div>
-                <a href="info_carreras/gastronomia" class="relative w-full h-full">
-                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/gastronomia.jpg" alt="Image Description">
-                    <div class="absolute bottom-0 right-0 m-2">
-                        <span class="relative flex items-center text-white">
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </a>
-            </div>
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
-                <div class="absolute top-0 left-0 m-2 z-10">
-                    <span class="relative flex items-center text-white">T.S.U. en contaduría</span>
-                </div>
-                <a href="info_carreras/contaduria" class="relative w-full h-full">
-                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/contaduria.jpg" alt="Image Description">
-                    <div class="absolute bottom-0 right-0 m-2">
-                        <span class="relative flex items-center text-white">
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-    
-    <div *ngIf="isLoading" class="bg-[#043D3D] rounded animate-pulse">
-        <div class="h-8 bg-gray-200 rounded mt-6 mb-4"></div>
-    </div>
-
-
-    <div *ngIf="!isLoading" class="bg-[#043D3D] mt-4 rounded-lg">
-        <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">Dirección de tecnologías de la información</h2>
-    </div>
-    <div class="flex justify-center mb-20">
-        <div *ngIf="isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 animate-pulse">
-            <!-- Skeleton Loaders for the first set of cards -->
-            <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-64 h-64 mx-auto relative"></div>
-            <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-64 h-64 mx-auto relative"></div>
-            <div class="flex flex-col bg-gray-200 border shadow-sm rounded-xl w-64 h-64 mx-auto relative"></div>
-        </div>
-        <div *ngIf="!isLoading" class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-            <div class="flex flex-col bg-white border shadow-sm rounded-xl w-64 h-64 mx-auto relative overflow-hidden" >
-                <div class="absolute top-0 left-0 m-2 z-10">
-                    <span class="relative flex items-center text-white">Ingeniería en desarrollo y gestión de software</span>
-                </div>
-                <a href="info_carreras/desarrollo-software" class="relative w-full h-full">
-                    <img class="w-full h-full rounded-lg object-cover" src="./assets/img/fotos_por_carrera/desarrollo-software.jpg" alt="Image Description">
-                    <div class="absolute bottom-0 right-0 m-2">
-                        <span class="relative flex items-center text-white">
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-    
-</div>
-
-
-
-<!--Inicio componente Footer-->
-<app-footer></app-footer>
-<!--Fin Footer-->

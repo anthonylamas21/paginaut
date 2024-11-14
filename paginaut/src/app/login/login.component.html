@@ -1,9 +1,9 @@
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
   
-  <div class="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden mx-4 max-w-sm lg:max-w-4xl border border-gray-300">
+  <div class="transition-transform duration-500 ease-in-out transform hover:scale-105 flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden mx-4 max-w-sm lg:max-w-4xl border border-gray-300">
     <!-- dispositivos grandes -->
     <div class="hidden lg:block w-2/3 bg-cover">
-      <img class="w-full h-auto object-cover" src="./assets/img/UTClogin.jpg" alt="Image Description" />
+      <a href="/principal"><img class="w-full h-auto object-cover" src="./assets/img/UTClogin.jpg" alt="Image Description" /></a>
     </div>
     <div class="w-full p-8 lg:w-2/3">
       <div class="mt-4 flex items-center justify-center lg:justify-between">
@@ -24,7 +24,7 @@
           <input
             type="email"
             id="input-email"
-            class="py-3 border px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-color focus:ring-primary-color disabled:opacity-50 disabled:pointer-events-none"
+            class="py-3 border px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-color focus:ring-primary-color disabled:opacity-50 disabled:pointer-events-none transition-all duration-300 ease-in-out focus:shadow-lg"
             placeholder="al05-033-0321@utdelacosta.edu.mx"
             formControlName="correo"
           />
@@ -38,8 +38,7 @@
             <input
               id="hs-toggle-password"
               type="password"
-              class="py-3 border px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-color focus:ring-primary-color disabled:opacity-50 disabled:pointer-events-none"
-
+              class="py-3 border px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-color focus:ring-primary-color disabled:opacity-50 disabled:pointer-events-none transition-all duration-300 ease-in-out focus:shadow-lg"
               placeholder="Ingresa Contraseña"
               formControlName="contrasena"
             />
@@ -58,7 +57,6 @@
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-
               >
                 <path class="hs-password-active:hidden" d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
                 <path class="hs-password-active:hidden" d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
@@ -70,21 +68,18 @@
             </button>
           </div>
         </div>
-
-
       </div>
       <div class="mt-8">
-        <button class="bg-primary-color text-white font-bold py-2 px-4 w-full rounded hover:bg-primary-color-90">
+        <button class="bg-primary-color text-white font-bold py-2 px-4 w-full rounded hover:bg-primary-color-90 transition-transform duration-300 transform hover:scale-105">
           Acceder
         </button>
       </div>
     </form>
       <div class="mt-4 flex items-center justify-between">
         <span class="border-b border-primary-color w-1/5"></span>
-        <a href=""><span>Olvidé mi contraseña</span></a>
+        <a href="/enviar-correo"><span>Olvidé mi contraseña</span></a>
         <span class="border-b border-primary-color w-1/5"></span>
       </div>
-
     </div>
   </div>
 </div>

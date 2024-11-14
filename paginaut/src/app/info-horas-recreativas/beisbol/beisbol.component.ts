@@ -13,16 +13,16 @@ interface Image {
 export class BeisbolComponent {
 
   images: Image[] = [
-    { url: './assets/img/galeria/extras/beisbol/beisbol1.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/extras/beisbol/beisbol2.jpg', alt: 'Image 2' },
-    { url: './assets/img/galeria/extras/beisbol/beisbol3.jpg', alt: 'Image 3' },
-    { url: './assets/img/galeria/extras/beisbol/beisbol4.jpg', alt: 'Image 3' },
-    { url: './assets/img/galeria/extras/beisbol/beisbol5.jpg', alt: 'Image 3' },
-    { url: './assets/img/galeria/extras/beisbol/beisbol6.jpg', alt: 'Image 3' },
+    { url: './assets/img/galeria/extras/beisbol/beisbol1.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/beisbol/beisbol2.webp', alt: 'Image 2' },
+    { url: './assets/img/galeria/extras/beisbol/beisbol3.webp', alt: 'Image 3' },
+    { url: './assets/img/galeria/extras/beisbol/beisbol4.webp', alt: 'Image 3' },
+    { url: './assets/img/galeria/extras/beisbol/beisbol5.webp', alt: 'Image 3' },
+    { url: './assets/img/galeria/extras/beisbol/beisbol6.webp', alt: 'Image 3' },
     // más imágenes aquí
   ];
 
-  selectedImage: Image = { url: '', alt: '' };
+  selectedImage: Image | null = null;
 
   openModal(image: Image): void {
     if (image) {
@@ -33,6 +33,14 @@ export class BeisbolComponent {
         modal.classList.add('pointer-events-auto');
       }
     }
+  }
+  closeModal(): void {
+    const modal = document.getElementById('hs-vertically-centered-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('pointer-events-auto');
+    }
+    this.selectedImage = null;  // Cambiar de objeto vacío a null
   }
   
   ngOnInit(): void {

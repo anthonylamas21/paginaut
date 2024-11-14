@@ -1,6 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NoticiaService, Noticia } from '../noticia.service';
+import Hashids from 'hashids';
+import { BASEIMAGEN, Información } from '../constans';
 
 @Component({
   selector: 'app-noticias',
@@ -8,16 +10,29 @@ import { NoticiaService, Noticia } from '../noticia.service';
   styleUrls: ['./noticias.component.css']
 })
 export class NoticiasComponent implements OnInit {
+
+  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 16);
+  idDecrypted: number | undefined;
+  
   isLoading = true;
   noticia: Noticia | null = null;
   error: string | null = null;
   imagenAmpliada: string | null = null;
+  informacion = Información;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private noticiaService: NoticiaService
-  ) {}
+  ) {
+    // Desencriptar el ID en el constructor
+    const encryptedId = this.route.snapshot.paramMap.get('id');
+    if (encryptedId) {
+      this.idDecrypted = this.hashids.decode(encryptedId)[0] as number;
+    } else {
+      // console.error('ID de noticia no disponible');
+    }
+  }
 
   ngOnInit(): void {
     this.setNavbarColor();
@@ -25,15 +40,14 @@ export class NoticiasComponent implements OnInit {
   }
 
   loadNoticia(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.noticiaService.obtenerNoticia(+id).subscribe({
+    if (this.idDecrypted !== undefined) {
+      this.noticiaService.obtenerNoticia(this.idDecrypted).subscribe({
         next: (noticia: Noticia) => {
           this.noticia = noticia;
           this.isLoading = false;
         },
         error: (error: any) => {
-          console.error('Error al cargar la noticia:', error);
+          // console.error('Error al cargar la noticia:', error);
           this.error = 'No se pudo cargar la noticia. Por favor, inténtalo de nuevo más tarde.';
           this.isLoading = false;
         }
@@ -52,7 +66,7 @@ export class NoticiasComponent implements OnInit {
     if (!relativePath) {
       return 'assets/img/default-news-image.jpg'; // Asegúrate de tener una imagen por defecto
     }
-    const baseImageUrl = 'http://localhost/paginaut/';
+    const baseImageUrl = BASEIMAGEN+'/';
     if (relativePath.startsWith('../')) {
       return baseImageUrl + relativePath.substring(3);
     }
@@ -90,8 +104,10 @@ export class NoticiasComponent implements OnInit {
   volverANoticias(): void {
     this.router.navigate(['/noticias']); // Asegúrate de tener una ruta para la lista de noticias
   }
+
   ampliarImagen(imagenUrl: string): void {
     this.imagenAmpliada = imagenUrl;
+    // console.log("Imagen ampliada:", imagenUrl);
   }
 
   cerrarImagenAmpliada(): void {

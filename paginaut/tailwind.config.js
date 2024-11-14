@@ -13,6 +13,7 @@ module.exports = {
         'md': '768px',
         'mdx': '990px', 
         'lg': '1024px',
+        'slg': '1120px',
         'xl': '1280px',
         '2xl': '1536px',
       },
@@ -27,7 +28,7 @@ module.exports = {
         'input-focus-color': '#000',
         'secondary-color': '#008779',
         'secondary-color-90': '#008779e6',
-        'danger-color': '#EF4444',
+        'danger-color': '#EF4444'
       },
       height: {
         '155': '37rem',
@@ -46,6 +47,15 @@ module.exports = {
         xl: '1280px',
       },
     },
+    animation: {
+        'infinite-scroll': 'infinite-scroll 25s linear infinite',
+    },
+    keyframes: {
+        'infinite-scroll': {
+            from: { transform: 'translateX(0)' },
+            to: { transform: 'translateX(-100%)' },
+        }
+    }   
 
   },
   plugins: [

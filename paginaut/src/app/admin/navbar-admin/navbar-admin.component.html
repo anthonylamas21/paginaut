@@ -1,125 +1,161 @@
-
 <!-- ========== HEADER ========== -->
-<header id="navbarAccion" 
-class=" fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full text-sm py-3 md:py-0">
-<nav  class="max-w-full w-full bg-[#043D3D]" aria-label="Global">
-  <div class="relative lg:flex md:items-center md:justify-between">
-    <div class="flex items-center justify-between" >
-      <a href="/admin/principal_admin">
-        <img src="./assets/img/logo-ut.png" alt="Logo UT">
-      </a>
-      <div class="md:hidden">
-        <button type="button"
-          class="hs-collapse-toggle flex justify-center items-center size-9 text-sm font-semibold rounded-lg border border-gray-200 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none text-white hover:text-black"
-          data-hs-collapse="#navbar-collapse-with-animation" aria-controls="navbar-collapse-with-animation"
-          aria-label="Toggle navigation">
-          <svg class="hs-collapse-open:hidden flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
-            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <line x1="3" x2="21" y1="6" y2="6" />
-            <line x1="3" x2="21" y1="12" y2="12" />
-            <line x1="3" x2="21" y1="18" y2="18" />
-          </svg>
-          <svg class="hs-collapse-open:block hidden flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg"
-            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 6 6 18" />
-            <path d="m6 6 12 12" />
-          </svg>
-        </button>
+<header id="navbarAccion" class=" fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full text-sm py-3 md:py-0 bg-transparent">
+  <nav  class="max-w-full w-full bg-[#043D3D]" aria-label="Global">
+  
+
+    <div class="relative lg:flex md:items-center md:justify-between sm:items-center sm:justify-between ">
+      <div class="flex items-center justify-between">
+        <a href="/principal" target="_blank">
+          <img src="./assets/img/logo-ut.png" alt="Logo UT">
+        </a>
+        <div class="lg:hidden">
+          <button type="button"
+
+            class="hs-collapse-toggle flex justify-center items-center mr-4 size-9 text-sm font-semibold rounded-lg border border-gray-200 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none text-white hover:text-black"
+            data-hs-collapse="#navbar-collapse-with-animation" aria-controls="navbar-collapse-with-animation"
+            aria-label="Toggle navigation">
+            <svg class="hs-collapse-open:hidden flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
+              height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <line x1="3" x2="21" y1="6" y2="6" />
+              <line x1="3" x2="21" y1="12" y2="12" />
+              <line x1="3" x2="21" y1="18" y2="18" />
+            </svg>
+            <svg class="hs-collapse-open:block hidden flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg"
+              width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </div>
       </div>
-    </div>
- 
-    <div id="navbar-collapse-with-animation"
-      class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block">
-      <div
-        class="overflow-hidden overflow-y-auto max-h-[75vh] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300">
+
+      <div id="navbar-collapse-with-animation"
+        class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow lg:block">
         <div
-          class="m-2 flex flex-col md:flex-row md:items-center md:justify-end py-2 md:py-0 md:ps-7 md:divide-y-0 md:divide-solid">
-
-          <!-- Primer dropdown - Carrera -->
+          class="overflow-hidden overflow-y-auto max-h-[75vh] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300">
           <div
-            class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] px-3 py-3 md:px- md:py-4">
-            <a href="/admin/principal_admin"
-              class="flex items-center w-full text-white hover:opacity-80 font-medium text-base">
-              Inicio
-            </a>
-          </div>
+            class="m-2 flex flex-col lg:flex-row lg:items-center lg:justify-end py-2 lg:py-0 lg:ps-7 lg:divide-y-0 lg:divide-solid">
 
-          <div
-            class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] px-3 py-3 md:px- md:py-4">
-            <a href=""
-              class="flex items-center w-full text-white hover:opacity-80 font-medium text-base">
-              Usuarios
-            </a>
-          </div>
+            <!-- Primer dropdown - Carrera -->
+            <div
+              class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] px-3 py-3 md:px- md:py-4 truncate">
+              <a href="/admin/principal_admin"
+                class="flex items-center w-full text-white hover:opacity-80 font-medium text-base truncate">
+                Inicio
+              </a>
+            </div>
 
-          <!-- Primer dropdown - Carrera -->
-          <div
-            class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] px-3 py-3 md:px- md:py-4">
-            <a href="/admin/noticia"
-              class="flex items-center w-full text-white hover:opacity-80 font-medium text-base">
-              Noticias
-            </a>
-          </div>
+            <!-- Primer dropdown - Carrera -->
+            <div
+              class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] px-3 py-3 md:px- md:py-4 truncate">
+              <a href="/admin/noticia"
+                class="flex items-center w-full text-white hover:opacity-80 font-medium text-base truncate">
+                Noticias
+              </a>
+            </div>
 
 
-          <!-- Quinto dropdown - CURSOS -->
-          <div
-            class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] py-3 md:px-3 md:py-4">
-            <a href="/admin/evento"
-              class="flex items-center w-full text-white hover:opacity-80 font-medium text-base">
-              Evento
-            </a>
-          </div>
+            <!-- Quinto dropdown - CURSOS -->
+            <div
+              class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] px-3 py-3 md:px- md:py-4 truncate">
+              <a href="/admin/evento"
+                class="flex items-center w-full text-white hover:opacity-80 font-medium text-base truncate">
+                Evento
+              </a>
+            </div>
 
+            <div
+              class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] px-3 py-3 md:px- md:py-4 truncate">
+              <a href="/admin/convocatoria"
+                class="flex items-center w-full text-white hover:opacity-80 font-medium text-base truncate">
+                Convocatorias
+              </a>
+            </div>
 
-          <div
-            class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] py-3 md:px-3 md:py-4">
-            <a href="/admin/agregar-beca"
-              class="flex items-center w-full text-white hover:opacity-80 font-medium text-base">
-              Becas
-            </a>
-          </div>
-          
-          
-          <!-- Quinto dropdown - CURSOS -->
-          <div
-            class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] py-3 md:px-3 md:py-4">
-            <a href="/admin/instalacion"
-              class="flex items-center w-full text-white hover:opacity-80 font-medium text-base">
-              Galeria
-            </a>
-          </div>
+            <div
+              class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] px-3 py-3 md:px- md:py-4 truncate">
+              <a href="/admin/agregar-beca"
+                class="flex items-center w-full text-white hover:opacity-80 font-medium text-base truncate">
+                Becas
+              </a>
+            </div>
 
-          <div
-            class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] py-3 md:px-3 md:py-4">
-            <a href="/admin/agregar-calendario">
-            <button type="button"
-              class="flex items-center w-full text-white hover:opacity-80 font-medium text-base">
-              <i class="fa-solid fa-calendar-days fa-lg"></i>
-            </button>
-          </a>
-          </div>
+            <div
+              class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] px-3 py-3 md:px- md:py-4 truncate">
+              <a href="/admin/agregar-profesor"
+                class="flex items-center w-full text-white hover:opacity-80 font-medium text-base truncate">
+                Profesores
+              </a>
+            </div>
 
-          <div
-            class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] py-3 md:px-3 md:py-4 mr-3">
-            <a href="/login">
-              <button type="button"
-              class="flex items-center w-full text-white hover:opacity-80 font-medium text-base">
-              <i class="fa-solid fa-user"></i>
-            </button>
-            </a>
+            <div
+              class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] px-3 py-3 md:px- md:py-4 truncate">
+              <a href="/admin/agregar-curso"
+                class="flex items-center w-full text-white hover:opacity-80 font-medium text-base truncate">
+                Cursos
+              </a>
+            </div>
+
+            <!-- Quinto dropdown - CURSOS -->
+            <div
+              class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] px-3 py-3 md:px- md:py-4 truncate">
+              <a href="/admin/instalacion"
+                class="flex items-center w-full text-white hover:opacity-80 font-medium text-base truncate">
+                Galería
+              </a>
+            </div>
+
+            <div
+              class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] px-3 py-3 md:px- md:py-4 truncate">
+              <a href="/admin/agregar-bolsadetrabajo"
+                class="flex items-center w-full text-white hover:opacity-80 font-medium text-base truncate">
+                Bolsa de trabajo
+              </a>
+            </div>
+
+            <div
+              class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] px-3 py-3 md:px- md:py-4 truncate">
+              <a href="/admin/agregar-calendario">
+                <button type="button"
+                  class="flex items-center w-full text-white hover:opacity-80 font-medium text-base truncate">
+                  Calendario
+                </button>
+              </a>
+            </div>
+
+            <!-- Botón de Iniciar Sesión / Cerrar Sesión -->
+            <div
+              class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] py-3 md:px-3 md:py-4 truncate">
+              <ng-container *ngIf="token; else loginTemplate">
+                <form (ngSubmit)="onSubmitLogout()">
+                  <button type="submit" title="Cerrar Sesión"
+                    class="flex items-center w-full text-white hover:opacity-80 font-medium text-base">
+                    <i class="fa-solid fa-person-walking-arrow-right"></i>
+                    <span class="ml-2 text-sm sm:inline-block lg:hidden">Cerrar Sesión</span>
+                  </button>
+                </form>
+              </ng-container>
+              <ng-template #loginTemplate>
+                <a href="/login">
+                  <button type="button" title="Iniciar Sesión"
+                    class="flex items-center w-full text-white hover:opacity-80 font-medium text-base">
+                    <i class="fa-solid fa-user"></i>
+                    <span class="ml-2 text-sm sm:inline-block md:hidden">Iniciar Sesión</span>
+                  </button>
+                </a>
+              </ng-template>
+            </div>
+
           </div>
         </div>
       </div>
     </div>
-  </div>
-  
-</nav>
+
+  </nav>
 
 
 </header>
 
 <!-- ================================================= END HEADER =================================================== -->
-

@@ -76,7 +76,7 @@
     align-items: center;
     width: 50px;
     height: 50px;
-    border-radius: 20%;
+    border-radius: 50%;
     color: #4d4d4d;
     background-color: #ffff;
     transition: all 0.3s ease-in-out;
@@ -174,7 +174,7 @@
     align-items: center;
     width: 50px;
     height: 50px;
-    border-radius: 20%;
+    border-radius: 50%;
     color: #4d4d4d;
     background-color: #ffff;
     transition: all 0.3s ease-in-out;
@@ -213,6 +213,16 @@
   .example-1 .icon-content a[data-social="Whatsapp"] .filled,
   .example-1 .icon-content a[data-social="Whatsapp"]~.tooltip {
     background: #27D045;
+  }
+
+  .example-1 .icon-content a[data-social="Recorrido"] .filled,
+  .example-1 .icon-content a[data-social="Recorrido"]~.tooltip {
+    
+    background: linear-gradient(45deg,
+        #043D3D,
+        #04847C,
+        #043D3D);
+    
   }
   
   
@@ -264,3 +274,63 @@
   li:hover svg {
     fill: white;
   }
+
+  .icon-content .tooltip-text {
+    position: absolute;
+    top: 50%; /* Alinea verticalmente con el icono */
+    left: -250%; /* Mueve el tooltip hacia la izquierda */
+    transform: translateY(-50%); /* Centra verticalmente el tooltip */
+    background-color: #043D3D; /* Fondo negro con transparencia */
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    white-space: nowrap; /* Evita que el texto del tooltip se divida en varias líneas */
+    z-index: 100; /* Asegura que el tooltip esté por encima del icono */
+  }
+  
+  .icon-content:hover .tooltip-text {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .tooltip {
+    position: absolute;
+    z-index: 999;
+    padding: 6px 12px;
+    color: white;
+    background-color: black;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  }
+  
+  /* Aparece a la izquierda */
+  .tooltip-left {
+    right: 100%;
+    margin-right: 10px;
+  }
+  
+  /* Aparece a la derecha */
+  .tooltip-right {
+    left: 100%;
+    margin-left: 10px;
+  }
+  
+  /* Mostrar tooltip */
+  .icon-content:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Ocultar tooltip cuando no está en hover */
+  .icon-content .tooltip {
+    opacity: 0;
+    visibility: hidden;
+  }
+  

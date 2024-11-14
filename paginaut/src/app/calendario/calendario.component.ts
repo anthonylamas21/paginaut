@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CalendarioService, Calendario } from '../admin/calendario.service';
+import { BASEIMAGEN } from '../constans';
 
 @Component({
   selector: 'app-calendario',
@@ -9,12 +10,14 @@ import { CalendarioService, Calendario } from '../admin/calendario.service';
 })
 export class CalendarioComponent implements OnInit {
   pdfUrl: SafeResourceUrl | undefined;
+  isLoading: boolean= false;
 
   constructor(
     private calendarioService: CalendarioService,
     private sanitizer: DomSanitizer
   ) {}
 
+  
   ngOnInit(): void {
     this.setNavbarColor();
     this.loadPdfUrl();
@@ -56,17 +59,19 @@ export class CalendarioComponent implements OnInit {
           const activeCalendario = calendarios.find((cal) => cal.activo);
           if (activeCalendario) {
             this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-              `http://localhost/paginaut${activeCalendario.archivo}`
+              BASEIMAGEN + `${activeCalendario.archivo}`
             );
+            console.log(response);
+            this.isLoading = true;
           } else {
-            console.error('No active calendar found');
+            this.isLoading = false;
           }
         } else {
-          console.error('Unexpected response format:', response);
+          this.isLoading = false;
         }
       },
       error: (error) => {
-        console.error('Error loading PDF URL:', error);
+        this.isLoading = false;
       },
     });
   }

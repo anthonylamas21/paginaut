@@ -1,6 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventoService, Evento } from '../evento.service';
+import Hashids from 'hashids';
+import { BASEIMAGEN, Información } from '../constans';
 
 @Component({
   selector: 'app-eventos',
@@ -11,12 +13,26 @@ export class EventosComponent implements OnInit {
   isLoading = true;
   evento: Evento | null = null;
   error: string | null = null;
+  imagenAmpliada: string | null = null;
+  documento: string | null = null;
+  informacion = Información;
+
+  private hashids = new Hashids('X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg', 16);
+  idDecrypted: number | undefined;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private eventoService: EventoService
-  ) {}
+  ) {
+    // Desencriptar el ID en el constructor
+    const encryptedId = this.route.snapshot.paramMap.get('id');
+    if (encryptedId) {
+      this.idDecrypted = this.hashids.decode(encryptedId)[0] as number;
+    } else {
+      // console.error('ID de evento no disponible');
+    }
+  }
 
   ngOnInit(): void {
     this.setNavbarColor();
@@ -24,15 +40,14 @@ export class EventosComponent implements OnInit {
   }
 
   loadEvento(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.eventoService.obtenerEvento(+id).subscribe({
+    if (this.idDecrypted !== undefined) {
+      this.eventoService.obtenerEvento(this.idDecrypted).subscribe({
         next: (evento: Evento) => {
           this.evento = evento;
           this.isLoading = false;
         },
-        error: (error: any) => {
-          console.error('Error al cargar el evento:', error);
+        error: (error) => {
+          // console.error('Error al cargar el evento:', error);
           this.error = 'No se pudo cargar el evento. Por favor, inténtalo de nuevo más tarde.';
           this.isLoading = false;
         }
@@ -42,15 +57,21 @@ export class EventosComponent implements OnInit {
       this.isLoading = false;
     }
   }
+
   getFileExtension(filename: string): string {
     return filename.split('.').pop()?.toLowerCase() || '';
+  }
+  
+  isValidImageExtension(filename: string): boolean {
+    const validExtensions = ['jpg', 'png', 'jpeg', 'webp'];
+    return validExtensions.includes(this.getFileExtension(filename));
   }
 
   getImageUrl(relativePath: string | undefined): string {
     if (!relativePath) {
       return 'assets/img/default-event-image.jpg'; // Asegúrate de tener una imagen por defecto
     }
-    const baseImageUrl = 'http://localhost/paginaut/';
+    const baseImageUrl = BASEIMAGEN+'/';
     if (relativePath.startsWith('../')) {
       return baseImageUrl + relativePath.substring(3);
     }
@@ -85,7 +106,17 @@ export class EventosComponent implements OnInit {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
 
-  volverAEventos(): void {
-    this.router.navigate(['/eventos']); // Asegúrate de tener una ruta para la lista de eventos
+  ampliarImagen(imagenUrl: string): void {
+    this.imagenAmpliada = imagenUrl;
   }
+
+  closeModal(): void {
+    const modal = document.getElementById('hs-vertically-centered-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('pointer-events-auto');
+    }
+    this.imagenAmpliada = null;
+  }
+
 }

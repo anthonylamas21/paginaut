@@ -13,15 +13,15 @@ interface Image {
 export class VoleibolComponent {
 
   images: Image[] = [
-    { url: './assets/img/galeria/extras/voleibol/voleibol1.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/extras/voleibol/voleibol2.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/extras/voleibol/voleibol3.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/extras/voleibol/voleibol4.jpg', alt: 'Image 1' },
-    { url: './assets/img/galeria/extras/voleibol/voleibol5.jpg', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/voleibol/voleibol1.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/voleibol/voleibol2.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/voleibol/voleibol3.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/voleibol/voleibol4.webp', alt: 'Image 1' },
+    { url: './assets/img/galeria/extras/voleibol/voleibol5.webp', alt: 'Image 1' },
     // más imágenes aquí
   ];
 
-  selectedImage: Image = { url: '', alt: '' };
+  selectedImage: Image | null = null;
 
   openModal(image: Image): void {
     if (image) {
@@ -32,6 +32,15 @@ export class VoleibolComponent {
         modal.classList.add('pointer-events-auto');
       }
     }
+  }
+
+  closeModal(): void {
+    const modal = document.getElementById('hs-vertically-centered-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('pointer-events-auto');
+    }
+    this.selectedImage = null;  // Cambiar de objeto vacío a null
   }
 
   ngOnInit(): void {

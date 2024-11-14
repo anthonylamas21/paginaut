@@ -1,11 +1,12 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxMasonryModule } from 'ngx-masonry';
-
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+registerLocaleData(localeEs, 'es');
 // PrimeNG Modules
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
@@ -52,7 +53,6 @@ import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.componen
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
 import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component';
 import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
-import { CarrerasAdminComponent } from './admin/carreras-admin/carreras-admin.component';
 import { AgregarBecaComponent } from './admin/agregar-beca/agregar-beca.component';
 import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-calendario.component';
 import { CursosAdminComponent } from './admin/cursos-admin/cursos-admin.component';
@@ -69,6 +69,7 @@ import { InstalacionComponent } from './admin/instalacion/instalacion.component'
 import { AgendaAdminComponent } from './admin/agenda-admin/agenda-admin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PiedraEstanqueComponent } from './piedra-estanque/piedra-estanque.component';
+import { AgregarProfesorComponent } from './admin/agregar-profesor/agregar-profesor.component';
 
 // Info Carreras
 import { CarreraAgrobiotecnologiaComponent } from './info-carreras/carrera-agrobiotecnologia/carrera-agrobiotecnologia.component';
@@ -92,15 +93,24 @@ import { DanzaComponent } from './info-horas-recreativas/danza/danza.component';
 import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.component';
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
 import { TallerComponent } from './taller/taller.component';
+import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera.component';
+import { BibliotecaComponent } from './biblioteca/biblioteca.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { AgregarBolsaTrabajoComponent } from './admin/bolsadetrabajo/bolsadetrabajo.component';
+import { AgregarCursoComponent } from './admin/agregar-curso/agregar-curso.component';
+import { ConvocatoriaComponent } from './admin/convocatoria/convocatoria.component';
+import { ConvocatoriasComponent } from './convocatorias/convocatorias.component';
+import { InfoConvocatoriaComponent } from './info-convocatoria/info-convocatoria.component';
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     TallerComponent,
     PrincipalComponent,
     CarrerasComponent,
     NavbarComponent,
     ComponentesComponent,
+    UnidadesAcademicasComponent,
     FooterComponent,
     TalleresComponent,
     UnidadesAcademicasComponent,
@@ -130,7 +140,6 @@ import { TallerComponent } from './taller/taller.component';
     PrincipalAdminComponent,
     RegistrarEventoComponent,
     AgregarDireccionComponent,
-    CarrerasAdminComponent,
     AgregarBecaComponent,
     AgregarCalendarioComponent,
     CursosAdminComponent,
@@ -147,6 +156,7 @@ import { TallerComponent } from './taller/taller.component';
     AgendaAdminComponent,
     NotFoundComponent,
     PiedraEstanqueComponent,
+    AgregarProfesorComponent,
     // Info Carreras
     CarreraAgrobiotecnologiaComponent,
     CarreraProcesosAlimentarioComponent,
@@ -167,7 +177,15 @@ import { TallerComponent } from './taller/taller.component';
     DanzaComponent,
     LecturaComponent,
     AjedrezComponent,
-  ],
+    AgregarCarreraComponent,
+    BibliotecaComponent,
+    PasswordResetComponent,
+    AgregarBolsaTrabajoComponent,
+    AgregarCursoComponent,
+    ConvocatoriaComponent,
+    ConvocatoriasComponent,
+      InfoConvocatoriaComponent
+   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -184,7 +202,7 @@ import { TallerComponent } from './taller/taller.component';
     FullCalendarModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [],
+  providers: [{ provide: LOCALE_ID, useValue: 'es' }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

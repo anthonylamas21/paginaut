@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NoticiaService, Noticia } from '../../noticia.service';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { BASEIMAGEN } from '../../constans';
+
 class TooltipManager {
   static adjustTooltipPosition(
     button: HTMLElement,
@@ -46,7 +50,6 @@ class TooltipManager {
 interface NoticiaTemporal extends Noticia {
   imagenesGeneralesOriginales?: string[];
   imagenPrincipalOriginal?: string;
-  
 }
 
 @Component({
@@ -54,7 +57,7 @@ interface NoticiaTemporal extends Noticia {
   templateUrl: './noticia.component.html',
   styleUrls: ['./noticia.component.css']
 })
-export class NoticiaComponent implements OnInit {
+export class NoticiaComponent implements OnInit, OnDestroy {
   noticias: Noticia[] = [];
   filteredNoticias: Noticia[] = [];
   papeleraNoticias: Noticia[] = [];
@@ -63,7 +66,7 @@ export class NoticiaComponent implements OnInit {
   currentNoticiaId: number | null = null;
   isLoading = false;
   responseMessage = '';
-  baseImageUrl = 'http://localhost/paginaut/';
+  baseImageUrl = BASEIMAGEN+'/';
   imagenPrincipalPreview: string | ArrayBuffer | null = null;
   imagenesGeneralesActuales: string[] = [];
   isImageModalOpen = false;
@@ -74,26 +77,74 @@ export class NoticiaComponent implements OnInit {
   noticiaTemporal: NoticiaTemporal | null = null;
   isDetailsModalOpen = false;
   selectedNoticia: Noticia | null = null;
+  private unsubscribe$ = new Subject<void>();
+  minDate: string;
+  maxDate: string;
 
   constructor(
     private noticiaService: NoticiaService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {
+    const currentYear = new Date().getFullYear();
+    this.minDate = new Date(currentYear, 0, 1).toISOString().split('T')[0];  // 1 de enero del año actual
+    this.maxDate = new Date(currentYear, 11, 31).toISOString().split('T')[0]; // 31 de diciembre del año actual
+
     this.noticiaForm = this.fb.group({
-      titulo: ['', [Validators.required, Validators.maxLength(50)]],
-      resumen: ['', Validators.maxLength(200)],
-      informacion_noticia: ['', Validators.required],
+      titulo: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/)]],
+      resumen: ['', [Validators.required, Validators.maxLength(200), Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/)]],
+      informacion_noticia: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/)]],
       activo: [true],
-      lugar_noticia: ['', [Validators.required, Validators.maxLength(50)]],
-      autor: ['', Validators.maxLength(50)],
-      fecha_publicacion: ['', Validators.required]
+      lugar_noticia: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ\-]+$/)]],
+      autor: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\sñÑáéíóúÁÉÍÓÚ\-]+$/)]],
+      fecha_publicacion: ['', Validators.required],
+      imagen_principal: [null, Validators.required] // Validación para la imagen principal
     });
   }
 
   ngOnInit(): void {
     this.loadNoticias();
+    this.setNavbarColor();
+
+    // Suscribirse a los cambios del formulario
+    this.noticiaForm.valueChanges
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {
+        // No hacemos nada aquí, solo queremos que se dispare la detección de cambios
+      });
   }
-  
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    this.setNavbarColor();
+  }
+
+  scrollToSection(sectionId: string): void {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  private setNavbarColor(): void {
+    const button = document.getElementById('scrollTopButton');
+    const nabvar = document.getElementById('navbarAccion');
+    const inicioSection = document.getElementById('inicio');
+
+    if (inicioSection && nabvar) {
+      const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
+
+      if (window.scrollY > inicioSectionBottom) {
+        button?.classList.remove('hidden');
+      } else {
+        button?.classList.add('hidden');
+      }
+
+      nabvar.classList.remove('bg-transparent');
+      nabvar.classList.add('bg-[#043D3D]');
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
   loadNoticias(): void {
     this.noticiaService.obtenerNoticias().subscribe({
       next: (response) => {
@@ -103,8 +154,7 @@ export class NoticiaComponent implements OnInit {
           imagenes_generales: (noticia.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
         }));
         this.filterNoticias();
-      },
-      error: (error) => console.error('Error al cargar noticias:', error)
+      }    
     });
   }
 
@@ -124,7 +174,7 @@ export class NoticiaComponent implements OnInit {
     this.isModalOpen = true;
     if (noticia) {
       this.currentNoticiaId = noticia.id!;
-      
+
       this.noticiaForm.patchValue(noticia);
 
       this.imagenPrincipalPreview = noticia.imagen_principal || null;
@@ -148,7 +198,7 @@ export class NoticiaComponent implements OnInit {
         noticiaOriginal.imagenes_generales = this.noticiaTemporal.imagenesGeneralesOriginales;
       }
     }
-    
+
     this.isModalOpen = false;
     this.noticiaForm.reset();
     this.currentNoticiaId = null;
@@ -187,7 +237,7 @@ export class NoticiaComponent implements OnInit {
 
       if (this.currentNoticiaId) {
         // Primero, elimina las imágenes marcadas
-        const deletePromises: Promise<any>[] = this.imagenesParaEliminar.map(ruta => 
+        const deletePromises: Promise<any>[] = this.imagenesParaEliminar.map(ruta =>
           this.noticiaService.eliminarImagenGeneral(this.currentNoticiaId!, ruta).toPromise()
         );
 
@@ -206,7 +256,7 @@ export class NoticiaComponent implements OnInit {
             this.loadNoticias();
           })
           .catch(error => {
-            console.error('Error al actualizar la noticia:', error);
+            // console.error('Error al actualizar la noticia:', error);
             this.showToast('error', 'Error al actualizar la noticia: ' + (error.error?.message || error.message));
           })
           .finally(() => {
@@ -225,7 +275,7 @@ export class NoticiaComponent implements OnInit {
             this.loadNoticias();
           },
           error: (error) => {
-            console.error('Error al crear la noticia:', error);
+            // console.error('Error al crear la noticia:', error);
             this.showToast('error', 'Error al crear la noticia: ' + (error.error?.message || error.message));
           },
           complete: () => {
@@ -235,7 +285,16 @@ export class NoticiaComponent implements OnInit {
       }
     } else {
       this.showToast('warning', 'Por favor, complete todos los campos requeridos correctamente.');
+      // Marcar todos los campos como tocados para mostrar los errores
+      Object.keys(this.noticiaForm.controls).forEach(key => {
+        const control = this.noticiaForm.get(key);
+        control?.markAsTouched();
+      });
     }
+  }
+
+  isFormValid(): boolean {
+    return this.noticiaForm.valid;
   }
 
   confirmDeleteNoticia(id: number): void {
@@ -247,7 +306,7 @@ export class NoticiaComponent implements OnInit {
         },
         error: (error) => {
           this.showToast('error', 'Error al eliminar la noticia: ' + (error.error?.message || error.message));
-          console.error('Error:', error);
+          // console.error('Error:', error);
         }
       });
     });
@@ -262,7 +321,7 @@ export class NoticiaComponent implements OnInit {
         },
         error: (error) => {
           this.showToast('error', 'Error al desactivar la noticia: ' + (error.error?.message || error.message));
-          console.error('Error:', error);
+          // console.error('Error:', error);
         }
       });
     });
@@ -277,7 +336,7 @@ export class NoticiaComponent implements OnInit {
         },
         error: (error) => {
           this.showToast('error', 'Error al activar la noticia: ' + (error.error?.message || error.message));
-          console.error('Error:', error);
+          // console.error('Error:', error);
         }
       });
     });
@@ -285,7 +344,7 @@ export class NoticiaComponent implements OnInit {
 
   filterGlobal(event: any): void {
     const searchValue = event.target.value.toLowerCase();
-    this.filteredNoticias = this.noticias.filter(noticia => 
+    this.filteredNoticias = this.noticias.filter(noticia =>
       noticia.titulo.toLowerCase().includes(searchValue) ||
       noticia.resumen.toLowerCase().includes(searchValue) ||
       noticia.informacion_noticia.toLowerCase().includes(searchValue) ||
@@ -300,10 +359,12 @@ export class NoticiaComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imagenPrincipalPreview = e.target.result;
+        this.noticiaForm.get('imagen_principal')?.setValue(file); // Actualiza el control de la imagen principal
       };
       reader.readAsDataURL(file);
     }
   }
+
 
   onFileChangeGenerales(event: any): void {
     const files = event.target.files;
@@ -380,8 +441,12 @@ export class NoticiaComponent implements OnInit {
     if (field?.errors?.['maxlength']) {
       return `Máximo ${field.errors['maxlength'].requiredLength} caracteres.`;
     }
+    if (field?.errors?.['pattern']) {
+      return 'Formato no válido. Solo se permiten letras, números y algunos caracteres especiales.';
+    }
     return '';
   }
+
 
   private updateNoticiasArray(noticia: Noticia): void {
     const index = this.noticias.findIndex(n => n.id === noticia.id);

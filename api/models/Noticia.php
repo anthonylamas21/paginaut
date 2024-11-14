@@ -21,59 +21,118 @@ class Noticia {
 
     // Crear noticia
     function create() {
-        $query = "INSERT INTO " . $this->table_name . " 
-                  (titulo, resumen, informacion_noticia, activo, lugar_noticia, autor, fecha_publicacion) 
-                  VALUES 
-                  (:titulo, :resumen, :informacion_noticia, :activo, :lugar_noticia, :autor, :fecha_publicacion)";
-        
-        $stmt = $this->conn->prepare($query);
+      $query = "INSERT INTO " . $this->table_name . "
+                (titulo, resumen, informacion_noticia, activo, lugar_noticia, autor, fecha_publicacion)
+                VALUES
+                (:titulo, :resumen, :informacion_noticia, :activo, :lugar_noticia, :autor, :fecha_publicacion)";
 
-        // Sanear los datos de entrada
-        $this->titulo = htmlspecialchars(strip_tags($this->titulo));
-        $this->resumen = htmlspecialchars(strip_tags($this->resumen));
-        $this->informacion_noticia = htmlspecialchars(strip_tags($this->informacion_noticia));
-        $this->activo = $this->activo ? 1 : 0;
-        $this->lugar_noticia = htmlspecialchars(strip_tags($this->lugar_noticia));
-        $this->autor = htmlspecialchars(strip_tags($this->autor));
-        $this->fecha_publicacion = htmlspecialchars(strip_tags($this->fecha_publicacion));
+      $stmt = $this->conn->prepare($query);
 
-        // Vincular parámetros
-        $stmt->bindParam(":titulo", $this->titulo);
-        $stmt->bindParam(":resumen", $this->resumen);
-        $stmt->bindParam(":informacion_noticia", $this->informacion_noticia);
-        $stmt->bindParam(":activo", $this->activo);
-        $stmt->bindParam(":lugar_noticia", $this->lugar_noticia);
-        $stmt->bindParam(":autor", $this->autor);
-        $stmt->bindParam(":fecha_publicacion", $this->fecha_publicacion);
+      // Sanear los datos de entrada
+      $this->titulo = htmlspecialchars(strip_tags($this->titulo));
+      $this->resumen = htmlspecialchars(strip_tags($this->resumen));
+      $this->informacion_noticia = htmlspecialchars(strip_tags($this->informacion_noticia));
+      $this->activo = $this->activo ? 1 : 0;
+      $this->lugar_noticia = htmlspecialchars(strip_tags($this->lugar_noticia));
+      $this->autor = htmlspecialchars(strip_tags($this->autor));
+      $this->fecha_publicacion = htmlspecialchars(strip_tags($this->fecha_publicacion));
 
-        if ($stmt->execute()) {
-            $this->id = $this->conn->lastInsertId();
-            $this->saveImagenPrincipal();
-            return true;
-        }
-        return false;
-    }
+      // Vincular parámetros
+      $stmt->bindParam(":titulo", $this->titulo);
+      $stmt->bindParam(":resumen", $this->resumen);
+      $stmt->bindParam(":informacion_noticia", $this->informacion_noticia);
+      $stmt->bindParam(":activo", $this->activo);
+      $stmt->bindParam(":lugar_noticia", $this->lugar_noticia);
+      $stmt->bindParam(":autor", $this->autor);
+      $stmt->bindParam(":fecha_publicacion", $this->fecha_publicacion);
+
+      if ($stmt->execute()) {
+          // Obtener el ID de la noticia recién creada
+          $query = "SELECT id FROM " . $this->table_name . "
+                    WHERE titulo = :titulo AND resumen = :resumen AND lugar_noticia = :lugar_noticia
+                    ORDER BY fecha_creacion DESC LIMIT 1";
+          $stmt = $this->conn->prepare($query);
+          $stmt->bindParam(":titulo", $this->titulo);
+          $stmt->bindParam(":resumen", $this->resumen);
+          $stmt->bindParam(":lugar_noticia", $this->lugar_noticia);
+          $stmt->execute();
+          $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+          if ($row) {
+              $this->id = $row['id'];
+
+              // Guardar la imagen principal
+              if (!empty($_FILES['imagen_principal'])) {
+                  $this->imagen_principal = $_FILES['imagen_principal'];
+                  $this->saveImagenPrincipal($this->id);  // Pasa el ID a la función
+              }
+
+              // Guardar las imágenes generales
+              $this->saveImagenesGenerales($this->id);  // Pasa el ID a la función
+
+              return true;
+          } else {
+              return false;
+          }
+      }
+      return false;
+  }
 
     // Guardar imagen principal asociada a la noticia
-    private function saveImagenPrincipal() {
+    private function saveImagenPrincipal($noticia_id) {
+      if (!empty($this->imagen_principal)) {
+          $target_dir = "../uploads/noticia/";
+          if (!file_exists($target_dir)) {
+              mkdir($target_dir, 0777, true);
+          }
+
+          $target_file = $target_dir . uniqid() . "_" . basename($this->imagen_principal["name"]);
+          if (move_uploaded_file($this->imagen_principal["tmp_name"], $target_file)) {
+              $ruta_relativa = "uploads/noticia/" . basename($target_file);
+
+              $query = "INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal, activo)
+                        VALUES (:titulo, :descripcion, :ruta_imagen, 'Noticia', :asociado_id, TRUE, :activo)";
+              $stmt = $this->conn->prepare($query);
+
+              $stmt->bindParam(":titulo", $this->titulo);
+              $stmt->bindParam(":descripcion", $this->informacion_noticia);
+              $stmt->bindParam(":ruta_imagen", $ruta_relativa);
+              $stmt->bindParam(":asociado_id", $noticia_id);  // Usa el ID de la noticia
+              $stmt->bindParam(":activo", $this->activo);
+
+              $stmt->execute();
+          }
+      }
+  }
+  private function saveImagenesGenerales($noticia_id) {
+    if (!empty($this->imagenes_generales)) {
+        $target_dir = "../uploads/noticia/";
+        if (!file_exists($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+
         $query = "INSERT INTO Imagenes (titulo, descripcion, ruta_imagen, seccion, asociado_id, principal, activo)
-                  VALUES (:titulo, :descripcion, :ruta_imagen, 'Noticia', :asociado_id, TRUE, :activo)";
+                  VALUES (:titulo, :descripcion, :ruta_imagen, 'Noticia', :asociado_id, FALSE, :activo)";
         $stmt = $this->conn->prepare($query);
 
-        $titulo = $this->titulo;
-        $descripcion = $this->resumen;
-        $ruta_imagen = htmlspecialchars(strip_tags($this->imagen_principal));
-        $asociado_id = $this->id;   
-        $activo = $this->activo;
+        foreach ($this->imagenes_generales['tmp_name'] as $key => $tmp_name) {
+            if (!empty($tmp_name)) {
+                $target_file = $target_dir . uniqid() . "_" . basename($this->imagenes_generales["name"][$key]);
+                if (move_uploaded_file($tmp_name, $target_file)) {
+                    $ruta_imagen = htmlspecialchars(strip_tags("uploads/noticia/" . basename($target_file)));
 
-        $stmt->bindParam(":titulo", $titulo);
-        $stmt->bindParam(":descripcion", $descripcion);
-        $stmt->bindParam(":ruta_imagen", $ruta_imagen);
-        $stmt->bindParam(":asociado_id", $asociado_id);
-        $stmt->bindParam(":activo", $activo);
+                    $stmt->bindParam(":titulo", $this->titulo);
+                    $stmt->bindParam(":descripcion", $this->informacion_noticia);
+                    $stmt->bindParam(":ruta_imagen", $ruta_imagen);
+                    $stmt->bindParam(":asociado_id", $noticia_id);  // Usa el ID de la noticia
+                    $stmt->bindParam(":activo", $this->activo);
 
-        $stmt->execute();
+                    $stmt->execute();
+                }
+            }
+        }
     }
+}
 
     // Obtener todas las imágenes generales asociadas a la noticia
     public function getImagenesGenerales() {
@@ -93,19 +152,19 @@ class Noticia {
         $query = "SELECT * FROM " . $this->table_name . " ORDER BY fecha_publicacion DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-    
+
         $noticias_arr = array();
-    
+
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $this->id = $row['id'];
             $row['imagen_principal'] = $this->getImagenPrincipal();
             $row['imagenes_generales'] = $this->getImagenesGenerales();
             array_push($noticias_arr, $row);
         }
-    
+
         return $noticias_arr;
     }
-    
+
     // Leer una noticia por ID
     function readOne() {
         $query = "SELECT * FROM " . $this->table_name . " WHERE id = ?";
@@ -113,7 +172,7 @@ class Noticia {
         $stmt->bindParam(1, $this->id);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
         if ($row) {
             $this->titulo = $row['titulo'];
             $this->resumen = $row['resumen'];
@@ -131,18 +190,18 @@ class Noticia {
 
     // Actualizar noticia
     function update() {
-        $query = "UPDATE " . $this->table_name . " SET 
-                  titulo = :titulo, 
-                  resumen = :resumen, 
-                  informacion_noticia = :informacion_noticia, 
-                  activo = :activo, 
-                  lugar_noticia = :lugar_noticia, 
-                  autor = :autor, 
-                  fecha_publicacion = :fecha_publicacion 
+        $query = "UPDATE " . $this->table_name . " SET
+                  titulo = :titulo,
+                  resumen = :resumen,
+                  informacion_noticia = :informacion_noticia,
+                  activo = :activo,
+                  lugar_noticia = :lugar_noticia,
+                  autor = :autor,
+                  fecha_publicacion = :fecha_publicacion
                   WHERE id = :id";
-    
+
         $stmt = $this->conn->prepare($query);
-    
+
         // Sanear y vincular los parámetros
         $this->titulo = htmlspecialchars(strip_tags($this->titulo));
         $this->resumen = htmlspecialchars(strip_tags($this->resumen));
@@ -151,7 +210,7 @@ class Noticia {
         $this->lugar_noticia = htmlspecialchars(strip_tags($this->lugar_noticia));
         $this->autor = htmlspecialchars(strip_tags($this->autor));
         $this->fecha_publicacion = htmlspecialchars(strip_tags($this->fecha_publicacion));
-    
+
         $stmt->bindParam(":titulo", $this->titulo);
         $stmt->bindParam(":resumen", $this->resumen);
         $stmt->bindParam(":informacion_noticia", $this->informacion_noticia);
@@ -160,28 +219,28 @@ class Noticia {
         $stmt->bindParam(":autor", $this->autor);
         $stmt->bindParam(":fecha_publicacion", $this->fecha_publicacion);
         $stmt->bindParam(":id", $this->id);
-    
+
         error_log("Query de actualización: " . $query);
         error_log("Datos a actualizar: " . print_r($this, true));
-    
+
         // Ejecutar la consulta
         if ($stmt->execute()) {
             // Actualizar imagen principal si se proporcionó una nueva
             if (isset($_FILES['imagen_principal']) && $_FILES['imagen_principal']['error'] === UPLOAD_ERR_OK) {
                 $this->updateImagenPrincipal($_FILES['imagen_principal']);
             }
-    
+
             // Actualizar imágenes generales si se proporcionaron nuevas
             if (isset($_FILES['imagenes_generales']) && !empty($_FILES['imagenes_generales']['name'][0])) {
                 $this->updateImagenesGenerales($_FILES['imagenes_generales']);
             }
-    
+
             return true;
         } else {
             return false;
         }
     }
-    
+
     public function updateImagenes() {
         // Actualizar imagen principal si se proporcionó una nueva
         if (isset($_FILES['imagen_principal']) && $_FILES['imagen_principal']['error'] === UPLOAD_ERR_OK) {
@@ -197,7 +256,7 @@ class Noticia {
     private function updateImagenPrincipal($imagen) {
         $target_dir = "../uploads/noticia/";
         $target_file = $target_dir . uniqid() . "_" . basename($imagen["name"]);
-        
+
         if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
             // Eliminar la imagen anterior si existe
             $imagenAnterior = $this->getImagenPrincipal();
@@ -206,7 +265,7 @@ class Noticia {
             }
 
             // Actualizar la ruta de la imagen en la base de datos
-            $query = "UPDATE Imagenes SET ruta_imagen = :ruta_imagen, activo = :activo 
+            $query = "UPDATE Imagenes SET ruta_imagen = :ruta_imagen, activo = :activo
                       WHERE seccion = 'Noticia' AND asociado_id = :asociado_id AND principal = TRUE";
             $stmt = $this->conn->prepare($query);
             $ruta_relativa = "uploads/noticia/" . basename($target_file);
@@ -218,11 +277,11 @@ class Noticia {
             $this->imagen_principal = $ruta_relativa;
         }
     }
-    
+
     private function updateImagenesGenerales($nuevasImagenes) {
         $target_dir = "../uploads/noticia/";
         $nuevasRutas = [];
-    
+
         // Procesar cada nueva imagen
         foreach ($nuevasImagenes['tmp_name'] as $key => $tmp_name) {
             if (!empty($tmp_name)) {
@@ -232,11 +291,11 @@ class Noticia {
                 }
             }
         }
-    
+
         if (!empty($nuevasRutas)) {
             // Obtener las imágenes generales actuales
             $imagenesActuales = $this->getImagenesGenerales();
-    
+
             // Añadir las nuevas imágenes a la base de datos
             foreach ($nuevasRutas as $ruta) {
                 $this->saveImagenGeneral($ruta);
@@ -255,7 +314,7 @@ class Noticia {
 
         $titulo = $this->titulo;
         $descripcion = $this->resumen;
-        $asociado_id = $this->id;   
+        $asociado_id = $this->id;
         $activo = $this->activo;
 
         $stmt->bindParam(":titulo", $titulo);
@@ -266,15 +325,15 @@ class Noticia {
 
         $stmt->execute();
     }
-    
+
     // Método auxiliar para eliminar una imagen general de la base de datos
     public function deleteImagenGeneral($rutaImagen) {
         $query = "DELETE FROM Imagenes WHERE seccion = 'Noticia' AND asociado_id = :asociado_id AND ruta_imagen = :ruta_imagen AND principal = FALSE";
         $stmt = $this->conn->prepare($query);
-    
+
         $stmt->bindParam(":asociado_id", $this->id);
         $stmt->bindParam(":ruta_imagen", $rutaImagen);
-    
+
         if ($stmt->execute()) {
             if (file_exists("../" . $rutaImagen)) {
                 unlink("../" . $rutaImagen);

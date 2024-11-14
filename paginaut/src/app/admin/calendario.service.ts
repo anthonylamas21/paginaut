@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { API } from '../constans';
 
 export interface Calendario {
   id?: number;
@@ -15,7 +16,15 @@ export interface Calendario {
   providedIn: 'root',
 })
 export class CalendarioService {
-  private apiUrl = 'http://localhost/paginaut/api/calendario.php'; // Ajusta esta URL según tu configuración
+  private apiUrl = API+'/api/calendario'; // Ajusta esta URL según tu configuración
+
+  // Función constante para obtener encabezados con el token
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token') || ''; // Obtiene el token de LocalStorage
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+  }
 
   constructor(private http: HttpClient) {}
 
@@ -31,14 +40,14 @@ export class CalendarioService {
 
   updateCalendario(calendario: FormData): Observable<any> {
     return this.http
-      .post<any>(`${this.apiUrl}`, calendario)
+      .post<any>(`${this.apiUrl}`, calendario, { headers: this.getHeaders() })
       .pipe(catchError(this.handleError));
   }
 
   updateCalendarioStatus(id: number, activo: boolean): Observable<any> {
     const body = { id, activo };
     return this.http
-      .put<any>(this.apiUrl, body)
+      .put<any>(this.apiUrl, body, { headers: this.getHeaders() })
       .pipe(catchError(this.handleError));
   }
 
@@ -59,7 +68,7 @@ export class CalendarioService {
         error.error.message || error.statusText
       }`;
     }
-    console.error(errorMessage);
+    //console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
 }

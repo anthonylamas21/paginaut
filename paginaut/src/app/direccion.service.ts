@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { API } from './constans';
 
 export interface Direccion {
   id?: number;
@@ -11,60 +12,65 @@ export interface Direccion {
   fecha_creacion?: string;
 }
 
+export interface DireccionResponse {
+  records: Direccion[];
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class DireccionService {
-  private apiUrl = 'http://localhost/paginaut/api/direccion.php'; // Ajusta esta URL según tu configuración
+  private apiUrl = API+'/api/direccion.php';
 
   constructor(private http: HttpClient) {}
 
-  agregarDireccion(direccion: Direccion): Observable<any> {
+  addDireccion(direccion: FormData): Observable<any> {
     return this.http
       .post<any>(this.apiUrl, direccion)
       .pipe(catchError(this.handleError));
   }
 
-  obtenerDirecciones(): Observable<Direccion[]> {
+  getDirecciones(): Observable<DireccionResponse> {
     return this.http
-      .get<Direccion[]>(this.apiUrl)
+      .get<DireccionResponse>(this.apiUrl)
       .pipe(catchError(this.handleError));
   }
 
-  obtenerDireccion(id: number): Observable<Direccion> {
+  getDireccionById(id: number): Observable<Direccion> {
     return this.http
       .get<Direccion>(`${this.apiUrl}?id=${id}`)
       .pipe(catchError(this.handleError));
   }
 
-  actualizarDireccion(direccion: Direccion): Observable<any> {
+  updateDireccion(direccion: FormData): Observable<any> {
     return this.http
-      .put<any>(`${this.apiUrl}`, direccion)
+      .post<any>(this.apiUrl, direccion)
       .pipe(catchError(this.handleError));
   }
 
-  eliminarDireccion(id: number): Observable<any> {
+  updateDireccionStatus(id: number, activo: boolean): Observable<any> {
+    const body = { id, activo };
+    return this.http
+      .put<any>(this.apiUrl, body)
+      .pipe(catchError(this.handleError));
+  }
+
+  deleteDireccion(id: number): Observable<any> {
     return this.http
       .delete<any>(`${this.apiUrl}?id=${id}`)
       .pipe(catchError(this.handleError));
-
   }
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Un error desconocido ha ocurrido';
     if (error.error instanceof ErrorEvent) {
-      // Error del lado del cliente
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      // El backend retornó un código de error
       errorMessage = `Código de error ${error.status}, mensaje: ${
         error.error.message || error.statusText
       }`;
-
     }
-    console.error(errorMessage);
+    //console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
-
 }
-

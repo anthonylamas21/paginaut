@@ -13,8 +13,8 @@ ini_set('error_log', 'C:/xampp/htdocs/paginaut/api/logs/php-error.log');
 
 $root = dirname(__DIR__, 2);  // Obtiene el directorio raíz del proyecto
 
-require_once $root . '/api/config/database.php';
-require_once $root . '/api/models/Calendario.php';
+require_once  'config/database.php';
+require_once  'models/Calendario.php';
 
 $database = new Database();
 $db = $database->getConnection();
