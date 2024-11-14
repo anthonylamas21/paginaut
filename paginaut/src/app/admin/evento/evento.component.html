@@ -146,27 +146,60 @@
         </div>
       </div>
 
-      <!-- Sección 5: Imágenes y archivos -->
-      <div class="space-y-4">
-        <div class="pb-2 mb-4 border-b border-gray-200">
-          <h4 class="font-medium text-gray-700">5. Imágenes y archivos</h4>
-        </div>
-        <div>
-          <label for="imagenPrincipal" class="block text-sm font-medium text-gray-700 mb-2">Imagen Principal</label>
-          <input type="file" id="imagenPrincipal" (change)="onFileChangePrincipal($event)" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
-          <img *ngIf="imagenPrincipalPreview" [src]="imagenPrincipalPreview" alt="Preview" class="mt-2 max-w-full h-auto rounded-lg">
-          <p *ngIf="eventoForm.get('imagen_principal')?.hasError('required')" class="mt-1 text-xs text-red-600">La imagen principal es obligatoria.</p>
+     <!-- Sección 5: Imágenes y archivos -->
+     <div class="space-y-4">
+      <div class="pb-2 mb-4 border-b border-gray-200">
+        <h4 class="font-medium text-gray-700">5. Imágenes y archivos</h4>
+      </div>
+      <!-- Imagen Principal -->
+      <div>
+        <label for="imagenPrincipal" class="block text-sm font-medium text-gray-700 mb-2">Imagen Principal</label>
+        <input type="file" id="imagenPrincipal" (change)="onFileChangePrincipal($event)" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
+        <img *ngIf="imagenPrincipalPreview" [src]="imagenPrincipalPreview" alt="Preview" class="mt-2 max-w-full h-auto rounded-lg">
+        <p *ngIf="eventoForm.get('imagen_principal')?.hasError('required') && eventoForm.get('imagen_principal')?.dirty" class="mt-1 text-xs text-red-600">La imagen principal es obligatoria.</p>
+      </div>
+      
+
+      <!-- Imágenes Complementarias -->
+      <div>
+        <label for="imagenesGenerales" class="block text-sm font-medium text-gray-700 mb-2">Imágenes Complementarias</label>
+        <input type="file" id="imagenesGenerales" multiple (change)="onFileChangeGenerales($event)" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
+        <div class="mt-2 grid grid-cols-4 gap-2">
+          <div *ngFor="let img of imagenesGeneralesActuales; let i = index" class="relative">
+            <img [src]="img" alt="Imagen Complementaria" class="w-full h-20 object-cover rounded-lg">
+            <button type="button" (click)="removeImagenGeneral(i)" class="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 text-xs">
+              X
+            </button>
+          </div>
         </div>
       </div>
 
+      <!-- Archivos -->
+      <div>
+        <label for="archivos" class="block text-sm font-medium text-gray-700 mb-2">Archivos</label>
+        <input type="file" id="archivos" multiple (change)="onFileChangeArchivos($event)" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
+        <ul class="mt-2 space-y-1">
+          <li *ngFor="let archivo of archivosActuales; let i = index" class="flex items-center justify-between p-2 bg-gray-50 rounded-md">
+            <a [href]="archivo.ruta_archivo" target="_blank" class="text-indigo-600 hover:text-indigo-900">{{ archivo.nombre_archivo }}</a>
+            <button type="button" (click)="removeArchivo(i)" class="text-red-500 hover:text-red-700">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
       <!-- Botones de acción -->
       <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse sticky bottom-0">
-        <button type="submit" [disabled]="!eventoForm.valid || isLoading" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm" [ngClass]="{'opacity-50 cursor-not-allowed': !eventoForm.valid || isLoading}">
-          {{ isLoading ? 'Procesando...' : (currentEventoId ? 'Actualizar' : 'Agregar Evento') }}
-        </button>
-        <button type="button" (click)="closeModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-          Cancelar
-        </button>
+        <button type="submit" 
+        [disabled]="!eventoForm.valid || isLoading" 
+        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm"
+        [ngClass]="{'opacity-50 cursor-not-allowed': !eventoForm.valid || isLoading}">
+        {{ isLoading ? 'Procesando...' : (currentEventoId ? 'Actualizar' : 'Agregar Evento') }}
+      </button>
+      
       </div>
     </form>
   </div>
