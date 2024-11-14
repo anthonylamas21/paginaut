@@ -41,147 +41,141 @@
       </button>
     </div>
 
-    <form [formGroup]="eventoForm" (ngSubmit)="onSubmit()" class="p-4 space-y-4">
-      <div class="space-y-2">
-        <h4 class="font-medium text-gray-700">1. Información básica</h4>
+    <form [formGroup]="eventoForm" (ngSubmit)="onSubmit()" class="p-4 space-y-8">
+      <!-- Sección 1: Información básica -->
+      <div class="space-y-4">
+        <div class="pb-2 mb-4 border-b border-gray-200">
+          <h4 class="font-medium text-gray-700">1. Información básica</h4>
+        </div>
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label for="titulo" class="block text-sm font-medium text-gray-700">Título</label>
-            <input type="text" id="titulo" placeholder="Titulo del evento" formControlName="titulo" class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
-            <p *ngIf="isFieldInvalid('titulo')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('titulo') }}</p>
+            <label for="titulo" class="block text-sm font-medium text-gray-700 mb-2">Título</label>
+            <input type="text" id="titulo" placeholder="Título del evento" formControlName="titulo" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="150" />
+            <div>
+              <p *ngIf="eventoForm.get('titulo')?.hasError('required') && eventoForm.get('titulo')?.dirty" class="mt-1 text-sm text-red-600">El título es obligatorio.</p>
+              <p *ngIf="eventoForm.get('titulo')?.hasError('minlength') && eventoForm.get('titulo')?.dirty" class="mt-1 text-sm text-red-600">El título debe tener al menos {{ eventoForm.get('titulo')?.getError('minlength').requiredLength }} caracteres.</p>
+              <p *ngIf="eventoForm.get('titulo')?.hasError('maxlength') && eventoForm.get('titulo')?.dirty" class="mt-1 text-sm text-red-600">El título no puede exceder los {{ eventoForm.get('titulo')?.getError('maxlength').requiredLength }} caracteres.</p>
+              <p *ngIf="eventoForm.get('titulo')?.hasError('pattern') && eventoForm.get('titulo')?.dirty" class="mt-1 text-sm text-red-600">El título solo puede contener letras y espacios.</p>
+            </div>
           </div>
           <div>
-            <label for="lugar_evento" class="block text-sm font-medium text-gray-700">Lugar del Evento</label>
-            <input type="text" id="lugar_evento" placeholder="Lugar del evento" formControlName="lugar_evento" class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
-            <p *ngIf="isFieldInvalid('lugar_evento')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('lugar_evento') }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="space-y-2">
-        <h4 class="font-medium text-gray-700">2. Selección de Curso</h4>
-        <div>
-          <label for="esCurso" class="block text-sm font-medium text-gray-700">¿Este evento es de un curso?</label>
-          <select id="esCurso" formControlName="es_curso" class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900">
-            <option [ngValue]="null">Selecciona una opción</option>
-            <option [ngValue]="true">Sí</option>
-            <option [ngValue]="false">No</option>
-          </select>
-        </div>
-
-        <!-- Este select solo se muestra si es_curso es true -->
-        <div *ngIf="eventoForm.get('es_curso')?.value === true" class="mt-4">
-          <label for="curso_id" class="block text-sm font-medium text-gray-700">Selecciona el curso</label>
-          <select id="curso_id" formControlName="curso_id" class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900">
-            <option [ngValue]="null">Selecciona un curso</option>
-            <option *ngFor="let curso of cursos" [ngValue]="curso.id">{{ curso.nombre }}</option>
-          </select>
-          <p *ngIf="isFieldInvalid('curso_id')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('curso_id') }}</p>
-        </div>
-      </div>
-
-
-      <div class="space-y-2">
-        <h4 class="font-medium text-gray-700">3. Detalles del evento</h4>
-        <div>
-          <label for="informacion_evento" class="block text-sm font-medium text-gray-700">Información del Evento</label>
-          <textarea id="informacion_evento" placeholder="Información relevante" formControlName="informacion_evento" rows="4" class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"></textarea>
-          <p *ngIf="isFieldInvalid('informacion_evento')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('informacion_evento') }}</p>
-        </div>
-      </div>
-
-      <div class="space-y-2">
-        <h4 class="font-medium text-gray-700">4. Fecha y hora</h4>
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div>
-            <label for="fecha_inicio" class="block text-sm font-medium text-gray-700">Fecha de Inicio</label>
-            <input type="date" id="fecha_inicio" formControlName="fecha_inicio"
-                   [min]="minDate"
-                   [attr.max]="eventoForm.get('fecha_fin')?.value || null"
-                   class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
-            <p *ngIf="isFieldInvalid('fecha_inicio')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('fecha_inicio') }}</p>
-          </div>
-          <div>
-            <label for="fecha_fin" class="block text-sm font-medium text-gray-700">Fecha de Fin</label>
-            <input type="date" id="fecha_fin" formControlName="fecha_fin"
-                   [min]="eventoForm.get('fecha_inicio')?.value || minDate"
-                   class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
-            <p *ngIf="isFieldInvalid('fecha_fin')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('fecha_fin') }}</p>
-          </div>
-          <div>
-            <label for="hora_inicio" class="block text-sm font-medium text-gray-700">Hora de Inicio</label>
-            <input type="time" id="hora_inicio" formControlName="hora_inicio"
-                   [min]="eventoForm.get('fecha_inicio')?.value === minDate ? minTimeInicio : null"
-                   class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
-            <p *ngIf="isFieldInvalid('hora_inicio')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('hora_inicio') }}</p>
-          </div>
-          <div>
-            <label for="hora_fin" class="block text-sm font-medium text-gray-700">Hora de Fin</label>
-            <input type="time" id="hora_fin" formControlName="hora_fin"
-                   [min]="minTimeFin"
-                   class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
-            <p *ngIf="isFieldInvalid('hora_fin')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('hora_fin') }}</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="space-y-2">
-        <h4 class="font-medium text-gray-700">5. Imágenes y archivos</h4>
-        <div>
-          <label for="imagenPrincipal" class="block text-sm font-medium text-gray-700">Imagen Principal</label>
-          <input type="file" id="imagenPrincipal" (change)="onFileChangePrincipal($event)" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
-          <img *ngIf="imagenPrincipalPreview" [src]="imagenPrincipalPreview" alt="Preview" class="mt-2 max-w-full h-auto rounded-lg">
-        </div>
-        <div>
-          <label for="imagenesGenerales" class="block text-sm font-medium text-gray-700">Imágenes Complementarias</label>
-          <input type="file" id="imagenesGenerales" multiple (change)="onFileChangeGenerales($event)" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
-          <div class="mt-2 grid grid-cols-4 gap-2">
-            <div *ngFor="let img of imagenesGeneralesActuales; let i = index" class="relative">
-              <img [src]="img" alt="Imagen General" class="w-full h-20 object-cover rounded-lg">
-              <button 
-                type="button" 
-                (click)="removeImagenGeneral(i)" 
-                class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
-              >
-              <i class="fa-solid fa-xmark"></i>
-              </button>
+            <label for="lugar_evento" class="block text-sm font-medium text-gray-700 mb-2">Lugar del Evento</label>
+            <input type="text" id="lugar_evento" placeholder="Lugar del evento" formControlName="lugar_evento" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="150" />
+            <div>
+              <p *ngIf="eventoForm.get('lugar_evento')?.hasError('required') && eventoForm.get('lugar_evento')?.dirty" class="mt-1 text-sm text-red-600">El lugar es obligatorio.</p>
+              <p *ngIf="eventoForm.get('lugar_evento')?.hasError('minlength') && eventoForm.get('lugar_evento')?.dirty" class="mt-1 text-sm text-red-600">El lugar debe tener al menos {{ eventoForm.get('lugar_evento')?.getError('minlength').requiredLength }} caracteres.</p>
+              <p *ngIf="eventoForm.get('lugar_evento')?.hasError('maxlength') && eventoForm.get('lugar_evento')?.dirty" class="mt-1 text-sm text-red-600">El lugar no puede exceder los {{ eventoForm.get('lugar_evento')?.getError('maxlength').requiredLength }} caracteres.</p>
+              <p *ngIf="eventoForm.get('lugar_evento')?.hasError('pattern') && eventoForm.get('lugar_evento')?.dirty" class="mt-1 text-sm text-red-600">El lugar solo puede contener letras, puntos y comas.</p>
             </div>
             
           </div>
         </div>
-        <div>
-          <label for="archivos" class="block text-sm font-medium text-gray-700">Archivos</label>
-          <input type="file" id="archivos" multiple (change)="onFileChangeArchivos($event)" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
-          <ul class="mt-2 space-y-1">
-            <li *ngFor="let archivo of archivosActuales; let i = index" class="flex items-center justify-between p-2 bg-gray-50 rounded-md">
-              <a [href]="archivo.ruta_archivo" target="_blank" class="text-secondary-color hover:text-primary-color">{{ archivo.nombre_archivo }}</a>
-              <button type="button" (click)="removeArchivo(i)" class="text-danger-color">
-                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </li>
-          </ul>
-        </div>
       </div>
-    </form>
 
-    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse sticky bottom-0">
-      <button type="submit"
-      [disabled]="!eventoForm.valid || isLoading"
-      (click)="onSubmit()"
-      class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-secondary-color text-base font-medium text-white hover:bg-secondary-color focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-color sm:ml-3 sm:w-auto sm:text-sm"
-      [ngClass]="{'opacity-50 cursor-not-allowed': !eventoForm.valid || isLoading}">
-      {{ isLoading ? 'Procesando...' : (currentEventoId ? 'Actualizar' : 'Agregar Evento') }}
-    </button>
-
-      <button type="button" (click)="closeModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-        Cancelar
-      </button>
+<!-- Sección 2: Selección de Curso -->
+<div class="space-y-4">
+  <div class="pb-2 mb-4 border-b border-gray-200">
+    <h4 class="font-medium text-gray-700">2. Selección de Curso</h4>
+  </div>
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-2">¿Este evento es de un curso?</label>
+    <div class="space-y-2">
+      <div class="flex items-center">
+        <input type="radio" id="esCursoSi" [value]="true" formControlName="es_curso" class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500" required>
+        <label for="esCursoSi" class="ml-2 text-sm font-medium text-gray-700">Sí</label>
+      </div>
+      <div class="flex items-center">
+        <input type="radio" id="esCursoNo" [value]="false" formControlName="es_curso" class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500" required>
+        <label for="esCursoNo" class="ml-2 text-sm font-medium text-gray-700">No</label>
+      </div>
+      <div>
+        <p *ngIf="eventoForm.get('es_curso')?.hasError('required') && eventoForm.get('es_curso')?.dirty" class="mt-1 text-sm text-red-600">La selección es obligatoria</p>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="eventoForm.get('es_curso')?.value === true" class="mt-4">
+    <label for="curso_id" class="block text-sm font-medium text-gray-700 mb-2">Selecciona el curso</label>
+    <select id="curso_id" formControlName="curso_id" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" required>
+      <option [ngValue]="null">Selecciona un curso</option>
+      <option *ngFor="let curso of cursos" [ngValue]="curso.id">{{ curso.nombre }}</option>
+    </select>
+    <div>
+      <p *ngIf="eventoForm.get('curso_id')?.hasError('required') && eventoForm.get('curso_id')?.dirty" class="mt-1 text-sm text-red-600">La selección es obligatoria</p>
     </div>
   </div>
 </div>
 
-    <div *ngIf="responseMessage" class="mt-4 p-4 rounded-md" [ngClass]="{'bg-green-100 text-green-700': !responseMessage.includes('Error'), 'bg-red-100 text-red-600': responseMessage.includes('Error')}">
+      <!-- Sección 3: Detalles del evento -->
+      <div class="space-y-4">
+        <div class="pb-2 mb-4 border-b border-gray-200">
+          <h4 class="font-medium text-gray-700">3. Detalles del evento</h4>
+        </div>
+        <div>
+          <label for="informacion_evento" class="block text-sm font-medium text-gray-700 mb-2">Información del Evento</label>
+          <textarea id="informacion_evento" placeholder="Información relevante" formControlName="informacion_evento" rows="4" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"></textarea>
+          <p *ngIf="eventoForm.get('informacion_evento')?.hasError('required') && eventoForm.get('informacion_evento')?.dirty" class="mt-1 text-xs text-red-600">La información es obligatoria.</p>
+        </div>
+      </div>
+
+      <!-- Sección 4: Fecha y hora -->
+      <div class="space-y-4">
+        <div class="pb-2 mb-4 border-b border-gray-200">
+          <h4 class="font-medium text-gray-700">4. Fecha y hora</h4>
+        </div>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label for="fecha_inicio" class="block text-sm font-medium text-gray-700 mb-2">Fecha de Inicio</label>
+            <input type="date" id="fecha_inicio" formControlName="fecha_inicio" [min]="minDate" [attr.max]="eventoForm.get('fecha_fin')?.value || null" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
+            <p *ngIf="eventoForm.get('fecha_inicio')?.hasError('required') && eventoForm.get('fecha_inicio')?.dirty" class="mt-1 text-xs text-red-600">La fecha de inicio es obligatoria.</p>
+          </div>
+          <div>
+            <label for="fecha_fin" class="block text-sm font-medium text-gray-700 mb-2">Fecha de Fin</label>
+            <input type="date" id="fecha_fin" formControlName="fecha_fin" [min]="eventoForm.get('fecha_inicio')?.value || minDate" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
+            <p *ngIf="eventoForm.get('fecha_fin')?.hasError('required') && eventoForm.get('fecha_fin')?.dirty" class="mt-1 text-xs text-red-600">La fecha de fin es obligatoria.</p>
+          </div>
+          <div>
+            <label for="hora_inicio" class="block text-sm font-medium text-gray-700 mb-2">Hora de Inicio</label>
+            <input type="time" id="hora_inicio" formControlName="hora_inicio" [min]="eventoForm.get('fecha_inicio')?.value === minDate ? minTimeInicio : null" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
+            <p *ngIf="eventoForm.get('hora_inicio')?.hasError('required') && eventoForm.get('hora_inicio')?.dirty" class="mt-1 text-xs text-red-600">La hora de inicio es obligatoria.</p>
+          </div>
+          <div>
+            <label for="hora_fin" class="block text-sm font-medium text-gray-700 mb-2">Hora de Fin</label>
+            <input type="time" id="hora_fin" formControlName="hora_fin" [min]="minTimeFin" class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" />
+            <p *ngIf="eventoForm.get('hora_fin')?.hasError('required') && eventoForm.get('hora_fin')?.dirty" class="mt-1 text-xs text-red-600">La hora de fin es obligatoria.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección 5: Imágenes y archivos -->
+      <div class="space-y-4">
+        <div class="pb-2 mb-4 border-b border-gray-200">
+          <h4 class="font-medium text-gray-700">5. Imágenes y archivos</h4>
+        </div>
+        <div>
+          <label for="imagenPrincipal" class="block text-sm font-medium text-gray-700 mb-2">Imagen Principal</label>
+          <input type="file" id="imagenPrincipal" (change)="onFileChangePrincipal($event)" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
+          <img *ngIf="imagenPrincipalPreview" [src]="imagenPrincipalPreview" alt="Preview" class="mt-2 max-w-full h-auto rounded-lg">
+          <p *ngIf="eventoForm.get('imagen_principal')?.hasError('required')" class="mt-1 text-xs text-red-600">La imagen principal es obligatoria.</p>
+        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse sticky bottom-0">
+        <button type="submit" [disabled]="!eventoForm.valid || isLoading" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm" [ngClass]="{'opacity-50 cursor-not-allowed': !eventoForm.valid || isLoading}">
+          {{ isLoading ? 'Procesando...' : (currentEventoId ? 'Actualizar' : 'Agregar Evento') }}
+        </button>
+        <button type="button" (click)="closeModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+    <div *ngIf="responseMessage" class="mt-4 p-4 rounded-md" [ngClass]="{'bg-green-100 text-green-700': !responseMessage.includes('Error'), 'bg-red-100 text-red-700': responseMessage.includes('Error')}">
       {{ responseMessage }}
     </div>
 
@@ -242,8 +236,7 @@
                     <p-table #dt [value]="filteredEventos" [paginator]="true" [rows]="5"
                              currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
                              [showCurrentPageReport]="true"
-                             [globalFilterFields]="['titulo', 'informacion_evento', 'lugar_evento', 'fecha_inicio', 'fecha_fin', 'hora_inicio', 'hora_fin']"
-                             [tableStyleClass]="'min-w-full divide-y'"
+                             [globalFilterFields]="['titulo', 'informacion_convocatoria', 'lugar_convocatoria', 'fecha_string', 'horario_string']"                             [tableStyleClass]="'min-w-full divide-y'"
                              [resizableColumns]="true">
                       <ng-template pTemplate="header">
                         <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
@@ -257,11 +250,6 @@
                               Información <p-sortIcon field="informacion_evento"></p-sortIcon>
                             </div>
                           </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="activo">
-                            <div class="flex">
-                              Activo <p-sortIcon field="activo"></p-sortIcon>
-                            </div>
-                          </th>
                           <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="lugar_evento">
                             <div class="flex">
                               Lugar <p-sortIcon field="lugar_evento"></p-sortIcon>
@@ -269,22 +257,12 @@
                           </th>
                           <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_inicio">
                             <div class="flex">
-                              Fecha de Inicio <p-sortIcon field="fecha_inicio"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_fin">
-                            <div class="flex">
-                              Fecha de Fin <p-sortIcon field="fecha_fin"></p-sortIcon>
+                              Fechas <p-sortIcon field="fecha_inicio"></p-sortIcon>
                             </div>
                           </th>
                           <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="hora_inicio">
                             <div class="flex">
-                              Hora de Inicio <p-sortIcon field="hora_inicio"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="hora_fin">
-                            <div class="flex">
-                              Hora de Fin <p-sortIcon field="hora_fin"></p-sortIcon>
+                              Horarios<p-sortIcon field="hora_inicio"></p-sortIcon>
                             </div>
                           </th>
                           <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
@@ -296,12 +274,9 @@
                         <tr class="divide-x divide-gray-200 bg-neutral-100">
                           <td class="px-3 py-2 text-sm text-black">{{ evento.titulo }}</td>
                           <td class="px-3 py-2 text-sm text-black">{{ evento.informacion_evento | slice:0:50 }}{{ evento.informacion_evento.length > 50 ? '...' : '' }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ evento.activo ? 'Sí' : 'No' }}</td>
                           <td class="px-3 py-2 text-sm text-black">{{ evento.lugar_evento }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ evento.fecha_inicio | date:'dd/MM/yyyy' }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ evento.fecha_fin | date:'dd/MM/yyyy' }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ evento.hora_inicio }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ evento.hora_fin }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.fecha_string}}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.horario_string }}</td>
                           <td class="px-3 py-2 text-sm text-black">
                             <div class="flex items-center space-x-3.5">
                               <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(evento, 'principal')" class="hover:text-primary">
@@ -431,6 +406,19 @@
             </div>
           </div>
           <div id="tabs-with-icons-2" class="hidden" role="tabpanel" aria-labelledby="tabs-with-icons-item-2">
+                            <!-- SearchBox para la papelera -->
+                            <div class="relative w-full mb-2">
+                              <div class="relative w-full">
+                                <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5 w-full">
+                                  <svg class="flex-shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <path d="m21 21-4.3-4.3"></path>
+                                  </svg>
+                                </div>
+                                <input (input)="filterGlobalInactive($event)" class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]" type="text" placeholder="Buscar en la papelera" />
+                              </div>
+                            </div>
+                            <!-- End SearchBox -->
             <div class="flex flex-col mb-5">
               <div class="-m-1.5 overflow-x-auto">
                 <div class="p-1.5 min-w-full inline-block align-middle">
@@ -438,8 +426,7 @@
                     <p-table #dt [value]="papeleraEventos" [paginator]="true" [rows]="5"
                              currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
                              [showCurrentPageReport]="true"
-                             [globalFilterFields]="['titulo', 'informacion_evento', 'lugar_evento', 'fecha_inicio', 'fecha_fin', 'hora_inicio', 'hora_fin']"
-                             [tableStyleClass]="'min-w-full divide-y'"
+                             [globalFilterFields]="['titulo', 'informacion_convocatoria', 'lugar_convocatoria', 'fecha_string', 'horario_string']"                             [tableStyleClass]="'min-w-full divide-y'"
                              [resizableColumns]="true">
                       <ng-template pTemplate="header">
                         <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
@@ -453,11 +440,6 @@
                               Información <p-sortIcon field="informacion_evento"></p-sortIcon>
                             </div>
                           </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="activo">
-                            <div class="flex">
-                              Activo <p-sortIcon field="activo"></p-sortIcon>
-                            </div>
-                          </th>
                           <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="lugar_evento">
                             <div class="flex">
                               Lugar <p-sortIcon field="lugar_evento"></p-sortIcon>
@@ -465,22 +447,12 @@
                           </th>
                           <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_inicio">
                             <div class="flex">
-                              Fecha de Inicio <p-sortIcon field="fecha_inicio"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="fecha_fin">
-                            <div class="flex">
-                              Fecha de Fin <p-sortIcon field="fecha_fin"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="hora_inicio">
-                            <div class="flex">
-                              Hora de Inicio <p-sortIcon field="hora_inicio"></p-sortIcon>
+                              Fechas<p-sortIcon field="fecha_inicio"></p-sortIcon>
                             </div>
                           </th>
                           <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="hora_fin">
                             <div class="flex">
-                              Hora de Fin <p-sortIcon field="hora_fin"></p-sortIcon>
+                              Horarios <p-sortIcon field="hora_fin"></p-sortIcon>
                             </div>
                           </th>
                           <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
@@ -492,12 +464,9 @@
                         <tr class="divide-x divide-gray-200 bg-neutral-100">
                           <td class="px-3 py-2 text-sm text-black">{{ evento.titulo }}</td>
                           <td class="px-3 py-2 text-sm text-black">{{ evento.informacion_evento | slice:0:50 }}{{ evento.informacion_evento.length > 50 ? '...' : '' }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ evento.activo ? 'Sí' : 'No' }}</td>
                           <td class="px-3 py-2 text-sm text-black">{{ evento.lugar_evento }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ evento.fecha_inicio | date:'dd/MM/yyyy' }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ evento.fecha_fin | date:'dd/MM/yyyy' }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ evento.hora_inicio }}</td>
-                          <td class="px-3 py-2 text-sm text-black">{{ evento.hora_fin }}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.fecha_string}}</td>
+                          <td class="px-3 py-2 text-sm text-black">{{ evento.horario_string }}</td>
                           <td class="px-3 py-2 text-sm text-black">
                             <div class="flex items-center space-x-3.5">
                               <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(evento, 'principal')" class="hover:text-primary">
