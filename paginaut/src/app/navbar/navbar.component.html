@@ -587,7 +587,7 @@
                 <button type="button" title="Calendario escolar"
                   class="flex items-center w-full text-white hover:opacity-80 font-medium text-base">
                   <i class="fa-solid fa-calendar-days fa-lg"></i>
-                  <span class="ml-2 text-sm sm:inline-block md:hidden">Calendario</span>
+                  <span class="ml-2 text-sm sm:inline-block lg:hidden">Calendario</span>
                 </button>
               </a>
             </div>
@@ -596,13 +596,18 @@
             <div
               class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] py-3 md:px-3 md:py-4 truncate">
               <ng-container *ngIf="token; else loginTemplate">
-                <form (ngSubmit)="onSubmitLogout()">
+                <!-- <form (ngSubmit)="onSubmitLogout()">
                   <button type="submit" title="Cerrar Sesión"
                     class="flex items-center w-full text-white hover:opacity-80 font-medium text-base">
                     <i class="fa-solid fa-sign-out-alt"></i>
-                    <span class="ml-2 text-sm sm:inline-block md:hidden">Cerrar Sesión</span>
+                    <span class="ml-2 text-sm sm:inline-block lg:hidden">Cerrar Sesión</span>
                   </button>
-                </form>
+                </form> -->
+                  <a href="/admin/principal_admin" title="Ir al panel"
+                    class="flex items-center w-full text-white hover:opacity-80 font-medium text-base">
+                    <i class="fa-solid fa-door-open"></i>
+                    <span class="ml-2 text-sm sm:inline-block lg:hidden">Ir al panel</span>
+                  </a>
               </ng-container>
               <ng-template #loginTemplate>
                 <a href="/login">
@@ -627,4 +632,3 @@
 </header>
 
 <!-- ================================================= END HEADER =================================================== -->
-<app-redes-sociales></app-redes-sociales>

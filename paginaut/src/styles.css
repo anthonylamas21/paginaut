@@ -84,7 +84,7 @@ input[type="radio"] {
 /* Personaliza la pista del scrollbar (donde se desplaza el thumb) */
 ::-webkit-scrollbar-track {
   background: #e1e1e1;
-  border-radius: 6px;
+  border-radius: 1px;
 }
 
 /* Personaliza la pista cuando el 'thumb' está en hover */

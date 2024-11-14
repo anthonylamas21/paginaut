@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { BASEIMAGEN } from '../../constans';
+import { soloLetras, soloLetrasConPuntuacion } from '../../validaciones';
 
 class TooltipManager {
   static adjustTooltipPosition(
@@ -87,38 +88,18 @@ export class ConvocatoriaComponent implements OnInit, OnDestroy {
     this.minTimeInicio = this.getCurrentTime();
     this.minTimeFin = this.minTimeInicio;
     this.convocatoriaForm = this.fb.group({
-      titulo: [
-        '',
-        [
-          Validators.required,
-          Validators.maxLength(50),
-          Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/),
-        ],
-      ],
-      descripcion: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/),
-        ],
-      ],
+      titulo: ['',[ soloLetras(true),Validators.required, Validators.minLength(15), Validators.maxLength(150)]],
+      descripcion: [ '',[ soloLetrasConPuntuacion(true),Validators.required, Validators.minLength(15), Validators.maxLength(2000)]],
       activo: [true],
-      lugar: [
-        '',
-        [
-          Validators.required,
-          Validators.maxLength(50),
-          Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/),
-        ],
-      ],
-      fecha_inicio: ['', [Validators.required]],
-      fecha_fin: ['', [Validators.required]],
-      hora_inicio: ['', [Validators.required]],
-      hora_fin: ['', [Validators.required]],
+      lugar: ['', [soloLetrasConPuntuacion(true), Validators.required, Validators.minLength(5), Validators.maxLength(150)]],
+      fecha_inicio: ['', [this.fechaHoraValidator(), Validators.required]],
+      fecha_fin: ['', [this.fechaHoraValidator(), Validators.required]],
+      hora_inicio: ['', [this.fechaHoraValidator(), Validators.required]],
+      hora_fin: ['', [this.fechaHoraValidator(), Validators.required]],
       es_curso: [null, Validators.required],
       curso_id: [null],
       imagen_principal: [null, Validators.required],
-    }, { validators: this.fechaHoraValidator() });
+    });
   }
 
   ngOnInit(): void {
@@ -192,7 +173,11 @@ export class ConvocatoriaComponent implements OnInit, OnDestroy {
   loadConvocatorias(): void {
     this.convocatoriaService.obtenerConvocatorias().subscribe({
       next: (response) => {
-        this.convocatorias = response.records.map((convocatoria) => ({
+        console.log(response);
+        this.convocatorias = response.records.map((convocatoria: Convocatoria) => {
+          // Aquí se formatean las fechas antes de devolver el objeto
+          return this.addFormattedDate(convocatoria);
+        }).map((convocatoria: Convocatoria) => ({
           ...convocatoria,
           imagen_principal: this.getImageUrl(convocatoria.imagen_principal || ''),
           imagenes_generales: (convocatoria.imagenes_generales || []).map((img: string) => this.getImageUrl(img)),
@@ -200,6 +185,51 @@ export class ConvocatoriaComponent implements OnInit, OnDestroy {
         this.filterConvocatorias();
       }
     });
+  }
+  
+  private addFormattedDate(convocatoria: Convocatoria): Convocatoria & { fecha_string: string, horario_string: string} {
+    return {
+      ...convocatoria,
+      // Pasamos la fecha como string, que luego se formatea correctamente
+      fecha_string: this.formatDateString(convocatoria.fecha_inicio) +' - '+ this.formatDateString(convocatoria.fecha_fin),
+      horario_string: this.formatHorarioString(convocatoria.hora_inicio) +' - '+ this.formatHorarioString(convocatoria.hora_fin),
+    };
+  }
+  
+  formatDateString(dateString: string): string {
+    const months = [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
+  
+    // Asegurarse de que la fecha está en formato YYYY-MM-DD antes de procesarla
+    const dateParts = dateString.split(' ')[0].split('-'); // Extrae solo la fecha en formato YYYY-MM-DD (sin la hora)
+    const year = dateParts[0];
+    const month = months[parseInt(dateParts[1], 10) - 1]; // Mes (1-12)
+    const day = ('0' + dateParts[2]).slice(-2); // Día (si tiene un solo dígito, lo pone con cero a la izquierda)
+  
+    return `${month} ${day}, ${year}`;
+  }
+
+  formatHorarioString(timeString: string): string {
+    const timeParts = timeString.split(':');
+    let hours = parseInt(timeParts[0]);
+    const minutes = timeParts[1];
+    let period = 'AM';
+  
+    // Convertir la hora a formato 12 horas
+    if (hours >= 12) {
+      if (hours > 12) hours -= 12; // Convertir hora mayor que 12 a formato de 12 horas
+      period = 'PM';
+    } else if (hours === 0) {
+      hours = 12; // La medianoche se representa como 12:00 AM
+      period = 'AM';
+    }
+  
+    // Ajustar el formato de la hora con un cero a la izquierda si es necesario
+    const formattedHour = ('0' + hours).slice(-2);
+  
+    return `${formattedHour}:${minutes} ${period}`;
   }
 
   getImageUrl(relativePath: string): string {
@@ -481,14 +511,32 @@ export class ConvocatoriaComponent implements OnInit, OnDestroy {
 
   filterGlobal(event: any): void {
     const searchValue = event.target.value.toLowerCase();
-    this.filteredConvocatorias = this.convocatorias.filter(
-      (convocatoria) =>
-        convocatoria.titulo.toLowerCase().includes(searchValue) ||
-        convocatoria.descripcion.toLowerCase().includes(searchValue) ||
-        convocatoria.lugar.toLowerCase().includes(searchValue)
-    );
+    this.filteredConvocatorias = this.convocatorias.filter((convocatoria) => {
+      // Filtrar por convocatorias activas (suponiendo que tienes una propiedad "activo")
+      return convocatoria.activo && (
+        (convocatoria.titulo?.toLowerCase().includes(searchValue) || '') ||
+        (convocatoria.descripcion?.toLowerCase().includes(searchValue) || '') ||
+        (convocatoria.lugar?.toLowerCase().includes(searchValue) || '') ||
+        (convocatoria.fecha_string?.toLowerCase().includes(searchValue) || '') ||
+        (convocatoria.horario_string?.toLowerCase().includes(searchValue) || '')
+      );
+    });
+  } 
+  
+  filterGlobalInactive(event: any): void {
+    const searchValue = event.target.value.toLowerCase();
+    this.papeleraConvocatorias = this.convocatorias.filter((convocatoria) => {
+      // Filtrar por convocatorias inactivas (suponiendo que tienes una propiedad "activo" que es true/false)
+      return !convocatoria.activo && (
+        (convocatoria.titulo?.toLowerCase().includes(searchValue) || '') ||
+        (convocatoria.descripcion?.toLowerCase().includes(searchValue) || '') ||
+        (convocatoria.lugar?.toLowerCase().includes(searchValue) || '') ||
+        (convocatoria.fecha_string?.toLowerCase().includes(searchValue) || '') ||
+        (convocatoria.horario_string?.toLowerCase().includes(searchValue) || '')
+      );
+    });
   }
-
+  
   onFileChangePrincipal(event: any): void {
     const file = event.target.files[0];
     if (file) {
@@ -576,11 +624,6 @@ export class ConvocatoriaComponent implements OnInit, OnDestroy {
     }
   }
 
-  isFieldInvalid(fieldName: string): boolean {
-    const field = this.convocatoriaForm.get(fieldName);
-    return field ? field.invalid && (field.dirty || field.touched) : false;
-  }
-
   fechaHoraValidator(): ValidatorFn {
     return (group: AbstractControl): { [key: string]: any } | null => {
       const fechaInicio = group.get('fecha_inicio')?.value;
@@ -647,24 +690,7 @@ export class ConvocatoriaComponent implements OnInit, OnDestroy {
       date1.getDate() === date2.getDate()
     );
   }
-
-  getErrorMessage(fieldName: string): string {
-    const field = this.convocatoriaForm.get(fieldName);
-    if (field?.errors?.['required']) {
-      return 'Este campo es requerido.';
-    }
-    if (field?.errors?.['maxlength']) {
-      return `Máximo ${field.errors['maxlength'].requiredLength} caracteres.`;
-    }
-    if (field?.errors?.['pattern']) {
-      return 'Formato no válido. Solo se permiten letras, números y espacios.';
-    }
-    if (this.convocatoriaForm.errors?.['fechaHoraInvalida']) {
-      return 'La fecha y hora de fin deben ser posteriores a la fecha y hora de inicio.';
-    }
-    return '';
-  }
-
+  
   isDateDisabled = (date: Date): boolean => {
     return date < this.getToday();
   };

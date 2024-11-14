@@ -16,6 +16,8 @@ export interface Convocatoria {
   hora_fin: string;
   es_curso: boolean;
   curso_id?: number;
+  fecha_string?: string;
+  horario_string?: string;
   imagen_principal?: string;
   imagenes_generales?: string[];
   archivos?: any[];

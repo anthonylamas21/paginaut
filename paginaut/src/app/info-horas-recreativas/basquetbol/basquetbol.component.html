@@ -3,79 +3,88 @@
 
 <!--Boton de desplacamiento -->
 <button id="scrollTopButton" (click)="scrollToSection('inicio')"
-    class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50">
-    <i class="fa-solid fa-chevron-up"></i>
+  class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50">
+  <i class="fa-solid fa-chevron-up"></i>
 </button>
 
-<!-- Contenedor principal flexible -->
-<div class="flex flex-col min-h-screen">
-  <!-- Contenido principal que puede crecer -->
-  <main class="flex-grow">
-    <!-- Fin Navbar -->
 
-<ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4">
+<div class="mt-4">
+  <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4">
     <li class="inline-flex items-center">
-      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/principal">
+      <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] "
+        href="/principal">
         Inicio
       </a>
-      <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+        width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
         <path d="m9 18 6-6-6-6"></path>
       </svg>
     </li>
     <li class="inline-flex items-center">
       <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] ">
-        Hora prensa
-        <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m9 18 6-6-6-6"></path>
-        </svg>
+        Extracurricular
       </a>
+      <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+        width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6"></path>
+      </svg>
     </li>
-    <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
-        Basquetbol
+    <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate" aria-current="page">
+      Beisbol
     </li>
   </ol>
+</div>
 
-  <div class="relative">
-    <!-- Imagen fija en la pantalla -->
-    <img src="./assets/img/AGUILA-GARZA.png" alt="Imagen Estática"
+<div class="relative">
+  <!-- Imagen fija en la pantalla -->
+  <img src="./assets/img/AGUILA-GARZA.png" alt="Imagen Estática"
     class="fixed top-20 right-0 object-cover z-10 pointer-events-none">
 </div>
 
 <div class="flex justify-center items-center w-full mt-10 mb-10">
-    <div class="flex flex-col bg-white border shadow-sm rounded-xl w-9/12">
+  <div class="flex flex-col bg-white border shadow-sm rounded-xl w-9/12">
 
     <section class="bg-white p-6 rounded-lg shadow-md">
       <h1 class="text-2xl font-bold mb-4">Basquetbol</h1>
-      
+
       <div class="relative mb-6 z-20">
-        <img src="./assets/img/galeria/extras/basquet/basquet4.webp" alt="Taller de Lectura" class="w-full h-96 rounded-lg shadow-md object-cover">
-        <img src="./assets/img/Plantilla_imagenes_utc.png" alt="Superposición" class="absolute rounded-b-lg bottom-0 left-0 w-full h-auto">
+        <img src="./assets/img/galeria/extras/basquet/basquet4.webp" alt="Taller de Lectura"
+          class="w-full h-96 rounded-lg shadow-md object-cover">
+        <img src="./assets/img/Plantilla_imagenes_utc.png" alt="Superposición"
+          class="absolute rounded-b-lg bottom-0 left-0 w-full h-auto">
       </div>
-      
+
       <p class="mb-6 border-l-4 border-black p-4 text-gray-800">
-        ¡Bienvenidos a la Cancha de Baloncesto de nuestra Universidad! Este espacio ha sido diseñado para fomentar la actividad física y el trabajo en equipo en un entorno emocionante y lleno de energía. Aquí, tanto estudiantes como profesores y visitantes pueden participar en partidos, entrenamientos y torneos de baloncesto, con el objetivo de mejorar sus habilidades, condición física y espíritu deportivo. Únete a nosotros y descubre cómo el baloncesto puede fortalecer tu cuerpo, agudizar tu mente y crear conexiones duraderas dentro de nuestra comunidad universitaria.
+        ¡Bienvenidos a la Cancha de Baloncesto de nuestra Universidad! Este espacio ha sido diseñado para fomentar la
+        actividad física y el trabajo en equipo en un entorno emocionante y lleno de energía. Aquí, tanto estudiantes
+        como profesores y visitantes pueden participar en partidos, entrenamientos y torneos de baloncesto, con el
+        objetivo de mejorar sus habilidades, condición física y espíritu deportivo. Únete a nosotros y descubre cómo el
+        baloncesto puede fortalecer tu cuerpo, agudizar tu mente y crear conexiones duraderas dentro de nuestra
+        comunidad universitaria.
       </p>
-      
+
       <div class="bg-[#043D3D] rounded-lg my-8 relative z-20">
         <h2 class="text-xl font-poppins font-extralight py-2 px-2 text-white uppercase">Galería</h2>
-      </div>  
-            <ngx-masonry class="mx-auto">
-              <div ngxMasonryItem class="masonry-item p-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5" *ngFor="let image of images">
-                <img [src]="image.url" [alt]="image.alt" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out" data-hs-overlay="#hs-slide-down-animation-modal" (click)=" openModal(image)">
-              </div>
-            </ngx-masonry>
+      </div>
+      <ngx-masonry class="mx-auto">
+        <div ngxMasonryItem class="masonry-item p-2 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5" *ngFor="let image of images">
+          <img [src]="image.url" [alt]="image.alt"
+            class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out cursor-pointer"
+            data-hs-overlay="#hs-slide-down-animation-modal" (click)=" openModal(image)">
+        </div>
+      </ngx-masonry>
     </section>
   </div>
-  </div>
-  </main>
-<!--Inicio componente Footer-->
-<app-footer></app-footer>
-<!--Fin Footer-->
 </div>
+
 <!-- Modal para imagen ampliada -->
-<div *ngIf="selectedImage"  id="hs-vertically-centered-modal" class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
+<div *ngIf="selectedImage" id="hs-vertically-centered-modal"
+  class="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
   <div class="relative max-w-[90vh] w-full">
-    <img [src]="selectedImage.url" alt="selectedImage.alt" class="max-h-[90vh] w-[90vh] mx-auto">
-    <button (click)="closeModal()" class="absolute top-2 right-2 bg-red-500 w-8 h-8 rounded-full text-white text-2xl flex items-center justify-center">&times;</button>
+    <img [src]="selectedImage.url" alt="selectedImage.alt" class="max-h-[90vh] w-[90vh] mx-auto rounded-md">
+    <button (click)="closeModal()"
+      class="absolute top-2 right-2 bg-red-500 w-8 h-8 rounded-full text-white text-2xl flex items-center justify-center">&times;</button>
   </div>
 </div>

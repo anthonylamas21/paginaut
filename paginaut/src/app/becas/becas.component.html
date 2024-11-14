@@ -1,9 +1,5 @@
 <app-navbar></app-navbar>
 
-<!-- Contenedor principal flexible -->
-<div class="flex flex-col min-h-screen">
-  <!-- Contenido principal que puede crecer -->
-  <main class="flex-grow">
     <p id="inicio"></p>
 
     <button id="scrollTopButton" (click)="scrollToSection('inicio')"
@@ -11,19 +7,21 @@
       <i class="fa-solid fa-chevron-up"></i>
     </button>
 
-    <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4 mb-8">
-        <li class="inline-flex items-center">
-          <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]" href="/principal">
-            Inicio
-          </a>
-          <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m9 18 6-6-6-6"></path>
-          </svg>
-        </li>
-        <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
-          Becas
-        </li>
-    </ol>
+    <div class="mt-4">
+      <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4">
+          <li class="inline-flex items-center">
+            <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/principal">
+              Inicio
+            </a>
+            <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </li>
+          <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate" aria-current="page">
+              Becas
+            </li>
+        </ol>
+    </div>
 
     <div class="relative">
       <!-- Imagen fija en la pantalla -->
@@ -33,7 +31,7 @@
   
     <div class="container mx-auto">
 
-      <div class="mb-10">
+      <div class="mb-10 my-8">
         <div class="relative bg-[#043D3D] rounded-lg z-20">
           <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3 ">
             Becas
@@ -119,11 +117,5 @@
             </div>
         </div>
       </div>
-      
     </div>
-  </main>
 
-  <!-- Inicio componente Footer -->
-  <app-footer></app-footer>
-  <!-- Fin Footer -->
-</div>

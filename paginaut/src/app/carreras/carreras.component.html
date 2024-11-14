@@ -8,11 +8,6 @@
     <i class="fa-solid fa-chevron-up"></i>
 </button>
 
-<!-- Contenedor principal flexible -->
-<div class="flex flex-col min-h-screen">
-  <!-- Contenido principal que puede crecer -->
-  <main class="flex-grow">
-    <!-- Fin Navbar -->
 
 <!-- Breadcrumb -->
 <div class="mt-4">
@@ -80,7 +75,7 @@
   </div>
   
   <!-- Carreras en Dirección de Negocios -->
-  <div class="container mt-4">
+  <div class="container mt-10">
   
     <div *ngIf="!isLoading" class="bg-[#043D3D] mt-4 rounded-lg sm:w-auto wl-20 relative z-20">
       <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">Dirección de negocios</h2>
@@ -107,7 +102,7 @@
   </div>
   
   <!-- Carreras en Dirección de Tecnologías de la Información -->
-  <div class="container mt-4">
+  <div class="container mt-10">
   
     <div *ngIf="!isLoading" class="bg-[#043D3D] mt-4 rounded-lg sm:w-auto wl-20 relative z-20">
       <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">Dirección de Tecnologías de la información</h2>
@@ -132,8 +127,4 @@
       </div>
     </div>
   </div>
-</div>
-  </main>
-   <!-- Inicio componente Footer -->
-   <app-footer></app-footer>
 </div>
