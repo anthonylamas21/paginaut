@@ -2,13 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PrincipalComponent } from './principal/principal.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { ComponentesComponent } from './componentes/componentes.component';
 import { CarrerasComponent } from './carreras/carreras.component';
 import { UnidadesAcademicasComponent } from './unidades-academicas/unidades-academicas.component';
 import { BecasComponent } from './becas/becas.component';
 import { TalleresComponent } from './talleres/talleres.component';
 import { LoginComponent } from './login/login.component';
-import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { EventosComponent } from './eventos/eventos.component';
 import { CalendarioComponent } from './calendario/calendario.component';
 import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component'; // Importa el nuevo componente
@@ -79,6 +77,7 @@ import { guardAuthGuard } from './Guard/guard-auth.guard';
 import { loginGuard } from './Guard/login.guard';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { InfoConvocatoriaComponent } from './info-convocatoria/info-convocatoria.component';
+import { TooltipManager } from './validaciones';
 
 const routes: Routes = [
   { path: '', redirectTo: '/principal', pathMatch: 'full' },
@@ -92,12 +91,10 @@ const routes: Routes = [
   //Rutas
   { path: 'principal', component: PrincipalComponent },
   { path: 'navbar', component: NavbarComponent },
-  { path: 'componentes', component: ComponentesComponent },
   { path: 'carreras', component: CarrerasComponent },
   { path: 'becas', component: BecasComponent },
   { path: 'unidades_academicas', component: UnidadesAcademicasComponent },
-  { path: 'login', component: LoginComponent, canActivate: [loginGuard]},
-  { path: 'info_carrera', component: InfoCarreraComponent },
+  { path: 'login', component: LoginComponent, canActivate: [loginGuard] },
   { path: 'eventos', component: EventosComponent },
   { path: 'calendario', component: CalendarioComponent },
   { path: 'cursos', component: CursosComponent },
@@ -115,26 +112,47 @@ const routes: Routes = [
   { path: 'galeria', component: GaleriaComponent },
   { path: 'enviar-correo', component: PasswordResetComponent },
   { path: 'biblioteca', component: BibliotecaComponent },
-  { path: 'admin/agregar-curso', component: AgregarCursoComponent, canActivate: [guardAuthGuard] },
-
+  {
+    path: 'admin/agregar-curso',
+    component: AgregarCursoComponent,
+    canActivate: [guardAuthGuard],
+  },
 
   // Info Carreras
-  { path: 'info_carreras/agrobiotecnologia',component: CarreraAgrobiotecnologiaComponent},
-  { path: 'info_carreras/procesos-alimentario', component: CarreraProcesosAlimentarioComponent},
+  {
+    path: 'info_carreras/agrobiotecnologia',
+    component: CarreraAgrobiotecnologiaComponent,
+  },
+  {
+    path: 'info_carreras/procesos-alimentario',
+    component: CarreraProcesosAlimentarioComponent,
+  },
   { path: 'info_carreras/acuicultura', component: CarreraAcuiculturaComponent },
   { path: 'info_carreras/turismo', component: CarreraTurismoComponent },
-  { path: 'info_carreras/administracion', component: CarreraAdministracionComponent},
-  { path: 'info_carreras/mercadotecnia', component: CarreraMercadotecniaComponent},
+  {
+    path: 'info_carreras/administracion',
+    component: CarreraAdministracionComponent,
+  },
+  {
+    path: 'info_carreras/mercadotecnia',
+    component: CarreraMercadotecniaComponent,
+  },
   { path: 'info_carreras/gastronomia', component: CarreraGastronomiaComponent },
   { path: 'info_carreras/contaduria', component: CarreraContaduriaComponent },
-  { path: 'info_carreras/desarrollo-software', component: CarreraDesarrolloSoftwareComponent},
+  {
+    path: 'info_carreras/desarrollo-software',
+    component: CarreraDesarrolloSoftwareComponent,
+  },
 
   // Info Horas Recreativas
   { path: 'info_horas_recreativas/futbol', component: FutbolComponent },
   { path: 'info_horas_recreativas/beisbol', component: BeisbolComponent },
   { path: 'info_horas_recreativas/basquetbol', component: BasquetbolComponent },
   { path: 'info_horas_recreativas/voleibol', component: VoleibolComponent },
-  { path: 'info_horas_recreativas/activacion-fisica', component: ActivacionFisicaComponent},
+  {
+    path: 'info_horas_recreativas/activacion-fisica',
+    component: ActivacionFisicaComponent,
+  },
   { path: 'info_horas_recreativas/dibujo', component: DibujoComponent },
   { path: 'info_horas_recreativas/danza', component: DanzaComponent },
   { path: 'info_horas_recreativas/ajedrez', component: AjedrezComponent },
@@ -197,7 +215,7 @@ const routes: Routes = [
   },
   { path: 'evento/:id', component: EventosComponent }, //Encriptado
   { path: 'noticia/:id', component: NoticiasComponent }, //Encriptado
-  { path: 'info-beca/:id', component: InfoBecaComponent },  //Encriptado
+  { path: 'info-beca/:id', component: InfoBecaComponent }, //Encriptado
   { path: 'info-unidades/:id', component: InfoUnidadesComponent },
   {
     path: 'admin/agenda-admin',
@@ -243,4 +261,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

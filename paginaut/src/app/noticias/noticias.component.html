@@ -1,21 +1,19 @@
 <!--Componente Navbar-->
 <app-navbar></app-navbar>
-<!-- Contenedor principal flexible -->
-<div class="flex flex-col min-h-screen">
-  <!-- Contenido principal que puede crecer -->
-  <main class="flex-grow my-4">
+<app-redes-sociales></app-redes-sociales>
+
     <p id="inicio"></p>
 
     <!--Boton de desplacamiento -->
     <button id="scrollTopButton" (click)="scrollToSection('inicio')"
-      class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50 translate-y-10 transition-all duration-1000 ease-out">
+      class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-secondary-color text-white w-12 h-12 rounded-full shadow-lg hover:bg-secondary-color hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 translate-y-10 transition-all duration-1000 ease-out">
       <i class="fa-solid fa-chevron-up"></i>
     </button>
     <!--Fin Boton de desplacamiento-->
 
     <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4 mb-8">
       <li class="inline-flex items-center">
-        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]"
+        <a class="flex items-center text-sm text-gray-500 hover:text-primary-color focus:outline-none focus:text-primary-color"
           href="/principal">
           Inicio
         </a>
@@ -26,7 +24,7 @@
         </svg>
       </li>
       <li class="inline-flex items-center">
-        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]"
+        <a class="flex items-center text-sm text-gray-500 hover:text-primary-color focus:outline-none focus:text-primary-color"
           href="/principal#noticias">
           Noticias
         </a>
@@ -36,7 +34,7 @@
           <path d="m9 18 6-6-6-6"></path>
         </svg>
       </li>
-      <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
+      <li class="inline-flex items-center text-sm font-semibold text-primary-color truncate" aria-current="page">
         {{ noticia?.titulo || 'Cargando...' }}
       </li>
     </ol>
@@ -76,7 +74,7 @@
         </div>
       </div>
 
-      <div *ngIf="error" class="text-center p-8 bg-red-100 text-red-700 rounded-lg">
+      <div *ngIf="error" class="text-center p-8 bg-red-100 text-red-600 rounded-lg">
         <div class="mt-8 p-4 bg-gray-100 rounded-lg text-center shadow-lg">
           <p class="text-gray-600 text-lg">¡Ups! No hemos encontrado la información que necesitas</p>
         </div>
@@ -95,8 +93,12 @@
               class="absolute inset-0 flex flex-col justify-between p-4 bg-black bg-opacity-40 text-white rounded-lg">
               <h3 class="text-3xl font-semibold">{{ noticia.titulo }}</h3>
               <div class="font-semibold flex justify-between">
-                <span class="text-base ">{{ noticia.lugar_noticia }}</span>
-                <span class="text-sm">Publicado el {{ noticia.fecha_publicacion| date:'dd/MM/yyyy' }}</span>
+                <div class="text-left mr-2">
+                  <span class="text-xs">{{ noticia.lugar_noticia }}</span>
+                </div>  
+                <div class="text-right ml-2">
+                  <span class="text-xs">Publicado: {{ noticia.fecha_string }}</span>
+                </div>             
               </div>
             </div>
           </div>
@@ -112,7 +114,7 @@
         </div>
 
         <div class="mt-8">
-          <div class="bg-[#043D3D] rounded-lg">
+          <div class="bg-primary-color rounded-lg">
             <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white mb-3">Galería de imágenes</h2>
           </div>
           <ngx-masonry class="mx-auto">
@@ -144,19 +146,14 @@
         </div>
 
 
-        <div class="mt-8 pt-6 border-t border-gray-300">
-          <p class="text-sm text-gray-600 text-center">
+        <div class="mt-8 py-4 border-t border-gray-300">
+          <p class="text-xs text-gray-600 text-center">
             {{ this.informacion }}
           </p>
         </div>
       </div>
     </div>
 
-  </main>
-  <!--Inicio componente Footer-->
-  <app-footer></app-footer>
-  <!--Fin Footer-->
-</div>
 
 <!-- Modal para imagen ampliada -->
 <div *ngIf="imagenAmpliada"

@@ -137,7 +137,7 @@ export class CarreraTurismoComponent {
       }
 
       nabvar.classList.remove('bg-transparent');
-      nabvar.classList.add('bg-[#043D3D]');
+      nabvar.classList.add('bg-primary-color');
     }
   }
 

@@ -1,14 +1,15 @@
 <app-navbar></app-navbar>
+<app-redes-sociales></app-redes-sociales>
 <p id="inicio"></p>
 
 <button id="scrollTopButton" (click)="scrollToSection('inicio')"
-  class="z-50 hidden fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50">
+  class="z-50 hidden fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-secondary-color text-white w-12 h-12 rounded-full shadow-lg hover:bg-secondary-color hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
   <i class="fa-solid fa-chevron-up"></i>
 </button>
 
 <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4 mb-8">
   <li class="inline-flex items-center">
-    <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] "
+    <a class="flex items-center text-sm text-gray-500 hover:text-primary-color focus:outline-none focus:text-primary-color "
       href="/principal">
       Inicio
     </a>
@@ -19,7 +20,7 @@
     </svg>
   </li>
   <li class="inline-flex items-center">
-    <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] "
+    <a class="flex items-center text-sm text-gray-500 hover:text-primary-color focus:outline-none focus:text-primary-color "
       href="/carreras">
       Carreras
       <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +30,7 @@
       </svg>
     </a>
   </li>
-  <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate capitalize" aria-current="page">
+  <li class="inline-flex items-center text-sm font-semibold text-primary-color truncate capitalize" aria-current="page">
     gastronomía
   </li>
 </ol>
@@ -39,7 +40,7 @@
   <div *ngIf="isLoading" class="bg-gray-50 rounded-lg animate-pulse">
     <div class="bg-gray-200 rounded-lg h-10"></div>
   </div>
-  <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg">
+  <div *ngIf="!isLoading" class="bg-primary-color rounded-lg">
     <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">TSU en Gastronomía </h2>
   </div>
 
@@ -145,7 +146,7 @@
 
 
 
-  <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg mt-8">
+  <div *ngIf="!isLoading" class="bg-primary-color rounded-lg mt-8">
     <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white text-right uppercase mb-3">Licenciatura en
       Gastronomía
     </h2>
@@ -190,13 +191,13 @@
     <div class="flex bg-gray-100 hover:bg-gray-200 rounded-full transition px-2 py-2">
       <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
         <button type="button" (click)="onTabClick($event, 'segment-1')"
-          [ngClass]="{'bg-[#04847C] text-white': selectedTab === 'segment-1', 'text-gray-500': selectedTab !== 'segment-1'}"
+          [ngClass]="{'bg-secondary-color text-white': selectedTab === 'segment-1', 'text-gray-500': selectedTab !== 'segment-1'}"
           class="tab-button py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-full"
           id="segment-item-1" (click)="selectTab('segment-1')">
           Técnico Superior Universitario
         </button>
         <button type="button" (click)="onTabClick($event, 'segment-2')"
-          [ngClass]="{'bg-[#04847C] text-white': selectedTab === 'segment-2', 'text-gray-500': selectedTab !== 'segment-2'}"
+          [ngClass]="{'bg-secondary-color text-white': selectedTab === 'segment-2', 'text-gray-500': selectedTab !== 'segment-2'}"
           class="tab-button py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-full"
           id="segment-item-2" (click)="selectTab('segment-2')">
           Licenciatura
@@ -339,7 +340,7 @@
   </div>
 
 
-  <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg my-8">
+  <div *ngIf="!isLoading" class="bg-primary-color rounded-lg my-8">
     <h2 class="text-xl font-poppins font-extralight py-2 px-2 text-white uppercase">Galería</h2>
   </div>
   <ngx-masonry class="mx-auto">

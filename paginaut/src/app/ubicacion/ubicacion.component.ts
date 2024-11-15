@@ -37,7 +37,7 @@ export class UbicacionComponent implements OnInit {
       }
       
       navbar.classList.remove('bg-transparent');
-      navbar.classList.add('bg-[#043D3D]');
+      navbar.classList.add('bg-primary-color');
     }
   }
   

@@ -150,7 +150,7 @@ export class EventoComponent implements OnInit,  OnDestroy {
       }
 
       nabvar.classList.remove('bg-transparent');
-      nabvar.classList.add('bg-[#043D3D]');
+      nabvar.classList.add('bg-primary-color');
     }
   }
 
@@ -488,14 +488,19 @@ export class EventoComponent implements OnInit,  OnDestroy {
     }
   }
 
-  onFileChangeArchivos(event: any): void {
-    const files = event.target.files;
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        this.archivosActuales.push(files[i]);
-      }
+onFileChangeArchivos(event: any): void {
+  const files = event.target.files;
+  if (files) {
+    for (let i = 0; i < files.length; i++) {
+      // Guardamos el nombre y la ruta del archivo
+      this.archivosActuales.push({
+        nombre_archivo: files[i].name,
+        ruta_archivo: URL.createObjectURL(files[i]), // Usamos Object URL para previsualizar el archivo
+      });
     }
   }
+}
+
 
   removeImagenGeneral(index: number): void {
     const imagenParaEliminar = this.imagenesGeneralesActuales[index];

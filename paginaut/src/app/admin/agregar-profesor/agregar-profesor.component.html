@@ -5,7 +5,7 @@
   <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4">
     <li class="inline-flex items-center">
       <a
-        class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]"
+        class="flex items-center text-sm text-gray-500 hover:text-primary-color focus:outline-none focus:text-primary-color"
         href="/admin/principal_admin"
       >
         Panel Administrador
@@ -35,7 +35,7 @@
 </div>
 
 <div class="p-2 mx-auto">
-  <div class="bg-[#043D3D] rounded-lg mt-8 mb-5">
+  <div class="bg-primary-color rounded-lg mt-8 mb-5">
     <h2
       class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4"
     >
@@ -90,7 +90,7 @@
               type="text"
               id="nombre"
               formControlName="nombre"
-              class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+              class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
               placeholder="Nombre del Profesor"
               maxlength="50"
               required
@@ -123,7 +123,7 @@
               type="text"
               id="apellido"
               formControlName="apellido"
-              class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+              class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
               placeholder="Apellido del Profesor"
               maxlength="50"
               required
@@ -154,7 +154,7 @@
               type="email"
               id="correo"
               formControlName="correo"
-              class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+              class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
               placeholder="Correo Electrónico"
               required
             />
@@ -187,7 +187,7 @@
               type="text"
               id="telefono"
               formControlName="telefono"
-              class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+              class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
               placeholder="Teléfono"
               maxlength="20"
               required
@@ -222,7 +222,7 @@
               type="text"
               id="especialidad"
               formControlName="especialidad"
-              class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+              class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
               placeholder="Especialidad"
               maxlength="100"
               required
@@ -256,7 +256,7 @@
             <select
             id="grado_academico"
             formControlName="grado_academico"
-            class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+            class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
             required
             (keypress)="validateInput($event, 'text')"
           >
@@ -293,7 +293,7 @@
               type="text"
               id="experiencia"
               formControlName="experiencia"
-              class="border-2 border-[#EDEDED] block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
+              class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
               placeholder="Años de Experiencia"
               required
 
@@ -392,7 +392,7 @@
             type="submit"
             [disabled]="profesorForm.invalid || tipoProfesorError || isSubmitting"
             [ngClass]="{'opacity-50 cursor-not-allowed': profesorForm.invalid}"
-            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#04847C] text-base font-medium text-white hover:bg-[#037c74] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#04847C] sm:ml-3 sm:w-auto sm:text-sm">
+            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-secondary-color text-base font-medium text-white hover:bg-secondary-color focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-color sm:ml-3 sm:w-auto sm:text-sm">
             {{ currentProfesorId ? "Actualizar Profesor" : "Agregar Profesor" }}
           </button>
 
@@ -539,7 +539,7 @@
       <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
         <button
           type="button"
-          class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none active"
+          class="hs-tab-active:font-semibold hs-tab-active:border-secondary-color hs-tab-active:text-secondary-color py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-secondary-color focus:outline-none focus:text-secondary-color disabled:opacity-50 disabled:pointer-events-none active"
           id="tabs-with-icons-item-1"
           data-hs-tab="#tabs-with-icons-1"
           aria-controls="tabs-with-icons-1"
@@ -550,7 +550,7 @@
         </button>
         <button
           type="button"
-          class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none"
+          class="hs-tab-active:font-semibold hs-tab-active:border-secondary-color hs-tab-active:text-secondary-color py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-secondary-color focus:outline-none focus:text-secondary-color disabled:opacity-50 disabled:pointer-events-none"
           id="tabs-with-icons-item-2"
           data-hs-tab="#tabs-with-icons-2"
           aria-controls="tabs-with-icons-2"
@@ -594,7 +594,7 @@
                   </div>
                   <input
                     (input)="filterGlobal($event)"
-                    class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]"
+                    class="py-3 ps-10 pe-4 block w-full border-third-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-third-color"
                     type="text"
                     placeholder="Ingresa tu búsqueda"
                     value=""
@@ -717,7 +717,7 @@
                               class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
                             >
                               <div
-                                class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                class="text-secondary-color max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
                               >
                                 <i class="fas fa-edit"></i>
                                 <div
@@ -791,7 +791,7 @@
                               class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
                             >
                               <div
-                                class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                class="text-danger-color max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
                               >
                                 <i class="fa fa-ban" aria-hidden="true"></i>
                                 <div
@@ -955,7 +955,7 @@
                                 class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
                               >
                                 <div
-                                  class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                  class="text-secondary-color max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
                                 >
                                   <i class="fa-solid fa-arrow-rotate-left"></i>
                                   <div
@@ -1029,7 +1029,7 @@
                                 class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block"
                               >
                                 <div
-                                  class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                  class="text-danger-color max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
                                 >
                                   <i class="fa fa-trash" aria-hidden="true"></i>
                                   <div

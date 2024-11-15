@@ -4,6 +4,7 @@ import { Table,TableModule } from 'primeng/table';
 import Swal from 'sweetalert2';
 import { UsuarioService, Usuario, Logout } from '../usuario.service';
 import * as CryptoJS from 'crypto-js';
+import { TooltipManager } from '../validaciones';
 
 interface Item {
   nombre: string;
@@ -150,47 +151,19 @@ export class NavbarComponent  implements OnInit {
     });
   }
 
-
-
-  
-}
-
-// Define the TooltipManager class outside of the Angular component
-class TooltipManager {
-  static adjustTooltipPosition(button: HTMLElement, tooltip: HTMLElement): void {
-      // Obtener dimensiones del botón y del tooltip
-      const buttonRect = button.getBoundingClientRect();
-      const tooltipRect = tooltip.getBoundingClientRect();
-
-      // Obtener dimensiones de la ventana
-      const windowWidth = window.innerWidth;
-      const windowHeight = window.innerHeight;
-
-      // Calcular la posición preferida del tooltip
-      const preferredLeft = buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
-      const preferredTop = buttonRect.top - tooltipRect.height - 10; // Espacio entre el botón y el tooltip
-
-      // Ajustar la posición si se sale de la pantalla hacia la izquierda
-      let left = Math.max(preferredLeft, 0);
-
-      // Ajustar la posición si se sale de la pantalla hacia arriba
-      let top = Math.max(preferredTop, 0);
-
-      // Ajustar la posición si el tooltip se sale de la pantalla hacia la derecha
-      if (left + tooltipRect.width > windowWidth) {
-          left = windowWidth - tooltipRect.width;
+  mostrar(elemento: any): void {
+    if (elemento.tagName.toLowerCase() === 'button' || elemento.tagName.toLowerCase() === 'a') {
+      const tooltipElement = elemento.querySelector('.hs-tooltip');
+      if (tooltipElement) {
+        tooltipElement.classList.toggle('show');
+        const tooltipContent = tooltipElement.querySelector('.hs-tooltip-content');
+        if (tooltipContent) {
+          tooltipContent.classList.toggle('hidden');
+          tooltipContent.classList.toggle('invisible');
+          tooltipContent.classList.toggle('visible');
+          TooltipManager.adjustTooltipPosition(elemento, tooltipContent);
+        }
       }
-
-      // Ajustar la posición si el tooltip se sale de la pantalla hacia abajo
-      if (top + tooltipRect.height > windowHeight) {
-          top = windowHeight - tooltipRect.height;
-      }
-
-      // Aplicar posición al tooltip
-      tooltip.style.position = 'fixed';
-      tooltip.style.top = `${top}px`;
-      tooltip.style.left = `${left}px`;
+    }
   }
-
-
 }

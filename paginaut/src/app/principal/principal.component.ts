@@ -2,7 +2,6 @@ import { Component, HostListener, OnInit, AfterViewInit , ElementRef, ViewChild 
 import { EventoService, Evento } from '../evento.service';
 import { NoticiaService, Noticia } from '../noticia.service';
 import { VistasService } from '../services/vistas.service';
-import * as CryptoJS from 'crypto-js';
 import { Router } from '@angular/router';
 import Hashids from 'hashids';
 import { BASEIMAGEN } from '../constans';
@@ -238,10 +237,10 @@ verMenosEventos(): void {
       if (window.scrollY > inicioSectionBottom) {
         button?.classList.remove('hidden');
         nabvar.classList.remove('bg-transparent', 'transition-colors', 'duration-500');
-        nabvar.classList.add('bg-[#043D3D]', 'transition-colors', 'duration-500');
+        nabvar.classList.add('bg-primary-color', 'transition-colors', 'duration-500');
       } else {
         button?.classList.add('hidden');
-        nabvar.classList.remove('bg-[#043D3D]', 'transition-colors', 'duration-500');
+        nabvar.classList.remove('bg-primary-color', 'transition-colors', 'duration-500');
         nabvar.classList.add('bg-transparent', 'transition-colors', 'duration-500');
       }
     }

@@ -24,13 +24,11 @@ import { AppComponent } from './app.component';
 import { PrincipalComponent } from './principal/principal.component';
 import { CarrerasComponent } from './carreras/carreras.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { ComponentesComponent } from './componentes/componentes.component';
 import { FooterComponent } from './footer/footer.component';
 import { UnidadesAcademicasComponent } from './unidades-academicas/unidades-academicas.component';
 import { EventosComponent } from './eventos/eventos.component';
 import { BecasComponent } from './becas/becas.component';
 import { LoginComponent } from './login/login.component';
-import { InfoCarreraComponent } from './info-carrera/info-carrera.component';
 import { CalendarioComponent } from './calendario/calendario.component';
 import { CursosComponent } from './cursos/cursos.component';
 import { InfoCursoComponent } from './info-curso/info-curso.component';
@@ -109,7 +107,6 @@ import { InfoConvocatoriaComponent } from './info-convocatoria/info-convocatoria
     PrincipalComponent,
     CarrerasComponent,
     NavbarComponent,
-    ComponentesComponent,
     UnidadesAcademicasComponent,
     FooterComponent,
     TalleresComponent,
@@ -117,7 +114,6 @@ import { InfoConvocatoriaComponent } from './info-convocatoria/info-convocatoria
     EventosComponent,
     BecasComponent,
     LoginComponent,
-    InfoCarreraComponent,
     CalendarioComponent,
     CursosComponent,
     InfoCursoComponent,

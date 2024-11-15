@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Renderer2, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Renderer2, ChangeDetectorRef, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { InstalacionService, Instalacion, InstalacionResponse } from '../instalacionService/instalacion.service';
 import Hashids from 'hashids';
@@ -64,28 +64,31 @@ export class UnidadesAcademicasComponent implements OnInit, AfterViewInit {
   }
   
 
-  private setNavbarColor(): void {
-    const navbar = document.getElementById('navbarAccion');
-    if (navbar) {
-      this.renderer.removeClass(navbar, 'bg-transparent');
-      this.renderer.addClass(navbar, 'bg-[#043D3D]');
-      this.renderer.setStyle(navbar, 'position', 'fixed');
-      this.renderer.setStyle(navbar, 'top', '0');
-      this.renderer.setStyle(navbar, 'left', '0');
-      this.renderer.setStyle(navbar, 'right', '0');
-      this.renderer.setStyle(navbar, 'z-index', '1000');
-    }
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    this.setNavbarColor();
+  }
 
+  private setNavbarColor(): void {
     const button = document.getElementById('scrollTopButton');
-    if (button) {
-      this.renderer.addClass(button, 'hidden');
+    const nabvar = document.getElementById('navbarAccion');
+    const inicioSection = document.getElementById('inicio');
+
+    if (inicioSection && nabvar) {
+      const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
+
+      if (window.scrollY > inicioSectionBottom) {
+        button?.classList.remove('hidden');
+      } else {
+        button?.classList.add('hidden');
+      }
+      
+      nabvar.classList.remove('bg-transparent');
+      nabvar.classList.add('bg-primary-color');
     }
   }
 
   scrollToSection(sectionId: string): void {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
 }

@@ -1,10 +1,11 @@
 <app-navbar></app-navbar>
+<app-redes-sociales></app-redes-sociales>
 <p id="inicio"></p>
 
 <button
   id="scrollTopButton"
   (click)="scrollToSection('inicio')"
-  class="z-50 hidden fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50"
+  class="z-50 hidden fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-secondary-color text-white w-12 h-12 rounded-full shadow-lg hover:bg-secondary-color hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
 >
   <i class="fa-solid fa-chevron-up"></i>
 </button>
@@ -14,7 +15,7 @@
 >
   <li class="inline-flex items-center">
     <a
-      class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]"
+      class="flex items-center text-sm text-gray-500 hover:text-primary-color focus:outline-none focus:text-primary-color"
       href="/principal"
     >
       Inicio
@@ -36,7 +37,7 @@
   </li>
   <li class="inline-flex items-center">
     <a
-      class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]"
+      class="flex items-center text-sm text-gray-500 hover:text-primary-color focus:outline-none focus:text-primary-color"
       href="/carreras"
     >
       Carreras
@@ -57,7 +58,7 @@
     </a>
   </li>
   <li
-    class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate"
+    class="inline-flex items-center text-sm font-semibold text-primary-color truncate"
     aria-current="page"
   >
     MERCADOTECNIA
@@ -71,7 +72,7 @@
     <div class="bg-gray-200 rounded-lg h-10"></div>
   </div>
 
-  <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg">
+  <div *ngIf="!isLoading" class="bg-primary-color rounded-lg">
     <h2
       class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3"
     >
@@ -208,7 +209,7 @@
     </div>
   </div>
 
-  <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg mt-8">
+  <div *ngIf="!isLoading" class="bg-primary-color rounded-lg mt-8">
     <h2
       class="text-xl font-semibold font-poppins py-2 px-2 text-white text-right uppercase mb-3"
     >
@@ -273,7 +274,7 @@
         <button
           type="button"
           (click)="onTabClick($event, 'segment-1')"
-          class="hs-tab-active:bg-[#04847C] hs-tab-active:text-white py-3 px-4 inline-flex items-center gap-x-2 bg-transparent text-sm text-gray-500 font-medium rounded-full hover:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none active"
+          class="hs-tab-active:bg-secondary-color hs-tab-active:text-white py-3 px-4 inline-flex items-center gap-x-2 bg-transparent text-sm text-gray-500 font-medium rounded-full hover:text-secondary-color disabled:opacity-50 disabled:pointer-events-none active"
           id="segment-item-1"
           data-hs-tab="#segment-1"
           aria-controls="segment-1"
@@ -284,7 +285,7 @@
         <button
           type="button"
           (click)="onTabClick($event, 'segment-2')"
-          class="hs-tab-active:bg-[#04847C] hs-tab-active:text-white py-3 px-4 inline-flex items-center gap-x-2 bg-transparent text-sm text-gray-500 font-medium rounded-full hover:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none"
+          class="hs-tab-active:bg-secondary-color hs-tab-active:text-white py-3 px-4 inline-flex items-center gap-x-2 bg-transparent text-sm text-gray-500 font-medium rounded-full hover:text-secondary-color disabled:opacity-50 disabled:pointer-events-none"
           id="segment-item-2"
           data-hs-tab="#segment-2"
           aria-controls="segment-2"
@@ -495,7 +496,7 @@
     </div>
   </div>
 
-  <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg my-8">
+  <div *ngIf="!isLoading" class="bg-primary-color rounded-lg my-8">
     <h2
       class="text-xl font-poppins font-extralight py-2 px-2 text-white uppercase"
     >

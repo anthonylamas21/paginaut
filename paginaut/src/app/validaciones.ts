@@ -216,3 +216,44 @@ export function validarCorreoUTDelacosta(): ValidatorFn {
     return null; // No hay errores, el correo es válido y está formateado correctamente
   };
 }
+
+export class TooltipManager {
+  static adjustTooltipPosition(
+    button: HTMLElement,
+    tooltip: HTMLElement
+  ): void {
+    // Obtener dimensiones del botón y del tooltip
+    const buttonRect = button.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
+
+    // Obtener dimensiones de la ventana
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    // Calcular la posición preferida del tooltip
+    const preferredLeft =
+      buttonRect.left - tooltipRect.width / 2 + buttonRect.width / 2;
+    const preferredTop = buttonRect.top - tooltipRect.height - 10; // Espacio entre el botón y el tooltip
+
+    // Ajustar la posición si se sale de la pantalla hacia la izquierda
+    let left = Math.max(preferredLeft, 0);
+
+    // Ajustar la posición si se sale de la pantalla hacia arriba
+    let top = Math.max(preferredTop, 0);
+
+    // Ajustar la posición si el tooltip se sale de la pantalla hacia la derecha
+    if (left + tooltipRect.width > windowWidth) {
+      left = windowWidth - tooltipRect.width;
+    }
+
+    // Ajustar la posición si el tooltip se sale de la pantalla hacia abajo
+    if (top + tooltipRect.height > windowHeight) {
+      top = windowHeight - tooltipRect.height;
+    }
+
+    // Aplicar posición al tooltip
+    tooltip.style.position = 'fixed';
+    tooltip.style.top = `${top}px`;
+    tooltip.style.left = `${left}px`;
+  }
+}

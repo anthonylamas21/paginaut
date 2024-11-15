@@ -1,11 +1,12 @@
  <!--Componente Navbar-->
  <app-navbar></app-navbar>
+<app-redes-sociales></app-redes-sociales>
 
  <p id="inicio"></p>
 
 <!--Boton de desplacamiento -->
 <button id="scrollTopButton" (click)="scrollToSection('inicio')"
-    class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50">
+    class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-secondary-color text-white w-12 h-12 rounded-full shadow-lg hover:bg-secondary-color hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
     <i class="fa-solid fa-chevron-up"></i>
 </button>
 
@@ -13,7 +14,7 @@
  <div class=" mt-4">
     <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4">
         <li class="inline-flex items-center">
-          <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/principal">
+          <a class="flex items-center text-sm text-gray-500 hover:text-primary-color focus:outline-none focus:text-primary-color " href="/principal">
             Inicio
           </a>
           <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -21,14 +22,14 @@
           </svg>
         </li>
         <li class="inline-flex items-center">
-            <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] ">
+            <a class="flex items-center text-sm text-gray-500 hover:text-primary-color focus:outline-none focus:text-primary-color ">
               UTC
             </a>
             <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="m9 18 6-6-6-6"></path>
             </svg>
           </li>
-          <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
+          <li class="inline-flex items-center text-sm font-semibold text-primary-color truncate" aria-current="page">
             Ubicación
           </li>
       </ol>
@@ -38,8 +39,8 @@
   <div class="max-w-7xl w-full">
     <!-- Sección de Ubicación -->
    
-      <h2 class="text-4xl font-extrabold text-[#043D3D] mb-6 text-center">Visítenos</h2>
-      <p class="text-xl text-[#043D3D] mb-12 text-center">Universidad Tecnológica de la Costa</p>
+      <h2 class="text-4xl font-extrabold text-primary-color mb-6 text-center">Visítenos</h2>
+      <p class="text-xl text-primary-color mb-12 text-center">Universidad Tecnológica de la Costa</p>
       
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div class="rounded-lg overflow-hidden shadow-lg">
@@ -91,7 +92,7 @@
 
     <!-- Botón de contacto -->
     <div class="my-12 text-center">
-      <a href="/correo" class="inline-block bg-[#04847C] hover:bg-[#032D2D] text-white font-bold py-4 px-10 rounded-full shadow-xl transition-transform transform hover:scale-105 duration-300">
+      <a href="/correo" class="inline-block bg-secondary-color hover:bg-primary-color text-white font-bold py-4 px-10 rounded-full shadow-xl transition-transform transform hover:scale-105 duration-300">
         Envíanos un mensaje
       </a>
     </div>

@@ -2,7 +2,7 @@
 <p id="inicio"></p>
 <!--Fin Navbar-->
 
-<div class="bg-[#043D3D] rounded-lg mt-28 mb-5">
+<div class="bg-primary-color rounded-lg mt-28 mb-5">
   <h2 class="text-3xl text-center font-poppins py-2 px-2 font-bold-700 text-white uppercase mb-4">
     Carreras
   </h2>
@@ -262,7 +262,7 @@
       <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
         <button
           type="button"
-          class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none active"
+          class="hs-tab-active:font-semibold hs-tab-active:border-secondary-color hs-tab-active:text-secondary-color py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-secondary-color focus:outline-none focus:text-secondary-color disabled:opacity-50 disabled:pointer-events-none active"
           id="tabs-with-icons-item-1"
           data-hs-tab="#tabs-with-icons-1"
           aria-controls="tabs-with-icons-1"
@@ -273,7 +273,7 @@
         </button>
         <button
           type="button"
-          class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none"
+          class="hs-tab-active:font-semibold hs-tab-active:border-secondary-color hs-tab-active:text-secondary-color py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-secondary-color focus:outline-none focus:text-secondary-color disabled:opacity-50 disabled:pointer-events-none"
           id="tabs-with-icons-item-2"
           data-hs-tab="#tabs-with-icons-2"
           aria-controls="tabs-with-icons-2"
@@ -313,7 +313,7 @@
                     </svg>
                   </div>
                   <input
-                    class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]"
+                    class="py-3 ps-10 pe-4 block w-full border-third-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-third-color"
                     type="text"
                     placeholder="Ingresa tu búsqueda"
                     value=""
@@ -512,7 +512,7 @@
                           >
                             <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                               <div
-                                class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                class="text-secondary-color max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
                               >
                                 <i class="fas fa-edit"></i>
                                 <div
@@ -543,7 +543,7 @@
                           >
                             <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                               <div
-                                class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                class="text-danger-color max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
                               >
                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                 <div
@@ -572,7 +572,7 @@
                           (click)="openMapaModal(carrera)"
                         >
                         <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
-                          <div class="text-[#04847C] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                          <div class="text-secondary-color max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               class="h-6 w-6"
@@ -785,7 +785,7 @@
                             >
                               <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                 <div
-                                  class="text-[#EF4444] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                  class="text-danger-color max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
                                 >
                                   <i class="fa fa-trash" aria-hidden="true"></i>
                                   <div
@@ -937,7 +937,7 @@
               <!-- Botón de eliminar -->
               <button *ngIf="asignaturaFila[cuatrimestreNum]"
                       (click)="onDeleteAsignatura(asignaturaFila[cuatrimestreNum].id)"
-                      class="text-red-500 hover:text-red-700">
+                      class="text-red-600 ">
                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>

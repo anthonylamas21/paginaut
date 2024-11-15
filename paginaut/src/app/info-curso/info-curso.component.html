@@ -1,11 +1,12 @@
   <!-- Componente Navbar -->
   <app-navbar></app-navbar>
+<app-redes-sociales></app-redes-sociales>
 
   <p id="inicio"></p>
 
   <!-- Botón de desplazamiento -->
   <button id="scrollTopButton" (click)="scrollToSection('inicio')"
-      class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-white w-12 h-12 rounded-full shadow-lg hover:bg-[#43A094] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition-all duration-300 ease-in-out">
+      class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-secondary-color text-white w-12 h-12 rounded-full shadow-lg hover:bg-[#43A094] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition-all duration-300 ease-in-out">
       <i class="fa-solid fa-chevron-up"></i>
   </button>
 
@@ -15,7 +16,7 @@
     <main class="flex-grow">
       <ol class="flex items-center whitespace-nowrap ml-4 mt-28">
         <li class="inline-flex items-center">
-          <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] transition-colors duration-300" href="/principal">
+          <a class="flex items-center text-sm text-gray-500 hover:text-primary-color focus:outline-none focus:text-primary-color transition-colors duration-300" href="/principal">
             Inicio
           </a>
           <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24"
@@ -25,7 +26,7 @@
           </svg>
         </li>
         <li class="inline-flex items-center">
-          <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] transition-colors duration-300" href="/cursos">
+          <a class="flex items-center text-sm text-gray-500 hover:text-primary-color focus:outline-none focus:text-primary-color transition-colors duration-300" href="/cursos">
             Cursos
             <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24"
               height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -34,7 +35,7 @@
             </svg>
           </a>
         </li>
-        <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
+        <li class="inline-flex items-center text-sm font-semibold text-primary-color truncate" aria-current="page">
           {{ curso?.nombre }}
         </li>
       </ol>
@@ -120,7 +121,7 @@
                 </div>
                 <button *ngIf="(curso?.descripcion?.length || 0) > 200" 
                         (click)="toggleMostrarTextoCompleto()" 
-                        class="mt-4 text-[#04847C] hover:text-[#043D3D] transition-colors duration-300 focus:outline-none">
+                        class="mt-4 text-secondary-color hover:text-primary-color transition-colors duration-300 focus:outline-none">
                   {{ mostrarTextoCompleto ? 'Ver menos' : 'Ver más' }}
                 </button>
               </div>
@@ -138,7 +139,7 @@
     
           <!-- Sección de Profesores -->
             <div *ngIf="!isLoading" class="mb-10 mt-12">
-              <div class="bg-[#043D3D] rounded-lg">
+              <div class="bg-primary-color rounded-lg">
                 <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
                   Profesores del curso
                 </h2>
@@ -164,7 +165,7 @@
 
             <!-- Galería de Imágenes -->
             <div *ngIf="!isLoading" class="mb-10">
-              <div class="bg-[#043D3D] rounded-lg">
+              <div class="bg-primary-color rounded-lg">
                 <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
                   Galería de Imágenes
                 </h2>
@@ -188,7 +189,7 @@
 
             <!-- Sección de Eventos -->
             <div *ngIf="!isLoading" class="mb-10">
-              <div class="bg-[#043D3D] rounded-lg">
+              <div class="bg-primary-color rounded-lg">
                 <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
                   Eventos
                 </h2>
@@ -201,7 +202,7 @@
                 <img class="w-full h-48 object-cover rounded-t-xl" [src]="base + evento.imagen_principal || ''"
                   [alt]="evento.titulo">
                 <div class="p-4 md:p-5 flex-grow">
-                  <h3 class="text-lg font-bold text-gray-800 transition-colors duration-300 ease-in-out hover:text-[#04847C]">
+                  <h3 class="text-lg font-bold text-gray-800 transition-colors duration-300 ease-in-out hover:text-secondary-color">
                     {{ evento.titulo }}
                   </h3>
                   <p class="mt-1 text-gray-500 line-clamp-4">

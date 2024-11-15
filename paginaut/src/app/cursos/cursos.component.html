@@ -1,11 +1,12 @@
 <!-- Componente Navbar -->
 <app-navbar></app-navbar>
+<app-redes-sociales></app-redes-sociales>
 
 <p id="inicio"></p>
 
 <!--Boton de desplacamiento -->
 <button id="scrollTopButton" (click)="scrollToSection('inicio')"
-    class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50">
+    class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-secondary-color text-white w-12 h-12 rounded-full shadow-lg hover:bg-secondary-color hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
     <i class="fa-solid fa-chevron-up"></i>
 </button>
 
@@ -15,7 +16,7 @@
     <div class="mt-4">
       <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4">
           <li class="inline-flex items-center">
-            <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/principal">
+            <a class="flex items-center text-sm text-gray-500 hover:text-primary-color focus:outline-none focus:text-primary-color " href="/principal">
               Inicio
             </a>
             <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -37,7 +38,7 @@
     <div class="container mx-auto">
 
       <div class="mb-10 my-8">
-        <div class="bg-[#043D3D] rounded-lg relative z-20">
+        <div class="bg-primary-color rounded-lg relative z-20">
           <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
             Cursos</h2>
         </div>
@@ -53,7 +54,7 @@
           </svg>
         </div>
         <input
-          class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]"
+          class="py-3 ps-10 pe-4 block w-full border-third-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-third-color"
           type="text" placeholder="Ingresa tu búsqueda" [(ngModel)]="searchTerm" (input)="filterCursos()">
       </div>
 
@@ -91,7 +92,7 @@
             <div class="flex flex-col flex-grow">
               <!-- Título -->
               <div class="text-center">
-                <h3 class="text-xl font-bold text-[#04847C] mb-4 transition-colors duration-300 hover:text-[#036d62] truncate">
+                <h3 class="text-xl font-bold text-secondary-color mb-4 transition-colors duration-300 hover:text-[#036d62] truncate">
                   {{ curso.nombre }}
                 </h3>
               </div>
@@ -106,7 +107,7 @@
               <!-- Botón -->
               <div class="mt-auto">
                 <a (click)="verDetalleCurso(curso.id)" 
-                   class="bg-[#04847C] block w-full py-3 px-6 text-center rounded-md text-white font-medium hover:bg-[#036d62] transition-colors duration-300 cursor-pointer">
+                   class="bg-secondary-color block w-full py-3 px-6 text-center rounded-md text-white font-medium hover:bg-[#036d62] transition-colors duration-300 cursor-pointer">
                   Más información
                 </a>
               </div>

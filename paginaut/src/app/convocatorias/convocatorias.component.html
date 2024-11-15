@@ -1,17 +1,18 @@
 <!-- Componente Navbar -->
 <app-navbar></app-navbar>
+<app-redes-sociales></app-redes-sociales>
 <p id="inicio"></p>
 
 <!-- Botón de desplazamiento -->
 <button id="scrollTopButton" (click)="scrollToSection('inicio')"
-  class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50">
+  class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-secondary-color text-white w-12 h-12 rounded-full shadow-lg hover:bg-secondary-color hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
   <i class="fa-solid fa-chevron-up"></i>
 </button>
 
     <div class="mt-4">
       <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4">
         <li class="inline-flex items-center">
-          <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]"
+          <a class="flex items-center text-sm text-gray-500 hover:text-primary-color focus:outline-none focus:text-primary-color"
             href="/principal">
             Inicio
           </a>
@@ -21,7 +22,7 @@
             <path d="m9 18 6-6-6-6"></path>
           </svg>
         </li>
-        <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
+        <li class="inline-flex items-center text-sm font-semibold text-primary-color truncate" aria-current="page">
           Convocatorias
         </li>
       </ol>
@@ -39,7 +40,7 @@
       <section id="convocatorias" class=" bg-white px-4 sm:px-8 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="mb-10">
-            <div class="bg-[#043D3D] rounded-lg relative z-20">
+            <div class="bg-primary-color rounded-lg relative z-20">
               <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3">
                 Convocatorias
               </h2>
@@ -87,7 +88,7 @@
 
                 <!-- Fecha de la convocatoria -->
                 <div
-                  class="flex sm:flex-col items-center justify-center bg-[#04847C] text-white w-full sm:w-28 p-2 sm:text-center">
+                  class="flex sm:flex-col items-center justify-center bg-secondary-color text-white w-full sm:w-28 p-2 sm:text-center">
                   <p class="text-sm sm:text-lg font-bold">{{ convocatoria.fecha_inicio | date:'dd' }}</p>
                   <p class="text-sm sm:text-lg mx-1 block sm:hidden">de</p>
                   <!-- Visible en pantallas pequeñas, oculto en grandes -->
@@ -103,7 +104,7 @@
                   </div>
                   <div class="text-right">
                     <a *ngIf="convocatoria.id !== undefined" (click)="verConvocatoria(convocatoria.id!)"
-                      class="cursor-pointer text-[#04847C] hover:text-[#043D3D] font-semibold text-sm transition-colors duration-300">
+                      class="cursor-pointer text-secondary-color hover:text-primary-color font-semibold text-sm transition-colors duration-300">
                       Leer más <i class="fa-solid fa-chevron-right ml-1"></i>
                     </a>
                   </div>
@@ -112,12 +113,12 @@
               <!-- Botón Ver más y Ver menos -->
               <div class="mt-6 sm:mt-8 text-center">
                 <button *ngIf="convocatoriasVisibles.length < convocatorias.length" (click)="verMasConvocatorias()"
-                  class="bg-[#043D3D] hover:bg-[#032D2D] text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full shadow-lg transition-colors duration-300">
+                  class="bg-primary-color hover:bg-primary-color text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full shadow-lg transition-colors duration-300">
                   Mostrar más convocatorias<i class="fa-solid fa-angle-down ml-2"></i>
                 </button>
 
                 <button *ngIf="convocatoriasVisibles.length > cantidadInicial" (click)="verMenosConvocatorias()"
-                  class="bg-[#043D3D] hover:bg-[#032D2D] text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full shadow-lg transition-colors duration-300 mt-4">
+                  class="bg-primary-color hover:bg-primary-color text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full shadow-lg transition-colors duration-300 mt-4">
                   Mostrar menos convocatorias <i class="fa-solid fa-angle-up ml-2"></i>
                 </button>
               </div>
@@ -156,7 +157,7 @@
 
           <!-- Imágenes generales -->
           <div *ngIf="convocatoria.imagenes_generales?.length" class="my-8">
-            <div class="bg-[#043D3D] rounded-lg">
+            <div class="bg-primary-color rounded-lg">
               <h2 class="text-xl font-semibold py-2 px-2 text-white mb-3">Galería de imágenes</h2>
             </div>
             <ngx-masonry class="mx-auto">

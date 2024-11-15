@@ -87,7 +87,7 @@
                   <button
                     type="button"
                     (click)="removePerfilProfesional(i)"
-                    class="mt-2 py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-[#EF4444] text-white hover:opacity-80 transition-opacity duration-300"
+                    class="mt-2 py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-danger-color text-white hover:opacity-80 transition-opacity duration-300"
                   >
                     Eliminar
                   </button>
@@ -96,7 +96,7 @@
               <button
                 type="button"
                 (click)="addPerfilProfesional()"
-                class="mt-2 py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-[#04847C] text-white hover:opacity-80 transition-opacity duration-300"
+                class="mt-2 py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-secondary-color text-white hover:opacity-80 transition-opacity duration-300"
               >
                 Agregar Perfil Profesional
               </button>
@@ -117,7 +117,7 @@
                   <button
                     type="button"
                     (click)="removeOcupacionProfesional(i)"
-                    class="mt-2 py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-[#EF4444] text-white hover:opacity-80 transition-opacity duration-300"
+                    class="mt-2 py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-danger-color text-white hover:opacity-80 transition-opacity duration-300"
                   >
                     Eliminar
                   </button>
@@ -126,7 +126,7 @@
               <button
                 type="button"
                 (click)="addOcupacionProfesional()"
-                class="mt-2 py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-[#04847C] text-white hover:opacity-80 transition-opacity duration-300"
+                class="mt-2 py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-secondary-color text-white hover:opacity-80 transition-opacity duration-300"
               >
                 Agregar Ocupación Profesional
               </button>
@@ -136,7 +136,7 @@
               <button
                 type="submit"
                 [disabled]="carreraForm.invalid"
-                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-gray-200 bg-[#04847C] text-white hover:opacity-80 transition-opacity duration-300 disabled:pointer-events-none font-medium"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-gray-200 bg-secondary-color text-white hover:opacity-80 transition-opacity duration-300 disabled:pointer-events-none font-medium"
               >
                 {{
                   currentCarreraId
@@ -174,7 +174,7 @@
         <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
           <button
             type="button"
-            class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none active"
+            class="hs-tab-active:font-semibold hs-tab-active:border-secondary-color hs-tab-active:text-secondary-color py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-secondary-color focus:outline-none focus:text-secondary-color disabled:opacity-50 disabled:pointer-events-none active"
             id="tabs-with-icons-item-1"
             data-hs-tab="#tabs-with-icons-1"
             aria-controls="tabs-with-icons-1"
@@ -185,7 +185,7 @@
           </button>
           <button
             type="button"
-            class="hs-tab-active:font-semibold hs-tab-active:border-[#04847C] hs-tab-active:text-[#04847C] py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#04847C] focus:outline-none focus:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none"
+            class="hs-tab-active:font-semibold hs-tab-active:border-secondary-color hs-tab-active:text-secondary-color py-4 px-2.5 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-secondary-color focus:outline-none focus:text-secondary-color disabled:opacity-50 disabled:pointer-events-none"
             id="tabs-with-icons-item-2"
             data-hs-tab="#tabs-with-icons-2"
             aria-controls="tabs-with-icons-2"
@@ -230,7 +230,7 @@
                     </div>
                     <input
                       (input)="filterGlobal($event)"
-                      class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]"
+                      class="py-3 ps-10 pe-4 block w-full border-third-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-third-color"
                       type="text"
                       placeholder="Ingresa tu búsqueda"
                       value=""
@@ -356,13 +356,13 @@
                           <div class="flex items-center space-x-3.5">
                             <button
                               (click)="openModal(carrera)"
-                              class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-[#04847C] text-white hover:opacity-80 transition-opacity duration-300"
+                              class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-secondary-color text-white hover:opacity-80 transition-opacity duration-300"
                             >
                               <i class="fas fa-edit"></i>
                             </button>
                             <button
                               (click)="confirmDeleteCarrera(carrera.id)"
-                              class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-[#EF4444] text-white hover:opacity-80 transition-opacity duration-300"
+                              class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-danger-color text-white hover:opacity-80 transition-opacity duration-300"
                             >
                               <i class="fa fa-trash"></i>
                             </button>
@@ -492,13 +492,13 @@
                             <div class="flex items-center space-x-3.5">
                               <button
                                 (click)="activateCarrera(carrera.id)"
-                                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-[#04847C] text-white hover:opacity-80 transition-opacity duration-300"
+                                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-secondary-color text-white hover:opacity-80 transition-opacity duration-300"
                               >
                                 <i class="fas fa-check"></i>
                               </button>
                               <button
                                 (click)="deleteCarrera(carrera.id)"
-                                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-[#EF4444] text-white hover:opacity-80 transition-opacity duration-300"
+                                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-danger-color text-white hover:opacity-80 transition-opacity duration-300"
                               >
                                 <i class="fa fa-trash"></i>
                               </button>

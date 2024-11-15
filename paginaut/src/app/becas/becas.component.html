@@ -1,16 +1,18 @@
 <app-navbar></app-navbar>
+<app-redes-sociales></app-redes-sociales>
 
     <p id="inicio"></p>
 
-    <button id="scrollTopButton" (click)="scrollToSection('inicio')"
-      class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 hover: focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50">
-      <i class="fa-solid fa-chevron-up"></i>
-    </button>
+<!-- Botón de desplazamiento -->
+<button id="scrollTopButton" (click)="scrollToSection('inicio')"
+    class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-secondary-color text-white w-12 h-12 rounded-full shadow-lg hover:bg-secondary-color hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
+    <i class="fa-solid fa-chevron-up"></i>
+</button>
 
     <div class="mt-4">
       <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4">
           <li class="inline-flex items-center">
-            <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D] " href="/principal">
+            <a class="flex items-center text-sm text-gray-500 hover:text-primary-color focus:outline-none focus:text-primary-color " href="/principal">
               Inicio
             </a>
             <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -32,7 +34,7 @@
     <div class="container mx-auto">
 
       <div class="mb-10 my-8">
-        <div class="relative bg-[#043D3D] rounded-lg z-20">
+        <div class="relative bg-primary-color rounded-lg z-20">
           <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white uppercase mb-3 ">
             Becas
           </h2>
@@ -44,12 +46,12 @@
         <div class="flex bg-gray-100 hover:bg-gray-200 rounded-full transition px-2 py-2">
           <nav class="flex w-full" aria-label="Tabs" role="tablist">
             <button type="button"
-              class="hs-tab-active:bg-[#04847C] hs-tab-active:text-white py-3 px-4 inline-flex items-center justify-center w-1/2 text-sm text-gray-500 font-medium rounded-full hover:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none active"
+              class="hs-tab-active:bg-secondary-color hs-tab-active:text-white py-3 px-4 inline-flex items-center justify-center w-1/2 text-sm text-gray-500 font-medium rounded-full hover:text-secondary-color disabled:opacity-50 disabled:pointer-events-none active"
               id="pills-on-gray-color-item-1" aria-selected="true" data-hs-tab="#pills-on-gray-color-1" aria-controls="pills-on-gray-color-1" role="tab">
               Internas
             </button>
             <button type="button"
-              class="hs-tab-active:bg-[#04847C] hs-tab-active:text-white py-3 px-4 inline-flex items-center justify-center w-1/2 text-sm text-gray-500 font-medium rounded-full hover:text-[#04847C] disabled:opacity-50 disabled:pointer-events-none"
+              class="hs-tab-active:bg-secondary-color hs-tab-active:text-white py-3 px-4 inline-flex items-center justify-center w-1/2 text-sm text-gray-500 font-medium rounded-full hover:text-secondary-color disabled:opacity-50 disabled:pointer-events-none"
               id="pills-on-gray-color-item-2" aria-selected="false" data-hs-tab="#pills-on-gray-color-2" aria-controls="pills-on-gray-color-2" role="tab">
               Externas
             </button>
@@ -84,7 +86,7 @@
               <div *ngFor="let beca of becasInternas" class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 transition-transform transform hover:scale-105 hover:shadow-2xl hover:border-transparent group duration-300 ease-in-out">
                 <p class="text-xl font-bold">{{ beca.nombre }}</p>
                 <p class="mt-2 text-black mb-4 flex-grow">{{ beca.descripcion }}</p>
-                <a (click)="verDetalleBeca(beca.id)" class="bg-[#04847C] text-white text-center p-2 rounded-lg mt-auto hover:bg-[#27958e] cursor-pointer">
+                <a (click)="verDetalleBeca(beca.id)" class="bg-secondary-color text-white text-center p-2 rounded-lg mt-auto hover:bg-[#27958e] cursor-pointer">
                   Más información
                 </a>
               </div>
@@ -104,7 +106,7 @@
               <div *ngFor="let beca of becasExternas" class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 transition-transform transform hover:scale-105 hover:shadow-2xl hover:border-transparent group duration-300 ease-in-out">
                 <p class="text-xl font-bold">{{ beca.nombre }}</p>
                 <p class="mt-2 text-black mb-4 flex-grow">{{ beca.descripcion }}</p>
-                <a (click)="verDetalleBeca(beca.id)" class="bg-[#04847C] text-white text-center p-2 rounded-lg mt-auto hover:bg-[#27958e] cursor-pointer">
+                <a (click)="verDetalleBeca(beca.id)" class="bg-secondary-color text-white text-center p-2 rounded-lg mt-auto hover:bg-[#27958e] cursor-pointer">
                   Más información
                 </a>
               </div>

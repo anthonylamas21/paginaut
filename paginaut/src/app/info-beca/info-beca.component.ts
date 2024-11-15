@@ -54,7 +54,7 @@ export class InfoBecaComponent implements OnInit, AfterViewInit {
     const navbar = document.getElementById('navbarAccion');
     if (navbar) {
       this.renderer.removeClass(navbar, 'bg-transparent');
-      this.renderer.addClass(navbar, 'bg-[#043D3D]');
+      this.renderer.addClass(navbar, 'bg-primary-color');
       this.renderer.setStyle(navbar, 'position', 'fixed');
       this.renderer.setStyle(navbar, 'top', '0');
       this.renderer.setStyle(navbar, 'left', '0');

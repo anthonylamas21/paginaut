@@ -13,6 +13,7 @@ export interface Evento {
   fecha_inicio: string;
   fecha_fin: string;
   hora_inicio: string;
+  fecha_string: string;
   hora_fin: string;
   es_curso: boolean;
   curso_id?: number;

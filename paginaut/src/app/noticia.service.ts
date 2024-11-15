@@ -14,6 +14,7 @@ export interface Noticia {
   autor: string;
   fecha_publicacion: string;
   imagen_principal?: string;
+  fecha_string?: string;
   imagenes_generales?: string[];
   [key: string]: any; // Esto permite la indexación con strings
 }

@@ -1,4 +1,5 @@
 <app-navbar></app-navbar>
+<app-redes-sociales></app-redes-sociales>
 
 <div class="flex flex-col min-h-screen">
   <main class="flex-grow">
@@ -7,7 +8,7 @@
 
     <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4 mb-8">
       <li class="inline-flex items-center">
-        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]"
+        <a class="flex items-center text-sm text-gray-500 hover:text-primary-color focus:outline-none focus:text-primary-color"
           href="/principal">
           Inicio
         </a>
@@ -18,7 +19,7 @@
         </svg>
       </li>
       <li class="inline-flex items-center">
-        <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]"
+        <a class="flex items-center text-sm text-gray-500 hover:text-primary-color focus:outline-none focus:text-primary-color"
           href="/unidades_academicas">
           Instalaciones Académicas
           <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg"
@@ -28,13 +29,13 @@
           </svg>
         </a>
       </li>
-      <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
+      <li class="inline-flex items-center text-sm font-semibold text-primary-color truncate" aria-current="page">
         {{ instalacion?.nombre }}
       </li>
     </ol>
 
     <div class="container mx-auto mb-4">
-      <div class="bg-[#043D3D] w-full mb-8 rounded-lg">
+      <div class="bg-primary-color w-full mb-8 rounded-lg">
         <h3 class="text-2xl px-2 py-2 font-poppins font-bold text-white">
           {{ instalacion?.nombre }}
         </h3>

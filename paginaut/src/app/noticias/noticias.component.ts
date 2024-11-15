@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NoticiaService, Noticia } from '../noticia.service';
 import Hashids from 'hashids';
-import { BASEIMAGEN, Información } from '../constans';
+import { BASEIMAGEN, Informacion } from '../constans';
 
 @Component({
   selector: 'app-noticias',
@@ -18,7 +18,7 @@ export class NoticiasComponent implements OnInit {
   noticia: Noticia | null = null;
   error: string | null = null;
   imagenAmpliada: string | null = null;
-  informacion = Información;
+  informacion = Informacion;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,7 +43,7 @@ export class NoticiasComponent implements OnInit {
     if (this.idDecrypted !== undefined) {
       this.noticiaService.obtenerNoticia(this.idDecrypted).subscribe({
         next: (noticia: Noticia) => {
-          this.noticia = noticia;
+          this.noticia = this.addFormattedDate(noticia);          
           this.isLoading = false;
         },
         error: (error: any) => {
@@ -93,7 +93,7 @@ export class NoticiasComponent implements OnInit {
       }
       
       navbar.classList.remove('bg-transparent');
-      navbar.classList.add('bg-[#043D3D]');
+      navbar.classList.add('bg-primary-color');
     }
   }
 
@@ -112,5 +112,28 @@ export class NoticiasComponent implements OnInit {
 
   cerrarImagenAmpliada(): void {
     this.imagenAmpliada = null;
+  }
+
+  private addFormattedDate(noticia: Noticia): Noticia & { fecha_string: string} {
+    return {
+      ...noticia,
+      // Pasamos la fecha como string, que luego se formatea correctamente
+      fecha_string: this.formatDateString(noticia.fecha_publicacion),
+    };
+  }
+  
+  formatDateString(dateString: string): string {
+    const months = [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
+  
+    // Asegurarse de que la fecha está en formato YYYY-MM-DD antes de procesarla
+    const dateParts = dateString.split(' ')[0].split('-'); // Extrae solo la fecha en formato YYYY-MM-DD (sin la hora)
+    const year = dateParts[0];
+    const month = months[parseInt(dateParts[1], 10) - 1]; // Mes (1-12)
+    const day = ('0' + dateParts[2]).slice(-2); // Día (si tiene un solo dígito, lo pone con cero a la izquierda)
+  
+    return `${day} de ${month} , ${year}`;
   }
 }

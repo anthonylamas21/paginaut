@@ -1,43 +1,45 @@
 <!--Componente Navbar-->
 <app-navbar></app-navbar>
+<app-redes-sociales></app-redes-sociales>
 
 <p id="inicio"></p>
 <!--Fin Navbar-->
 
 <!--Boton de desplacamiento -->
 <button id="scrollTopButton" (click)="scrollToSection('inicio')"
-  class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#04847C] text-[#ffffff] w-12 h-12 rounded-full shadow-lg hover:bg-[#04847C] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] focus:ring-opacity-50 translate-y-10 transition-all duration-1000 ease-out">
+  class="hidden z-50 fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-secondary-color text-white w-12 h-12 rounded-full shadow-lg hover:bg-secondary-color hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
   <i class="fa-solid fa-chevron-up"></i>
 </button>
+
 <!--Fin Boton de desplacamiento-->
 <div class="mt-4">
-<ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4 mb-8">
-  <li class="inline-flex items-center">
-    <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]"
-      href="/principal">
-      Inicio
-    </a>
-    <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24"
-      height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-      stroke-linejoin="round">
-      <path d="m9 18 6-6-6-6"></path>
-    </svg>
-  </li>
-  <li class="inline-flex items-center">
-    <a class="flex items-center text-sm text-gray-500 hover:text-[#043D3D] focus:outline-none focus:text-[#043D3D]"
-      href="/convocatorias">
-      Convocatorias
-    </a>
-    <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24"
-      height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-      stroke-linejoin="round">
-      <path d="m9 18 6-6-6-6"></path>
-    </svg>
-  </li>
-  <li class="inline-flex items-center text-sm font-semibold text-[#043D3D] truncate" aria-current="page">
-    {{ convocar?.titulo || "Cargando..." }}
-  </li>
-</ol>
+  <ol class="flex flex-wrap items-center whitespace-nowrap ml-4 mt-24 space-x-2 sm:space-x-4 mb-8">
+    <li class="inline-flex items-center">
+      <a class="flex items-center text-sm text-gray-500 hover:text-primary-color focus:outline-none focus:text-primary-color"
+        href="/principal">
+        Inicio
+      </a>
+      <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+        width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6"></path>
+      </svg>
+    </li>
+    <li class="inline-flex items-center">
+      <a class="flex items-center text-sm text-gray-500 hover:text-primary-color focus:outline-none focus:text-primary-color"
+        href="/convocatorias">
+        Convocatorias
+      </a>
+      <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+        width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6"></path>
+      </svg>
+    </li>
+    <li class="inline-flex items-center text-sm font-semibold text-primary-color truncate" aria-current="page">
+      {{ convocar?.titulo || "Cargando..." }}
+    </li>
+  </ol>
 
 </div>
 
@@ -56,29 +58,52 @@
       <img [src]="getImageUrl(convocar.imagen_principal)" alt="" class="w-full h-80 object-cover" />
       <div class="absolute inset-0 flex flex-col justify-between p-4 bg-black bg-opacity-40 text-white">
         <h3 class="text-3xl font-semibold">{{ convocar.titulo }}</h3>
-        <div class="flex flex-col sm:flex-row justify-between text-sm">
-          <span>{{ convocar.lugar }}</span>
-          <span class="mt-2 sm:mt-0">Duración del evento del
-            <span class="font-semibold">{{
-              convocar.fecha_inicio | date : "dd/MM/yyyy"
-              }}</span>
-            al
-            <span class="font-semibold">{{
-              convocar.fecha_fin | date : "dd/MM/yyyy"
-              }}</span></span>
+        <div class="font-semibold flex justify-between">
+          <div class="text-left mr-2">
+            <span class="text-xs">{{ convocar.lugar }}</span>
+          </div>
+          <div class="text-right ml-2">
+            <span class="text-xs">Duración: {{ convocar.fecha_string }}</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="mt-8 flex flex-col lg:flex-row lg:gap-4">
-      <div class="lg:w-1/2 order-2 lg:order-1">
-        <p class="text-justify">{{ convocar.descripcion }}</p>
+    <!-- Container principal -->
+    <div class="w-full mt-8">
+      <!-- Vista Desktop y Tablet -->
+      <div class="hidden md:block">
+        <!-- Contenedor para el efecto de float -->
+        <div class="relative">
+          <!-- Sección B (Fecha) - Flotada a la derecha -->
+          <div class="float-right ml-20 mb-4">
+            <p class="text-right whitespace-nowrap font-semibold">
+              <i class="fa-regular fa-clock"></i>
+              Hora de inicio: {{ convocar.hora_inicio }}
+            </p>
+          </div>
+
+          <!-- Sección A (Contenido) - Fluye alrededor de la fecha -->
+          <div class="text-justify">
+            <p class="whitespace-pre-line">{{ convocar.descripcion }}</p>
+          </div>
+        </div>
       </div>
-      <div class="lg:w-1/2 order-1 lg:order-2 mb-4 lg:mb-0">
-        <p class="text-right">
-          <i class="fa-regular fa-clock"></i> Hora de inicio:
-          {{ convocar.hora_inicio }}
-        </p>
+
+      <!-- Vista Móvil -->
+      <div class="block md:hidden">
+        <!-- Sección B (Fecha) -->
+        <div class="w-full mb-4">
+          <p class="text-right font-semibold">
+            <i class="fa-regular fa-clock"></i>
+            Hora de inicio: {{ convocar.hora_inicio }}
+          </p>
+        </div>
+
+        <!-- Sección A (Contenido) -->
+        <div class="w-full">
+          <p class="text-justify text-sm whitespace-pre-line">{{ convocar.descripcion }}</p>
+        </div>
       </div>
     </div>
 
@@ -86,7 +111,7 @@
     <div *ngIf="
         convocar.imagenes_generales && convocar.imagenes_generales.length > 0
       " class="my-8">
-      <div *ngIf="!isLoading" class="bg-[#043D3D] rounded-lg">
+      <div *ngIf="!isLoading" class="bg-primary-color rounded-lg">
         <h2 class="text-xl font-semibold font-poppins py-2 px-2 text-white mb-3">
           Galería de imágenes
         </h2>
@@ -135,13 +160,9 @@
       </div>
     </div>
 
-    <div class="mt-8 pt-6 border-t border-gray-300">
-      <p class="text-sm text-gray-600 text-center">
-        Toda la información, recursos y eventos anunciados en este sitio web son
-        de uso exclusivo para la comunidad de la universidad. Todos los
-        materiales, incluidos textos, imágenes, y cualquier otro contenido,
-        están protegidos por las leyes de propiedad intelectual y son propiedad
-        de la universidad.
+    <div class="mt-8 py-4 border-t border-gray-300">
+      <p class="text-xs text-gray-600 text-center">
+        {{ this.informacion }}
       </p>
     </div>
   </div>
