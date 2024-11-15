@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { BASEIMAGEN } from '../../constans';
+import { soloLetras, soloLetrasConPuntuacion } from '../../validaciones';
 
 class TooltipManager {
   static adjustTooltipPosition(
@@ -88,24 +89,54 @@ export class EventoComponent implements OnInit,  OnDestroy {
     private unsubscribe$ = new Subject<void>();
 
 
-    constructor(private eventoService: EventoService,  private cursoService: CursoService,  private fb: FormBuilder) {
+    constructor(
+      private eventoService: EventoService,
+      private cursoService: CursoService,
+      private fb: FormBuilder
+    ) {
       this.minDate = this.getTodayDate();
       this.minTimeInicio = this.getCurrentTime();
       this.minTimeFin = this.minTimeInicio;
+    
       this.eventoForm = this.fb.group({
-        titulo: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/)]],
-        informacion_evento: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/)]],
+        titulo: [
+          '',
+          [
+            soloLetras(true),
+            Validators.required,
+            Validators.minLength(15),
+            Validators.maxLength(150)
+          ]
+        ],
+        informacion_evento: [
+          '',
+          [
+            soloLetrasConPuntuacion(true),
+            Validators.required,
+            Validators.minLength(15),
+            Validators.maxLength(2000)
+          ]
+        ],
         activo: [true],
-        lugar_evento: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/)]],
-        fecha_inicio: ['', [Validators.required]],
-        fecha_fin: ['', [Validators.required]],
-        hora_inicio: ['', [Validators.required]],
-        hora_fin: ['', [Validators.required]],
+        lugar_evento: [
+          '',
+          [
+            soloLetrasConPuntuacion(true),
+            Validators.required,
+            Validators.minLength(5),
+            Validators.maxLength(150)
+          ]
+        ],
+        fecha_inicio: ['', [this.fechaHoraValidator(), Validators.required]],
+        fecha_fin: ['', [this.fechaHoraValidator(), Validators.required]],
+        hora_inicio: ['', [this.fechaHoraValidator(), Validators.required]],
+        hora_fin: ['', [this.fechaHoraValidator(), Validators.required]],
         es_curso: [null, Validators.required],
         curso_id: [null],
         imagen_principal: [null, Validators.required]
-      }, { validators: this.fechaHoraValidator() });
+      });
     }
+    
 
     ngOnInit(): void {
       this.loadEventos();
@@ -178,14 +209,63 @@ export class EventoComponent implements OnInit,  OnDestroy {
   loadEventos(): void {
     this.eventoService.obtenerEventos().subscribe({
         next: (response) => {
-            this.eventos = response.records.map(evento => ({
+            console.log(response);
+            this.eventos = response.records.map((evento: Evento) => {
+                // Formatear fechas de cada evento
+                return this.addFormattedDate(evento);
+            }).map((evento: Evento) => ({
                 ...evento,
                 imagen_principal: this.getImageUrl(evento.imagen_principal || ''),
-                imagenes_generales: (evento.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
+                imagenes_generales: (evento.imagenes_generales || []).map((img: string) => this.getImageUrl(img)),
             }));
-            this.filterEventos(); // Esto filtra o realiza otras operaciones necesarias
+            this.filterEventos(); // Filtra o realiza otras operaciones necesarias
         }
     });
+}
+
+private addFormattedDate(evento: Evento): Evento & { fecha_string: string, horario_string: string} {
+  return {
+    ...evento,
+    // Pasamos la fecha como string, que luego se formatea correctamente
+    fecha_string: this.formatDateString(evento.fecha_inicio) +' - '+ this.formatDateString(evento.fecha_fin),
+    horario_string: this.formatHorarioString(evento.hora_inicio) +' - '+ this.formatHorarioString(evento.hora_fin),
+  };
+}
+
+formatDateString(dateString: string): string {
+  const months = [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  ];
+
+  // Asegurarse de que la fecha está en formato YYYY-MM-DD antes de procesarla
+  const dateParts = dateString.split(' ')[0].split('-'); // Extrae solo la fecha en formato YYYY-MM-DD (sin la hora)
+  const year = dateParts[0];
+  const month = months[parseInt(dateParts[1], 10) - 1]; // Mes (1-12)
+  const day = ('0' + dateParts[2]).slice(-2); // Día (si tiene un solo dígito, lo pone con cero a la izquierda)
+
+  return `${month} ${day}, ${year}`;
+}
+
+formatHorarioString(timeString: string): string {
+  const timeParts = timeString.split(':');
+  let hours = parseInt(timeParts[0]);
+  const minutes = timeParts[1];
+  let period = 'AM';
+
+  // Convertir la hora a formato 12 horas
+  if (hours >= 12) {
+    if (hours > 12) hours -= 12; // Convertir hora mayor que 12 a formato de 12 horas
+    period = 'PM';
+  } else if (hours === 0) {
+    hours = 12; // La medianoche se representa como 12:00 AM
+    period = 'AM';
+  }
+
+  // Ajustar el formato de la hora con un cero a la izquierda si es necesario
+  const formattedHour = ('0' + hours).slice(-2);
+
+  return `${formattedHour}:${minutes} ${period}`;
 }
 
 
@@ -454,13 +534,32 @@ export class EventoComponent implements OnInit,  OnDestroy {
 
   filterGlobal(event: any): void {
     const searchValue = event.target.value.toLowerCase();
-    this.filteredEventos = this.eventos.filter(
-      (evento) =>
+    this.filteredEventos = this.eventos.filter((evento) => {
+      // Filtrar por eventos activas (suponiendo que tienes una propiedad "activo")
+      return evento.activo && (
         evento.titulo.toLowerCase().includes(searchValue) ||
         evento.informacion_evento.toLowerCase().includes(searchValue) ||
-        evento.lugar_evento.toLowerCase().includes(searchValue)
-    );
+        evento.lugar_evento.toLowerCase().includes(searchValue)||
+        (evento['fecha_string']?.toLowerCase().includes(searchValue) || '') ||
+        (evento['horario_string']?.toLowerCase().includes(searchValue) || '')
+      );
+    });
+  } 
+  
+  filterGlobalInactive(event: any): void {
+    const searchValue = event.target.value.toLowerCase();
+    this.papeleraEventos = this.eventos.filter((evento) => {
+      // Filtrar solo eventos inactivos
+      return !evento.activo && (
+        (evento.titulo?.toLowerCase().includes(searchValue) || '') ||
+        (evento.informacion_evento?.toLowerCase().includes(searchValue) || '') ||
+        (evento.lugar_evento?.toLowerCase().includes(searchValue) || '') ||
+        (evento['fecha_string']?.toLowerCase().includes(searchValue) || '') ||
+        (evento['horario_string']?.toLowerCase().includes(searchValue) || '')
+      );
+    });
   }
+  
 
   onFileChangePrincipal(event: any): void {
     const file = event.target.files[0];
@@ -558,10 +657,6 @@ onFileChangeArchivos(event: any): void {
     }
   }
 
-  isFieldInvalid(fieldName: string): boolean {
-    const field = this.eventoForm.get(fieldName);
-    return field ? field.invalid && (field.dirty || field.touched) : false;
-  }
 
   fechaHoraValidator(): ValidatorFn {
     return (group: AbstractControl): {[key: string]: any} | null => {
