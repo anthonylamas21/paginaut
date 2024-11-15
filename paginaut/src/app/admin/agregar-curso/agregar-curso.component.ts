@@ -3,6 +3,7 @@ import { CursoService, Curso } from '../../cursoService/curso.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { BASEIMAGEN } from '../../constans';
+import { soloLetras, soloLetrasConPuntuacion } from '../../validaciones';
 
 class TooltipManager {
   static adjustTooltipPosition(

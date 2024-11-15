@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { BASEIMAGEN } from '../../constans';
+import { soloLetras, soloLetrasConPuntuacion } from '../../validaciones';
 
 class TooltipManager {
   static adjustTooltipPosition(
