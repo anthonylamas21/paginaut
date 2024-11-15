@@ -173,7 +173,7 @@ export class ConvocatoriaComponent implements OnInit, OnDestroy {
   loadConvocatorias(): void {
     this.convocatoriaService.obtenerConvocatorias().subscribe({
       next: (response) => {
-        console.log(response);
+        //console.log(response);
         this.convocatorias = response.records.map((convocatoria: Convocatoria) => {
           // Aquí se formatean las fechas antes de devolver el objeto
           return this.addFormattedDate(convocatoria);
