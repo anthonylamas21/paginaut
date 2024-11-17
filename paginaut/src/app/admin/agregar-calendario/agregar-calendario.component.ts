@@ -11,6 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { CalendarioService, Calendario } from '../calendario.service';
 import Swal from 'sweetalert2';
 import { BASEIMAGEN } from '../../constans';
+import { DatePipe } from '@angular/common';
 
 class TooltipManager {
   static adjustTooltipPosition(
@@ -93,6 +94,7 @@ function duplicateTitleValidator(calendarios: Calendario[]): ValidatorFn {
   selector: 'app-agregar-calendario',
   templateUrl: './agregar-calendario.component.html',
   styleUrls: ['./agregar-calendario.component.css'],
+  providers: [DatePipe]
 })
 export class AgregarCalendarioComponent implements OnInit {
   @ViewChild('archivoInput') archivoInput!: ElementRef;
@@ -112,11 +114,13 @@ export class AgregarCalendarioComponent implements OnInit {
   currentFileName: string = '';
   hasActiveCalendario: boolean = false;
   baseImageUrl = BASEIMAGEN+'/';
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private calendarioService: CalendarioService,
-    public sanitizer: DomSanitizer
+    public sanitizer: DomSanitizer,
+    private datePipe: DatePipe
   ) {
     this.calendarioForm = this.fb.group({
       anio: [
@@ -150,6 +154,11 @@ export class AgregarCalendarioComponent implements OnInit {
     this.setNavbarColor();
   }
 
+  formatearFecha(fecha: string | Date): string {
+    return this.datePipe.transform(fecha, 'dd MMMM yyyy, hh:mm a') || '';
+  }
+  
+
   scrollToSection(sectionId: string): void {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
@@ -175,6 +184,7 @@ export class AgregarCalendarioComponent implements OnInit {
 
   onSubmit() {
     if (this.calendarioForm.valid) {
+      this.isLoading = true;
       const formData: FormData = new FormData();
       formData.append('titulo', this.calendarioForm.get('titulo')?.value);
       if (this.fileToUpload) {
