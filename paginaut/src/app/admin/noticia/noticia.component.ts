@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { BASEIMAGEN } from '../../constans';
+import { soloLetras, soloLetrasConPuntuacion } from '../../validaciones';
 
 class TooltipManager {
   static adjustTooltipPosition(
@@ -90,20 +91,21 @@ export class NoticiaComponent implements OnInit, OnDestroy {
     this.maxDate = new Date(currentYear, 11, 31).toISOString().split('T')[0]; // 31 de diciembre del año actual
 
     this.noticiaForm = this.fb.group({
-      titulo: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/)]],
-      resumen: ['', [Validators.required, Validators.maxLength(200), Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/)]],
-      informacion_noticia: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ¡!.,;:()\-]+$/)]],
+      titulo: ['', [ soloLetras(true),Validators.required, Validators.minLength(15), Validators.maxLength(150)]],
+      resumen: ['', [ soloLetrasConPuntuacion(true),Validators.required, Validators.minLength(15), Validators.maxLength(2000)]],
+      informacion_noticia: ['', [ soloLetrasConPuntuacion(true),Validators.required, Validators.minLength(15), Validators.maxLength(2000)]],
       activo: [true],
-      lugar_noticia: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ\-]+$/)]],
-      autor: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\sñÑáéíóúÁÉÍÓÚ\-]+$/)]],
+      lugar_noticia: ['', [soloLetrasConPuntuacion(true), Validators.required, Validators.minLength(5), Validators.maxLength(150)]],
+      autor: ['', [ soloLetras(true),Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\sñÑáéíóúÁÉÍÓÚ\-]+$/)]],
       fecha_publicacion: ['', Validators.required],
       imagen_principal: [null, Validators.required] // Validación para la imagen principal
     });
   }
 
   ngOnInit(): void {
+    
     this.loadNoticias();
-    this.setNavbarColor();
+    this.setNavbarColor(); 
 
     // Suscribirse a los cambios del formulario
     this.noticiaForm.valueChanges
@@ -147,16 +149,68 @@ export class NoticiaComponent implements OnInit, OnDestroy {
 
   loadNoticias(): void {
     this.noticiaService.obtenerNoticias().subscribe({
-      next: (response) => {
-        this.noticias = response.records.map(noticia => ({
-          ...noticia,
-          imagen_principal: this.getImageUrl(noticia.imagen_principal || ''),
-          imagenes_generales: (noticia.imagenes_generales || []).map((img: string) => this.getImageUrl(img))
-        }));
-        this.filterNoticias();
-      }    
+      next: (response) => { 
+        this.noticias = response.records.map((noticia) => {
+          // Agregar las fechas y horarios formateados
+          const noticiaConFechasFormateadas = this.addFormattedDate(noticia);
+  
+          // Retornar el noticia con las imágenes y fechas formateadas
+          return {
+            ...noticiaConFechasFormateadas,
+            imagen_principal: this.getImageUrl(noticia.imagen_principal || ''),
+            imagenes_generales: (noticia.imagenes_generales || []).map((img: string) => this.getImageUrl(img)),
+          };
+        });
+        this.filterNoticias(); // Esto filtra o realiza otras operaciones necesarias
+      }
     });
   }
+
+  private addFormattedDate(noticia: Noticia): Noticia & { fecha_string: string } {
+    return {
+      ...noticia,
+      // Pasamos la fecha como string, que luego se formatea correctamente
+      fecha_string: this.formatDateString(noticia.fecha_publicacion),
+     
+    };
+  }
+
+  formatDateString(dateString: string): string {
+    const months = [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
+  
+    // Asegurarse de que la fecha está en formato YYYY-MM-DD antes de procesarla
+    const dateParts = dateString.split(' ')[0].split('-'); // Extrae solo la fecha en formato YYYY-MM-DD (sin la hora)
+    const year = dateParts[0];
+    const month = months[parseInt(dateParts[1], 10) - 1]; // Mes (1-12)
+    const day = ('0' + dateParts[2]).slice(-2); // Día (si tiene un solo dígito, lo pone con cero a la izquierda)
+  
+    return `${month} ${day}, ${year}`;
+  }
+
+  formatHorarioString(timeString: string): string {
+    const timeParts = timeString.split(':');
+    let hours = parseInt(timeParts[0]);
+    const minutes = timeParts[1];
+    let period = 'AM';
+  
+    // Convertir la hora a formato 12 horas
+    if (hours >= 12) {
+      if (hours > 12) hours -= 12; // Convertir hora mayor que 12 a formato de 12 horas
+      period = 'PM';
+    } else if (hours === 0) {
+      hours = 12; // La medianoche se representa como 12:00 AM
+      period = 'AM';
+    }
+  
+    // Ajustar el formato de la hora con un cero a la izquierda si es necesario
+    const formattedHour = ('0' + hours).slice(-2);
+  
+    return `${formattedHour}:${minutes} ${period}`;
+  }
+
 
   getImageUrl(relativePath: string): string {
     if (relativePath && relativePath.startsWith('../')) {
@@ -351,6 +405,19 @@ export class NoticiaComponent implements OnInit, OnDestroy {
       noticia.lugar_noticia.toLowerCase().includes(searchValue) ||
       noticia.autor.toLowerCase().includes(searchValue)
     );
+  }
+
+  filterGlobalInactive(event: any): void {
+    const searchValue = event.target.value.toLowerCase();
+    this.papeleraNoticias = this.noticias.filter((noticia) => {
+      // Filtrar por convocatorias inactivas (suponiendo que tienes una propiedad "activo" que es true/false)
+      return !noticia.activo && (
+        (noticia.titulo?.toLowerCase().includes(searchValue) || '') ||
+        (noticia.informacion_noticia?.toLowerCase().includes(searchValue) || '') ||
+        (noticia.lugar_noticia?.toLowerCase().includes(searchValue) || '') ||
+        (noticia.fecha_string?.toLowerCase().includes(searchValue) || '')
+      );
+    });
   }
 
   onFileChangePrincipal(event: any): void {

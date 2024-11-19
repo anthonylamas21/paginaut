@@ -41,12 +41,25 @@
 
     <form [formGroup]="noticiaForm" (ngSubmit)="onSubmit()" class="p-4 space-y-4">
       <div class="space-y-2">
-        <h4 class="font-medium text-gray-700">1. Información básica</h4>
+        <div class="pb-2 mb-4 border-b border-gray-200">
+          <h4 class="font-medium text-gray-700">1. Información básica</h4>
+        </div>
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label for="titulo" class="block text-sm font-medium text-gray-700">Título</label>
             <input type="text" id="titulo" placeholder="Titulo de la noticia" formControlName="titulo" class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="50" />
-            <p *ngIf="isFieldInvalid('titulo')" class="mt-1 text-xs text-red-600">{{ getErrorMessage('titulo') }}</p>
+            <div>
+              <p *ngIf="noticiaForm.get('titulo')?.hasError('required') && (noticiaForm.get('titulo')?.touched || noticiaForm.get('titulo')?.dirty)"
+                class="mt-1 text-sm text-red-600">El título es obligatorio.</p>
+              <p *ngIf="noticiaForm.get('titulo')?.hasError('minlength') && (noticiaForm.get('titulo')?.touched || noticiaForm.get('titulo')?.dirty)"
+                class="mt-1 text-sm text-red-600">El título debe tener al menos {{
+                noticiaForm.get('titulo')?.getError('minlength').requiredLength }} caracteres.</p>
+              <p *ngIf="noticiaForm.get('titulo')?.hasError('maxlength') && (noticiaForm.get('titulo')?.touched || noticiaForm.get('titulo')?.dirty)"
+                class="mt-1 text-sm text-red-600">El título no puede exceder los {{
+                noticiaForm.get('titulo')?.getError('maxlength').requiredLength }} caracteres.</p>
+              <p *ngIf="noticiaForm.get('titulo')?.hasError('pattern') && (noticiaForm.get('titulo')?.touched || noticiaForm.get('titulo')?.dirty)"
+                class="mt-1 text-sm text-red-600">El título solo puede contener letras y espacios.</p>
+            </div>
           </div>
           <div>
             <label for="autor" class="block text-sm font-medium text-gray-700">Autor</label>
@@ -57,7 +70,9 @@
       </div>
 
       <div class="space-y-2">
-        <h4 class="font-medium text-gray-700">2. Contenido</h4>
+        <div class="pb-2 mb-4 border-b border-gray-200">
+          <h4 class="font-medium text-gray-700">2. Contenido</h4>
+        </div>
         <div>
           <label for="resumen" class="block text-sm font-medium text-gray-700">Resumen</label>
           <textarea id="resumen" placeholder="Resumen de la noticia" formControlName="resumen" rows="2" class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900" maxlength="1000"></textarea>
@@ -71,7 +86,9 @@
       </div>
 
       <div class="space-y-2">
-        <h4 class="font-medium text-gray-700">3. Detalles adicionales</h4>
+        <div class="pb-2 mb-4 border-b border-gray-200">
+          <h4 class="font-medium text-gray-700">3. Detalles adicionales</h4>
+        </div>
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label for="lugar_noticia" class="block text-sm font-medium text-gray-700">Lugar de la Noticia</label>
@@ -87,7 +104,9 @@
       </div>
 
       <div class="space-y-2">
-        <h4 class="font-medium text-gray-700">4. Imágenes</h4>
+        <div class="pb-2 mb-4 border-b border-gray-200">
+          <h4 class="font-medium text-gray-700">4. Imágenes</h4>
+        </div>
         <div>
           <label for="imagenPrincipal" class="block text-sm font-medium text-gray-700">Imagen Principal</label>
           <input type="file" id="imagenPrincipal" (change)="onFileChangePrincipal($event)" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
@@ -185,11 +204,7 @@
                             Título <p-sortIcon field="titulo"></p-sortIcon>
                           </div>
                         </th>
-                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="activo">
-                          <div class="flex">
-                            Activo <p-sortIcon field="activo"></p-sortIcon>
-                          </div>
-                        </th>
+
                         <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="lugar_noticia">
                           <div class="flex">
                             Lugar <p-sortIcon field="lugar_noticia"></p-sortIcon>
@@ -215,10 +230,9 @@
                     <ng-template pTemplate="body" let-noticia>
                       <tr class="divide-x divide-gray-200 bg-neutral-100">
                         <td class="px-3 py-2 text-sm text-black">{{noticia.titulo}}</td>
-                        <td class="px-3 py-2 text-sm text-black">{{noticia.activo ? 'Sí' : 'No'}}</td>
                         <td class="px-3 py-2 text-sm text-black">{{noticia.lugar_noticia}}</td>
                         <td class="px-3 py-2 text-sm text-black">{{noticia.autor}}</td>
-                        <td class="px-3 py-2 text-sm text-black">{{noticia.fecha_publicacion | date:'dd/MM/yyyy'}}</td>
+                        <td class="px-3 py-2 text-sm text-black">{{noticia.fecha_string}}</td>
                         <td class="px-3 py-2 text-sm text-black">
                           <div class="flex items-center space-x-3.5">
                             <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openDetailsModal(noticia)" class="hover:text-primary">
@@ -242,7 +256,7 @@
                             </button>
                             <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(noticia, 'principal')" class="hover:text-primary">
                               <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
-                                <div class="text-blue-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                <div class="text-imagen-principal max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
                                   <i class="fa fa-image" aria-hidden="true"></i>
                                   <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
                                     <div class="py-3 px-4 border-b border-gray-200">
@@ -261,7 +275,7 @@
                             </button>
                             <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openImageModal(noticia, 'generales')" class="hover:text-primary">
                               <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
-                                <div class="text-green-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                <div class="text-imagen-general max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
                                   <i class="fa fa-images" aria-hidden="true"></i>
                                   <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full" role="tooltip">
                                     <div class="py-3 px-4 border-b border-gray-200">
@@ -367,6 +381,25 @@
           </div>
         </div>
         <div id="tabs-with-icons-2" class="hidden" role="tabpanel" aria-labelledby="tabs-with-icons-item-2">
+
+           <!-- SearchBox para la papelera -->
+           <div class="relative w-full mb-2">
+            <div class="relative w-full">
+              <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5 w-full">
+                <svg class="flex-shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24"
+                  height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <path d="m21 21-4.3-4.3"></path>
+                </svg>
+              </div>
+              <input (input)="filterGlobalInactive($event)"
+                class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]"
+                type="text" placeholder="Buscar en la papelera" />
+            </div>
+          </div>
+          <!-- End SearchBox -->
+
           <div class="flex flex-col mb-5">
             <div class="-m-1.5 overflow-x-auto">
               <div class="p-1.5 min-w-full inline-block align-middle">
@@ -384,11 +417,7 @@
                             Título <p-sortIcon field="titulo"></p-sortIcon>
                           </div>
                         </th>
-                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="activo">
-                          <div class="flex">
-                            Activo <p-sortIcon field="activo"></p-sortIcon>
-                          </div>
-                        </th>
+                        
                         <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color" pSortableColumn="lugar_noticia">
                           <div class="flex">
                             Lugar <p-sortIcon field="lugar_noticia"></p-sortIcon>
@@ -412,10 +441,10 @@
                     <ng-template pTemplate="body" let-noticia>
                       <tr class="divide-x divide-gray-200 bg-neutral-100">
                         <td class="px-3 py-2 text-sm text-black">{{noticia.titulo}}</td>
-                        <td class="px-3 py-2 text-sm text-black">{{noticia.activo ? 'Sí' : 'No'}}</td>
+                      
                         <td class="px-3 py-2 text-sm text-black">{{noticia.lugar_noticia}}</td>
                         <td class="px-3 py-2 text-sm text-black">{{noticia.autor}}</td>
-                        <td class="px-3 py-2 text-sm text-black">{{noticia.fecha_publicacion | date:'dd/MM/yyyy'}}</td>
+                        <td class="px-3 py-2 text-sm text-black">{{noticia.fecha_string}}</td>
                         <td class="px-3 py-2 text-sm text-black">
                           <div class="flex items-center space-x-3.5">
                             <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)" (click)="openDetailsModal(noticia)" class="hover:text-primary">
