@@ -4,6 +4,7 @@ import {
   Instalacion,
   InstalacionService,
 } from '../../instalacionService/instalacion.service';
+import { soloLetras, soloLetrasConPuntuacion } from '../../validaciones';
 import Swal from 'sweetalert2';
 import { BASEIMAGEN } from '../../constans';
 
@@ -64,8 +65,7 @@ export class InstalacionComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.instalacionForm = this.fb.group({
-      titulo: ['', [Validators.required, Validators.maxLength(150), Validators.pattern(/^[a-zA-ZÀ-ÿ0-9\s\-.,()¡!"']+$/)]],
-      resumen: ['', [Validators.maxLength(200), Validators.pattern(/^[a-zA-ZÀ-ÿ0-9\s\-.,()[]¡!"']+$/)]],
+      titulo: ['', [Validators.required,  Validators.minLength(10), Validators.maxLength(25), soloLetras(true)]],
       activo: [true],
       imagen_principal: [null, Validators.required] // Validación para la imagen principal si es obligatoria
     });
@@ -104,21 +104,53 @@ export class InstalacionComponent implements OnInit {
     }
   }
 
+  private addFormattedDate(instalacion: Instalacion): Instalacion & { fecha_string: string | null } {
+    return {
+      ...instalacion,
+      // Asegúrate de formatear la fecha en el formato requerido
+      fecha_string: instalacion.fecha_creacion
+        ? this.formatDateString(instalacion.fecha_creacion)
+        : null,
+    };
+  }
+  
+  formatDateString(dateString: string): string {
+    if (!dateString) return '';
+    
+    const months = [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',
+    ];
+  
+    // Asegúrate de que la fecha esté en formato YYYY-MM-DD
+    const dateParts = dateString.split(' ')[0].split('-');
+    const year = dateParts[0];
+    const month = months[parseInt(dateParts[1], 10) - 1];
+    const day = ('0' + dateParts[2]).slice(-2);
+  
+    return `${month} ${day}, ${year}`;
+  }
+  
   loadInstalaciones(): void {
     this.instalacionService.obtenerInstalacion().subscribe({
       next: (response) => {
-        this.instalaciones = response.records.map((instalacion) => ({
+        // console.log(response.records); // Verifica aquí si existe "fecha_publicacion"
+        this.instalaciones = response.records.map((instalacion: Instalacion) => 
+          this.addFormattedDate(instalacion)
+        ).map((instalacion: Instalacion) => ({
           ...instalacion,
           titulo: instalacion.nombre,
           imagen_principal: this.getImageUrl(instalacion.imagen_principal || ''),
           imagenes_generales: Array.isArray(instalacion.imagenes_generales)
             ? instalacion.imagenes_generales.map((img: any) => this.getImageUrl(img))
-            : []
+            : [],
         }));
         this.filterInstalaciones();
-      }
+      },
+      error: (err) => console.error('Error al obtener las instalaciones', err),
     });
   }
+  
 
   getImageUrl(relativePath: string | object): string {
     if (typeof relativePath === 'string') {
@@ -340,13 +372,29 @@ export class InstalacionComponent implements OnInit {
 
   filterGlobal(event: any): void {
     const searchValue = event.target.value.toLowerCase();
-    this.filteredInstalaciones = this.instalaciones.filter(
-      (instalacion) =>
-        (instalacion.titulo &&
-          instalacion.titulo.toLowerCase().includes(searchValue)) ||
-        (instalacion['fecha_creacion'] &&
-          instalacion['fecha_creacion'].toLowerCase().includes(searchValue))
-    );
+    this.filteredInstalaciones = this.instalaciones.filter((instalacion) => {
+      return (
+        instalacion.activo &&  // Asegúrate de que la instalación esté activa
+        (
+          (instalacion.titulo?.toLowerCase().includes(searchValue) || '') ||  // Filtrar por título
+          (instalacion['fecha_string'] && 
+           instalacion['fecha_string'].toLowerCase().includes(searchValue))  // Filtrar por fecha
+        )
+      );
+    });
+  }
+  
+
+  filterGlobalInactive(event: any): void {
+    const searchValue = event.target.value.toLowerCase();
+    this.papeleraInstalaciones = this.instalaciones.filter((instalacion) => {
+      // Filtrar por convocatorias inactivas (suponiendo que tienes una propiedad "activo" que es true/false)
+      return !instalacion.activo && (
+        (instalacion.titulo?.toLowerCase().includes(searchValue) || '') ||
+        (instalacion['fecha_string'] &&
+          instalacion['fecha_string'].toLowerCase().includes(searchValue))
+      );
+    });
   }
 
   onFileChangePrincipal(event: any): void {

@@ -10,7 +10,7 @@ export interface Instalacion {
   nombre: string;
   resumen: string;
   activo: boolean;
-  fecha_publicacion: string;
+  fecha_creacion: string;
   imagen_principal?: string;
   imagenes_generales?: string[];
   [key: string]: any; // Esto permite la indexación con strings
