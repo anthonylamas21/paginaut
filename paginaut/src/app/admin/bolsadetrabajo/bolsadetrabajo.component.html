@@ -148,13 +148,13 @@
                   <p *ngIf="bolsaDeTrabajoForm.get('telefono')?.hasError('required') && (bolsaDeTrabajoForm.get('telefono')?.touched || bolsaDeTrabajoForm.get('telefono')?.dirty)"
                     class="mt-1 text-sm text-red-600">El Teléfono es obligatorio.</p>
                   <p *ngIf="bolsaDeTrabajoForm.get('telefono')?.hasError('minlength') && (bolsaDeTrabajoForm.get('telefono')?.touched || bolsaDeTrabajoForm.get('telefono')?.dirty)"
-                    cElss="mt-1 text-sm text-red-600">El Teléfono debe tener al menos {{
+                    class="mt-1 text-sm text-red-600">El Teléfono debe tener al menos {{
                     bolsaDeTrabajoForm.get('telefono')?.getError('minlength').requiredLength }} caracteres.</p>
                   <p *ngIf="bolsaDeTrabajoForm.get('telefono')?.hasError('maxlength') && (bolsaDeTrabajoForm.get('telefono')?.touched || bolsaDeTrabajoForm.get('telefono')?.dirty)"
-                    cElss="mt-1 text-sm text-red-600">El Teléfono no puede exceder los {{
+                    class="mt-1 text-sm text-red-600">El Teléfono no puede exceder los {{
                     bolsaDeTrabajoForm.get('telefono')?.getError('maxlength').requiredLength }} caracteres.</p>
                   <p *ngIf="bolsaDeTrabajoForm.get('telefono')?.hasError('pattern') && (bolsaDeTrabajoForm.get('telefono')?.touched || bolsaDeTrabajoForm.get('telefono')?.dirty)"
-                    cElss="mt-1 text-sm text-red-600">El Teléfono debe de comenzar con "+"</p>
+                    class="mt-1 text-sm text-red-600">El Teléfono debe de comenzar con "+"</p>
                 </div>
             </div>
 
@@ -164,9 +164,7 @@
                 class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
                 placeholder="Correo" required />
               <p *ngIf="
-              bolsaDeTrabajoForm.get('correo')?.invalid &&
-              (bolsaDeTrabajoForm.get('correo')?.dirty || bolsaDeTrabajoForm.get('correo')?.touched)
-            " class="mt-1 text-xs text-red-600">
+              bolsaDeTrabajoForm.get('correo')?.invalid && (bolsaDeTrabajoForm.get('correo')?.dirty || bolsaDeTrabajoForm.get('correo')?.touched)" class="mt-1 text-sm text-red-600">
                 <span *ngIf="bolsaDeTrabajoForm.get('correo')?.errors?.['required']">
                   El correo electrónico es requerido.
                 </span>
@@ -402,16 +400,16 @@
                     <ng-template pTemplate="body" let-bolsa>
                       <tr class="divide-x divide-gray-200 bg-neutral-100">
                         <td class="px-3 py-2 text-sm text-black">
-                          {{ bolsa.nombre_empresa }}
+                          {{ bolsa.nombre_empresa | slice:0:50  }}{{ bolsa.nombre_empresa.length > 50 ? '...' : '' }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
-                          {{ bolsa.descripcion_trabajo }}
+                          {{ bolsa.descripcion_trabajo | slice:0:50  }}{{ bolsa.descripcion_trabajo.length > 50 ? '...' : '' }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
-                          {{ bolsa.puesto_trabajo }}
+                          {{ bolsa.puesto_trabajo | slice:0:50  }}{{ bolsa.puesto_trabajo.length > 50 ? '...' : '' }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
-                          {{ bolsa.direccion }}
+                          {{ bolsa.direccion | slice:0:50  }}{{ bolsa.direccion.length > 50 ? '...' : '' }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
                           {{ bolsa.telefono }}
@@ -420,7 +418,7 @@
                           {{ bolsa.correo }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
-                          {{ bolsa.fecha_creacion }}
+                          {{ bolsa.fecha_string }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
                           <div class="flex items-center space-x-3.5">
@@ -455,7 +453,7 @@
                               (click)="openRequisitosModal(bolsa)" class="hover:text-primary">
                               <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                 <div
-                                  class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  class="text-archivos max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
                                   <i class="fa fa-tasks" aria-hidden="true"></i>
                                   <div
                                     class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
@@ -484,7 +482,7 @@
                             " class="hover:text-primary">
                               <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                 <div
-                                  class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  class="text-detalles max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
                                   <i class="fa fa-eye" aria-hidden="true"></i>
                                   <div
                                     class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
@@ -594,7 +592,7 @@
                       'direccion',
                       'telefono',
                       'correo',
-                      'fecha_creacion'
+                      'fecha_string'
                     ]" [tableStyleClass]="'min-w-full divide-y'" [resizableColumns]="true">
                       <ng-template pTemplate="header">
                         <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
@@ -648,10 +646,10 @@
                           </th>
                           <th scope="col"
                             class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                            pSortableColumn="fecha_creacion">
+                            pSortableColumn="fecha_string">
                             <div class="flex">
                               Fecha de Creación
-                              <p-sortIcon field="fecha_creacion"></p-sortIcon>
+                              <p-sortIcon field="fecha_string"></p-sortIcon>
                             </div>
                           </th>
                           <th scope="col"
@@ -663,16 +661,16 @@
                       <ng-template pTemplate="body" let-bolsa>
                         <tr class="divide-x divide-gray-200 bg-neutral-100">
                           <td class="px-3 py-2 text-sm text-black">
-                            {{ bolsa.nombre_empresa }}
+                            {{ bolsa.nombre_empresa | slice:0:50  }}{{ bolsa.nombre_empresa.length > 50 ? '...' : '' }}
                           </td>
                           <td class="px-3 py-2 text-sm text-black">
-                            {{ bolsa.descripcion_trabajo }}
+                            {{ bolsa.descripcion_trabajo | slice:0:50  }}{{ bolsa.descripcion_trabajo.length > 50 ? '...' : '' }}
                           </td>
                           <td class="px-3 py-2 text-sm text-black">
-                            {{ bolsa.puesto_trabajo }}
+                            {{ bolsa.puesto_trabajo | slice:0:50  }}{{ bolsa.puesto_trabajo.length > 50 ? '...' : '' }}
                           </td>
                           <td class="px-3 py-2 text-sm text-black">
-                            {{ bolsa.direccion }}
+                            {{ bolsa.direccion | slice:0:50  }}{{ bolsa.direccion.length > 50 ? '...' : '' }}
                           </td>
                           <td class="px-3 py-2 text-sm text-black">
                             {{ bolsa.telefono }}
@@ -681,7 +679,7 @@
                             {{ bolsa.correo }}
                           </td>
                           <td class="px-3 py-2 text-sm text-black">
-                            {{ bolsa.fecha_creacion }}
+                            {{ bolsa.fecha_string }}
                           </td>
                           <td class="px-3 py-2 text-sm text-black">
                             <div class="flex items-center space-x-3.5">
@@ -689,7 +687,7 @@
                                 (click)="openDetailsModal(bolsa)" class="hover:text-primary">
                                 <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                   <div
-                                    class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    class="text-detalles max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     <div
                                       class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
@@ -714,7 +712,7 @@
                                 (click)="activateBolsa(bolsa.id)" class="hover:text-primary">
                                 <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                   <div
-                                    class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    class="text-reactivar max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
                                     <i class="fa-solid fa-arrow-rotate-left"></i>
                                     <div
                                       class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
