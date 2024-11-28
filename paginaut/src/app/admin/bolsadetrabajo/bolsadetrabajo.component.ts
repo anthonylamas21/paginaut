@@ -11,6 +11,7 @@ import {
   BolsaDeTrabajo,
   Requisito,
 } from '../bolsa-de-trabajo.service';
+import { soloLetras, validarTelefono, soloLetrasConPuntuacion, ValidarNumeros } from '../../validaciones';
 import Swal from 'sweetalert2';
 import { BASEIMAGEN } from '../../constans';
 
@@ -66,7 +67,7 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
   selectedBolsa?: BolsaDeTrabajo;
   currentTab: 'active' | 'inactive' = 'active';
   fileToUpload: File | null = null;
-  baseImageUrl = BASEIMAGEN+'/';
+  baseImageUrl = BASEIMAGEN + '/';
   isDetailsModalOpen = false;
   getrequisitos?: Array<{ requisito: string }>;
   IDMostrarRequisitos?: number;
@@ -79,22 +80,22 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
   ) {
     this.bolsaDeTrabajoForm = this.fb.group({
       id: [''],
-      nombre_empresa: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(/^[a-zA-Z\s]*$/)]],
-      descripcion_trabajo: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(/^[a-zA-Z\s]*$/)]],
-      puesto_trabajo: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\s]*$/)]],
-      direccion: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\s]*$/)]],
-      telefono: ['', [Validators.required, Validators.pattern(/^[0-9+()-\s]*$/), Validators.maxLength(10)]],
+      nombre_empresa: ['', [soloLetras(true), Validators.required, Validators.minLength(15), Validators.maxLength(100)]],
+      descripcion_trabajo: ['', [soloLetrasConPuntuacion(true), Validators.required, Validators.minLength(15), Validators.maxLength(400)]],
+      puesto_trabajo: ['', [soloLetras(true), Validators.required, Validators.minLength(10), Validators.maxLength(100)]],
+      direccion: ['', [soloLetrasConPuntuacion(true), Validators.required, Validators.minLength(10), Validators.maxLength(150)]],
+      telefono: ['', [ValidarNumeros(true), Validators.required, Validators.minLength(10), Validators.maxLength(15)]],
       correo: ['', [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z0-9._%+-]+@(gmail|hotmail|outlook|utdelacosta)\.com$|^[a-zA-Z0-9._%+-]+@utdelacosta\.edu\.mx$/)]],
     });
 
     this.requisitosForm = this.fb.group({
       requisitos: this.fb.array(['', [
-          Validators.required,
-          Validators.pattern(/^[a-zA-Z0-9\s]*$/)  // Solo letras, números y espacios
-        ]
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9\s]*$/)  // Solo letras, números y espacios
+      ]
       ]),
     });
-    
+
   }
 
   ngOnInit(): void {
@@ -274,16 +275,45 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
     this.isRequisitosModalOpen = false;
   }
 
-  loadBolsas() {
+  loadBolsas(): void {
     this.bolsaDeTrabajoService.getBolsas().subscribe({
       next: (response: any) => {
-        this.bolsas = response.records;
+        this.bolsas = response.records.map((bolsa: any) => {
+          return this.addFormattedDate(bolsa); // Si necesitas formatear alguna fecha
+        }).map((bolsa: any) => ({
+          ...bolsa,
+        }));
         this.filterBolsas();
       },
       error: (error: any) => {
         this.showToast('error', error.message);
       },
     });
+  }
+  
+  private addFormattedDate(bolsa: BolsaDeTrabajo): BolsaDeTrabajo & { fecha_string: string } {
+    return {
+      ...bolsa,
+      fecha_string: bolsa.fecha_creacion 
+        ? this.formatDateString(bolsa.fecha_creacion) 
+        : 'Fecha no disponible', // Maneja el caso de undefined
+    };
+  }
+  
+  
+  formatDateString(dateString: string): string {
+    const months = [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
+  
+    // Asegurarse de que la fecha está en formato YYYY-MM-DD antes de procesarla
+    const dateParts = dateString.split(' ')[0].split('-'); // Extrae solo la fecha en formato YYYY-MM-DD (sin la hora)
+    const year = dateParts[0];
+    const month = months[parseInt(dateParts[1], 10) - 1]; // Mes (1-12)
+    const day = ('0' + dateParts[2]).slice(-2); // Día (si tiene un solo dígito, lo pone con cero a la izquierda)
+  
+    return `${month} ${day}, ${year}`;
   }
 
   deleteBolsa(id: number) {
@@ -364,23 +394,35 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
     }
   }
 
-  filterGlobal(event: Event) {
-    const value = (event.target as HTMLInputElement).value.toLowerCase();
-    if (this.currentTab === 'active') {
-      this.filteredBolsas = this.bolsas.filter(
-        (bolsa) =>
-          bolsa.activo &&
-          (bolsa.nombre_empresa.toLowerCase().includes(value) ||
-            (bolsa.fecha_creacion && bolsa.fecha_creacion.includes(value)))
+  filterGlobal(event: any): void {
+    const searchValue = event.target.value.toLowerCase();
+    this.filteredBolsas = this.bolsas.filter((bolsa) => {
+      // Filtrar por registros activos (activo es true)
+      return bolsa.activo && (
+        (bolsa.nombre_empresa?.toLowerCase().includes(searchValue) || '') ||
+        (bolsa.descripcion_trabajo?.toLowerCase().includes(searchValue) || '') ||
+        (bolsa.puesto_trabajo?.toLowerCase().includes(searchValue) || '') ||
+        (bolsa.direccion?.toLowerCase().includes(searchValue) || '') ||
+        (bolsa.telefono?.toLowerCase().includes(searchValue) || '') ||
+        (bolsa.fecha_creacion?.toLowerCase().includes(searchValue) || '')
       );
-    } else {
-      this.papeleraBolsas = this.bolsas.filter(
-        (bolsa) =>
-          !bolsa.activo &&
-          (bolsa.nombre_empresa.toLowerCase().includes(value) ||
-            (bolsa.fecha_creacion && bolsa.fecha_creacion.includes(value)))
+    });
+  }
+  
+
+  filterGlobalInactive(event: any): void {
+    const searchValue = event.target.value.toLowerCase();
+    this.papeleraBolsas = this.bolsas.filter((bolsa) => {
+      // Filtrar por convocatorias inactivas (suponiendo que tienes una propiedad "activo" que es true/false)
+      return !bolsa.activo && (
+        (bolsa.nombre_empresa?.toLowerCase().includes(searchValue) || '') ||
+        (bolsa.descripcion_trabajo?.toLowerCase().includes(searchValue) || '') ||
+        (bolsa.puesto_trabajo?.toLowerCase().includes(searchValue) || '') ||
+        (bolsa.direccion?.toLowerCase().includes(searchValue) || '') ||
+        (bolsa.telefono?.toLowerCase().includes(searchValue) || '') ||
+        (bolsa.fecha_creacion?.toLowerCase().includes(searchValue) || '')
       );
-    }
+    });
   }
 
   openDetailsModal(bolsaTrabajo: BolsaDeTrabajo): void {
