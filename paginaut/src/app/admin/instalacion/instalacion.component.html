@@ -35,7 +35,7 @@
       <div class="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10">
         <h3 class="text-xl font-bold text-gray-900">
           {{
-          currentInstalacionId ? "Editar Instalación" : "Nueva Instalación"
+          currentInstalacionId ? "Actualizar Instalación" : "Nueva Instalación"
           }}
         </h3>
         <button type="button" class="text-gray-400 hover:text-gray-500" (click)="closeModal()">
@@ -59,6 +59,9 @@
             <div>
               <p *ngIf="instalacionForm.get('titulo')?.hasError('required') && (instalacionForm.get('titulo')?.touched || instalacionForm.get('titulo')?.dirty)"
                 class="mt-1 text-sm text-red-600">El título es obligatorio.</p>
+              <p *ngIf="instalacionForm.get('titulo')?.hasError('minlength') && (instalacionForm.get('titulo')?.touched || instalacionForm.get('titulo')?.dirty)"
+                class="mt-1 text-sm text-red-600">El título tiene que ser mayor a los {{
+                instalacionForm.get('titulo')?.getError('minlength').requiredLength }} caracteres.</p>
               <p *ngIf="instalacionForm.get('titulo')?.hasError('maxlength') && (instalacionForm.get('titulo')?.touched || instalacionForm.get('titulo')?.dirty)"
                 class="mt-1 text-sm text-red-600">El título no puede exceder los {{
                 instalacionForm.get('titulo')?.getError('maxlength').requiredLength }} caracteres.</p>
@@ -148,16 +151,12 @@
                 <div class="relative w-full">
                   <div class="relative w-full">
                     <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5 w-full">
-                      <svg class="flex-shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24"
-                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
+                      <svg class="flex-shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
                         <path d="m21 21-4.3-4.3"></path>
                       </svg>
                     </div>
-                    <input (input)="filterGlobal($event)"
-                      class="py-3 ps-10 pe-4 block w-full border-third-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-third-color"
-                      type="text" placeholder="Ingresa tu búsqueda" />
+                    <input (input)="filterGlobal($event)" class="py-3 ps-10 pe-4 block w-full border-third-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-third-color" type="text" placeholder="Ingresa tu búsqueda" value="" data-hs-combo-box-input="" />
                   </div>
                 </div>
                 <!-- End SearchBox -->
@@ -165,11 +164,9 @@
             </div>
             <div class="flex flex-col lg:w-5/12 sm:w-12/12 md:w-5/12 text-right w-full">
               <div class="w-full">
-                <button type="button"
-                  class="py-3 my-2 px-4 inline-flex button-secondary items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-color text-white hover:bg-primary-color-90 disabled:opacity-50 disabled:pointer-events-none"
-                  (click)="openModal()">
+                <button type="button" class="py-3 my-2 px-4 inline-flex button-secondary items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-color text-white hover:bg-primary-color-90 hover:opacity-90 disabled:opacity-50 disabled:pointer-events-none" (click)="openModal()">
                   <i class="fa fa-plus" aria-hidden="true"></i>
-                  Registrar Instalación
+                  Registrar Instalaciones
                 </button>
               </div>
             </div>
@@ -182,8 +179,7 @@
                     currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
                     [showCurrentPageReport]="true" [globalFilterFields]="[
                       'titulo',
-                      'fecha_creacion',
-                      'activo'
+                      'fecha_string',
                     ]" [tableStyleClass]="'min-w-full divide-y'" [resizableColumns]="true">
                     <ng-template pTemplate="header">
                       <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
@@ -194,16 +190,10 @@
                           </div>
                         </th>
                         <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                          pSortableColumn="fecha_creacion">
+                          pSortableColumn="fecha_string">
                           <div class="flex">
                             Fecha de Publicación
-                            <p-sortIcon field="fecha_creacion"></p-sortIcon>
-                          </div>
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                          pSortableColumn="activo">
-                          <div class="flex">
-                            Activo <p-sortIcon field="activo"></p-sortIcon>
+                            <p-sortIcon field="fecha_string"></p-sortIcon>
                           </div>
                         </th>
                         <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
@@ -217,10 +207,7 @@
                           {{ instalacion.titulo }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
-                          {{ instalacion.fecha_creacion | date : "dd/MM/yyyy" }}
-                        </td>
-                        <td class="px-3 py-2 text-sm text-black">
-                          {{ instalacion.activo ? "Sí" : "No" }}
+                          {{ instalacion.fecha_string }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
                           <div class="flex items-center space-x-3.5">
@@ -228,7 +215,7 @@
                               (click)="openImageModal(instalacion, 'principal')" class="hover:text-primary">
                               <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                 <div
-                                  class="text-blue-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  class="text-imagen-principal max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
                                   <i class="fa fa-image" aria-hidden="true"></i>
                                   <div
                                     class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
@@ -253,7 +240,7 @@
                               (click)="openImageModal(instalacion, 'generales')" class="hover:text-primary">
                               <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                 <div
-                                  class="text-imagen-principal max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  class="text-imagen-general max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
                                   <i class="fa fa-images" aria-hidden="true"></i>
                                   <div
                                     class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
@@ -285,13 +272,13 @@
                                     role="tooltip">
                                     <div class="py-3 px-4 border-b border-gray-200">
                                       <h4 class="font-semibold text-gray-800">
-                                        Editar
+                                        Actualizar
                                       </h4>
                                     </div>
                                     <ul class="py-3 px-4 space-y-1">
                                       <li>
                                         <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 text-wrap">
-                                          Editar esta instalación
+                                          Actualizar esta instalación
                                         </div>
                                       </li>
                                     </ul>
@@ -384,19 +371,21 @@
         </div>
         <div id="tabs-with-icons-2" class="hidden" role="tabpanel" aria-labelledby="tabs-with-icons-item-2">
           <!-- SearchBox para la papelera -->
-          <div class="relative w-full mb-2">
-            <div class="relative w-full">
-              <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5 w-full">
-                <svg class="flex-shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24"
-                  height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <path d="m21 21-4.3-4.3"></path>
-                </svg>
+          <div class="flex flex-col lg:w-7/12 sm:w-12/12 md:w-7/12 w-full">
+            <div class="w-full">
+              <!-- SearchBox -->
+              <div class="relative w-full">
+                <div class="relative w-full">
+                  <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5 w-full">
+                    <svg class="flex-shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <path d="m21 21-4.3-4.3"></path>
+                    </svg>
+                  </div>
+                  <input (input)="filterGlobalInactive($event)" class="py-3 ps-10 pe-4 block w-full border-third-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-third-color" type="text" placeholder="Ingresa tu búsqueda" value="" data-hs-combo-box-input="" />
+                </div>
               </div>
-              <input (input)="filterGlobalInactive($event)"
-                class="py-3 ps-10 pe-4 block w-full border-input-bord-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-[#EDEDED]"
-                type="text" placeholder="Buscar en la papelera" />
+              <!-- End SearchBox -->
             </div>
           </div>
           <!-- End SearchBox -->
@@ -408,8 +397,7 @@
                     currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
                     [showCurrentPageReport]="true" [globalFilterFields]="[
                       'titulo',
-                      'fecha_creacion',
-                      'activo'
+                      'fecha_string',
                     ]" [tableStyleClass]="'min-w-full divide-y'" [resizableColumns]="true">
                     <ng-template pTemplate="header">
                       <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
@@ -420,16 +408,10 @@
                           </div>
                         </th>
                         <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                          pSortableColumn="fecha_creacion">
+                          pSortableColumn="fecha_string">
                           <div class="flex">
                             Fecha de Publicación
-                            <p-sortIcon field="fecha_creacion"></p-sortIcon>
-                          </div>
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                          pSortableColumn="activo">
-                          <div class="flex">
-                            Activo <p-sortIcon field="activo"></p-sortIcon>
+                            <p-sortIcon field="fecha_string"></p-sortIcon>
                           </div>
                         </th>
                         <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color">
@@ -443,18 +425,16 @@
                           {{ instalacion.titulo }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
-                          {{ instalacion.fecha_creacion | date : "dd/MM/yyyy" }}
+                          {{ instalacion.fecha_string }}
                         </td>
-                        <td class="px-3 py-2 text-sm text-black">
-                          {{ instalacion.activo ? "Sí" : "No" }}
-                        </td>
+                        
                         <td class="px-3 py-2 text-sm text-black">
                           <div class="flex items-center space-x-3.5">
                             <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)"
                               (click)="openImageModal(instalacion, 'principal')" class="hover:text-primary">
                               <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                 <div
-                                  class="text-blue-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  class="text-imagen-principal max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
                                   <i class="fa fa-image" aria-hidden="true"></i>
                                   <div
                                     class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
@@ -479,7 +459,7 @@
                               (click)="openImageModal(instalacion, 'generales')" class="hover:text-primary">
                               <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                 <div
-                                  class="text-green-500 max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  class="text-imagen-general max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
                                   <i class="fa fa-images" aria-hidden="true"></i>
                                   <div
                                     class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
@@ -504,7 +484,7 @@
                               (click)="activarInstalacion(instalacion.id!)" class="hover:text-primary">
                               <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                 <div
-                                  class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  class="text-reactivar max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
                                   <i class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i>
                                   <div
                                     class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
