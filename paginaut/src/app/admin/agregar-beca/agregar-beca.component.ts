@@ -1,23 +1,10 @@
-import {
-  Component,
-  HostListener,
-  OnInit,
-  Renderer2,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  AbstractControl,
-  ValidationErrors,
-  ValidatorFn,
-} from '@angular/forms';
+import {Component,HostListener,OnInit,Renderer2,ElementRef,ViewChild} from '@angular/core';
+import {FormBuilder,FormGroup,Validators,AbstractControl,ValidationErrors,ValidatorFn} from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { BecaService, Beca } from '../beca.service';
 import Swal from 'sweetalert2';
 import { BASEIMAGEN } from '../../constans';
+import { soloLetras } from '../../validaciones';
 
 class TooltipManager {
   static adjustTooltipPosition(
@@ -50,89 +37,6 @@ class TooltipManager {
   }
 }
 
-// Validador personalizado para impedir espacios en blanco
-function noWhitespaceValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const isWhitespace = (control.value || '').trim().length === 0;
-    return isWhitespace ? { whitespace: true } : null;
-  };
-}
-
-// Validador personalizado para impedir comas dobles
-function noDoubleCommasValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const hasDoubleCommas = (control.value || '').includes(',,');
-    return hasDoubleCommas ? { doubleCommas: true } : null;
-  };
-}
-
-// Validador personalizado para impedir puntos dobles
-function noDoubleDotsValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const hasDoubleDots = (control.value || '').includes('..');
-    return hasDoubleDots ? { doubleDots: true } : null;
-  };
-}
-
-// Validador personalizado para evitar múltiples espacios consecutivos
-function noMultipleSpacesValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const hasMultipleSpaces = (control.value || '').includes('  ');
-    return hasMultipleSpaces ? { multipleSpaces: true } : null;
-  };
-}
-
-// Validador personalizado para evitar caracteres no permitidos o erratas
-function noTypoOrErrataValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const forbiddenPattern = /[\~\^\´\`\¨<>{}]/; // Añadir más caracteres según sea necesario
-    const hasForbiddenChars = forbiddenPattern.test(control.value || '');
-    return hasForbiddenChars ? { forbiddenChars: true } : null;
-  };
-}
-
-// Validador para prevenir inyecciones SQL
-function noSQLInjectionValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const sqlPattern = /(select|insert|update|delete|drop|;|'|"|--)/i;
-    const hasSQLInjection = sqlPattern.test(control.value || '');
-    return hasSQLInjection ? { sqlInjection: true } : null;
-  };
-}
-
-// Validador para prevenir inyecciones JavaScript
-function noJavaScriptInjectionValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const jsPattern = /(<script>|<\/script>|javascript:)/i;
-    const hasJSInjection = jsPattern.test(control.value || '');
-    return hasJSInjection ? { jsInjection: true } : null;
-  };
-}
-
-// Validador para detectar errores ortográficos comunes
-function noCommonTyposValidator(): ValidatorFn {
-  const commonTypos: { [key: string]: string } = {
-    becá: 'beca',
-    descripccion: 'descripción',
-    univercidad: 'universidad',
-    'universidad tecnológica': 'Universidad Tecnológica de La Costa',
-    tituló: 'título',
-    alumnós: 'alumnos',
-    'beca exelencia': 'beca de excelencia',
-    // Agrega más erratas comunes aquí
-  };
-
-  return (control: AbstractControl): ValidationErrors | null => {
-    const value = control.value?.toLowerCase() || '';
-    const typo = Object.keys(commonTypos).find((typo) => value.includes(typo));
-    return typo
-      ? {
-          typo: `Error ortográfico detectado: "${typo}" debería ser "${commonTypos[typo]}"`,
-        }
-      : null;
-  };
-}
-
 @Component({
   selector: 'app-agregar-beca',
   templateUrl: './agregar-beca.component.html',
@@ -154,7 +58,7 @@ export class AgregarBecaComponent implements OnInit {
   currentTab: 'active' | 'inactive' = 'active';
   fileToUpload: File | null = null;
   currentFileName: string = '';
-  baseImageUrl = BASEIMAGEN+'/';
+  baseImageUrl = BASEIMAGEN + '/';
 
   constructor(
     private fb: FormBuilder,
@@ -167,31 +71,18 @@ export class AgregarBecaComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.maxLength(150), // Se ha actualizado a 150 caracteres
-          Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ(),.*\-_*]+$/), // Permite acentos, paréntesis, guion medio, guion bajo, asterisco, comas y puntos
-          noWhitespaceValidator(),
-          noDoubleCommasValidator(),
-          noDoubleDotsValidator(),
-          noMultipleSpacesValidator(),
-          noTypoOrErrataValidator(),
-          noSQLInjectionValidator(),
-          noJavaScriptInjectionValidator(),
-          noCommonTyposValidator(),
+          Validators.maxLength(50),
+          Validators.minLength(10),
+          soloLetras(true)
         ],
       ],
       descripcion: [
         '',
         [
           Validators.required,
-          Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ(),.*\-_*]+$/), // Permite acentos, paréntesis, guion medio, guion bajo, asterisco, comas y puntos
-          noWhitespaceValidator(),
-          noDoubleCommasValidator(),
-          noDoubleDotsValidator(),
-          noMultipleSpacesValidator(),
-          noTypoOrErrataValidator(),
-          noSQLInjectionValidator(),
-          noJavaScriptInjectionValidator(),
-          noCommonTyposValidator(),
+          Validators.maxLength(100),
+          Validators.minLength(10),
+          soloLetras(true)
         ],
       ],
       tipo: ['', Validators.required],
@@ -355,16 +246,46 @@ export class AgregarBecaComponent implements OnInit {
     this.isViewModalOpen = false;
   }
 
-  loadBecas() {
+  loadBecas(): void {
     this.becaService.getBecas().subscribe({
       next: (response: any) => {
-        this.becas = response.records;
+        this.becas = response.records.map((beca: any) => {
+          // Aquí puedes aplicar cualquier transformación necesaria, como formateo de fechas o ajustes a los campos.
+          return this.addFormattedDate(beca);
+        }).map((beca: any) => ({
+          ...beca,
+        }));
         this.filterBecas();
       },
       error: (error: any) => {
         this.showToast('error', error.message);
       },
     });
+  }
+  
+
+  private addFormattedDate(becas: Beca): Beca & { fecha_string: string } {
+    return {
+      ...becas,
+      // Maneja el caso en que fecha_creacion sea undefined
+      fecha_string: becas.fecha_creacion ? this.formatDateString(becas.fecha_creacion) : 'Fecha no disponible',
+    };
+  }
+  
+  
+  formatDateString(dateString: string): string {
+    const months = [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
+  
+    // Asegurarse de que la fecha está en formato YYYY-MM-DD antes de procesarla
+    const dateParts = dateString.split(' ')[0].split('-'); // Extrae solo la fecha en formato YYYY-MM-DD (sin la hora)
+    const year = dateParts[0];
+    const month = months[parseInt(dateParts[1], 10) - 1]; // Mes (1-12)
+    const day = ('0' + dateParts[2]).slice(-2); // Día (si tiene un solo dígito, lo pone con cero a la izquierda)
+  
+    return `${month} ${day}, ${year}`;
   }
 
   deleteBeca(id: number) {
@@ -447,23 +368,28 @@ export class AgregarBecaComponent implements OnInit {
     }
   }
 
-  filterGlobal(event: Event) {
-    const value = (event.target as HTMLInputElement).value.toLowerCase();
-    if (this.currentTab === 'active') {
-      this.filteredBecas = this.becas.filter(
-        (beca) =>
-          beca.activo &&
-          (beca.nombre.toLowerCase().includes(value) ||
-            (beca.fecha_creacion && beca.fecha_creacion.includes(value)))
+  filterGlobal(event: any): void {
+    const searchValue = event.target.value.toLowerCase();
+    this.filteredBecas = this.becas.filter((beca) => {
+      // Filtrar por becas activas (suponiendo que tienes una propiedad "activo")
+      return beca.activo && (
+        (beca.nombre?.toLowerCase().includes(searchValue) || '') ||
+        (beca.descripcion?.toLowerCase().includes(searchValue) || '') ||
+        (beca.fecha_string?.toLowerCase().includes(searchValue) || '')
       );
-    } else {
-      this.papeleraBecas = this.becas.filter(
-        (beca) =>
-          !beca.activo &&
-          (beca.nombre.toLowerCase().includes(value) ||
-            (beca.fecha_creacion && beca.fecha_creacion.includes(value)))
+    });
+  } 
+  
+  filterGlobalInactive(event: any): void {
+    const searchValue = event.target.value.toLowerCase();
+    this.papeleraBecas = this.becas.filter((beca) => {
+      // Filtrar por becas inactivas (suponiendo que tienes una propiedad "activo" que es true/false)
+      return !beca.activo && (
+        (beca.nombre?.toLowerCase().includes(searchValue) || '') ||
+        (beca.descripcion?.toLowerCase().includes(searchValue) || '') ||
+        (beca.fecha_string?.toLowerCase().includes(searchValue) || '')
       );
-    }
+    });
   }
 
   viewBeca(beca: Beca) {

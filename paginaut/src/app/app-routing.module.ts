@@ -1,17 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PrincipalComponent } from './principal/principal.component';
-import { NavbarComponent } from './navbar/navbar.component';
 import { CarrerasComponent } from './carreras/carreras.component';
 import { UnidadesAcademicasComponent } from './unidades-academicas/unidades-academicas.component';
 import { BecasComponent } from './becas/becas.component';
-import { TalleresComponent } from './talleres/talleres.component';
 import { LoginComponent } from './login/login.component';
 import { EventosComponent } from './eventos/eventos.component';
 import { CalendarioComponent } from './calendario/calendario.component';
-import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component'; // Importa el nuevo componente
-import { TallerComponent } from './taller/taller.component';
-import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
 import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-calendario.component';
 import { AgregarBecaComponent } from './admin/agregar-beca/agregar-beca.component'; // Asegúrate de ajustar la ruta si es necesario
 import { CursosComponent } from './cursos/cursos.component';
@@ -34,12 +29,8 @@ import { PiedraEstanqueComponent } from './piedra-estanque/piedra-estanque.compo
 import { ConvocatoriasComponent } from './convocatorias/convocatorias.component';
 
 // Rutas Administrador
-import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
-import { CursosAdminComponent } from './admin/cursos-admin/cursos-admin.component';
 import { DireccionesAdminComponent } from './admin/direcciones-admin/direcciones-admin.component';
-import { BecasAdminComponent } from './admin/becas-admin/becas-admin.component';
-import { CalendarioAdminComponent } from './admin/calendario-admin/calendario-admin.component';
 import { GaleriaAdminComponent } from './admin/galeria-admin/galeria-admin.component';
 import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.component';
 import { InstalacionComponent } from './admin/instalacion/instalacion.component';
@@ -77,32 +68,23 @@ import { guardAuthGuard } from './Guard/guard-auth.guard';
 import { loginGuard } from './Guard/login.guard';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { InfoConvocatoriaComponent } from './info-convocatoria/info-convocatoria.component';
-import { TooltipManager } from './validaciones';
 
 const routes: Routes = [
   { path: '', redirectTo: '/principal', pathMatch: 'full' },
-
-  { path: 'taller', component: TallerComponent },
-  { path: 'direccion', component: AgregarDireccionComponent },
-  { path: 'piedra_estanque', component: PiedraEstanqueComponent },
-  { path: 'convocatorias', component: ConvocatoriasComponent },
-  { path: 'info-convocatoria/:id', component: InfoConvocatoriaComponent },
+  { path: 'login', component: LoginComponent, canActivate: [loginGuard] },
 
   //Rutas
   { path: 'principal', component: PrincipalComponent },
-  { path: 'navbar', component: NavbarComponent },
   { path: 'carreras', component: CarrerasComponent },
   { path: 'becas', component: BecasComponent },
   { path: 'unidades_academicas', component: UnidadesAcademicasComponent },
-  { path: 'login', component: LoginComponent, canActivate: [loginGuard] },
   { path: 'eventos', component: EventosComponent },
+  { path: 'convocatorias', component: ConvocatoriasComponent },
   { path: 'calendario', component: CalendarioComponent },
   { path: 'cursos', component: CursosComponent },
-  { path: 'info_curso/:id', component: InfoCursoComponent },
   { path: 'info_unidades', component: InfoUnidadesComponent },
   { path: 'filosofia', component: FilosofiaComponent },
   { path: 'admision', component: AdmisionComponent },
-  { path: 'info_bolsa/:id', component: InfoBolsaComponent },
   { path: 'info_enfermeria', component: InfoEnfermeriaComponent },
   { path: 'ubicacion', component: UbicacionComponent },
   { path: 'psicologia', component: PsicologiaComponent },
@@ -112,147 +94,52 @@ const routes: Routes = [
   { path: 'galeria', component: GaleriaComponent },
   { path: 'enviar-correo', component: PasswordResetComponent },
   { path: 'biblioteca', component: BibliotecaComponent },
-  {
-    path: 'admin/agregar-curso',
-    component: AgregarCursoComponent,
-    canActivate: [guardAuthGuard],
-  },
+  { path: 'evento/:id', component: EventosComponent },
+  { path: 'info_bolsa/:id', component: InfoBolsaComponent },
+  { path: 'noticia/:id', component: NoticiasComponent },
+  { path: 'info-beca/:id', component: InfoBecaComponent }, 
+  { path: 'info-unidades/:id', component: InfoUnidadesComponent },
+  { path: 'info-convocatoria/:id', component: InfoConvocatoriaComponent },
+  { path: 'info_curso/:id', component: InfoCursoComponent },
 
   // Info Carreras
-  {
-    path: 'info_carreras/agrobiotecnologia',
-    component: CarreraAgrobiotecnologiaComponent,
-  },
-  {
-    path: 'info_carreras/procesos-alimentario',
-    component: CarreraProcesosAlimentarioComponent,
-  },
+  { path: 'info_carreras/agrobiotecnologia', component: CarreraAgrobiotecnologiaComponent },
+  { path: 'info_carreras/procesos-alimentario',component: CarreraProcesosAlimentarioComponent },
   { path: 'info_carreras/acuicultura', component: CarreraAcuiculturaComponent },
   { path: 'info_carreras/turismo', component: CarreraTurismoComponent },
-  {
-    path: 'info_carreras/administracion',
-    component: CarreraAdministracionComponent,
-  },
-  {
-    path: 'info_carreras/mercadotecnia',
-    component: CarreraMercadotecniaComponent,
-  },
+  { path: 'info_carreras/administracion', component: CarreraAdministracionComponent },
+  { path: 'info_carreras/mercadotecnia', component: CarreraMercadotecniaComponent },
   { path: 'info_carreras/gastronomia', component: CarreraGastronomiaComponent },
   { path: 'info_carreras/contaduria', component: CarreraContaduriaComponent },
-  {
-    path: 'info_carreras/desarrollo-software',
-    component: CarreraDesarrolloSoftwareComponent,
-  },
+  { path: 'info_carreras/desarrollo-software', component: CarreraDesarrolloSoftwareComponent },
 
   // Info Horas Recreativas
   { path: 'info_horas_recreativas/futbol', component: FutbolComponent },
   { path: 'info_horas_recreativas/beisbol', component: BeisbolComponent },
   { path: 'info_horas_recreativas/basquetbol', component: BasquetbolComponent },
   { path: 'info_horas_recreativas/voleibol', component: VoleibolComponent },
-  {
-    path: 'info_horas_recreativas/activacion-fisica',
-    component: ActivacionFisicaComponent,
-  },
+  { path: 'info_horas_recreativas/activacion-fisica', component: ActivacionFisicaComponent },
   { path: 'info_horas_recreativas/dibujo', component: DibujoComponent },
   { path: 'info_horas_recreativas/danza', component: DanzaComponent },
   { path: 'info_horas_recreativas/ajedrez', component: AjedrezComponent },
+  { path: 'piedra_estanque', component: PiedraEstanqueComponent },
 
   //Rutas Adminstrador
-  {
-    path: 'admin/principal_admin',
-    component: PrincipalAdminComponent,
-    canActivate: [guardAuthGuard],
-  },
-  {
-    path: 'admin/cursos_admin',
-    component: CursosAdminComponent,
-    canActivate: [guardAuthGuard],
-  },
-  {
-    path: 'admin/direcciones_admin',
-    component: DireccionesAdminComponent,
-    canActivate: [guardAuthGuard],
-  },
-  {
-    path: 'admin/convocatoria',
-    component: ConvocatoriaComponent,
-    canActivate: [guardAuthGuard],
-  },
-  {
-    path: 'admin/becas_admin',
-    component: BecasAdminComponent,
-    canActivate: [guardAuthGuard],
-  },
-  {
-    path: 'admin/calendario_admin',
-    component: CalendarioAdminComponent,
-    canActivate: [guardAuthGuard],
-  },
-  {
-    path: 'admin/galeria_admin',
-    component: GaleriaAdminComponent,
-    canActivate: [guardAuthGuard],
-  },
-  {
-    path: 'admin/usuarios_admin',
-    component: UsuariosAdminComponent,
-    canActivate: [guardAuthGuard],
-  },
-  {
-    path: 'admin/evento',
-    component: EventoComponent,
-    canActivate: [guardAuthGuard],
-  },
-  {
-    path: 'admin/noticia',
-    component: NoticiaComponent,
-    canActivate: [guardAuthGuard],
-  },
-  {
-    path: 'admin/instalacion',
-    component: InstalacionComponent,
-    canActivate: [guardAuthGuard],
-  },
-  { path: 'evento/:id', component: EventosComponent }, //Encriptado
-  { path: 'noticia/:id', component: NoticiasComponent }, //Encriptado
-  { path: 'info-beca/:id', component: InfoBecaComponent }, //Encriptado
-  { path: 'info-unidades/:id', component: InfoUnidadesComponent },
-  {
-    path: 'admin/agenda-admin',
-    component: AgendaAdminComponent,
-    canActivate: [guardAuthGuard],
-  },
-
-  {
-    path: 'admin/registrar-evento',
-    component: RegistrarEventoComponent,
-    canActivate: [guardAuthGuard],
-  },
-  {
-    path: 'admin/agregar-calendario',
-    component: AgregarCalendarioComponent,
-    canActivate: [guardAuthGuard],
-  },
-  {
-    path: 'admin/agregar-beca',
-    component: AgregarBecaComponent,
-    canActivate: [guardAuthGuard],
-  },
-  {
-    path: 'admin/agregar-carrera',
-    component: AgregarCarreraComponent,
-    canActivate: [guardAuthGuard],
-  },
-  {
-    path: 'admin/agregar-bolsadetrabajo',
-    component: AgregarBolsaTrabajoComponent,
-    canActivate: [guardAuthGuard],
-  },
-  {
-    path: 'admin/agregar-profesor',
-    component: AgregarProfesorComponent,
-    canActivate: [guardAuthGuard],
-  },
+  { path: 'admin/principal_admin', component: PrincipalAdminComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/direcciones_admin', component: DireccionesAdminComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/convocatoria', component: ConvocatoriaComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/galeria_admin', component: GaleriaAdminComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/agregar-curso', component: AgregarCursoComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/usuarios_admin', component: UsuariosAdminComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/evento', component: EventoComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/noticia', component: NoticiaComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/instalacion', component: InstalacionComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/agenda-admin', component: AgendaAdminComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/agregar-calendario', component: AgregarCalendarioComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/agregar-beca', component: AgregarBecaComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/agregar-carrera', component: AgregarCarreraComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/agregar-bolsadetrabajo', component: AgregarBolsaTrabajoComponent, canActivate: [guardAuthGuard] },
+  { path: 'admin/agregar-profesor', component: AgregarProfesorComponent, canActivate: [guardAuthGuard] },
   { path: '**', component: NotFoundComponent },
   { path: 'acceso-denegado', component: NotFoundComponent },
 ];

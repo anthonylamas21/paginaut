@@ -57,7 +57,7 @@ function yearRangeValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const year = parseInt(control.value, 10);
     const currentYear = new Date().getFullYear();
-    return isNaN(year) || year < 1900 || year > currentYear
+    return isNaN(year) || year < 2000 || year > currentYear
       ? { outOfRange: true }
       : null;
   };
@@ -128,6 +128,7 @@ export class AgregarCalendarioComponent implements OnInit {
         [
           Validators.required,
           Validators.maxLength(4),
+          Validators.minLength(4),
           yearValidator(),
           yearRangeValidator(),
         ],
@@ -300,17 +301,45 @@ export class AgregarCalendarioComponent implements OnInit {
     this.isViewModalOpen = false;
   }
 
-  loadCalendarios() {
+  loadCalendarios(): void {
     this.calendarioService.getCalendarios().subscribe({
       next: (response: any) => {
-        this.calendarios = response.records;
-        this.hasActiveCalendario = this.calendarios.some((cal) => cal.activo);
+        this.calendarios = response.records.map((calendario: any) => {
+          // Formateo de fechas y otras transformaciones
+          return this.addFormattedDate(calendario);
+        }).map((calendario: any) => ({
+          ...calendario
+        }));
         this.filterCalendarios();
       },
       error: (error: any) => {
         this.showToast('error', error.message);
       },
     });
+  }
+  
+  private addFormattedDate(calendario: Calendario): Calendario & { fecha_string: string } {
+    return {
+      ...calendario,
+      // Manejo de undefined para evitar errores
+      fecha_string: calendario.fecha_creacion ? this.formatDateString(calendario.fecha_creacion) : 'Fecha no disponible',
+    };
+  }
+  
+  
+  formatDateString(dateString: string): string {
+    const months = [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
+  
+    // Asegurarse de que la fecha está en formato YYYY-MM-DD antes de procesarla
+    const dateParts = dateString.split(' ')[0].split('-'); // Extrae solo la fecha en formato YYYY-MM-DD (sin la hora)
+    const year = dateParts[0];
+    const month = months[parseInt(dateParts[1], 10) - 1]; // Mes (1-12)
+    const day = ('0' + dateParts[2]).slice(-2); // Día (si tiene un solo dígito, lo pone con cero a la izquierda)
+  
+    return `${month} ${day}, ${year}`;
   }
 
   deleteCalendario(id: number) {
@@ -448,25 +477,15 @@ export class AgregarCalendarioComponent implements OnInit {
     }
   }
 
-  filterGlobal(event: Event) {
-    const value = (event.target as HTMLInputElement).value.toLowerCase();
-    if (this.currentTab === 'active') {
-      this.filteredCalendarios = this.calendarios.filter(
-        (calendario) =>
-          calendario.activo &&
-          (calendario.titulo.toLowerCase().includes(value) ||
-            (calendario.fecha_creacion &&
-              calendario.fecha_creacion.includes(value)))
+  filterGlobalInactive(event: any): void {
+    const searchValue = event.target.value.toLowerCase();
+    this.papeleraCalendarios = this.calendarios.filter((calendario) => {
+      // Filtrar por calendarios inactivas (suponiendo que tienes una propiedad "activo" que es true/false)
+      return !calendario.activo && (
+        (calendario.titulo?.toLowerCase().includes(searchValue) || '') ||
+        (calendario.fecha_string?.toLowerCase().includes(searchValue) || '')
       );
-    } else {
-      this.papeleraCalendarios = this.calendarios.filter(
-        (calendario) =>
-          !calendario.activo &&
-          (calendario.titulo.toLowerCase().includes(value) ||
-            (calendario.fecha_creacion &&
-              calendario.fecha_creacion.includes(value)))
-      );
-    }
+    });
   }
 
   viewCalendario(calendario: Calendario) {

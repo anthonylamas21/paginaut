@@ -404,6 +404,7 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
         (bolsa.puesto_trabajo?.toLowerCase().includes(searchValue) || '') ||
         (bolsa.direccion?.toLowerCase().includes(searchValue) || '') ||
         (bolsa.telefono?.toLowerCase().includes(searchValue) || '') ||
+        (bolsa.correo?.toLowerCase().includes(searchValue) || '') ||
         (bolsa.fecha_creacion?.toLowerCase().includes(searchValue) || '')
       );
     });
@@ -420,6 +421,7 @@ export class AgregarBolsaTrabajoComponent implements OnInit {
         (bolsa.puesto_trabajo?.toLowerCase().includes(searchValue) || '') ||
         (bolsa.direccion?.toLowerCase().includes(searchValue) || '') ||
         (bolsa.telefono?.toLowerCase().includes(searchValue) || '') ||
+        (bolsa.correo?.toLowerCase().includes(searchValue) || '') ||
         (bolsa.fecha_creacion?.toLowerCase().includes(searchValue) || '')
       );
     });

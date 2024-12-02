@@ -12,6 +12,7 @@ export interface Beca {
   tipo: string; // Añadir esta línea para manejar el tipo de beca
   activo?: boolean;
   fecha_creacion?: string;
+  fecha_string?: string;
 }
 
 export interface BecaResponse {

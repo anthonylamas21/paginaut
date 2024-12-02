@@ -11,6 +11,7 @@ import { ProfesorService, Profesor, TipoProfesor } from '../profesor.service';
 import Swal from 'sweetalert2';
 import * as CryptoJS from 'crypto-js';
 import { BASEIMAGEN, ENCRYP } from '../../constans';
+import { ValidarCorreoPersonal, ValidarNumeros, validarTelefono } from '../../validaciones';
 
 class TooltipManager {
   static adjustTooltipPosition(
@@ -67,18 +68,8 @@ export class AgregarProfesorComponent implements OnInit {
   tipoProfesorError: string = '';
   fotoValida: boolean = false;
   isSubmitting: boolean = false; // Nueva bandera para prevenir doble envío
-  sinImagen?: "./src/assets/img/perfil_vacio.png";
   isTiempoCompletoSelected = false;
   isAsignaturaSelected = false;
-
-  // Clave secreta (debe coincidir con la del backend)
-  private claveSecreta = ENCRYP;
-
-  // Desencripta la respuesta
-  private desencriptar(cifrado: string): any {
-  const bytes = CryptoJS.AES.decrypt(cifrado, this.claveSecreta);
-  return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-  }
 
   constructor(
     private fb: FormBuilder,
@@ -88,14 +79,14 @@ export class AgregarProfesorComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {
     this.profesorForm = this.fb.group({
-      nombre: ['', [Validators.required, Validators.maxLength(50)]],
-      apellido: ['', [Validators.required, Validators.maxLength(50)]],
+      nombre: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(90)]],
+      apellido: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(90)]],
       correo: [
         '',
         [
           Validators.required,
           Validators.email,
-          Validators.pattern(/^[a-zA-Z0-9._%+-]+@(gmail|hotmail|outlook|utdelacosta)\.com$|^[a-zA-Z0-9._%+-]+@utdelacosta\.edu\.mx$/),
+          Validators.pattern(/^[a-zA-Z0-9._%+-]+@(gmail|hotmail|outlook|utdelacosta)\.com$|^[a-zA-Z0-9._%+-]+@utdelacosta\.edu\.mx$/)
         ],
       ],
       telefono: [
@@ -103,13 +94,14 @@ export class AgregarProfesorComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern(/^[0-9+()-\s]*$/),
-          Validators.maxLength(10),
+          Validators.maxLength(13),
+          validarTelefono()
         ],
       ],
 
       especialidad: ['', [Validators.required, Validators.maxLength(100)]],
       grado_academico: ['', [Validators.required, Validators.maxLength(100)]],
-      experiencia: ['', [Validators.required, Validators.pattern(/^[0-9]{1,2}$/)]],
+      experiencia: ['', [Validators.required, ValidarNumeros(true), Validators.pattern(/^[0-9]{1,2}$/)]],
       foto: [''],
       tipoTiempoCompleto: [false],
       tipoAsignatura: [false],
@@ -410,24 +402,57 @@ export class AgregarProfesorComponent implements OnInit {
     this.isViewModalOpen = false;
   }
 
-  loadProfesores() {
+  loadProfesores(): void {
     console.log('Iniciando carga de profesores');
     this.profesorService.getProfesores().subscribe({
       next: (decryptedData: any) => {
         console.log('Datos recibidos:', decryptedData);
         if (decryptedData.records) {
-          this.profesores = decryptedData.records;
+          this.profesores = decryptedData.records.map((profesor: any) => {
+            // Aplica transformaciones adicionales como formateo de datos
+            return this.addFormattedDate(profesor);
+          }).map((profesor: any) => ({
+            ...profesor,
+          }));
+  
           console.log('Profesores cargados:', this.profesores);
         } else {
           console.warn('No se encontraron records en:', decryptedData);
+          this.profesores = []; // Asegura que no queden datos residuales
         }
-        this.filterProfesores();
+        this.filterProfesores(); // Aplica el filtro después de procesar los datos
       },
       error: (error: any) => {
         console.error('Error completo:', error);
-        this.showToast('error', 'Error al cargar los profesores: ' + error.message);
-      }
+        this.showToast('error', 'Error al cargar los profesores: ' + (error.message || 'Desconocido'));
+      },
     });
+  }
+
+  private addFormattedDate(profesores: Profesor): Profesor & { fecha_string: string } {
+    return {
+      ...profesores,
+      // Verificamos si fecha_creacion es válida antes de formatearla
+      fecha_string: profesores.fecha_creacion 
+        ? this.formatDateString(profesores.fecha_creacion) 
+        : 'Fecha no disponible',
+    };
+  }
+  
+  
+  formatDateString(dateString: string): string {
+    const months = [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
+  
+    // Asegurarse de que la fecha está en formato YYYY-MM-DD antes de procesarla
+    const dateParts = dateString.split(' ')[0].split('-'); // Extrae solo la fecha en formato YYYY-MM-DD (sin la hora)
+    const year = dateParts[0];
+    const month = months[parseInt(dateParts[1], 10) - 1]; // Mes (1-12)
+    const day = ('0' + dateParts[2]).slice(-2); // Día (si tiene un solo dígito, lo pone con cero a la izquierda)
+  
+    return `${month} ${day}, ${year}`;
   }
    
 
@@ -546,27 +571,36 @@ export class AgregarProfesorComponent implements OnInit {
     }
   }
 
-  filterGlobal(event: Event) {
-    const value = (event.target as HTMLInputElement).value.toLowerCase();
-    if (this.currentTab === 'active') {
-      this.filteredProfesores = this.profesores.filter(
-        (profesor) =>
-          profesor.activo &&
-          (profesor.nombre.toLowerCase().includes(value) ||
-            profesor.apellido.toLowerCase().includes(value) ||
-            profesor.correo.toLowerCase().includes(value) ||
-            (profesor.telefono?.toLowerCase().includes(value) ?? false))
+  filterGlobal(event: any): void {
+    const searchValue = event.target.value.toLowerCase();
+    this.filteredProfesores = this.profesores.filter((profesor) => {
+      // Filtrar por convocatorias activas (suponiendo que tienes una propiedad "activo")
+      return profesor.activo && (
+        (profesor.nombre?.toLowerCase().includes(searchValue) || '') ||
+        (profesor.apellido?.toLowerCase().includes(searchValue) || '') ||
+        (profesor.correo?.toLowerCase().includes(searchValue) || '') ||
+        (profesor.especialidad?.toLowerCase().includes(searchValue) || '') ||
+        (profesor.grado_academico?.toLowerCase().includes(searchValue) || '') ||
+        (profesor.experiencia?.toLowerCase().includes(searchValue) || '') ||
+        (profesor.fecha_string?.toLowerCase().includes(searchValue) || '')
       );
-    } else {
-      this.papeleraProfesores = this.profesores.filter(
-        (profesor) =>
-          !profesor.activo &&
-          (profesor.nombre.toLowerCase().includes(value) ||
-            profesor.apellido.toLowerCase().includes(value) ||
-            profesor.correo.toLowerCase().includes(value) ||
-            (profesor.telefono?.toLowerCase().includes(value) ?? false))
+    });
+  } 
+  
+  filterGlobalInactive(event: any): void {
+    const searchValue = event.target.value.toLowerCase();
+    this.papeleraProfesores = this.profesores.filter((profesor) => {
+      // Filtrar por profesors inactivas (suponiendo que tienes una propiedad "activo" que es true/false)
+      return !profesor.activo && (
+        (profesor.nombre?.toLowerCase().includes(searchValue) || '') ||
+        (profesor.apellido?.toLowerCase().includes(searchValue) || '') ||
+        (profesor.correo?.toLowerCase().includes(searchValue) || '') ||
+        (profesor.especialidad?.toLowerCase().includes(searchValue) || '') ||
+        (profesor.grado_academico?.toLowerCase().includes(searchValue) || '') ||
+        (profesor.experiencia?.toLowerCase().includes(searchValue) || '') ||
+        (profesor.fecha_string?.toLowerCase().includes(searchValue) || '')
       );
-    }
+    });
   }
 
   private assignTipoProfesor(

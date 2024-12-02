@@ -17,6 +17,7 @@ export interface Profesor {
   foto?: string;
   activo?: boolean;
   fecha_creacion?: string;
+  fecha_string?: string;
 }
 
 export interface TipoProfesor {

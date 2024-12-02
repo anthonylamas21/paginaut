@@ -239,7 +239,7 @@
             </p>
             <button type="button" class="text-red-600 " (click)="removeRequisito(i)"
               [disabled]="requisitos.length === 1">
-              Eliminar
+              <i class="fas fa-remove"></i>
             </button>
           </div>
         </div>
@@ -334,10 +334,8 @@
                     currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
                     [showCurrentPageReport]="true" [globalFilterFields]="[
                     'nombre_empresa',
-                    'descripcion_trabajo',
                     'puesto_trabajo',
                     'direccion',
-                    'telefono',
                     'correo',
                     'fecha_creacion'
                   ]" [tableStyleClass]="'min-w-full divide-y'" [resizableColumns]="true">
@@ -348,13 +346,6 @@
                           <div class="flex">
                             Nombre de la Empresa
                             <p-sortIcon field="nombre_empresa"></p-sortIcon>
-                          </div>
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                          pSortableColumn="descripcion_trabajo">
-                          <div class="flex">
-                            Descripción del Trabajo
-                            <p-sortIcon field="descripcion_trabajo"></p-sortIcon>
                           </div>
                         </th>
                         <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
@@ -372,13 +363,6 @@
                           </div>
                         </th>
                         <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                          pSortableColumn="telefono">
-                          <div class="flex">
-                            Teléfono
-                            <p-sortIcon field="telefono"></p-sortIcon>
-                          </div>
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
                           pSortableColumn="correo">
                           <div class="flex">
                             Correo
@@ -388,7 +372,7 @@
                         <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
                           pSortableColumn="fecha_creacion">
                           <div class="flex">
-                            Fecha de Creación
+                            Fecha de Publicación
                             <p-sortIcon field="fecha_creacion"></p-sortIcon>
                           </div>
                         </th>
@@ -403,16 +387,10 @@
                           {{ bolsa.nombre_empresa | slice:0:50  }}{{ bolsa.nombre_empresa.length > 50 ? '...' : '' }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
-                          {{ bolsa.descripcion_trabajo | slice:0:50  }}{{ bolsa.descripcion_trabajo.length > 50 ? '...' : '' }}
-                        </td>
-                        <td class="px-3 py-2 text-sm text-black">
                           {{ bolsa.puesto_trabajo | slice:0:50  }}{{ bolsa.puesto_trabajo.length > 50 ? '...' : '' }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
                           {{ bolsa.direccion | slice:0:50  }}{{ bolsa.direccion.length > 50 ? '...' : '' }}
-                        </td>
-                        <td class="px-3 py-2 text-sm text-black">
-                          {{ bolsa.telefono }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
                           {{ bolsa.correo }}
@@ -433,7 +411,7 @@
                                     role="tooltip">
                                     <div class="py-3 px-4 border-b border-gray-200">
                                       <h4 class="font-semibold text-gray-800">
-                                        Editar
+                                        Actualizar
                                       </h4>
                                     </div>
                                     <ul class="py-3 px-4 space-y-1">
@@ -591,10 +569,8 @@
                       currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
                       [showCurrentPageReport]="true" [globalFilterFields]="[
                       'nombre_empresa',
-                      'descripcion_trabajo',
                       'puesto_trabajo',
                       'direccion',
-                      'telefono',
                       'correo',
                       'fecha_string'
                     ]" [tableStyleClass]="'min-w-full divide-y'" [resizableColumns]="true">
@@ -606,14 +582,6 @@
                             <div class="flex">
                               Nombre de la Empresa
                               <p-sortIcon field="nombre_empresa"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col"
-                            class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                            pSortableColumn="descripcion_trabajo">
-                            <div class="flex">
-                              Descripción del Trabajo
-                              <p-sortIcon field="descripcion_trabajo"></p-sortIcon>
                             </div>
                           </th>
                           <th scope="col"
@@ -634,14 +602,6 @@
                           </th>
                           <th scope="col"
                             class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                            pSortableColumn="telefono">
-                            <div class="flex">
-                              Teléfono
-                              <p-sortIcon field="telefono"></p-sortIcon>
-                            </div>
-                          </th>
-                          <th scope="col"
-                            class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
                             pSortableColumn="correo">
                             <div class="flex">
                               Correo
@@ -652,7 +612,7 @@
                             class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
                             pSortableColumn="fecha_string">
                             <div class="flex">
-                              Fecha de Creación
+                              Fecha de Publicación
                               <p-sortIcon field="fecha_string"></p-sortIcon>
                             </div>
                           </th>
@@ -668,16 +628,10 @@
                             {{ bolsa.nombre_empresa | slice:0:50  }}{{ bolsa.nombre_empresa.length > 50 ? '...' : '' }}
                           </td>
                           <td class="px-3 py-2 text-sm text-black">
-                            {{ bolsa.descripcion_trabajo | slice:0:50  }}{{ bolsa.descripcion_trabajo.length > 50 ? '...' : '' }}
-                          </td>
-                          <td class="px-3 py-2 text-sm text-black">
                             {{ bolsa.puesto_trabajo | slice:0:50  }}{{ bolsa.puesto_trabajo.length > 50 ? '...' : '' }}
                           </td>
                           <td class="px-3 py-2 text-sm text-black">
                             {{ bolsa.direccion | slice:0:50  }}{{ bolsa.direccion.length > 50 ? '...' : '' }}
-                          </td>
-                          <td class="px-3 py-2 text-sm text-black">
-                            {{ bolsa.telefono }}
                           </td>
                           <td class="px-3 py-2 text-sm text-black">
                             {{ bolsa.correo }}

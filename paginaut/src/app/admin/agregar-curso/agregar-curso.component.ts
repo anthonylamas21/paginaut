@@ -62,6 +62,7 @@ export class AgregarCursoComponent implements OnInit {
         [
           Validators.required,
           Validators.maxLength(50),
+          Validators.minLength(5),
           Validators.pattern(/^[a-zA-ZÀ-ÿ0-9\s]+$/),
         ],
       ],
@@ -69,7 +70,8 @@ export class AgregarCursoComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.maxLength(20000),
+          Validators.maxLength(2000),
+          Validators.minLength(5),
         ],
       ],
       activo: [true],
@@ -138,17 +140,44 @@ export class AgregarCursoComponent implements OnInit {
   loadCursos(): void {
     this.cursoService.obtenerCurso().subscribe({
       next: (response) => {
-        this.cursos = response.records.map((curso) => ({
+        this.cursos = response.records.map((curso: Curso) => {
+          // Formatear las fechas antes de devolver el objeto
+          return this.addFormattedDate(curso);
+        }).map((curso) => ({
           ...curso,
           titulo: curso.nombre,
           imagen_principal: this.getImageUrl(curso.imagen_principal || ''),
-          imagenes_generales: (curso.imagenes_generales || []).map(
-            (img: string) => this.getImageUrl(img)
-          ),
+          imagenes_generales: (curso.imagenes_generales || []).map((img: string) => this.getImageUrl(img)),
         }));
         this.filterCursos();
       }
     });
+  }
+  
+  private addFormattedDate(curso: Curso): Curso & { fecha_string: string} {
+    return {
+      ...curso,
+      // Pasamos la fecha como string, que luego se formatea correctamente
+      fecha_string: curso.fecha_creacion 
+        ? this.formatDateString(curso.fecha_creacion) 
+        : 'Fecha no disponible',
+    };
+  }
+  
+  
+  formatDateString(dateString: string): string {
+    const months = [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
+  
+    // Asegurarse de que la fecha está en formato YYYY-MM-DD antes de procesarla
+    const dateParts = dateString.split(' ')[0].split('-'); // Extrae solo la fecha en formato YYYY-MM-DD (sin la hora)
+    const year = dateParts[0];
+    const month = months[parseInt(dateParts[1], 10) - 1]; // Mes (1-12)
+    const day = ('0' + dateParts[2]).slice(-2); // Día (si tiene un solo dígito, lo pone con cero a la izquierda)
+  
+    return `${month} ${day}, ${year}`;
   }
 
   getImageUrl(relativePath: string): string {
@@ -167,7 +196,19 @@ export class AgregarCursoComponent implements OnInit {
         curso.activo === true &&
         (curso.nombre.toLowerCase().includes(searchValue) ||
           curso.descripcion.toLowerCase().includes(searchValue) ||
-          (curso.fecha_publicacion?.toLowerCase().includes(searchValue) ??
+          (curso.fecha_string?.toLowerCase().includes(searchValue) ??
+            false))
+    );
+  }
+
+  filterGlobalInactive(event: any): void {
+    const searchValue = event.target.value.toLowerCase();
+    this.papeleraCursos = this.cursos.filter(
+      (curso) =>
+        curso.activo === false &&
+        (curso.nombre.toLowerCase().includes(searchValue) ||
+          curso.descripcion.toLowerCase().includes(searchValue) ||
+          (curso.fecha_string?.toLowerCase().includes(searchValue) ??
             false))
     );
   }

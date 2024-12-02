@@ -10,6 +10,7 @@ export interface Calendario {
   archivo: string;
   activo?: boolean;
   fecha_creacion?: string;
+  fecha_string?: string;
 }
 
 @Injectable({

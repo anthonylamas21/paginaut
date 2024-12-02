@@ -15,7 +15,7 @@ export class AgendaAdminComponent implements OnInit {
 
   eventos: Evento[] = [];
   selectedEvent: any = null;
-  baseImageUrl = BASEIMAGEN+'/';
+  baseImageUrl = BASEIMAGEN;
 
   // Define an array of colors
   colors = ['#FF6F61', '#6B5B95', '#88B04B', '#F7B32B', '#00A4E4', '#F25F5C', '#3F8EFC', '#C1C8E4', '#C4E17F'];
@@ -74,23 +74,13 @@ export class AgendaAdminComponent implements OnInit {
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      right: 'dayGridMonth,timeGridWeek'
     },
     events: [], // Will be updated dynamically
-    datesSet: this.handleDatesSet.bind(this), // Calls handleDatesSet when dates are updated
     eventContent: this.renderEventContent,
     eventClick: this.handleEventClick,
-    titleFormat: { year: 'numeric', month: 'short' } // Basic title format
+    titleFormat: { year: 'numeric', month: 'long' } // Basic title format
   };
-  
-  handleDatesSet(args: any) {
-    const titleElement = document.querySelector('.fc-toolbar-title');
-    if (titleElement) {
-      // Replace "De" with "de"
-      titleElement.textContent = titleElement.textContent?.replace('De', 'de') || '';
-      titleElement.classList.add('capitalize'); // Optional: If you need the month to start with a capital letter
-    }
-  }
   
 
   constructor(private eventoService: EventoService) { }

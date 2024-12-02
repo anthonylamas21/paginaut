@@ -7,16 +7,14 @@ import { NgxMasonryModule } from 'ngx-masonry';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 registerLocaleData(localeEs, 'es');
+
 // PrimeNG Modules
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
-
 import { FullCalendarModule } from '@fullcalendar/angular';
-
-// Routing Module
 import { AppRoutingModule } from './app-routing.module';
 
 // Components
@@ -44,19 +42,13 @@ import { AcercaDeComponent } from './acerca-de/acerca-de.component';
 import { InfoBecaComponent } from './info-beca/info-beca.component';
 import { GaleriaComponent } from './galeria/galeria.component';
 import { RedesSocialesComponent } from './redes-sociales/redes-sociales.component';
-import { TalleresComponent } from './talleres/talleres.component';
 
 // Rutas de administrador
 import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
 import { PrincipalAdminComponent } from './admin/principal-admin/principal-admin.component';
-import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component';
-import { AgregarDireccionComponent } from './agregar-direccion/agregar-direccion.component';
 import { AgregarBecaComponent } from './admin/agregar-beca/agregar-beca.component';
 import { AgregarCalendarioComponent } from './admin/agregar-calendario/agregar-calendario.component';
-import { CursosAdminComponent } from './admin/cursos-admin/cursos-admin.component';
 import { DireccionesAdminComponent } from './admin/direcciones-admin/direcciones-admin.component';
-import { BecasAdminComponent } from './admin/becas-admin/becas-admin.component';
-import { CalendarioAdminComponent } from './admin/calendario-admin/calendario-admin.component';
 import { GaleriaAdminComponent } from './admin/galeria-admin/galeria-admin.component';
 import { UsuariosAdminComponent } from './admin/usuarios-admin/usuarios-admin.component';
 import { EventoComponent } from './admin/evento/evento.component';
@@ -90,7 +82,6 @@ import { DibujoComponent } from './info-horas-recreativas/dibujo/dibujo.componen
 import { DanzaComponent } from './info-horas-recreativas/danza/danza.component';
 import { LecturaComponent } from './info-horas-recreativas/lectura/lectura.component';
 import { AjedrezComponent } from './info-horas-recreativas/ajedrez/ajedrez.component';
-import { TallerComponent } from './taller/taller.component';
 import { AgregarCarreraComponent } from './admin/agregar-carrera/agregar-carrera.component';
 import { BibliotecaComponent } from './biblioteca/biblioteca.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
@@ -103,13 +94,11 @@ import { InfoConvocatoriaComponent } from './info-convocatoria/info-convocatoria
 @NgModule({
   declarations: [	
     AppComponent,
-    TallerComponent,
     PrincipalComponent,
     CarrerasComponent,
     NavbarComponent,
     UnidadesAcademicasComponent,
     FooterComponent,
-    TalleresComponent,
     UnidadesAcademicasComponent,
     EventosComponent,
     BecasComponent,
@@ -129,19 +118,11 @@ import { InfoConvocatoriaComponent } from './info-convocatoria/info-convocatoria
     InfoBecaComponent,
     GaleriaComponent,
     RedesSocialesComponent,
-    TalleresComponent,
-    TallerComponent,
-    // Rutas de administrador
     NavbarAdminComponent,
     PrincipalAdminComponent,
-    RegistrarEventoComponent,
-    AgregarDireccionComponent,
     AgregarBecaComponent,
     AgregarCalendarioComponent,
-    CursosAdminComponent,
     DireccionesAdminComponent,
-    BecasAdminComponent,
-    CalendarioAdminComponent,
     GaleriaAdminComponent,
     UsuariosAdminComponent,
     EventoComponent,
@@ -153,7 +134,6 @@ import { InfoConvocatoriaComponent } from './info-convocatoria/info-convocatoria
     NotFoundComponent,
     PiedraEstanqueComponent,
     AgregarProfesorComponent,
-    // Info Carreras
     CarreraAgrobiotecnologiaComponent,
     CarreraProcesosAlimentarioComponent,
     CarreraAcuiculturaComponent,
@@ -163,7 +143,6 @@ import { InfoConvocatoriaComponent } from './info-convocatoria/info-convocatoria
     CarreraGastronomiaComponent,
     CarreraContaduriaComponent,
     CarreraDesarrolloSoftwareComponent,
-    // Info Horas Recreativas
     FutbolComponent,
     BeisbolComponent,
     BasquetbolComponent,

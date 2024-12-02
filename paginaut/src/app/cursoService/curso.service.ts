@@ -15,7 +15,8 @@ export interface Curso {
   nombre: string;
   descripcion: string;
   activo: boolean;
-  fecha_publicacion: string;
+  fecha_creacion?: string;
+  fecha_string?: string;
   imagen_principal?: string;
   imagenes_generales?: string[];
   profesor: string;
