@@ -91,12 +91,12 @@ export class NoticiaComponent implements OnInit, OnDestroy {
     this.maxDate = new Date(currentYear, 11, 31).toISOString().split('T')[0]; // 31 de diciembre del año actual
 
     this.noticiaForm = this.fb.group({
-      titulo: ['', [ soloLetras(true), Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
-      resumen: ['', [ soloLetrasConPuntuacion(true), Validators.required, Validators.minLength(10), Validators.maxLength(500)]],
-      informacion_noticia: ['', [ soloLetrasConPuntuacion(true), Validators.required, Validators.minLength(15), Validators.maxLength(2000)]],
+      titulo: ['', [ soloLetras(true),Validators.required, Validators.minLength(15), Validators.maxLength(150)]],
+      resumen: ['', [ soloLetrasConPuntuacion(true),Validators.required, Validators.minLength(15), Validators.maxLength(2000)]],
+      informacion_noticia: ['', [ soloLetrasConPuntuacion(true),Validators.required, Validators.minLength(15), Validators.maxLength(2000)]],
       activo: [true],
-      lugar_noticia: ['', [soloLetrasConPuntuacion(true), Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
-      autor: ['', [ soloLetras(true),Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
+      lugar_noticia: ['', [soloLetrasConPuntuacion(true), Validators.required, Validators.minLength(5), Validators.maxLength(150)]],
+      autor: ['', [ soloLetras(true),Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\sñÑáéíóúÁÉÍÓÚ\-]+$/)]],
       fecha_publicacion: ['', Validators.required],
       imagen_principal: [null, Validators.required] // Validación para la imagen principal
     });
@@ -418,6 +418,19 @@ export class NoticiaComponent implements OnInit, OnDestroy {
         (noticia.lugar_noticia?.toLowerCase().includes(searchValue) || '') ||
         (noticia.fecha_string?.toLowerCase().includes(searchValue) || '') ||
         noticia.autor.toLowerCase().includes(searchValue)
+      );
+    });
+  }
+
+  filterGlobalInactive(event: any): void {
+    const searchValue = event.target.value.toLowerCase();
+    this.papeleraNoticias = this.noticias.filter((noticia) => {
+      // Filtrar por convocatorias inactivas (suponiendo que tienes una propiedad "activo" que es true/false)
+      return !noticia.activo && (
+        (noticia.titulo?.toLowerCase().includes(searchValue) || '') ||
+        (noticia.informacion_noticia?.toLowerCase().includes(searchValue) || '') ||
+        (noticia.lugar_noticia?.toLowerCase().includes(searchValue) || '') ||
+        (noticia.fecha_string?.toLowerCase().includes(searchValue) || '')
       );
     });
   }

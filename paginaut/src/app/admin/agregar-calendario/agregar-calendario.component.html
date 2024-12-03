@@ -53,34 +53,42 @@
             </label>
             <input type="text" id="anio" formControlName="anio"
               class="border-2 border-third-color block w-full rounded-md py-2 pl-3 pr-3 text-gray-900"
-              placeholder="Año del calendario" maxlength="4" required (input)="updateTitulo()"
-              (keypress)="validateInput($event)" (paste)="onPaste($event)" />
-            <div *ngIf="
+              placeholder="Año del calendario"
+              maxlength="4"
+              required
+              (input)="updateTitulo()"
+              (keypress)="validateInput($event)"
+              (paste)="onPaste($event)"
+            />
+            <p
+              *ngIf="
                 calendarioForm.get('anio')?.invalid &&
                 (calendarioForm.get('anio')?.dirty ||
                   calendarioForm.get('anio')?.touched)
-              " class="mt-1 text-sm text-red-600">
-              <p *ngIf="calendarioForm.get('anio')?.errors?.['required']">
+              "
+              class="mt-1 text-xs text-red-600"
+            >
+              <span *ngIf="calendarioForm.get('anio')?.errors?.['required']">
                 El año es requerido.
-              </p>
-              <p
-                *ngIf="!calendarioForm.get('anio')?.errors?.['required'] && calendarioForm.get('anio')?.errors?.['maxlength']">
+              </span>
+              <span
+                *ngIf="!calendarioForm.get('anio')?.errors?.['required'] && calendarioForm.get('anio')?.errors?.['maxlength']"
+              >
                 El año no puede tener más de 4 caracteres.
-              </p>
-              <p
-                *ngIf="!calendarioForm.get('anio')?.errors?.['required'] && calendarioForm.get('anio')?.errors?.['minlength']">
-                El año no puede tener menos de 4 caracteres.
-              </p>
-              <p
-                *ngIf="!calendarioForm.get('anio')?.errors?.['required'] && calendarioForm.get('anio')?.errors?.['invalidYear']">
+              </span>
+              <span
+                *ngIf="!calendarioForm.get('anio')?.errors?.['required'] && calendarioForm.get('anio')?.errors?.['invalidYear']"
+              >
                 El año debe tener exactamente 4 dígitos.
-              </p>
-              <p
-                *ngIf="!calendarioForm.get('anio')?.errors?.['required'] && calendarioForm.get('anio')?.errors?.['outOfRange']">
-                El año debe estar entre 2000 y el año actual.
-              </p>
-              <p
-                *ngIf="!calendarioForm.get('anio')?.errors?.['required'] && calendarioForm.get('anio')?.errors?.['duplicate']">
+              </span>
+              <span
+                *ngIf="!calendarioForm.get('anio')?.errors?.['required'] && calendarioForm.get('anio')?.errors?.['outOfRange']"
+              >
+                El año debe estar entre 1900 y el año actual.
+              </span>
+              <span
+                *ngIf="!calendarioForm.get('anio')?.errors?.['required'] && calendarioForm.get('anio')?.errors?.['duplicate']"
+              >
                 Ya existe un calendario para este año.
               </p>
             </div>
@@ -97,7 +105,9 @@
                 calendarioForm.get('archivo')?.invalid &&
                 (calendarioForm.get('archivo')?.dirty ||
                   calendarioForm.get('archivo')?.touched)
-              " class="mt-1 text-sm text-red-600">
+              "
+              class="mt-1 text-xs text-red-600"
+            >
               <span *ngIf="calendarioForm.get('archivo')?.errors?.['required']">
                 El archivo es requerido.
               </span>
@@ -214,8 +224,11 @@
                 <div class="border rounded-lg overflow-hidden my-2">
                   <p-table #dt [value]="filteredCalendarios" [paginator]="true" [rows]="5"
                     currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
-                    [showCurrentPageReport]="true" [globalFilterFields]="['titulo', 'fecha_string']"
-                    [tableStyleClass]="'min-w-full divide-y'" [resizableColumns]="true">
+                    [showCurrentPageReport]="true"
+                    [globalFilterFields]="['titulo', 'fecha_creacion']"
+                    [tableStyleClass]="'min-w-full divide-y'"
+                    [resizableColumns]="true"
+                  >
                     <ng-template pTemplate="header">
                       <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
                         <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
@@ -224,8 +237,11 @@
                             Título <p-sortIcon field="titulo"></p-sortIcon>
                           </div>
                         </th>
-                        <th scope="col" class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                          pSortableColumn="fecha_string">
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
+                          pSortableColumn="fecha_creacion"
+                        >
                           <div class="flex">
                             Fecha de Creación
                             <p-sortIcon field="fecha_string"></p-sortIcon>
@@ -242,7 +258,7 @@
                           {{ calendario.titulo }}
                         </td>
                         <td class="px-3 py-2 text-sm text-black">
-                          {{ calendario.fecha_string }}
+                          {{ calendario.fecha_creacion }}
                         </td>
                         
                         <td class="px-3 py-2 text-sm text-black">
@@ -251,7 +267,8 @@
                               (click)="viewCalendario(calendario)" class="hover:text-primary">
                               <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                 <div
-                                  class="text-detalles max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                  class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                >
                                   <i class="fa fa-eye" aria-hidden="true"></i>
                                   <div
                                     class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
@@ -355,24 +372,12 @@
             </div>
           </div>
         </div>
-        <div id="tabs-with-icons-2" class="hidden" role="tabpanel" aria-labelledby="tabs-with-icons-item-2">
-          <div class="flex flex-col lg:w-7/12 sm:w-12/12 md:w-7/12 w-full">
-            <div class="w-full">
-              <!-- SearchBox -->
-              <div class="relative w-full">
-                <div class="relative w-full">
-                  <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5 w-full">
-                    <svg class="flex-shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <circle cx="11" cy="11" r="8"></circle>
-                      <path d="m21 21-4.3-4.3"></path>
-                    </svg>
-                  </div>
-                  <input (input)="filterGlobalInactive($event)" class="py-3 ps-10 pe-4 block w-full border-third-color rounded-lg text-sm focus:border-input-focus-color focus:ring-input-focus-color disabled:opacity-50 disabled:pointer-events-none border-2 border-third-color" type="text" placeholder="Ingresa tu búsqueda" value="" data-hs-combo-box-input="" />
-                </div>
-              </div>
-              <!-- End SearchBox -->
-            </div>
-          </div>
+        <div
+          id="tabs-with-icons-2"
+          class="hidden"
+          role="tabpanel"
+          aria-labelledby="tabs-with-icons-item-2"
+        >
           <div class="min-h-60 flex flex-col bg-white rounded-xl">
             <div class="flex flex-col mb-5">
               <div class="-m-1.5 overflow-x-auto">
@@ -380,8 +385,11 @@
                   <div class="border rounded-lg overflow-hidden my-2">
                     <p-table #dt [value]="papeleraCalendarios" [paginator]="true" [rows]="5"
                       currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
-                      [showCurrentPageReport]="true" [globalFilterFields]="['titulo', 'fecha_string']"
-                      [tableStyleClass]="'min-w-full divide-y'" [resizableColumns]="true">
+                      [showCurrentPageReport]="true"
+                      [globalFilterFields]="['titulo', 'fecha_creacion']"
+                      [tableStyleClass]="'min-w-full divide-y'"
+                      [resizableColumns]="true"
+                    >
                       <ng-template pTemplate="header">
                         <tr class="divide-x divide-gray-200 bg-table-header-color rounded-lg">
                           <th scope="col"
@@ -393,7 +401,8 @@
                           </th>
                           <th scope="col"
                             class="px-6 py-3 text-start text-xs text-white uppercase bg-table-header-color"
-                            pSortableColumn="fecha_string">
+                            pSortableColumn="fecha_creacion"
+                          >
                             <div class="flex">
                               Fecha de Creación
                               <p-sortIcon field="fecha_string"></p-sortIcon>
@@ -411,15 +420,16 @@
                             {{ calendario.titulo }}
                           </td>
                           <td class="px-3 py-2 text-sm text-black">
-                            {{ calendario.fecha_string }}
-                          </td>                          
+                            {{ calendario.fecha_creacion }}
+                          </td>
                           <td class="px-3 py-2 text-sm text-black">
                             <div class="flex items-center space-x-3.5">
                               <button (mouseenter)="mostrar($event.target)" (mouseleave)="mostrar($event.target)"
                                 (click)="viewCalendario(calendario)" class="hover:text-primary">
                                 <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                   <div
-                                    class="text-detalles max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
+                                    class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                  >
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     <div
                                       class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
@@ -445,8 +455,11 @@
                                 (click)="activateCalendario(calendario.id)" class="hover:text-primary">
                                 <div class="hs-tooltip [--trigger:hover] sm:[--placement:top] inline-block">
                                   <div
-                                    class="text-reactivar max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm">
-                                    <i class="fa-solid fa-arrow-rotate-left"></i>
+                                    class="text-[#47B0A4] max-w-xs p-3 flex items-center gap-x-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+                                  >
+                                    <i
+                                      class="fa-solid fa-arrow-rotate-left"
+                                    ></i>
                                     <div
                                       class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible hidden opacity-0 transition-opacity absolute invisible z-10 max-w-xs w-full bg-white border border-gray-100 text-start rounded-xl shadow-md after:absolute after:top-0 after:-start-4 after:w-4 after:h-full"
                                       role="tooltip">
