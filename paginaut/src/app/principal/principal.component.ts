@@ -41,6 +41,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit{
   visitaRegistrada = false;  // Para evitar múltiples ejecuciones
 
   isLoading = true;
+  isNavbarGreen: boolean = false;
 
   getDynamicSliceValue(text: string): number {
     return Math.min(text.length, this.minsliceValue);
@@ -228,22 +229,26 @@ verMenosEventos(): void {
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     const button = document.getElementById('scrollTopButton');
-    const nabvar = document.getElementById('navbarAccion');
+    const navbar = document.getElementById('navbarAccion');
     const inicioSection = document.getElementById('inicio');
 
-    if (inicioSection && nabvar) {
+    if (inicioSection && navbar) {
       const inicioSectionBottom = inicioSection.getBoundingClientRect().bottom;
 
       if (window.scrollY > inicioSectionBottom) {
         button?.classList.remove('hidden');
-        nabvar.classList.remove('bg-transparent', 'transition-colors', 'duration-500');
-        nabvar.classList.add('bg-primary-color', 'transition-colors', 'duration-500');
+        navbar.classList.remove('bg-transparent', 'transition-colors', 'duration-500');
+        navbar.classList.add('bg-primary-color', 'transition-colors', 'duration-500');
       } else {
         button?.classList.add('hidden');
-        nabvar.classList.remove('bg-primary-color', 'transition-colors', 'duration-500');
-        nabvar.classList.add('bg-transparent', 'transition-colors', 'duration-500');
+        navbar.classList.remove('bg-primary-color', 'transition-colors', 'duration-500');
+        navbar.classList.add('bg-transparent', 'transition-colors', 'duration-500');
       }
     }
+  }
+
+  toggleNavbar(): void {
+    this.isNavbarGreen = !this.isNavbarGreen;
   }
 
   scrollToSection(sectionId: string): void {
