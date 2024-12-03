@@ -1,6 +1,10 @@
 <!-- ========== HEADER ========== -->
-<header id="navbarAccion"
-  class=" fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full text-sm py-3 md:py-0 bg-transparent">
+<header
+  id="navbarAccion"
+  class="fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full text-sm py-3 md:py-0 transition-colors duration-500"
+  [class.bg-transparent]="!isNavbarGreen"
+  [class.bg-primary-color]="isNavbarGreen"
+>
   <nav class="max-w-full w-full" aria-label="Global">
 
     <div class="relative slg:flex md:items-center md:justify-between sm:items-center sm:justify-between ">
@@ -10,20 +14,21 @@
         </a>
 
         <div class="slg:hidden">
-          <button type="button"
+          <button
+            id="toggleButton"
+            type="button"
             class="hs-collapse-toggle flex justify-center items-center mr-4 size-9 text-sm font-semibold rounded-lg border border-gray-200 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none text-white hover:text-black"
-            data-hs-collapse="#navbar-collapse-with-animation" aria-controls="navbar-collapse-with-animation"
-            aria-label="Toggle navigation">
-            <svg class="hs-collapse-open:hidden flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
-              height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round">
+            (click)="toggleNavbar()"
+            data-hs-collapse="#navbar-collapse-with-animation"
+            aria-controls="navbar-collapse-with-animation"
+            aria-label="Toggle navigation"
+          >
+            <svg class="hs-collapse-open:hidden flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="3" x2="21" y1="6" y2="6" />
               <line x1="3" x2="21" y1="12" y2="12" />
               <line x1="3" x2="21" y1="18" y2="18" />
             </svg>
-            <svg class="hs-collapse-open:block hidden flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg"
-              width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round">
+            <svg class="hs-collapse-open:block hidden flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M18 6 6 18" />
               <path d="m6 6 12 12" />
             </svg>
@@ -504,7 +509,7 @@
                     <br class="hidden md:block lg:block">
                     <span class="md:hidden lg:hidden text-sm font-semibold uppercase text-primary-color"></span>
                     <a class="group flex gap-x-5 hover:bg-gray-100 rounded-lg p-4" target="_blank"
-                      href="https://www.utdelacosta.edu.mx/transparencia/RecursosPorConvenio.php">
+                      href="/transparencia/articulo33/recursos-por-convenio">
                       <svg class="flex-shrink-0 size-5 mt-1 svg-fill-hover" xmlns="http://www.w3.org/2000/svg"
                         width="24" height="24" viewBox="0 0 576 512">
                         <path

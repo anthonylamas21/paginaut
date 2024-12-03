@@ -17,6 +17,7 @@ interface Item {
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent  implements OnInit {
+  isNavbarGreen: boolean = false;
 
   private secretKey = 'X9f2Kp7Lm3Qr8Zw5Yt6Vb1Nj4Hg'; // Usa una clave segura en producción
   
@@ -54,8 +55,10 @@ export class NavbarComponent  implements OnInit {
     window.addEventListener('storage', () => {
       this.checkToken();
     });
+  }
 
-    
+  toggleNavbar(): void {
+    this.isNavbarGreen = !this.isNavbarGreen;
   }
 
   checkToken(): void {
